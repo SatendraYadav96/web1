@@ -1,0 +1,6 @@
+export const SHOW_MESSAGE = 'SHOW_MESSAGE'
+export const RESET_MESSAGE = 'RESET_MESSAGE'
+export const DO_NOTHING = 'DO_NOTHING'
+
+export const SHOW_SPINNER = 'SHOW_SPINNER'
+export const HIDE_SPINNER = 'HIDE_SPINNER'
