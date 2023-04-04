@@ -49,6 +49,10 @@ const InvoiceUploadDetailComponent = React.lazy(() => import('../components/disp
 const CostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/CostCenterComponent'))
 const CreateCostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/CreateCostCenter'))
 const EditCostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/EditCostCenter'))
+const SamplesComponent = React.lazy(() => import ('../components/masters/samples/SamplesComponent'))
+const CreateSamplesComponent = React.lazy(() => import ('../components/masters/samples/CreateSamples'))
+const EditSamplesComponent = React.lazy(() => import ('../components/masters/samples/EditSamples'))
+
 
 const routes = [
     { path: '/home/dashboard', name: 'Dashboard', element: Dashboard },
@@ -97,9 +101,9 @@ const routes = [
     { path: '/home/masters/costCenter', name: 'CostCenter', element: CostCenterComponent},
     { path: '/home/masters/costCenter/create', name: 'CreateCostCenter', element: CreateCostCenterComponent},
     { path: '/home/masters/costCenter/edit', name: 'EditCostCenter', element: EditCostCenterComponent},
-    { path: '/home/masters/sample', name: 'sample', element: SampleComponent},
-    { path: '/home/masters/sample/create', name: 'CreateSample', element: CreateSampleComponent},
-    { path: '/home/masters/sample/edit', name: 'EditSample', element: EditSampleComponent},
+    { path: '/home/masters/samples', name: 'Sample', element: SamplesComponent},
+    { path: '/home/masters/samples/create', name: 'CreateSample', element: CreateSamplesComponent},
+    { path: '/home/masters/samples/edit', name: 'EditSample', element: EditSamplesComponent},
     { path: '/home/massRevalidation', name: 'Mass Revalidation', element: MassRevalidationComponent},
     { path: '/home/report/allocationReport', name: 'Allocation Report', element: AllocationReportComponent},
     { path: '/home/pickingSlip/monthlyDispatch/details/invoiceUpload', name: 'Invoice Upload', element: InvoiceUploadDetailComponent}
