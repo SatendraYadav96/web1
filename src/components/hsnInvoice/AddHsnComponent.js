@@ -56,10 +56,12 @@ const AddHsnComponent = ({authInfo,profileInfo,insertHsn,hsnLoading,handleAddHsn
             <TitleWidget title="Add HSN" />
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    HSN Number <Input  style={{width:'150px'}} value={hsn} onChange={handleHsnChange}  ></Input>
+                    HSN Number
+                    <br/><Input  style={{width:'150px'}} value={hsn} onChange={handleHsnChange}  ></Input>
                 </Col>
                 <Col span={3}>
-                    Rate <Input style={{width:'150px'}} value={rate} onChange={handleRateChange} ></Input>
+                    Rate
+                    <br/><Input style={{width:'150px'}} value={rate} onChange={handleRateChange} ></Input>
                 </Col>
                 <Col span={3}>
                     <br/>
