@@ -49,6 +49,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         console.log(arr)
     }
 
+
     const generateItemCode = (limid, categoryId, id) => {
         if(arr === undefined){
             let icode = '';
