@@ -100,10 +100,10 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
             <TitleWidget title={'Special Dispatch'} />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
+                    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
                 </Col>
                 <Col span={3}>
-                    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
+                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={4}>
                     <Button type={'primary'} onClick={() => getSpecialDispatchList()}>Submit</Button>
