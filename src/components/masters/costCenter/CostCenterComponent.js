@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
@@ -87,3 +87,25 @@ const CostCenterComponent = ({authInfo}) => {
         </>
     )
 }
+
+CostCenterComponent.propTypes = {
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+
+}
+
+const mapState = (state) => {
+    const authInfo = selectAuthInfo(state)
+    const profileInfo = selectProfileInfo(state)
+
+    return {authInfo,profileInfo}
+
+}
+
+const actions = {
+
+
+
+}
+
+export default connect(mapState, actions) (CostCenterComponent)
