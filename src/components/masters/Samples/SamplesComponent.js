@@ -7,7 +7,7 @@ import {Button, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 
-const CostCenterComponent = ({authInfo}) => {
+const SamplesComponent = ({authInfo}) => {
     const navigate = useNavigate()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -34,7 +34,7 @@ const CostCenterComponent = ({authInfo}) => {
                 dataIndex: '',
                 width: '100px',
                 render: () => {
-                    return <Button icon={<EditOutlined />} onClick={editCostCenter } ></Button>
+                    return <Button icon={<EditOutlined />} onClick={editSamples } ></Button>
                 }
             }
         ]);
@@ -47,17 +47,17 @@ const CostCenterComponent = ({authInfo}) => {
         ]);
     }
 
-    const createCostCenter = () => {
-        return navigate("/home/masters/costCenter/create")
+    const createSamples = () => {
+        return navigate("/home/masters/samples/create")
     }
 
-    const editCostCenter = () => {
-        return navigate("/home/masters/costCenter/edit")
+    const editSamples = () => {
+        return navigate("/home/masters/samples/edit")
     }
 
     return(
         <>
-            <TitleWidget title={"Master - Cost Center"}/>
+            <TitleWidget title={"Master - Samples"}/>
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     <Select style={{width:'150px'}}></Select>
@@ -66,7 +66,7 @@ const CostCenterComponent = ({authInfo}) => {
                     <Button type={"primary"} onClick={() => searchData()}>Search</Button>
                 </Col>
                 <Col span={1}>
-                    <Button icon={<PlusOutlined />} onClick={()=> createCostCenter()}></Button>
+                    <Button icon={<PlusOutlined />} onClick={()=> createSamples()}></Button>
                 </Col>
             </Row>
             <br/>
