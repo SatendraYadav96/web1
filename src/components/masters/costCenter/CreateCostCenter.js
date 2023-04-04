@@ -5,17 +5,17 @@ import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row} from "antd";
 
-const CreateBusinessUnitComponent = ({authInfo}) => {
+const CreateCostCenterComponent = ({authInfo}) => {
 
     return(
         <>
-            <TitleWidget title={"Create Business Unit"}/>
-            <Row gutter={[16,16]}>
+            <TitleWidget title={"Create Cost Center"}/>
+            <Row gutter={[8,8]}>
                 <Col span={8} offset={2}>
-                    Name: <Input placeholder={"Business Unit Name"}/>
+                    Name: <Input placeholder={"Cost Center Name"}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Code: <Input placeholder={"Business Unit Code"}/>
+                    Code: <Input placeholder={"Cost Center Code"}/>
                 </Col>
                 <Col span={4}></Col>
                 <Col span={8} offset={2}>
@@ -30,7 +30,7 @@ const CreateBusinessUnitComponent = ({authInfo}) => {
 
 }
 
-CreateBusinessUnitComponent.propTypes = {
+CreateCostCenterComponent.propTypes = {
     authInfo: PropTypes.any
 }
 
@@ -43,4 +43,4 @@ const actions = {
 
 }
 
-export default connect(mapState, actions) (CreateBusinessUnitComponent)
+export default connect(mapState, actions) (CreateCostCenterComponent)

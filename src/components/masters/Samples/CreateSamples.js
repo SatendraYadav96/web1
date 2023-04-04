@@ -5,17 +5,17 @@ import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row} from "antd";
 
-const EditCostCenterComponent = ({authInfo}) => {
+const CreateSamplesComponent = ({authInfo}) => {
 
     return(
         <>
-            <TitleWidget title={"Edit Cost Center"}/>
+            <TitleWidget title={"Create Samples"}/>
             <Row gutter={[8,8]}>
                 <Col span={8} offset={2}>
-                    Name: <Input placeholder={"Cost Center Name"}/>
+                    Name: <Input placeholder={"Samples Name"}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Code: <Input placeholder={"Cost Center Code"}/>
+                    Code: <Input placeholder={"Samples Code"}/>
                 </Col>
                 <Col span={4}></Col>
                 <Col span={8} offset={2}>
@@ -30,7 +30,7 @@ const EditCostCenterComponent = ({authInfo}) => {
 
 }
 
-EditCostCenterComponent.propTypes = {
+CreateSamplesComponent.propTypes = {
     authInfo: PropTypes.any
 }
 
@@ -43,4 +43,4 @@ const actions = {
 
 }
 
-export default connect(mapState, actions) (EditCostCenterComponent)
+export default connect(mapState, actions) (CreateSamplesComponent)
