@@ -34,7 +34,7 @@ const CostCenterComponent = ({authInfo}) => {
                 dataIndex: '',
                 width: '100px',
                 render: () => {
-                    return <Button icon={<EditOutlined />} onClick={editCostCenter} ></Button>
+                    return <Button icon={<EditOutlined />} onClick={editCostCenter } ></Button>
                 }
             }
         ]);

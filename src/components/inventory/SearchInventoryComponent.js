@@ -21,7 +21,7 @@ const SearchInventoryComponent = ({authInfo}) => {
             setBlockItemVisible(true)
         }
     }
-
+  
     const reverseInventory = () => {
         setReverse(true)
     }

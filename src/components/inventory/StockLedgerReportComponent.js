@@ -71,7 +71,7 @@ const StockLedgerReportComponent = ({authInfo}) => {
                     <br/>
                     <Button type={"primary"} onClick={()=>searchData()}>Search</Button>
                 </Col>
-            </Row>
+            </Row> 
             <br/>
             <Row>
                 <Col span={6}>
