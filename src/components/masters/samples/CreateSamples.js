@@ -23,7 +23,7 @@ const CreateSamplesComponent = ({authInfo}) => {
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Brand: <Select></Select>
+                    Brand: <Select style={{width:'100%'}}></Select>
                 </Col>
                 <Col span={8} offset={2}>
                     Description: <TextArea placeholder={"Samples Description"}/>
