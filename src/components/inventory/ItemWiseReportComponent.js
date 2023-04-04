@@ -5,6 +5,7 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Table} from "antd";
 import {Select} from "antd/es";
+import moment from "moment";
 
 const ItemWiseReportComponent = ({authInfo}) => {
 
@@ -87,10 +88,10 @@ const ItemWiseReportComponent = ({authInfo}) => {
                 </Col>
 
                 <Col span={3}>
-                    Date To: <br/><DatePicker/>
+                    Date From: <br/><DatePicker format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    From: <br/><DatePicker/>
+                    Date To: <br/><DatePicker format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={2}>
                     <br/>

@@ -16,8 +16,12 @@ import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 
 const PickingSlipComponent = ({authInfo,picklist,loading,handleLoadList,profileInfo}) => {
 
-    const [year, setYear] = useState()
-    const [month, setMonth] = useState()
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const currentMonth = date.getMonth()+1;
+
+    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(currentMonth)
     const [dispatchType, setDispatchType] = useState()
     const [columns, setColumns] = useState([])
     const [flag, setFlag] = useState(false)
@@ -165,10 +169,10 @@ const getPickingList = () => {
             <TitleWidget title={'Picking Slip'} />
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
+                    <SelectYearComponent value={year} onChange={(e) => setYear(e)} />
                 </Col>
                 <Col span={3}>
-                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)} />
+                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={4}>
                     <SelectDispatchTypeComponent desgId={profileInfo.userDesignation.id} style={{width: "100%"}} value={dispatchType} onChange={(e) => setDispatchType(e)}/>

@@ -14,7 +14,7 @@ import {selectVendorListData,selectLoadingVendorData,selectVendorByIdListData,se
 const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVendorList,vendorById,vendorByIdLoading,handleVendorByIdList}) => {
 
     const navigate = useNavigate()
-    const [status, setStatus] = useState()
+    const [status, setStatus] = useState(1)
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)

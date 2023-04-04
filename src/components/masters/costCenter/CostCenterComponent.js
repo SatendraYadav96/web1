@@ -6,8 +6,10 @@ import {connect} from "react-redux";
 import {Button, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
+import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 
 const CostCenterComponent = ({authInfo}) => {
+    const [status, setStatus] = useState(1)
     const navigate = useNavigate()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -60,7 +62,7 @@ const CostCenterComponent = ({authInfo}) => {
             <TitleWidget title={"Master - Cost Center"}/>
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    <Select style={{width:'150px'}}></Select>
+                    <SelectStatusComponent style={{width:'180px'}} value={status} onChange={(e) => setStatus(e)} />
                 </Col>
                 <Col span={2}>
                     <Button type={"primary"} onClick={() => searchData()}>Search</Button>
