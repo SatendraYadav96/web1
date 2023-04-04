@@ -65,16 +65,17 @@ const AddInvoiceComponent = ({authInfo,profileInfo,boxWeight,boxWeightLoading,ha
         <>
             <TitleWidget title="Invoice Box & Weight" />
             <Row gutter={[16,16]}>
-                <Col span={6}>
+                <Col span={3}>
                     Box <Input style={{width:'150px'}}  value={box} onChange={handleBoxChange}  ></Input>
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
                     Weight <Input style={{width:'150px'}} value={weight} onChange={handleWeightChange}  ></Input>
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
                     Invoice No. <Input style={{width:'150px'}} value={invoice} onChange={handleInvoiceChange}  ></Input>
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>handleInsertBoxWeight()} >Submit</Button>
                 </Col>
             </Row>

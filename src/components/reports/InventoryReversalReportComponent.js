@@ -139,31 +139,37 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
     return(
         <>
             <TitleWidget title="Inventory Reversal Report" />
-            <Row gutter={[16,16]}>
-                <Col span={4}>
+            <Row gutter={[8,8]}>
+                <Col span={2}>
+                    BU
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    Division
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
-                <Col span={4}>
-                    Reversal Date <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)} />
+                <Col span={3}>
+                    Reversal From Date <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)} />
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    To Date
                     <DatePicker dateFormat="yyyy-MM-dd"    value={toDate}  onChange={(e) => setToDate(e)}/>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>getDestructionReportList()}>Search</Button>
                 </Col>
-                <Col span={4}></Col>
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300 }}/>
+                    </div>
+                </Col>
             </Row>
             <br/>
             {flag &&

@@ -8,6 +8,8 @@ import {Option} from "antd/es/mentions";
 import { PlusOutlined } from "@ant-design/icons";
 import {DatePicker} from "antd/es";
 import {useNavigate} from "react-router-dom";
+import SelectMonthComponent from "../widgets/SelectMonthComponent";
+import SelectYearComponent from "../widgets/SelectYearComponent";
 
 
 const GroupInvoiceComponent = ({authInfo}) => {
@@ -154,24 +156,60 @@ const GroupInvoiceComponent = ({authInfo}) => {
     return(
         <div>
             <TitleWidget title={'Group Invoice'} > </TitleWidget>
-            <div className="grid">
-                Invoice Number: <Select style={{ width: 120 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}>
-                </Select>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                From Date: <DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                To Date: <DatePicker value={toDate} onChange={(e) => setToDate(e)}/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type={'primary'} onClick={() => searchData()}>Search</Button>
-                <Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()} style={{marginLeft: '700px'}}></Button>
-            </div>
-            <br/><br/>
-            <div>
-                <Button>Excel</Button>
-                &nbsp;&nbsp;
-                <Button>CSV</Button>
-                <Input.Search style={{ width: 300, marginLeft: '1200px' }} />
-            </div>
+            <Row gutter={[16,16]}>
+                <Col span={3}>
+                    Invoice Number: <Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>
+                </Col>
+                <Col span={3}>
+                    From Date: <DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>
+                </Col>
+                <Col span={3}>
+                    To Date: <DatePicker value={toDate} onChange={(e) => setToDate(e)}/>
+                </Col>
+                <Col span={2}>
+                    <br/><Button type={'primary'} onClick={() => searchData()}>Search</Button>
+                </Col>
+                <Col span={1}>
+                    <br/><Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()}></Button>
+                </Col>
+                {/*<Col span={12}>*/}
+                {/*    <br/>*/}
+                {/*    <div align="right">*/}
+                {/*        <Input.Search style={{ width: 300}} />*/}
+                {/*    </div>*/}
+                {/*</Col>*/}
+            </Row>
+            {/*<div className="grid">*/}
+            {/*    Invoice Number: <Select style={{ width: 120 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}>*/}
+            {/*    </Select>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    From Date: <DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    To Date: <DatePicker value={toDate} onChange={(e) => setToDate(e)}/>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    <Button type={'primary'} onClick={() => searchData()}>Search</Button>*/}
+            {/*    <Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()} style={{marginLeft: '700px'}}></Button>*/}
+            {/*</div>*/}
+            <br/>
+            <Row gutter={[16,16]}>
+                <Col span={2}>
+                    <Button>Excel</Button>
+                </Col>
+                <Col span={2}>
+                    <Button>CSV</Button>
+                </Col>
+                <Col span={20}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300}} />
+                    </div>
+                </Col>
+            </Row>
+            {/*<div>*/}
+            {/*    <Button>Excel</Button>*/}
+            {/*    &nbsp;&nbsp;*/}
+            {/*    <Button>CSV</Button>*/}
+            {/*    <Input.Search style={{ width: 300}} />*/}
+            {/*</div>*/}
             <br/><br/>
             {flag &&
                 <Table columns={column} dataSource={dataSource}/>

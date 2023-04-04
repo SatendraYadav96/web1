@@ -73,15 +73,14 @@ const DeliveryUpdateComponent = ({authInfo}) => {
         <div>
             <TitleWidget title={'Delivery Update'} />
             <Row>
-                <Col span={4}>
+                <Col span={3}>
                     <Upload>
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
                     <Button type={'primary'} onClick={() => searchData()}>Upload</Button>
                 </Col>
-                <Col span={16}></Col>
             </Row>
             <br/><br/>
             {flag &&

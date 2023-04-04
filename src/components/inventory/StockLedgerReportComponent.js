@@ -54,24 +54,25 @@ const StockLedgerReportComponent = ({authInfo}) => {
             <TitleWidget title="Stock Ledger Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Date <DatePicker/>
+                    Date From: <DatePicker/>
                 </Col>
                 <Col span={3}>
-                    <DatePicker/>
+                    To:<DatePicker/>
                 </Col>
                 <Col span={3}>
+                    <br/>
                     <Input placeholder={"Item Code"} />
                 </Col>
                 <Col span={3}>
+                    <br/>
                     <Input placeholder={"Item Name"} />
                 </Col>
-
                 <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>searchData()}>Search</Button>
                 </Col>
-                <Col span={9}></Col>
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>

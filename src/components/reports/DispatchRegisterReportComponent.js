@@ -13,6 +13,7 @@ import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import { getDispatchRegisterReportStartAction } from '../../redux/actions/reports/dispatchRegisterReportActions'
 import {selectDispatchRegisterListData,selectLoadingDispatchRegisterReportData} from "../../redux/selectors/dispatchRegisterReportSelector"
 import moment from 'moment'
+import SelectFilterComponent from "../widgets/SelectFilterComponent";
 
 const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,dispatchRegisterReportLoading,handleDispatchRegisterReportList}) => {
 
@@ -215,37 +216,68 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
     return(
         <>
             <TitleWidget title="Dispatch Register Report" />
-            <Row gutter={[16,16]}>
-                <Col span={6}>
+            <Row gutter={[8,8]}>
+                <Col span={2}>
+                    BU<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
+                    Division
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
+                    Team <br/>
                     <SelectTeamComponent value={team} onChange={(e) => setTeam(e)} />
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
+                    From Date <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
+                </Col>
+                <Col span={3}>
+                    To Date<DatePicker value={endDate}  onChange={(e) => setEndDate(e)} />
+                </Col>
+                <Col span={3}>
+                    Plan Type
                     <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)} />
                 </Col>
-                <Col span={6}>
-                    Dispatch Date <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
-                </Col>
-                <Col span={6}>
-                    <DatePicker value={endDate}  onChange={(e) => setEndDate(e)} />
-                </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>getDispatchRegisterReportList()}>Search</Button>
                 </Col>
-                <Col span={4}></Col>
             </Row>
-            <br/><br/>
+            {/*<Row gutter={[16,16]}>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <SelectTeamComponent value={team} onChange={(e) => setTeam(e)} />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)} />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={6}>*/}
+            {/*        Dispatch Date <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={6}>*/}
+            {/*        <DatePicker value={endDate}  onChange={(e) => setEndDate(e)} />*/}
+            {/*    </Col>*/}
+            {/*    <Col span={4}>*/}
+            {/*        <Button type={"primary"} onClick={()=>getDispatchRegisterReportList()}>Search</Button>*/}
+            {/*    </Col>*/}
+            {/*    <Col span={4}></Col>*/}
+            {/*</Row>*/}
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300 }}/>
+                    </div>
+                </Col>
             </Row>
             <br/>
             {flag &&

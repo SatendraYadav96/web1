@@ -21,14 +21,28 @@ const DefaultLayout = ({ authInfo }) => {
       }}
     >
       <Sider width={172} collapsible collapsed={collapse} onCollapse={()=>setCollapse(!collapse)}>
-        <Typography.Title
-            level={3}
-            style={{
-                margin: 0,
-            }}
-        >
-            Promobee
-        </Typography.Title>
+          {
+            collapse ? <Typography.Title
+                    level={3}
+                    style={{
+                        marginLeft: 5,
+                    }}
+                > Promo </Typography.Title>:
+                <Typography.Title
+                    level={3}
+                    style={{
+                        marginLeft: 5,
+                    }}
+                > Promobee </Typography.Title>
+          }
+          {/*<Typography.Title*/}
+          {/*  level={3}*/}
+          {/*  style={{*/}
+          {/*      marginLeft: 5,*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  Promobee*/}
+          {/*</Typography.Title>*/}
         <SideMenuComponent />
       </Sider>
       <Layout className="site-layout">

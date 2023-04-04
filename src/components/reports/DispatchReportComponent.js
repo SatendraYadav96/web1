@@ -148,37 +148,44 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
     return(
         <>
             <TitleWidget title="Dispatches Report" />
-            <Row gutter={[16,16]}>
-                <Col span={4}>
+            <Row gutter={[8,8]}>
+                <Col span={2}>
+                    BU<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    Division
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
-                <Col span={4}>
-                    Dispatch Date <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
-                </Col>
-                <Col span={4}>
-                    <DatePicker value={endDate}  onChange={(e) => setEndDate(e)} />
+                <Col span={3}>
+                    From Date <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
                 </Col>
                 <Col span={3}>
+                    To Date<DatePicker value={endDate}  onChange={(e) => setEndDate(e)} />
+                </Col>
+                <Col span={3}>
+                    Type<br/>
                     <SelectFilterComponent value={filter} onChange={(e) => setFilter(e)} />
                 </Col>
                 <Col span={3}>
+                    Plan Type
                     <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)} />
                 </Col>
-                <Col span={2}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>getDispatchesReportList()}>Search</Button>
                 </Col>
-                <Col span={4}></Col>
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300 }}/>
+                    </div>
+                </Col>
             </Row>
             <br/>
             {flag &&

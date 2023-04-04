@@ -157,32 +157,36 @@ const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
         <>
             <TitleWidget title="Purchase Report" />
             <Row gutter={[8,8]}>
-                <Col span={4}>
+                <Col span={2}>
+                    BU<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    Division
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
-
-                 <Col span={4}>
-                     Purchase Date <DatePicker dateFormat="yyyy-MM-dd"  value={startDate} onChange={(e) => setStartDate(e)} />
+                 <Col span={3}>
+                     From Date <DatePicker dateFormat="yyyy-MM-dd"  value={startDate} onChange={(e) => setStartDate(e)} />
                  </Col>
-                 <Col span={4}>
-                     <DatePicker dateFormat="yyyy-MM-dd"    value={endDate}  onChange={(e) => setEndDate(e)} />
+                 <Col span={3}>
+                     To Date <DatePicker dateFormat="yyyy-MM-dd" value={endDate}  onChange={(e) => setEndDate(e)} />
                  </Col>
 
-                <Col span={4}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>getPurchaseReportList()}>Search</Button>
                 </Col>
-                <Col span={4}></Col>
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300 }}/>
+                    </div>
+                </Col>
             </Row>
             <br/>
             {flag &&

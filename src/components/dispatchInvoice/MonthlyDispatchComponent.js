@@ -87,25 +87,34 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
         <div>
             <TitleWidget title={'Monthly Dispatch'} />
             <Row gutter={[16,16]}>
-                <Col span={6}>
+                <Col span={3}>
                     <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
                     <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
                 </Col>
-                <Col span={6}>
+                <Col span={4}>
                     <Button type={'primary'} onClick={() => getMonthlyDispatchList()}>Submit</Button>
+                </Col>
+                <Col span={14}>
+                    <>
+                        <div align="right">
+                            <Input.Search style={{ width: 300 }} />
+                        </div>
+                    </>
                 </Col>
             </Row>
             <br/><br/>
+            <Table columns={column} dataSource={monthList}/>
+            {/*<br/><br/>*/}
 
-                <>
-                    <div align="right">
-                        <Input.Search style={{ width: 304 }} />
-                    </div>
-                    <br/><br/>
-                    <Table columns={column} dataSource={monthList}/>
-                </>
+                {/*<>*/}
+                {/*    <div align="right">*/}
+                {/*        <Input.Search style={{ width: 304 }} />*/}
+                {/*    </div>*/}
+                {/*    <br/><br/>*/}
+                {/*    <Table columns={column} dataSource={monthList}/>*/}
+                {/*</>*/}
 
 
         </div>

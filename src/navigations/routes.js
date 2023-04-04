@@ -46,6 +46,10 @@ const CreateSpecialAllocationComponent = React.lazy(() => import('../components/
 const MassRevalidationComponent = React.lazy(() => import('../components/revalidation/MassRevalidationComponent'))
 const AllocationReportComponent = React.lazy(() => import('../components/reports/AllocationReportComponent'))
 const InvoiceUploadDetailComponent = React.lazy(() => import('../components/dispatchInvoice/InvoiceUploadDetailComponent'))
+const CostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/CostCenterComponent'))
+const CreateCostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/CreateCostCenter'))
+const EditCostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/EditCostCenter'))
+
 const routes = [
     { path: '/home/dashboard', name: 'Dashboard', element: Dashboard },
     { path: '/home/grn/acknowledge', name: 'GRNAcknowledgementComponent', element: GRNAcknowledgementComponent },
@@ -90,6 +94,9 @@ const routes = [
     { path: '/home/masters/businessUnit', name: 'Vendor', element: BusinessUnitComponent},
     { path: '/home/masters/businessUnit/create', name: 'CreateVendor', element: CreateBusinessUnitComponent},
     { path: '/home/masters/businessUnit/edit/:vndId', name: 'EditVendor', element: EditBusinessUnitComponent},
+    { path: '/home/masters/costCenter', name: 'CostCenter', element: CostCenterComponent},
+    { path: '/home/masters/costCenter/create', name: 'CreateCostCenter', element: CreateCostCenterComponent},
+    { path: '/home/masters/costCenter/edit', name: 'EditCostCenter', element: EditCostCenterComponent},
     { path: '/home/massRevalidation', name: 'Mass Revalidation', element: MassRevalidationComponent},
     { path: '/home/report/allocationReport', name: 'Allocation Report', element: AllocationReportComponent},
     { path: '/home/pickingSlip/monthlyDispatch/details/invoiceUpload', name: 'Invoice Upload', element: InvoiceUploadDetailComponent}

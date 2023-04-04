@@ -135,24 +135,33 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
         <>
           <TitleWidget title={"Master - Vendors"}/>
             <Row gutter={[8,8]}>
-                <Col span={4}>
-                     <SelectStatusComponent style={{width:'150px'}} value={status} onChange={(e) => setStatus(e)} />
+                <Col span={3}>
+                     <SelectStatusComponent style={{width:'180px'}} value={status} onChange={(e) => setStatus(e)} />
                 </Col>
-                <Col span={4}>
+                <Col span={2}>
                     <Button type={"primary"} onClick={() => getVendorList()}>Search</Button>
                 </Col>
-                <Col span={14}></Col>
-                <Col span={2}>
+                <Col span={1}>
                     <Button icon={<PlusOutlined />} onClick={()=> createVendor()}></Button>
                 </Col>
+                {/*<Col span={18}>*/}
+                {/*    <div align="right">*/}
+                {/*        <Input.Search style={{ width: 300}} />*/}
+                {/*    </div>*/}
+                {/*</Col>*/}
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300}} />
+                    </div>
+                </Col>
+                {/*<Col span={12}></Col>*/}
+                {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>
             <br/><br/>
             {flag &&

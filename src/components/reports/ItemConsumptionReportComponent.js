@@ -98,33 +98,31 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
 
     const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
+    const getConsumptionReportList = () => {
+         console.log(businessUnit);
+         console.log(division);
+         console.log(formatedStartDateString);
+         console.log(formatedEndDateString);
+         console.log(profileInfo.id);
+         console.log(profileInfo.userDesignation.id);
 
+         console.log(consumptionList);
 
-                const getConsumptionReportList = () => {
-                     console.log(businessUnit);
-                     console.log(division);
-                     console.log(formatedStartDateString);
-                     console.log(formatedEndDateString);
-                     console.log(profileInfo.id);
-                     console.log(profileInfo.userDesignation.id);
-
-                     console.log(consumptionList);
-
-                    handleConsumptionReportList ({
-                    businessUnit:businessUnit,
-                    divison:division,
-                    userId: profileInfo.id,
-                    userDesgId: profileInfo.userDesignation.id,
-                    fromDate:formatedStartDateString,
-                    toDate:formatedEndDateString,
+        handleConsumptionReportList ({
+        businessUnit:businessUnit,
+        divison:division,
+        userId: profileInfo.id,
+        userDesgId: profileInfo.userDesignation.id,
+        fromDate:formatedStartDateString,
+        toDate:formatedEndDateString,
 
 
 
-                    certificate: authInfo.token
-                    });
-                    searchData()
+        certificate: authInfo.token
+        });
+        searchData()
 
-                }
+    }
 
 
 
@@ -132,30 +130,35 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
         <>
             <TitleWidget title="Item Consumption Report" />
             <Row gutter={[8,8]}>
-                <Col span={4}>
+                <Col span={2}>
+                    BU <br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    Division
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
-                <Col span={4}>
-                    Transaction Date <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)}></DatePicker>
+                <Col span={3}>
+                    Transaction From Date <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)}></DatePicker>
                 </Col>
-                <Col span={4}>
-                    <DatePicker dateFormat="yyyy-MM-dd"    value={toDate}  onChange={(e) => setToDate(e)}></DatePicker>
+                <Col span={3}>
+                    To Date <DatePicker dateFormat="yyyy-MM-dd"    value={toDate}  onChange={(e) => setToDate(e)}></DatePicker>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>getConsumptionReportList()}>Search</Button>
                 </Col>
-                <Col span={4}></Col>
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300 }}/>
+                    </div>
+                </Col>
             </Row>
             <br/>
             {flag &&

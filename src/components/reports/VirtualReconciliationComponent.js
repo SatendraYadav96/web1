@@ -5,10 +5,16 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Table} from "antd";
 import {Select} from "antd/es";
+import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
+import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
+import SelectQuarterNameComponent from "../widgets/SelectQuarterNameComponent";
 
 const VirtualReconciliationComponent = ({authInfo}) => {
 
     const [column, setColumn] = useState([])
+    const [businessUnit, setBusinessUnit] = useState()
+    const [quater, setQuarter] = useState()
+    const [division, setDivision] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
 
@@ -182,31 +188,37 @@ const VirtualReconciliationComponent = ({authInfo}) => {
         setDataSource([])
     }
 
+    const getVirtualRecon = () => {
+
+        searchData()
+    }
+
     return(
         <>
             <TitleWidget title="Virtual Reconciliation" />
             <Row gutter={[8,8]}>
-                <Col span={4}>
-                    Business Unit<Select style={{width:'150px'}}></Select>
+                <Col span={3}>
+                    BU <br/>
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
-                <Col span={4}>
-                    <Select style={{width:'150px'}}></Select>
+                <Col span={3}>
+                    Division<br/>
+                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
-                <Col span={4}>
-                    <Select style={{width:'150px'}}></Select>
+                <Col span={3}>
+                    Quater<br/>
+                    <SelectQuarterNameComponent value={quater}onChange={(e) => setQuarter(e)} />
                 </Col>
-                <Col span={4}>
-                    <Button type={"primary"} onClick={()=>searchData()}>Search</Button>
+                <Col span={3}>
+                    <br/>
+                    <Button type={"primary"} onClick={()=>getVirtualRecon()}>Search</Button>
                 </Col>
-                <Col span={4}></Col>
             </Row>
             <br/><br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
             </Row>
             <br/>
             {flag &&

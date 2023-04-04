@@ -111,27 +111,34 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
         <>
             <TitleWidget title="Deviation Report" />
             <Row gutter={[8,8]}>
-                <Col span={4}>
+                <Col span={3}>
+                    Quarter
                    <SelectQuarterNameComponent value={quarter} onChange={(e) => setQuarter(e)} />
                 </Col>
-                <Col span={4}>
-                  <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)} />
+                <Col span={3}>
+                    From Date
+                    <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)} />
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    To Date
                      <DatePicker dateFormat="yyyy-MM-dd"    value={toDate}  onChange={(e) => setToDate(e)} />
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>getDeviationReportList()}>Search</Button>
                 </Col>
                 <Col span={4}></Col>
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300 }}/>
+                    </div>
+                </Col>
             </Row>
             <br/>
             {flag &&

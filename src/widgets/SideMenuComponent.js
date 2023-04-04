@@ -24,7 +24,7 @@ const SideMenuComponent = ({ menus, authInfo, handleLoadMenus, handleMenuClicked
   return (
       <Spin tip={'Loading Menus'} spinning={menus.length === 0} >
     <Menu
-          onClick={menuClicked}
+        onClick={menuClicked}
       theme="light"
       defaultSelectedKeys={['dashboard']}
       mode="inline"

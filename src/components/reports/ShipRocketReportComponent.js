@@ -11,17 +11,17 @@ const ShipRocketReportComponent = ({authInfo}) => {
     return(
         <>
             <TitleWidget title="Ship Rocket Report" />
-            <Row gutter={[16,16]}>
-                <Col span={6}>
+            <Row gutter={[8,8]}>
+                <Col span={3}>
                     From Date <DatePicker />
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
                     To Date<DatePicker/>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} >Download Report</Button>
                 </Col>
-                <Col span={4}></Col>
             </Row>
         </>
     )

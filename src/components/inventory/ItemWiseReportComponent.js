@@ -78,8 +78,8 @@ const ItemWiseReportComponent = ({authInfo}) => {
         <>
             <TitleWidget title="Item Wise Report" />
             <Row gutter={[8,8]}>
-                <Col span={2}>
-                    Business Unit <Select style={{width:'100px', marginLeft:'20px'}}></Select>
+                <Col span={3}>
+                    Business Unit <Select style={{width:'150px'}}></Select>
                 </Col>
 
                 <Col span={2}>
@@ -87,25 +87,28 @@ const ItemWiseReportComponent = ({authInfo}) => {
                 </Col>
 
                 <Col span={3}>
-                    Date <DatePicker/>
+                    Date To: <DatePicker/>
                 </Col>
                 <Col span={3}>
-                    <DatePicker/>
+                    From: <DatePicker/>
                 </Col>
-
                 <Col span={2}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>searchData()}>Search</Button>
                 </Col>
 
-                <Col span={12}></Col>
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{width: 300}}/>
+                    </div>
+                </Col>
+                {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>
             <br/>
             {flag &&

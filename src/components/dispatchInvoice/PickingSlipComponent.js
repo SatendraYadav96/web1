@@ -164,16 +164,16 @@ const getPickingList = () => {
         <div>
             <TitleWidget title={'Picking Slip'} />
             <Row gutter={[16,16]}>
-                <Col span={6}>
+                <Col span={3}>
                     <SelectYearComponent value={year} onChange={(e) => setYear(e)} />
                 </Col>
-                <Col span={6}>
+                <Col span={3}>
                     <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
-                <Col span={6}>
+                <Col span={4}>
                     <SelectDispatchTypeComponent desgId={profileInfo.userDesignation.id} value={dispatchType} onChange={(e) => setDispatchType(e)}/>
                 </Col>
-                <Col span={6}>
+                <Col span={4}>
                     <Button type={'primary'}
 
                      onClick = {() => getPickingList()} >Submit</Button>

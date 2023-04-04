@@ -145,24 +145,27 @@ const InventoryReportComponent = ({authInfo}) => {
         <>
             <TitleWidget title="Inventory Report" />
             <Row gutter={[8,8]}>
-                <Col span={4}>
+                <Col span={3}>
                     Business Unit <Select style={{width:'150px'}}></Select>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
                     Division <Select style={{width:'150px'}}></Select>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    <br/>
                     <Button type={"primary"} onClick={()=>searchData()}>Search</Button>
                 </Col>
-                <Col span={12}></Col>
             </Row>
-            <br/><br/>
+            <br/>
             <Row>
                 <Col span={6}>
                     <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                <Col span={18}>
+                    <div align="right">
+                        <Input.Search style={{width: 300}}/>
+                    </div>
+                </Col>
             </Row>
             <br/>
             {flag &&
