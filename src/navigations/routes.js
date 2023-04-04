@@ -97,6 +97,9 @@ const routes = [
     { path: '/home/masters/costCenter', name: 'CostCenter', element: CostCenterComponent},
     { path: '/home/masters/costCenter/create', name: 'CreateCostCenter', element: CreateCostCenterComponent},
     { path: '/home/masters/costCenter/edit', name: 'EditCostCenter', element: EditCostCenterComponent},
+    { path: '/home/masters/sample', name: 'sample', element: SampleComponent},
+    { path: '/home/masters/sample/create', name: 'CreateSample', element: CreateSampleComponent},
+    { path: '/home/masters/sample/edit', name: 'EditSample', element: EditSampleComponent},
     { path: '/home/massRevalidation', name: 'Mass Revalidation', element: MassRevalidationComponent},
     { path: '/home/report/allocationReport', name: 'Allocation Report', element: AllocationReportComponent},
     { path: '/home/pickingSlip/monthlyDispatch/details/invoiceUpload', name: 'Invoice Upload', element: InvoiceUploadDetailComponent}
