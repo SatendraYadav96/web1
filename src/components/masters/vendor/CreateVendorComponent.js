@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {MessageWidget} from "../../../widgets/MessageWidget";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
@@ -89,7 +90,7 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
 
             });
 
-            MessageWidget.success();
+            // MessageWidget.success();
             searchData()
 
 
@@ -130,7 +131,7 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
                 <Col span={22}></Col>
                 <Col span={2}>
 
-                <Button type={"primary"} onClick={()=>handleInsertVendor()}    >Submit</Button>
+                <Button type={"primary"} onClick={()=>handleInsertVendor()}>Submit</Button>
 
 
                 </Col>
