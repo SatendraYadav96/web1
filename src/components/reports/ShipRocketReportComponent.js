@@ -13,10 +13,10 @@ const ShipRocketReportComponent = ({authInfo}) => {
             <TitleWidget title="Ship Rocket Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    From Date <DatePicker />
+                    From Date <br/><DatePicker />
                 </Col>
                 <Col span={3}>
-                    To Date<DatePicker/>
+                    To Date<br/><DatePicker/>
                 </Col>
                 <Col span={3}>
                     <br/>

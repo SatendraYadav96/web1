@@ -63,16 +63,16 @@ const ItemRevalidationComponent = ({authInfo}) => {
             <TitleWidget title="Item Revalidation" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Expiry Date From: <DatePicker></DatePicker>
+                    Expiry Date From: <br/><DatePicker></DatePicker>
                 </Col>
                 <Col span={3}>
-                    To: <DatePicker/>
+                    To: <br/><DatePicker/>
                 </Col>
                 <Col span={3}>
-                    Item <Input style={{width:'150px'}}/>
+                    Item <br/><Input style={{width:'150px'}}/>
                 </Col>
                 <Col span={3}>
-                    Status <Select style={{width:'150px'}}></Select>
+                    Status <br/><Select style={{width:'150px'}}></Select>
                 </Col>
                 <Col span={3}>
                     <br/>

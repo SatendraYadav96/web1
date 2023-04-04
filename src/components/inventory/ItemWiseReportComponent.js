@@ -79,18 +79,18 @@ const ItemWiseReportComponent = ({authInfo}) => {
             <TitleWidget title="Item Wise Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Business Unit <Select style={{width:'150px'}}></Select>
+                    Business Unit <br/><Select style={{width:'150px'}}></Select>
                 </Col>
 
                 <Col span={2}>
-                    Division <Select style={{width:'100px'}}></Select>
+                    Division <br/><Select style={{width:'100px'}}></Select>
                 </Col>
 
                 <Col span={3}>
-                    Date To: <DatePicker/>
+                    Date To: <br/><DatePicker/>
                 </Col>
                 <Col span={3}>
-                    From: <DatePicker/>
+                    From: <br/><DatePicker/>
                 </Col>
                 <Col span={2}>
                     <br/>

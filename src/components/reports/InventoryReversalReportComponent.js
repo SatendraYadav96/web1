@@ -141,15 +141,15 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
             <TitleWidget title="Inventory Reversal Report" />
             <Row gutter={[8,8]}>
                 <Col span={2}>
-                    BU
+                    BU<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division
+                    Division<br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
-                    Reversal From Date <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)} />
+                    Reversal From Date <br/><DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)} />
                 </Col>
                 <Col span={3}>
                     To Date

@@ -159,17 +159,17 @@ const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
             <Row gutter={[8,8]}>
                 <Col span={2}>
                     BU<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    Division<br/>
+                    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
                 </Col>
                  <Col span={3}>
-                     From Date <DatePicker dateFormat="yyyy-MM-dd"  value={startDate} onChange={(e) => setStartDate(e)} />
+                     From Date <br/><DatePicker dateFormat="yyyy-MM-dd" value={startDate} style={{width: "100%"}} onChange={(e) => setStartDate(e)} />
                  </Col>
                  <Col span={3}>
-                     To Date <DatePicker dateFormat="yyyy-MM-dd" value={endDate}  onChange={(e) => setEndDate(e)} />
+                     To Date <br/><DatePicker dateFormat="yyyy-MM-dd" value={endDate} style={{width: "100%"}} onChange={(e) => setEndDate(e)} />
                  </Col>
 
                 <Col span={3}>

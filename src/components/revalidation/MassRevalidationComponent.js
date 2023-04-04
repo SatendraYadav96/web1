@@ -63,16 +63,16 @@ const MassRevalidationComponent = ({authInfo}) => {
             <TitleWidget title="Mass Revalidation" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Expiry Date <DatePicker></DatePicker>
+                    Expiry Date <br/><DatePicker></DatePicker>
                 </Col>
                 <Col span={3}>
                     <DatePicker/>
                 </Col>
                 <Col span={3}>
-                    Item <Input style={{width:'150px'}}/>
+                    Item <br/><Input style={{width:'150px'}}/>
                 </Col>
                 <Col span={3}>
-                    Status <Select style={{width:'150px'}}></Select>
+                    Status <br/><Select style={{width:'150px'}}></Select>
                 </Col>
                 <Col span={3}>
                     <Button type={"primary"} >Search</Button>

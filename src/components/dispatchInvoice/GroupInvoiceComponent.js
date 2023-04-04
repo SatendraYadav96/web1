@@ -158,13 +158,13 @@ const GroupInvoiceComponent = ({authInfo}) => {
             <TitleWidget title={'Group Invoice'} > </TitleWidget>
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    Invoice Number: <Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>
+                    Invoice Number: <br/><Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>
                 </Col>
                 <Col span={3}>
-                    From Date: <DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>
+                    From Date: <br/><DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>
                 </Col>
                 <Col span={3}>
-                    To Date: <DatePicker value={toDate} onChange={(e) => setToDate(e)}/>
+                    To Date: <br/><DatePicker value={toDate} onChange={(e) => setToDate(e)}/>
                 </Col>
                 <Col span={2}>
                     <br/><Button type={'primary'} onClick={() => searchData()}>Search</Button>

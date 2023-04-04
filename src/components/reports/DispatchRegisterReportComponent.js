@@ -222,22 +222,22 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division
+                    Division<br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
                     Team <br/>
-                    <SelectTeamComponent value={team} onChange={(e) => setTeam(e)} />
+                    <SelectTeamComponent value={team} style={{width: "100%"}} onChange={(e) => setTeam(e)} />
                 </Col>
                 <Col span={3}>
-                    From Date <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
+                    From Date <br/><DatePicker value={startDate} style={{width: "100%"}} onChange={(e) => setStartDate(e)} />
                 </Col>
                 <Col span={3}>
-                    To Date<DatePicker value={endDate}  onChange={(e) => setEndDate(e)} />
+                    To Date<br/><DatePicker value={endDate} style={{width: "100%"}} onChange={(e) => setEndDate(e)} />
                 </Col>
                 <Col span={3}>
-                    Plan Type
-                    <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)} />
+                    Plan Type<br/>
+                    <SelectFilterPlanComponent value={filterPlan} style={{width: "100%"}} onChange={(e) => setFilterPlan(e)} />
                 </Col>
                 <Col span={3}>
                     <br/>

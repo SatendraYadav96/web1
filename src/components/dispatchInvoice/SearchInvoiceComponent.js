@@ -70,13 +70,13 @@ const SearchInvoiceComponent = ({authInfo}) => {
                     </Select>
                 </Col>
                 <Col span={3}>
-                    <Input placeholder={"Recipient Code"}/>
+                    <Input placeholder={"Recipient Code"} style={{width: "150px"}}/>
                 </Col>
                 <Col span={3}>
-                    <Input placeholder={"Recipient Name"}/>
+                    <Input placeholder={"Recipient Name"} style={{width: "150px"}}/>
                 </Col>
                 <Col span={3}>
-                    <Input placeholder={"Invoice No"}/>
+                    <Input placeholder={"Invoice No"} style={{width: "150px"}}/>
                 </Col>
                 <Col span={3}>
                     <Button type={'primary'} onClick={() => searchData()}>Submit</Button>

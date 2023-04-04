@@ -133,10 +133,10 @@ const AgeingReportComponent = ({authInfo}) => {
             <TitleWidget title="Ageing Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Business Unit <Select style={{width:'150px'}}></Select>
+                    Business Unit <br/><Select style={{width:'150px'}}></Select>
                 </Col>
                 <Col span={3}>
-                    Division <Select style={{width:'150px'}}></Select>
+                    Division <br/><Select style={{width:'150px'}}></Select>
                 </Col>
                 <Col span={3}>
                     <br/>

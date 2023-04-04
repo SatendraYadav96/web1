@@ -154,21 +154,21 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division
+                    Division<br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
-                    From Date <DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
+                    From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
                 </Col>
                 <Col span={3}>
-                    To Date<DatePicker value={endDate}  onChange={(e) => setEndDate(e)} />
+                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} />
                 </Col>
                 <Col span={3}>
                     Type<br/>
                     <SelectFilterComponent value={filter} onChange={(e) => setFilter(e)} />
                 </Col>
                 <Col span={3}>
-                    Plan Type
+                    Plan Type<br/>
                     <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)} />
                 </Col>
                 <Col span={3}>

@@ -132,17 +132,17 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
             <Row gutter={[8,8]}>
                 <Col span={2}>
                     BU <br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    Division<br/>
+                    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
-                    Transaction From Date <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)}></DatePicker>
+                    Transaction From Date <br/><DatePicker dateFormat="yyyy-MM-dd" style={{width: "100%"}} value={fromDate} onChange={(e) => setFromDate(e)}></DatePicker>
                 </Col>
                 <Col span={3}>
-                    To Date <DatePicker dateFormat="yyyy-MM-dd"    value={toDate}  onChange={(e) => setToDate(e)}></DatePicker>
+                    To Date <br/><DatePicker dateFormat="yyyy-MM-dd" style={{width: "100%"}} value={toDate}  onChange={(e) => setToDate(e)}></DatePicker>
                 </Col>
                 <Col span={3}>
                     <br/>

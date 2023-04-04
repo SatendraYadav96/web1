@@ -3,8 +3,8 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Input, Select, Table} from "antd";
-import {SearchOutlined} from "@ant-design/icons";
+import {Button, Col, Input, Row, Select, Table} from "antd";
+import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import {DatePicker} from "antd/es";
 
 
@@ -159,25 +159,55 @@ const GroupInvoiceCreateComponent = ({authInfo}) => {
     return(
         <div>
             <TitleWidget title={'Create Group Invoice'} > </TitleWidget>
-            <div className="grid">
-                Invoice Number: <Select style={{ width: 120 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}>
-            </Select>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                From Date: <DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                To Date: <DatePicker value={toDate} onChange={(e) => setToDate(e)}/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type={'primary'} onClick={() => searchData()}>Search</Button>
-                <Button icon={<SearchOutlined />} style={{marginLeft: '700px'}} />
-            </div>
-            <br/><br/>
-            <div>
-                <Button>Excel</Button>
-                &nbsp;&nbsp;
-                <Button>CSV</Button>
-                <Input.Search style={{ width: 300, marginLeft: '1200px' }} />
-            </div>
-            <br/><br/>
+            <Row gutter={[16,16]}>
+                <Col span={3}>
+                    Invoice Number: <br/><Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>
+                </Col>
+                <Col span={3}>
+                    From Date: <br/><DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>
+                </Col>
+                <Col span={3}>
+                    To Date: <br/><DatePicker value={toDate} onChange={(e) => setToDate(e)}/>
+                </Col>
+                <Col span={2}>
+                    <br/><Button type={'primary'} onClick={() => searchData()}>Search</Button>
+                </Col>
+                <Col span={1}>
+                    <br/><Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()}></Button>
+                </Col>
+            </Row>
+            {/*<div className="grid">*/}
+            {/*    Invoice Number: <br/>*/}
+            {/*    <Select style={{ width: 120 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    From Date: <DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    To Date: <DatePicker value={toDate} onChange={(e) => setToDate(e)}/>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    <Button type={'primary'} onClick={() => searchData()}>Search</Button>*/}
+            {/*    <Button icon={<SearchOutlined />} style={{marginLeft: '700px'}} />*/}
+            {/*</div>*/}
+            <br/>
+            <Row gutter={[16,16]}>
+                <Col span={2}>
+                    <Button>Excel</Button>
+                </Col>
+                <Col span={2}>
+                    <Button>CSV</Button>
+                </Col>
+                <Col span={20}>
+                    <div align="right">
+                        <Input.Search style={{ width: 300}} />
+                    </div>
+                </Col>
+            </Row>
+            {/*<div>*/}
+            {/*    <Button>Excel</Button>*/}
+            {/*    &nbsp;&nbsp;*/}
+            {/*    <Button>CSV</Button>*/}
+            {/*    <Input.Search style={{ width: 300, marginLeft: '1200px' }} />*/}
+            {/*</div>*/}
+            <br/>
             {flag &&
                 <Table columns={column} dataSource={dataSource}/>
             }

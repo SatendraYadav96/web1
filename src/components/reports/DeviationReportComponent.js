@@ -112,22 +112,21 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
             <TitleWidget title="Deviation Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Quarter
-                   <SelectQuarterNameComponent value={quarter} onChange={(e) => setQuarter(e)} />
+                    Quarter<br/>
+                   <SelectQuarterNameComponent value={quarter} style={{width: "100%"}} onChange={(e) => setQuarter(e)} />
                 </Col>
                 <Col span={3}>
-                    From Date
-                    <DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)} />
+                    From Date<br/>
+                    <DatePicker dateFormat="yyyy-MM-dd" value={fromDate} style={{width: "100%"}} onChange={(e) => setFromDate(e)} />
                 </Col>
                 <Col span={3}>
-                    To Date
-                     <DatePicker dateFormat="yyyy-MM-dd"    value={toDate}  onChange={(e) => setToDate(e)} />
+                    To Date<br/>
+                     <DatePicker dateFormat="yyyy-MM-dd" value={toDate} style={{width: "100%"}} onChange={(e) => setToDate(e)} />
                 </Col>
                 <Col span={3}>
                     <br/>
                     <Button type={"primary"} onClick={()=>getDeviationReportList()}>Search</Button>
                 </Col>
-                <Col span={4}></Col>
             </Row>
             <br/>
             <Row>

@@ -54,10 +54,10 @@ const StockLedgerReportComponent = ({authInfo}) => {
             <TitleWidget title="Stock Ledger Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Date From: <DatePicker/>
+                    Date From: <br/><DatePicker/>
                 </Col>
                 <Col span={3}>
-                    To:<DatePicker/>
+                    To:<br/><DatePicker/>
                 </Col>
                 <Col span={3}>
                     <br/>

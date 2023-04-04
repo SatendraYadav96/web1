@@ -12,10 +12,10 @@ const EditSamplesComponent = ({authInfo}) => {
             <TitleWidget title={"Edit Samples"}/>
             <Row gutter={[8,8]}>
                 <Col span={8} offset={2}>
-                    Name: <Input placeholder={"Samples Name"}/>
+                    Name:<br/><Input placeholder={"Samples Name"}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Code: <Input placeholder={"Samples Code"}/>
+                    Code:<br/><Input placeholder={"Samples Code"}/>
                 </Col>
                 <Col span={4}></Col>
                 <Col span={8} offset={2}>

@@ -219,19 +219,20 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             <Row gutter={[8,8]}>
                 <Col span={2}>
                     BU<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}  />
+                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)}  />
                 </Col>
                 <Col span={3}>
-                    Division
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    Division<br/>
+                    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
                     Team<br/>
-                    <SelectTeamComponent value={team} onChange={(e) => setTeam(e)} />
+                    <SelectTeamComponent value={team} style={{width: "100%"}} onChange={(e) => setTeam(e)} />
                 </Col>
                 <Col span={3}>
-                    Recipient Status
-                     <SelectRecipientStatusComponent value={recipientStatus} onChange={(e) => setRecipientStatus(e)} />
+                    Recipient Status<br/>
+                     <SelectRecipientStatusComponent value={recipientStatus} style={{width: "100%"}} onChange={(e) => setRecipientStatus(e)} />
+                     <SelectRecipientStatusComponent value={recipientStatus} style={{width: "100%"}} onChange={(e) => setRecipientStatus(e)} />
                 </Col>
                 <Col span={3}>
                     <br/>

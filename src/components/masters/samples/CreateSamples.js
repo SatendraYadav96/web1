@@ -14,28 +14,28 @@ const CreateSamplesComponent = ({authInfo}) => {
             <TitleWidget title={"Create Samples"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Name: <Input placeholder={"Samples Name"}/>
+                    Name:<br/><Input placeholder={"Samples Name"}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    LMID: <Input placeholder={"Samples LMID"}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Brand: <Select style={{width:'100%'}}></Select>
-                </Col>
-                <Col span={8} offset={2}>
-                    Description: <TextArea placeholder={"Samples Description"}/>
+                    LMID:<br/><Input placeholder={"Samples LMID"}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Base Pack: <Input placeholder={"Samples Packsize"}/>
+                    Brand:<br/><Select style={{width:'100%'}}></Select>
                 </Col>
                 <Col span={8} offset={2}>
-                    Cap Size: <Input placeholder={"Samples cap size"}/>
+                    Description:<br/><TextArea placeholder={"Samples Description"}/>
+                </Col>
+            </Row>
+            <br/>
+            <Row gutter={[16,16]}>
+                <Col span={8} offset={2}>
+                    Base Pack:<br/><Input placeholder={"Samples Packsize"}/>
+                </Col>
+                <Col span={8} offset={2}>
+                    Cap Size:<br/><Input placeholder={"Samples cap size"}/>
                 </Col>
             </Row>
             <br/>
@@ -44,7 +44,13 @@ const CreateSamplesComponent = ({authInfo}) => {
                     IsActive: <Checkbox />
                 </Col>
             </Row>
-            <Col span={2}><Button type={"primary"}>Submit</Button></Col>
+            <br/>
+            <Row gutter={[16,16]}>
+                <Col span={8} offset={2}>
+                    <Button type={"primary"}>Submit</Button>
+                </Col>
+            </Row>
+
         </>
     )
 

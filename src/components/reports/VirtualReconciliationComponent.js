@@ -196,18 +196,18 @@ const VirtualReconciliationComponent = ({authInfo}) => {
     return(
         <>
             <TitleWidget title="Virtual Reconciliation" />
-            <Row gutter={[8,8]}>
+            <Row gutter={[16,16]}>
                 <Col span={3}>
                     BU <br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
                     Division<br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
                     Quater<br/>
-                    <SelectQuarterNameComponent value={quater}onChange={(e) => setQuarter(e)} />
+                    <SelectQuarterNameComponent value={quater} style={{width: "100%"}} onChange={(e) => setQuarter(e)} />
                 </Col>
                 <Col span={3}>
                     <br/>
