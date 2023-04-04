@@ -60,11 +60,11 @@ const StockLedgerReportComponent = ({authInfo}) => {
                     To:<br/><DatePicker/>
                 </Col>
                 <Col span={3}>
-                    <br/>
+                    Item Code <br/>
                     <Input placeholder={"Item Code"} />
                 </Col>
                 <Col span={3}>
-                    <br/>
+                    Item Name<br/>
                     <Input placeholder={"Item Name"} />
                 </Col>
                 <Col span={3}>

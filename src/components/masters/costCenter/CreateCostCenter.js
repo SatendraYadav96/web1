@@ -24,7 +24,7 @@ const CreateCostCenterComponent = ({authInfo}) => {
                 <Col span={8} offset={2}>
                     IsActive: <Checkbox />
                 </Col>
-                <Col span={8}>
+                <Col span={8} offset={2}>
                     Brand:<br/><Select style={{width:'100%'}}></Select>
                 </Col>
             </Row>

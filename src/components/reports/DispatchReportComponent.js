@@ -155,21 +155,21 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 </Col>
                 <Col span={3}>
                     Division<br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} style={{width: '100%'}} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
-                    From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} />
+                    From Date <br/><DatePicker value={startDate} style={{width: '100%'}} onChange={(e) => setStartDate(e)} />
                 </Col>
                 <Col span={3}>
-                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} />
+                    To Date<br/><DatePicker value={endDate} style={{width: '100%'}} onChange={(e) => setEndDate(e)} />
                 </Col>
                 <Col span={3}>
                     Type<br/>
-                    <SelectFilterComponent value={filter} onChange={(e) => setFilter(e)} />
+                    <SelectFilterComponent value={filter} style={{width: 180}} onChange={(e) => setFilter(e)} />
                 </Col>
                 <Col span={3}>
                     Plan Type<br/>
-                    <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)} />
+                    <SelectFilterPlanComponent value={filterPlan} style={{width: '100%'}} onChange={(e) => setFilterPlan(e)} />
                 </Col>
                 <Col span={3}>
                     <br/>
