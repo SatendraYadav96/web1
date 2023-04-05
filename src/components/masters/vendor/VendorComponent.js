@@ -122,7 +122,7 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
     return(
         <>
           <TitleWidget title={"Vendor"}/>
-            <Row gutter={[8,8]}>
+            <Row gutter={[16,16]}>
                 <Col span={3}>
                      <SelectStatusComponent style={{width:'180px'}} value={status} onChange={(e) => setStatus(e)} />
                 </Col>

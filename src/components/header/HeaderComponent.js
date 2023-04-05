@@ -18,7 +18,7 @@ const HeaderComponent = ({ authInfo, profileInfo, handleLoadProfileInfo, pageTit
   const {Title} = Typography
   return (
     <Row justify={'space-between'} style={{ height: '100%' }}>
-      <Col span={6} offset={18}>
+      <Col span={4} offset={20}>
           <Title>
             <Menu mode={"horizontal"} >
                 <Menu.SubMenu title={profileInfo === null ? '' : profileInfo.name}>
