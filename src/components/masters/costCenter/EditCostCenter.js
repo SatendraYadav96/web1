@@ -33,24 +33,8 @@ const EditCostCenterComponent = ({authInfo}) => {
                     <Button type={"primary"}>Submit</Button>
                 </Col>
             </Row>
-            {/*<Row gutter={[8,8]}>*/}
-            {/*    <Col span={8} offset={2}>*/}
-            {/*        Name: <Input placeholder={"Cost Center Name"}/>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={8} offset={2}>*/}
-            {/*        Code: <Input placeholder={"Cost Center Code"}/>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={4}></Col>*/}
-            {/*    <Col span={8} offset={2}>*/}
-            {/*        IsActive: <Checkbox />*/}
-            {/*    </Col>*/}
-            {/*    <Col span={14}></Col>*/}
-            {/*    <Col span={22}></Col>*/}
-            {/*    <Col span={2}><Button type={"primary"}>Submit</Button></Col>*/}
-            {/*</Row>*/}
         </>
     )
-
 }
 
 EditCostCenterComponent.propTypes = {

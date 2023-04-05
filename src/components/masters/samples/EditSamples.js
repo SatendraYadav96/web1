@@ -50,21 +50,6 @@ const EditSamplesComponent = ({authInfo}) => {
                     <Button type={"primary"}>Submit</Button>
                 </Col>
             </Row>
-            {/*<Row gutter={[8,8]}>*/}
-            {/*    <Col span={8} offset={2}>*/}
-            {/*        Name:<br/><Input placeholder={"Samples Name"}/>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={8} offset={2}>*/}
-            {/*        Code:<br/><Input placeholder={"Samples Code"}/>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={4}></Col>*/}
-            {/*    <Col span={8} offset={2}>*/}
-            {/*        IsActive: <Checkbox />*/}
-            {/*    </Col>*/}
-            {/*    <Col span={14}></Col>*/}
-            {/*    <Col span={22}></Col>*/}
-            {/*    <Col span={2}><Button type={"primary"}>Submit</Button></Col>*/}
-            {/*</Row>*/}
         </>
     )
 
