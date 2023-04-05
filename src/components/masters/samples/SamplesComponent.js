@@ -8,8 +8,11 @@ import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import {selectLoadingVendorByIdData, selectLoadingVendorData, selectVendorByIdListData, selectVendorListData} from "../../../redux/selectors/masterSelector";
 import {getVendorByIdStartAction, getVendorStartAction} from "../../../redux/actions/master/masterActions";
+import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 
 const SamplesComponent = ({authInfo}) => {
+
+    const [status, setStatus] = useState(1)
     const navigate = useNavigate()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -62,7 +65,7 @@ const SamplesComponent = ({authInfo}) => {
             <TitleWidget title={"Master - Samples"}/>
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    <Select style={{width:'150px'}}></Select>
+                    <SelectStatusComponent value={status} onChange={(e) => setStatus(e)} />
                 </Col>
                 <Col span={2}>
                     <Button type={"primary"} onClick={() => searchData()}>Search</Button>

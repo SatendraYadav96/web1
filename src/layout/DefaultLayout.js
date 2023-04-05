@@ -1,5 +1,5 @@
 import React, {Suspense, useState} from 'react'
-import { Divider, Layout, Spin ,Typography} from 'antd'
+import {Col, Divider, Layout, Row, Spin, Typography} from 'antd'
 import './DefaultLayout.less'
 import { Content, Header } from 'antd/es/layout/layout'
 import Sider from 'antd/es/layout/Sider'
@@ -10,6 +10,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import routes from '../navigations/routes'
 import { connect } from 'react-redux'
 import HeaderComponent from '../components/header/HeaderComponent'
+import ReactRoundedImage from "react-rounded-image"
+import  titleImg  from '../assets/logo.png'
 
 const DefaultLayout = ({ authInfo }) => {
     const [collapse, setCollapse]=useState(true)
@@ -22,18 +24,31 @@ const DefaultLayout = ({ authInfo }) => {
     >
       <Sider width={172} collapsible collapsed={collapse} onCollapse={()=>setCollapse(!collapse)}>
           {
-            collapse ? <Typography.Title
-                    level={3}
-                    style={{
-                        marginLeft: 5,
-                    }}
-                > Promo </Typography.Title>:
-                <Typography.Title
-                    level={3}
-                    style={{
-                        marginLeft: 5,
-                    }}
-                > Promobee </Typography.Title>
+            collapse ?
+                <div align={"center"} style={{marginTop: 5}}>
+                    <ReactRoundedImage
+                        image={titleImg}
+                        roundedSize="0"
+                        imageWidth="50"
+                        imageHeight="50"
+                    />
+                </div> :
+                <Row gutter={[2,2]} style={{marginTop: 5, marginLeft: 5}}>
+                    <Col span={6}>
+                        <ReactRoundedImage
+                            image={titleImg}
+                            roundedSize="0"
+                            imageWidth="30"
+                            imageHeight="30"
+                        />
+                    </Col>
+                    <Col span={18}>
+                        <Typography.Title
+                            level={3}>
+                            Promobee
+                        </Typography.Title>
+                    </Col>
+                </Row>
           }
           {/*<Typography.Title*/}
           {/*  level={3}*/}

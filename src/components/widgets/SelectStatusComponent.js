@@ -4,7 +4,7 @@ import {Option} from "antd/es/mentions";
 
 
 const SelectStatusComponent = ({value, onChange}) => {
-    return <Select placeholder={"Select Status"} value={value} onSelect={onChange}>
+    return <Select placeholder={"Select Status"} value={value} onSelect={onChange} style={{width: "100%"}}>
         <Option value={0}>Inactive</Option>
         <Option value={1}>Active</Option>
 

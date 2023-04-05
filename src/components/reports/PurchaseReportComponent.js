@@ -11,10 +11,13 @@ import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getPurchaseReportStartAction } from '../../redux/actions/reports/purchaseReportActions'
 import {selectPurchaseListData,selectLoadingPurchaseReportData} from "../../redux/selectors/purchaseReportSelector"
 import moment from 'moment'
+import {useNavigate} from "react-router-dom";
+import dayjs from "dayjs";
 
 
 const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,handlePurchaseReportList}) => {
 
+    let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [startDate, setStartDate] = useState()
@@ -166,12 +169,11 @@ const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
                     <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
                 </Col>
                  <Col span={3}>
-                     From Date <br/><DatePicker dateFormat="yyyy-MM-dd" value={startDate} style={{width: "100%"}} onChange={(e) => setStartDate(e)} />
+                     From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                  </Col>
                  <Col span={3}>
-                     To Date <br/><DatePicker dateFormat="yyyy-MM-dd" value={endDate} style={{width: "100%"}} onChange={(e) => setEndDate(e)} />
+                     To Date <br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
                  </Col>
-
                 <Col span={3}>
                     <br/>
                     <Button type={"primary"} onClick={()=>getPurchaseReportList()}>Search</Button>

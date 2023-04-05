@@ -10,11 +10,15 @@ import {DatePicker} from "antd/es";
 import {useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
+import moment from "moment/moment";
+import dayjs from "dayjs";
 
 
 const GroupInvoiceComponent = ({authInfo}) => {
 
+    const date = new Date();
     const navigate = useNavigate()
+    let now = dayjs()
 
     const [invoiceNumber, setInvoiceNumber] = useState()
     const [fromDate, setFromDate] = useState()
@@ -161,10 +165,10 @@ const GroupInvoiceComponent = ({authInfo}) => {
                     Invoice Number: <br/><Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>
                 </Col>
                 <Col span={3}>
-                    From Date: <br/><DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>
+                    From Date: <br/><DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To Date: <br/><DatePicker value={toDate} onChange={(e) => setToDate(e)}/>
+                    To Date: <br/><DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
                 </Col>
                 <Col span={2}>
                     <br/><Button type={'primary'} onClick={() => searchData()}>Search</Button>

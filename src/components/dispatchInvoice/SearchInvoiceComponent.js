@@ -6,11 +6,17 @@ import {connect} from "react-redux";
 import {Button, Col, Input, Modal, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
 import { FileOutlined} from "@ant-design/icons";
+import SelectMonthComponent from "../widgets/SelectMonthComponent";
+import SelectYearComponent from "../widgets/SelectYearComponent";
 
 const SearchInvoiceComponent = ({authInfo}) => {
 
-    const [year, setYear] = useState()
-    const [month, setMonth] = useState()
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const currentMonth = date.getMonth()+1;
+
+    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(currentMonth)
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -47,36 +53,38 @@ const SearchInvoiceComponent = ({authInfo}) => {
             <TitleWidget title={'Search Invoice'} />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    <Select style={{ width: 150 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>
-                        <Option value="2020">2020</Option>
-                        <Option value="2021">2021</Option>
-                        <Option value="2022">2022</Option>
-                    </Select>
+                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
+                    {/*<Select style={{ width: 150 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>*/}
+                    {/*    <Option value="2020">2020</Option>*/}
+                    {/*    <Option value="2021">2021</Option>*/}
+                    {/*    <Option value="2022">2022</Option>*/}
+                    {/*</Select>*/}
                 </Col>
                 <Col span={3}>
-                    <Select style={{ width: 150 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>
-                        <Option  value='Janaury'>Janaury</Option>
-                        <Option value='February'>February</Option>
-                        <Option value='March'>March</Option>
-                        <Option value='April'>April</Option>
-                        <Option value='May'>May</Option>
-                        <Option value='June'>June</Option>
-                        <Option value='July'>July</Option>
-                        <Option value='August'>August</Option>
-                        <Option value='September'>September</Option>
-                        <Option value='October'>October</Option>
-                        <Option value='November'>November</Option>
-                        <Option value='December'>December</Option>
-                    </Select>
+                    <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
+                    {/*<Select style={{ width: 150 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>*/}
+                    {/*    <Option  value='Janaury'>Janaury</Option>*/}
+                    {/*    <Option value='February'>February</Option>*/}
+                    {/*    <Option value='March'>March</Option>*/}
+                    {/*    <Option value='April'>April</Option>*/}
+                    {/*    <Option value='May'>May</Option>*/}
+                    {/*    <Option value='June'>June</Option>*/}
+                    {/*    <Option value='July'>July</Option>*/}
+                    {/*    <Option value='August'>August</Option>*/}
+                    {/*    <Option value='September'>September</Option>*/}
+                    {/*    <Option value='October'>October</Option>*/}
+                    {/*    <Option value='November'>November</Option>*/}
+                    {/*    <Option value='December'>December</Option>*/}
+                    {/*</Select>*/}
                 </Col>
                 <Col span={3}>
-                    <Input placeholder={"Recipient Code"} style={{width: "150px"}}/>
+                    <Input placeholder={"Recipient Code"} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
-                    <Input placeholder={"Recipient Name"} style={{width: "150px"}}/>
+                    <Input placeholder={"Recipient Name"} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
-                    <Input placeholder={"Invoice No"} style={{width: "150px"}}/>
+                    <Input placeholder={"Invoice No"} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     <Button type={'primary'} onClick={() => searchData()}>Submit</Button>

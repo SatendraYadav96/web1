@@ -11,8 +11,11 @@ import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getItemConsumptionReportStartAction } from '../../redux/actions/reports/itemConsumptionReportActions'
 import {selectConsumptionListData,selectLoadingConsumptionReportData} from "../../redux/selectors/itemConsumptionReportSelector"
 import moment from 'moment'
+import dayjs from "dayjs";
 
 const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,consumptionReportLoading,handleConsumptionReportList}) => {
+
+    let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [fromDate, setFromDate] = useState()
@@ -139,10 +142,12 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
                     <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
-                    Transaction From Date <br/><DatePicker dateFormat="yyyy-MM-dd" style={{width: "100%"}} value={fromDate} onChange={(e) => setFromDate(e)}></DatePicker>
+                    Transaction From Date <br/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To Date <br/><DatePicker dateFormat="yyyy-MM-dd" style={{width: "100%"}} value={toDate}  onChange={(e) => setToDate(e)}></DatePicker>
+                    To Date <br/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
                 </Col>
                 <Col span={3}>
                     <br/>

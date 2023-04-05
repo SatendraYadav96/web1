@@ -14,10 +14,11 @@ import { getDispatchRegisterReportStartAction } from '../../redux/actions/report
 import {selectDispatchRegisterListData,selectLoadingDispatchRegisterReportData} from "../../redux/selectors/dispatchRegisterReportSelector"
 import moment from 'moment'
 import SelectFilterComponent from "../widgets/SelectFilterComponent";
+import dayjs from "dayjs";
 
 const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,dispatchRegisterReportLoading,handleDispatchRegisterReportList}) => {
 
-
+    let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [filterPlan, setFilterPlan] = useState()
@@ -230,10 +231,10 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                     <SelectTeamComponent value={team} style={{width: "100%"}} onChange={(e) => setTeam(e)} />
                 </Col>
                 <Col span={3}>
-                    From Date <br/><DatePicker value={startDate} style={{width: "100%"}} onChange={(e) => setStartDate(e)} />
+                    From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To Date<br/><DatePicker value={endDate} style={{width: "100%"}} onChange={(e) => setEndDate(e)} />
+                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
                 </Col>
                 <Col span={3}>
                     Plan Type<br/>

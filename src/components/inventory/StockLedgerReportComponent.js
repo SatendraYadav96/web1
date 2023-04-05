@@ -4,12 +4,15 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Table} from "antd";
+import moment from "moment/moment";
 
 const StockLedgerReportComponent = ({authInfo}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [fromDate, setFromDate] = useState()
+    const [toDate, setToDate] = useState()
 
     const searchData = () => {
         setFlag(true)
@@ -54,10 +57,12 @@ const StockLedgerReportComponent = ({authInfo}) => {
             <TitleWidget title="Stock Ledger Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Date From: <br/><DatePicker/>
+                    Date From: <br/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To:<br/><DatePicker/>
+                    To:<br/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={3}>
                     Item Code <br/>

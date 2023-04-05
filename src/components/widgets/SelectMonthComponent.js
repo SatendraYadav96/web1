@@ -4,7 +4,7 @@ import {Option} from "antd/es/mentions";
 
 
 const SelectMonthComponent = ({value, onChange}) => {
-    return <Select placeholder={"Select Month"} value={value} onSelect={onChange}>
+    return <Select placeholder={"Select Month"} value={value} onSelect={onChange} style={{width: "100%"}}>
         <Option value={1}>January</Option>
         <Option value={2}>February</Option>
         <Option value={3}>March</Option>
