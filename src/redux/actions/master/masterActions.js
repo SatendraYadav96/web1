@@ -1,7 +1,6 @@
 import {GET_VENDOR_START,GET_VENDOR_SUCCESS,GET_VENDOR_FAIL,
 ADD_VENDOR_START,ADD_VENDOR_SUCCESS,ADD_VENDOR_FAIL,
-EDIT_VENDOR_START,EDIT_VENDOR_SUCCESS,EDIT_VENDOR_FAIL,
-GET_VENDOR_BY_ID_START,GET_VENDOR_BY_ID_SUCCESS,GET_VENDOR_BY_ID_FAIL} from "./masterActionConstants";
+EDIT_VENDOR_START,EDIT_VENDOR_SUCCESS,EDIT_VENDOR_FAIL } from "./masterActionConstants";
 
 
 
@@ -78,25 +77,3 @@ export const editVendorFailAction = (payload) => (dispatch) => {
   })
 }
 
-//VENDOR BY ID
-
-export const getVendorByIdStartAction = (payload) => (dispatch) =>{
-    dispatch({
-        type: GET_VENDOR_BY_ID_START,
-        payload: payload,
-    })
-}
-
-export const getVendorByIdSuccessAction = (payload) => (dispatch) => {
-    dispatch({
-        type: GET_VENDOR_BY_ID_SUCCESS,
-        payload: payload,
-    })
-}
-
-export const getVendorByIdFailAction = (payload) => (dispatch) =>{
-    dispatch({
-        type: GET_VENDOR_BY_ID_FAIL,
-        payload: payload,
-    })
-}

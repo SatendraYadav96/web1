@@ -1,10 +1,10 @@
-import {GET_VENDOR_START,ADD_VENDOR_START,EDIT_VENDOR_START,GET_VENDOR_BY_ID_START} from '../actions/master/masterActionConstants'
+import {GET_VENDOR_START,ADD_VENDOR_START,EDIT_VENDOR_START,} from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
 import {
 getVendorSuccessAction,getVendorFailAction,addVendorSuccessAction,addVendorFailAction,
-editVendorSuccessAction,editVendorFailAction,getVendorByIdSuccessAction,getVendorByIdFailAction} from '../actions/master/masterActions'
-import { vendorRequest,addVendorRequest , editVendorRequest,getVendorByIdRequest} from '../../api/masterRequests'
+editVendorSuccessAction,editVendorFailAction,} from '../actions/master/masterActions'
+import { vendorRequest,addVendorRequest , editVendorRequest,} from '../../api/masterRequests'
 
 
 
@@ -54,17 +54,5 @@ export const editVendorStartEpic = (action$) =>
     )
 
 
-//VENDOR BY ID
 
-export const getVendorByIdStartEpic = (action$) =>
-    action$.pipe(
-        ofType(GET_VENDOR_BY_ID_START),
-        debounceTime(4000),
-        switchMap((action) =>
-            getVendorByIdRequest(action.payload).pipe(
-                map((listResponse) => getVendorByIdSuccessAction({vendorById: listResponse.response})),
-                catchError((error) => of(getVendorByIdFailAction({error: error}))),
-            )
-        )
-    )
 

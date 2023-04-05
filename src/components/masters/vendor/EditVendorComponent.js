@@ -71,6 +71,7 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
 
 
 const handleUpdateVendor = () => {
+
        console.log(name);
        console.log(code);
        console.log(address1);
@@ -79,14 +80,17 @@ const handleUpdateVendor = () => {
        console.log(state);
        console.log(zip);
        console.log(status);
-       console.log(insertVendor);
+       console.log(editVendor);
 
 
             const data  = {"name":name, "code":code , "addressLine1":address1,"addressLine2":address2,
             "city":city,"state":state,"zip":zip,"active":status}
+
+
             handleEditVendor({
             certificate: authInfo.token,
-            vnd: data
+            vnd: data,
+                id: editVendor.id
 
             });
 
@@ -134,6 +138,8 @@ const handleUpdateVendor = () => {
     )
 
 }
+
+
 
 EditVendorComponent.propTypes = {
                     authInfo: PropTypes.any,

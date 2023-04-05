@@ -13,10 +13,7 @@ export const addVendorRequest=  payload => {
 }
 
 export const editVendorRequest=  payload => {
-    return createRequest(EDIT_VENDOR_API, payload.certificate, payload.vnd)
+    const api = {...EDIT_VENDOR_API, url: `${EDIT_VENDOR_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, payload.vnd)
 }
 
-export const getVendorByIdRequest = payload => {
-    const api = {...GET_VENDOR_BY_ID_API, url: `${GET_VENDOR_BY_ID_API.url}/${payload.id}`}
-    return createRequest(api, payload.certificate, null)
-}

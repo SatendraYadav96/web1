@@ -18,7 +18,7 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
-    const [id, setId] = useState()
+
 
     const searchData = () => {
         setFlag(true)
@@ -71,7 +71,7 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
                 dataIndex: '',
                 width: '100px',
                 render: () => {
-                    return <Button icon={<EditOutlined />}    onClick={() => getVendorByIdList()}  ></Button>
+                    return <Button icon={<EditOutlined />}    onClick={() => editVendor()}  ></Button>
                 }
             }
         ]);
@@ -118,22 +118,10 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
                 }
 
 
-    const getVendorByIdList = (event) => {
-    console.log(event.target.id);
-    console.log(vendorById)
-
-    handleVendorByIdList ({
-    id:id,
-    certificate: authInfo.token
-    });
-    }
-
-
-
 
     return(
         <>
-          <TitleWidget title={"Master - Vendors"}/>
+          <TitleWidget title={"Vendor"}/>
             <Row gutter={[8,8]}>
                 <Col span={3}>
                      <SelectStatusComponent style={{width:'180px'}} value={status} onChange={(e) => setStatus(e)} />
@@ -172,14 +160,11 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
 }
 
 VendorComponent.propTypes = {
-                authInfo: PropTypes.any,
-                profileInfo: PropTypes.any,
-                vendorList:PropTypes.array,
-                vendorLoading:PropTypes.any,
-                handleVendorList:PropTypes.func,
-                vendorById:PropTypes.array,
-                vendorByIdLoading:PropTypes.any,
-                handleVendorByIdList:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    vendorList: PropTypes.array,
+    vendorLoading: PropTypes.any,
+    handleVendorList: PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -187,16 +172,15 @@ const mapState = (state) => {
             const profileInfo = selectProfileInfo(state)
             const vendorList = selectVendorListData(state)
             const vendorLoading = selectLoadingVendorData(state)
-            const vendorById = selectVendorByIdListData(state)
-            const vendorByIdLoading = selectLoadingVendorByIdData(state)
-            return {authInfo,vendorList,vendorLoading,profileInfo,vendorById,vendorByIdLoading}
+
+            return {authInfo,vendorList,vendorLoading,profileInfo}
 
 }
 
 const actions = {
 
 handleVendorList: getVendorStartAction,
-handleVendorByIdList: getVendorByIdStartAction
+
 
 }
 
