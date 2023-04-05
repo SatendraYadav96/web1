@@ -5,8 +5,19 @@ import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row} from "antd";
 import {Select} from "antd/es";
+import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 
 const CreateCostCenterComponent = ({authInfo}) => {
+
+    const [isChecked, setIsChecked] = useState(true);
+    const [checkedValue, setCheckedValue] = useState(1)
+
+    const handleChange = () => {
+        setIsChecked(!isChecked)
+        setCheckedValue(isChecked ? 0 : 1)
+        console.log(isChecked)
+        console.log(checkedValue)
+    }
 
     return(
         <>
@@ -22,7 +33,7 @@ const CreateCostCenterComponent = ({authInfo}) => {
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    IsActive: <Checkbox />
+                    IsActive: <SelectIsActiveComponent checked={!isChecked} onChange={handleChange}/>
                 </Col>
                 <Col span={8} offset={2}>
                     Brand:<br/><Select style={{width:'100%'}}></Select>
