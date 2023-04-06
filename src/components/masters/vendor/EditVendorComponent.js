@@ -8,8 +8,11 @@ import {Button, Checkbox, Col, Input, Row} from "antd";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import { editVendorStartAction } from '../../../redux/actions/master/masterActions';
 import {selectEditVendorData,selectEditVendorLoadingData} from "../../../redux/selectors/masterSelector";
+import {useNavigate} from "react-router-dom";
 
 const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,handleEditVendor}) => {
+
+    const navigate = useNavigate()
 
     const [name, setName] = useState()
     const [code, setCode] = useState()
@@ -25,79 +28,68 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
 
 
 
-        const searchData = () => {
-        }
+    const searchData = () => {
+    }
 
 
-           const handleNameChange = (e) => {
-                 setName(e.target.value)
+    const handleNameChange = (e) => {
+         setName(e.target.value)
+    }
 
-              }
+    const handleCodeChange = (e) => {
+       setCode(e.target.value)
+    }
 
-                 const handleCodeChange = (e) => {
-                       setCode(e.target.value)
+    const handleAddress1Change = (e) => {
+         setAddress1(e.target.value)
 
-                    }
+    }
 
-                       const handleAddress1Change = (e) => {
-                             setAddress1(e.target.value)
+    const handleAddress2Change = (e) => {
+       setAddress2(e.target.value)
+    }
 
-                          }
+    const handleCityChange = (e) => {
+         setCity(e.target.value)
+    }
 
-                             const handleAddress2Change = (e) => {
-                                   setAddress2(e.target.value)
+    const handleStateChange = (e) => {
+       setState(e.target.value)
+    }
 
-                                }
+    const handleZipChange = (e) => {
+     setZip(e.target.value)
+    }
 
-                                   const handleCityChange = (e) => {
-                                         setCity(e.target.value)
+    const handleStatusChange = (e) => {
+       setStatus(e.target.value)
+    }
 
-                                      }
+    const handleBack = () => {
+        return navigate("/home/masters/vendor")
+    }
 
-                                         const handleStateChange = (e) => {
-                                               setState(e.target.value)
+    const handleUpdateVendor = () => {
 
-                                            }
+        console.log(name);
+        console.log(code);
+        console.log(address1);
+        console.log(address2);
+        console.log(city);
+        console.log(state);
+        console.log(zip);
+        console.log(status);
+        console.log(editVendor);
 
-                                               const handleZipChange = (e) => {
-                                                     setZip(e.target.value)
-
-                                                  }
-
-                                                     const handleStatusChange = (e) => {
-                                                           setStatus(e.target.value)
-
-                                                        }
-
-
-const handleUpdateVendor = () => {
-
-       console.log(name);
-       console.log(code);
-       console.log(address1);
-       console.log(address2);
-       console.log(city);
-       console.log(state);
-       console.log(zip);
-       console.log(status);
-       console.log(editVendor);
-
-
-            const data  = {"name":name, "code":code , "addressLine1":address1,"addressLine2":address2,
-            "city":city,"state":state,"zip":zip,"active":status}
-
-
-            handleEditVendor({
+        const data  = {"name":name, "code":code , "addressLine1":address1,"addressLine2":address2,
+        "city":city,"state":state,"zip":zip,"active":status}
+        handleEditVendor({
             certificate: authInfo.token,
             vnd: data,
                 id: editVendor.id
-
-            });
-
-
-            searchData()
-
-      }
+        });
+        searchData()
+    }
 
     return(
         <>
@@ -132,7 +124,15 @@ const handleUpdateVendor = () => {
                 </Col>
                 <Col span={2}></Col>
                 <Col span={22}></Col>
-                <Col span={2}><Button type={"primary"} onClick={()=>handleUpdateVendor()}   >Submit</Button></Col>
+            </Row>
+            <Row gutter={[16,16]}>
+                <Col span={20}></Col>
+                <Col span={2}>
+                    <Button type={"primary"} onClick={()=>handleInsertVendor()}>Submit</Button>
+                </Col>
+                <Col span={2}>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                </Col>
             </Row>
         </>
     )

@@ -4,15 +4,19 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Input, Modal, Select, Table} from "antd";
+import {Button, Col, Input, Modal, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import { getSpecialEmployeeInvoiceDetailStartAction } from '../../redux/actions/dispatchInvoice/specialDispatchAction'
 import {selectSpecialInvoiceListData,selectSpecialLoadingInvoiceDetailsData} from "../../redux/selectors/specialDispatchSelector"
+import SelectTeamComponent from "../widgets/SelectTeamComponent";
+import {useNavigate} from "react-router-dom";
 
 const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo}) => {
+
+    const navigate = useNavigate()
 
     const [year, setYear] = useState()
     const [month, setMonth] = useState()
@@ -414,60 +418,65 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             }
 
 
-
+    const handleBack = () => {
+        return navigate("/home/dispatchInvoicing/monthlyDispatch")
+    }
 
     return(
-        <div>
-            <TitleWidget title={'Special Dispatch'} />
-            <div className="grid">
-               <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
+        <Row gutter={[16,16]}>
+            <Col span={3}>
+                <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
+            </Col>
+            <Col span={3}>
+                <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
+            </Col>
+            <Col span={3}>
+                <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
+            </Col>
+            <Col span={2}>
+                <Button type={'primary'} onClick={() => {getSpecialEmployeeInvoiceDetailsList()}}>Submit</Button>
+            </Col>
+            <Col span={2}>
+                <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+            </Col>
+            <Col span={8}>
+                {status === "00000000-0000-0000-0000-000000000026" &&
+                    <>
 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
+                        <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>
 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type={'primary'} onClick={() => getSpecialEmployeeInvoiceDetailsList()}>Submit</Button>
+                        &nbsp;
 
-              {status === "00000000-0000-0000-0000-000000000026" &&
-                <>
+                        <Button type={'primary'}>Export</Button>
+                    </>
+                }
+                {status === "00000000-0000-0000-0000-000000000027" &&
+                    <>
 
-                <Button type={'primary'} style={{marginLeft: '600px'}}>Generate Invoices</Button>
+                        <Button type={'primary'} style={{marginLeft: '10px'}}>Batch Invoice</Button>
 
-                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;
 
-                <Button type={'primary'}>Export</Button>
-                </>
-              }
+                        <Button type={'primary'}>Group Invoice</Button>
+                    </>
+                }
+            </Col>
+            <Col span={4}>
+                <div align="right">
+                    <Input.Search style={{ width: 304 }} />
+                </div>
+            </Col>
+        </Row>
+        // <Row gutter={[8,8]}>
+        //     <Col span={24}>
+        //         <div align="right">
+        //             <Input.Search style={{ width: 304 }} />
+        //         </div>
+        //     </Col>
+        // </Row>
+        )}
 
-
-              {status === "00000000-0000-0000-0000-000000000027" &&
-                <>
-
-                <Button type={'primary'} style={{marginLeft: '600px'}}>Batch Invoice</Button>
-
-                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                 <Button type={'primary'}>Group Invoice</Button>
-                </>
-              }
-
-
-            </div>
-            <br/><br/>
-            <div align="right">
-                <Input.Search style={{ width: 304 }} />
-            </div>
-            <br/><br/>
-            {flag &&
-                <Table columns={column} dataSource={specialInvoiceDetails}/>
-            }
-
-        </div>
-    )
-}
 
 SpecialDispatchDetailComponent.propTypes = {
      authInfo: PropTypes.any,

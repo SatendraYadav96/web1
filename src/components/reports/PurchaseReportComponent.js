@@ -161,11 +161,11 @@ const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
             <TitleWidget title="Purchase Report" />
             <Row gutter={[8,8]}>
                 <Col span={2}>
-                    BU<br/>
+                    Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division<br/>
+                    Subteam<br/>
                     <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
                 </Col>
                  <Col span={3}>

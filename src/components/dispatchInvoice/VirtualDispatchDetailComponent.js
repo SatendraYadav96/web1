@@ -3,11 +3,16 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Input, Select, Table} from "antd";
+import {Button, Col, Input, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
+import SelectYearComponent from "../widgets/SelectYearComponent";
+import SelectMonthComponent from "../widgets/SelectMonthComponent";
+import {useNavigate} from "react-router-dom";
 
 
 const VirtualDispatchDetailComponent = ({authInfo}) => {
+
+    const navigate = useNavigate()
 
     const [year, setYear] = useState()
     const [month, setMonth] = useState()
@@ -128,43 +133,71 @@ const VirtualDispatchDetailComponent = ({authInfo}) => {
         ])
     }
 
+    const handleBack = () => {
+        return navigate("/home/dispatchInvoicing/monthlyDispatch")
+    }
+
     return(
         <div>
             <TitleWidget title={'Virtual Dispatch'} />
-            <div className="grid">
-                <Select style={{ width: 120 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>
-                    <Option value="2020">2020</Option>
-                    <Option value="2021">2021</Option>
-                    <Option value="2022">2022</Option>
-                </Select>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Select style={{ width: 120 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>
-                    <Option  value='Janaury'>Janaury</Option>
-                    <Option value='February'>February</Option>
-                    <Option value='March'>March</Option>
-                    <Option value='April'>April</Option>
-                    <Option value='May'>May</Option>
-                    <Option value='June'>June</Option>
-                    <Option value='July'>July</Option>
-                    <Option value='August'>August</Option>
-                    <Option value='September'>September</Option>
-                    <Option value='October'>October</Option>
-                    <Option value='November'>November</Option>
-                    <Option value='December'>December</Option>
-                </Select>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Select style={{ width: 120 }} placeholder=""></Select>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type={'primary'} onClick={() => searchData()}>Submit</Button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type={'primary'} style={{marginLeft: '600px'}}>Generate Invoices</Button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type={'primary'}>Export</Button>
-            </div>
-            <br/><br/>
-            <div align="right">
-                <Input.Search style={{ width: 304 }} />
-            </div>
+            {/*<div className="grid">*/}
+            {/*    <Select style={{ width: 120 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>*/}
+            {/*        <Option value="2020">2020</Option>*/}
+            {/*        <Option value="2021">2021</Option>*/}
+            {/*        <Option value="2022">2022</Option>*/}
+            {/*    </Select>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    <Select style={{ width: 120 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>*/}
+            {/*        <Option  value='Janaury'>Janaury</Option>*/}
+            {/*        <Option value='February'>February</Option>*/}
+            {/*        <Option value='March'>March</Option>*/}
+            {/*        <Option value='April'>April</Option>*/}
+            {/*        <Option value='May'>May</Option>*/}
+            {/*        <Option value='June'>June</Option>*/}
+            {/*        <Option value='July'>July</Option>*/}
+            {/*        <Option value='August'>August</Option>*/}
+            {/*        <Option value='September'>September</Option>*/}
+            {/*        <Option value='October'>October</Option>*/}
+            {/*        <Option value='November'>November</Option>*/}
+            {/*        <Option value='December'>December</Option>*/}
+            {/*    </Select>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    <Select style={{ width: 120 }} placeholder=""></Select>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    <Button type={'primary'} onClick={() => searchData()}>Submit</Button>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    <Button type={'primary'} style={{marginLeft: '600px'}}>Generate Invoices</Button>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    <Button type={'primary'}>Export</Button>*/}
+            {/*</div>*/}
+            <br/>
+            <Row gutter={[16,16]}>
+                <Col span={3}>
+                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
+                </Col>
+                <Col span={3}>
+                    <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
+                </Col>
+                <Col span={2}>
+                    <Button type={'primary'} onClick={() => searchData()}>Submit</Button>
+                </Col>
+                <Col span={2}>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                </Col>
+                <Col span={3}>
+                    <Button type={'primary'} style={{width: "100%"}}>Generate Invoices</Button>
+                </Col>
+                <Col span={2}>
+                    <Button type={'primary'} style={{width: "100%"}}>Export</Button>
+                </Col>
+            </Row>
+            <Row gutter={[16,16]}>
+                <Col span={24}>
+                    <div align="right">
+                        <Input.Search style={{ width: 304 }} />
+                    </div>
+                </Col> />
+            </Row>
             <br/><br/>
             {flag &&
                 <Table columns={column} dataSource={dataSource}/>

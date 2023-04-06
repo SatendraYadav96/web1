@@ -80,7 +80,6 @@ const VirtualDispatchComponent = ({authInfo}) => {
     return(
         <div>
             <TitleWidget title={'Virtual Dispatch'} />
-
             <Row gutter={[16,16]}>
                 <Col span={3}>
                     <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>

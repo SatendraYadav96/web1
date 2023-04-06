@@ -4,8 +4,15 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row} from "antd";
+import {useNavigate} from "react-router-dom";
 
 const EditBusinessUnitComponent = ({authInfo}) => {
+
+    const navigate = useNavigate()
+
+    const handleBack = () => {
+        return navigate("/home/masters/vendor")
+    }
 
     return(
         <>
@@ -23,7 +30,16 @@ const EditBusinessUnitComponent = ({authInfo}) => {
                 </Col>
                 <Col span={14}></Col>
                 <Col span={22}></Col>
-                <Col span={2}><Button type={"primary"}>Submit</Button></Col>
+            </Row>
+            <br/>
+            <Row gutter={[16,16]}>
+                <Col span={20}></Col>
+                <Col span={2}>
+                    <Button type={"primary"} onClick={()=>handleInsertVendor()}>Submit</Button>
+                </Col>
+                <Col span={2}>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                </Col>
             </Row>
         </>
     )

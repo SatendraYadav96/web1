@@ -3,7 +3,7 @@ import { Checkbox } from 'antd';
 
 
 const SelectIsActiveComponent = ({value, onChange}) => {
-    return <Checkbox onChange={onChange}></Checkbox>
+    return <Checkbox onChange={onChange} checked={true}></Checkbox>
 }
 
 export default SelectIsActiveComponent
