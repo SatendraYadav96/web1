@@ -9,11 +9,14 @@ import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import {editVendorStartAction, getVendorByIdStartAction} from '../../../redux/actions/master/masterActions';
 import {selectEditVendorData, selectEditVendorLoadingData, selectLoadingVendorByIdData, selectVendorByIdData} from "../../../redux/selectors/masterSelector";
 import {useNavigate, useParams} from "react-router-dom";
+import {log} from "@craco/craco/lib/logger";
+import {popResultSelector} from "rxjs/internal/util/args";
 
 const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,handleEditVendor,vendorById,vendorByIdLoading,handleVendorById}) => {
 
     const navigate = useNavigate()
 
+    const [data, setData] = useState()
     const [uId, setUId] = useState()
     const [name, setName] = useState()
     const [code, setCode] = useState()
@@ -26,12 +29,12 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
 
 
     let {id} = useParams();
-    // console.log({id})
-    // const data = {id}
-    // console.log(data);
+    console.log({id})
+    const data2 = {id}
+    // console.log(data2);
 
-    // const searchData = () => {
-    // }
+    const searchData = () => {
+    }
 
 
     const handleNameChange = (e) => {
@@ -73,45 +76,55 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
         return navigate("/home/masters/vendor")
     }
 
-    // const handleInsertVendor = () => {
-    //
-    //     const data  = {"id":uId,"name":name, "code":code , "addressLine1":addressLine1,"addressLine2":addressLine2,
-    //     "city":city,"state":state,"zip":zip,"active":active}
-    //     handleEditVendor({
-    //         certificate: authInfo.token,
-    //         vnd: data,
-    //             id: editVendor.id
-    //     });
-    //     console.log(`vendorById: ${vendorById}`)
-    //     console.log(vendorById)
-    //     console.log(name);
-    //     console.log(code);
-    //     console.log(addressLine1);
-    //     console.log(addressLine2);
-    //     console.log(city);
-    //     console.log(state);
-    //     console.log(zip);
-    //     console.log(active);
-    //     console.log(editVendor);
-    //     // searchData()
-    // }
+    const handleInsertVendor = () => {
 
-
-
-    useEffect(() => {
-
-        const data1  = {"name":name, "code":code , "addressLine1":addressLine1,"addressLine2":addressLine2,
-            "city":city,"state":state,"zip":zip,"active":active}
-
-        handleVendorById({
+        const data  = {"name":name, "code":code , "addressLine1":addressLine1,"addressLine2":addressLine2,
+        "city":city,"state":state,"zip":zip,"active":active}
+        handleEditVendor({
             certificate: authInfo.token,
-            vnd: data1,
-            id: editVendor.id
+            vnd: data,
+                id: data.id
         });
 
-        console.log(`vendorById: ${vendorById}`)
-        console.log(vendorById)
+        searchData()
+    }
+
+    useEffect(() => {
+        console.log(window.location.search);
+        console.log(data2);
+
+        handleVendorById({
+
+
+            certificate: authInfo.token,
+                      id: data2
+
+
+        });
+
+
     },[]);
+
+
+
+
+
+
+    // useEffect(async () => {
+    //
+    //         let results = data2
+    //
+    //         results = await results.json()
+    //     setData(results)
+    //
+    //
+    //         handleVendorById({
+    //             certificate: authInfo.token,
+    //             id: data2
+    //         });
+    //
+    //     },
+    //     [data2]);
 
     return(
         <>
