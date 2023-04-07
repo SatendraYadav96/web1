@@ -8,7 +8,7 @@ import {Button, Checkbox, Col, Input, Row} from "antd";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import { editVendorStartAction } from '../../../redux/actions/master/masterActions';
 import {selectEditVendorData,selectEditVendorLoadingData} from "../../../redux/selectors/masterSelector";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,handleEditVendor}) => {
 
