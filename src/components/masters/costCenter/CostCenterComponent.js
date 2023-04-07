@@ -62,7 +62,7 @@ const CostCenterComponent = ({authInfo}) => {
             <TitleWidget title={"Master - Cost Center"}/>
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    <SelectStatusComponent style={{width:'180px'}} value={status} onChange={(e) => setStatus(e)} />
+                    <SelectStatusComponent value={status} onChange={(e) => setStatus(e)} />
                 </Col>
                 <Col span={2}>
                     <Button type={"primary"} onClick={() => searchData()}>Search</Button>

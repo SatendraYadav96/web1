@@ -11,8 +11,12 @@ import SelectYearComponent from "../widgets/SelectYearComponent";
 
 const VirtualDispatchComponent = ({authInfo}) => {
 
-    const [year, setYear] = useState()
-    const [month, setMonth] = useState()
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const currentMonth = date.getMonth()+1;
+
+    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(currentMonth)
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -76,30 +80,31 @@ const VirtualDispatchComponent = ({authInfo}) => {
     return(
         <div>
             <TitleWidget title={'Virtual Dispatch'} />
-
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    <Select style={{ width: 120 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>
-                        <Option value="2020">2020</Option>
-                        <Option value="2021">2021</Option>
-                        <Option value="2022">2022</Option>
-                    </Select>
+                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
+                    {/*<Select style={{ width: 120 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>*/}
+                    {/*    <Option value="2020">2020</Option>*/}
+                    {/*    <Option value="2021">2021</Option>*/}
+                    {/*    <Option value="2022">2022</Option>*/}
+                    {/*</Select>*/}
                 </Col>
                 <Col span={3}>
-                    <Select style={{ width: 120 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>
-                        <Option  value='Janaury'>Janaury</Option>
-                        <Option value='February'>February</Option>
-                        <Option value='March'>March</Option>
-                        <Option value='April'>April</Option>
-                        <Option value='May'>May</Option>
-                        <Option value='June'>June</Option>
-                        <Option value='July'>July</Option>
-                        <Option value='August'>August</Option>
-                        <Option value='September'>September</Option>
-                        <Option value='October'>October</Option>
-                        <Option value='November'>November</Option>
-                        <Option value='December'>December</Option>
-                    </Select>
+                    <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
+                    {/*<Select style={{ width: 120 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>*/}
+                    {/*    <Option  value='Janaury'>Janaury</Option>*/}
+                    {/*    <Option value='February'>February</Option>*/}
+                    {/*    <Option value='March'>March</Option>*/}
+                    {/*    <Option value='April'>April</Option>*/}
+                    {/*    <Option value='May'>May</Option>*/}
+                    {/*    <Option value='June'>June</Option>*/}
+                    {/*    <Option value='July'>July</Option>*/}
+                    {/*    <Option value='August'>August</Option>*/}
+                    {/*    <Option value='September'>September</Option>*/}
+                    {/*    <Option value='October'>October</Option>*/}
+                    {/*    <Option value='November'>November</Option>*/}
+                    {/*    <Option value='December'>December</Option>*/}
+                    {/*</Select>*/}
                 </Col>
                 <Col span={4}>
                     <Button type={'primary'} onClick={() => searchData()}>Submit</Button>

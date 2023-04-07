@@ -13,9 +13,11 @@ import SelectFilterPlanComponent from "../widgets/SelectFilterPlanComponent";
 import { getDispatchesReportStartAction } from '../../redux/actions/reports/dispatchesReportActions'
 import {selectDispatchesListData,selectLoadingDispatchesReportData} from "../../redux/selectors/dispatchesReportSelector"
 import moment from 'moment'
+import dayjs from "dayjs";
 
 const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatchesReportLoading,handleDispatchesReportList}) => {
 
+    let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [filter, setFilter] = useState()
@@ -150,22 +152,22 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
             <TitleWidget title="Dispatches Report" />
             <Row gutter={[8,8]}>
                 <Col span={2}>
-                    BU<br/>
+                    Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division<br/>
+                    Subteam<br/>
                     <SelectDivisionComponent value={division} style={{width: '100%'}} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
-                    From Date <br/><DatePicker value={startDate} style={{width: '100%'}} onChange={(e) => setStartDate(e)} />
+                    From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To Date<br/><DatePicker value={endDate} style={{width: '100%'}} onChange={(e) => setEndDate(e)} />
+                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
                 </Col>
                 <Col span={3}>
                     Type<br/>
-                    <SelectFilterComponent value={filter} style={{width: 180}} onChange={(e) => setFilter(e)} />
+                    <SelectFilterComponent value={filter} onChange={(e) => setFilter(e)} />
                 </Col>
                 <Col span={3}>
                     Plan Type<br/>

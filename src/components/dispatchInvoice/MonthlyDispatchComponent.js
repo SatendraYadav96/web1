@@ -14,8 +14,12 @@ import {selectMonthListData,selectLoadingMonthDispatchData} from "../../redux/se
 
 const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,handleMonthlyDispatchList,profileInfo}) => {
 
-    const [year, setYear] = useState()
-    const [month, setMonth] = useState()
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const currentMonth = date.getMonth()+1;
+
+    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(currentMonth)
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -88,12 +92,12 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
             <TitleWidget title={'Monthly Dispatch'} />
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
+                    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
                 </Col>
                 <Col span={3}>
-                    <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
+                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
-                <Col span={4}>
+                <Col span={2}>
                     <Button type={'primary'} onClick={() => getMonthlyDispatchList()}>Submit</Button>
                 </Col>
                 <Col span={14}>

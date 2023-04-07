@@ -14,10 +14,11 @@ import { getRecipientReportStartAction } from '../../redux/actions/reports/recip
 import {selectRecipientListData,selectLoadingRecipientReportData} from "../../redux/selectors/recipientReportSelector"
 
 const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientReportLoading,handleRecipientReportList}) => {
+
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [team, setTeam] = useState()
-    const [recipientStatus, setRecipientStatus] = useState()
+    const [recipientStatus, setRecipientStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -218,16 +219,16 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             <TitleWidget title="Recipient Report" />
             <Row gutter={[8,8]}>
                 <Col span={2}>
-                    BU<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}  />
+                    Team<br/>
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}/>
                 </Col>
                 <Col span={3}>
-                    Division<br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    Subteam<br/>
+                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)}/>
                 </Col>
                 <Col span={3}>
                     Team<br/>
-                    <SelectTeamComponent value={team} onChange={(e) => setTeam(e)} />
+                    <SelectTeamComponent value={team} onChange={(e) => setTeam(e)}/>
                 </Col>
                 <Col span={3}>
                     Recipient Status<br/>

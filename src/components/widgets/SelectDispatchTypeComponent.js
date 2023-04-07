@@ -14,7 +14,7 @@ const SelectDispatchTypeComponent = ({desgId, value, onChange}) => {
         }
     }, [desgId])
 
-    return<Select placeholder={"Select Dispatch Type"} value={value} onSelect={onChange}>
+    return<Select placeholder={"Select Dispatch Type"} value={value} onSelect={onChange} style={{width: "100%"}}>
         <Option value="0">Monthly</Option>
         <Option value="1">Special</Option>
         {designation

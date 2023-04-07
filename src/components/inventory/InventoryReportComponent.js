@@ -5,12 +5,16 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Table} from "antd";
 import {Select} from "antd/es";
+import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
+import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 
 const InventoryReportComponent = ({authInfo}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [businessUnit, setBusinessUnit] = useState()
+    const [division, setDivision] = useState()
 
     const searchData = () => {
         setFlag(true)
@@ -146,10 +150,12 @@ const InventoryReportComponent = ({authInfo}) => {
             <TitleWidget title="Inventory Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Business Unit <br/><Select style={{width:'150px'}}></Select>
+                    Business Unit <br/>
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division <br/><Select style={{width:'150px'}}></Select>
+                    Division <br/>
+                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
                     <br/>

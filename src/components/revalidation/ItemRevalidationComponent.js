@@ -4,8 +4,14 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Select, Table} from "antd";
+import dayjs from "dayjs";
+import moment from "moment";
 
 const ItemRevalidationComponent = ({authInfo}) => {
+
+    let now = dayjs()
+    const [fromDate, setFromDate] = useState()
+    const [toDate, setToDate] = useState()
 
     const column = [
         {
@@ -63,10 +69,12 @@ const ItemRevalidationComponent = ({authInfo}) => {
             <TitleWidget title="Item Revalidation" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Expiry Date From: <br/><DatePicker></DatePicker>
+                    Expiry Date From: <br/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To: <br/><DatePicker/>
+                    To: <br/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
                 </Col>
                 <Col span={3}>
                     Item <br/><Input style={{width:'150px'}}/>

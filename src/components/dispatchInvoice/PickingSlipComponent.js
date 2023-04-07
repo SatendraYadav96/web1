@@ -175,9 +175,9 @@ const getPickingList = () => {
                     <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={4}>
-                    <SelectDispatchTypeComponent desgId={profileInfo.userDesignation.id} style={{width: "100%"}} value={dispatchType} onChange={(e) => setDispatchType(e)}/>
+                    <SelectDispatchTypeComponent desgId={profileInfo.userDesignation.id}  value={dispatchType} onChange={(e) => setDispatchType(e)}/>
                 </Col>
-                <Col span={4}>
+                <Col span={2}>
                     <Button type={'primary'}
 
                      onClick = {() => getPickingList()} >Submit</Button>

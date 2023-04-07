@@ -11,8 +11,11 @@ import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getDestructionReportStartAction } from '../../redux/actions/reports/destructionReportActions'
 import {selectDestructionListData,selectLoadingDestructionReportData} from "../../redux/selectors/destructionReportSelector"
 import moment from 'moment'
+import dayjs from "dayjs";
 
 const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,destructionReportLoading,handleDestructionReportList}) => {
+
+    let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [fromDate, setFromDate] = useState()
@@ -141,19 +144,20 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
             <TitleWidget title="Inventory Reversal Report" />
             <Row gutter={[8,8]}>
                 <Col span={2}>
-                    BU<br/>
+                    Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division<br/>
+                    Subteam<br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
-                    Reversal From Date <br/><DatePicker dateFormat="yyyy-MM-dd"  value={fromDate} onChange={(e) => setFromDate(e)} />
+                    Reversal From Date <br/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
                     To Date <br/>
-                    <DatePicker dateFormat="yyyy-MM-dd"    value={toDate}  onChange={(e) => setToDate(e)}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
                 </Col>
                 <Col span={3}>
                     <br/>

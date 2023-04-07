@@ -198,11 +198,11 @@ const VirtualReconciliationComponent = ({authInfo}) => {
             <TitleWidget title="Virtual Reconciliation" />
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    BU <br/>
+                    Team <br/>
                     <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division<br/>
+                    Subteam<br/>
                     <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>

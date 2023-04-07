@@ -21,7 +21,7 @@ const SearchInventoryComponent = ({authInfo}) => {
             setBlockItemVisible(true)
         }
     }
-  
+
     const reverseInventory = () => {
         setReverse(true)
     }
@@ -205,14 +205,26 @@ const SearchInventoryComponent = ({authInfo}) => {
     return(
         <div>
             <TitleWidget title={"Search Inventory"}/>
-            <div>
-                Item Name <Input style={{width:"200px"}}/>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Exhuasting Quantity <Checkbox />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type={"primary"} onClick={() => searchData()}>Search</Button>
-            </div>
-            <br/><br/>
+            <Row gutter={[16, 16]}>
+                <Col span={3}>
+                    Item Name <br/><Input style={{width:"100%"}}/>
+                </Col>
+                <Col span={3}>
+                    Exhuasting Quantity <Checkbox />
+                </Col>
+                <Col span={2}>
+                    <br/>
+                    <Button type={"primary"} onClick={() => searchData()}>Search</Button>
+                </Col>
+            </Row>
+            {/*<div>*/}
+            {/*    Item Name <Input style={{width:"200px"}}/>*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    Exhuasting Quantity <Checkbox />*/}
+            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+            {/*    <Button type={"primary"} onClick={() => searchData()}>Search</Button>*/}
+            {/*</div>*/}
+            <br/>
             {flag &&
                 <Table dataSource={dataSource} columns={columns}/>
             }

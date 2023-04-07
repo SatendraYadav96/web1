@@ -10,9 +10,11 @@ import { getDeviationReportStartAction } from '../../redux/actions/reports/devia
 import {selectDeviationListData,selectLoadingDeviationReportData} from "../../redux/selectors/deviationReportSelector"
 import moment from 'moment'
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
+import dayjs from "dayjs";
 
 const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationReportLoading,handleDeviationReportList}) => {
 
+    let now = dayjs()
     const [quarter, setQuarter] = useState()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
@@ -117,11 +119,11 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
                 </Col>
                 <Col span={3}>
                     From Date<br/>
-                    <DatePicker dateFormat="yyyy-MM-dd" value={fromDate} style={{width: "100%"}} onChange={(e) => setFromDate(e)} />
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
                     To Date<br/>
-                     <DatePicker dateFormat="yyyy-MM-dd" value={toDate} style={{width: "100%"}} onChange={(e) => setToDate(e)} />
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
                 </Col>
                 <Col span={3}>
                     <br/>

@@ -6,9 +6,15 @@ import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Table} from "antd";
 import {Select} from "antd/es";
 import moment from "moment";
+import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
+import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 
 const ItemWiseReportComponent = ({authInfo}) => {
 
+    const [businessUnit, setBusinessUnit] = useState()
+    const [division, setDivision] = useState()
+    const [fromDate, setFromDate] = useState()
+    const [toDate, setToDate] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -80,18 +86,20 @@ const ItemWiseReportComponent = ({authInfo}) => {
             <TitleWidget title="Item Wise Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Business Unit <br/><Select style={{width:'150px'}}></Select>
+                    Business Unit <br/>
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}  />
                 </Col>
 
                 <Col span={2}>
-                    Division <br/><Select style={{width:'100px'}}></Select>
+                    Division <br/>
+                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
 
                 <Col span={3}>
-                    Date From: <br/><DatePicker format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    Date From: <br/><DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"}  defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    Date To: <br/><DatePicker format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    Date To: <br/><DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={2}>
                     <br/>

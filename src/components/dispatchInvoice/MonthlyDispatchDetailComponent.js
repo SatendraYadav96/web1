@@ -404,35 +404,28 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
 
 
 
-      const getEmployeeInvoiceDetailsList = () => {
-            console.log(year);
-            console.log(month);
-            //console.log(invoiceList);
-            console.log(dispatchType);
-            console.log(team);
-            console.log(status);
+    const getEmployeeInvoiceDetailsList = () => {
+        console.log(year);
+        console.log(month);
+        //console.log(invoiceList);
+        console.log(dispatchType);
+        console.log(team);
+        console.log(status);
 
-
-
-            handleInvoiceDetailsList ({
+        handleInvoiceDetailsList ({
             year:year,
             month:month,
             isSpecialDisp:dispatchType,
             teamId:team,
             status:status,
             certificate: authInfo.token
-            });
+        });
+        searchData()
+    }
 
-
-
-
-            searchData()
-
-        }
-
-
-
-
+    const handleBack = () => {
+        return navigate("/home/dispatchInvoicing/monthlyDispatch")
+    }
 
     const generateInvoice= () =>{
         return navigate('/home/pickingSlip/monthlyDispatch/details/invoiceUpload')
@@ -442,24 +435,27 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
         <div>
             <TitleWidget title={'Monthly Dispatch'} />
             <Row gutter={[16,16]}>
-                <Col span={4}>
-                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
-                </Col>
-                <Col span={4}>
+                <Col span={3}>
                     <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
+                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
+                </Col>
+                <Col span={3}>
 
                     <SelectTeamComponent value={team} onChange={(e) => setTeam(e)}/>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
                    <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
                 </Col>
-                <Col span={4}>
+                <Col span={2}>
                     <Button type={'primary'} onClick={() => getEmployeeInvoiceDetailsList()}>Submit</Button>
                 </Col>
+                <Col span={2}>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                </Col>
             </Row>
-            <br/><br/>
+            <br/>
             {
              status === "00000000-0000-0000-0000-000000000026" &&
             <Row gutter={[8,8]}>
@@ -474,19 +470,18 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
             }
 
              {
-                 status === "00000000-0000-0000-0000-000000000027" &&
-                        <Row gutter={[8,8]}>
-                            <Col span={4}>
-                                <Button type={'primary'}  onClick={() => generateInvoice()}>Group Invoice</Button>
-                            </Col>
-                            <Col span={4}>
-                                <Button type={'primary'}>Print</Button>
-                            </Col>
-                            <Col span={16}></Col>
-                        </Row>
-                        }
-
-            <br/><br/>
+                status === "00000000-0000-0000-0000-000000000027" &&
+                <Row gutter={[8,8]}>
+                    <Col span={4}>
+                        <Button type={'primary'}  onClick={() => generateInvoice()}>Group Invoice</Button>
+                    </Col>
+                    <Col span={4}>
+                        <Button type={'primary'}>Print</Button>
+                    </Col>
+                    <Col span={16}></Col>
+                </Row>
+                }
+            <br/>
             {flag &&
                 <>
                     <div align="right">

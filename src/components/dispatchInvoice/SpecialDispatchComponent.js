@@ -14,8 +14,12 @@ import {selectSpecialData,selectLoadingSpecialDispatchData} from "../../redux/se
 
 const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,handleSpecialDispatchList,profileInfo}) => {
 
-    const [year, setYear] = useState()
-    const [month, setMonth] = useState()
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const currentMonth = date.getMonth()+1;
+
+    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(currentMonth)
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
