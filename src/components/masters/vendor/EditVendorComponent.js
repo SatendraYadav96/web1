@@ -6,29 +6,35 @@ import {selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row} from "antd";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
-import { editVendorStartAction } from '../../../redux/actions/master/masterActions';
-import {selectEditVendorData,selectEditVendorLoadingData} from "../../../redux/selectors/masterSelector";
-import {useNavigate} from "react-router-dom";
+import {editVendorStartAction, getVendorByIdStartAction} from '../../../redux/actions/master/masterActions';
+import {selectEditVendorData, selectEditVendorLoadingData, selectLoadingVendorByIdData, selectVendorByIdData} from "../../../redux/selectors/masterSelector";
+import {useNavigate, useParams} from "react-router-dom";
 
-const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,handleEditVendor}) => {
+const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,handleEditVendor,vendorById,vendorByIdLoading,handleVendorById}) => {
 
     const navigate = useNavigate()
 
     const [name, setName] = useState()
     const [code, setCode] = useState()
-    const [address1, setAddress1] = useState()
-    const [address2, setAddress2] = useState()
+    const [addressLine1, setAddressLine1] = useState()
+    const [addressLine2, setAddressLine2] = useState()
     const [city, setCity] = useState()
     const [state, setState] = useState()
     const [zip, setZip] = useState()
-    const [status, setStatus] = useState()
+    const [active, setActive] = useState()
 
 
     let {id} = useParams();
 
-      console.log({id})
-    const data = {id}
-    console.log(data);
+
+
+
+
+
+
+        console.log({id})
+        const data = {id}
+        console.log(data);
 
 
 
@@ -78,35 +84,38 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
         return navigate("/home/masters/vendor")
     }
 
-    const handleUpdateVendor = () => {
-
-        console.log(name);
-        console.log(code);
-        console.log(address1);
-        console.log(address2);
-        console.log(city);
-        console.log(state);
-        console.log(zip);
-        console.log(status);
-        console.log(editVendor);
-
-        const data  = {"name":name, "code":code , "addressLine1":address1,"addressLine2":address2,
-        "city":city,"state":state,"zip":zip,"active":status}
-        handleEditVendor({
-            certificate: authInfo.token,
-            vnd: data,
-                id: editVendor.id
-        });
-        searchData()
-    }
+    // const handleUpdateVendor = () => {
+    //
+    //     console.log(name);
+    //     console.log(code);
+    //     console.log(address1);
+    //     console.log(address2);
+    //     console.log(city);
+    //     console.log(state);
+    //     console.log(zip);
+    //     console.log(status);
+    //     console.log(editVendor);
+    //
+    //     const data  = {"name":name, "code":code , "addressLine1":address1,"addressLine2":address2,
+    //     "city":city,"state":state,"zip":zip,"active":status}
+    //     handleEditVendor({
+    //         certificate: authInfo.token,
+    //         vnd: data,
+    //             id: editVendor.id
+    //     });
+    //     searchData()
+    // }
 
 
 
     useEffect(() => {
 
-        handleEditVendor({
+        const data1  = {"name":name, "code":code , "addressLine1":addressLine1,"addressLine2":addressLine2,
+            "city":city,"state":state,"zip":zip,"active":active}
+
+        handleVendorById({
             certificate: authInfo.token,
-            vnd: data,
+            vnd: data1,
 
         });
 
@@ -125,10 +134,10 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
                 </Col>
                 <Col span={2}></Col>
                 <Col span={8} offset={2}>
-                    Address 1: <Input.TextArea placeholder={"Vendor Address 1"} value={address1} onChange={handleAddress1Change} />
+                    Address 1: <Input.TextArea placeholder={"Vendor Address 1"} value={addressLine1} onChange={handleAddress1Change} />
                 </Col>
                 <Col span={8} offset={2}>
-                    Address 2: <Input placeholder={"Vendor Address 2"} value={address2} onChange={handleAddress2Change} />
+                    Address 2: <Input placeholder={"Vendor Address 2"} value={addressLine2} onChange={handleAddress2Change} />
                 </Col>
                 <Col span={2}></Col>
                 <Col span={8} offset={2}>
@@ -168,7 +177,10 @@ EditVendorComponent.propTypes = {
                     profileInfo: PropTypes.any,
                     editVendor:PropTypes.array,
                     editVendorLoading:PropTypes.any,
-                    handleEditVendor:PropTypes.func
+                    handleEditVendor:PropTypes.func,
+                    vendorByIdLoading:PropTypes.any,
+                    handleVendorById:PropTypes.func,
+                    vendorById:PropTypes.array,
 }
 
 const mapState = (state) => {
@@ -176,11 +188,15 @@ const mapState = (state) => {
         const editVendor = selectEditVendorData(state)
         const editVendorLoading = selectEditVendorLoadingData(state)
         const profileInfo = selectProfileInfo(state)
-        return {authInfo,editVendor,editVendorLoading,profileInfo}
+    const vendorById = selectVendorByIdData(state)
+    const vendorByIdLoading = selectLoadingVendorByIdData(state)
+
+        return {authInfo,editVendor,editVendorLoading,profileInfo,vendorById,vendorByIdLoading}
 }
 
 const actions = {
 handleEditVendor: editVendorStartAction,
+handleVendorById: getVendorByIdStartAction,
 }
 
 export default connect(mapState, actions) (EditVendorComponent)

@@ -2,6 +2,7 @@ import { createReducer } from './reducerUtils'
 import {GET_VENDOR_SUCCESS,GET_VENDOR_FAIL,
 ADD_VENDOR_SUCCESS,ADD_VENDOR_FAIL,
 EDIT_VENDOR_SUCCESS,EDIT_VENDOR_FAIL,
+    VENDOR_BY_ID_FAIL,VENDOR_BY_ID_SUCCESS
 } from "../actions/master/masterActionConstants";
 
 
@@ -16,6 +17,8 @@ const initialState = {
     insertVendorLoading: false,
     editVendor: [],
     editVendorLoading: false,
+    vendorById: [],
+    vendorByIdLoading:false,
     error: {}
 }
 
@@ -94,6 +97,29 @@ const editVendorFailReducer = (state = initialState, payload) => {
 }
 
 
+const getVendorByIdSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        vendorById:payload.vendorById,
+        vendorByIdLoading: false
+
+    }
+}
+
+
+
+const getVendorByIdFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        vendorById:[],
+        vendorByIdLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
 
 export default createReducer(initialState, {
     [GET_VENDOR_SUCCESS]: getVendorSuccessReducer,
@@ -102,6 +128,8 @@ export default createReducer(initialState, {
     [ADD_VENDOR_FAIL]: addVendorFailReducer,
     [EDIT_VENDOR_SUCCESS]: editVendorSuccessReducer,
     [EDIT_VENDOR_FAIL]: editVendorFailReducer,
+    [VENDOR_BY_ID_SUCCESS]: getVendorByIdSuccessReducer,
+    [VENDOR_BY_ID_FAIL]: getVendorByIdFailReducer,
 
 
 

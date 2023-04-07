@@ -51,6 +51,8 @@ export const GET_VENDOR_API = {url: '/v1/master/getVendor',method:'GET',auth:tru
 export const ADD_VENDOR_API = { url: '/v1/master/addVendor', method: 'POST', auth: true }
 export const EDIT_VENDOR_API = { url: '/v1/master/editVendor', method: 'PUT', auth: true }
 
+export const VENDOR_BY_ID_API = { url: '/v1/master/getVendorById', method: 'GET', auth: true }
+
 
 
 

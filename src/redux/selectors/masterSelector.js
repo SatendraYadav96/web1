@@ -54,6 +54,22 @@ editVendorLoading,
 
 
 
+const vendorById = (state) => state.master.vendorById;
+const vendorByIdLoading = (state) => state.master.vendorByIdLoading
+
+
+export const selectVendorByIdData = createSelector(
+    vendorById,
+    vendorByIdDataSelection => vendorByIdDataSelection
+);
+
+export const selectLoadingVendorByIdData = createSelector(
+    vendorByIdLoading,
+    loadingSelection => loadingSelection
+);
+
+
+
 
 
 
