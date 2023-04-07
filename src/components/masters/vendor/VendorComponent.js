@@ -8,10 +8,14 @@ import {Button, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
-import { getVendorStartAction , getVendorByIdStartAction } from '../../../redux/actions/master/masterActions';
-import {selectVendorListData,selectLoadingVendorData,selectVendorByIdListData,selectLoadingVendorByIdData} from "../../../redux/selectors/masterSelector";
+import { getVendorStartAction  } from '../../../redux/actions/master/masterActions';
+import {selectVendorListData,selectLoadingVendorData} from "../../../redux/selectors/masterSelector";
 
-const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVendorList,vendorById,vendorByIdLoading,handleVendorByIdList}) => {
+const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVendorList}) => {
+
+
+
+
 
     const navigate = useNavigate()
     const [status, setStatus] = useState(1)
@@ -70,12 +74,11 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
                 key: '',
                 dataIndex: '',
                 width: '100px',
-                render: () => {
-                    return <Button icon={<EditOutlined />}    onClick={() => editVendor()}  ></Button>
+                render: (_,row) => {
+                    return <Button icon={<EditOutlined />}    onClick={ () => editVendor(row)}  ></Button>
                 }
             }
         ]);
-
         setDataSource([
             {
                 key: '',
@@ -89,14 +92,17 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
             }
         ])
     }
-
     const createVendor = () => {
         return navigate("/home/masters/vendor/create")
     }
+    const editVendor = (row) => {
+        console.log(row);
+        return navigate(`/home/masters/vendor/edit/${row.id}`)
 
-    const editVendor = () => {
-        return navigate("/home/masters/vendor/edit")
     }
+
+
+
 
 
 
@@ -111,6 +117,7 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
 
                     handleVendorList ({
                     status:status,
+                        vendor:vendorList,
                     certificate: authInfo.token
                     });
                     searchData()

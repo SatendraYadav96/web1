@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
@@ -8,8 +8,11 @@ import {Button, Checkbox, Col, Input, Row} from "antd";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import { editVendorStartAction } from '../../../redux/actions/master/masterActions';
 import {selectEditVendorData,selectEditVendorLoadingData} from "../../../redux/selectors/masterSelector";
+import {useParams} from "react-router-dom";
 
 const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,handleEditVendor}) => {
+
+
 
     const [name, setName] = useState()
     const [code, setCode] = useState()
@@ -21,11 +24,21 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
     const [status, setStatus] = useState()
 
 
+    let {id} = useParams();
+
+      console.log({id})
+    const data = {id}
+    console.log(data);
+
+
+
+
 
 
 
 
         const searchData = () => {
+
         }
 
 
@@ -90,7 +103,6 @@ const handleUpdateVendor = () => {
             handleEditVendor({
             certificate: authInfo.token,
             vnd: data,
-                id: editVendor.id
 
             });
 
@@ -98,6 +110,19 @@ const handleUpdateVendor = () => {
             searchData()
 
       }
+
+
+
+    useEffect(() => {
+
+        handleEditVendor({
+            certificate: authInfo.token,
+            vnd: data,
+
+        });
+
+
+    },[]);
 
     return(
         <>
