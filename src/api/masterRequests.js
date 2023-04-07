@@ -18,7 +18,7 @@ export const editVendorRequest=  payload => {
 }
 
 export const vendorByIdRequest = payload => {
-    const api = {...VENDOR_BY_ID_API, url: `${VENDOR_BY_ID_API.url}/${payload.vndId}`}
+    const api = {...VENDOR_BY_ID_API, url: `${VENDOR_BY_ID_API.url}/${payload.id}`}
     return createRequest(api, payload.certificate, null)
 }
 
