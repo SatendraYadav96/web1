@@ -17,7 +17,7 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
     const navigate = useNavigate()
 
     const [data, setData] = useState()
-    const [uId, setUId] = useState()
+    const [vId, setVid] = useState()
     const [name, setName] = useState()
     const [code, setCode] = useState()
     const [addressLine1, setAddressLine1] = useState()
@@ -29,8 +29,8 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
 
 
     let {id} = useParams();
-    console.log({id})
-    const data2 = {id}
+    console.log(id)
+    const data2 = id
     // console.log(data2);
 
     const searchData = () => {
@@ -83,15 +83,16 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
         handleEditVendor({
             certificate: authInfo.token,
             vnd: data,
-                id: data.id
+                id: data2
         });
 
         searchData()
     }
 
     useEffect(() => {
-        console.log(window.location.search);
+       // console.log(window.location.search);
         console.log(data2);
+        console.log(vendorById);
 
         handleVendorById({
 
