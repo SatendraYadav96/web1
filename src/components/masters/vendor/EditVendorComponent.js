@@ -26,12 +26,8 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
 
 
     let {id} = useParams();
-    // console.log({id})
-    // const data = {id}
-    // console.log(data);
-
-    // const searchData = () => {
-    // }
+    console.log({id})
+    const data2 = {id}
 
 
     const handleNameChange = (e) => {
@@ -99,18 +95,17 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
 
 
     useEffect(() => {
-
+        
         const data1  = {"name":name, "code":code , "addressLine1":addressLine1,"addressLine2":addressLine2,
             "city":city,"state":state,"zip":zip,"active":active}
 
         handleVendorById({
             certificate: authInfo.token,
-            vnd: data1,
-            id: editVendor.id
+            id: data2
         });
 
-        console.log(`vendorById: ${vendorById}`)
-        console.log(vendorById)
+        console.log(editVendor)
+        console.log(data1)
     },[]);
 
     return(
