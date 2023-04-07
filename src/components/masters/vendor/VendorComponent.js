@@ -117,7 +117,7 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
 
                     handleVendorList ({
                     status:status,
-                        vendor:vendorList,
+                    vendor:vendorList,
                     certificate: authInfo.token
                     });
                     searchData()

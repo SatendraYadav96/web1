@@ -6,14 +6,15 @@ import {selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row} from "antd";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
-import { editVendorStartAction } from '../../../redux/actions/master/masterActions';
-import {selectEditVendorData,selectEditVendorLoadingData} from "../../../redux/selectors/masterSelector";
+import {editVendorStartAction, getVendorByIdStartAction} from '../../../redux/actions/master/masterActions';
+import {selectEditVendorData, selectEditVendorLoadingData, selectLoadingVendorByIdData, selectVendorByIdData} from "../../../redux/selectors/masterSelector";
 import {useNavigate, useParams} from "react-router-dom";
 
 const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,handleEditVendor,vendorById,vendorByIdLoading,handleVendorById}) => {
 
     const navigate = useNavigate()
 
+    const [uId, setUId] = useState()
     const [name, setName] = useState()
     const [code, setCode] = useState()
     const [addressLine1, setAddressLine1] = useState()
@@ -25,26 +26,12 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
 
 
     let {id} = useParams();
+    // console.log({id})
+    // const data = {id}
+    // console.log(data);
 
-
-
-
-
-
-
-        console.log({id})
-        const data = {id}
-        console.log(data);
-
-
-
-
-
-
-
-
-    const searchData = () => {
-    }
+    // const searchData = () => {
+    // }
 
 
     const handleNameChange = (e) => {
@@ -56,12 +43,12 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
     }
 
     const handleAddress1Change = (e) => {
-         setAddress1(e.target.value)
+         setAddressLine1(e.target.value)
 
     }
 
     const handleAddress2Change = (e) => {
-       setAddress2(e.target.value)
+       setAddressLine2(e.target.value)
     }
 
     const handleCityChange = (e) => {
@@ -76,34 +63,37 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
      setZip(e.target.value)
     }
 
-    const handleStatusChange = (e) => {
-       setStatus(e.target.value)
+    const handleActiveChange = (e) => {
+       setActive(e.target.value)
     }
+
+
 
     const handleBack = () => {
         return navigate("/home/masters/vendor")
     }
 
-    // const handleUpdateVendor = () => {
+    // const handleInsertVendor = () => {
     //
-    //     console.log(name);
-    //     console.log(code);
-    //     console.log(address1);
-    //     console.log(address2);
-    //     console.log(city);
-    //     console.log(state);
-    //     console.log(zip);
-    //     console.log(status);
-    //     console.log(editVendor);
-    //
-    //     const data  = {"name":name, "code":code , "addressLine1":address1,"addressLine2":address2,
-    //     "city":city,"state":state,"zip":zip,"active":status}
+    //     const data  = {"id":uId,"name":name, "code":code , "addressLine1":addressLine1,"addressLine2":addressLine2,
+    //     "city":city,"state":state,"zip":zip,"active":active}
     //     handleEditVendor({
     //         certificate: authInfo.token,
     //         vnd: data,
     //             id: editVendor.id
     //     });
-    //     searchData()
+    //     console.log(`vendorById: ${vendorById}`)
+    //     console.log(vendorById)
+    //     console.log(name);
+    //     console.log(code);
+    //     console.log(addressLine1);
+    //     console.log(addressLine2);
+    //     console.log(city);
+    //     console.log(state);
+    //     console.log(zip);
+    //     console.log(active);
+    //     console.log(editVendor);
+    //     // searchData()
     // }
 
 
@@ -116,10 +106,11 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
         handleVendorById({
             certificate: authInfo.token,
             vnd: data1,
-
+            id: editVendor.id
         });
 
-
+        console.log(`vendorById: ${vendorById}`)
+        console.log(vendorById)
     },[]);
 
     return(
@@ -127,10 +118,10 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
             <TitleWidget title={"Edit Vendor"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Name: <Input placeholder={"Vendor Name"}  value={name} onChange={handleNameChange} />
+                    Name: <Input placeholder={"Vendor Name"} disabled={true} value={name} onChange={handleNameChange} />
                 </Col>
                 <Col span={8} offset={2}>
-                    Code: <Input placeholder={"Vendor Code"} value={code} onChange={handleCodeChange} />
+                    Code: <Input placeholder={"Vendor Code"} disabled={true} value={code} onChange={handleCodeChange} />
                 </Col>
                 <Col span={2}></Col>
                 <Col span={8} offset={2}>
@@ -151,7 +142,7 @@ const EditVendorComponent = ({authInfo,profileInfo,editVendor,editVendorLoading,
                     Zip: <Input placeholder={"Vendor Zip"} value={zip} onChange={handleZipChange} />
                 </Col>
                 <Col span={8} offset={2}>
-                    IsActive: <Checkbox value={status} onChange={handleStatusChange} />
+                    IsActive: <Checkbox onChange={handleActiveChange} />
                 </Col>
                 <Col span={2}></Col>
                 <Col span={22}></Col>
@@ -184,19 +175,19 @@ EditVendorComponent.propTypes = {
 }
 
 const mapState = (state) => {
-        const authInfo = selectAuthInfo(state)
-        const editVendor = selectEditVendorData(state)
-        const editVendorLoading = selectEditVendorLoadingData(state)
-        const profileInfo = selectProfileInfo(state)
+    const authInfo = selectAuthInfo(state)
+    const editVendor = selectEditVendorData(state)
+    const editVendorLoading = selectEditVendorLoadingData(state)
+    const profileInfo = selectProfileInfo(state)
     const vendorById = selectVendorByIdData(state)
     const vendorByIdLoading = selectLoadingVendorByIdData(state)
 
-        return {authInfo,editVendor,editVendorLoading,profileInfo,vendorById,vendorByIdLoading}
+    return {authInfo,editVendor,editVendorLoading,profileInfo,vendorById,vendorByIdLoading}
 }
 
 const actions = {
-handleEditVendor: editVendorStartAction,
-handleVendorById: getVendorByIdStartAction,
+    handleEditVendor: editVendorStartAction,
+    handleVendorById: getVendorByIdStartAction,
 }
 
 export default connect(mapState, actions) (EditVendorComponent)
