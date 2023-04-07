@@ -45,7 +45,7 @@ const EditVendorComponent = ({
 
   let { id } = useParams();
   console.log({ id });
-  const data2 = { id };
+  const data2 =  id ;
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -97,7 +97,7 @@ const EditVendorComponent = ({
     handleEditVendor({
       certificate: authInfo.token,
       vnd: data,
-      id: data.id,
+      id: data2,
     });
 
     searchData();
@@ -106,6 +106,16 @@ const EditVendorComponent = ({
   useEffect(() => {
     console.log(window.location.search);
     console.log(data2);
+
+    console.log(vendorById);
+
+    const vndIdData = vendorById;
+
+    console.log(vndIdData.name)
+      console.log(vndIdData.code)
+      console.log(vndIdData.addressLine1)
+
+
 
     handleVendorById({
       certificate: authInfo.token,
