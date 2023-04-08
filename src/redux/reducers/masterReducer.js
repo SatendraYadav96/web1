@@ -126,7 +126,7 @@ const getCostCenterSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
 
-        aacostCenterList:payload.costCenterList,
+        costCenterList:payload.costCenterList,
         costCenterLoading: false
 
     }

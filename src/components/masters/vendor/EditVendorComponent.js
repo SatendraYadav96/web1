@@ -104,7 +104,7 @@ const EditVendorComponent = ({
     handleEditVendor({
       certificate: authInfo.token,
       vnd: data,
-      id: vendorById.id,
+      id: id,
     });
     console.log(data)
 
