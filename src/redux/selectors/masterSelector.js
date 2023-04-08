@@ -52,7 +52,7 @@ editVendorLoading,
               loadingSelection => loadingSelection
 );
 
-
+//VENDOR BY ID
 
 const vendorById = (state) => state.master.vendorById;
 const vendorByIdLoading = (state) => state.master.vendorByIdLoading
@@ -69,7 +69,20 @@ export const selectLoadingVendorByIdData = createSelector(
 );
 
 
+//COST CENTER
+
+const costCenterList = (state) => state.master.costCenterList;
+const costCenterLoading = (state) => state.master.costCenterLoading
 
 
+export const selectCostCenterListData = createSelector(
+    costCenterList,
+    costCenterListDataSelection => costCenterListDataSelection
+);
+
+export const selectLoadingCostCenterData = createSelector(
+    costCenterLoading,
+    loadingSelection => loadingSelection
+);
 
 

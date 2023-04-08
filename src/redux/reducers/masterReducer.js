@@ -1,8 +1,9 @@
 import { createReducer } from './reducerUtils'
-import {GET_VENDOR_SUCCESS,GET_VENDOR_FAIL,
-ADD_VENDOR_SUCCESS,ADD_VENDOR_FAIL,
-EDIT_VENDOR_SUCCESS,EDIT_VENDOR_FAIL,
-    VENDOR_BY_ID_FAIL,VENDOR_BY_ID_SUCCESS
+import {
+    GET_VENDOR_SUCCESS, GET_VENDOR_FAIL,
+    ADD_VENDOR_SUCCESS, ADD_VENDOR_FAIL,
+    EDIT_VENDOR_SUCCESS, EDIT_VENDOR_FAIL,
+    VENDOR_BY_ID_FAIL, VENDOR_BY_ID_SUCCESS, GET_COST_CENTER_SUCCESS, GET_COST_CENTER_FAIL
 } from "../actions/master/masterActionConstants";
 
 
@@ -19,6 +20,8 @@ const initialState = {
     editVendorLoading: false,
     vendorById: [],
     vendorByIdLoading:false,
+    costCenterList: [],
+    costCenterLoading: false,
     error: {}
 }
 
@@ -119,6 +122,28 @@ const getVendorByIdFailReducer = (state = initialState, payload) => {
     }
 }
 
+const getCostCenterSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        aacostCenterList:payload.costCenterList,
+        costCenterLoading: false
+
+    }
+}
+
+
+
+const getCostCenterFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        costCenterList:[],
+        costCenterLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 
 export default createReducer(initialState, {
@@ -130,6 +155,8 @@ export default createReducer(initialState, {
     [EDIT_VENDOR_FAIL]: editVendorFailReducer,
     [VENDOR_BY_ID_SUCCESS]: getVendorByIdSuccessReducer,
     [VENDOR_BY_ID_FAIL]: getVendorByIdFailReducer,
+    [GET_COST_CENTER_SUCCESS]: getCostCenterSuccessReducer,
+    [GET_COST_CENTER_FAIL]: getCostCenterFailReducer,
 
 
 

@@ -7,8 +7,10 @@ import {Button, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
+import {selectCostCenterListData, selectLoadingCostCenterData, selectLoadingVendorData, selectVendorListData} from "../../../redux/selectors/masterSelector";
+import {getCostCenterStartAction, getVendorStartAction} from "../../../redux/actions/master/masterActions";
 
-const CostCenterComponent = ({authInfo}) => {
+const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLoading, handleCostCenterList}) => {
     const [status, setStatus] = useState(1)
     const navigate = useNavigate()
     const [column, setColumn] = useState([])
@@ -42,8 +44,8 @@ const CostCenterComponent = ({authInfo}) => {
         ]);
         setDataSource([
             {
-                key: '1',
-                name: 'ABC',
+                key: '',
+                name: '',
                 code: ''
             }
         ]);
@@ -57,6 +59,19 @@ const CostCenterComponent = ({authInfo}) => {
         return navigate("/home/masters/costCenter/edit")
     }
 
+    const getCostCenterList = () => {
+        console.log(status);
+        console.log(costCenterList);
+
+        handleCostCenterList ({
+            status:status,
+            costCenter: costCenterList,
+            certificate: authInfo.token
+        });
+        searchData()
+
+    }
+
     return(
         <>
             <TitleWidget title={"Master - Cost Center"}/>
@@ -65,7 +80,7 @@ const CostCenterComponent = ({authInfo}) => {
                     <SelectStatusComponent value={status} onChange={(e) => setStatus(e)} />
                 </Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => searchData()}>Search</Button>
+                    <Button type={"primary"} onClick={() => getCostCenterList()}>Search</Button>
                 </Col>
                 <Col span={1}>
                     <Button icon={<PlusOutlined />} onClick={()=> createCostCenter()}></Button>
@@ -84,7 +99,7 @@ const CostCenterComponent = ({authInfo}) => {
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource} />
+                <Table columns={column} scroll={{y: '100%'}} dataSource={costCenterList} />
             }
         </>
     )
@@ -93,21 +108,24 @@ const CostCenterComponent = ({authInfo}) => {
 CostCenterComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    costCenterList: PropTypes.array,
+    costCenterLoading: PropTypes.any,
+    handleCostCenterList: PropTypes.func,
 
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
+    const costCenterList = selectCostCenterListData(state)
+    const costCenterLoading = selectLoadingCostCenterData(state)
 
-    return {authInfo,profileInfo}
+    return {authInfo,profileInfo,costCenterList,costCenterLoading}
 
 }
 
 const actions = {
-
-
-
+    handleCostCenterList: getCostCenterStartAction,
 }
 
 export default connect(mapState, actions) (CostCenterComponent)

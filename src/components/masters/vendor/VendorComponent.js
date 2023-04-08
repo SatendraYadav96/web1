@@ -13,10 +13,6 @@ import {selectVendorListData,selectLoadingVendorData} from "../../../redux/selec
 
 const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVendorList}) => {
 
-
-
-
-
     const navigate = useNavigate()
     const [status, setStatus] = useState(1)
     const [column, setColumn] = useState([])
@@ -101,30 +97,18 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
 
     }
 
-
-
-
-
-
-
-
-
-
-
     const getVendorList = () => {
-                     console.log(status);
-                     console.log(vendorList);
+        console.log(status);
+        console.log(vendorList);
 
-                    handleVendorList ({
-                    status:status,
-                    vendor:vendorList,
-                    certificate: authInfo.token
-                    });
-                    searchData()
+        handleVendorList ({
+        status:status,
+        vendor:vendorList,
+        certificate: authInfo.token
+        });
+        searchData()
 
-                }
-
-
+    }
 
     return(
         <>
@@ -175,12 +159,12 @@ VendorComponent.propTypes = {
 }
 
 const mapState = (state) => {
-            const authInfo = selectAuthInfo(state)
-            const profileInfo = selectProfileInfo(state)
-            const vendorList = selectVendorListData(state)
-            const vendorLoading = selectLoadingVendorData(state)
+    const authInfo = selectAuthInfo(state)
+    const profileInfo = selectProfileInfo(state)
+    const vendorList = selectVendorListData(state)
+    const vendorLoading = selectLoadingVendorData(state)
 
-            return {authInfo,vendorList,vendorLoading,profileInfo}
+    return {authInfo,vendorList,vendorLoading,profileInfo}
 
 }
 
