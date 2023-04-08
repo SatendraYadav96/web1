@@ -42,9 +42,10 @@ const EditVendorComponent = ({
     const [active, setActive] = useState();
     // console.log(name);
     // console.log(addressLine1);
+
+
     useEffect(() => {
-        if(vendorById !== undefined) {
-            console.log(vendorById)
+        if (vendorById !== undefined) {
             setName(vendorById.name)
             setCode(vendorById.code)
             setAddressLine1(vendorById.addressLine1)
@@ -127,7 +128,7 @@ const EditVendorComponent = ({
       <TitleWidget title={"Edit Vendor"} />
       <Row gutter={[16, 16]}>
         <Col span={8} offset={2}>
-          Name:{" "}
+          Name:
           <Input
             placeholder={"Vendor Name"}
             disabled={true}
@@ -136,7 +137,7 @@ const EditVendorComponent = ({
           />
         </Col>
         <Col span={8} offset={2}>
-          Code:{" "}
+          Code:
           <Input
             placeholder={"Vendor Code"}
             disabled={true}
@@ -146,7 +147,7 @@ const EditVendorComponent = ({
         </Col>
         <Col span={2}></Col>
         <Col span={8} offset={2}>
-          Address 1:{" "}
+          Address 1:
           <Input.TextArea
             placeholder={"Vendor Address 1"}
             value={addressLine1}
@@ -154,7 +155,7 @@ const EditVendorComponent = ({
           />
         </Col>
         <Col span={8} offset={2}>
-          Address 2:{" "}
+          Address 2:
           <Input
             placeholder={"Vendor Address 2"}
             value={addressLine2}
@@ -163,7 +164,7 @@ const EditVendorComponent = ({
         </Col>
         <Col span={2}></Col>
         <Col span={8} offset={2}>
-          City:{" "}
+          City:
           <Input
             placeholder={"Vendor City"}
             value={city}
@@ -171,7 +172,7 @@ const EditVendorComponent = ({
           />
         </Col>
         <Col span={8} offset={2}>
-          State:{" "}
+          State:
           <Input
             placeholder={"Vendor State"}
             value={state}
@@ -180,7 +181,7 @@ const EditVendorComponent = ({
         </Col>
         <Col span={2}></Col>
         <Col span={8} offset={2}>
-          Zip:{" "}
+          Zip:
           <Input
             placeholder={"Vendor Zip"}
             value={zip}
