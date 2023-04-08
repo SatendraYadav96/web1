@@ -22,13 +22,13 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
         setColumn([
             {
                 title: 'Name',
-                key: 'name',
+                key: 'Name',
                 dataIndex: 'name',
                 width: '100px'
             },
             {
                 title: 'Code',
-                key: 'code',
+                key: 'Code',
                 dataIndex: 'code',
                 width: '100px'
             },

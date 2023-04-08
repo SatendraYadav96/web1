@@ -3,7 +3,8 @@ import {
     GET_VENDOR_SUCCESS, GET_VENDOR_FAIL,
     ADD_VENDOR_SUCCESS, ADD_VENDOR_FAIL,
     EDIT_VENDOR_SUCCESS, EDIT_VENDOR_FAIL,
-    VENDOR_BY_ID_FAIL, VENDOR_BY_ID_SUCCESS, GET_COST_CENTER_SUCCESS, GET_COST_CENTER_FAIL
+    VENDOR_BY_ID_FAIL, VENDOR_BY_ID_SUCCESS,
+    GET_COST_CENTER_SUCCESS, GET_COST_CENTER_FAIL
 } from "../actions/master/masterActionConstants";
 
 
@@ -126,7 +127,7 @@ const getCostCenterSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
 
-        aacostCenterList:payload.costCenterList,
+        costCenterList:payload.costCenterList,
         costCenterLoading: false
 
     }

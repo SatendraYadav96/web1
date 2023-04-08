@@ -21,13 +21,14 @@ const EditVendorComponent = ({
       const navigate = useNavigate();
 
     let { id } = useParams();
-    console.log({ id });
+    // console.log({ id });
+    // console.log(vendorById);
+
     handleVendorById({
         certificate: authInfo.token,
         id: id,
     });
-    console.log(vendorById.name)
-    console.log(vendorById.addressLine1)
+
 
 
     const [name, setName] = useState();
@@ -38,21 +39,21 @@ const EditVendorComponent = ({
     const [state, setState] = useState();
     const [zip, setZip] = useState();
     const [active, setActive] = useState();
-    console.log(name);
-    console.log(addressLine1);
+    // console.log(name);
+    // console.log(addressLine1);
 
-    useEffect(() => {
-        setName(vendorById.name)
-        setCode(vendorById.code)
-        setAddressLine1(vendorById.addressLine1)
-        setAddressLine2(vendorById.addressLine2)
-        setCity(vendorById.city)
-        setState(vendorById.state)
-        setZip(vendorById.zip)
-        setActive(vendorById.active)
-        console.log(name);
-        console.log(addressLine1);
-    },[vendorById])
+    // useEffect(() => {
+    //     setName(vendorById.name)
+    //     setCode(vendorById.code)
+    //     setAddressLine1(vendorById.addressLine1)
+    //     setAddressLine2(vendorById.addressLine2)
+    //     setCity(vendorById.city)
+    //     setState(vendorById.state)
+    //     setZip(vendorById.zip)
+    //     setActive(vendorById.active)
+    //     console.log(name);
+    //     console.log(addressLine1);
+    // },[vendorById])
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -104,7 +105,7 @@ const EditVendorComponent = ({
     handleEditVendor({
       certificate: authInfo.token,
       vnd: data,
-      id: vendorById.id,
+      id: id,
     });
     console.log(data)
 
