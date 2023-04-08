@@ -23,11 +23,12 @@ const EditVendorComponent = ({
     let { id } = useParams();
     // console.log({ id });
     // console.log(vendorById);
-
-    handleVendorById({
-        certificate: authInfo.token,
-        id: id,
-    });
+    useEffect(() => {
+        handleVendorById({
+            certificate: authInfo.token,
+            id: id,
+        });
+    }, [authInfo.token])
 
 
 
@@ -41,19 +42,21 @@ const EditVendorComponent = ({
     const [active, setActive] = useState();
     // console.log(name);
     // console.log(addressLine1);
-
-    // useEffect(() => {
-    //     setName(vendorById.name)
-    //     setCode(vendorById.code)
-    //     setAddressLine1(vendorById.addressLine1)
-    //     setAddressLine2(vendorById.addressLine2)
-    //     setCity(vendorById.city)
-    //     setState(vendorById.state)
-    //     setZip(vendorById.zip)
-    //     setActive(vendorById.active)
-    //     console.log(name);
-    //     console.log(addressLine1);
-    // },[vendorById])
+    useEffect(() => {
+        if(vendorById !== undefined) {
+            console.log(vendorById)
+            setName(vendorById.name)
+            setCode(vendorById.code)
+            setAddressLine1(vendorById.addressLine1)
+            setAddressLine2(vendorById.addressLine2)
+            setCity(vendorById.city)
+            setState(vendorById.state)
+            setZip(vendorById.zip)
+            setActive(vendorById.active)
+            console.log(name);
+            console.log(addressLine1);
+        }
+    },[vendorById])
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -93,6 +96,7 @@ const EditVendorComponent = ({
 
   const handleInsertVendor = () => {
     const data = {
+        id:id,
       name: name,
       code: code,
       addressLine1: addressLine1,
@@ -102,12 +106,18 @@ const EditVendorComponent = ({
       zip: zip,
       active: active,
     };
+
+      console.log(data);
+      console.log(authInfo.token);
+
+
     handleEditVendor({
+
       certificate: authInfo.token,
       vnd: data,
-      id: id,
+       id: id,
     });
-    console.log(data)
+
 
     // searchData();
   };
@@ -186,7 +196,7 @@ const EditVendorComponent = ({
       <Row gutter={[16, 16]}>
         <Col span={20}></Col>
         <Col span={2}>
-          <Button type={"primary"} onClick={() => handleInsertVendor()}>
+          <Button type={"primary"} onClick={handleInsertVendor}>
             Submit
           </Button>
         </Col>
