@@ -18,10 +18,10 @@ const EditVendorComponent = ({
   vendorByIdLoading,
   handleVendorById,
 }) => {
-  const navigate = useNavigate();
+      const navigate = useNavigate();
 
-  let { id } = useParams();
-  console.log({ id });
+    let { id } = useParams();
+    console.log({ id });
     handleVendorById({
         certificate: authInfo.token,
         id: id,
@@ -53,7 +53,6 @@ const EditVendorComponent = ({
         console.log(name);
         console.log(addressLine1);
     },[vendorById])
-
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -199,6 +198,7 @@ const EditVendorComponent = ({
     </>
   );
 };
+
 
 EditVendorComponent.propTypes = {
   authInfo: PropTypes.any,
