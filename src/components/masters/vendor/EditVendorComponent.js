@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import { selectAuthInfo } from "../../../redux/selectors/authSelectors";
-import { selectProfileInfo } from "../../../redux/selectors/authSelectors";
-import { connect } from "react-redux";
-import { Button, Checkbox, Col, Input, Row } from "antd";
-import SelectStatusComponent from "../../widgets/SelectStatusComponent";
-import {
-  editVendorStartAction,
-  getVendorByIdStartAction,
-} from "../../../redux/actions/master/masterActions";
-import {
-  selectEditVendorData,
-  selectEditVendorLoadingData,
-  selectLoadingVendorByIdData,
-  selectVendorByIdData,
-} from "../../../redux/selectors/masterSelector";
-import { useNavigate, useParams } from "react-router-dom";
-import { log } from "@craco/craco/lib/logger";
-import { popResultSelector } from "rxjs/internal/util/args";
+import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
+import {connect} from "react-redux";
+import {Button, Checkbox, Col, Input, Row} from "antd";
+import {editVendorStartAction, getVendorByIdStartAction,} from "../../../redux/actions/master/masterActions";
+import {selectEditVendorData, selectEditVendorLoadingData, selectLoadingVendorByIdData, selectVendorByIdData,} from "../../../redux/selectors/masterSelector";
+import {useNavigate, useParams} from "react-router-dom";
 
 const EditVendorComponent = ({
   authInfo,
@@ -32,20 +20,40 @@ const EditVendorComponent = ({
 }) => {
   const navigate = useNavigate();
 
-  const [data, setData] = useState();
-  const [uId, setUId] = useState();
-  const [name, setName] = useState();
-  const [code, setCode] = useState();
-  const [addressLine1, setAddressLine1] = useState();
-  const [addressLine2, setAddressLine2] = useState();
-  const [city, setCity] = useState();
-  const [state, setState] = useState();
-  const [zip, setZip] = useState();
-  const [active, setActive] = useState();
-
   let { id } = useParams();
   console.log({ id });
-  const data2 = { id };
+    handleVendorById({
+        certificate: authInfo.token,
+        id: id,
+    });
+    console.log(vendorById.name)
+    console.log(vendorById.addressLine1)
+
+
+    const [name, setName] = useState();
+    const [code, setCode] = useState();
+    const [addressLine1, setAddressLine1] = useState();
+    const [addressLine2, setAddressLine2] = useState();
+    const [city, setCity] = useState();
+    const [state, setState] = useState();
+    const [zip, setZip] = useState();
+    const [active, setActive] = useState();
+    console.log(name);
+    console.log(addressLine1);
+
+    useEffect(() => {
+        setName(vendorById.name)
+        setCode(vendorById.code)
+        setAddressLine1(vendorById.addressLine1)
+        setAddressLine2(vendorById.addressLine2)
+        setCity(vendorById.city)
+        setState(vendorById.state)
+        setZip(vendorById.zip)
+        setActive(vendorById.active)
+        console.log(name);
+        console.log(addressLine1);
+    },[vendorById])
+
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -97,37 +105,12 @@ const EditVendorComponent = ({
     handleEditVendor({
       certificate: authInfo.token,
       vnd: data,
-      id: data.id,
+      id: vendorById.id,
     });
+    console.log(data)
 
-    searchData();
+    // searchData();
   };
-
-  useEffect(() => {
-    console.log(window.location.search);
-    console.log(data2);
-
-    handleVendorById({
-      certificate: authInfo.token,
-      id: data2,
-    });
-  }, []);
-
-  // useEffect(async () => {
-  //
-  //         let results = data2
-  //
-  //         results = await results.json()
-  //     setData(results)
-  //
-  //
-  //         handleVendorById({
-  //             certificate: authInfo.token,
-  //             id: data2
-  //         });
-  //
-  //     },
-  //     [data2]);
 
   return (
     <>
@@ -195,7 +178,7 @@ const EditVendorComponent = ({
           />
         </Col>
         <Col span={8} offset={2}>
-          IsActive: <Checkbox onChange={handleActiveChange} />
+          IsActive: <Checkbox checked={active === 1} onChange={handleActiveChange} />
         </Col>
         <Col span={2}></Col>
         <Col span={22}></Col>
