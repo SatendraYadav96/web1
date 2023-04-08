@@ -188,7 +188,7 @@ const EditVendorComponent = ({
       <Row gutter={[16, 16]}>
         <Col span={20}></Col>
         <Col span={2}>
-          <Button type={"primary"} onClick={() => handleInsertVendor()}>
+          <Button type={"primary"} onClick={handleInsertVendor}>
             Submit
           </Button>
         </Col>
