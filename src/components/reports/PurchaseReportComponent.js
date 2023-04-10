@@ -126,8 +126,8 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         setDataSource([])
     }
 
-    // const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
-    // const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
+    const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
+    const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
 
 
     const getPurchaseReportList = () => {
@@ -145,10 +145,10 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
       divison:division,
       userId: profileInfo.id,
       userDesgId: profileInfo.userDesignation.id,
-      // startDate:formatedStartDateString,
-      // endDate:formatedEndDateString,
-      startDate:startDate,
-      endDate:endDate,
+      startDate:formatedStartDateString,
+      endDate:formatedEndDateString,
+      // startDate:startDate,
+      // endDate:endDate,
 
 
 
