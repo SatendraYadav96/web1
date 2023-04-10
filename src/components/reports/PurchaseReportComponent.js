@@ -10,9 +10,7 @@ import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent"
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getPurchaseReportStartAction } from '../../redux/actions/reports/purchaseReportActions'
 import {selectPurchaseListData,selectLoadingPurchaseReportData} from "../../redux/selectors/purchaseReportSelector"
-import moment, {weekdays} from 'moment'
-import {useNavigate} from "react-router-dom";
-import dayjs from "dayjs";
+import moment from 'moment'
 
 
 

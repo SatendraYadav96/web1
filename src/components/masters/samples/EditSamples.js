@@ -32,7 +32,7 @@ const EditSamplesComponent = ({
   }, [authInfo.token])
 
   const [name, setName] = useState();
-  const [code, setCode] = useState();
+  const [lmid, setLmid] = useState();
   const [active, setActive] = useState();
   const [brand, setBrand] = useState();
   const [description, setDescription] = useState();
@@ -42,14 +42,14 @@ const EditSamplesComponent = ({
   useEffect(() => {
     console.log(samplesById)
     if (samplesById !== undefined) {
-      // console.log(samplesById);
-      // setName(samplesById.name)
-      // setCode(samplesById.code)
-      // setActive(samplesById.active)
-      // setBrand(samplesById.brand)
-      // setDescription(samplesById.description)
-      // setPackSize(samplesById.packSize)
-      // setCapSize(samplesById.capSize)
+      console.log(samplesById);
+      setName(samplesById.name)
+      setLmid(samplesById.lmid)
+      setActive(samplesById.active)
+      setBrand(samplesById.brand)
+      setDescription(samplesById.description)
+      setPackSize(samplesById.packSize)
+      setCapSize(samplesById.cap)
     }
   },[samplesById])
 
@@ -61,7 +61,7 @@ const EditSamplesComponent = ({
     setName(e.target.value);
   };
 
-  const handleCodeChange = (e) => {
+  const handleLmidChange = (e) => {
     setCode(e.target.value);
   };
   const handleBrandChange = (e) => {
@@ -86,7 +86,11 @@ const EditSamplesComponent = ({
     const data = {
       id: id,
       name: name,
-      code: code,
+      lmid: lmid,
+      brand: brand,
+      description: description,
+      packSize: packSize,
+      cap: capSize,
       active: active,
     };
 
@@ -108,7 +112,7 @@ const EditSamplesComponent = ({
           Name:<br/><Input placeholder={"Samples Name"} disabled={true} value={name} onChange={handleNameChange}/>
         </Col>
         <Col span={8} offset={2}>
-          LMID:<br/><Input placeholder={"Samples LMID"} value={code} onChange={handleCodeChange} disabled={true}/>
+          LMID:<br/><Input placeholder={"Samples LMID"} value={lmid} onChange={handleLmidChange} disabled={true}/>
         </Col>
       </Row>
       <br/>
