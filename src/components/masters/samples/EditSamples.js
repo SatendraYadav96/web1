@@ -34,7 +34,7 @@ const EditSamplesComponent = ({
   const [name, setName] = useState();
   const [lmid, setLmid] = useState();
   const [active, setActive] = useState();
-  const [brand, setBrand] = useState();
+  const [brandId, setBrandId] = useState();
   const [description, setDescription] = useState();
   const [packSize, setPackSize] = useState();
   const [capSize, setCapSize] = useState();
@@ -46,7 +46,7 @@ const EditSamplesComponent = ({
       setName(samplesById.name)
       setLmid(samplesById.lmid)
       setActive(samplesById.active)
-      setBrand(samplesById.brand)
+      setBrandId(samplesById.values(brandId[1]))
       setDescription(samplesById.description)
       setPackSize(samplesById.packSize)
       setCapSize(samplesById.cap)
@@ -87,7 +87,7 @@ const EditSamplesComponent = ({
       id: id,
       name: name,
       lmid: lmid,
-      brand: brand,
+      brandId: brandId,
       description: description,
       packSize: packSize,
       cap: capSize,
@@ -118,7 +118,7 @@ const EditSamplesComponent = ({
       <br/>
       <Row gutter={[16,16]}>
         <Col span={8} offset={2}>
-          Brand:<br/><Input placeholder={"Cost Center Brand"} value={brand} onChange={handleBrandChange}/>
+          Brand:<br/><Input placeholder={"Cost Center Brand"} value={brandId} onChange={handleBrandChange}/>
           {/*<Select style={{width:'100%'}}></Select>*/}
         </Col>
         <Col span={8} offset={2}>
