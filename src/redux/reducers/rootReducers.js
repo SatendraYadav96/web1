@@ -17,7 +17,8 @@ import deviationReportReducer from "./deviationReportReducer";
 import itemConsumptionReportReducer from "./itemConsumptionReportReducer";
 import destructionReportReducer from "./destructionReportReducer";
 import hsnInvoiceReducer from './hsnInvoiceReducer';
-import masterReducer from './masterReducer'
+import masterReducer from './masterReducer';
+import dropDownReducer from './dropDownReducer'
 
 
 
@@ -41,7 +42,8 @@ const rootReducer = combineReducers({
     consumptionReport:itemConsumptionReportReducer,
     destructionReport:destructionReportReducer,
     addHsn:hsnInvoiceReducer,
-    master:masterReducer
+    master:masterReducer,
+    dropDown:dropDownReducer
 
 
 })

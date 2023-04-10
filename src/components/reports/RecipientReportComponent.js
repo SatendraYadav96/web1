@@ -210,7 +210,9 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             searchData()
 
         }
-
+    const handleBusinessUnit = (e) =>  {
+        setBusinessUnit(e.target.value)
+    }
 
 
 
@@ -220,7 +222,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             <Row gutter={[8,8]}>
                 <Col span={2}>
                     Team<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}/>
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => handleBusinessUnit(e)}/>
                 </Col>
                 <Col span={3}>
                     Subteam<br/>
