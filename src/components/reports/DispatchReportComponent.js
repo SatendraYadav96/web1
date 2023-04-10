@@ -13,11 +13,10 @@ import SelectFilterPlanComponent from "../widgets/SelectFilterPlanComponent";
 import { getDispatchesReportStartAction } from '../../redux/actions/reports/dispatchesReportActions'
 import {selectDispatchesListData,selectLoadingDispatchesReportData} from "../../redux/selectors/dispatchesReportSelector"
 import moment from 'moment'
-import dayjs from "dayjs";
+
 
 const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatchesReportLoading,handleDispatchesReportList}) => {
 
-    let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [filter, setFilter] = useState()
@@ -112,38 +111,33 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
     const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
 
+        const getDispatchesReportList = () => {
+             console.log(businessUnit);
+             console.log(division);
+             console.log(formatedStartDateString);
+             console.log(formatedEndDateString);
+             console.log(profileInfo.id);
+             console.log(profileInfo.userDesignation.id);
+             console.log(filter);
+             console.log(filterPlan);
 
-                const getDispatchesReportList = () => {
-                     console.log(businessUnit);
-                     console.log(division);
-                     console.log(formatedStartDateString);
-                     console.log(formatedEndDateString);
-                     console.log(profileInfo.id);
-                     console.log(profileInfo.userDesignation.id);
-                     console.log(filter);
-                     console.log(filterPlan);
+             console.log(dispatchesList);
 
-                     console.log(dispatchesList);
+            handleDispatchesReportList ({
+            businessUnit:businessUnit,
+            divison:division,
+            userId: profileInfo.id,
+            userDesgId: profileInfo.userDesignation.id,
+            startDate:formatedStartDateString,
+            endDate:formatedEndDateString,
+            filter:filter,
+            filterPlan:filterPlan,
 
-                    handleDispatchesReportList ({
-                    businessUnit:businessUnit,
-                    divison:division,
-                    userId: profileInfo.id,
-                    userDesgId: profileInfo.userDesignation.id,
-                    startDate:formatedStartDateString,
-                    endDate:formatedEndDateString,
-                    filter:filter,
-                    filterPlan:filterPlan,
+            certificate: authInfo.token
+            });
+            searchData()
 
-
-
-
-
-                    certificate: authInfo.token
-                    });
-                    searchData()
-
-                }
+        }
 
 
 
@@ -163,7 +157,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                     From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
+                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={3}>
                     Type<br/>

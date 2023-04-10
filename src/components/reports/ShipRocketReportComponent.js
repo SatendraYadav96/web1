@@ -7,11 +7,29 @@ import {Button, Col, DatePicker, Input, Row} from "antd";
 import dayjs from "dayjs";
 import moment from "moment/moment";
 
-const ShipRocketReportComponent = ({authInfo}) => {
+const ShipRocketReportComponent = ({authInfo,handleShipRocketReport}) => {
 
     let now = dayjs()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
+
+    const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
+    const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
+
+
+    const getShipRocketReport = () => {
+      console.log(formatedStartDateString);
+      console.log(formatedEndDateString);
+
+      handleShipRocketReport ({
+        fromDate:formatedStartDateString,
+        toDate:formatedEndDateString,
+        statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
+        certificate: authInfo.token
+      });
+
+    }
+
     return(
         <>
             <TitleWidget title="Ship Rocket Report" />
@@ -22,11 +40,11 @@ const ShipRocketReportComponent = ({authInfo}) => {
                 </Col>
                 <Col span={3}>
                     To Date<br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={3}>
                     <br/>
-                    <Button type={"primary"} >Download Report</Button>
+                    <Button type={"primary"} onClick={getShipRocketReport}>Download Report</Button>
                 </Col>
             </Row>
         </>

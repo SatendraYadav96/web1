@@ -11,14 +11,11 @@ import {useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import moment from "moment/moment";
-import dayjs from "dayjs";
 
 
-const GroupInvoiceComponent = ({authInfo}) => {
+const GroupInvoiceComponent = ({authInfo, handleGroupInvoiceList}) => {
 
-    const date = new Date();
     const navigate = useNavigate()
-    let now = dayjs()
 
     const [invoiceNumber, setInvoiceNumber] = useState()
     const [fromDate, setFromDate] = useState()
@@ -157,6 +154,23 @@ const GroupInvoiceComponent = ({authInfo}) => {
         return navigate("/home/dispatchInvoicing/groupInvoice/create")
     }
 
+    const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
+    const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
+
+    const getDeviationReportList = () => {
+      console.log(formatedStartDateString);
+      console.log(formatedEndDateString);
+
+      handleGroupInvoiceList ({
+        invoiceNumber: invoiceNumber,
+        fromDate:formatedStartDateString,
+        toDate:formatedEndDateString,
+        certificate: authInfo.token
+      });
+      searchData()
+
+    }
+
     return(
         <div>
             <TitleWidget title={'Group Invoice'} > </TitleWidget>
@@ -170,7 +184,7 @@ const GroupInvoiceComponent = ({authInfo}) => {
                 </Col>
                 <Col span={3}>
                     To Date: <br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={2}>
                     <br/><Button type={'primary'} onClick={() => searchData()}>Search</Button>
@@ -178,24 +192,7 @@ const GroupInvoiceComponent = ({authInfo}) => {
                 <Col span={1}>
                     <br/><Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()}></Button>
                 </Col>
-                {/*<Col span={12}>*/}
-                {/*    <br/>*/}
-                {/*    <div align="right">*/}
-                {/*        <Input.Search style={{ width: 300}} />*/}
-                {/*    </div>*/}
-                {/*</Col>*/}
             </Row>
-            {/*<div className="grid">*/}
-            {/*    Invoice Number: <Select style={{ width: 120 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}>*/}
-            {/*    </Select>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    From Date: <DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    To Date: <DatePicker value={toDate} onChange={(e) => setToDate(e)}/>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    <Button type={'primary'} onClick={() => searchData()}>Search</Button>*/}
-            {/*    <Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()} style={{marginLeft: '700px'}}></Button>*/}
-            {/*</div>*/}
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={2}>
@@ -210,12 +207,6 @@ const GroupInvoiceComponent = ({authInfo}) => {
                     </div>
                 </Col>
             </Row>
-            {/*<div>*/}
-            {/*    <Button>Excel</Button>*/}
-            {/*    &nbsp;&nbsp;*/}
-            {/*    <Button>CSV</Button>*/}
-            {/*    <Input.Search style={{ width: 300}} />*/}
-            {/*</div>*/}
             <br/><br/>
             {flag &&
                 <Table columns={column} dataSource={dataSource}/>

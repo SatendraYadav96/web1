@@ -79,35 +79,32 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
         setDataSource([])
     }
 
-
-
     const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
 
+    const getDeviationReportList = () => {
+         console.log(quarter);
+         console.log(formatedStartDateString);
+         console.log(formatedEndDateString);
+         console.log(profileInfo.id);
+         console.log(profileInfo.userDesignation.id);
 
-                const getDeviationReportList = () => {
-                     console.log(quarter);
-                     console.log(formatedStartDateString);
-                     console.log(formatedEndDateString);
-                     console.log(profileInfo.id);
-                     console.log(profileInfo.userDesignation.id);
+         console.log(deviationList);
 
-                     console.log(deviationList);
-
-                    handleDeviationReportList ({
-                    quarterName:quarter,
-                    userId: profileInfo.id,
-                    userDesgId: profileInfo.userDesignation.id,
-                    fromDate:formatedStartDateString,
-                    toDate:formatedEndDateString,
-
+        handleDeviationReportList ({
+        quarterName:quarter,
+        userId: profileInfo.id,
+        userDesgId: profileInfo.userDesignation.id,
+        fromDate:formatedStartDateString,
+        toDate:formatedEndDateString,
 
 
-                    certificate: authInfo.token
-                    });
-                    searchData()
 
-                }
+        certificate: authInfo.token
+        });
+        searchData()
+
+    }
 
     return(
         <>
@@ -123,7 +120,7 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
                 </Col>
                 <Col span={3}>
                     To Date<br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={3}>
                     <br/>

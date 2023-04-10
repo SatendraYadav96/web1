@@ -157,7 +157,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 </Col>
                 <Col span={3}>
                     To Date <br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={3}>
                     <br/>
