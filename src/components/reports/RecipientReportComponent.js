@@ -210,11 +210,9 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             searchData()
 
         }
-    const handleBusinessUnit = (e) =>  {
-        setBusinessUnit(e.target.value)
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
     }
-
-
 
     return(
         <>

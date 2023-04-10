@@ -124,37 +124,39 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         setDataSource([])
     }
 
-const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
-const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
+    const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
+    const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
 
 
-            const getPurchaseReportList = () => {
-                 console.log(businessUnit);
-                 console.log(division);
-                 console.log(formatedStartDateString);
-                 console.log(formatedEndDateString);
-                 console.log(profileInfo.id);
-                 console.log(profileInfo.userDesignation.id);
+    const getPurchaseReportList = () => {
+       console.log(businessUnit);
+       console.log(division);
+       console.log(formatedStartDateString);
+       console.log(formatedEndDateString);
+       console.log(profileInfo.id);
+       console.log(profileInfo.userDesignation.id);
 
-                 console.log(purchaseList);
+       console.log(purchaseList);
 
-                handlePurchaseReportList ({
-                businessUnit:businessUnit,
-                divison:division,
-                userId: profileInfo.id,
-                userDesgId: profileInfo.userDesignation.id,
-                startDate:formatedStartDateString,
-                endDate:formatedEndDateString,
-
-
-
-                certificate: authInfo.token
-                });
-                searchData()
-
-            }
+        handlePurchaseReportList ({
+        businessUnit:businessUnit,
+        divison:division,
+        userId: profileInfo.id,
+        userDesgId: profileInfo.userDesignation.id,
+        startDate:formatedStartDateString,
+        endDate:formatedEndDateString,
 
 
+
+        certificate: authInfo.token
+        });
+        searchData()
+
+    }
+
+    const handleBusinessUnit = (value) =>  {
+      setBusinessUnit(value)
+    }
 
     return(
         <>
@@ -162,7 +164,7 @@ const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
             <Row gutter={[8,8]}>
                 <Col span={2}>
                     Team<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit} />
                 </Col>
                 <Col span={3}>
                     Subteam<br/>
