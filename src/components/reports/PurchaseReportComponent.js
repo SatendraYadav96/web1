@@ -10,14 +10,16 @@ import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent"
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getPurchaseReportStartAction } from '../../redux/actions/reports/purchaseReportActions'
 import {selectPurchaseListData,selectLoadingPurchaseReportData} from "../../redux/selectors/purchaseReportSelector"
-import moment from 'moment'
+import moment, {weekdays} from 'moment'
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";
 
 
+
 const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,handlePurchaseReportList}) => {
 
-    let now = dayjs()
+    let now = new Date()
+
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [startDate, setStartDate] = useState()
@@ -124,33 +126,35 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         setDataSource([])
     }
 
-    const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
-    const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
+    // const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
+    // const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
 
 
     const getPurchaseReportList = () => {
        console.log(businessUnit);
        console.log(division);
-       console.log(formatedStartDateString);
-       console.log(formatedEndDateString);
+       console.log(startDate);
+       console.log(endDate);
        console.log(profileInfo.id);
        console.log(profileInfo.userDesignation.id);
 
        console.log(purchaseList);
 
-        handlePurchaseReportList ({
-        businessUnit:businessUnit,
-        divison:division,
-        userId: profileInfo.id,
-        userDesgId: profileInfo.userDesignation.id,
-        startDate:formatedStartDateString,
-        endDate:formatedEndDateString,
+      handlePurchaseReportList ({
+      businessUnit:businessUnit,
+      divison:division,
+      userId: profileInfo.id,
+      userDesgId: profileInfo.userDesignation.id,
+      // startDate:formatedStartDateString,
+      // endDate:formatedEndDateString,
+      startDate:startDate,
+      endDate:endDate,
 
 
 
-        certificate: authInfo.token
-        });
-        searchData()
+      certificate: authInfo.token
+      });
+      searchData()
 
     }
 
@@ -174,7 +178,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                      From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                  </Col>
                  <Col span={3}>
-                     To Date <br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={now}/>
+                     To Date <br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                  </Col>
                 <Col span={3}>
                     <br/>
