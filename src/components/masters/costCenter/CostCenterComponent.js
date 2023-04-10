@@ -37,8 +37,8 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
                 key: '',
                 dataIndex: '',
                 width: '100px',
-                render: () => {
-                    return <Button icon={<EditOutlined />} onClick={editCostCenter } ></Button>
+                render: (_,row) => {
+                    return <Button icon={<EditOutlined />} onClick={() => editCostCenter(row)} ></Button>
                 }
             }
         ]);
@@ -55,8 +55,8 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
         return navigate("/home/masters/costCenter/create")
     }
 
-    const editCostCenter = () => {
-        return navigate("/home/masters/costCenter/edit")
+    const editCostCenter = (row) => {
+        return navigate(`/home/masters/costCenter/edit/${row.id}`)
     }
 
     const getCostCenterList = () => {
@@ -111,7 +111,6 @@ CostCenterComponent.propTypes = {
     costCenterList: PropTypes.array,
     costCenterLoading: PropTypes.any,
     handleCostCenterList: PropTypes.func,
-
 }
 
 const mapState = (state) => {

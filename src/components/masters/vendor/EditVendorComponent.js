@@ -18,7 +18,7 @@ const EditVendorComponent = ({
   vendorByIdLoading,
   handleVendorById,
 }) => {
-      const navigate = useNavigate();
+    const navigate = useNavigate();
 
     let { id } = useParams();
     // console.log({ id });
@@ -97,7 +97,7 @@ const EditVendorComponent = ({
 
   const handleInsertVendor = () => {
     const data = {
-        id:id,
+      id:id,
       name: name,
       code: code,
       addressLine1: addressLine1,
@@ -108,15 +108,13 @@ const EditVendorComponent = ({
       active: active,
     };
 
-      console.log(data);
-      console.log(authInfo.token);
-
+    console.log(data);
+    console.log(authInfo.token);
 
     handleEditVendor({
-
       certificate: authInfo.token,
       vnd: data,
-       id: id,
+      id: id,
     });
 
 
