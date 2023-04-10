@@ -51,9 +51,14 @@ export const GET_VENDOR_API = {url: '/v1/master/getVendor',method:'GET',auth:tru
 export const ADD_VENDOR_API = { url: '/v1/master/addVendor', method: 'POST', auth: true }
 export const EDIT_VENDOR_API = { url: '/v1/master/editVendor', method: 'PUT', auth: true }
 export const VENDOR_BY_ID_API = { url: '/v1/master/getVendorById', method: 'GET', auth: true }
+
+// COST CENTER
 export const GET_COST_CENTER_API = {url: '/v1/master/getCostCenter',method:'GET',auth:true}
+export const EDIT_COST_CENTER_API = { url: '/v1/master/editCostCenter', method: 'PUT', auth: true }
+export const COST_CENTER_BY_ID_API = { url: '/v1/master/getCostCenterById', method: 'GET', auth: true }
 
 
-
-
-
+// SAMPLES
+export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}
+export const EDIT_SAMPLES_API = { url: '/v1/master/editSample', method: 'PUT', auth: true }
+export const SAMPLES_BY_ID_API = { url: '/v1/master/getSampleById', method: 'GET', auth: true }

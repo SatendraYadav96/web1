@@ -100,10 +100,10 @@ const routes = [
     { path: '/home/masters/businessUnit/edit/:id', name: 'EditBusinessUnit', element: EditBusinessUnitComponent},
     { path: '/home/masters/costCenter', name: 'CostCenter', element: CostCenterComponent},
     { path: '/home/masters/costCenter/create', name: 'CreateCostCenter', element: CreateCostCenterComponent},
-    { path: '/home/masters/costCenter/edit', name: 'EditCostCenter', element: EditCostCenterComponent},
+    { path: '/home/masters/costCenter/edit/:id', name: 'EditCostCenter', element: EditCostCenterComponent},
     { path: '/home/masters/samples', name: 'Sample', element: SamplesComponent},
     { path: '/home/masters/samples/create', name: 'CreateSample', element: CreateSamplesComponent},
-    { path: '/home/masters/samples/edit', name: 'EditSample', element: EditSamplesComponent},
+    { path: '/home/masters/samples/edit/:id', name: 'EditSample', element: EditSamplesComponent},
     { path: '/home/massRevalidation', name: 'Mass Revalidation', element: MassRevalidationComponent},
     { path: '/home/report/allocationReport', name: 'Allocation Report', element: AllocationReportComponent},
     { path: '/home/pickingSlip/monthlyDispatch/details/invoiceUpload', name: 'Invoice Upload', element: InvoiceUploadDetailComponent}

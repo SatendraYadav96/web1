@@ -107,7 +107,6 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
         certificate: authInfo.token
         });
         searchData()
-
     }
 
     return(
@@ -118,7 +117,7 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
                      <SelectStatusComponent style={{width:'180px'}} value={status} onChange={(e) => setStatus(e)} />
                 </Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => getVendorList()}>Search</Button>
+                    <Button type={"primary"} onClick={getVendorList}>Search</Button>
                 </Col>
                 <Col span={1}>
                     <Button icon={<PlusOutlined />} onClick={()=> createVendor()}></Button>
@@ -132,7 +131,7 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    <Button>Excel</Button> &nbsp; <Button>CSV</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

@@ -86,3 +86,82 @@ export const selectLoadingCostCenterData = createSelector(
 );
 
 
+//EDIT COST CENTER
+
+const editCostCenter = (state) => state.master.editCostCenter;
+const editCostCenterLoading = (state) => state.master.editCostCenterLoading
+
+
+export const selectEditCostCenterData = createSelector(
+    editCostCenter,
+    editCostCenterDataSelection => editCostCenterDataSelection
+);
+
+export const selectEditCostCenterLoadingData = createSelector(
+    editCostCenterLoading,
+    loadingSelection => loadingSelection
+);
+
+//COST CENTER BY ID
+
+const costCenterById = (state) => state.master.costCenterById;
+const costCenterByIdLoading = (state) => state.master.costCenterByIdLoading
+
+
+export const selectCostCenterByIdData = createSelector(
+    costCenterById,
+    costCenterByIdDataSelection => costCenterByIdDataSelection
+);
+
+export const selectLoadingCostCenterByIdData = createSelector(
+    costCenterByIdLoading,
+    loadingSelection => loadingSelection
+);
+
+//SAMPLES
+
+const samplesList = (state) => state.master.samplesList;
+const samplesLoading = (state) => state.master.samplesLoading
+
+
+export const selectSamplesListData = createSelector(
+  samplesList,
+  samplesListDataSelection => samplesListDataSelection
+);
+
+export const selectLoadingSamplesData = createSelector(
+  samplesLoading,
+  loadingSelection => loadingSelection
+);
+
+//EDIT SAMPLES
+
+const editSamples = (state) => state.master.editSamples;
+const editSamplesLoading = (state) => state.master.editSamplesLoading
+
+
+export const selectEditSamplesData = createSelector(
+  editSamples,
+  editSamplesDataSelection => editSamplesDataSelection
+);
+
+export const selectEditSamplesLoadingData = createSelector(
+  editSamplesLoading,
+  loadingSelection => loadingSelection
+);
+
+//SAMPLES BY ID
+
+const samplesById = (state) => state.master.samplesById;
+const samplesByIdLoading = (state) => state.master.samplesByIdLoading
+
+
+export const selectSamplesByIdData = createSelector(
+  samplesById,
+  samplesByIdDataSelection => samplesByIdDataSelection
+);
+
+export const selectLoadingSamplesByIdData = createSelector(
+  samplesByIdLoading,
+  loadingSelection => loadingSelection
+);

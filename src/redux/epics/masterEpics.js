@@ -1,11 +1,25 @@
-import {GET_VENDOR_START, ADD_VENDOR_START, EDIT_VENDOR_START, VENDOR_BY_ID_START, GET_COST_CENTER_START} from '../actions/master/masterActionConstants'
+import {GET_VENDOR_START, ADD_VENDOR_START, EDIT_VENDOR_START, VENDOR_BY_ID_START, GET_COST_CENTER_START, EDIT_COST_CENTER_START, GET_COST_CENTER_BY_ID_START, GET_SAMPLES_START, EDIT_SAMPLES_START, GET_SAMPLES_BY_ID_START} from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
 import {
-    getVendorSuccessAction, getVendorFailAction, addVendorSuccessAction, addVendorFailAction,
-    editVendorSuccessAction, editVendorFailAction, getVendorByIdFailAction, getVendorByIdSuccessAction, getCostCenterSuccessAction, getCostCenterFailAction
+  getVendorSuccessAction,
+  getVendorFailAction,
+  addVendorSuccessAction,
+  addVendorFailAction,
+  editVendorSuccessAction,
+  editVendorFailAction,
+  getVendorByIdFailAction,
+  getVendorByIdSuccessAction,
+  getCostCenterSuccessAction,
+  getCostCenterFailAction,
+  editCostCenterSuccessAction,
+  editCostCenterFailAction,
+  getCostCenterByIdSuccessAction,
+  getCostCenterByIdFailAction,
+  getSamplesSuccessAction,
+  getSamplesFailAction, editSamplesSuccessAction, getSamplesByIdSuccessAction, getSamplesByIdFailAction, editSamplesFailAction
 } from '../actions/master/masterActions'
-import {vendorRequest, addVendorRequest, editVendorRequest, vendorByIdRequest, costCenterRequest} from '../../api/masterRequests'
+import {vendorRequest, addVendorRequest, editVendorRequest, vendorByIdRequest, costCenterRequest, editCostCenterRequest, costCenterByIdRequest, samplesRequest, editSamplesRequest, samplesByIdRequest} from '../../api/masterRequests'
 
 
 
@@ -67,6 +81,7 @@ export const getVendorByIdStartEpic = (action$) =>
         )
     )
 
+// GET COST CENTER
 export const getCostCenterStartEpic = (action$) =>
     action$.pipe(
         ofType(GET_COST_CENTER_START),
@@ -79,5 +94,67 @@ export const getCostCenterStartEpic = (action$) =>
         )
     )
 
+// EDIT COST CENTER
+export const editCostCenterStartEpic = (action$) =>
+    action$.pipe(
+        ofType(EDIT_COST_CENTER_START),
+        debounceTime(4000),
+        switchMap((action) =>
+          editCostCenterRequest(action.payload).pipe(
+                map((listResponse) => editCostCenterSuccessAction({editCostCenter: listResponse.response})),
+                catchError((error) => of(editCostCenterFailAction({error: error}))),
+            )
+        )
+    )
 
 
+export const getCostCenterByIdStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_COST_CENTER_BY_ID_START),
+        debounceTime(4000),
+        switchMap((action) =>
+          costCenterByIdRequest(action.payload).pipe(
+                map((listResponse) => getCostCenterByIdSuccessAction({costCenterById: listResponse.response})),
+                catchError((error) => of(getCostCenterByIdFailAction({error: error}))),
+            )
+        )
+    )
+
+// GET SAMPLES
+export const getSamplesStartEpic = (action$) =>
+  action$.pipe(
+    ofType(GET_SAMPLES_START),
+    debounceTime(4000),
+    switchMap((action) =>
+      samplesRequest(action.payload).pipe(
+        map((listResponse) => getSamplesSuccessAction({samplesList: listResponse.response})),
+        catchError((error) => of(getSamplesFailAction({error: error}))),
+      )
+    )
+  )
+
+// EDIT SAMPLES
+export const editSamplesStartEpic = (action$) =>
+  action$.pipe(
+    ofType(EDIT_SAMPLES_START),
+    debounceTime(4000),
+    switchMap((action) =>
+      editSamplesRequest(action.payload).pipe(
+        map((listResponse) => editSamplesSuccessAction({editSamples: listResponse.response})),
+        catchError((error) => of(editSamplesFailAction({error: error}))),
+      )
+    )
+  )
+
+
+export const getSamplesByIdStartEpic = (action$) =>
+  action$.pipe(
+    ofType(GET_SAMPLES_BY_ID_START),
+    debounceTime(4000),
+    switchMap((action) =>
+      samplesByIdRequest(action.payload).pipe(
+        map((listResponse) => getSamplesByIdSuccessAction({samplesById: listResponse.response})),
+        catchError((error) => of(getSamplesByIdFailAction({error: error}))),
+      )
+    )
+  )
