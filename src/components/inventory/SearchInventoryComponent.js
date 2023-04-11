@@ -37,9 +37,9 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
         setFlag(true)
         setColumns([
             {
-                title: 'Name',
+                title: 'Item Name',
                 key: 'name',
-                dataIndex: 'name',
+                dataIndex: 'itemName',
                 width: '100px'
             },
             {
