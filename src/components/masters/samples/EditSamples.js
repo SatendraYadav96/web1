@@ -9,6 +9,7 @@ import TextArea from "antd/es/input/TextArea";
 import {useNavigate, useParams} from "react-router-dom";
 import {selectSamplesByIdData, selectEditSamplesData, selectEditSamplesLoadingData, selectLoadingSamplesByIdData} from "../../../redux/selectors/masterSelector";
 import {editSamplesStartAction, getSamplesByIdStartAction} from "../../../redux/actions/master/masterActions";
+import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 
 const EditSamplesComponent = ({
   authInfo,
@@ -47,7 +48,7 @@ const EditSamplesComponent = ({
       setName(samplesById.name)
       setLmid(samplesById.lmid)
       setActive(samplesById.active)
-      setBrand(samplesById.brandId.name)
+      setBrandId(samplesById.brandId.name)
       setDescription(samplesById.description)
       setPackSize(samplesById.packSize)
       setCapSize(samplesById.cap)
@@ -65,8 +66,8 @@ const EditSamplesComponent = ({
   const handleLmidChange = (e) => {
     setLmid(e.target.value);
   };
-  const handleBrandChange = (e) => {
-    setBrand(e.target.value);
+  const handleBrandChange = (value) => {
+    setBrandId(value);
   };
   const handleActiveChange = (e) => {
     setActive(e.target.value);
@@ -119,7 +120,8 @@ const EditSamplesComponent = ({
       <br/>
       <Row gutter={[16,16]}>
         <Col span={8} offset={2}>
-          Brand:<br/><Input placeholder={"Cost Center Brand"} value={brandId} onChange={handleBrandChange}/>
+          Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
+            {/*<Input placeholder={"Cost Center Brand"} value={brandId} onChange={handleBrandChange}/>*/}
           {/*<Select style={{width:'100%'}}></Select>*/}
         </Col>
         <Col span={8} offset={2}>

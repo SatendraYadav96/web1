@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {MessageWidget} from "../../../widgets/MessageWidget";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
@@ -25,13 +25,19 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
     const [state, setState] = useState()
     const [zip, setZip] = useState()
     const [checked, setChecked] = useState(true);
-    const [checkedValue, setCheckedValue] = useState(1)
+    const [active, setActive] = useState();
 
-    const handleChange = (e) => {
-        console.log('checked = ', e.target.checked);
+    const handleActiveChange = (e) => {
         setChecked(e.target.checked);
-        setCheckedValue(e.target.checked ? 1 : 0)
-    }
+    };
+
+    useEffect(() => {
+        setActive(checked ? 1 : 0)
+    },[checked])
+
+    useEffect(() => {
+        console.log(active)
+    },[active])
 
     const searchData = () => {
     }
@@ -77,11 +83,19 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
     console.log(city);
     console.log(state);
     console.log(zip);
-    console.log(status);
+    console.log(active);
     console.log(insertVendor);
 
-    const data  = {"name":name, "code":code , "addressLine1":address1,"addressLine2":address2,
-    "city":city,"state":state,"zip":zip,"active":status}
+    const data  = {
+        "name":name,
+        "code":code ,
+        "addressLine1":address1,
+        "addressLine2":address2,
+        "city":city,
+        "state":state,
+        "zip":zip,
+        "active":active,
+    }
     handleAddVendor({
     certificate: authInfo.token,
     vnd: data
@@ -125,7 +139,7 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
                     Zip: <Input placeholder={"Vendor Zip"} value={zip} onChange={handleZipChange} />
                 </Col>
                 <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} onChange={handleChange}></Checkbox>
+                    IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}></Checkbox>
                 </Col>
             </Row>
             <br/>

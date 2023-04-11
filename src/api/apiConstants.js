@@ -61,6 +61,7 @@ export const COST_CENTER_BY_ID_API = { url: '/v1/master/getCostCenterById', meth
 
 export const GET_BUSINESS_UNIT_DROPDOWN_API = {url: '/v1/master/getBusinessUnitDropdown',method:'GET',auth:true}
 
+export const GET_BRAND_DROPDOWN_API = {url: '/v1/master/getBrandDropdown',method:'GET',auth:true}
 
 // SAMPLES
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}

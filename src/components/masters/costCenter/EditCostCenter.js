@@ -8,6 +8,7 @@ import {Select} from "antd/es";
 import {useNavigate, useParams} from "react-router-dom";
 import {selectCostCenterByIdData, selectEditCostCenterData, selectEditCostCenterLoadingData, selectEditVendorData, selectEditVendorLoadingData, selectLoadingCostCenterByIdData, selectLoadingVendorByIdData, selectVendorByIdData} from "../../../redux/selectors/masterSelector";
 import {editCostCenterStartAction, editVendorStartAction, getCostCenterByIdStartAction, getVendorByIdStartAction} from "../../../redux/actions/master/masterActions";
+import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 
 
 const EditCostCenterComponent = ({
@@ -33,7 +34,8 @@ const EditCostCenterComponent = ({
     const [name, setName] = useState();
     const [code, setCode] = useState();
     const [active, setActive] = useState();
-    const [brand, setBrand] = useState();
+    const [brandId, setBrandId] = useState();
+    const [checked, setChecked] = useState(true);
 
     useEffect(() => {
         console.log(costCenterById)
@@ -42,7 +44,7 @@ const EditCostCenterComponent = ({
             setName(costCenterById.name)
             setCode(costCenterById.code)
             setActive(costCenterById.active)
-            setBrand(costCenterById.brand)
+            setBrandId(costCenterById.brandId)
             console.log(name);
         }
     },[costCenterById])
@@ -60,11 +62,20 @@ const EditCostCenterComponent = ({
     };
 
     const handleActiveChange = (e) => {
-        setActive(e.target.value);
+        setChecked(e.target.checked);
     };
 
-    const handleBrandChange = (e) => {
-        setBrand(e.target.value);
+    useEffect(() => {
+        setActive(checked ? 1 : 0)
+    },[checked])
+
+    useEffect(() => {
+        console.log(active)
+    },[active])
+
+
+    const handleBrandChange = (value) => {
+        setBrandId(value);
     };
 
     const handleInsertCostCenter = () => {
@@ -73,6 +84,7 @@ const EditCostCenterComponent = ({
             name: name,
             code: code,
             active: active,
+            brandId: brandId,
         };
 
         console.log(data);
@@ -99,13 +111,10 @@ const EditCostCenterComponent = ({
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={active === 1} value={active} onChange={handleActiveChange}/>
+                    IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}/>
                 </Col>
                 <Col span={8} offset={2}>
-
-                    Brand:
-                    <Input placeholder={"Cost Center Brand"} value={brand} onChange={handleBrandChange}/>
-                    {/*<br/><Select style={{width:'100%'}}></Select>*/}
+                    Brand: <SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
                 </Col>
             </Row>
             <br/>

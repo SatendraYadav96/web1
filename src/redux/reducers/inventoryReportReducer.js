@@ -17,8 +17,6 @@ const getInventoryReportSuccessReducer = (state = initialState, payload) => {
   }
 }
 
-
-
 const getInventoryReportFailReducer = (state = initialState, payload) => {
   return {
     ...state,
@@ -28,7 +26,6 @@ const getInventoryReportFailReducer = (state = initialState, payload) => {
 
   }
 }
-
 
 export default createReducer(initialState, {
   [GET_INVENTORY_REPORT_SUCCESS]: getInventoryReportSuccessReducer,

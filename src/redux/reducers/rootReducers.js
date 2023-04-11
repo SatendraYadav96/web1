@@ -46,8 +46,6 @@ const rootReducer = combineReducers({
     addHsn:hsnInvoiceReducer,
     master:masterReducer,
     dropDown:dropDownReducer
-
-
 })
 
 export default rootReducer

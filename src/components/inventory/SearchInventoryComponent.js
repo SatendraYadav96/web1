@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
@@ -13,17 +13,17 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [blockItemVisible, setBlockItemVisible] = useState(false)
+    const [unitAllocation, setUnitAllocation] = useState(false)
     const [exhausted, setExhausted] = useState(false)
     const [popUp, setPopUp] = useState(0)
     const [reverse, setReverse] = useState(false)
     const [switchForm, setSwitchForm] = useState(false)
     const [switchColumns, setSwitchColumns] = useState([])
+    const [checked, setChecked] = useState(false);
 
-    const blockItem = (e) => {
-        if(e.target.checked){
-            setBlockItemVisible(true)
-        }
-    }
+    // const blockItem = () => {
+    //     setBlockItemVisible(!blockItemVisibles)
+    // }
 
     const reverseInventory = () => {
         setReverse(true)
@@ -33,30 +33,64 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
         setSwitchForm(true)
     }
 
+    const handleActiveChange = (e) => {
+        setBlockItemVisible(e.target.checked);
+    };
+
+    useEffect(() => {
+        console.log(blockItemVisible)
+    },[blockItemVisible])
+
+    const handleUnitChange = (e) => {
+        setUnitAllocation(e.target.checked);
+    };
+
+    useEffect(() => {
+        console.log(unitAllocation)
+    },[unitAllocation])
+
     const searchData = () =>{
         setFlag(true)
         setColumns([
             {
-                title: 'Item Name',
+                title: 'Category',
+                key: 'category',
+                dataIndex: 'category',
+                width: '100px'
+            },
+            {
+                title: 'Received Date',
+                key: 'receivedDate',
+                dataIndex: 'receivedDate',
+                width:'100px'
+            },
+            {
+                title: 'Medical Code',
+                key: 'medicalCode',
+                dataIndex: 'medicalCode',
+                width: '100px'
+            },
+            {
+                title: 'Name',
                 key: 'name',
-                dataIndex: 'itemName',
+                dataIndex: 'name',
                 width: '100px'
             },
             {
                 title: 'Item Code',
-                key: 'itemCode',
+                key:'itemCode',
                 dataIndex: 'itemCode',
-                width:'100px'
+                width: '100px'
             },
             {
                 title: 'Rate',
-                key: 'key',
+                key:'rate',
                 dataIndex: 'rate',
                 width: '100px'
             },
             {
                 title: 'PO No.',
-                key: 'poNo',
+                key:'poNo',
                 dataIndex: 'poNo',
                 width: '100px'
             },
@@ -82,19 +116,19 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                 title: 'Expiry Date',
                 key:'expiryDate',
                 dataIndex: 'expiryDate',
-                width: '100px'
+                width: '100px',
             },
             {
                 title: 'Qty Received',
                 key:'qtyReceived',
                 dataIndex: 'qtyReceived',
-                width: '100px'
+                width: '100px',
             },
             {
                 title: 'Qty Balance',
                 key:'qtyBalance',
-                dataIndex: 'qtyBalance',
-                width: '100px'
+                dataIndex: 'comment',
+                width: '100px',
             },
             {
                 title: 'Unit Allocation',
@@ -102,7 +136,7 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                 dataIndex: 'unitAllocation',
                 width: '100px',
                 render: () => {
-                    return <Checkbox style={{width:'20px', height:'20px'}}/>
+                    return <Checkbox value={unitAllocation} onChange={handleUnitChange}/>
                 }
             },
             {
@@ -111,13 +145,13 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                 dataIndex: 'blockItem',
                 width: '100px',
                 render: () => {
-                    return <Checkbox onChange={(e) => blockItem()}/>
+                    return <Checkbox value={blockItemVisible} onChange={handleActiveChange}/>
                 }
             },
             {
-                title: 'Comment',
-                key:'comment',
-                dataIndex: 'comment',
+                title: 'Comments',
+                key:'comments',
+                dataIndex: 'comments',
                 width: '100px'
             },
             {
@@ -247,12 +281,15 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
             {flag &&
                 <Table dataSource={dataSource} columns={columns}/>
             }
-            <Modal visible={blockItemVisible} title="Inventory Block Item Reason"  footer={null}>
-                <Row>
-                    <Col><Input placeholder={"Comments"}/></Col>
-                    <Col><Button>Save</Button></Col>
-                </Row>
-            </Modal>
+
+
+            // MODAL
+            {/*<Modal visible={blockItemVisible} title="Inventory Block Item Reason"  footer={null}>*/}
+            {/*    <Row>*/}
+            {/*        <Col><Input placeholder={"Comments"}/></Col>*/}
+            {/*        <Col><Button>Save</Button></Col>*/}
+            {/*    </Row>*/}
+            {/*</Modal>*/}
             <Modal visible={reverse} title="Reverse Inventory" footer={null} onCancel={() => setReverse(false)}>
                 <p>Reverse Inventory of Acrylic lady tablet(Multivite Women)</p>
                 <p>Balance quantity is 300</p>
