@@ -1,17 +1,20 @@
 import React, {useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
+import {selectLoadingInventoryReportData, selectInventoryListData} from "../../redux/selectors/inventoryReportSelector";
+import {getInventoryReportStartAction} from "../../redux/actions/inventory/inventoryReportActions";
 
-const SearchInventoryComponent = ({authInfo}) => {
+const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventoryReportLoading,handleInventoryReportList}) => {
 
     const [columns, setColumns] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [blockItemVisible, setBlockItemVisible] = useState(false)
-    const [checked, setChecked] = useState(false)
+    const [exhausted, setExhausted] = useState(false)
+    const [popUp, setPopUp] = useState(0)
     const [reverse, setReverse] = useState(false)
     const [switchForm, setSwitchForm] = useState(false)
     const [switchColumns, setSwitchColumns] = useState([])
@@ -200,6 +203,22 @@ const SearchInventoryComponent = ({authInfo}) => {
                 width: '100px'
             }
         ])
+
+    }
+
+    const getInventoryReportList = () => {
+        console.log(exhausted)
+        console.log(popUp)
+
+        console.log(inventoryList)
+        handleInventoryReportList ({
+            isExhausted: exhausted,
+            isPopup: popUp,
+            certificate: authInfo.token
+        });
+
+        searchData()
+
     }
 
     return(
@@ -214,7 +233,7 @@ const SearchInventoryComponent = ({authInfo}) => {
                 </Col>
                 <Col span={2}>
                     <br/>
-                    <Button type={"primary"} onClick={() => searchData()}>Search</Button>
+                    <Button type={"primary"} onClick={() => getInventoryReportList()}>Search</Button>
                 </Col>
             </Row>
             {/*<div>*/}
@@ -266,7 +285,7 @@ const SearchInventoryComponent = ({authInfo}) => {
                     </Col>
                 </Row>
                 <br/>
-                <Table columns={switchColumns}></Table>
+                <Table columns={switchColumns} dataSource={inventoryList}></Table>
                 <br/>
                 <Row gutter={[8,8]}>
                     <Col span={6}>Qty To Switch<Input/></Col>
@@ -280,15 +299,22 @@ const SearchInventoryComponent = ({authInfo}) => {
 
 SearchInventoryComponent.propTypes = {
     authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    inventoryList:PropTypes.array,
+    inventoryReportLoading:PropTypes.any,
+    handleInventoryReportList:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const profileInfo = selectProfileInfo(state)
+    const inventoryList = selectInventoryListData(state)
+    const inventoryReportLoading = selectLoadingInventoryReportData(state)
+    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,}
 }
 
 const actions = {
-
+    handleInventoryReportList : getInventoryReportStartAction
 }
 
 export default connect(mapState, actions)(SearchInventoryComponent)

@@ -193,23 +193,23 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         setDataSource([])
     }
 
-        const getRecipientReportList = () => {
-             console.log(businessUnit);
-             console.log(division);
-             console.log(team);
-             console.log(recipientStatus);
-             console.log(recipientList);
+    const getRecipientReportList = () => {
+         console.log(businessUnit);
+         console.log(division);
+         console.log(team);
+         console.log(recipientStatus);
+         console.log(recipientList);
 
-            handleRecipientReportList ({
-            businessUnit:businessUnit,
-            division:division,
-            team:team,
-            statusId:recipientStatus,
-            certificate: authInfo.token
-            });
-            searchData()
+        handleRecipientReportList ({
+        businessUnit:businessUnit,
+        division:division,
+        team:team,
+        statusId:recipientStatus,
+        certificate: authInfo.token
+        });
+        searchData()
 
-        }
+    }
     const handleBusinessUnit = (value) =>  {
         setBusinessUnit(value)
     }

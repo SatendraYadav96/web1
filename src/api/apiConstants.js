@@ -66,3 +66,7 @@ export const GET_BUSINESS_UNIT_DROPDOWN_API = {url: '/v1/master/getBusinessUnitD
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}
 export const EDIT_SAMPLES_API = { url: '/v1/master/editSample', method: 'PUT', auth: true }
 export const SAMPLES_BY_ID_API = { url: '/v1/master/getSampleById', method: 'GET', auth: true }
+
+// INVENTORY
+export const GET_INVENTORY_REPORT_API = {url: '/v1/inventory/searchInventory',method:'GET',auth:true}
+

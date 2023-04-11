@@ -10,6 +10,7 @@ import picklistReducer from "./picklistReducer";
 import monthlyDispatchReducer from "./monthlyDispatchReducer";
 import specialDispatchReducer from "./specialDispatchReducer";
 import recipientReportReducer from "./recipientReportReducer";
+import inventoryReportReducer from "./inventoryReportReducer";
 import purchaseReportReducer from "./purchaseReportReducer";
 import dispatchesReportReducer from "./dispatchesReportReducer";
 import dispatchRegisterReportReducer from "./dispatchRegisterReportReducer";
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
     monthlyDispatch:monthlyDispatchReducer,
     specialDispatch:specialDispatchReducer,
     recipientReport:recipientReportReducer,
+    inventoryReport:inventoryReportReducer,
     purchaseReport:purchaseReportReducer,
     dispatchesReport:dispatchesReportReducer,
     dispatchRegisterReport:dispatchRegisterReportReducer,

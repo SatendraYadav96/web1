@@ -41,12 +41,13 @@ const EditSamplesComponent = ({
 
   useEffect(() => {
     console.log(samplesById)
-    if (samplesById !== undefined) {
+    if (samplesById !== undefined && samplesById.brandId !== undefined) {
       console.log(samplesById);
+      console.log(samplesById.brandId.id);
       setName(samplesById.name)
       setLmid(samplesById.lmid)
       setActive(samplesById.active)
-      setBrand(samplesById.brand)
+      setBrand(samplesById.brandId.name)
       setDescription(samplesById.description)
       setPackSize(samplesById.packSize)
       setCapSize(samplesById.cap)
@@ -62,7 +63,7 @@ const EditSamplesComponent = ({
   };
 
   const handleLmidChange = (e) => {
-    setCode(e.target.value);
+    setLmid(e.target.value);
   };
   const handleBrandChange = (e) => {
     setBrand(e.target.value);
