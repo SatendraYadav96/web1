@@ -70,4 +70,5 @@ export const SAMPLES_BY_ID_API = { url: '/v1/master/getSampleById', method: 'GET
 
 // INVENTORY
 export const GET_INVENTORY_REPORT_API = {url: '/v1/inventory/searchInventory',method:'GET',auth:true}
+export const GET_INVENTORY_REVERSAL_HISTORY_REPORT_API = {url: '/v1/inventory/getInventoryReversalHistory',method:'GET',auth:true}
 

@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
-import {selectLoadingInventoryReportData, selectInventoryListData} from "../../redux/selectors/inventoryReportSelector";
-import {getInventoryReportStartAction} from "../../redux/actions/inventory/inventoryReportActions";
+import {selectLoadingInventoryReportData, selectInventoryReversalHistoryListData, selectLoadingReversalHistoryData, selectInventoryReportListData} from "../../redux/selectors/inventoryReportSelector";
+import {getInventoryReportStartAction, getInventoryReversalHistoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
 
-const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventoryReportLoading,handleInventoryReportList}) => {
+const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventoryReportLoading,handleInventoryReportList,inventoryReversalHistoryList,inventoryReversalHistoryLoading,handleInventoryReversalHistoryList}) => {
 
     const [columns, setColumns] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -17,16 +17,27 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
     const [exhausted, setExhausted] = useState(false)
     const [popUp, setPopUp] = useState(0)
     const [reverse, setReverse] = useState(false)
+    const [reversalHistory, setReversalHistory] = useState(false)
     const [switchForm, setSwitchForm] = useState(false)
     const [switchColumns, setSwitchColumns] = useState([])
+    const [reversalHistoryColumns, setReversalHistoryColumns] = useState([])
     const [checked, setChecked] = useState(false);
 
-    // const blockItem = () => {
-    //     setBlockItemVisible(!blockItemVisibles)
-    // }
+    // useEffect(() => {
+    //     if(inventoryList !== undefined)
+    //         console.log(inventoryList)
+    // },[inventoryList])
+
+    useEffect(() => {
+        console.log(inventoryReversalHistoryList)
+    },[inventoryReversalHistoryList])
 
     const reverseInventory = () => {
         setReverse(true)
+    }
+
+    const reversalHistoryInventory = () => {
+        setReversalHistory(true)
     }
 
     const switchInventory = () => {
@@ -37,31 +48,31 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
         setBlockItemVisible(e.target.checked);
     };
 
-    useEffect(() => {
-        console.log(blockItemVisible)
-    },[blockItemVisible])
-
+    // useEffect(() => {
+    //     console.log(blockItemVisible)
+    // },[blockItemVisible])
+    //
     const handleUnitChange = (e) => {
         setUnitAllocation(e.target.checked);
     };
-
-    useEffect(() => {
-        console.log(unitAllocation)
-    },[unitAllocation])
+    //
+    // useEffect(() => {
+    //     console.log(unitAllocation)
+    // },[unitAllocation])
 
     const searchData = () =>{
         setFlag(true)
         setColumns([
             {
                 title: 'Category',
-                key: 'category',
-                dataIndex: 'category',
+                key: 'categoryName',
+                dataIndex: 'categoryName',
                 width: '100px'
             },
             {
                 title: 'Received Date',
-                key: 'receivedDate',
-                dataIndex: 'receivedDate',
+                key: 'postingDate',
+                dataIndex: 'postingDate',
                 width:'100px'
             },
             {
@@ -72,8 +83,8 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
             },
             {
                 title: 'Name',
-                key: 'name',
-                dataIndex: 'name',
+                key: 'itemName',
+                dataIndex: 'itemName',
                 width: '100px'
             },
             {
@@ -84,8 +95,8 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
             },
             {
                 title: 'Rate',
-                key:'rate',
-                dataIndex: 'rate',
+                key:'ratePerUnit',
+                dataIndex: 'ratePerUnit',
                 width: '100px'
             },
             {
@@ -127,7 +138,7 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
             {
                 title: 'Qty Balance',
                 key:'qtyBalance',
-                dataIndex: 'comment',
+                dataIndex: 'qtyBalance',
                 width: '100px',
             },
             {
@@ -159,11 +170,22 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                 key:'',
                 dataIndex: '',
                 width: '100px',
-                render:() =>{
-                    return(<><Button onClick={() => reverseInventory()}>Reverse</Button>&nbsp;<Button onClick={() => switchInventory()}>Switch From</Button></>)
+                render:(_,row) =>{
+                    return(
+                        <>
+                            <Button onClick={() => reverseInventory()}>
+                                Reverse
+                            </Button>&nbsp;
+                            <Button onClick={() => getInventoryReversalHistoryList(row)}>
+                                Reversal History
+                            </Button>
+                            <Button onClick={() => switchInventory()}>
+                                Switch From
+                            </Button>
+                        </>
+                    )
                 }
             }
-
         ]);
         setDataSource([
             {
@@ -240,19 +262,56 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
 
     }
 
-    const getInventoryReportList = () => {
-        console.log(exhausted)
-        console.log(popUp)
+    const searchReversalHistoryData = () => {
+        setReversalHistoryColumns([
+            {
+                title:'Inventory Id',
+                key:'invId',
+                dataIndex: 'invId',
+                width: '100px',
+            },
+            {
+                title:'Reversal Date',
+                key:'reversalDate',
+                dataIndex: 'reversalDate',
+                width: '100px'
+            },
+            {
+                title:'Remarks',
+                key:'remarks',
+                dataIndex: 'remarks',
+                width: '100px'
+            },
+            {
+                title:'Quantity',
+                key:'quantity',
+                dataIndex: 'quantity',
+                width: '100px'
+            },
+        ])
 
+    }
+
+    const getInventoryReportList = () => {
         console.log(inventoryList)
         handleInventoryReportList ({
             isExhausted: exhausted,
             isPopup: popUp,
             certificate: authInfo.token
         });
-
         searchData()
 
+    }
+
+    const getInventoryReversalHistoryList = (row) => {
+        reversalHistoryInventory()
+        handleInventoryReversalHistoryList ({
+            invId: row.invId,
+            certificate: authInfo.token,
+        });
+        console.log(row.invId)
+        console.log(inventoryReversalHistoryList)
+        searchReversalHistoryData()
     }
 
     return(
@@ -279,17 +338,17 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
             {/*</div>*/}
             <br/>
             {flag &&
-                <Table dataSource={dataSource} columns={columns}/>
+                <Table dataSource={inventoryList} columns={columns}/>
             }
 
-
-            // MODAL
+            {/*MODAL*/}
             {/*<Modal visible={blockItemVisible} title="Inventory Block Item Reason"  footer={null}>*/}
             {/*    <Row>*/}
             {/*        <Col><Input placeholder={"Comments"}/></Col>*/}
             {/*        <Col><Button>Save</Button></Col>*/}
             {/*    </Row>*/}
             {/*</Modal>*/}
+
             <Modal visible={reverse} title="Reverse Inventory" footer={null} onCancel={() => setReverse(false)}>
                 <p>Reverse Inventory of Acrylic lady tablet(Multivite Women)</p>
                 <p>Balance quantity is 300</p>
@@ -308,6 +367,19 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                     <Col><Button type={"primary"}>Reverse</Button></Col>
                 </Row>
             </Modal>
+            <Modal visible={reversalHistory} title="Reversal History" footer={null} onCancel={() => setReversalHistory(false)}>
+                <p>Reversal History</p>
+                <br/>
+                <Table
+                    columns={reversalHistoryColumns}
+                    dataSource={inventoryReversalHistoryList}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+
+            </Modal>
             <Modal visible={switchForm} width={700} title="Switch Inventory from" footer={null} onCancel={() => setSwitchForm(false)}>
                 <Row gutter={[8,8]}>
                     <Col span={8}><Input /></Col>
@@ -322,7 +394,14 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                     </Col>
                 </Row>
                 <br/>
-                <Table columns={switchColumns} dataSource={inventoryList}></Table>
+                <Table
+                    columns={switchColumns}
+                    dataSource={inventoryList}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
                 <br/>
                 <Row gutter={[8,8]}>
                     <Col span={6}>Qty To Switch<Input/></Col>
@@ -339,19 +418,25 @@ SearchInventoryComponent.propTypes = {
     profileInfo: PropTypes.any,
     inventoryList:PropTypes.array,
     inventoryReportLoading:PropTypes.any,
-    handleInventoryReportList:PropTypes.func
+    handleInventoryReportList:PropTypes.func,
+    inventoryReversalHistoryList:PropTypes.array,
+    inventoryReversalHistoryLoading:PropTypes.any,
+    handleInventoryReversalHistoryList:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    const inventoryList = selectInventoryListData(state)
+    const inventoryList = selectInventoryReportListData(state)
     const inventoryReportLoading = selectLoadingInventoryReportData(state)
-    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,}
+    const inventoryReversalHistoryList = selectInventoryReversalHistoryListData(state)
+    const inventoryReversalHistoryLoading = selectLoadingReversalHistoryData(state)
+    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,inventoryReversalHistoryList,inventoryReversalHistoryLoading}
 }
 
 const actions = {
-    handleInventoryReportList : getInventoryReportStartAction
+    handleInventoryReportList : getInventoryReportStartAction,
+    handleInventoryReversalHistoryList : getInventoryReversalHistoryStartAction
 }
 
 export default connect(mapState, actions)(SearchInventoryComponent)

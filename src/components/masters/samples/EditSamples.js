@@ -101,7 +101,7 @@ const EditSamplesComponent = ({
 
     handleEditSamples({
       certificate: authInfo.token,
-      vnd: data,
+      smp: data,
       id: id,
     });
   }
