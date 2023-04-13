@@ -39,9 +39,9 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
         console.log(active)
     },[active])
 
-    const searchData = () => {
-    }
-
+    useEffect(() => {
+        console.log("success!")
+    },[insertVendor])
 
     const handleNameChange = (e) => {
         setName(e.target.value)
@@ -76,34 +76,32 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
 
 
     const handleInsertVendor = () => {
-    console.log(name);
-    console.log(code);
-    console.log(address1);
-    console.log(address2);
-    console.log(city);
-    console.log(state);
-    console.log(zip);
-    console.log(active);
-    console.log(insertVendor);
+        console.log(name);
+        console.log(code);
+        console.log(address1);
+        console.log(address2);
+        console.log(city);
+        console.log(state);
+        console.log(zip);
+        console.log(active);
+        console.log(insertVendor);
 
-    const data  = {
-        "name":name,
-        "code":code ,
-        "addressLine1":address1,
-        "addressLine2":address2,
-        "city":city,
-        "state":state,
-        "zip":zip,
-        "active":active,
-    }
-    handleAddVendor({
-    certificate: authInfo.token,
-    vnd: data
+        const data  = {
+            "name":name,
+            "code":code ,
+            "addressLine1":address1,
+            "addressLine2":address2,
+            "city":city,
+            "state":state,
+            "zip":zip,
+            "active":active,
+        }
+        handleAddVendor({
+            certificate: authInfo.token,
+            vnd: data
 
-    });
-
-    // MessageWidget.success();
-    searchData()
+        });
+        // MessageWidget.success();
     }
 
     const handleBack = () => {
@@ -179,7 +177,7 @@ const mapState = (state) => {
 }
 
 const actions = {
-handleAddVendor: addVendorStartAction,
+    handleAddVendor: addVendorStartAction,
 }
 
 export default connect(mapState, actions) (CreateVendorComponent)

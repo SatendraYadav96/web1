@@ -16,7 +16,7 @@ export const selectLoadingInventoryReportData = createSelector(
   loadingSelection => loadingSelection
 );
 
-const inventoryReversalHistoryList = (state) => state.inventoryReversalHistory.inventoryList;
+const inventoryReversalHistoryList = (state) => state.inventoryReversalHistory.inventoryReversalHistoryList;
 const inventoryReversalHistoryLoading = (state) => state.inventoryReversalHistory.inventoryReversalHistoryLoading
 
 

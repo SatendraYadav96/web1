@@ -152,6 +152,32 @@ const getCostCenterFailReducer = (state = initialState, payload) => {
     }
 }
 
+//ADD COST CENTER
+
+
+const addCostCenterSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        insertCostCenter:payload.insertCostCenter,
+        insertCostCenterLoading: false
+
+    }
+}
+
+
+
+const addCostCenterFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        insertCostCenter:[],
+        insertCostCenterLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
 // EDIT COST CENTER
 const editCostCenterSuccessReducer = (state = initialState, payload) => {
     return {

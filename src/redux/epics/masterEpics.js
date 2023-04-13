@@ -1,25 +1,25 @@
-import {GET_VENDOR_START, ADD_VENDOR_START, EDIT_VENDOR_START, VENDOR_BY_ID_START, GET_COST_CENTER_START, EDIT_COST_CENTER_START, GET_COST_CENTER_BY_ID_START, GET_SAMPLES_START, EDIT_SAMPLES_START, GET_SAMPLES_BY_ID_START} from '../actions/master/masterActionConstants'
+import {GET_VENDOR_START, ADD_VENDOR_START, EDIT_VENDOR_START, VENDOR_BY_ID_START, GET_COST_CENTER_START, EDIT_COST_CENTER_START, GET_COST_CENTER_BY_ID_START, GET_SAMPLES_START, EDIT_SAMPLES_START, GET_SAMPLES_BY_ID_START, ADD_COST_CENTER_START} from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
 import {
-  getVendorSuccessAction,
-  getVendorFailAction,
-  addVendorSuccessAction,
-  addVendorFailAction,
-  editVendorSuccessAction,
-  editVendorFailAction,
-  getVendorByIdFailAction,
-  getVendorByIdSuccessAction,
-  getCostCenterSuccessAction,
-  getCostCenterFailAction,
-  editCostCenterSuccessAction,
-  editCostCenterFailAction,
-  getCostCenterByIdSuccessAction,
-  getCostCenterByIdFailAction,
-  getSamplesSuccessAction,
-  getSamplesFailAction, editSamplesSuccessAction, getSamplesByIdSuccessAction, getSamplesByIdFailAction, editSamplesFailAction
+    getVendorSuccessAction,
+    getVendorFailAction,
+    addVendorSuccessAction,
+    addVendorFailAction,
+    editVendorSuccessAction,
+    editVendorFailAction,
+    getVendorByIdFailAction,
+    getVendorByIdSuccessAction,
+    getCostCenterSuccessAction,
+    getCostCenterFailAction,
+    editCostCenterSuccessAction,
+    editCostCenterFailAction,
+    getCostCenterByIdSuccessAction,
+    getCostCenterByIdFailAction,
+    getSamplesSuccessAction,
+    getSamplesFailAction, editSamplesSuccessAction, getSamplesByIdSuccessAction, getSamplesByIdFailAction, editSamplesFailAction, addCostCenterSuccessAction, addCostCenterFailAction
 } from '../actions/master/masterActions'
-import {vendorRequest, addVendorRequest, editVendorRequest, vendorByIdRequest, costCenterRequest, editCostCenterRequest, costCenterByIdRequest, samplesRequest, editSamplesRequest, samplesByIdRequest} from '../../api/masterRequests'
+import {vendorRequest, addVendorRequest, editVendorRequest, vendorByIdRequest, costCenterRequest, editCostCenterRequest, costCenterByIdRequest, samplesRequest, editSamplesRequest, samplesByIdRequest, addCostCenterRequest} from '../../api/masterRequests'
 
 
 
@@ -119,6 +119,20 @@ export const getCostCenterByIdStartEpic = (action$) =>
             )
         )
     )
+
+// ADD COST CENTER
+export const addCostCenterStartEpic = (action$) =>
+    action$.pipe(
+        ofType(ADD_COST_CENTER_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            addCostCenterRequest(action.payload).pipe(
+                map((listResponse) => addCostCenterSuccessAction({insertCostCenter: listResponse.response})),
+                catchError((error) => of(addCostCenterFailAction({error: error}))),
+            )
+        )
+    )
+
 
 // GET SAMPLES
 export const getSamplesStartEpic = (action$) =>

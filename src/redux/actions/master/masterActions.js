@@ -1,29 +1,29 @@
 import {
-  GET_VENDOR_START,
-  GET_VENDOR_SUCCESS,
-  GET_VENDOR_FAIL,
-  ADD_VENDOR_START,
-  ADD_VENDOR_SUCCESS,
-  ADD_VENDOR_FAIL,
-  EDIT_VENDOR_START,
-  EDIT_VENDOR_SUCCESS,
-  EDIT_VENDOR_FAIL,
-  VENDOR_BY_ID_START,
-  VENDOR_BY_ID_SUCCESS,
-  VENDOR_BY_ID_FAIL,
-  GET_COST_CENTER_START,
-  GET_COST_CENTER_SUCCESS,
-  GET_COST_CENTER_FAIL,
-  EDIT_COST_CENTER_SUCCESS,
-  EDIT_COST_CENTER_FAIL,
-  GET_COST_CENTER_BY_ID_SUCCESS,
-  GET_COST_CENTER_BY_ID_FAIL,
-  EDIT_COST_CENTER_START,
-  GET_COST_CENTER_BY_ID_START,
-  GET_SAMPLES_START,
-  GET_SAMPLES_SUCCESS,
-  GET_SAMPLES_FAIL,
-  GET_SAMPLES_BY_ID_FAIL, GET_SAMPLES_BY_ID_SUCCESS, GET_SAMPLES_BY_ID_START, EDIT_SAMPLES_FAIL, EDIT_SAMPLES_SUCCESS, EDIT_SAMPLES_START
+    GET_VENDOR_START,
+    GET_VENDOR_SUCCESS,
+    GET_VENDOR_FAIL,
+    ADD_VENDOR_START,
+    ADD_VENDOR_SUCCESS,
+    ADD_VENDOR_FAIL,
+    EDIT_VENDOR_START,
+    EDIT_VENDOR_SUCCESS,
+    EDIT_VENDOR_FAIL,
+    VENDOR_BY_ID_START,
+    VENDOR_BY_ID_SUCCESS,
+    VENDOR_BY_ID_FAIL,
+    GET_COST_CENTER_START,
+    GET_COST_CENTER_SUCCESS,
+    GET_COST_CENTER_FAIL,
+    EDIT_COST_CENTER_SUCCESS,
+    EDIT_COST_CENTER_FAIL,
+    GET_COST_CENTER_BY_ID_SUCCESS,
+    GET_COST_CENTER_BY_ID_FAIL,
+    EDIT_COST_CENTER_START,
+    GET_COST_CENTER_BY_ID_START,
+    GET_SAMPLES_START,
+    GET_SAMPLES_SUCCESS,
+    GET_SAMPLES_FAIL,
+    GET_SAMPLES_BY_ID_FAIL, GET_SAMPLES_BY_ID_SUCCESS, GET_SAMPLES_BY_ID_START, EDIT_SAMPLES_FAIL, EDIT_SAMPLES_SUCCESS, EDIT_SAMPLES_START, ADD_COST_CENTER_START, ADD_COST_CENTER_SUCCESS, ADD_COST_CENTER_FAIL
 } from "./masterActionConstants";
 
 
@@ -55,7 +55,6 @@ export const getVendorFailAction = (payload) => (dispatch) =>{
 
 
 // ADD VENDOR
-
 
 export const addVendorStartAction = (payload) => (dispatch) => {
   dispatch({
@@ -188,6 +187,29 @@ export const getCostCenterByIdFailAction = (payload) => (dispatch) =>{
     })
 }
 
+export const addCostCenterStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_COST_CENTER_START,
+        payload: payload,
+    })
+}
+
+export const addCostCenterSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_COST_CENTER_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const addCostCenterFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_COST_CENTER_FAIL,
+        payload: payload,
+    })
+}
+
+
+// SAMPLES
 export const getSamplesStartAction = (payload) => (dispatch) =>{
   dispatch({
     type: GET_SAMPLES_START,

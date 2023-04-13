@@ -19,8 +19,6 @@ vendorLoading,
 
 
 //ADD VENDOR
-
-
 const insertVendor = (state) => state.master.insertVendor;
 const insertVendorLoading = (state) => state.master.insertVendorLoading
 
@@ -117,6 +115,22 @@ export const selectLoadingCostCenterByIdData = createSelector(
     costCenterByIdLoading,
     loadingSelection => loadingSelection
 );
+
+//ADD COST CENTER
+const insertCostCenter = (state) => state.master.insertCostCenter;
+const insertCostCenterLoading = (state) => state.master.insertCostCenterLoading
+
+
+export const selectInsertCostCenterData = createSelector(
+    insertCostCenter,
+    insertCostCenterDataSelection => insertCostCenterDataSelection
+);
+
+export const selectInsertCostCenterLoadingData = createSelector(
+    insertCostCenterLoading,
+    loadingSelection => loadingSelection
+);
+
 
 //SAMPLES
 

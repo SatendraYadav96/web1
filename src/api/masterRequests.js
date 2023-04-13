@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {GET_VENDOR_API, ADD_VENDOR_API, EDIT_VENDOR_API, GET_VENDOR_BY_ID_API, VENDOR_BY_ID_API, GET_COST_CENTER_API, EDIT_COST_CENTER_API, COST_CENTER_BY_ID_API, GET_SAMPLES_API, EDIT_SAMPLES_API, SAMPLES_BY_ID_API} from "./apiConstants";
+import {GET_VENDOR_API, ADD_VENDOR_API, EDIT_VENDOR_API, GET_VENDOR_BY_ID_API, VENDOR_BY_ID_API, GET_COST_CENTER_API, EDIT_COST_CENTER_API, COST_CENTER_BY_ID_API, GET_SAMPLES_API, EDIT_SAMPLES_API, SAMPLES_BY_ID_API, ADD_COST_CENTER_API} from "./apiConstants";
 
 //VENDOR
 
@@ -35,6 +35,10 @@ export const editCostCenterRequest=  payload => {
 export const costCenterByIdRequest = payload => {
   const api = {...COST_CENTER_BY_ID_API, url: `${COST_CENTER_BY_ID_API.url}/${payload.id}`}
   return createRequest(api, payload.certificate, null)
+}
+
+export const addCostCenterRequest=  payload => {
+    return createRequest(ADD_COST_CENTER_API, payload.certificate, payload.ccm)
 }
 
 export const samplesRequest = payload => {

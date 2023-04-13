@@ -1,32 +1,64 @@
 import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row} from "antd";
-import {Select} from "antd/es";
-import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
+import SelectBrandComponent from "../../widgets/SelectBrandComponent";
+import {selectInsertCostCenterData, selectInsertCostCenterLoadingData} from "../../../redux/selectors/masterSelector";
+import {addCostCenterStartAction} from "../../../redux/actions/master/masterActions";
 
-const CreateCostCenterComponent = ({authInfo}) => {
+const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insertCostCenterLoading,handleAddCostCenter}) => {
 
     const navigate = useNavigate()
 
     const [checked, setChecked] = useState(false);
-    const [checkedValue, setCheckedValue] = useState(0)
+    const [active, setActive] = useState(0)
+    const [name, setName] = useState();
+    const [code, setCode] = useState();
+    const [brandId, setBrandId] = useState();
 
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
         setChecked(e.target.checked);
-        setCheckedValue(e.target.checked ? 1 : 0)
+        setActive(e.target.checked ? 1 : 0)
     }
 
-    // useEffect(() => {
-    //     console.log(checkedValue)
-    // },[checkedValue])
+    const handleNameChange = (e) => {
+        setName(e.target.value)
+    }
+
+    const handleCodeChange = (e) => {
+        setCode(e.target.value)
+    }
+
+    const handleBrandChange = (value) => {
+        setBrandId(value)
+    };
 
     const handleBack = () => {
-        return navigate("/home/masters/vendor")
+        return navigate("/home/masters/costCenter")
+    }
+
+    const handleInsertCostCenter = () => {
+        console.log(name);
+        console.log(code);
+        console.log(active);
+        console.log(insertCostCenter);
+
+        const data  = {
+            "name":name,
+            "code":code ,
+            "active": active,
+            "brandId": brandId,
+        }
+        handleAddCostCenter({
+            certificate: authInfo.token,
+            ccm: data
+
+        });
+        // MessageWidget.success();
     }
 
     return(
@@ -34,29 +66,26 @@ const CreateCostCenterComponent = ({authInfo}) => {
             <TitleWidget title={"Create Cost Center"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Name: <Input placeholder={"Cost Center Name"}/>
+                    Name: <Input placeholder={"Cost Center Name"} onChange={handleNameChange}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Code: <Input placeholder={"Cost Center Code"}/>
+                    Code: <Input placeholder={"Cost Center Code"} onChange={handleCodeChange}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
                     IsActive: <Checkbox checked={checked} onChange={handleChange}></Checkbox>
-                    {/*<Checkbox checked={checked} disabled={disabled} onChange={onChange}>*/}
-                    {/*    {label}*/}
-                    {/*</Checkbox>*/}
                 </Col>
                 <Col span={8} offset={2}>
-                    Brand:<br/><Select style={{width:'100%'}}></Select>
+                    Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={20}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} >Submit</Button>
+                    <Button type={"primary"} onClick={() => handleInsertCostCenter()}>Submit</Button>
                 </Col>
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
@@ -68,16 +97,23 @@ const CreateCostCenterComponent = ({authInfo}) => {
 }
 
 CreateCostCenterComponent.propTypes = {
-    authInfo: PropTypes.any
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    insertCostCenter:PropTypes.array,
+    insertCostCenterLoading:PropTypes.any,
+    handleAddCostCenter:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const insertCostCenter = selectInsertCostCenterData(state)
+    const insertCostCenterLoading = selectInsertCostCenterLoadingData(state)
+    const profileInfo = selectProfileInfo(state)
+    return {authInfo,insertCostCenter,insertCostCenterLoading,profileInfo}
 }
 
 const actions = {
-
+    handleAddCostCenter: addCostCenterStartAction,
 }
 
 export default connect(mapState, actions) (CreateCostCenterComponent)

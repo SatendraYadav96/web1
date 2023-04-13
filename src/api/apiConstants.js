@@ -56,6 +56,7 @@ export const VENDOR_BY_ID_API = { url: '/v1/master/getVendorById', method: 'GET'
 export const GET_COST_CENTER_API = {url: '/v1/master/getCostCenter',method:'GET',auth:true}
 export const EDIT_COST_CENTER_API = { url: '/v1/master/editCostCenter', method: 'PUT', auth: true }
 export const COST_CENTER_BY_ID_API = { url: '/v1/master/getCostCenterById', method: 'GET', auth: true }
+export const ADD_COST_CENTER_API = { url: '/v1/master/addCostCenter', method: 'POST', auth: true }
 
 //DROPDOWN
 
