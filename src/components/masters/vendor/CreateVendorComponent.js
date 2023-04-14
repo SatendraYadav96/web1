@@ -74,7 +74,6 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
          setZip(e.target.value)
     }
 
-
     const handleInsertVendor = () => {
         console.log(name);
         console.log(code);
@@ -158,11 +157,11 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
 }
 
 CreateVendorComponent.propTypes = {
-                authInfo: PropTypes.any,
-                profileInfo: PropTypes.any,
-                insertVendor:PropTypes.array,
-                insertVendorLoading:PropTypes.any,
-                handleAddVendor:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    insertVendor:PropTypes.array,
+    insertVendorLoading:PropTypes.any,
+    handleAddVendor:PropTypes.func,
 }
 
 const mapState = (state) => {

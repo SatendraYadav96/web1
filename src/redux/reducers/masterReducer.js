@@ -1,10 +1,26 @@
 import { createReducer } from './reducerUtils'
 import {
-  GET_VENDOR_SUCCESS, GET_VENDOR_FAIL,
-  ADD_VENDOR_SUCCESS, ADD_VENDOR_FAIL,
-  EDIT_VENDOR_SUCCESS, EDIT_VENDOR_FAIL,
-  VENDOR_BY_ID_FAIL, VENDOR_BY_ID_SUCCESS,
-  GET_COST_CENTER_SUCCESS, GET_COST_CENTER_FAIL, EDIT_COST_CENTER_FAIL, GET_COST_CENTER_BY_ID_SUCCESS, EDIT_COST_CENTER_SUCCESS, GET_COST_CENTER_BY_ID_FAIL, GET_SAMPLES_SUCCESS, GET_SAMPLES_FAIL, EDIT_SAMPLES_SUCCESS, GET_SAMPLES_BY_ID_SUCCESS, GET_SAMPLES_BY_ID_FAIL, EDIT_SAMPLES_FAIL
+    GET_VENDOR_SUCCESS,
+    GET_VENDOR_FAIL,
+    ADD_VENDOR_SUCCESS,
+    ADD_VENDOR_FAIL,
+    EDIT_VENDOR_SUCCESS,
+    EDIT_VENDOR_FAIL,
+    VENDOR_BY_ID_FAIL,
+    VENDOR_BY_ID_SUCCESS,
+    GET_COST_CENTER_SUCCESS,
+    GET_COST_CENTER_FAIL,
+    EDIT_COST_CENTER_FAIL,
+    GET_COST_CENTER_BY_ID_SUCCESS,
+    EDIT_COST_CENTER_SUCCESS,
+    GET_COST_CENTER_BY_ID_FAIL,
+    GET_SAMPLES_SUCCESS,
+    GET_SAMPLES_FAIL,
+    EDIT_SAMPLES_SUCCESS,
+    GET_SAMPLES_BY_ID_SUCCESS,
+    GET_SAMPLES_BY_ID_FAIL,
+    EDIT_SAMPLES_FAIL,
+    ADD_COST_CENTER_SUCCESS, ADD_COST_CENTER_FAIL, ADD_SAMPLES_SUCCESS, ADD_SAMPLES_FAIL
 } from "../actions/master/masterActionConstants";
 
 
@@ -153,8 +169,6 @@ const getCostCenterFailReducer = (state = initialState, payload) => {
 }
 
 //ADD COST CENTER
-
-
 const addCostCenterSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
@@ -287,6 +301,30 @@ const getSamplesByIdFailReducer = (state = initialState, payload) => {
   }
 }
 
+//ADD COST CENTER
+const addSamplesSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        insertSamples:payload.insertSamples,
+        insertSamplesLoading: false
+
+    }
+}
+
+
+
+const addSamplesFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        insertSamples:[],
+        insertSamplesLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
 export default createReducer(initialState, {
     [GET_VENDOR_SUCCESS]: getVendorSuccessReducer,
     [GET_VENDOR_FAIL]: getVendorFailReducer,
@@ -298,6 +336,8 @@ export default createReducer(initialState, {
     [VENDOR_BY_ID_FAIL]: getVendorByIdFailReducer,
     [GET_COST_CENTER_SUCCESS]: getCostCenterSuccessReducer,
     [GET_COST_CENTER_FAIL]: getCostCenterFailReducer,
+    [ADD_COST_CENTER_SUCCESS]: addCostCenterSuccessReducer,
+    [ADD_COST_CENTER_FAIL]: addCostCenterFailReducer,
     [EDIT_COST_CENTER_SUCCESS]: editCostCenterSuccessReducer,
     [EDIT_COST_CENTER_FAIL]: editCostCenterFailReducer,
     [GET_COST_CENTER_BY_ID_SUCCESS]: getCostCenterByIdSuccessReducer,
@@ -308,6 +348,8 @@ export default createReducer(initialState, {
     [EDIT_SAMPLES_FAIL]: editSamplesFailReducer,
     [GET_SAMPLES_BY_ID_SUCCESS]: getSamplesByIdSuccessReducer,
     [GET_SAMPLES_BY_ID_FAIL]: getSamplesByIdFailReducer,
+    [ADD_SAMPLES_SUCCESS]: addSamplesSuccessReducer,
+    [ADD_SAMPLES_FAIL]: addSamplesFailReducer,
   })
 
 

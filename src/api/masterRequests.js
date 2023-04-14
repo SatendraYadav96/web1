@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {GET_VENDOR_API, ADD_VENDOR_API, EDIT_VENDOR_API, GET_VENDOR_BY_ID_API, VENDOR_BY_ID_API, GET_COST_CENTER_API, EDIT_COST_CENTER_API, COST_CENTER_BY_ID_API, GET_SAMPLES_API, EDIT_SAMPLES_API, SAMPLES_BY_ID_API, ADD_COST_CENTER_API} from "./apiConstants";
+import {GET_VENDOR_API, ADD_VENDOR_API, EDIT_VENDOR_API, GET_VENDOR_BY_ID_API, VENDOR_BY_ID_API, GET_COST_CENTER_API, EDIT_COST_CENTER_API, COST_CENTER_BY_ID_API, GET_SAMPLES_API, EDIT_SAMPLES_API, SAMPLES_BY_ID_API, ADD_COST_CENTER_API, ADD_SAMPLES_API} from "./apiConstants";
 
 //VENDOR
 
@@ -48,10 +48,14 @@ export const samplesRequest = payload => {
 
 export const editSamplesRequest=  payload => {
   const api = {...EDIT_SAMPLES_API, url: `${EDIT_SAMPLES_API.url}/${payload.id}`}
-  return createRequest(api, payload.certificate, payload.vnd)
+  return createRequest(api, payload.certificate, payload.smp)
 }
 
 export const samplesByIdRequest = payload => {
   const api = {...SAMPLES_BY_ID_API, url: `${SAMPLES_BY_ID_API.url}/${payload.id}`}
   return createRequest(api, payload.certificate, null)
+}
+
+export const addSamplesRequest=  payload => {
+    return createRequest(ADD_SAMPLES_API, payload.certificate, payload.smp)
 }

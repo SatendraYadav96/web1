@@ -179,3 +179,18 @@ export const selectLoadingSamplesByIdData = createSelector(
   samplesByIdLoading,
   loadingSelection => loadingSelection
 );
+
+//ADD SAMPLES
+const insertSamples = (state) => state.master.insertSamples;
+const insertSamplesLoading = (state) => state.master.insertSamplesLoading
+
+
+export const selectInsertSamplesData = createSelector(
+    insertSamples,
+    insertSamplesDataSelection => insertSamplesDataSelection
+);
+
+export const selectInsertSamplesLoadingData = createSelector(
+    insertSamplesLoading,
+    loadingSelection => loadingSelection
+);

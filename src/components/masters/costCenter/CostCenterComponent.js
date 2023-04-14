@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
@@ -7,7 +7,7 @@ import {Button, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
-import {selectCostCenterListData, selectLoadingCostCenterData, selectLoadingVendorData, selectVendorListData} from "../../../redux/selectors/masterSelector";
+import {selectCostCenterListData, selectLoadingCostCenterData} from "../../../redux/selectors/masterSelector";
 import {getCostCenterStartAction, getVendorStartAction} from "../../../redux/actions/master/masterActions";
 
 const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLoading, handleCostCenterList}) => {
@@ -16,6 +16,10 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+
+    useEffect(() => {
+        console.log(costCenterList)
+    },[costCenterList])
 
     const searchData = () => {
         setFlag(true)
@@ -64,12 +68,11 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
         console.log(costCenterList);
 
         handleCostCenterList ({
+            certificate: authInfo.token,
             status:status,
             costCenter: costCenterList,
-            certificate: authInfo.token
         });
         searchData()
-
     }
 
     return(

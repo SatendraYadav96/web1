@@ -1,4 +1,17 @@
-import {GET_VENDOR_START, ADD_VENDOR_START, EDIT_VENDOR_START, VENDOR_BY_ID_START, GET_COST_CENTER_START, EDIT_COST_CENTER_START, GET_COST_CENTER_BY_ID_START, GET_SAMPLES_START, EDIT_SAMPLES_START, GET_SAMPLES_BY_ID_START, ADD_COST_CENTER_START} from '../actions/master/masterActionConstants'
+import {
+    GET_VENDOR_START,
+    ADD_VENDOR_START,
+    EDIT_VENDOR_START,
+    VENDOR_BY_ID_START,
+    GET_COST_CENTER_START,
+    EDIT_COST_CENTER_START,
+    GET_COST_CENTER_BY_ID_START,
+    GET_SAMPLES_START,
+    EDIT_SAMPLES_START,
+    GET_SAMPLES_BY_ID_START,
+    ADD_COST_CENTER_START,
+    ADD_SAMPLES_START
+} from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
 import {
@@ -17,9 +30,9 @@ import {
     getCostCenterByIdSuccessAction,
     getCostCenterByIdFailAction,
     getSamplesSuccessAction,
-    getSamplesFailAction, editSamplesSuccessAction, getSamplesByIdSuccessAction, getSamplesByIdFailAction, editSamplesFailAction, addCostCenterSuccessAction, addCostCenterFailAction
+    getSamplesFailAction, editSamplesSuccessAction, getSamplesByIdSuccessAction, getSamplesByIdFailAction, editSamplesFailAction, addCostCenterSuccessAction, addCostCenterFailAction, addSamplesSuccessAction, addSamplesFailAction
 } from '../actions/master/masterActions'
-import {vendorRequest, addVendorRequest, editVendorRequest, vendorByIdRequest, costCenterRequest, editCostCenterRequest, costCenterByIdRequest, samplesRequest, editSamplesRequest, samplesByIdRequest, addCostCenterRequest} from '../../api/masterRequests'
+import {vendorRequest, addVendorRequest, editVendorRequest, vendorByIdRequest, costCenterRequest, editCostCenterRequest, costCenterByIdRequest, samplesRequest, editSamplesRequest, samplesByIdRequest, addCostCenterRequest, addSamplesRequest} from '../../api/masterRequests'
 
 
 
@@ -172,3 +185,16 @@ export const getSamplesByIdStartEpic = (action$) =>
       )
     )
   )
+
+// ADD SAMPLES
+export const addSamplesStartEpic = (action$) =>
+    action$.pipe(
+        ofType(ADD_SAMPLES_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            addSamplesRequest(action.payload).pipe(
+                map((listResponse) => addSamplesSuccessAction({insertSamples: listResponse.response})),
+                catchError((error) => of(addSamplesFailAction({error: error}))),
+            )
+        )
+    )

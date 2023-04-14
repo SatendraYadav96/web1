@@ -65,7 +65,7 @@ const AllocationReportComponent = ({authInfo}) => {
         <>
             <TitleWidget title="Allocation Report" />
             <Row gutter={[8,8]}>
-                <Col span={5}>
+                <Col span={5} >
                     <Input/>
                 </Col>
                 <Col span={4}>

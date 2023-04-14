@@ -92,7 +92,7 @@ const EditCostCenterComponent = ({
 
         handleEditCostCenter({
             certificate: authInfo.token,
-            vnd: data,
+            ccm: data,
             id: id,
         });
     }

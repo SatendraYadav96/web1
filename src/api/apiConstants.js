@@ -68,6 +68,7 @@ export const GET_BRAND_DROPDOWN_API = {url: '/v1/master/getBrandDropdown',method
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}
 export const EDIT_SAMPLES_API = { url: '/v1/master/editSample', method: 'PUT', auth: true }
 export const SAMPLES_BY_ID_API = { url: '/v1/master/getSampleById', method: 'GET', auth: true }
+export const ADD_SAMPLES_API = { url: '/v1/master/addSample', method: 'POST', auth: true }
 
 // INVENTORY
 export const GET_INVENTORY_REPORT_API = {url: '/v1/inventory/searchInventory',method:'GET',auth:true}

@@ -23,7 +23,7 @@ import {
     GET_SAMPLES_START,
     GET_SAMPLES_SUCCESS,
     GET_SAMPLES_FAIL,
-    GET_SAMPLES_BY_ID_FAIL, GET_SAMPLES_BY_ID_SUCCESS, GET_SAMPLES_BY_ID_START, EDIT_SAMPLES_FAIL, EDIT_SAMPLES_SUCCESS, EDIT_SAMPLES_START, ADD_COST_CENTER_START, ADD_COST_CENTER_SUCCESS, ADD_COST_CENTER_FAIL
+    GET_SAMPLES_BY_ID_FAIL, GET_SAMPLES_BY_ID_SUCCESS, GET_SAMPLES_BY_ID_START, EDIT_SAMPLES_FAIL, EDIT_SAMPLES_SUCCESS, EDIT_SAMPLES_START, ADD_COST_CENTER_START, ADD_COST_CENTER_SUCCESS, ADD_COST_CENTER_FAIL, ADD_SAMPLES_START, ADD_SAMPLES_SUCCESS, ADD_SAMPLES_FAIL
 } from "./masterActionConstants";
 
 
@@ -272,4 +272,27 @@ export const getSamplesByIdFailAction = (payload) => (dispatch) =>{
     type: GET_SAMPLES_BY_ID_FAIL,
     payload: payload,
   })
+}
+
+// ADD VENDOR
+
+export const addSamplesStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_SAMPLES_START,
+        payload: payload,
+    })
+}
+
+export const addSamplesSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_SAMPLES_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const addSamplesFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_SAMPLES_FAIL,
+        payload: payload,
+    })
 }
