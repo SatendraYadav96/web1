@@ -87,13 +87,15 @@ const EditSamplesComponent = ({
   const handleInsertSamples = () => {
     const data = {
       id: id,
-      name: name,
       lmid: lmid,
-      brandId: brandId,
+      name: name,
       description: description,
+      brandId: {
+          id: brandId
+      },
       packSize: packSize,
-      cap: capSize,
       active: active,
+      cap: capSize,
     };
 
     console.log(data);
