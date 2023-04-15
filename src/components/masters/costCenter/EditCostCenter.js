@@ -38,14 +38,14 @@ const EditCostCenterComponent = ({
     const [checked, setChecked] = useState(true);
 
     useEffect(() => {
-        console.log(costCenterById)
-        if (costCenterById !== undefined) {
-            console.log(costCenterById);
+        console.log(costCenterById.name)
+        if (costCenterById !== undefined  && costCenterById.brandId !== undefined ) {
+            console.log(costCenterById.name);
             setName(costCenterById.name)
             setCode(costCenterById.code)
             setActive(costCenterById.active)
-            setBrandId(costCenterById.brandId)
-            console.log(name);
+            setBrandId(costCenterById.brandId.name)
+            console.log(costCenterById.brandId.name);
         }
     },[costCenterById])
 
@@ -73,10 +73,21 @@ const EditCostCenterComponent = ({
         console.log(active)
     },[active])
 
+    useEffect(() => {
+        console.log(name)
+    },[name])
+
 
     const handleBrandChange = (value) => {
         setBrandId(value);
     };
+
+    const showData = () => {
+        console.log(name)
+        console.log(code)
+        console.log(active)
+        console.log(brandId)
+    }
 
     const handleInsertCostCenter = () => {
         const data = {
