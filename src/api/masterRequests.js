@@ -29,7 +29,7 @@ export const costCenterRequest = payload => {
 
 export const editCostCenterRequest=  payload => {
   const api = {...EDIT_COST_CENTER_API, url: `${EDIT_COST_CENTER_API.url}/${payload.id}`}
-  return createRequest(api, payload.certificate, payload.vnd)
+  return createRequest(api, payload.certificate, payload.ccm)
 }
 
 export const costCenterByIdRequest = payload => {
