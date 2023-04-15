@@ -51,7 +51,9 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
             "name":name,
             "code":code ,
             "active": active,
-            "brandId": brandId,
+            "brandId": {
+                id: brandId
+            },
         }
         handleAddCostCenter({
             certificate: authInfo.token,
