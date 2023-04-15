@@ -39,12 +39,12 @@ const EditCostCenterComponent = ({
 
     useEffect(() => {
         console.log(costCenterById)
-        if (costCenterById !== undefined) {
+        if (costCenterById !== undefined && costCenterById.brandId !== undefined) {
             console.log(costCenterById);
             setName(costCenterById.name)
             setCode(costCenterById.code)
             setActive(costCenterById.active)
-            setBrandId(costCenterById.brandId)
+            setBrandId(costCenterById.brandId.id)
             console.log(name);
         }
     },[costCenterById])
