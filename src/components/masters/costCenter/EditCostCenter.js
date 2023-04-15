@@ -73,10 +73,21 @@ const EditCostCenterComponent = ({
         console.log(active)
     },[active])
 
+    useEffect(() => {
+        console.log(name)
+    },[name])
+
 
     const handleBrandChange = (value) => {
         setBrandId(value);
     };
+
+    const showData = () => {
+        console.log(name)
+        console.log(code)
+        console.log(active)
+        console.log(brandId)
+    }
 
     const handleInsertCostCenter = () => {
         const data = {
