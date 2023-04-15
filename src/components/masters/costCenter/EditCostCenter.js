@@ -38,19 +38,19 @@ const EditCostCenterComponent = ({
     const [checked, setChecked] = useState(true);
 
     useEffect(() => {
-        console.log(costCenterById.name)
-        if (costCenterById !== undefined  && costCenterById.brandId !== undefined ) {
-            console.log(costCenterById.name);
+        console.log(costCenterById)
+        if (costCenterById !== undefined && costCenterById.brandId !== undefined) {
+            console.log(costCenterById);
             setName(costCenterById.name)
             setCode(costCenterById.code)
             setActive(costCenterById.active)
-            setBrandId(costCenterById.brandId.name)
-            console.log(costCenterById.brandId.name);
+            setBrandId(costCenterById.brandId.id)
+            console.log(name);
         }
     },[costCenterById])
 
     const handleBack = () => {
-        return navigate("/home/masters/vendor")
+        return navigate("/home/masters/costCenter")
     }
 
     const handleNameChange = (e) => {
