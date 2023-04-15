@@ -21,11 +21,10 @@ const CreateSamplesComponent = ({
 }) => {
 
     const navigate = useNavigate()
-    const [checked, setChecked] = useState(true);
-    const [checkedValue, setCheckedValue] = useState(1)
+    const [checked, setChecked] = useState(false);
     const [name, setName] = useState();
     const [lmid, setLmid] = useState();
-    const [active, setActive] = useState();
+    const [active, setActive] = useState(0);
     const [brandId, setBrandId] = useState();
     const [description, setDescription] = useState();
     const [packSize, setPackSize] = useState();
@@ -34,7 +33,7 @@ const CreateSamplesComponent = ({
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
         setChecked(e.target.checked);
-        setCheckedValue(e.target.checked ? 1 : 0)
+        setActive(e.target.checked ? 1 : 0)
     }
 
     const handleBack = () => {
@@ -78,7 +77,9 @@ const CreateSamplesComponent = ({
         const data  = {
             "name":name,
             "lmid":lmid,
-            "brandId":brandId,
+            "brandId": {
+                id: brandId
+            },
             "description":description,
             "packSize":packSize,
             "cap":capSize,
