@@ -84,7 +84,9 @@ const EditCostCenterComponent = ({
             name: name,
             code: code,
             active: active,
-            brandId: brandId,
+            brandId: {
+                id: brandId
+            },
         };
 
         console.log(data);
