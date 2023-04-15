@@ -50,7 +50,7 @@ const EditCostCenterComponent = ({
     },[costCenterById])
 
     const handleBack = () => {
-        return navigate("/home/masters/vendor")
+        return navigate("/home/masters/costCenter")
     }
 
     const handleNameChange = (e) => {
