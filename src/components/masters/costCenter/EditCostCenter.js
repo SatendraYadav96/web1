@@ -38,6 +38,10 @@ const EditCostCenterComponent = ({
     const [checked, setChecked] = useState(true);
 
     useEffect(() => {
+        console.log(costCenterById.name)
+        console.log(costCenterById.code)
+        console.log(costCenterById.active)
+        console.log(costCenterById.brandId)
         console.log(costCenterById)
         if (costCenterById !== undefined && costCenterById.brandId !== undefined) {
             console.log(costCenterById);
