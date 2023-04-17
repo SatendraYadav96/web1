@@ -4,14 +4,25 @@ import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
-import {selectLoadingInventoryReportData, selectInventoryReversalHistoryListData, selectLoadingReversalHistoryData, selectInventoryReportListData} from "../../redux/selectors/inventoryReportSelector";
-import {getInventoryReportStartAction, getInventoryReversalHistoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
+import {
+    selectLoadingInventoryReportData,
+    selectInventoryReversalHistoryListData,
+    selectLoadingReversalHistoryData,
+    selectInventoryReportListData,
+    selectEditUnitAllocationData,
+    selectLoadingEditUnitAllocationData,
+    selectEditBlockItemData,
+    selectLoadingEditBlockItemData
+} from "../../redux/selectors/inventoryReportSelector";
+import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryReportStartAction, getInventoryReversalHistoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
 
-const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventoryReportLoading,handleInventoryReportList,inventoryReversalHistoryList,inventoryReversalHistoryLoading,handleInventoryReversalHistoryList}) => {
+const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventoryReportLoading,handleInventoryReportList,inventoryReversalHistoryList,inventoryReversalHistoryLoading,handleInventoryReversalHistoryList,editUnitAllocation,editUnitAllocationLoading,handleEditUnitAllocation,editBlockItem,editBlockItemLoading,handleEditBlockItem}) => {
 
     const [columns, setColumns] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [checkedUA, setCheckedUA] = useState(false)
+    const [checkedBI, setCheckedBI] = useState(false)
     const [blockItemVisible, setBlockItemVisible] = useState(false)
     const [unitAllocation, setUnitAllocation] = useState(false)
     const [exhausted, setExhausted] = useState(false)
@@ -43,21 +54,24 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
         setSwitchForm(true)
     }
 
-    const handleActiveChange = (e) => {
-        setBlockItemVisible(e.target.checked);
-    };
+    const handleBlockItemChange = (e) => {
+        console.log('checked = ', e.target.checked);
+        setCheckedBI(e.target.checked);
+    }
 
-    // useEffect(() => {
-    //     console.log(blockItemVisible)
-    // },[blockItemVisible])
-    //
-    const handleUnitChange = (e) => {
-        setUnitAllocation(e.target.checked);
-    };
-    //
-    // useEffect(() => {
-    //     console.log(unitAllocation)
-    // },[unitAllocation])
+    useEffect(() => {
+        setBlockItemVisible(checkedBI ? 0 : 1)
+    },[checkedBI])
+
+    const handleUnitAllocationChange = (e) => {
+        console.log('checked = ', e.target.checked);
+        setCheckedUA(e.target.checked);
+    }
+
+    useEffect(() => {
+        setUnitAllocation(checkedUA ? 0 : 1)
+    },[checkedUA])
+
 
     const searchData = () =>{
         setFlag(true)
@@ -145,8 +159,8 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                 key:'unitAllocation',
                 dataIndex: 'unitAllocation',
                 width: '100px',
-                render: () => {
-                    return <Checkbox value={unitAllocation} onChange={handleUnitChange}/>
+                render: (_,row) => {
+                    return <Checkbox value={unitAllocation} onChange={handleUnitAllocationChange} onClick={() => editUnitAllocationFunc(row)}/>
                 }
             },
             {
@@ -154,8 +168,8 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                 key:'blockItem',
                 dataIndex: 'blockItem',
                 width: '100px',
-                render: () => {
-                    return <Checkbox value={blockItemVisible} onChange={handleActiveChange}/>
+                render: (_,row) => {
+                    return <Checkbox value={checkedBI} onChange={handleBlockItemChange} onClick={() => editBlockItemFunc(row)}/>
                 }
             },
             {
@@ -315,7 +329,6 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
             certificate: authInfo.token
         });
         searchData()
-
     }
 
     const getInventoryReversalHistoryList = (row) => {
@@ -327,6 +340,26 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
         console.log(row.invId)
         console.log(inventoryReversalHistoryList)
         searchReversalHistoryData()
+    }
+
+    const editUnitAllocationFunc = (row) => {
+        console.log(row.invId)
+        console.log(unitAllocation)
+        handleEditUnitAllocation({
+            invId: row.invId,
+            isUnitAllocation: unitAllocation,
+            certificate: authInfo.token,
+        })
+    }
+
+    const editBlockItemFunc = (row) => {
+        console.log(row.invId)
+        console.log(blockItemVisible)
+        handleEditBlockItem({
+            invId: row.invId,
+            isBlockItem: blockItemVisible,
+            certificate: authInfo.token,
+        })
     }
 
     const refresh = () => {
@@ -442,7 +475,13 @@ SearchInventoryComponent.propTypes = {
     handleInventoryReportList:PropTypes.func,
     inventoryReversalHistoryList:PropTypes.array,
     inventoryReversalHistoryLoading:PropTypes.any,
-    handleInventoryReversalHistoryList:PropTypes.func
+    handleInventoryReversalHistoryList:PropTypes.func,
+    editUnitAllocation:PropTypes.array,
+    editUnitAllocationLoading:PropTypes.any,
+    handleEditUnitAllocation:PropTypes.func,
+    editBlockItem:PropTypes.array,
+    editBlockItemLoading:PropTypes.any,
+    handleEditBlockItem:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -452,12 +491,18 @@ const mapState = (state) => {
     const inventoryReportLoading = selectLoadingInventoryReportData(state)
     const inventoryReversalHistoryList = selectInventoryReversalHistoryListData(state)
     const inventoryReversalHistoryLoading = selectLoadingReversalHistoryData(state)
-    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,inventoryReversalHistoryList,inventoryReversalHistoryLoading}
+    const editUnitAllocation = selectEditUnitAllocationData(state)
+    const editUnitAllocationLoading = selectLoadingEditUnitAllocationData(state)
+    const editBlockItem = selectEditBlockItemData(state)
+    const editBlockItemLoading = selectLoadingEditBlockItemData(state)
+    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,inventoryReversalHistoryList,inventoryReversalHistoryLoading,editUnitAllocation,editUnitAllocationLoading,editBlockItem,editBlockItemLoading}
 }
 
 const actions = {
     handleInventoryReportList : getInventoryReportStartAction,
-    handleInventoryReversalHistoryList : getInventoryReversalHistoryStartAction
+    handleInventoryReversalHistoryList : getInventoryReversalHistoryStartAction,
+    handleEditUnitAllocation : editUnitAllocationStartAction,
+    handleEditBlockItem : editBlockItemStartAction,
 }
 
 export default connect(mapState, actions)(SearchInventoryComponent)

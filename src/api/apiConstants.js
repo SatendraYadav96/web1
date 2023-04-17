@@ -73,4 +73,6 @@ export const ADD_SAMPLES_API = { url: '/v1/master/addSample', method: 'POST', au
 // INVENTORY
 export const GET_INVENTORY_REPORT_API = {url: '/v1/inventory/searchInventory',method:'GET',auth:true}
 export const GET_INVENTORY_REVERSAL_HISTORY_REPORT_API = {url: '/v1/inventory/getInventoryReversalHistory',method:'GET',auth:true}
+export const EDIT_UNIT_ALLOCATION_REPORT_API = {url: '/v1/inventory/editUnitAllocation',method:'PUT',auth:true}
+export const EDIT_BLOCK_ITEM_REPORT_API = {url: '/v1/inventory/blockItem',method:'PUT',auth:true}
 

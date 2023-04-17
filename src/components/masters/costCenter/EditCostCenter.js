@@ -43,7 +43,7 @@ const EditCostCenterComponent = ({
         console.log(costCenterById.active)
         console.log(costCenterById.brandId)
         console.log(costCenterById)
-        if (costCenterById !== undefined && costCenterById.brandId !== undefined) {
+        if (costCenterById.brandId !== undefined) {
             console.log(costCenterById);
             setName(costCenterById.name)
             setCode(costCenterById.code)

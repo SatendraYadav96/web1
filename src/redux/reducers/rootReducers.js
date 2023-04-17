@@ -11,7 +11,6 @@ import monthlyDispatchReducer from "./monthlyDispatchReducer";
 import specialDispatchReducer from "./specialDispatchReducer";
 import recipientReportReducer from "./recipientReportReducer";
 import inventoryReportReducer from "./inventoryReportReducer";
-import inventoryReversalHistoryReducer from "./inventoryReportReducer";
 import purchaseReportReducer from "./purchaseReportReducer";
 import dispatchesReportReducer from "./dispatchesReportReducer";
 import dispatchRegisterReportReducer from "./dispatchRegisterReportReducer";
@@ -38,7 +37,6 @@ const rootReducer = combineReducers({
     specialDispatch:specialDispatchReducer,
     recipientReport:recipientReportReducer,
     inventoryReport:inventoryReportReducer,
-    inventoryReversalHistory:inventoryReversalHistoryReducer,
     purchaseReport:purchaseReportReducer,
     dispatchesReport:dispatchesReportReducer,
     dispatchRegisterReport:dispatchRegisterReportReducer,
