@@ -60,15 +60,16 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     }
 
     useEffect(() => {
-        console.log(checkedBI)+
-            
+        console.log(checkedBI)
+
         if (checkedBI !== undefined) {
             console.log(checkedBI)
             const dataBI = {
+                invId: currentBIId,
                 isBlockItem: checkedBI,
             }
             handleEditBlockItem({
-                invId: currentBIId,
+
                 inv: dataBI,
                 certificate: authInfo.token,
             })
@@ -76,24 +77,37 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     },[checkedBI])
 
     const handleUnitAllocationChange = (event,row) => {
+
+
         console.log('checked = ', event.target.checked);
-        setCheckedUA(event.target.checked ? 1 : 0);
+        if (event.target.checked) {
+            setCheckedUA(1);
+        } else {
+            setCheckedUA(0);
+        }
         console.log(row.invId)
         setCurrentUAId(row.invId)
     }
 
-    useEffect(() => {
+    useEffect (() => {
         console.log(checkedUA)
         if (checkedUA !== undefined) {
             console.log(checkedUA)
             console.log(currentUAId)
             const dataUA = {
+
+                invId :currentUAId,
+
                 isUnitAllocation: checkedUA,
             }
+            console.log(dataUA)
             handleEditUnitAllocation({
-                invId: currentUAId,
+                    certificate: authInfo.token,
                 inv: dataUA,
-                certificate: authInfo.token,
+                invId: currentUAId,
+
+                // isUnitAllocation: checkedUA,
+
             })
         }
     },[checkedUA])
