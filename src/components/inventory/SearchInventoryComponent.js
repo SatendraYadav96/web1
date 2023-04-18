@@ -60,11 +60,12 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     }
 
     useEffect(() => {
-        console.log(checkedBI)
+        console.log(checkedBI)+
+            
         if (checkedBI !== undefined) {
             console.log(checkedBI)
             const dataBI = {
-                isBlockItem: checkedUA,
+                isBlockItem: checkedBI,
             }
             handleEditBlockItem({
                 invId: currentBIId,
