@@ -72,17 +72,40 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         setCheckedUA(event.target.checked ? 1 : 0);
         console.log(row.invId)
         setCurrentUAId(row.invId)
+        sendData()
     }
 
-    useEffect(() => {
+    const sendData =  () => {
         console.log(checkedUA)
         console.log(currentUAId)
+
+                const data = {
+            id : currentUAId,
+            isUnitAllocation: checkedUA,
+        }
         handleEditUnitAllocation({
             invId: currentUAId,
-            isUnitAllocation: checkedUA,
+            inv: data,
             certificate: authInfo.token,
         })
-    },[checkedUA])
+    }
+
+    // useEffect(() => {
+    //     if (inventoryList !== undefined) {
+    //         console.log(checkedUA)
+    //         console.log(currentUAId)
+    //         const data = {
+    //
+    //             id : currentUAId,
+    //             isUnitAllocation: checkedUA,
+    //         }
+    //         handleEditUnitAllocation({
+    //             invId: currentUAId,
+    //             inv: data,
+    //             certificate: authInfo.token,
+    //         })
+    //     }
+    // },[checkedUA])
 
 
     const searchData = () =>{
