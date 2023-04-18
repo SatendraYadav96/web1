@@ -19,10 +19,11 @@ import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryRep
 const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportList,inventoryReversalHistoryList,handleInventoryReversalHistoryList,editUnitAllocation,handleEditUnitAllocation,editBlockItem,handleEditBlockItem}) => {
 
     const [columns, setColumns] = useState([])
+    const [select, setSelect] = useState(0)
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
-    const [checkedUA, setCheckedUA] = useState(0)
-    const [checkedBI, setCheckedBI] = useState(0)
+    const [checkedUA, setCheckedUA] = useState()
+    const [checkedBI, setCheckedBI] = useState()
     const [blockItemVisible, setBlockItemVisible] = useState(false)
     const [currentUAId, setCurrentUAId] = useState()
     const [currentBIId, setCurrentBIId] = useState()
@@ -60,11 +61,17 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
 
     useEffect(() => {
         console.log(checkedBI)
-        handleEditBlockItem({
-            invId: currentBIId,
-            isBlockItem: checkedBI,
-            certificate: authInfo.token,
-        })
+        if (checkedBI !== undefined) {
+            console.log(checkedBI)
+            const dataBI = {
+                isBlockItem: checkedUA,
+            }
+            handleEditBlockItem({
+                invId: currentBIId,
+                inv: dataBI,
+                certificate: authInfo.token,
+            })
+        }
     },[checkedBI])
 
     const handleUnitAllocationChange = (event,row) => {
@@ -76,12 +83,18 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
 
     useEffect(() => {
         console.log(checkedUA)
-        console.log(currentUAId)
-        handleEditUnitAllocation({
-            invId: currentUAId,
-            isUnitAllocation: checkedUA,
-            certificate: authInfo.token,
-        })
+        if (checkedUA !== undefined) {
+            console.log(checkedUA)
+            console.log(currentUAId)
+            const dataUA = {
+                isUnitAllocation: checkedUA,
+            }
+            handleEditUnitAllocation({
+                invId: currentUAId,
+                inv: dataUA,
+                certificate: authInfo.token,
+            })
+        }
     },[checkedUA])
 
 
@@ -323,7 +336,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 width: '100px'
             },
         ])
-
     }
 
     const emptyReversalHistoryData = {
