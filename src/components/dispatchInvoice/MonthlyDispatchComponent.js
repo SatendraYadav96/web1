@@ -119,8 +119,6 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
                 {/*    <br/><br/>*/}
                 {/*    <Table columns={column} dataSource={monthList}/>*/}
                 {/*</>*/}
-
-
         </div>
     )
 }

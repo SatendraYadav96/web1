@@ -16,15 +16,16 @@ import {
 } from "../../redux/selectors/inventoryReportSelector";
 import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryReportStartAction, getInventoryReversalHistoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
 
-const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventoryReportLoading,handleInventoryReportList,inventoryReversalHistoryList,inventoryReversalHistoryLoading,handleInventoryReversalHistoryList,editUnitAllocation,editUnitAllocationLoading,handleEditUnitAllocation,editBlockItem,editBlockItemLoading,handleEditBlockItem}) => {
+const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportList,inventoryReversalHistoryList,handleInventoryReversalHistoryList,editUnitAllocation,handleEditUnitAllocation,editBlockItem,handleEditBlockItem}) => {
 
     const [columns, setColumns] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
-    const [checkedUA, setCheckedUA] = useState(false)
-    const [checkedBI, setCheckedBI] = useState(false)
+    const [checkedUA, setCheckedUA] = useState(0)
+    const [checkedBI, setCheckedBI] = useState(0)
     const [blockItemVisible, setBlockItemVisible] = useState(false)
-    const [unitAllocation, setUnitAllocation] = useState(false)
+    const [currentUAId, setCurrentUAId] = useState()
+    const [currentBIId, setCurrentBIId] = useState()
     const [exhausted, setExhausted] = useState(false)
     const [popUp, setPopUp] = useState(0)
     const [reverse, setReverse] = useState(false)
@@ -32,11 +33,7 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
     const [switchForm, setSwitchForm] = useState(false)
     const [switchColumns, setSwitchColumns] = useState([])
     const [reversalHistoryColumns, setReversalHistoryColumns] = useState([])
-
-    // useEffect(() => {
-    //     if(inventoryList !== undefined)
-    //         console.log(inventoryList)
-    // },[inventoryList])
+    const delay = ms => new Promise(res => setTimeout(res, ms));
 
     useEffect(() => {
         console.log(inventoryReversalHistoryList)
@@ -54,22 +51,37 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
         setSwitchForm(true)
     }
 
-    const handleBlockItemChange = (e) => {
-        console.log('checked = ', e.target.checked);
-        setCheckedBI(e.target.checked);
+    const handleBlockItemChange = (event,row) => {
+        console.log('checked = ', event.target.checked);
+        setCheckedBI(event.target.checked ? 1 : 0);
+        console.log(row.invId)
+        setCurrentBIId(row.invId)
     }
 
     useEffect(() => {
-        setBlockItemVisible(checkedBI ? 0 : 1)
+        console.log(checkedBI)
+        handleEditBlockItem({
+            invId: currentBIId,
+            isBlockItem: checkedBI,
+            certificate: authInfo.token,
+        })
     },[checkedBI])
 
-    const handleUnitAllocationChange = (e) => {
-        console.log('checked = ', e.target.checked);
-        setCheckedUA(e.target.checked);
+    const handleUnitAllocationChange = (event,row) => {
+        console.log('checked = ', event.target.checked);
+        setCheckedUA(event.target.checked ? 1 : 0);
+        console.log(row.invId)
+        setCurrentUAId(row.invId)
     }
 
     useEffect(() => {
-        setUnitAllocation(checkedUA ? 0 : 1)
+        console.log(checkedUA)
+        console.log(currentUAId)
+        handleEditUnitAllocation({
+            invId: currentUAId,
+            isUnitAllocation: checkedUA,
+            certificate: authInfo.token,
+        })
     },[checkedUA])
 
 
@@ -160,7 +172,7 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                 dataIndex: 'unitAllocation',
                 width: '100px',
                 render: (_,row) => {
-                    return <Checkbox value={unitAllocation} onChange={handleUnitAllocationChange} onClick={() => editUnitAllocationFunc(row)}/>
+                    return <Checkbox value={checkedUA} onChange={(event) => handleUnitAllocationChange(event,row)}/>
                 }
             },
             {
@@ -169,7 +181,7 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
                 dataIndex: 'blockItem',
                 width: '100px',
                 render: (_,row) => {
-                    return <Checkbox value={checkedBI} onChange={handleBlockItemChange} onClick={() => editBlockItemFunc(row)}/>
+                    return <Checkbox value={checkedBI} onChange={(event) => handleBlockItemChange(event,row)}/>
                 }
             },
             {
@@ -334,32 +346,12 @@ const SearchInventoryComponent = ({authInfo, profileInfo,inventoryList,inventory
     const getInventoryReversalHistoryList = (row) => {
         reversalHistoryInventory()
         handleInventoryReversalHistoryList ({
-            invId: row.invId,
-            certificate: authInfo.token,
+        invId: row.invId,
+        certificate: authInfo.token,
         });
         console.log(row.invId)
         console.log(inventoryReversalHistoryList)
         searchReversalHistoryData()
-    }
-
-    const editUnitAllocationFunc = (row) => {
-        console.log(row.invId)
-        console.log(unitAllocation)
-        handleEditUnitAllocation({
-            invId: row.invId,
-            isUnitAllocation: unitAllocation,
-            certificate: authInfo.token,
-        })
-    }
-
-    const editBlockItemFunc = (row) => {
-        console.log(row.invId)
-        console.log(blockItemVisible)
-        handleEditBlockItem({
-            invId: row.invId,
-            isBlockItem: blockItemVisible,
-            certificate: authInfo.token,
-        })
     }
 
     const refresh = () => {

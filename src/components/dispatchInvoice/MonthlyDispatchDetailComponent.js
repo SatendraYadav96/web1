@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -25,18 +25,34 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const [month, setMonth] = useState()
     const [team, setTeam] = useState()
     const [dispatchType, setDispatchType] = useState('0')
+    const [printAction, setPrintAction] = useState(false)
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [status, setStatus] = useState()
+    const [allCheck, setAllCheck] = useState(false)
+    const [checked, setChecked] = useState(false)
+
+    // const handleCheck = (e) => {
+    //     console.log(`Checked: ${e.target.checked}`)
+    //     setChecked(e.target.checked)
+    // }
+    //
+    // const handleAllCheck = (e) => {
+    //     console.log(`allChecked: ${e.target.checked}`)
+    //     setAllCheck(e.target.checked)
+    //     setChecked(e.target.checked)
+    // }
+    //
+    // useEffect(() => {
+    //     console.log(checked)
+    // },[allCheck])
 
     const searchData = () => {
         setFlag(true)
         if(status === "00000000-0000-0000-0000-000000000026"){
             setColumn([
-
-
 
                 {
                     title:'City',
@@ -148,7 +164,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     title:'Team',
                     key: 'team',
                     dataIndex: 'teamName',
-                    width:'150px',
+                    width:'300px',
                     fixed:'left'
                  },
 
@@ -279,12 +295,13 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     }
                 },
                 {
-                    title: 'Print',
+                    // title: `Print`,
+                    title: <Checkbox value={allCheck} onCheck={(e) => setAllCheck(e.target.checked)} >Print</Checkbox>,
                     key: '',
                     dataIndex: '',
                     width: '30px',
                     render:() => {
-                        return <Checkbox/>
+                        return <Checkbox value={allCheck} onCheck={(e) => setChecked(e.target.checked)}></Checkbox>
                     }
                 }
             ]);
@@ -445,7 +462,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
 
                     <SelectTeamComponent value={team} onChange={(e) => setTeam(e)}/>
                 </Col>
-                <Col span={3}>
+                <Col span={4}>
                    <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
                 </Col>
                 <Col span={2}>
@@ -463,7 +480,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     <Button type={'primary'}  onClick={() => generateInvoice()}>Generate Invoices</Button>
                 </Col>
                 <Col span={4}>
-                    <Button type={'primary'}>Export</Button>
+                    <Button type={'primary'}>Exports</Button>
                 </Col>
                 <Col span={16}></Col>
             </Row>
@@ -476,7 +493,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                         <Button type={'primary'}  onClick={() => generateInvoice()}>Group Invoice</Button>
                     </Col>
                     <Col span={4}>
-                        <Button type={'primary'}>Print</Button>
+                        <Button type={'primary'} onClick={() => setPrintAction(true)}>Print</Button>
                     </Col>
                     <Col span={16}></Col>
                 </Row>
@@ -492,7 +509,20 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 </>
 
             }
-
+            <Modal visible={printAction} title="Reversal History" footer={null} width={700} onCancel={() => {
+                setPrintAction(false)
+            }}>
+                <p>Print</p>
+                <br/>
+                <Table
+                    columns={column}
+                    dataSource={invoiceList}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+            </Modal>
         </div>
     )
 }
