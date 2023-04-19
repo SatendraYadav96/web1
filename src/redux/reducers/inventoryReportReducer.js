@@ -7,7 +7,8 @@ import {
     GET_INVENTORY_REPORT_FAIL,
     GET_INVENTORY_REPORT_SUCCESS,
     GET_INVENTORY_REVERSAL_HISTORY_FAIL,
-    GET_INVENTORY_REVERSAL_HISTORY_SUCCESS
+    GET_INVENTORY_REVERSAL_HISTORY_SUCCESS, REVERSE_INVENTORY_FAIL, REVERSE_INVENTORY_SUCCESS,
+
 } from "../actions/inventory/inventoryReportActionConstants";
 
 const initialState = {
@@ -17,6 +18,8 @@ const initialState = {
     editUnitAllocationLoading: false,
     editBlockItem: [],
     editBlockItemLoading: false,
+    reverseInventory:[],
+    reverseInventoryLoading:false,
     error: {}
 }
 
@@ -131,4 +134,7 @@ export default createReducer(initialState, {
     [EDIT_BLOCK_ITEM_FAIL]: editBlockItemFailReducer,
     [EDIT_BLOCK_ITEM_SUCCESS]: reverseInventorySuccessReducer,
     [EDIT_BLOCK_ITEM_FAIL]: reverseInventoryFailReducer,
+    [REVERSE_INVENTORY_SUCCESS]: reverseInventorySuccessReducer,
+    [REVERSE_INVENTORY_FAIL]: reverseInventoryFailReducer,
+
 })

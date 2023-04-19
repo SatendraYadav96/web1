@@ -413,6 +413,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             quantity: reverseQty,
         }
         handleReverseInventory({
+            certificate: authInfo.token,
             inv: data
         })
     }
