@@ -61,7 +61,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
 
     useEffect(() => {
         console.log(checkedBI)
-
         if (checkedBI !== undefined) {
             console.log(checkedBI)
             const dataBI = {
