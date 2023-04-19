@@ -9,7 +9,7 @@ import {
     GET_INVENTORY_REPORT_SUCCESS,
     GET_INVENTORY_REVERSAL_HISTORY_FAIL,
     GET_INVENTORY_REVERSAL_HISTORY_START,
-    GET_INVENTORY_REVERSAL_HISTORY_SUCCESS
+    GET_INVENTORY_REVERSAL_HISTORY_SUCCESS, REVERSE_INVENTORY_FAIL, REVERSE_INVENTORY_START, REVERSE_INVENTORY_SUCCESS
 } from "./inventoryReportActionConstants";
 
 export const getInventoryReportStartAction = (payload) => (dispatch) =>{
@@ -91,6 +91,27 @@ export const editBlockItemSuccessAction = (payload) => (dispatch) => {
 export const editBlockItemFailAction = (payload) => (dispatch) =>{
     dispatch({
         type: EDIT_BLOCK_ITEM_FAIL,
+        payload: payload,
+    })
+}
+
+export const reverseInventoryStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: REVERSE_INVENTORY_START,
+        payload: payload,
+    })
+}
+
+export const reverseInventorySuccessAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: REVERSE_INVENTORY_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const reverseInventoryFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: REVERSE_INVENTORY_FAIL,
         payload: payload,
     })
 }

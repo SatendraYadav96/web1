@@ -57,3 +57,17 @@ export const selectLoadingEditBlockItemData = createSelector(
     editBlockItemLoading,
     loadingSelection => loadingSelection
 );
+
+const reverseInventory = (state) => state.inventoryReport.reverseInventory;
+const reverseInventoryLoading = (state) => state.inventoryReport.reverseInventoryLoading
+
+
+export const selectReverseInventoryData = createSelector(
+    reverseInventory,
+    reverseInventoryDataSelection => reverseInventoryDataSelection
+);
+
+export const selectLoadingReverseInventoryData = createSelector(
+    reverseInventoryLoading,
+    loadingSelection => loadingSelection
+);

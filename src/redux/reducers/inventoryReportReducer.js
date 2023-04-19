@@ -100,6 +100,26 @@ const editBlockItemFailReducer = (state = initialState, payload) => {
     }
 }
 
+const reverseInventorySuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        reverseInventory:payload.reverseInventory,
+        reverseInventoryLoading: false
+
+    }
+}
+
+const reverseInventoryFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        reverseInventory:[],
+        reverseInventoryLoading: false,
+        error: payload.error,
+
+    }
+}
+
 export default createReducer(initialState, {
     [GET_INVENTORY_REPORT_SUCCESS]: getInventoryReportSuccessReducer,
     [GET_INVENTORY_REPORT_FAIL]: getInventoryReportFailReducer,
@@ -109,5 +129,6 @@ export default createReducer(initialState, {
     [EDIT_UNIT_ALLOCATION_FAIL]: editUnitAllocationFailReducer,
     [EDIT_BLOCK_ITEM_SUCCESS]: editBlockItemSuccessReducer,
     [EDIT_BLOCK_ITEM_FAIL]: editBlockItemFailReducer,
-
+    [EDIT_BLOCK_ITEM_SUCCESS]: reverseInventorySuccessReducer,
+    [EDIT_BLOCK_ITEM_FAIL]: reverseInventoryFailReducer,
 })
