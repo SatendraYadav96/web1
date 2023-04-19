@@ -31,7 +31,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [status, setStatus] = useState()
-    const [allCheck, setAllCheck] = useState(false)
+    const [allCheck, setAllCheck] = useState(true)
     const [checked, setChecked] = useState(false)
 
     // const handleCheck = (e) => {
@@ -296,12 +296,12 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 },
                 {
                     // title: `Print`,
-                    title: <Checkbox value={allCheck} onCheck={(e) => setAllCheck(e.target.checked)} >Print</Checkbox>,
+                    title: <Checkbox checked={allCheck} onCheck={(e) => setAllCheck(e.target.checked)} >Print</Checkbox>,
                     key: '',
                     dataIndex: '',
                     width: '30px',
                     render:() => {
-                        return <Checkbox value={allCheck} onCheck={(e) => setChecked(e.target.checked)}></Checkbox>
+                        return <Checkbox checked={allCheck} onCheck={(e) => setChecked(e.target.checked)}></Checkbox>
                     }
                 }
             ]);

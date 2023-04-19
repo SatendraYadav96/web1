@@ -1,6 +1,6 @@
 import {ofType} from "redux-observable";
 import {catchError, debounceTime, map, of, switchMap} from "rxjs";
-import {EDIT_BLOCK_ITEM_START, EDIT_UNIT_ALLOCATION_START, GET_INVENTORY_REPORT_START, GET_INVENTORY_REVERSAL_HISTORY_START} from "../actions/inventory/inventoryReportActionConstants";
+import {EDIT_BLOCK_ITEM_START, EDIT_UNIT_ALLOCATION_START, GET_INVENTORY_REPORT_START, GET_INVENTORY_REVERSAL_HISTORY_START, REVERSE_INVENTORY_START} from "../actions/inventory/inventoryReportActionConstants";
 import {
     editBlockItemFailAction,
     editBlockItemSuccessAction,
@@ -9,9 +9,9 @@ import {
     getInventoryReportFailAction,
     getInventoryReportSuccessAction,
     getInventoryReversalHistoryFailAction,
-    getInventoryReversalHistorySuccessAction
+    getInventoryReversalHistorySuccessAction, reverseInventoryFailAction, reverseInventorySuccessAction
 } from "../actions/inventory/inventoryReportActions";
-import {editBlockItemRequest, editUnitAllocationRequest, inventoryReportRequest, inventoryRevarsalHistoryRequest, inventoryReversalHistoryRequest} from "../../api/inventoryRequests";
+import {editBlockItemRequest, editUnitAllocationRequest, inventoryReportRequest, inventoryRevarsalHistoryRequest, inventoryReversalHistoryRequest, reverseInventory} from "../../api/inventoryRequests";
 
 export const getInventoryReportStartEpic = (action$) =>
   action$.pipe(
@@ -57,6 +57,18 @@ export const editBlockItemStartEpic = (action$) =>
             editBlockItemRequest(action.payload).pipe(
                 map((listResponse) => editBlockItemSuccessAction({editBlockItem: listResponse.response})),
                 catchError((error) => of(editBlockItemFailAction({error: error}))),
+            )
+        )
+    )
+
+export const reverseInventoryStartEpic = (action$) =>
+    action$.pipe(
+        ofType(REVERSE_INVENTORY_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            reverseInventory(action.payload).pipe(
+                map((listResponse) => reverseInventorySuccessAction({reverseInventory: listResponse.response})),
+                catchError((error) => of(reverseInventoryFailAction({error: error}))),
             )
         )
     )

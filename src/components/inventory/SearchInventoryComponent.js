@@ -3,7 +3,7 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
+import {Button, Checkbox, Col, Input, InputNumber, Modal, Row, Select, Table} from "antd";
 import {
     selectLoadingInventoryReportData,
     selectInventoryReversalHistoryListData,
@@ -12,14 +12,19 @@ import {
     selectEditUnitAllocationData,
     selectLoadingEditUnitAllocationData,
     selectEditBlockItemData,
-    selectLoadingEditBlockItemData
+    selectLoadingEditBlockItemData, selectLoadingReverseInventoryData, selectReverseInventoryData
 } from "../../redux/selectors/inventoryReportSelector";
-import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryReportStartAction, getInventoryReversalHistoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
+import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryReportStartAction, getInventoryReversalHistoryStartAction, reverseInventoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
 
-const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportList,inventoryReversalHistoryList,handleInventoryReversalHistoryList,editUnitAllocation,handleEditUnitAllocation,editBlockItem,handleEditBlockItem}) => {
+const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportList,inventoryReversalHistoryList,handleInventoryReversalHistoryList,editUnitAllocation,handleEditUnitAllocation,editBlockItem,handleEditBlockItem,reverseInventory, reverseInventoryLoading,handleReverseInventory}) => {
 
     const [columns, setColumns] = useState([])
     const [select, setSelect] = useState(0)
+    const [name, setName] = useState()
+    const [balance, setBalance] = useState()
+    const [revId, setRevId] = useState()
+    const [reverseQty, setReverseQty] = useState()
+    const [remark, setRemark] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [checkedUA, setCheckedUA] = useState()
@@ -40,8 +45,29 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         console.log(inventoryReversalHistoryList)
     },[inventoryReversalHistoryList])
 
-    const reverseInventory = () => {
+    const handleReverseInventoryClick = (row) => {
         setReverse(true)
+        setName(row.itemName)
+        setBalance(row.qtyBalanced)
+        setRevId(row.invId)
+    }
+
+    const onChange = (value) => {
+        console.log('changed', value);
+        setReverseQty (value)
+    };
+
+    const handleRemark = (e) => {
+        console.log('Remark: ', e.target.value);
+        setRemark (e.target.value)
+    };
+
+    const handleCancel = () => {
+        setReverse(false)
+        setName(undefined)
+        setBalance(undefined)
+        setRemark(undefined)
+        setReverseQty(0)
     }
 
     const reversalHistoryInventory = () => {
@@ -190,8 +216,8 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             },
             {
                 title: 'Qty Balance',
-                key:'qtyBalance',
-                dataIndex: 'qtyBalance',
+                key:'qtyBalanced',
+                dataIndex: 'qtyBalanced',
                 width: '100px',
             },
             {
@@ -227,7 +253,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                         <>
                             <Row gutter={[16,16]}>
                                 <Col span={14}>
-                                    <Button onClick={() => reverseInventory()}>
+                                    <Button onClick={() => handleReverseInventoryClick(row)}>
                                         Reverse
                                     </Button>
                                 </Col>
@@ -381,6 +407,19 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         searchReversalHistoryData()
     }
 
+    const handleReverseClick = () => {
+        const data = {
+            invId: revId,
+            remarks: remark,
+            quantity: reverseQty,
+        }
+        handleReverseInventory({
+            inv: data
+        })
+    }
+
+
+
     const refresh = () => {
         console.log(inventoryReversalHistoryList)
     }
@@ -420,22 +459,25 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             {/*    </Row>*/}
             {/*</Modal>*/}
 
-            <Modal visible={reverse} title="Reverse Inventory" footer={null} onCancel={() => setReverse(false)}>
-                <p>Reverse Inventory of Acrylic lady tablet(Multivite Women)</p>
-                <p>Balance quantity is 300</p>
+            <Modal visible={reverse} title="Reverse Inventory" footer={null} onCancel={handleCancel}>
+                <p>{`Reverse Inventory of ${name}`}</p>
+                <p>{`Balance quantity is ${balance}`}</p>
                 <br/>
                 <p>Inventory has not been yet reversed</p>
                 <br/>
                 <Row>
-                    <Col>Qty <Input /></Col>
+                    <Col>Qty <InputNumber min={0} defaultValue={0} onChange={onChange} /></Col>
                 </Row>
                 <br/>
                 <Row>
-                    <Col>Remarks <br/><Select style={{width:'100px'}}></Select></Col>
+                    <Col>
+                        Remarks <br/> <Input value={remark} onChange={handleRemark}/>
+                        {/*<Select style={{width:'100px'}}></Select>*/}
+                    </Col>
                 </Row>
                 <br/>
                 <Row>
-                    <Col><Button type={"primary"}>Reverse</Button></Col>
+                    <Col><Button type={"primary"} onClick={handleReverseClick}>Reverse</Button></Col>
                 </Row>
             </Modal>
             <Modal visible={reversalHistory} title="Reversal History" footer={null} onCancel={() => {
@@ -501,6 +543,9 @@ SearchInventoryComponent.propTypes = {
     editBlockItem:PropTypes.array,
     editBlockItemLoading:PropTypes.any,
     handleEditBlockItem:PropTypes.func,
+    reverseInventory:PropTypes.array,
+    reverseInventoryLoading:PropTypes.any,
+    handleReverseInventory:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -514,7 +559,9 @@ const mapState = (state) => {
     const editUnitAllocationLoading = selectLoadingEditUnitAllocationData(state)
     const editBlockItem = selectEditBlockItemData(state)
     const editBlockItemLoading = selectLoadingEditBlockItemData(state)
-    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,inventoryReversalHistoryList,inventoryReversalHistoryLoading,editUnitAllocation,editUnitAllocationLoading,editBlockItem,editBlockItemLoading}
+    const reverseInventory = selectReverseInventoryData(state)
+    const reverseInventoryLoading = selectLoadingReverseInventoryData(state)
+    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,inventoryReversalHistoryList,inventoryReversalHistoryLoading,editUnitAllocation,editUnitAllocationLoading,editBlockItem,editBlockItemLoading,reverseInventory,reverseInventoryLoading}
 }
 
 const actions = {
@@ -522,6 +569,7 @@ const actions = {
     handleInventoryReversalHistoryList : getInventoryReversalHistoryStartAction,
     handleEditUnitAllocation : editUnitAllocationStartAction,
     handleEditBlockItem : editBlockItemStartAction,
+    handleReverseInventory : reverseInventoryStartAction,
 }
 
 export default connect(mapState, actions)(SearchInventoryComponent)
