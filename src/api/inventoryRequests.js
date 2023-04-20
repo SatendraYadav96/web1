@@ -1,4 +1,4 @@
-import {ADD_SAMPLES_API, EDIT_BLOCK_ITEM_REPORT_API, EDIT_SAMPLES_API, EDIT_UNIT_ALLOCATION_REPORT_API, GET_INVENTORY_REPORT_API, GET_INVENTORY_REVERSAL_HISTORY_REPORT_API, GET_RECIPIENT_REPORT_API, REVERSE_INVENTORY_API} from "./apiConstants";
+import {ADD_SAMPLES_API, EDIT_BLOCK_ITEM_REPORT_API, EDIT_SAMPLES_API, EDIT_UNIT_ALLOCATION_REPORT_API, GET_INVENTORY_REPORT_API, GET_INVENTORY_REVERSAL_HISTORY_REPORT_API, GET_RECIPIENT_REPORT_API, REVERSE_INVENTORY_API, SWITCH_INVENTORY_API} from "./apiConstants";
 import {createRequest} from "./httpUtils";
 
 export const inventoryReportRequest = payload => {
@@ -22,4 +22,7 @@ export const editBlockItemRequest=  payload => {
 
 export const reverseInventory=  payload => {
     return createRequest(REVERSE_INVENTORY_API, payload.certificate, payload.inv)
+}
+export const switchInventory=  payload => {
+    return createRequest(SWITCH_INVENTORY_API, payload.certificate, payload.inv)
 }

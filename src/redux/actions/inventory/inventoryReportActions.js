@@ -9,7 +9,7 @@ import {
     GET_INVENTORY_REPORT_SUCCESS,
     GET_INVENTORY_REVERSAL_HISTORY_FAIL,
     GET_INVENTORY_REVERSAL_HISTORY_START,
-    GET_INVENTORY_REVERSAL_HISTORY_SUCCESS, REVERSE_INVENTORY_FAIL, REVERSE_INVENTORY_START, REVERSE_INVENTORY_SUCCESS
+    GET_INVENTORY_REVERSAL_HISTORY_SUCCESS, REVERSE_INVENTORY_FAIL, REVERSE_INVENTORY_START, REVERSE_INVENTORY_SUCCESS, SWITCH_INVENTORY_FAIL, SWITCH_INVENTORY_START, SWITCH_INVENTORY_SUCCESS
 } from "./inventoryReportActionConstants";
 
 export const getInventoryReportStartAction = (payload) => (dispatch) =>{
@@ -112,6 +112,27 @@ export const reverseInventorySuccessAction = (payload) => (dispatch) =>{
 export const reverseInventoryFailAction = (payload) => (dispatch) =>{
     dispatch({
         type: REVERSE_INVENTORY_FAIL,
+        payload: payload,
+    })
+}
+
+export const switchInventoryStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: SWITCH_INVENTORY_START,
+        payload: payload,
+    })
+}
+
+export const switchInventorySuccessAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: SWITCH_INVENTORY_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const switchInventoryFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SWITCH_INVENTORY_FAIL,
         payload: payload,
     })
 }

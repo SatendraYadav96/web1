@@ -71,3 +71,17 @@ export const selectLoadingReverseInventoryData = createSelector(
     reverseInventoryLoading,
     loadingSelection => loadingSelection
 );
+
+const switchInventory = (state) => state.inventoryReport.switchInventory;
+const switchInventoryLoading = (state) => state.inventoryReport.switchInventoryLoading
+
+
+export const selectSwitchInventoryData = createSelector(
+    switchInventory,
+    switchInventoryDataSelection => switchInventoryDataSelection
+);
+
+export const selectLoadingSwitchInventoryData = createSelector(
+    switchInventoryLoading,
+    loadingSelection => loadingSelection
+);

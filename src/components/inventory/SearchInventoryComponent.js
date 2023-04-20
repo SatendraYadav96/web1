@@ -12,11 +12,11 @@ import {
     selectEditUnitAllocationData,
     selectLoadingEditUnitAllocationData,
     selectEditBlockItemData,
-    selectLoadingEditBlockItemData, selectLoadingReverseInventoryData, selectReverseInventoryData
+    selectLoadingEditBlockItemData, selectLoadingReverseInventoryData, selectReverseInventoryData, selectSwitchInventoryData, selectLoadingSwitchInventoryData
 } from "../../redux/selectors/inventoryReportSelector";
-import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryReportStartAction, getInventoryReversalHistoryStartAction, reverseInventoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
+import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryReportStartAction, getInventoryReversalHistoryStartAction, reverseInventoryStartAction, switchInventoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
 
-const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportList,inventoryReversalHistoryList,handleInventoryReversalHistoryList,editUnitAllocation,handleEditUnitAllocation,editBlockItem,handleEditBlockItem,reverseInventory, reverseInventoryLoading,handleReverseInventory}) => {
+const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportList,inventoryReversalHistoryList,handleInventoryReversalHistoryList,editUnitAllocation,handleEditUnitAllocation,editBlockItem,handleEditBlockItem,reverseInventory, reverseInventoryLoading,handleReverseInventory,switchInventory,switchInventoryLoading,handleSwitchInventory}) => {
 
     const [columns, setColumns] = useState([])
     const [select, setSelect] = useState(0)
@@ -25,6 +25,10 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     const [revId, setRevId] = useState()
     const [reverseQty, setReverseQty] = useState()
     const [remark, setRemark] = useState()
+    const [switchQty, setSwitchQty] = useState()
+    const [switchRemark, setSwitchRemark] = useState()
+    const [switchFromId, setSwitchFromId] = useState()
+    const [switchToId, setSwitchToId] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [checkedUA, setCheckedUA] = useState()
@@ -71,8 +75,10 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         setReversalHistory(true)
     }
 
-    const switchInventory = () => {
+    const clickSwitchInventory = (row) => {
         setSwitchForm(true)
+        setSwitchFromId(row.invId)
+        searchSwitchData()
     }
 
     const handleBlockItemChange = (event,row) => {
@@ -131,7 +137,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             })
         }
     },[checkedUA])
-
 
     const searchData = () =>{
         setFlag(true)
@@ -259,7 +264,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                             </Row>
                             <Row gutter={[16,16]}>
                                 <Col span={1}>
-                                    <Button onClick={() => switchInventory()}>
+                                    <Button onClick={() => clickSwitchInventory(row)}>
                                         Switch From
                                     </Button>
                                 </Col>
@@ -287,6 +292,15 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         ])
     }
 
+    const handleSwitchCheck = (event,row) => {
+        console.log("checked",event.target.checked)
+        if (event.target.checked) {
+            setSwitchToId(row.invId)
+        } else {
+            setSwitchToId("")
+        }
+    }
+
     const searchSwitchData = () => {
         setSwitchColumns([
             {
@@ -294,14 +308,14 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 key:'',
                 dataIndex: '',
                 width: '50px',
-                render:() => {
-                    return <Checkbox />
+                render:(_,row) => {
+                    return <Checkbox onChange={(event) => handleSwitchCheck(event,row)}/>
                 }
             },
             {
                 title:'Category',
-                key:'category',
-                dataIndex: 'category',
+                key:'categoryName',
+                dataIndex: 'categoryName',
                 width: '100px'
             },
             {
@@ -312,8 +326,8 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             },
             {
                 title:'Name',
-                key:'name',
-                dataIndex: 'name',
+                key:'itemName',
+                dataIndex: 'itemName',
                 width: '150px'
             },
             {
@@ -336,8 +350,8 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             },
             {
                 title:'Qty Balance',
-                key:'qtyBalance',
-                dataIndex: 'qtyBalance',
+                key:'qtyBalanced',
+                dataIndex: 'qtyBalanced',
                 width: '100px'
             }
         ])
@@ -413,9 +427,23 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         })
     }
 
+    const handleSwitch = () => {
+        const data = {
+            fromInvId: switchFromId,
+            toInvId: switchToId,
+            remarks: switchRemark,
+            quantity: switchQty,
+        }
+        handleSwitchInventory({
+            certificate: authInfo.token,
+            inv: data,
+        })
+    }
+
     const refresh = () => {
         console.log(inventoryReversalHistoryList)
     }
+
 
     return(
         <div>
@@ -432,13 +460,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                     <Button type={"primary"} onClick={() => getInventoryReportList()}>Search</Button>
                 </Col>
             </Row>
-            {/*<div>*/}
-            {/*    Item Name <Input style={{width:"200px"}}/>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    Exhuasting Quantity <Checkbox />*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    <Button type={"primary"} onClick={() => searchData()}>Search</Button>*/}
-            {/*</div>*/}
             <br/>
             {flag &&
                 <Table dataSource={inventoryList} columns={columns}/>
@@ -489,8 +510,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                             ]}
                             onChange={(value) => handleRemark(value)}
                         />
-                        {/*<Input value={remark} onChange={handleRemark}/>*/}
-                        {/*<Select style={{width:'100px'}}></Select>*/}
                     </Col>
                 </Row>
                 <br/>
@@ -498,7 +517,11 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                     <Col><Button type={"primary"} onClick={handleReverseClick}>Reverse</Button></Col>
                 </Row>
             </Modal>
-            <Modal visible={reversalHistory} title="Reversal History" footer={null} onCancel={() => {
+            <Modal
+                visible={reversalHistory}
+                title="Reversal History"
+                footer={null}
+                onCancel={() => {
                 setReversalHistory(false)
             }}>
                 <p>Reversal History</p>
@@ -513,7 +536,12 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 </Table>
 
             </Modal>
-            <Modal visible={switchForm} width={700} title="Switch Inventory from" footer={null} onCancel={() => setSwitchForm(false)}>
+            <Modal
+                visible={switchForm}
+                width={900}
+                title="Switch Inventory from"
+                footer={null}
+                onCancel={() => setSwitchForm(false)}>
                 <Row gutter={[8,8]}>
                     <Col span={8}><Input /></Col>
                     <Col span={8}><Button onClick={() => searchSwitchData()}>Search</Button></Col>
@@ -537,9 +565,9 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 </Table>
                 <br/>
                 <Row gutter={[8,8]}>
-                    <Col span={6}>Qty To Switch<Input/></Col>
-                    <Col span={6}>Remarks<Input/></Col>
-                    <Col span={6}><Button>Switch</Button></Col>
+                    <Col span={6}>Qty To Switch<br/><InputNumber min={0} defaultValue={0} onChange={(value) => setSwitchQty(value)} /></Col>
+                    <Col span={6}>Remarks<Input onChange={(e) => setSwitchRemark(e.target.value)}/></Col>
+                    <Col span={6}><br/><Button onClick={handleSwitch}>Switch</Button></Col>
                 </Row>
             </Modal>
         </div>
@@ -579,7 +607,9 @@ const mapState = (state) => {
     const editBlockItemLoading = selectLoadingEditBlockItemData(state)
     const reverseInventory = selectReverseInventoryData(state)
     const reverseInventoryLoading = selectLoadingReverseInventoryData(state)
-    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,inventoryReversalHistoryList,inventoryReversalHistoryLoading,editUnitAllocation,editUnitAllocationLoading,editBlockItem,editBlockItemLoading,reverseInventory,reverseInventoryLoading}
+    const switchInventory = selectSwitchInventoryData(state)
+    const switchInventoryLoading = selectLoadingSwitchInventoryData(state)
+    return {authInfo,profileInfo,inventoryList,inventoryReportLoading,inventoryReversalHistoryList,inventoryReversalHistoryLoading,editUnitAllocation,editUnitAllocationLoading,editBlockItem,editBlockItemLoading,reverseInventory,reverseInventoryLoading,switchInventory,switchInventoryLoading}
 }
 
 const actions = {
@@ -588,6 +618,7 @@ const actions = {
     handleEditUnitAllocation : editUnitAllocationStartAction,
     handleEditBlockItem : editBlockItemStartAction,
     handleReverseInventory : reverseInventoryStartAction,
+    handleSwitchInventory : switchInventoryStartAction,
 }
 
 export default connect(mapState, actions)(SearchInventoryComponent)
