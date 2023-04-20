@@ -89,7 +89,6 @@ const ItemWiseReportComponent = ({authInfo}) => {
                     Business Unit <br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}  />
                 </Col>
-
                 <Col span={2}>
                     Division <br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />

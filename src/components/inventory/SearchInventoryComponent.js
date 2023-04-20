@@ -29,7 +29,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     const [flag, setFlag] = useState(false)
     const [checkedUA, setCheckedUA] = useState()
     const [checkedBI, setCheckedBI] = useState()
-    const [blockItemVisible, setBlockItemVisible] = useState(false)
     const [currentUAId, setCurrentUAId] = useState()
     const [currentBIId, setCurrentBIId] = useState()
     const [exhausted, setExhausted] = useState(false)
@@ -53,13 +52,11 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     }
 
     const onChange = (value) => {
-        console.log('changed', value);
         setReverseQty (value)
     };
 
-    const handleRemark = (e) => {
-        console.log('Remark: ', e.target.value);
-        setRemark (e.target.value)
+    const handleRemark = (value) => {
+        setRemark (value)
     };
 
     const handleCancel = () => {
@@ -102,8 +99,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     },[checkedBI])
 
     const handleUnitAllocationChange = (event,row) => {
-
-
         console.log('checked = ', event.target.checked);
         if (event.target.checked) {
             setCheckedUA(1);
@@ -413,12 +408,10 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             quantity: reverseQty,
         }
         handleReverseInventory({
+            inv: data,
             certificate: authInfo.token,
-            inv: data
         })
     }
-
-
 
     const refresh = () => {
         console.log(inventoryReversalHistoryList)
@@ -471,7 +464,32 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 <br/>
                 <Row>
                     <Col>
-                        Remarks <br/> <Input value={remark} onChange={handleRemark}/>
+                        Remarks <br/>
+                        <Select
+                            style={{
+                                width: 120,
+                            }}
+                            options={[
+                                {
+                                    value: 'EXPIRED',
+                                    label: 'EXPIRED',
+                                },
+                                {
+                                    value: 'PRUNED',
+                                    label: 'PRUNED',
+                                },
+                                {
+                                    value: 'SHORT RECEIPT',
+                                    label: 'SHORT RECEIPT',
+                                },
+                                {
+                                    value: 'DAMAGED',
+                                    label: 'DAMAGED',
+                                },
+                            ]}
+                            onChange={(value) => handleRemark(value)}
+                        />
+                        {/*<Input value={remark} onChange={handleRemark}/>*/}
                         {/*<Select style={{width:'100px'}}></Select>*/}
                     </Col>
                 </Row>
