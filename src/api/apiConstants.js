@@ -75,5 +75,5 @@ export const GET_INVENTORY_REPORT_API = {url: '/v1/inventory/searchInventory',me
 export const GET_INVENTORY_REVERSAL_HISTORY_REPORT_API = {url: '/v1/inventory/getInventoryReversalHistory',method:'GET',auth:true}
 export const EDIT_UNIT_ALLOCATION_REPORT_API = {url: '/v1/inventory/editUnitAllocation',method:'PUT',auth:true}
 export const EDIT_BLOCK_ITEM_REPORT_API = {url: '/v1/inventory/blockItem',method:'PUT',auth:true}
-export const REVERSE_INVENTORY_API = { url: '/v1/master/reverseInventory', method: 'POST', auth: true }
-export const SWITCH_INVENTORY_API = { url: '/v1/master/switchInventory', method: 'POST', auth: true }
+export const REVERSE_INVENTORY_API = { url: '/v1/inventory/reverseInventory', method: 'POST', auth: true }
+export const SWITCH_INVENTORY_API = { url: '/v1/inventory/switchInventory', method: 'POST', auth: true }
