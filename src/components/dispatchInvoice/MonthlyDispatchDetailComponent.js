@@ -24,6 +24,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const [team, setTeam] = useState()
     const [dispatchType, setDispatchType] = useState('0')
     const [printAction, setPrintAction] = useState(false)
+    const [printAllAction, setPrintAllAction] = useState(false)
     const [column, setColumn] = useState([])
     const [printColumn, setPrintColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -33,6 +34,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const [checked, setChecked] = useState(false)
     const [checkedArr, setCheckedArr] = useState([])
     const [printInvoice, setPrintInvoice] = useState([])
+    const [printAllInvoice, setPrintAllInvoice] = useState([])
 
     const handleAllPrint = (event) => {
         setAllCheck(event.target.checked)
@@ -152,13 +154,13 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
-                    width: '50px'
+                    width: '150px'
                 },
                 {
                     title: 'Boxes',
                     key: 'boxes',
                     dataIndex: 'boxes',
-                    width: '50px',
+                    width: '150px',
                     render:() =>{
                         return <Input/>
                     }
@@ -167,7 +169,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     title: 'Weight',
                     key: 'weight',
                     dataIndex: 'weight',
-                    width: '50px',
+                    width: '150px',
                     render: () =>{
                         return <Input/>
                     }
@@ -186,8 +188,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     key: 'lrNo',
                     dataIndex: 'lrNumber',
                     width: '170px',
-                    render: () => {
-                        return <Input/>
+                    render: (_,row) => {
+                        return <Input defaulValue={row.lrNumber}/>
                     }
                 },
                 {
@@ -265,24 +267,24 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
-                    width: '50px'
+                    width: '150px'
                 },
                 {
                     title: 'Boxes',
                     key: 'boxes',
                     dataIndex: 'boxes',
-                    width: '50px',
-                    render:() =>{
-                        return <Input/>
+                    width: '150px',
+                    render:(_,row) =>{
+                        return <Input defaultValue={row.boxes} style={{width: "150px"}}/>
                     }
                 },
                 {
                     title: 'Weight',
                     key: 'weight',
                     dataIndex: 'weight',
-                    width: '50px',
-                    render: () =>{
-                        return <Input/>
+                    width: '150px',
+                    render:(_,row) =>{
+                        return <Input defaultValue={row.weight}/>
                     }
                 },
                 {
@@ -299,8 +301,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     key: 'lrNo',
                     dataIndex: 'lrNumber',
                     width: '170px',
-                    render: () => {
-                        return <Input/>
+                    render: (_,row) => {
+                        return <Input defaulValue={row.lrNo} style={{width: "100px"}}/>
                     }
                 },
                 {
@@ -400,24 +402,24 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
-                    width: '50px'
+                    width: '200px'
                 },
                 {
                     title: 'Boxes',
                     key: 'boxes',
                     dataIndex: 'boxes',
-                    width: '50px',
-                    render:() =>{
-                        return <Input/>
+                    width: '150px',
+                    render:(_,row) =>{
+                        return <Input defaultValue={row.boxes} style={{width: "150px"}}/>
                     }
                 },
                 {
                     title: 'Weight',
                     key: 'weight',
                     dataIndex: 'weight',
-                    width: '50px',
-                    render: () =>{
-                        return <Input/>
+                    width: '100px',
+                    render: (_,row) =>{
+                        return <Input defaultValue={row.weight}/>
                     }
                 },
                 {
@@ -434,8 +436,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     key: 'lrNo',
                     dataIndex: 'lrNumber',
                     width: '170px',
-                    render: () => {
-                        return <Input/>
+                    render: (_,row) => {
+                        return <Input defaulValue={row.lrNo} style={{width: "100px"}}/>
                     }
                 }
             ]);
@@ -483,6 +485,12 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
         printData()
     }
 
+    const handleAllPrintInvoice = () => {
+        setPrintAllAction(true)
+        setPrintAllInvoice(invoiceList)
+        printData()
+    }
+
     useEffect(() => {
         console.log(printInvoice)
         console.log(matchInvoice(checkedArr, invoiceList))
@@ -510,14 +518,13 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={3}>
-
                     <SelectTeamComponent value={team} onChange={(e) => setTeam(e)}/>
                 </Col>
-                <Col span={4}>
+                <Col span={3}>
                    <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
                 </Col>
                 <Col span={2}>
-                    <Button type={'primary'} onClick={() => getEmployeeInvoiceDetailsList()}>Submit</Button>
+                    <Button type={'primary'} onClick={() => getEmployeeInvoiceDetailsList()} style={{width: "100%"}}>Submit</Button>
                 </Col>
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
@@ -527,10 +534,10 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
             {
              status === "00000000-0000-0000-0000-000000000026" &&
             <Row gutter={[8,8]}>
-                <Col span={4}>
+                <Col span={3}>
                     <Button type={'primary'}  onClick={() => generateInvoice()}>Generate Invoices</Button>
                 </Col>
-                <Col span={4}>
+                <Col span={2}>
                     <Button type={'primary'}>Exports</Button>
                 </Col>
                 <Col span={16}></Col>
@@ -540,13 +547,16 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
              {
                 status === "00000000-0000-0000-0000-000000000027" &&
                 <Row gutter={[8,8]}>
-                    <Col span={4}>
+                    <Col span={3}>
                         <Button type={'primary'}  onClick={() => generateInvoice()}>Group Invoice</Button>
                     </Col>
-                    <Col span={4}>
+                    <Col span={2}>
                         <Button type={'primary'} onClick={handlePrint}>Print</Button>
                     </Col>
-                    <Col span={16}></Col>
+                    <Col span={2}>
+                        <Button type={'primary'} onClick={handleAllPrintInvoice}>Print All</Button>
+                    </Col>
+                    <Col span={14}></Col>
                 </Row>
                 }
             <br/>
@@ -564,10 +574,28 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 setPrintAction(false)
             }}>
                 <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print</p>
+                <Button type={"primary"} style={{marginRight: "20px"}}>Print Invoice</Button>
+                <Button type={"primary"}>Print Label</Button>
                 <br/>
                 <Table
                     columns={printColumn}
                     dataSource={printInvoice}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+            </Modal>
+            <Modal open={printAllAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
+                setPrintAllAction(false)
+            }}>
+                <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print All</p>
+                <Button type={"primary"} style={{marginRight: "20px"}}>Print Invoice</Button>
+                <Button type={"primary"}>Print Label</Button>
+                <br/>
+                <Table
+                    columns={printColumn}
+                    dataSource={printAllInvoice}
                     scroll={{
                         x: 100,
                     }}

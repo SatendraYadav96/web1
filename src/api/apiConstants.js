@@ -59,10 +59,12 @@ export const COST_CENTER_BY_ID_API = { url: '/v1/master/getCostCenterById', meth
 export const ADD_COST_CENTER_API = { url: '/v1/master/addCostCenter', method: 'POST', auth: true }
 
 //DROPDOWN
-
 export const GET_BUSINESS_UNIT_DROPDOWN_API = {url: '/v1/master/getBusinessUnitDropdown',method:'GET',auth:true}
-
 export const GET_BRAND_DROPDOWN_API = {url: '/v1/master/getBrandDropdown',method:'GET',auth:true}
+export const GET_DIVISION_DROPDOWN_API = {url: '/v1/master/getDivisionDropdown',method:'GET',auth:true}
+export const GET_TEAM_DROPDOWN_API = {url: '/v1/master/getTeamDropdown',method:'GET',auth:true}
+export const GET_COST_CENTER_DROPDOWN_API = {url: '/v1/master/getCostCenterDropdown',method:'GET',auth:true}
+
 
 // SAMPLES
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}

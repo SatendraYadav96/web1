@@ -160,6 +160,10 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
       setBusinessUnit(value)
     }
 
+    const handleDivision = (value) => {
+        setDivision(value)
+    }
+
     return(
         <>
             <TitleWidget title="Purchase Report" />
@@ -170,7 +174,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 </Col>
                 <Col span={3}>
                     Subteam<br/>
-                    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} onChange={handleDivision} />
                 </Col>
                  <Col span={3}>
                      From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>

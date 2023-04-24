@@ -214,21 +214,29 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         setBusinessUnit(value)
     }
 
+    const handleDivision = (value) => {
+        setDivision(value)
+    }
+
+    const handleTeam = (value) => {
+        setTeam(value)
+    }
+
     return(
         <>
             <TitleWidget title="Recipient Report" />
             <Row gutter={[8,8]}>
                 <Col span={2}>
-                    Team<br/>
+                    BU<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit}/>
                 </Col>
                 <Col span={3}>
                     Subteam<br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)}/>
+                    <SelectDivisionComponent value={division} onChange={handleDivision}/>
                 </Col>
                 <Col span={3}>
                     Team<br/>
-                    <SelectTeamComponent value={team} onChange={(e) => setTeam(e)}/>
+                    <SelectTeamComponent value={team} onChange={handleTeam}/>
                 </Col>
                 <Col span={3}>
                     Recipient Status<br/>
@@ -256,7 +264,6 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             }
         </>
     )
-
 }
 
 RecipientReportComponent.propTypes = {

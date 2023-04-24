@@ -11,8 +11,6 @@ const SelectBusinessUnitComponent = ({value, onChange,authInfo,profileInfo,buDro
 
     const [buId, setBuId] = useState()
     const [buName, setBuName] = useState()
-
-
     const data  = {"id":buId, "name":buName}
 
     useEffect(() => {
@@ -51,12 +49,8 @@ const mapState = (state) => {
     return {authInfo,buDropdown,buDropdownLoading,profileInfo}
 }
 
-
 const actions = {
-
     handleBusinessUnitDropDown : businessUnitDropdownStartAction
-
 }
-
 
 export default connect(mapState, actions) (SelectBusinessUnitComponent)

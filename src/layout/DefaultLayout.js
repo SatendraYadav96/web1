@@ -80,7 +80,7 @@ const DefaultLayout = ({ authInfo }) => {
                   )
                 )
               })}
-              <Route path="/" element={<Navigate to="dashboard" replace />} />
+              <Route path="/" element={<Navigate to="home/dashboard" replace />} />
             </Routes>
           </Suspense>
         </Content>
