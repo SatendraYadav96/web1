@@ -124,10 +124,7 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
         certificate: authInfo.token
         });
         searchData()
-
     }
-
-
 
     return(
         <>

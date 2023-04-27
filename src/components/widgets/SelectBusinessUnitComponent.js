@@ -32,7 +32,6 @@ const SelectBusinessUnitComponent = ({value, onChange,authInfo,profileInfo,buDro
     </Select>
 }
 
-
 SelectBusinessUnitComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
