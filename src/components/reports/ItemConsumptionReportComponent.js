@@ -11,11 +11,9 @@ import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getItemConsumptionReportStartAction } from '../../redux/actions/reports/itemConsumptionReportActions'
 import {selectConsumptionListData,selectLoadingConsumptionReportData} from "../../redux/selectors/itemConsumptionReportSelector"
 import moment from 'moment'
-import dayjs from "dayjs";
 
 const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,consumptionReportLoading,handleConsumptionReportList}) => {
 
-    let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [fromDate, setFromDate] = useState()
@@ -168,7 +166,6 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
             }
         </>
     )
-
 }
 
 ItemConsumptionReportComponent.propTypes = {
