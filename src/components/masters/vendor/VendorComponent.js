@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
@@ -10,13 +10,16 @@ import {useNavigate} from "react-router-dom";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import { getVendorStartAction  } from '../../../redux/actions/master/masterActions';
 import {selectVendorListData,selectLoadingVendorData} from "../../../redux/selectors/masterSelector";
+import { CSVLink } from "react-csv";
 
 const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVendorList}) => {
 
     const navigate = useNavigate()
     const [status, setStatus] = useState(1)
     const [column, setColumn] = useState([])
+    const [data, setData] = useState([])
     const [dataSource, setDataSource] = useState([])
+    const [exportData, setExportData] = useState([])
     const [flag, setFlag] = useState(false)
 
 
@@ -109,6 +112,25 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
         searchData()
     }
 
+    useEffect(() => {
+        setData(vendorList.map(item => {
+            return {
+                vendorName: item.name,
+                vendorCode: item.code,
+                address1: item.addressLine1,
+                address2: item.addressLine2,
+                city: item.city,
+                state: item.state,
+                zip: item.zip
+            }
+        }))
+    },[vendorList])
+
+    useEffect(() => {
+        console.log(data)
+    },[data])
+
+
     return(
         <>
           <TitleWidget title={"Vendor"}/>
@@ -131,7 +153,16 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp; <Button>CSV</Button>
+                    <CSVLink
+                        data={data}
+                        filename={"vendor.csv"}
+                        onClick={() => {
+                            console.log("clicked")
+                        }}
+                    >
+                        <Button>CSV</Button>
+                    </CSVLink>
+                    &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

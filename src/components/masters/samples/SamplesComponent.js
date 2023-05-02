@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
@@ -9,12 +9,14 @@ import {useNavigate} from "react-router-dom";
 import { selectLoadingSamplesData, selectSamplesListData} from "../../../redux/selectors/masterSelector";
 import {getSamplesStartAction} from "../../../redux/actions/master/masterActions";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
+import {CSVLink} from "react-csv";
 
 const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handleSamplesList}) => {
 
   const [status, setStatus] = useState(1)
   const navigate = useNavigate()
   const [column, setColumn] = useState([])
+  const [data, setData] = useState([])
   const [dataSource, setDataSource] = useState([])
   const [flag, setFlag] = useState(false)
 
@@ -70,8 +72,18 @@ const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handl
       certificate: authInfo.token
     });
     searchData()
-
   }
+
+    useEffect(() => {
+        setData(samplesList.map(item => {
+            return {
+                name: item.name,
+                code: item.lmid,
+            }
+        }))
+        console.log(samplesList)
+    },[samplesList])
+
     return(
       <>
         <TitleWidget title={"Master - Samples"}/>
@@ -89,7 +101,16 @@ const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handl
         <br/>
         <Row>
           <Col span={6}>
-            <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+              <CSVLink
+                  data={data}
+                  filename={"sample.csv"}
+                  onClick={() => {
+                      console.log("clicked")
+                  }}
+              >
+                  <Button>CSV</Button>
+              </CSVLink>
+              &nbsp;<Button>PDF</Button>
           </Col>
           <Col span={18}>
             <div align="right">

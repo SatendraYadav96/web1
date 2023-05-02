@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -11,6 +11,7 @@ import {selectDeviationListData,selectLoadingDeviationReportData} from "../../re
 import moment from 'moment'
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import dayjs from "dayjs";
+import {CSVLink} from "react-csv";
 
 const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationReportLoading,handleDeviationReportList}) => {
 
@@ -21,6 +22,7 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [data, setData] = useState()
 
     const searchData = () => {
         setFlag(true)
@@ -106,6 +108,22 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
 
     }
 
+    useEffect(() => {
+        setData(deviationList.map(item => {
+            return {
+                businessUnit: item.businessUnit,
+                quarter: item.quarter,
+                brandManager: item.brandManager,
+                brand: item.brand,
+                itemPlannedInQtr: item.itemPlannedInQtr,
+                itemDispatchedInAllocation: item.itemDispatchedInAllocation,
+                dispatchCycle: item.dispatchCycle,
+                remarks: item.remarks,
+            }
+        }))
+        console.log(deviationList)
+    },[deviationList])
+
     return(
         <>
             <TitleWidget title="Deviation Report" />
@@ -130,7 +148,17 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"deviationreport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

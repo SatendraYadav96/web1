@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -11,6 +11,7 @@ import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getPurchaseReportStartAction } from '../../redux/actions/reports/purchaseReportActions'
 import {selectPurchaseListData,selectLoadingPurchaseReportData} from "../../redux/selectors/purchaseReportSelector"
 import moment from 'moment'
+import {CSVLink} from "react-csv";
 
 
 
@@ -23,6 +24,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
+    const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
 
@@ -43,31 +45,31 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             },
             {
                 title: 'GRN Date',
-                key: '',
+                key: 'grnDate',
                 dataIndex: 'grnDate',
                 width: '100px'
             },
             {
                 title: 'Vendor Name',
-                key: '',
+                key: 'vendorName',
                 dataIndex: 'vendorName',
                 width: '100px'
             },
             {
                 title: 'Vendor Code',
-                key: '',
+                key: 'vendorCode',
                 dataIndex: 'vendorCode',
                 width: '100px'
             },
             {
                 title: 'PO No.',
-                key: '',
+                key: 'poNo',
                 dataIndex: 'poNo',
                 width: '100px'
             },
             {
                 title: 'Input Name',
-                key: '',
+                key: 'productName',
                 dataIndex: 'productName',
                 width: '100px'
             },
@@ -79,7 +81,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             },
             {
                 title: 'Cost Center',
-                key: '',
+                key: 'costCenter',
                 dataIndex: 'costCenter',
                 width: '100px'
             },
@@ -97,25 +99,25 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             },
             {
                 title: 'Value',
-                key: '',
+                key: 'value',
                 dataIndex: 'value',
                 width: '100px'
             },
             {
                 title: 'Batch No',
-                key: '',
+                key: 'batchNo',
                 dataIndex: 'batchNo',
                 width: '100px'
             },
             {
                 title: 'Medical Code',
-                key: '',
-                dataIndex: 'medicalCode',
+                key: 'batchNo',
+                dataIndex: 'batchNo',
                 width: '100px'
             },
             {
                 title: 'No of Boxes',
-                key: '',
+                key: 'noBoxes',
                 dataIndex: 'noBoxes',
                 width: '100px'
             }
@@ -156,6 +158,41 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
 
     }
 
+
+    useEffect(() => {
+        setData(purchaseList.map(item => {
+            return {
+                businessUnit: item.businessUnit,
+                division: item.divison,
+                grnDate: item.grnDate,
+                vendorName: item.vendorName,
+                vendorCode: item.vendorCode,
+                poNo: item.poNo,
+                productName: item.productName,
+                productCode: item.productCode,
+                costCenter: item.costCenter,
+                quantity: item.quantity,
+                rate: item.rate,
+                value: item.value,
+                batchNo: item.batchNo,
+                medicalCode: item.medicalCode,
+                email: item.email,
+                team: item.team,
+                nsmName: item.nsmName,
+                nsmCode: item.nsmCode,
+                rmName: item.rmName,
+                rmCode: item.rmCode,
+                amName: item.amName,
+                amCode: item.amCode,
+                cfa: item.cfa,
+                hq: item.hq,
+                remarks: item.remarks,
+                status: item.status,
+            }
+        }))
+        console.log(purchaseList)
+    },[purchaseList])
+
     const handleBusinessUnit = (value) =>  {
       setBusinessUnit(value)
     }
@@ -190,7 +227,17 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                        data={data}
+                        filename={"purchasereport.csv"}
+                        onClick={() => {
+                            console.log("clicked")
+                        }}
+                    >
+                        <Button>CSV</Button>
+                    </CSVLink>)}
+                    &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

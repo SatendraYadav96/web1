@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -11,6 +11,7 @@ import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getItemConsumptionReportStartAction } from '../../redux/actions/reports/itemConsumptionReportActions'
 import {selectConsumptionListData,selectLoadingConsumptionReportData} from "../../redux/selectors/itemConsumptionReportSelector"
 import moment from 'moment'
+import {CSVLink} from "react-csv";
 
 const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,consumptionReportLoading,handleConsumptionReportList}) => {
 
@@ -18,6 +19,7 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
     const [division, setDivision] = useState()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
+    const [data, setData] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -124,6 +126,25 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
         searchData()
     }
 
+    useEffect(() => {
+        setData(consumptionList.map(item => {
+            return {
+                businessUnit: item.businessUnit,
+                divison: item.divison,
+                costCenter: item.costCenter,
+                itemName: item.itemName,
+                itemCode: item.itemCode,
+                itemType: item.itemType,
+                expiryDate: item.expiryDate,
+                quantity: item.quantity,
+                rate: item.rate,
+                value: item.value,
+                typeOfTransaction: item.typeOfTransaction,
+            }
+        }))
+        console.log(consumptionList)
+    },[consumptionList])
+
     return(
         <>
             <TitleWidget title="Item Consumption Report" />
@@ -152,7 +173,17 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"consumptionreport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -15,6 +15,7 @@ import {selectDispatchRegisterListData,selectLoadingDispatchRegisterReportData} 
 import moment from 'moment'
 import SelectFilterComponent from "../widgets/SelectFilterComponent";
 import dayjs from "dayjs";
+import {CSVLink} from "react-csv";
 
 const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,dispatchRegisterReportLoading,handleDispatchRegisterReportList}) => {
 
@@ -25,6 +26,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
     const [team, setTeam] = useState()
+    const [data, setData] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -176,43 +178,69 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
     }
 
 
-        const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
-        const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
+    const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
+    const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
 
+    const getDispatchRegisterReportList = () => {
+         console.log(businessUnit);
+         console.log(division);
+         console.log(formatedStartDateString);
+         console.log(formatedEndDateString);
+         console.log(profileInfo.id);
+         console.log(profileInfo.userDesignation.id);
+         console.log("00000000-0000-0000-0000-000000000000");
+         console.log(filterPlan);
+         console.log(team);
 
-                    const getDispatchRegisterReportList = () => {
-                         console.log(businessUnit);
-                         console.log(division);
-                         console.log(formatedStartDateString);
-                         console.log(formatedEndDateString);
-                         console.log(profileInfo.id);
-                         console.log(profileInfo.userDesignation.id);
-                         console.log("00000000-0000-0000-0000-000000000000");
-                         console.log(filterPlan);
-                         console.log(team);
+         console.log(dispatchRegisterList);
 
-                         console.log(dispatchRegisterList);
+        handleDispatchRegisterReportList ({
+        businessUnit:businessUnit,
+        divison:division,
+        userId: profileInfo.id,
+        userDesgId: profileInfo.userDesignation.id,
+        startDate:formatedStartDateString,
+        endDate:formatedEndDateString,
+        team:team,
+        statusId:"00000000-0000-0000-0000-000000000000",
+        filterPlan:filterPlan,
 
-                        handleDispatchRegisterReportList ({
-                        businessUnit:businessUnit,
-                        divison:division,
-                        userId: profileInfo.id,
-                        userDesgId: profileInfo.userDesignation.id,
-                        startDate:formatedStartDateString,
-                        endDate:formatedEndDateString,
-                        team:team,
-                        statusId:"00000000-0000-0000-0000-000000000000",
-                        filterPlan:filterPlan,
+        certificate: authInfo.token
+        });
+        searchData()
 
+    }
 
-
-
-
-                        certificate: authInfo.token
-                        });
-                        searchData()
-
-                    }
+    useEffect(() => {
+        setData(dispatchRegisterList.map(item => {
+            return {
+                businessUnit: item.businessUnit,
+                division: item.divison,
+                lrNo: item.lrNo,
+                courierName: item.courierName,
+                noBoxes: item.noBoxes,
+                weights: item.weights,
+                invoiceNo: item.invoiceNo,
+                sampleValue: item.sampleValue,
+                itemValue: item.itemValue,
+                invoiceValue: item.values,
+                invoiceDate: item.invoiceDate,
+                recipient: item.recipient,
+                designation: item.designation,
+                employeeCode: item.employeeCode,
+                address: item.address,
+                city: item.city,
+                state: item.state,
+                zip: item.zip,
+                mobileNo: item.mobileNo,
+                teamName: item.teamName,
+                nameofReceiver: item.nameofReceiver,
+                dateofDelivery: item.dateofDelivery,
+                cost: item.cost,
+            }
+        }))
+        console.log(dispatchRegisterList)
+    },[dispatchRegisterList])
 
     return(
         <>
@@ -272,7 +300,17 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"dispatchregisterreport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

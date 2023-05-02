@@ -543,7 +543,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 <Col span={16}></Col>
             </Row>
             }
-
              {
                 status === "00000000-0000-0000-0000-000000000027" &&
                 <Row gutter={[8,8]}>

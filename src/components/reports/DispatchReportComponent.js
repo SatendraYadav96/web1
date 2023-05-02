@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -13,6 +13,7 @@ import SelectFilterPlanComponent from "../widgets/SelectFilterPlanComponent";
 import { getDispatchesReportStartAction } from '../../redux/actions/reports/dispatchesReportActions'
 import {selectDispatchesListData,selectLoadingDispatchesReportData} from "../../redux/selectors/dispatchesReportSelector"
 import moment from 'moment'
+import {CSVLink} from "react-csv";
 
 
 const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatchesReportLoading,handleDispatchesReportList}) => {
@@ -23,6 +24,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
     const [filterPlan, setFilterPlan] = useState()
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
+    const [data, setData] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -139,7 +141,25 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
 
         }
 
-
+    useEffect(() => {
+        setData(dispatchesList.map(item => {
+            return {
+                businessUnit: item.businessUnit,
+                division: item.divison,
+                recipientName: item.recipientName,
+                recipientCode: item.recipientCode,
+                teamName: item.teamName,
+                designation: item.desigation,
+                productCode: item.productCode,
+                productName: item.productName,
+                quantity: item.quantity,
+                amount: item.amount,
+                invoiceNo: item.invoiceNo,
+                invoiceDate: item.invoiceDate,
+            }
+        }))
+        console.log(dispatchesList)
+    },[dispatchesList])
 
     return(
         <>
@@ -175,7 +195,17 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"purchasereport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -12,6 +12,7 @@ import { getDestructionReportStartAction } from '../../redux/actions/reports/des
 import {selectDestructionListData,selectLoadingDestructionReportData} from "../../redux/selectors/destructionReportSelector"
 import moment from 'moment'
 import dayjs from "dayjs";
+import {CSVLink} from "react-csv";
 
 const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,destructionReportLoading,handleDestructionReportList}) => {
 
@@ -20,6 +21,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
     const [division, setDivision] = useState()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
+    const [data, setData] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -105,39 +107,57 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
     }
 
 
-        const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
-        const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
+    const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
+    const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
 
 
-                    const getDestructionReportList = () => {
-                         console.log(businessUnit);
-                         console.log(division);
-                         console.log(formatedStartDateString);
-                         console.log(formatedEndDateString);
-                         console.log(profileInfo.id);
-                         console.log(profileInfo.userDesignation.id);
+    const getDestructionReportList = () => {
+         console.log(businessUnit);
+         console.log(division);
+         console.log(formatedStartDateString);
+         console.log(formatedEndDateString);
+         console.log(profileInfo.id);
+         console.log(profileInfo.userDesignation.id);
 
-                         console.log(destructionList);
+         console.log(destructionList);
 
-                        handleDestructionReportList ({
-                        businessUnit:businessUnit,
-                        divison:division,
-                        userId: profileInfo.id,
-                        userDesgId: profileInfo.userDesignation.id,
-                        fromDate:formatedStartDateString,
-                        toDate:formatedEndDateString,
-                        statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
-
-
+        handleDestructionReportList ({
+        businessUnit:businessUnit,
+        divison:division,
+        userId: profileInfo.id,
+        userDesgId: profileInfo.userDesignation.id,
+        fromDate:formatedStartDateString,
+        toDate:formatedEndDateString,
+        statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
 
 
-                        certificate: authInfo.token
-                        });
-                        searchData()
-
-                    }
 
 
+        certificate: authInfo.token
+        });
+        searchData()
+
+    }
+
+    useEffect(() => {
+        setData(destructionList.map(item => {
+            return {
+                businessUnit: item.businessUnit,
+                divison: item.divison,
+                costCenter: item.costCenter,
+                itemName: item.itemName,
+                itemCode: item.itemCode,
+                itemType: item.itemType,
+                expiryDate: item.expiryDate,
+                reversalDate: item.reversalDate,
+                quantityReversed: item.quantityReversed,
+                rate: item.rate,
+                value: item.value,
+                remarks: item.remarks,
+            }
+        }))
+        console.log(destructionList)
+    },[destructionList])
 
     return(
         <>
@@ -167,7 +187,17 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"inventoryreversalreport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

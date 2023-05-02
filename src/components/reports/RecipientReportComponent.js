@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -12,6 +12,7 @@ import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import SelectRecipientStatusComponent from "../widgets/SelectRecipientStatusComponent";
 import { getRecipientReportStartAction } from '../../redux/actions/reports/recipientReportActions'
 import {selectRecipientListData,selectLoadingRecipientReportData} from "../../redux/selectors/recipientReportSelector"
+import {CSVLink} from "react-csv";
 
 const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientReportLoading,handleRecipientReportList}) => {
 
@@ -20,6 +21,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
     const [team, setTeam] = useState()
     const [recipientStatus, setRecipientStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [column, setColumn] = useState([])
+    const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
 
@@ -208,8 +210,41 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         certificate: authInfo.token
         });
         searchData()
-
     }
+
+    useEffect(() => {
+        setData(recipientList.map(item => {
+            return {
+                businessUnit: item.businessUnit,
+                division: item.division,
+                employeeCode: item.employeeCode,
+                employeeName: item.employeeName,
+                designation: item.designation,
+                address: item.address,
+                state: item.state,
+                zip: item.zip,
+                zone: item.zone,
+                loginId: item.loginId,
+                workId: item.workId,
+                gender: item.gender,
+                joiningDate: item.joiningDate,
+                mobile: item.mobile,
+                email: item.email,
+                team: item.team,
+                nsmName: item.nsmName,
+                nsmCode: item.nsmCode,
+                rmName: item.rmName,
+                rmCode: item.rmCode,
+                amName: item.amName,
+                amCode: item.amCode,
+                cfa: item.cfa,
+                hq: item.hq,
+                remarks: item.remarks,
+                status: item.status,
+            }
+        }))
+    },[recipientList])
+
     const handleBusinessUnit = (value) =>  {
         setBusinessUnit(value)
     }
@@ -250,7 +285,19 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"recipientreport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>
+                        )
+                    }&nbsp;<Button>PDF</Button>
+
                 </Col>
                 <Col span={18}>
                     <div align="right">

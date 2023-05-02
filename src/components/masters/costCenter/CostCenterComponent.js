@@ -9,10 +9,13 @@ import {useNavigate} from "react-router-dom";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import {selectCostCenterListData, selectLoadingCostCenterData} from "../../../redux/selectors/masterSelector";
 import {getCostCenterStartAction, getVendorStartAction} from "../../../redux/actions/master/masterActions";
+import {CSVLink} from "react-csv";
 
 const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLoading, handleCostCenterList}) => {
     const [status, setStatus] = useState(1)
     const navigate = useNavigate()
+    const [data, setData] = useState([])
+
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -75,6 +78,16 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
         searchData()
     }
 
+    useEffect(() => {
+        setData(costCenterList.map(item => {
+            return {
+                costCenterName: item.name,
+                costCenterCode: item.code,
+                brand: item.brand,
+            }
+        }))
+    },[costCenterList])
+
     return(
         <>
             <TitleWidget title={"Master - Cost Center"}/>
@@ -92,7 +105,16 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    <CSVLink
+                        data={data}
+                        filename={"costcenter.csv"}
+                        onClick={() => {
+                            console.log("clicked")
+                        }}
+                    >
+                        <Button>CSV</Button>
+                    </CSVLink>
+                    &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">
