@@ -17,7 +17,7 @@ import {CSVLink} from "react-csv";
 const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientReportLoading,handleRecipientReportList}) => {
 
     const [businessUnit, setBusinessUnit] = useState()
-    const [division, setDivision] = useState()
+    // const [division, setDivision] = useState()
     const [team, setTeam] = useState()
     const [recipientStatus, setRecipientStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [column, setColumn] = useState([])
@@ -29,17 +29,17 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px'
             },
-            {
-                title:'Division',
-                key:'division',
-                dataIndex:'division',
-                width:'100px'
-            },
+            // {
+            //     title:'Division',
+            //     key:'division',
+            //     dataIndex:'division',
+            //     width:'100px'
+            // },
             {
                 title: 'Emp Code',
                 key: 'empId',
@@ -125,7 +125,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 width: '100px'
             },
             {
-                title: 'Team Name',
+                title: 'Sub Team',
                 key: 'teamName',
                 dataIndex: 'team',
                 width: '100px'
@@ -197,14 +197,14 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
 
     const getRecipientReportList = () => {
          console.log(businessUnit);
-         console.log(division);
+        // console.log(division);
          console.log(team);
          console.log(recipientStatus);
          console.log(recipientList);
 
         handleRecipientReportList ({
         businessUnit:businessUnit,
-        division:division,
+        //division:division,
         team:team,
         statusId:recipientStatus,
         certificate: authInfo.token
@@ -215,8 +215,8 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
     useEffect(() => {
         setData(recipientList.map(item => {
             return {
-                businessUnit: item.businessUnit,
-                division: item.division,
+                team: item.businessUnit,
+                //division: item.division,
                 employeeCode: item.employeeCode,
                 employeeName: item.employeeName,
                 designation: item.designation,
@@ -230,7 +230,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 joiningDate: item.joiningDate,
                 mobile: item.mobile,
                 email: item.email,
-                team: item.team,
+                SubTeam: item.team,
                 nsmName: item.nsmName,
                 nsmCode: item.nsmCode,
                 rmName: item.rmName,
@@ -249,9 +249,9 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         setBusinessUnit(value)
     }
 
-    const handleDivision = (value) => {
-        setDivision(value)
-    }
+    // const handleDivision = (value) => {
+    //     setDivision(value)
+    // }
 
     const handleTeam = (value) => {
         setTeam(value)
@@ -262,15 +262,15 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             <TitleWidget title="Recipient Report" />
             <Row gutter={[8,8]}>
                 <Col span={2}>
-                    BU<br/>
+                    Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit}/>
                 </Col>
+                {/*<Col span={3}>*/}
+                {/*    Subteam<br/>*/}
+                {/*    <SelectDivisionComponent value={division} onChange={handleDivision}/>*/}
+                {/*</Col>*/}
                 <Col span={3}>
-                    Subteam<br/>
-                    <SelectDivisionComponent value={division} onChange={handleDivision}/>
-                </Col>
-                <Col span={3}>
-                    Team<br/>
+                    SubTeam<br/>
                     <SelectTeamComponent value={team} onChange={handleTeam}/>
                 </Col>
                 <Col span={3}>

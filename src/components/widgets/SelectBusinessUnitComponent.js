@@ -25,7 +25,7 @@ const SelectBusinessUnitComponent = ({value, onChange,authInfo,profileInfo,buDro
     }, [authInfo.token])
 
 
-    return <Select placeholder={"Select BU"} value={value} onSelect={onChange} style={{width: "100%"}}>
+    return <Select placeholder={"Select Team"} value={value} onSelect={onChange} style={{width: "100%"}}>
         {buDropdown?.map( item => {
             return(<Option key={item.id} value={item.id}>{item.name}</Option>)
         })}

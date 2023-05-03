@@ -12,7 +12,7 @@ import {GET_DESTRUCTION_REPORT_API} from "./apiConstants";
 //RECIPIENT REPORT
 
 export const recipientReportRequest = payload => {
-    const api = {...GET_RECIPIENT_REPORT_API, url: `${GET_RECIPIENT_REPORT_API.url}/${payload.businessUnit}/${payload.division}/${payload.team}/${payload.statusId}`}
+    const api = {...GET_RECIPIENT_REPORT_API, url: `${GET_RECIPIENT_REPORT_API.url}/${payload.businessUnit}/${payload.team}/${payload.statusId}`}
     return createRequest(api, payload.certificate, null)
 }
 
@@ -33,7 +33,7 @@ export const dispatchesReportRequest = payload => {
 //DISPATCH REGISTER REPORT
 
 export const dispatchRegisterReportRequest = payload => {
-    const api = {...GET_DISPATCH_REGISTER_REPORT_API, url: `${GET_DISPATCH_REGISTER_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}/${payload.team}/${payload.filterPlan}/${payload.statusId}`}
+    const api = {...GET_DISPATCH_REGISTER_REPORT_API, url: `${GET_DISPATCH_REGISTER_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.division}/${payload.team}/${payload.statusId}/${payload.filterPlan}`}
     return createRequest(api, payload.certificate, null)
 }
 

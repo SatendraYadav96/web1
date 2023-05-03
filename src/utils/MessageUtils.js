@@ -69,15 +69,15 @@ export const messages = {
           payload: { message: { text: 'action failed', type: 'error' } },
       },
     ],
-    GET_RECIPIENT_REPORT_START: [{ action: 'showspinner' }],
-    GET_RECIPIENT_REPORT_SUCCESS: [{ action: 'hidespinner' }],
-    GET_RECIPIENT_REPORT_FAIL: [
-        { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
-    ],
+    // GET_RECIPIENT_REPORT_START: [{ action: 'showspinner' }],
+    // GET_RECIPIENT_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    // GET_RECIPIENT_REPORT_FAIL: [
+    //     { action: 'hidespinner' },
+    //     {
+    //         action: 'showerror',
+    //         payload: { message: { text: 'action failed', type: 'error' } },
+    //     },
+    // ],
     GET_PURCHASE_REPORT_START: [{ action: 'showspinner' }],
     GET_PURCHASE_REPORT_SUCCESS: [{ action: 'hidespinner' }],
     GET_PURCHASE_REPORT_FAIL: [

@@ -39,12 +39,6 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 width:'100px'
             },
             {
-                title:'Division',
-                key:'division',
-                dataIndex:'divison',
-                width:'100px'
-            },
-            {
                 title: 'Recipient Name',
                 key: 'recipientName',
                 dataIndex: 'recipientName',
@@ -145,7 +139,6 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
         setData(dispatchesList.map(item => {
             return {
                 businessUnit: item.businessUnit,
-                division: item.divison,
                 recipientName: item.recipientName,
                 recipientCode: item.recipientCode,
                 teamName: item.teamName,
@@ -198,7 +191,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                     {data &&
                         (<CSVLink
                             data={data}
-                            filename={"purchasereport.csv"}
+                            filename={"dispatchreport.csv"}
                             onClick={() => {
                                 console.log("clicked")
                             }}
