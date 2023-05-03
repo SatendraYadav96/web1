@@ -21,7 +21,6 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
 
     let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
-    const [division, setDivision] = useState()
     const [filterPlan, setFilterPlan] = useState()
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
@@ -35,17 +34,12 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px'
             },
-            {
-                title:'Division',
-                key:'division',
-                dataIndex:'divison',
-                width:'100px'
-            },
+
             {
                 title: 'LR No.',
                 key: '',
@@ -149,7 +143,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 width: '100px'
             },
             {
-                title: 'Team Name',
+                title: 'Sub Team',
                 key: '',
                 dataIndex: 'teamName',
                 width: '100px'
@@ -183,12 +177,10 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
 
     const getDispatchRegisterReportList = () => {
          console.log(businessUnit);
-         console.log(division);
          console.log(formatedStartDateString);
          console.log(formatedEndDateString);
          console.log(profileInfo.id);
          console.log(profileInfo.userDesignation.id);
-         console.log("00000000-0000-0000-0000-000000000000");
          console.log(filterPlan);
          console.log(team);
 
@@ -196,13 +188,11 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
 
         handleDispatchRegisterReportList ({
         businessUnit:businessUnit,
-        divison:division,
         userId: profileInfo.id,
         userDesgId: profileInfo.userDesignation.id,
         startDate:formatedStartDateString,
         endDate:formatedEndDateString,
         team:team,
-        statusId:"00000000-0000-0000-0000-000000000000",
         filterPlan:filterPlan,
 
         certificate: authInfo.token
@@ -215,7 +205,6 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         setData(dispatchRegisterList.map(item => {
             return {
                 businessUnit: item.businessUnit,
-                division: item.divison,
                 lrNo: item.lrNo,
                 courierName: item.courierName,
                 noBoxes: item.noBoxes,
@@ -250,12 +239,12 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                     Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
+                {/*<Col span={3}>*/}
+                {/*    Subteam<br/>*/}
+                {/*    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />*/}
+                {/*</Col>*/}
                 <Col span={3}>
-                    Subteam<br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
-                </Col>
-                <Col span={3}>
-                    Team <br/>
+                    Sub Team <br/>
                     <SelectTeamComponent value={team} style={{width: "100%"}} onChange={(e) => setTeam(e)} />
                 </Col>
                 <Col span={3}>
