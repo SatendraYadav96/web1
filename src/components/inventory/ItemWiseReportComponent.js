@@ -1,15 +1,19 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Table} from "antd";
 import {Select} from "antd/es";
 import moment from "moment";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
+import {selectItemWiseListData, selectLoadingItemWiseReportData} from "../../redux/selectors/itemWiseReportSelector";
+import {getItemWiseReportStartAction} from "../../redux/actions/reports/itemWiseReportActions";
+import {CSVLink} from "react-csv"
+import XLSX from "xlsx"
 
-const ItemWiseReportComponent = ({authInfo}) => {
+const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseReportLoading,handleItemWiseReportList}) => {
 
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
@@ -18,6 +22,7 @@ const ItemWiseReportComponent = ({authInfo}) => {
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [data, setData] = useState()
 
     const searchData = () => {
         setFlag(true)
@@ -25,7 +30,7 @@ const ItemWiseReportComponent = ({authInfo}) => {
             {
                 title:'Business Unit',
                 key:'businessUnit',
-                dataIndex:'businessUnit',
+                dataIndex:'busineesUnit',
                 width:'100px'
             },
             {
@@ -81,6 +86,67 @@ const ItemWiseReportComponent = ({authInfo}) => {
         setDataSource([])
     }
 
+    const formatedToDateString = moment(toDate).format('yyyy-MM-DD').toString();
+    const formatedFromDateString = moment(fromDate).format('yyyy-MM-DD').toString();
+
+    const getItemWiseReport = () => {
+        console.log(fromDate);
+        console.log(toDate);
+        console.log(businessUnit);
+        console.log(division);
+
+        handleItemWiseReportList ({
+            fromDate: formatedToDateString,
+            toDate: formatedFromDateString,
+            divison: division,
+            businessUnit:businessUnit,
+            certificate: authInfo.token
+        });
+        searchData()
+    }
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"ItemWiseReport.xlsx")
+    }
+
+    useEffect(() => {
+        setData(itemWiseList.map(item => {
+            return {
+                businessUnit: item.busineesUnit,
+                division: item.division,
+                itemName: item.itemName,
+                category: item.category,
+                itemCode: item.itemCode,
+                openingQuantity: item.openingQuantity,
+                receivedQuantity: item.receivedQuantity,
+                dispatchedQuantity: item.dispatchedQuantity,
+                closingQuantity: item.closingQuantity,
+            }
+        }))
+        console.log(itemWiseList)
+    },[itemWiseList])
+
+    useEffect(() => {
+        console.log(itemWiseList)
+    },[itemWiseList])
+
+    useEffect(() => {
+        console.log(toDate)
+    },[toDate])
+
+    const handleToDate = (date,dateString) => {
+        setToDate(dateString)
+        console.log(dateString)
+    }
+
+    const handleFromDate = (date,dateString) => {
+        setFromDate(dateString)
+        console.log(dateString)
+    }
+
     return(
         <>
             <TitleWidget title="Item Wise Report" />
@@ -95,21 +161,34 @@ const ItemWiseReportComponent = ({authInfo}) => {
                 </Col>
 
                 <Col span={3}>
-                    Date From: <br/><DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"}  defaultValue={moment().startOf('month')}/>
+                    Date From: <br/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    Date To: <br/><DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    Date To: <br/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={2}>
                     <br/>
-                    <Button type={"primary"} onClick={()=>searchData()}>Search</Button>
+                    <Button type={"primary"} onClick={()=>getItemWiseReport()}>Search</Button>
                 </Col>
 
             </Row>
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"ItemWiseReport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">
@@ -120,7 +199,7 @@ const ItemWiseReportComponent = ({authInfo}) => {
             </Row>
             <br/>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={itemWiseList}/>
             }
         </>
     )
@@ -129,15 +208,22 @@ const ItemWiseReportComponent = ({authInfo}) => {
 
 ItemWiseReportComponent.propTypes = {
     authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    itemWiseList:PropTypes.array,
+    itemWiseReportLoading:PropTypes.any,
+    handleItemWiseReportList:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const profileInfo = selectProfileInfo(state)
+    const itemWiseList = selectItemWiseListData(state)
+    const itemWiseReportLoading = selectLoadingItemWiseReportData(state)
+    return {authInfo,profileInfo,itemWiseList,itemWiseReportLoading}
 }
 
 const actions = {
-
+    handleItemWiseReportList : getItemWiseReportStartAction
 }
 
 export default connect(mapState, actions)(ItemWiseReportComponent)

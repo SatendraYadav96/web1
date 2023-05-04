@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {GET_RECIPIENT_REPORT_API} from "./apiConstants";
+import {GET_AGEING_REPORT_API, GET_ITEM_WISE_REPORT_API, GET_NEAR_TO_EXPIRY_INPUT_REPORT_API, GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API, GET_RECIPIENT_REPORT_API, GET_STOCK_LEDGER_REPORT_API} from "./apiConstants";
 import {GET_PURCHASE_REPORT_API} from "./apiConstants";
 import {GET_DISPATCHES_REPORT_API} from "./apiConstants";
 import {GET_DISPATCH_REGISTER_REPORT_API} from "./apiConstants";
@@ -60,7 +60,31 @@ export const destructionReportRequest = payload => {
     return createRequest(api, payload.certificate, null)
 }
 
+//ITEM WISE REPORT
+export const itemWiseReportRequest = payload => {
+    const api = {...GET_ITEM_WISE_REPORT_API, url: `${GET_ITEM_WISE_REPORT_API.url}/${payload.fromDate}/${payload.toDate}/${payload.businessUnit}/${payload.divison}`}
+    return createRequest(api, payload.certificate, null)
+}
 
+export const stockLedgerReportRequest = payload => {
+    const api = {...GET_STOCK_LEDGER_REPORT_API, url: `${GET_STOCK_LEDGER_REPORT_API.url}/${payload.fromDate}/${payload.toDate}/${payload.itemId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const ageingReportRequest = payload => {
+    const api = {...GET_AGEING_REPORT_API, url: `${GET_AGEING_REPORT_API.url}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const nearToExpiryInputReportRequest = payload => {
+    const api = {...GET_NEAR_TO_EXPIRY_INPUT_REPORT_API, url: `${GET_NEAR_TO_EXPIRY_INPUT_REPORT_API.url}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}/${payload.type}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const nearToExpirySampleReportRequest = payload => {
+    const api = {...GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API, url: `${GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API.url}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}`}
+    return createRequest(api, payload.certificate, null)
+}
 
 
 

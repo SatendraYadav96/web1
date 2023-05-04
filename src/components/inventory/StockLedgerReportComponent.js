@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Table} from "antd";
 import moment from "moment/moment";
+import {selectStockLedgerListData, selectLoadingStockLedgerReportData} from "../../redux/selectors/stockLedgerReportSelector";
+import {getStockLedgerReportStartAction} from "../../redux/actions/reports/stockLedgerReportActions";
 
 const StockLedgerReportComponent = ({authInfo}) => {
 
@@ -52,6 +54,22 @@ const StockLedgerReportComponent = ({authInfo}) => {
         setDataSource([])
     }
 
+    const getStockLedgerReport = () => {
+        console.log(fromDate);
+        console.log(toDate);
+        console.log(businessUnit);
+        console.log(division);
+
+        handleItemWiseReportList ({
+            fromDate: formatedToDateString,
+            toDate: formatedFromDateString,
+            divison: division,
+            businessUnit:businessUnit,
+            certificate: authInfo.token
+        });
+        searchData()
+    }
+
     return(
         <>
             <TitleWidget title="Stock Ledger Report" />
@@ -61,7 +79,7 @@ const StockLedgerReportComponent = ({authInfo}) => {
                     <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To:<br/>
+                    Date To:<br/>
                     <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={3}>
@@ -74,7 +92,7 @@ const StockLedgerReportComponent = ({authInfo}) => {
                 </Col>
                 <Col span={3}>
                     <br/>
-                    <Button type={"primary"} onClick={()=>searchData()}>Search</Button>
+                    <Button type={"primary"} onClick={()=>getStockLedgerReport()}>Search</Button>
                 </Col>
             </Row>
             <br/>
@@ -96,15 +114,22 @@ const StockLedgerReportComponent = ({authInfo}) => {
 
 StockLedgerReportComponent.propTypes = {
     authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    stockLedgerList:PropTypes.array,
+    stockLedgerReportLoading:PropTypes.any,
+    handleStockLedgerReportList:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const profileInfo = selectProfileInfo(state)
+    const stockLedgerList = selectStockLedgerListData(state)
+    const stockLedgerReportLoading = selectLoadingStockLedgerReportData(state)
+    return {authInfo,profileInfo,stockLedgerList,stockLedgerReportLoading}
 }
 
 const actions = {
-
+    handleStockLedgerReportList : getStockLedgerReportStartAction
 }
 
 export default connect(mapState, actions)(StockLedgerReportComponent)

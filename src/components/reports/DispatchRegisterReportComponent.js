@@ -13,7 +13,6 @@ import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import { getDispatchRegisterReportStartAction } from '../../redux/actions/reports/dispatchRegisterReportActions'
 import {selectDispatchRegisterListData,selectLoadingDispatchRegisterReportData} from "../../redux/selectors/dispatchRegisterReportSelector"
 import moment from 'moment'
-import SelectFilterComponent from "../widgets/SelectFilterComponent";
 import dayjs from "dayjs";
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx"
@@ -205,7 +204,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"RecipientReport.XLSX")
+        XLSX.writeFile(wb,"RecipientReport.xlsx")
     }
 
     useEffect(() => {
@@ -325,23 +324,23 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
 }
 
 DispatchReportComponent.propTypes = {
-                    authInfo: PropTypes.any,
-                    profileInfo: PropTypes.any,
-                    dispatchRegisterList:PropTypes.array,
-                    dispatchRegisterReportLoading:PropTypes.any,
-                    handleDispatchRegisterReportList:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    dispatchRegisterList:PropTypes.array,
+    dispatchRegisterReportLoading:PropTypes.any,
+    handleDispatchRegisterReportList:PropTypes.func
 }
 
 const mapState = (state) => {
-                const authInfo = selectAuthInfo(state)
-                const profileInfo = selectProfileInfo(state)
-                const dispatchRegisterList = selectDispatchRegisterListData(state)
-                const dispatchRegisterReportLoading = selectLoadingDispatchRegisterReportData(state)
-                return {authInfo,dispatchRegisterList,dispatchRegisterReportLoading,profileInfo}
+    const authInfo = selectAuthInfo(state)
+    const profileInfo = selectProfileInfo(state)
+    const dispatchRegisterList = selectDispatchRegisterListData(state)
+    const dispatchRegisterReportLoading = selectLoadingDispatchRegisterReportData(state)
+    return {authInfo,dispatchRegisterList,dispatchRegisterReportLoading,profileInfo}
 }
 
 const actions = {
-handleDispatchRegisterReportList : getDispatchRegisterReportStartAction
+    handleDispatchRegisterReportList : getDispatchRegisterReportStartAction
 }
 
 export default connect(mapState, actions)(DispatchReportComponent)

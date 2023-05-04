@@ -17,7 +17,6 @@ import XLSX from "xlsx"
 const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientReportLoading,handleRecipientReportList}) => {
 
     const [businessUnit, setBusinessUnit] = useState()
-    // const [division, setDivision] = useState()
     const [team, setTeam] = useState()
     const [recipientStatus, setRecipientStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [column, setColumn] = useState([])
@@ -34,12 +33,6 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 dataIndex:'businessUnit',
                 width:'100px'
             },
-            // {
-            //     title:'Division',
-            //     key:'division',
-            //     dataIndex:'division',
-            //     width:'100px'
-            // },
             {
                 title: 'Emp Code',
                 key: 'empId',
@@ -338,7 +331,6 @@ const mapState = (state) => {
 }
 
 const actions = {
-
 handleRecipientReportList : getRecipientReportStartAction
 
 }

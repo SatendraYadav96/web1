@@ -20,6 +20,10 @@ import destructionReportReducer from "./destructionReportReducer";
 import hsnInvoiceReducer from './hsnInvoiceReducer';
 import masterReducer from './masterReducer';
 import dropDownReducer from './dropDownReducer'
+import itemWiseReportReducer from "./itemWiseReportReducer";
+import stockLedgerReportReducer from "./stockLedgerReportReducer";
+import ageingReportReducer from "./ageingReportReducer";
+import nearToExpiryInputReportReducer from "./nearToExpiryInputReportReducer";
 
 
 
@@ -36,6 +40,10 @@ const rootReducer = combineReducers({
     monthlyDispatch:monthlyDispatchReducer,
     specialDispatch:specialDispatchReducer,
     recipientReport:recipientReportReducer,
+    itemWiseReport:itemWiseReportReducer,
+    stockLedgerReport:stockLedgerReportReducer,
+    ageingReport:ageingReportReducer,
+    nearToExpiryInputReport:nearToExpiryInputReportReducer,
     inventoryReport:inventoryReportReducer,
     purchaseReport:purchaseReportReducer,
     dispatchesReport:dispatchesReportReducer,
