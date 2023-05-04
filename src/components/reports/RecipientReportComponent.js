@@ -5,7 +5,6 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Table} from "antd";
-import {Select} from "antd/es";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
@@ -13,6 +12,7 @@ import SelectRecipientStatusComponent from "../widgets/SelectRecipientStatusComp
 import { getRecipientReportStartAction } from '../../redux/actions/reports/recipientReportActions'
 import {selectRecipientListData,selectLoadingRecipientReportData} from "../../redux/selectors/recipientReportSelector"
 import {CSVLink} from "react-csv";
+import XLSX from "xlsx"
 
 const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientReportLoading,handleRecipientReportList}) => {
 
@@ -62,7 +62,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 title: 'Address',
                 key: 'address',
                 dataIndex: 'address',
-                width: '100px'
+                width: '200px'
             },
             {
                 title: 'City',
@@ -212,6 +212,13 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         searchData()
     }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+        ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"RecipientReport.xlsx")
+    }
+
     useEffect(() => {
         setData(recipientList.map(item => {
             return {
@@ -296,7 +303,8 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                             <Button>CSV</Button>
                         </CSVLink>
                         )
-                    }&nbsp;<Button>PDF</Button>
+                    }&nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
 
                 </Col>
                 <Col span={18}>

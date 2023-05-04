@@ -10,6 +10,7 @@ import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import {selectCostCenterListData, selectLoadingCostCenterData} from "../../../redux/selectors/masterSelector";
 import {getCostCenterStartAction, getVendorStartAction} from "../../../redux/actions/master/masterActions";
 import {CSVLink} from "react-csv";
+import XLSX from "xlsx"
 
 const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLoading, handleCostCenterList}) => {
     const [status, setStatus] = useState(1)
@@ -78,6 +79,13 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
         searchData()
     }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"CostCenterList.xlsx")
+    }
+
     useEffect(() => {
         setData(costCenterList.map(item => {
             return {
@@ -114,7 +122,8 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
                     >
                         <Button>CSV</Button>
                     </CSVLink>
-                    &nbsp;<Button>PDF</Button>
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

@@ -11,6 +11,7 @@ import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import { getVendorStartAction  } from '../../../redux/actions/master/masterActions';
 import {selectVendorListData,selectLoadingVendorData} from "../../../redux/selectors/masterSelector";
 import { CSVLink } from "react-csv";
+import XLSX from "xlsx"
 
 const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVendorList}) => {
 
@@ -97,7 +98,6 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
     const editVendor = (row) => {
         console.log(row);
         return navigate(`/home/masters/vendor/edit/${row.id}`)
-
     }
 
     const getVendorList = () => {
@@ -110,6 +110,13 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
         certificate: authInfo.token
         });
         searchData()
+    }
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"VendorList.xlsx")
     }
 
     useEffect(() => {
@@ -162,7 +169,8 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
                     >
                         <Button>CSV</Button>
                     </CSVLink>
-                    &nbsp;<Button>PDF</Button>
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

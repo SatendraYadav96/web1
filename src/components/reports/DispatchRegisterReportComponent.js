@@ -16,6 +16,7 @@ import moment from 'moment'
 import SelectFilterComponent from "../widgets/SelectFilterComponent";
 import dayjs from "dayjs";
 import {CSVLink} from "react-csv";
+import XLSX from "xlsx"
 
 const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,dispatchRegisterReportLoading,handleDispatchRegisterReportList}) => {
 
@@ -208,7 +209,13 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         certificate: authInfo.token
         });
         searchData()
+    }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"RecipientReport.XLSX")
     }
 
     useEffect(() => {
@@ -310,7 +317,8 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                         >
                             <Button>CSV</Button>
                         </CSVLink>)}
-                    &nbsp;<Button>PDF</Button>
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

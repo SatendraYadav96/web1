@@ -10,6 +10,7 @@ import { selectLoadingSamplesData, selectSamplesListData} from "../../../redux/s
 import {getSamplesStartAction} from "../../../redux/actions/master/masterActions";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import {CSVLink} from "react-csv";
+import XLSX from "xlsx"
 
 const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handleSamplesList}) => {
 
@@ -74,6 +75,13 @@ const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handl
     searchData()
   }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"SamplesList.xlsx")
+    }
+
     useEffect(() => {
         setData(samplesList.map(item => {
             return {
@@ -110,7 +118,8 @@ const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handl
               >
                   <Button>CSV</Button>
               </CSVLink>
-              &nbsp;<Button>PDF</Button>
+              &nbsp;
+              <Button onClick={handleExcel}>EXCEL</Button>
           </Col>
           <Col span={18}>
             <div align="right">

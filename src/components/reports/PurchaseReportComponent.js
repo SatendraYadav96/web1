@@ -11,8 +11,8 @@ import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import { getPurchaseReportStartAction } from '../../redux/actions/reports/purchaseReportActions'
 import {selectPurchaseListData,selectLoadingPurchaseReportData} from "../../redux/selectors/purchaseReportSelector"
 import moment from 'moment'
-import {CSVLink} from "react-csv";
-
+import {CSVLink} from "react-csv"
+import XLSX from "xlsx"
 
 
 const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,handlePurchaseReportList}) => {
@@ -158,6 +158,12 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
 
     }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"PurchaseReport.XLSX")
+    }
 
     useEffect(() => {
         setData(purchaseList.map(item => {
@@ -227,7 +233,8 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                     >
                         <Button>CSV</Button>
                     </CSVLink>)}
-                    &nbsp;<Button>PDF</Button>
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

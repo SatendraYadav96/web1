@@ -14,6 +14,7 @@ import { getDispatchesReportStartAction } from '../../redux/actions/reports/disp
 import {selectDispatchesListData,selectLoadingDispatchesReportData} from "../../redux/selectors/dispatchesReportSelector"
 import moment from 'moment'
 import {CSVLink} from "react-csv";
+import XLSX from "xlsx"
 
 
 const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatchesReportLoading,handleDispatchesReportList}) => {
@@ -107,33 +108,40 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
     const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
 
-        const getDispatchesReportList = () => {
-             console.log(businessUnit);
-             console.log(division);
-             console.log(formatedStartDateString);
-             console.log(formatedEndDateString);
-             console.log(profileInfo.id);
-             console.log(profileInfo.userDesignation.id);
-             console.log(filter);
-             console.log(filterPlan);
+    const getDispatchesReportList = () => {
+         console.log(businessUnit);
+         console.log(division);
+         console.log(formatedStartDateString);
+         console.log(formatedEndDateString);
+         console.log(profileInfo.id);
+         console.log(profileInfo.userDesignation.id);
+         console.log(filter);
+         console.log(filterPlan);
 
-             console.log(dispatchesList);
+         console.log(dispatchesList);
 
-            handleDispatchesReportList ({
-            businessUnit:businessUnit,
-            divison:division,
-            userId: profileInfo.id,
-            userDesgId: profileInfo.userDesignation.id,
-            startDate:formatedStartDateString,
-            endDate:formatedEndDateString,
-            filter:filter,
-            filterPlan:filterPlan,
+        handleDispatchesReportList ({
+        businessUnit:businessUnit,
+        divison:division,
+        userId: profileInfo.id,
+        userDesgId: profileInfo.userDesignation.id,
+        startDate:formatedStartDateString,
+        endDate:formatedEndDateString,
+        filter:filter,
+        filterPlan:filterPlan,
 
-            certificate: authInfo.token
-            });
-            searchData()
+        certificate: authInfo.token
+        });
+        searchData()
 
-        }
+    }
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"DispatchesReport.XLSX")
+    }
 
     useEffect(() => {
         setData(dispatchesList.map(item => {
@@ -198,7 +206,8 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                         >
                             <Button>CSV</Button>
                         </CSVLink>)}
-                    &nbsp;<Button>PDF</Button>
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">
