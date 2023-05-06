@@ -129,4 +129,58 @@ export const messages = {
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+    GET_ITEM_WISE_REPORT_START: [{ action: 'showspinner' }],
+    GET_ITEM_WISE_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_ITEM_WISE_REPORT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_STOCK_LEDGER_REPORT_START: [{ action: 'showspinner' }],
+    GET_STOCK_LEDGER_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_STOCK_LEDGER_REPORT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_AGEING_REPORT_START: [{ action: 'showspinner' }],
+    GET_AGEING_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_AGEING_REPORT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_NEAR_TO_EXPIRY_INPUT_REPORT_START: [{ action: 'showspinner' }],
+    GET_NEAR_TO_EXPIRY_INPUT_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_NEAR_TO_EXPIRY_INPUT_REPORT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_START: [{ action: 'showspinner' }],
+    GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_SIMPLE_INVENTORY_REPORT_START: [{ action: 'showspinner' }],
+    GET_SIMPLE_INVENTORY_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_SIMPLE_INVENTORY_REPORT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
 }

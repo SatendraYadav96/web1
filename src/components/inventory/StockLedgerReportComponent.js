@@ -9,14 +9,13 @@ import {selectStockLedgerListData, selectLoadingStockLedgerReportData} from "../
 import {getStockLedgerReportStartAction} from "../../redux/actions/reports/stockLedgerReportActions";
 import SelectItemCodeStatusComponent from "../widgets/itemCodeStatusComponent";
 
-const StockLedgerReportComponent = ({authInfo}) => {
+const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockLedgerReportLoading,handleStockLedgerReportList}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [fromDate, setFromDate] = useState()
     const [itemId, setItemId] = useState()
-
     const [toDate, setToDate] = useState()
 
     const searchData = () => {
@@ -57,17 +56,17 @@ const StockLedgerReportComponent = ({authInfo}) => {
         setDataSource([])
     }
 
+    const formatedToDateString = moment(toDate).format('yyyy-MM-DD').toString();
+    const formatedFromDateString = moment(fromDate).format('yyyy-MM-DD').toString();
+
     const getStockLedgerReport = () => {
         console.log(fromDate);
         console.log(toDate);
-        console.log(businessUnit);
-        console.log(division);
 
-        handleItemWiseReportList ({
-            fromDate: formatedToDateString,
-            toDate: formatedFromDateString,
-            divison: division,
-            businessUnit:businessUnit,
+        handleStockLedgerReportList ({
+            toDate: formatedToDateString,
+            fromDate: formatedFromDateString,
+            itemId: itemId,
             certificate: authInfo.token
         });
         searchData()
@@ -112,7 +111,7 @@ const StockLedgerReportComponent = ({authInfo}) => {
             </Row>
             <br/>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={stockLedgerList}/>
             }
         </>
     )
