@@ -12,17 +12,18 @@ import { getItemConsumptionReportStartAction } from '../../redux/actions/reports
 import {selectConsumptionListData,selectLoadingConsumptionReportData} from "../../redux/selectors/itemConsumptionReportSelector"
 import moment from 'moment'
 import {CSVLink} from "react-csv";
+import XLSX from "xlsx";
 
 const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,consumptionReportLoading,handleConsumptionReportList}) => {
 
     const [businessUnit, setBusinessUnit] = useState()
-    const [division, setDivision] = useState()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
     const [data, setData] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [division, setDivision] = useState()
 
     const searchData = () => {
         setFlag(true)
@@ -36,7 +37,7 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
             {
                 title:'Division',
                 key:'division',
-                dataIndex:'division',
+                dataIndex:'divison',
                 width:'100px'
             },
             {
@@ -98,7 +99,6 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
         setDataSource([])
     }
 
-
     const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
     const getConsumptionReportList = () => {
@@ -108,7 +108,6 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
          console.log(formatedEndDateString);
          console.log(profileInfo.id);
          console.log(profileInfo.userDesignation.id);
-
          console.log(consumptionList);
 
         handleConsumptionReportList ({
@@ -118,19 +117,24 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
         userDesgId: profileInfo.userDesignation.id,
         fromDate:formatedStartDateString,
         toDate:formatedEndDateString,
-
-
-
         certificate: authInfo.token
         });
+
         searchData()
+    }
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"ItemConsumptionReport.xlsx")
     }
 
     useEffect(() => {
         setData(consumptionList.map(item => {
             return {
                 businessUnit: item.businessUnit,
-                divison: item.divison,
+                division: item.division,
                 costCenter: item.costCenter,
                 itemName: item.itemName,
                 itemCode: item.itemCode,
@@ -183,7 +187,8 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
                         >
                             <Button>CSV</Button>
                         </CSVLink>)}
-                    &nbsp;<Button>PDF</Button>
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={18}>
                     <div align="right">

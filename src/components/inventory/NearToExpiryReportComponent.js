@@ -60,39 +60,51 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
                 width:'100px'
             },
             {
-                title:'(180-270) days',
+                title:'(31-60) days',
                 key:'',
-                dataIndex:'aboveHundredEighty',
+                dataIndex:'thirtyOneToSixty',
                 width:'100px'
             },
             {
                 title:'Value',
                 key:'value',
-                dataIndex:'aboveHundredEightyValue',
+                dataIndex:'thirtyOneToSixtyValue',
                 width:'100px'
             },
             {
-                title:'(271-365) days',
+                title:'(61-90) days',
                 key:'',
-                dataIndex:'aboveTwoHundredSeventy',
+                dataIndex:'sixtyOneToNighty',
                 width:'100px'
             },
             {
                 title:'Value',
                 key:'value',
-                dataIndex:'aboveTwoHundredSeventyValue',
+                dataIndex:'sixtyOneToNightyValue',
                 width:'100px'
             },
             {
-                title:'(>365) days',
+                title:'(91-120) days',
                 key:'',
-                dataIndex:'aboveOneYear',
+                dataIndex:'nightyOneToHundredTwenty',
                 width:'100px'
             },
             {
                 title:'Value',
                 key:'value',
-                dataIndex:'aboveOneYearValue',
+                dataIndex:'nightyOneToHundredTwentyValue',
+                width:'100px'
+            },
+            {
+                title:'(> 120) days',
+                key:'',
+                dataIndex:'aboveHundredTwenty',
+                width:'100px'
+            },
+            {
+                title:'Value',
+                key:'value',
+                dataIndex:'aboveHundredTwentyValue',
                 width:'100px'
             },
             {
@@ -128,9 +140,9 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
                 productCode: item.productCode,
                 productName: item.productName,
                 category: item.category,
-                "(180-270) days": item.aboveHundredEightyValue,
-                '(271-365) days': item.aboveTwoHundredSeventyValue,
-                '(>365) days': item.aboveOneYearValue,
+                "(31-60) days": item.thirtyOneToSixtyValue,
+                '(61-90) days': item.sixtyOneToNightyValue,
+                '(>120) days': item.aboveHundredTwentyValue,
                 totalQuantity: item.totalQuantity,
                 totalValue: item.totalValue,
             }

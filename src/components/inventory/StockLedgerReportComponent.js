@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
@@ -7,6 +7,7 @@ import {Button, Col, DatePicker, Input, Row, Table} from "antd";
 import moment from "moment/moment";
 import {selectStockLedgerListData, selectLoadingStockLedgerReportData} from "../../redux/selectors/stockLedgerReportSelector";
 import {getStockLedgerReportStartAction} from "../../redux/actions/reports/stockLedgerReportActions";
+import SelectItemCodeStatusComponent from "../widgets/itemCodeStatusComponent";
 
 const StockLedgerReportComponent = ({authInfo}) => {
 
@@ -14,6 +15,8 @@ const StockLedgerReportComponent = ({authInfo}) => {
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [fromDate, setFromDate] = useState()
+    const [itemId, setItemId] = useState()
+
     const [toDate, setToDate] = useState()
 
     const searchData = () => {
@@ -70,6 +73,14 @@ const StockLedgerReportComponent = ({authInfo}) => {
         searchData()
     }
 
+    const childToParent =(childData) => {
+        setItemId(childData)
+    }
+
+    useEffect(() => {
+        console.log(`The Item Id is ${itemId}`)
+    }, [itemId])
+
     return(
         <>
             <TitleWidget title="Stock Ledger Report" />
@@ -82,13 +93,9 @@ const StockLedgerReportComponent = ({authInfo}) => {
                     Date To:<br/>
                     <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
-                <Col span={3}>
+                <Col span={8}>
                     Item Code <br/>
-                    <Input placeholder={"Item Code"} />
-                </Col>
-                <Col span={3}>
-                    Item Name<br/>
-                    <Input placeholder={"Item Name"} />
+                    <SelectItemCodeStatusComponent childToParent={childToParent}/>
                 </Col>
                 <Col span={3}>
                     <br/>

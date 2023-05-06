@@ -24,6 +24,8 @@ import itemWiseReportReducer from "./itemWiseReportReducer";
 import stockLedgerReportReducer from "./stockLedgerReportReducer";
 import ageingReportReducer from "./ageingReportReducer";
 import nearToExpiryInputReportReducer from "./nearToExpiryInputReportReducer";
+import itemCodeReducer from "./itemCodeReducer";
+import simpleInventoryReportReducer from "./simpleInventoryReportReducer";
 
 
 
@@ -46,6 +48,8 @@ const rootReducer = combineReducers({
     nearToExpiryInputReport:nearToExpiryInputReportReducer,
     inventoryReport:inventoryReportReducer,
     purchaseReport:purchaseReportReducer,
+    itemCode:itemCodeReducer,
+    simpleInventoryReport:simpleInventoryReportReducer,
     dispatchesReport:dispatchesReportReducer,
     dispatchRegisterReport:dispatchRegisterReportReducer,
     deviationReport:deviationReportReducer,

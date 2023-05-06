@@ -1,15 +1,19 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Select, Table} from "antd";
 import moment from "moment";
+import {selectItemCodeListData, selectLoadingItemCodeData} from "../../redux/selectors/itemCodeSelector";
+import {getItemCodeStartAction} from "../../redux/actions/revalidation/itemCodeActions";
+import SelectItemCodeStatusComponent from "../widgets/itemCodeStatusComponent";
 
-const ItemRevalidationComponent = ({authInfo}) => {
+const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
 
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
+    const [itemId, setItemId] = useState()
     const column = [
         {
             title:'Name',
@@ -61,29 +65,38 @@ const ItemRevalidationComponent = ({authInfo}) => {
         }
     ]
 
+    const childToParent =(childData) => {
+        setItemId(childData)
+    }
+
+    useEffect(() => {
+        console.log(`The Item Id is ${itemId}`)
+    }, [itemId])
+
     return(
         <>
             <TitleWidget title="Item Revalidation" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Expiry Date From: <br/>
-                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    <DatePicker value={fromDate} style={{width: "100%"}} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
                     To: <br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    <DatePicker value={toDate} style={{width: "100%"}} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                </Col>
+                <Col span={8}>
+                    Item <br/>
+                    <SelectItemCodeStatusComponent childToParent={childToParent}/>
                 </Col>
                 <Col span={3}>
-                    Item <br/><Input style={{width:'150px'}}/>
-                </Col>
-                <Col span={3}>
-                    Status <br/><Select style={{width:'150px'}}></Select>
+                    Status <br/><Select style={{width:'100%'}}></Select>
                 </Col>
                 <Col span={3}>
                     <br/>
                     <Button type={"primary"} >Search</Button>
                 </Col>
-                <Col span={9}>
+                <Col span={24}>
                     <br/>
                     <div align="right">
                         <Input.Search style={{ width: 300 }}/>
@@ -104,15 +117,16 @@ const ItemRevalidationComponent = ({authInfo}) => {
 
 ItemRevalidationComponent.propTypes = {
     authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const profileInfo = selectProfileInfo(state)
+    return {authInfo,profileInfo}
 }
 
 const actions = {
-
 }
 
 export default connect(mapState, actions)(ItemRevalidationComponent)

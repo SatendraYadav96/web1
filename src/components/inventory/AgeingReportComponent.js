@@ -160,7 +160,6 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,ageingReportLoad
     },[ageingList])
 
     const getAgeingReportList = () => {
-
         handleAgeingReportList ({
             businessUnit:businessUnit,
             userId: profileInfo.id,
