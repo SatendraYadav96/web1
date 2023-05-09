@@ -85,11 +85,8 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
                 <Col span={3}>
                     <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
                 </Col>
-                <Col span={3}>
-                    <SelectRecipientCodeComponent value={recipientCode} onChange={(e) => setRecipientCode(e)}/>
-                </Col>
-                <Col span={3}>
-                    <Input placeholder={"Recipient Name"} style={{width: "100%"}}/>
+                <Col span={6}>
+                    <SelectRecipientCodeComponent onChange={(value) => setRecipientCode(value)}/>
                 </Col>
                 <Col span={3}>
                     <SelectInvoiceComponent value={invoiceNo} onChange={(e) => setInvoiceNo(e)}/>

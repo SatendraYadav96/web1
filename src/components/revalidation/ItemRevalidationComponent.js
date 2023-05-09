@@ -8,7 +8,7 @@ import moment from "moment";
 import {selectItemCodeListData, selectLoadingItemCodeData} from "../../redux/selectors/itemCodeSelector";
 import {getItemCodeStartAction} from "../../redux/actions/revalidation/itemCodeActions";
 import SelectItemCodeStatusComponent from "../widgets/itemCodeStatusComponent";
-import SelectItemStatusComponent from "../widgets/SelectItemStatusComponent";
+import SelectItemStatusComponent from "../widgets/SelectItemRequisitionComponent";
 
 const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
 
@@ -78,14 +78,6 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
         <>
             <TitleWidget title="Item Revalidation" />
             <Row gutter={[8,8]}>
-                {/*<Col span={3}>*/}
-                {/*    Expiry Date From: <br/>*/}
-                {/*    <DatePicker value={fromDate} style={{width: "100%"}} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>*/}
-                {/*</Col>*/}
-                {/*<Col span={3}>*/}
-                {/*    To: <br/>*/}
-                {/*    <DatePicker value={toDate} style={{width: "100%"}} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>*/}
-                {/*</Col>*/}
                 <Col span={8}>
                     Item <br/>
                     <SelectItemCodeStatusComponent childToParent={childToParent}/>

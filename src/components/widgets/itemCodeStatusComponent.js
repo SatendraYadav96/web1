@@ -37,22 +37,29 @@ const SelectItemCodeStatusComponent = ({value, childToParent,authInfo,itemCodeLi
     },[obj])
 
     return (
-        <>
-            <Row gutter={[8,8]}>
-                <Col span={12}>
-                    <Select placeholder={"Item Code"} value={id} onSelect={(value) => {setId(value); childToParent(value)}} style={{width: "100%"}}>
-                        {itemCodeList?.map( item => {
-                            return(<Option key={item.itemId} value={item.itemId}>{item.itemCode}</Option>)
-                        })}
-                    </Select>
-                </Col>
-                <Col span={12}>
-                    <Input value={name} />
-                </Col>
-            </Row>
-            {/*onChange={() => childToParent(id)}*/}
-
-        </>
+        <Row gutter={[8,8]}>
+            <Col span={12}>
+                <Select
+                    showSearch
+                    placeholder="Item Code"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                    filterSort={(optionA, optionB) =>
+                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                    }
+                    value={id}
+                    onSelect={(value) => {setId(value); childToParent(value)}}
+                    style={{width: "100%"}}
+                >
+                    {itemCodeList?.map( item => {
+                        return(<Option key={item.itemId} value={item.itemId} label={item.itemCode}>{item.itemCode}</Option>)
+                    })}
+                </Select>
+            </Col>
+            <Col span={12}>
+                <Input value={name} />
+            </Col>
+        </Row>
     )
 }
 

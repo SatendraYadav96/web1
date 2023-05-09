@@ -19,11 +19,28 @@ const SelectInvoiceComponent = ({value, onChange,authInfo,profileInfo,invoiceDro
         });
     }, [authInfo.token])
 
-    return <Select placeholder={"Select Invoice"} value={value} onSelect={onChange} style={{width: "100%"}}>
-        {invoiceDropdown?.map( item => {
-            return(<Option key={item.inhId} value={item.invoiceNo}>{item.invoiceNo}</Option>)
-        })}
-    </Select>
+    useEffect(() => {
+        console.log(invoiceDropdown)
+    }, [invoiceDropdown])
+
+    return (
+        <Select
+            showSearch
+            placeholder="Select Invoice"
+            optionFilterProp="children"
+            filterOption={(input, option) => (option?.label ?? '').includes(input)}
+            filterSort={(optionA, optionB) =>
+                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+            }
+            value={value}
+            onSelect={onChange}
+            style={{width: "100%"}}
+        >
+            {invoiceDropdown?.map( item => {
+                return(<Option key={item.inhId} value={item.invoiceNo} label={item.invoiceNo.toString()}>{item.invoiceNo}</Option>)
+            })}
+        </Select>
+    )
 }
 
 SelectInvoiceComponent.propTypes = {

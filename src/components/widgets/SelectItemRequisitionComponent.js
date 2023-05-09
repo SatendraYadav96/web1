@@ -3,7 +3,7 @@ import {Select} from "antd";
 import {Option} from "antd/es/mentions";
 
 
-const SelectItemStatusComponent = ({value, onChange}) => {
+const SelectItemRequisitionComponent = ({value, onChange}) => {
     return <Select placeholder={"Select Item Status"} value={value} onSelect={onChange} style={{width: "100%"}}>
         <Option value={"00000000-0000-0000-1000-900000000001"}>ITEM RECEIVED</Option>
         <Option value={"00000000-0000-0000-1000-900000000002"}>PENDING</Option>
@@ -12,4 +12,4 @@ const SelectItemStatusComponent = ({value, onChange}) => {
     </Select>
 }
 
-export default SelectItemStatusComponent
+export default SelectItemRequisitionComponent

@@ -211,7 +211,7 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
             <Row gutter={[16,16]}>
                 <Col span={3}>
                     Invoice Number: <br/>
-                    <SelectInvoiceComponent value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}/>
+                    <SelectInvoiceComponent onChange={(e) => setInvoiceNumber(e)}/>
                 </Col>
                 <Col span={3}>
                     From Date: <br/>
