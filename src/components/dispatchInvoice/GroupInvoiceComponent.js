@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Modal, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
@@ -11,9 +11,12 @@ import {useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import moment from "moment/moment";
+import SelectInvoiceComponent from "../widgets/SelectInvoiceComponent";
+import {selectGroupInvoiceListData, selectLoadingGroupInvoiceData} from "../../redux/selectors/groupInvoiceSelector";
+import {groupInvoiceStartAction} from "../../redux/actions/dispatchInvoice/groupInvoiceAction";
 
 
-const GroupInvoiceComponent = ({authInfo, handleGroupInvoiceList}) => {
+const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoiceLoading, handleGroupInvoiceList}) => {
 
     const navigate = useNavigate()
 
@@ -29,7 +32,7 @@ const GroupInvoiceComponent = ({authInfo, handleGroupInvoiceList}) => {
         setVisible(true)
     }
 
-    const searchData = () => {
+    const groupData = () => {
         setFlag(true)
         setColumn([
             {
@@ -157,17 +160,21 @@ const GroupInvoiceComponent = ({authInfo, handleGroupInvoiceList}) => {
     const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
 
-    const getDeviationReportList = () => {
+    const getGroupInvoiceList = () => {
       console.log(formatedStartDateString);
       console.log(formatedEndDateString);
 
+      const data = {
+          "invoiceNumber": invoiceNumber,
+          "fromDate": formatedStartDateString,
+          "toDate": formatedEndDateString,
+      }
+
       handleGroupInvoiceList ({
-        invoiceNumber: invoiceNumber,
-        fromDate:formatedStartDateString,
-        toDate:formatedEndDateString,
-        certificate: authInfo.token
+          certificate: authInfo.token,
+          groupInvoice: data,
       });
-      searchData()
+      // groupData()
 
     }
 
@@ -176,7 +183,9 @@ const GroupInvoiceComponent = ({authInfo, handleGroupInvoiceList}) => {
             <TitleWidget title={'Group Invoice'} > </TitleWidget>
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    Invoice Number: <br/><Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>
+                    Invoice Number: <br/>
+                    <SelectInvoiceComponent value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}/>
+                    {/*<Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>*/}
                 </Col>
                 <Col span={3}>
                     From Date: <br/>
@@ -187,7 +196,7 @@ const GroupInvoiceComponent = ({authInfo, handleGroupInvoiceList}) => {
                     <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={2}>
-                    <br/><Button type={'primary'} onClick={() => searchData()}>Search</Button>
+                    <br/><Button type={'primary'} onClick={() => groupData()}>Search</Button>
                 </Col>
                 <Col span={1}>
                     <br/><Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()}></Button>
@@ -203,7 +212,7 @@ const GroupInvoiceComponent = ({authInfo, handleGroupInvoiceList}) => {
                 </Col>
                 <Col span={20}>
                     <div align="right">
-                        <Input.Search style={{ width: 300}} />
+                        <Input.Search style={{ width: 300}}  onClick={() => getGroupInvoiceList()}/>
                     </div>
                 </Col>
             </Row>
@@ -236,15 +245,22 @@ const GroupInvoiceComponent = ({authInfo, handleGroupInvoiceList}) => {
 
 GroupInvoiceComponent.propTypes = {
     authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    groupInvoiceList:PropTypes.array,
+    groupInvoiceLoading:PropTypes.any,
+    handleAgeingReportList:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const profileInfo = selectProfileInfo(state)
+    const groupInvoiceList = selectGroupInvoiceListData(state)
+    const groupInvoiceLoading = selectLoadingGroupInvoiceData(state)
+    return {authInfo,profileInfo,groupInvoiceList,groupInvoiceLoading}
 }
 
 const actions = {
-
+    handleGroupInvoiceList: groupInvoiceStartAction,
 }
 
 export default connect(mapState, actions)(GroupInvoiceComponent)

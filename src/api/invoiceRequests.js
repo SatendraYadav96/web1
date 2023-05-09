@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {GET_INVOICE_DROPDOWN_API, GET_PRINT_INVOICE_API, SEARCH_INVOICE_API} from "./apiConstants";
+import {GET_GROUP_INVOICE_API, GET_INVOICE_DROPDOWN_API, GET_PRINT_INVOICE_API, SEARCH_INVOICE_API} from "./apiConstants";
 
 //monthly dispatch
 export const printInvoiceRequest = payload => {
@@ -12,3 +12,7 @@ export const searchInvoiceRequest = payload => {
     return createRequest(api, payload.certificate, payload.searchInvoice)
 }
 
+export const groupInvoiceRequest = payload => {
+    const api = {...GET_GROUP_INVOICE_API, url: `${GET_GROUP_INVOICE_API.url}`}
+    return createRequest(api, payload.certificate, payload.groupInvoice)
+}

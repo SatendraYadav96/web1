@@ -8,6 +8,7 @@ import moment from "moment";
 import {selectItemCodeListData, selectLoadingItemCodeData} from "../../redux/selectors/itemCodeSelector";
 import {getItemCodeStartAction} from "../../redux/actions/revalidation/itemCodeActions";
 import SelectItemCodeStatusComponent from "../widgets/itemCodeStatusComponent";
+import SelectItemStatusComponent from "../widgets/SelectItemStatusComponent";
 
 const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
 
@@ -89,8 +90,8 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
                     Item <br/>
                     <SelectItemCodeStatusComponent childToParent={childToParent}/>
                 </Col>
-                <Col span={3}>
-                    Status <br/><Select style={{width:'100%'}}></Select>
+                <Col span={3}><br/>
+                    <SelectItemStatusComponent/>
                 </Col>
                 <Col span={3}>
                     <br/>

@@ -92,3 +92,5 @@ export const GET_SIMPLE_INVENTORY_REPORT_API = {url: '/v1/report/getReportSimple
 // INVOICE
 export const GET_PRINT_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'GET',auth:true}
 export const SEARCH_INVOICE_API = {url: '/v1/invoice/searchInvoice',method:'GET',auth:true}
+export const GET_GROUP_INVOICE_API = {url: '/v1/invoice/getGroupInvoiceListHub',method:'GET',auth:true}
+

@@ -27,6 +27,7 @@ import nearToExpiryInputReportReducer from "./nearToExpiryInputReportReducer";
 import itemCodeReducer from "./itemCodeReducer";
 import simpleInventoryReportReducer from "./simpleInventoryReportReducer";
 import searchInvoiceReducer from "./searchInvoiceReducer";
+import groupInvoiceReducer from "./groupInvoiceReducer";
 
 
 
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
     pickingLoad:picklistReducer,
     monthlyDispatch:monthlyDispatchReducer,
     searchInvoice:searchInvoiceReducer,
+    groupInvoice:groupInvoiceReducer,
     specialDispatch:specialDispatchReducer,
     recipientReport:recipientReportReducer,
     itemWiseReport:itemWiseReportReducer,
