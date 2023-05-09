@@ -9,14 +9,14 @@ import { FileOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {selectInvoiceListData} from "../../redux/selectors/monthlyDispatchSelector";
-import {selectLoadingSearchInvoiceData} from "../../redux/selectors/searchInvoiceSelector";
+import {selectLoadingSearchInvoiceData, selectSearchListData} from "../../redux/selectors/searchInvoiceSelector";
 import {getEmployeeInvoiceDetailStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 import {searchInvoiceStartAction} from "../../redux/actions/dispatchInvoice/searchInvoiceAction";
 import SelectRecipientComponent from "../widgets/SelectRecipientCodeComponent";
 import SelectRecipientCodeComponent from "../widgets/SelectRecipientCodeComponent";
 import SelectInvoiceComponent from "../widgets/SelectInvoiceComponent";
 
-const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLoading,handleInvoiceList}) => {
+const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchInvoiceLoading,handleInvoiceList}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -26,8 +26,8 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
-    const [recipientCode, setRecipientCode] = useState()
-    const [invoiceNo, setInvoiceNo] = useState()
+    const [recipientCode, setRecipientCode] = useState("")
+    const [invoiceNo, setInvoiceNo] = useState("")
 
     const searchData = () => {
         setFlag(true)
@@ -35,7 +35,7 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
             {
                 title:'Invoice Number',
                 key: 'searchNumber',
-                dataIndex: 'searchNumber',
+                dataIndex: 'invoiceNo',
                 width:'100px'
             },
             {
@@ -50,24 +50,27 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
         ]);
         setDataSource([
             {
-                key:'1',
-                searchNumber:'1000'
+                key:'',
+                searchNumber:''
             }
         ])
     }
 
         const searchInv = () => {
+            console.log(searchInvoiceList);
             const data = {
-                monthIndex: "1",
-                yearIndex: "2022",
+                monthIndex: month,
+                yearIndex: year,
                 recipientId: recipientCode,
                 invoiceNo: invoiceNo,
             }
 
+
+
             handleInvoiceList({
-                certificate: authInfo.token,
                 searchInvoice: data,
-            })
+                certificate: authInfo.token
+            });
             searchData()
         }
 
@@ -78,31 +81,14 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
-                    {/*<Select style={{ width: 150 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>*/}
-                    {/*    <Option value="2020">2020</Option>*/}
-                    {/*    <Option value="2021">2021</Option>*/}
-                    {/*    <Option value="2022">2022</Option>*/}
-                    {/*</Select>*/}
+
                 </Col>
                 <Col span={3}>
                     <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
-                    {/*<Select style={{ width: 150 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>*/}
-                    {/*    <Option  value='Janaury'>Janaury</Option>*/}
-                    {/*    <Option value='February'>February</Option>*/}
-                    {/*    <Option value='March'>March</Option>*/}
-                    {/*    <Option value='April'>April</Option>*/}
-                    {/*    <Option value='May'>May</Option>*/}
-                    {/*    <Option value='June'>June</Option>*/}
-                    {/*    <Option value='July'>July</Option>*/}
-                    {/*    <Option value='August'>August</Option>*/}
-                    {/*    <Option value='September'>September</Option>*/}
-                    {/*    <Option value='October'>October</Option>*/}
-                    {/*    <Option value='November'>November</Option>*/}
-                    {/*    <Option value='December'>December</Option>*/}
-                    {/*</Select>*/}
+
                 </Col>
                 <Col span={3}>
-                    {/*<Input placeholder={"Recipient Code"} style={{width: "100%"}}/>*/}
+
                     <SelectRecipientCodeComponent value={recipientCode} onChange={(e) => setRecipientCode(e)}/>
                 </Col>
                 <Col span={3}>
@@ -110,14 +96,14 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
                 </Col>
                 <Col span={3}>
                     <SelectInvoiceComponent value={invoiceNo} onChange={(e) => setInvoiceNo(e)}/>
-                    {/*<Input placeholder={"Invoice No"} style={{width: "100%"}}/>*/}
+
                 </Col>
                 <Col span={3}>
                     <Button type={'primary'} onClick={() => searchInv()}>Submit</Button>
                 </Col>
             </Row>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={searchInvoiceList}/>
             }
         </>
     )
@@ -126,16 +112,16 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
 SearchInvoiceComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
-    searchList:PropTypes.array,
+    searchInvoiceList:PropTypes.array,
     searchInvoiceLoading:PropTypes.any,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    const searchList = selectInvoiceListData(state)
+    const searchInvoiceList = selectSearchListData(state)
     const searchInvoiceLoading = selectLoadingSearchInvoiceData(state)
-    return {authInfo,profileInfo,searchList,searchInvoiceLoading}
+    return {authInfo,profileInfo,searchInvoiceList,searchInvoiceLoading}
 }
 
 const actions = {

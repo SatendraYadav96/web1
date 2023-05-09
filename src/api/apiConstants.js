@@ -90,5 +90,5 @@ export const GET_ITEM_CODE_API = {url: '/v1/master/getItemCodeDropdown',method:'
 export const GET_SIMPLE_INVENTORY_REPORT_API = {url: '/v1/report/getReportSimpleInventory',method:'GET',auth:true}
 
 // INVOICE
-export const GET_PRINT_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'GET',auth:true}
-export const SEARCH_INVOICE_API = {url: '/v1/invoice/searchInvoice',method:'GET',auth:true}
+export const GET_PRINT_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'POST',auth:true}
+export const SEARCH_INVOICE_API = {url: '/v1/invoice/searchInvoice',method:'POST',auth:true}
