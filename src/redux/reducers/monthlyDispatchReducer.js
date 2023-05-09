@@ -1,6 +1,8 @@
 import { createReducer } from './reducerUtils'
-import {GET_MONTHLYDISPATCH_SUCCESS,GET_MONTHLYDISPATCH_FAIL,
-GET_EMPLOYEEINVOICEDETAILS_SUCCESS,GET_EMPLOYEEINVOICEDETAILS_FAIL} from "../actions/dispatchInvoice/monthlyDispatchActionConstant";
+import {
+    GET_MONTHLYDISPATCH_SUCCESS, GET_MONTHLYDISPATCH_FAIL,
+    GET_EMPLOYEEINVOICEDETAILS_SUCCESS, GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL
+} from "../actions/dispatchInvoice/monthlyDispatchActionConstant";
 
 
 
@@ -12,6 +14,8 @@ const initialState = {
     monthlyDispatchLoading: false,
     invoiceList: [],
     invoiceDetailsLoading: false,
+    printList: [],
+    printInvoiceLoading: false,
     error: {}
 }
 
@@ -71,11 +75,33 @@ const getEmployeeInvoiceDetailFailReducer = (state = initialState, payload) => {
 }
 
 
+const getPrintInvoiceSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        printList:payload.printList,
+        printInvoiceLoading: false
+
+    }
+}
+
+
+const getPrintInvoiceFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        printList:[],
+        printInvoiceLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 export default createReducer(initialState, {
     [GET_MONTHLYDISPATCH_SUCCESS]: getMonthlyDispatchSuccessReducer,
     [GET_MONTHLYDISPATCH_FAIL]: getMonthlyDispatchFailReducer,
     [GET_EMPLOYEEINVOICEDETAILS_SUCCESS]: getEmployeeInvoiceDetailSuccessReducer,
     [GET_EMPLOYEEINVOICEDETAILS_FAIL]: getEmployeeInvoiceDetailFailReducer,
-
+    [GET_PRINT_INVOICE_SUCCESS]: getPrintInvoiceSuccessReducer,
+    [GET_PRINT_INVOICE_FAIL]: getPrintInvoiceFailReducer,
 })

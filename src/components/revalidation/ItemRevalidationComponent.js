@@ -11,8 +11,8 @@ import SelectItemCodeStatusComponent from "../widgets/itemCodeStatusComponent";
 
 const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
 
-    const [fromDate, setFromDate] = useState()
-    const [toDate, setToDate] = useState()
+    // const [fromDate, setFromDate] = useState()
+    // const [toDate, setToDate] = useState()
     const [itemId, setItemId] = useState()
     const column = [
         {
@@ -77,14 +77,14 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
         <>
             <TitleWidget title="Item Revalidation" />
             <Row gutter={[8,8]}>
-                <Col span={3}>
-                    Expiry Date From: <br/>
-                    <DatePicker value={fromDate} style={{width: "100%"}} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
-                </Col>
-                <Col span={3}>
-                    To: <br/>
-                    <DatePicker value={toDate} style={{width: "100%"}} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
-                </Col>
+                {/*<Col span={3}>*/}
+                {/*    Expiry Date From: <br/>*/}
+                {/*    <DatePicker value={fromDate} style={{width: "100%"}} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>*/}
+                {/*</Col>*/}
+                {/*<Col span={3}>*/}
+                {/*    To: <br/>*/}
+                {/*    <DatePicker value={toDate} style={{width: "100%"}} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>*/}
+                {/*</Col>*/}
                 <Col span={8}>
                     Item <br/>
                     <SelectItemCodeStatusComponent childToParent={childToParent}/>

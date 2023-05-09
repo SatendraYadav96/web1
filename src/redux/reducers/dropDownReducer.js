@@ -1,7 +1,16 @@
 import { createReducer } from './reducerUtils'
 import {
     BUSINESS_UNIT_DROPDOWN_SUCCESS_ACTION,
-    BUSINESS_UNIT_DROPDOWN_FAIL_ACTION, BRAND_DROPDOWN_SUCCESS_ACTION, BRAND_DROPDOWN_FAIL_ACTION, DIVISION_DROPDOWN_SUCCESS_ACTION, DIVISION_DROPDOWN_FAIL_ACTION, TEAM_DROPDOWN_SUCCESS_ACTION, TEAM_DROPDOWN_FAIL_ACTION, COST_CENTER_DROPDOWN_SUCCESS_ACTION, COST_CENTER_DROPDOWN_FAIL_ACTION,
+    BUSINESS_UNIT_DROPDOWN_FAIL_ACTION,
+    BRAND_DROPDOWN_SUCCESS_ACTION,
+    BRAND_DROPDOWN_FAIL_ACTION,
+    DIVISION_DROPDOWN_SUCCESS_ACTION,
+    DIVISION_DROPDOWN_FAIL_ACTION,
+    TEAM_DROPDOWN_SUCCESS_ACTION,
+    TEAM_DROPDOWN_FAIL_ACTION,
+    COST_CENTER_DROPDOWN_SUCCESS_ACTION,
+    COST_CENTER_DROPDOWN_FAIL_ACTION,
+    RECIPIENT_SUCCESS_ACTION, RECIPIENT_FAIL_ACTION, INVOICE_DROPDOWN_SUCCESS_ACTION, INVOICE_DROPDOWN_FAIL_ACTION,
 
 } from '../actions/dropDown/dropDownActionConstants'
 
@@ -17,6 +26,10 @@ const initialState = {
     teamDropdownLoading: false,
     costCenterDropdown: [],
     costCenterDropdownLoading: false,
+    recipientDropdown: [],
+    recipientDropdownLoading: false,
+    invoiceDropdown: [],
+    invoiceDropdownLoading: false,
     error: null,
 }
 
@@ -119,6 +132,48 @@ const costCenterDropdownFailReducer = (state = initialState, payload) => {
     }
 }
 
+//RECIPIENT DROPDOWN
+
+const recipientDropdownSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        recipientDropdown: payload.recipientDropdown,
+        recipientDropdownLoading: false,
+        error: null
+
+    }
+}
+
+const recipientDropdownFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        recipientDropdown:[],
+        error: payload.error,
+        recipientDropdownLoading: false,
+    }
+}
+
+
+//INVOICE DROPDOWN
+const invoiceDropdownSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        invoiceDropdown: payload.invoiceDropdown,
+        invoiceDropdownLoading: false,
+        error: null
+
+    }
+}
+
+const invoiceDropdownFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        invoiceDropdown:[],
+        error: payload.error,
+        invoiceDropdownLoading: false,
+    }
+}
+
 export default createReducer(initialState, {
     [BUSINESS_UNIT_DROPDOWN_SUCCESS_ACTION]: businessUnitDropdownSuccessReducer,
     [BUSINESS_UNIT_DROPDOWN_FAIL_ACTION]: businessUnitDropdownFailReducer,
@@ -130,4 +185,8 @@ export default createReducer(initialState, {
     [TEAM_DROPDOWN_FAIL_ACTION]: teamDropdownFailReducer,
     [COST_CENTER_DROPDOWN_SUCCESS_ACTION]: costCenterDropdownSuccessReducer,
     [COST_CENTER_DROPDOWN_FAIL_ACTION]: costCenterDropdownFailReducer,
+    [RECIPIENT_SUCCESS_ACTION]: recipientDropdownSuccessReducer,
+    [RECIPIENT_FAIL_ACTION]: recipientDropdownFailReducer,
+    [INVOICE_DROPDOWN_SUCCESS_ACTION]: invoiceDropdownSuccessReducer,
+    [INVOICE_DROPDOWN_FAIL_ACTION]: invoiceDropdownFailReducer,
 })

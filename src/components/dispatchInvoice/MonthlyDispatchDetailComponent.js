@@ -13,10 +13,10 @@ import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import SelectDispatchTypeComponent from "../widgets/SelectDispatchTypeComponent";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
-import { getEmployeeInvoiceDetailStartAction } from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
-import {selectInvoiceListData,selectLoadingInvoiceDetailsData} from "../../redux/selectors/monthlyDispatchSelector"
+import {getEmployeeInvoiceDetailStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
+import {selectInvoiceListData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
 
-const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoading,handleInvoiceDetailsList,profileInfo}) => {
+const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoading,handleInvoiceDetailsList,printList,printInvoiceLoading,handlePrintInvoice,profileInfo}) => {
 
     const navigate = useNavigate()
     const [year, setYear] = useState()
@@ -33,7 +33,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const [allCheck, setAllCheck] = useState(false)
     const [checked, setChecked] = useState(false)
     const [checkedArr, setCheckedArr] = useState([])
-    const [printInvoice, setPrintInvoice] = useState([])
+    const [print, setPrint] = useState()
+    const [printInvoice, setPrintInvoice] = useState()
     const [printAllInvoice, setPrintAllInvoice] = useState([])
 
     const handleAllPrint = (event) => {
@@ -507,6 +508,38 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const matchInvoice = (invoiceList,checkedArr) => invoiceList.filter(data => checkedArr.includes(data.invoiceNumber)).map(data => data);
     // const matchInvoice = (checkedArr, invoiceList) => checkedArr.filter(data => invoiceList.map(list => list.includes(data.invoiceNumber))).map(myData => myData);
 
+    // const handleInvoicePrint = () => {
+    //     handlePrintInvoice({
+    //         inhId: printInvoice.map(item => item.invoiceHeaderID),
+    //         inh: {
+    //             inhId: printInvoice.map(item => item.invoiceHeaderID),
+    //             invoiceNo: printInvoice.map(item => item.invoiceNumber),
+    //         },
+    //         certificate: authInfo.token
+    //     })
+    // }
+    const handleInvoicePrint = () => {
+        handlePrintInvoice({
+            inhId: "CB01DAB4-46AF-4936-8DD1-0009FF4AC813",
+            inh: {
+                inhId: "CB01DAB4-46AF-4936-8DD1-0009FF4AC813",
+                invoiceNo: "100677",
+            },
+            certificate: authInfo.token
+        })
+    }
+
+    const handleAllInvoicePrint = () => {
+        handlePrintInvoice({
+            inhId: printAllInvoice.map(item => item.invoiceHeaderID),
+            inh: {
+                inhId: printAllInvoice.map(item => item.invoiceHeaderID),
+                invoiceNo: printAllInvoice.map(item => item.invoiceNumber),
+            },
+            certificate: authInfo.token
+        })
+    }
+
     return(
         <div>
             <TitleWidget title={'Monthly Dispatch'} />
@@ -573,7 +606,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 setPrintAction(false)
             }}>
                 <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print</p>
-                <Button type={"primary"} style={{marginRight: "20px"}}>Print Invoice</Button>
+                <Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleInvoicePrint()}>Print Invoice</Button>
                 <Button type={"primary"}>Print Label</Button>
                 <br/>
                 <Table
@@ -585,11 +618,11 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 >
                 </Table>
             </Modal>
-            <Modal open={printAllAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
+            <Modal open={printAllAction} title="Print All" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAllAction(false)
             }}>
                 <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print All</p>
-                <Button type={"primary"} style={{marginRight: "20px"}}>Print Invoice</Button>
+                <Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleAllInvoicePrint()}>Print Invoice</Button>
                 <Button type={"primary"}>Print Label</Button>
                 <br/>
                 <Table
@@ -610,22 +643,24 @@ MonthlyDispatchDetailComponent.propTypes = {
         profileInfo: PropTypes.any,
         invoiceList:PropTypes.array,
         invoiceDetailsLoading:PropTypes.any,
+        printList:PropTypes.array,
+        printInvoiceLoading:PropTypes.any,
         handleInvoiceDetailsList:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-     const profileInfo = selectProfileInfo(state)
-     const invoiceList = selectInvoiceListData(state)
-     //console.log(invoiceList)
-
-     const invoiceDetailsLoading = selectLoadingInvoiceDetailsData(state)
-
-         return {authInfo,invoiceList, invoiceDetailsLoading,profileInfo}
+    const profileInfo = selectProfileInfo(state)
+    const invoiceList = selectInvoiceListData(state)
+    const invoiceDetailsLoading = selectLoadingInvoiceDetailsData(state)
+    const printList = selectPrintListData(state)
+    const printInvoiceLoading = selectLoadingPrintInvoiceData(state)
+    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo}
 }
 
 const actions = {
-handleInvoiceDetailsList : getEmployeeInvoiceDetailStartAction
+    handleInvoiceDetailsList: getEmployeeInvoiceDetailStartAction,
+    handlePrintInvoice: getPrintInvoiceStartAction,
 }
 
 export default connect(mapState, actions)(MonthlyDispatchDetailComponent)

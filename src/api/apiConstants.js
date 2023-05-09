@@ -64,6 +64,8 @@ export const GET_BRAND_DROPDOWN_API = {url: '/v1/master/getBrandDropdown',method
 export const GET_DIVISION_DROPDOWN_API = {url: '/v1/master/getDivisionDropdown',method:'GET',auth:true}
 export const GET_TEAM_DROPDOWN_API = {url: '/v1/master/getTeamDropdown',method:'GET',auth:true}
 export const GET_COST_CENTER_DROPDOWN_API = {url: '/v1/master/getCostCenterDropdown',method:'GET',auth:true}
+export const GET_RECIPIENT_DROPDOWN_API = {url: '/v1/master/getRecipientDropdown',method:'GET',auth:true}
+export const GET_INVOICE_DROPDOWN_API = {url: '/v1/master/getInvoiceDropdown',method:'GET',auth:true}
 
 
 // SAMPLES
@@ -86,3 +88,7 @@ export const GET_NEAR_TO_EXPIRY_INPUT_REPORT_API = {url: '/v1/report/getReportNe
 export const GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API = {url: '/v1/report/getReportNearToExpirySample',method:'GET',auth:true}
 export const GET_ITEM_CODE_API = {url: '/v1/master/getItemCodeDropdown',method:'GET',auth:true}
 export const GET_SIMPLE_INVENTORY_REPORT_API = {url: '/v1/report/getReportSimpleInventory',method:'GET',auth:true}
+
+// INVOICE
+export const GET_PRINT_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'GET',auth:true}
+export const SEARCH_INVOICE_API = {url: '/v1/invoice/searchInvoice',method:'GET',auth:true}

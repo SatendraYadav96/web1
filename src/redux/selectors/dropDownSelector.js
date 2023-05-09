@@ -35,3 +35,18 @@ const costCenterDropdownLoading = (state) => state.dropDown.costCenterDropdownLo
 
 export const selectCostCenterDropdown = createSelector(costCenterDropdown, (costCenterDropdownSelect) => costCenterDropdownSelect)
 export const selectCostCenterDropdownLoading = createSelector(costCenterDropdownLoading, (costCenterDropdownLoadingSelect) => costCenterDropdownLoadingSelect)
+
+//RECIPIENT DROPDOWN
+const recipientDropdown = (state) => state.dropDown.recipientDropdown
+const recipientDropdownLoading = (state) => state.dropDown.recipientDropdownLoading
+
+export const selectRecipientDropdown = createSelector(recipientDropdown, (recipientDropdownSelect) => recipientDropdownSelect)
+export const selectRecipientDropdownLoading = createSelector(recipientDropdownLoading, (recipientDropdownLoadingSelect) => recipientDropdownLoadingSelect)
+
+//INVOICE DROPDOWN
+const invoiceDropdown = (state) => state.dropDown.invoiceDropdown
+const invoiceDropdownLoading = (state) => state.dropDown.invoiceDropdownLoading
+
+
+export const selectInvoiceDropdown = createSelector(invoiceDropdown, (invoiceDropdownSelect) => invoiceDropdownSelect)
+export const selectInvoiceDropdownLoading = createSelector(invoiceDropdownLoading, (invoiceDropdownLoadingSelect) => invoiceDropdownLoadingSelect)
