@@ -4,7 +4,7 @@ import {SEARCH_INVOICE_SUCCESS, SEARCH_INVOICE_FAIL} from "../actions/dispatchIn
 
 //Monthly Dispatch
 const initialState = {
-    searchList: [],
+    searchInvoiceList: [],
     searchInvoiceLoading: false,
 }
 
@@ -12,7 +12,7 @@ const searchInvoiceSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
 
-        searchList:payload.searchList,
+        searchInvoiceList:payload.searchInvoiceList,
         searchInvoiceLoading: false
 
     }
@@ -21,7 +21,7 @@ const searchInvoiceSuccessReducer = (state = initialState, payload) => {
 const searchInvoiceFailReducer = (state = initialState, payload) => {
     return {
         ...state,
-        searchList:[],
+        searchInvoiceList:[],
         searchInvoiceLoading: false,
         error: payload.error,
 

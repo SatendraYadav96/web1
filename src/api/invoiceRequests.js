@@ -7,9 +7,9 @@ export const printInvoiceRequest = payload => {
     return createRequest(api, payload.certificate, payload.inh)
 }
 
-export const searchInvoiceRequest = payload => {
+export const searchInvoiceRequest = (payload) => {
     const api = {...SEARCH_INVOICE_API, url: `${SEARCH_INVOICE_API.url}`}
-    return createRequest(api, payload.certificate, payload.searchInvoice)
+    return createRequest(SEARCH_INVOICE_API, payload.certificate, payload.searchInvoice)
 }
 
 export const groupInvoiceRequest = payload => {

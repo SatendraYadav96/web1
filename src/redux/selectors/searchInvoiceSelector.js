@@ -1,11 +1,11 @@
 import {createSelector} from "reselect";
 
-const searchList = (state) => state.searchInvoice.searchList;
+const searchInvoiceList = (state) => state.searchInvoice.searchInvoiceList;
 const searchInvoiceLoading = (state) => state.searchInvoice.searchInvoiceLoading
 
 
 export const selectSearchListData = createSelector(
-    searchList,
+    searchInvoiceList,
     searchListDataSelection => searchListDataSelection
 );
 

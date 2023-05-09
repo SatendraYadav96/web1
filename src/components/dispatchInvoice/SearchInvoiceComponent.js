@@ -16,7 +16,7 @@ import SelectRecipientComponent from "../widgets/SelectRecipientCodeComponent";
 import SelectRecipientCodeComponent from "../widgets/SelectRecipientCodeComponent";
 import SelectInvoiceComponent from "../widgets/SelectInvoiceComponent";
 
-const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLoading,handleInvoiceList}) => {
+const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchInvoiceLoading,handleInvoiceList}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -26,8 +26,8 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
-    const [recipientCode, setRecipientCode] = useState()
-    const [invoiceNo, setInvoiceNo] = useState()
+    const [recipientCode, setRecipientCode] = useState("")
+    const [invoiceNo, setInvoiceNo] = useState("")
 
     const searchData = () => {
         setFlag(true)
@@ -35,7 +35,7 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
             {
                 title:'Invoice Number',
                 key: 'searchNumber',
-                dataIndex: 'searchNumber',
+                dataIndex: 'invoiceNo',
                 width:'100px'
             },
             {
@@ -50,24 +50,27 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
         ]);
         setDataSource([
             {
-                key:'1',
-                searchNumber:'1000'
+                key:'',
+                searchNumber:''
             }
         ])
     }
 
         const searchInv = () => {
+            console.log(searchInvoiceList);
             const data = {
-                "monthIndex": "1",
-                "yearIndex": "2022",
-                "recipientId": recipientCode,
-                "invoiceNo": invoiceNo,
+                monthIndex: month,
+                yearIndex: year,
+                recipientId: recipientCode,
+                invoiceNo: invoiceNo,
             }
 
+
+
             handleInvoiceList({
-                certificate: authInfo.token,
                 searchInvoice: data,
-            })
+                certificate: authInfo.token
+            });
             searchData()
         }
 
@@ -96,7 +99,7 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
                 </Col>
             </Row>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={searchInvoiceList}/>
             }
         </>
     )
@@ -105,16 +108,16 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchList,searchInvoiceLo
 SearchInvoiceComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
-    searchList:PropTypes.array,
+    searchInvoiceList:PropTypes.array,
     searchInvoiceLoading:PropTypes.any,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    const searchList = selectSearchListData(state)
+    const searchInvoiceList = selectSearchListData(state)
     const searchInvoiceLoading = selectLoadingSearchInvoiceData(state)
-    return {authInfo,profileInfo,searchList,searchInvoiceLoading}
+    return {authInfo,profileInfo,searchInvoiceList,searchInvoiceLoading}
 }
 
 const actions = {
