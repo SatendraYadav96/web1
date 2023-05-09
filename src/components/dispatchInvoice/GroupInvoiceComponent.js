@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
@@ -8,22 +8,24 @@ import {Option} from "antd/es/mentions";
 import { PlusOutlined } from "@ant-design/icons";
 import {DatePicker} from "antd/es";
 import {useNavigate} from "react-router-dom";
-import SelectMonthComponent from "../widgets/SelectMonthComponent";
-import SelectYearComponent from "../widgets/SelectYearComponent";
 import moment from "moment/moment";
 import SelectInvoiceComponent from "../widgets/SelectInvoiceComponent";
 import {selectGroupInvoiceListData, selectLoadingGroupInvoiceData} from "../../redux/selectors/groupInvoiceSelector";
 import {groupInvoiceStartAction} from "../../redux/actions/dispatchInvoice/groupInvoiceAction";
+import {CSVLink} from "react-csv";
+import XLSX from "xlsx"
 
 
 const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoiceLoading, handleGroupInvoiceList}) => {
 
     const navigate = useNavigate()
 
-    const [invoiceNumber, setInvoiceNumber] = useState()
+    const [invoiceNumber, setInvoiceNumber] = useState("")
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
     const [column, setColumn] = useState([])
+    const [data, setData] = useState()
+
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [visible, setVisible] = useState(false)
@@ -95,19 +97,6 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
                 width: '170px'
             }
         ]);
-        setDataSource([
-            {
-                key:'1',
-                invoiceNo:'123',
-                status:'123',
-                invoiceDate: '20/7/2022',
-                recipient:'123',
-                boxes: '123',
-                weight: '123',
-                transporter: '123',
-                lrNo:'123'
-            }
-        ])
     }
 
     const recipientColumn = [
@@ -163,6 +152,7 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
     const getGroupInvoiceList = () => {
       console.log(formatedStartDateString);
       console.log(formatedEndDateString);
+      console.log(invoiceNumber)
 
       const data = {
           "invoiceNumber": invoiceNumber,
@@ -174,9 +164,46 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
           certificate: authInfo.token,
           groupInvoice: data,
       });
-      // groupData()
-
+      groupData()
     }
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"GroupInvoiceReport.xlsx")
+    }
+
+    useEffect(() => {
+        setData(groupInvoiceList.map(item => {
+            return {
+                invoiceNo: item.invoiceNo,
+                groupNo: item.groupNo,
+                status: item.status,
+                recipient: item.recipient,
+                boxes: item.boxes,
+                weight: item.weight,
+                transporter: item.transporter,
+                lrNo: item.lrNo,
+                loginId: item.loginId,
+                workId: item.workId,
+                gender: item.gender,
+                joiningDate: item.joiningDate,
+                mobile: item.mobile,
+                email: item.email,
+                SubTeam: item.team,
+                nsmName: item.nsmName,
+                nsmCode: item.nsmCode,
+                rmName: item.rmName,
+                rmCode: item.rmCode,
+                amName: item.amName,
+                amCode: item.amCode,
+                cfa: item.cfa,
+                hq: item.hq,
+                remarks: item.remarks,
+            }
+        }))
+    },[groupInvoiceList])
 
     return(
         <div>
@@ -185,7 +212,6 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
                 <Col span={3}>
                     Invoice Number: <br/>
                     <SelectInvoiceComponent value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}/>
-                    {/*<Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>*/}
                 </Col>
                 <Col span={3}>
                     From Date: <br/>
@@ -196,7 +222,7 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
                     <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={2}>
-                    <br/><Button type={'primary'} onClick={() => groupData()}>Search</Button>
+                    <br/><Button type={'primary'} onClick={() => getGroupInvoiceList()}>Search</Button>
                 </Col>
                 <Col span={1}>
                     <br/><Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()}></Button>
@@ -204,21 +230,30 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
             </Row>
             <br/>
             <Row gutter={[16,16]}>
-                <Col span={2}>
-                    <Button>Excel</Button>
+                <Col span={6}>
+                    {data &&
+                        (<CSVLink
+                                data={data}
+                                filename={"GroupInvoiceReport.csv"}
+                                onClick={() => {
+                                    console.log("clicked")
+                                }}
+                            >
+                                <Button>CSV</Button>
+                            </CSVLink>
+                        )
+                    }&nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
-                <Col span={2}>
-                    <Button>CSV</Button>
-                </Col>
-                <Col span={20}>
+                <Col span={18}>
                     <div align="right">
-                        <Input.Search style={{ width: 300}}  onClick={() => getGroupInvoiceList()}/>
+                        <Input.Search style={{ width: 300}}  />
                     </div>
                 </Col>
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={groupInvoiceList}/>
             }
             <Modal title={'Recipient Detail'} width={700}  onCancel={() => setVisible(false)} visible={visible}>
                 <Row gutter={[16,16]}>

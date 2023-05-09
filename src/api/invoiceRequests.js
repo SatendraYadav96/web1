@@ -3,7 +3,7 @@ import {GET_GROUP_INVOICE_API, GET_INVOICE_DROPDOWN_API, GET_PRINT_INVOICE_API, 
 
 //monthly dispatch
 export const printInvoiceRequest = payload => {
-    const api = {...GET_PRINT_INVOICE_API, url: `${GET_PRINT_INVOICE_API.url}/${payload.inhId}`}
+    const api = {...GET_PRINT_INVOICE_API, url: `${GET_PRINT_INVOICE_API.url}`}
     return createRequest(api, payload.certificate, payload.inh)
 }
 
@@ -14,5 +14,5 @@ export const searchInvoiceRequest = (payload) => {
 
 export const groupInvoiceRequest = payload => {
     const api = {...GET_GROUP_INVOICE_API, url: `${GET_GROUP_INVOICE_API.url}`}
-    return createRequest(api, payload.certificate, payload.groupInvoice)
+    return createRequest(GET_GROUP_INVOICE_API, payload.certificate, payload.groupInvoice)
 }

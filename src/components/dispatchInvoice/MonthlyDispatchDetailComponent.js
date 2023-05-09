@@ -520,7 +520,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     // }
     const handleInvoicePrint = () => {
         handlePrintInvoice({
-            inhId: "CB01DAB4-46AF-4936-8DD1-0009FF4AC813",
             inh: {
                 inhId: "CB01DAB4-46AF-4936-8DD1-0009FF4AC813",
                 invoiceNo: "100677",
