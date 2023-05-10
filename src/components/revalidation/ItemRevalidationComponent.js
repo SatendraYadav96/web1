@@ -5,16 +5,18 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row, Select, Table} from "antd";
 import moment from "moment";
-import {selectItemCodeListData, selectLoadingItemCodeData} from "../../redux/selectors/itemCodeSelector";
-import {getItemCodeStartAction} from "../../redux/actions/revalidation/itemCodeActions";
-import SelectItemCodeStatusComponent from "../widgets/itemCodeStatusComponent";
-import SelectItemStatusComponent from "../widgets/SelectItemRequisitionComponent";
+import {selectItemRevalidationListData, selectLoadingItemRevalidationData} from "../../redux/selectors/itemRevalidationSelector";
+import {getItemRevalidationStartAction} from "../../redux/actions/revalidation/itemRevalidationActions";
+import SelectItemRequisitionComponent from "../widgets/SelectItemRequisitionComponent";
+import SelectItemCodeStatusComponent from "../widgets/SelectItemCodeStatusComponent";
+import SelectItemRevalidationComponent from "../widgets/SelectItemRevalidationComponent";
 
-const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
+const ItemRevalidationComponent = ({authInfo,itemRevalidationList,itemRevalidationLoading,profileInfo, handleItemRevalidationList}) => {
 
     // const [fromDate, setFromDate] = useState()
     // const [toDate, setToDate] = useState()
-    const [itemId, setItemId] = useState()
+    const [itemId, setItemId] = useState("")
+    const [revldType, setRevldType] = useState("")
     const column = [
         {
             title:'Name',
@@ -23,7 +25,7 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
             width: '150px'
         },
         {
-            title:'Code',
+            title:'Revalidation',
             key: '',
             dataIndex: '',
             width: '150px'
@@ -35,7 +37,7 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
             width: '150px'
         },
         {
-            title:'Medical Code',
+            title:'Medical Revalidation',
             key: '',
             dataIndex: '',
             width: '150px'
@@ -74,6 +76,18 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
         console.log(`The Item Id is ${itemId}`)
     }, [itemId])
 
+    const handleRevalidation =() => {
+        handleItemRevalidationList({
+            certificate: authInfo.token,
+            itemId: itemId,
+            revldType: revldType,
+        })
+    }
+
+    useEffect(() => {
+        console.log(revldType)
+    },[revldType])
+
     return(
         <>
             <TitleWidget title="Item Revalidation" />
@@ -83,11 +97,11 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
                     <SelectItemCodeStatusComponent childToParent={childToParent}/>
                 </Col>
                 <Col span={3}><br/>
-                    <SelectItemStatusComponent/>
+                    <SelectItemRevalidationComponent onChange={(e) => setRevldType(e)}/>
                 </Col>
                 <Col span={3}>
                     <br/>
-                    <Button type={"primary"} >Search</Button>
+                    <Button type={"primary"} onClick={handleRevalidation} >Search</Button>
                 </Col>
                 <Col span={24}>
                     <br/>
@@ -97,12 +111,6 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
                 </Col>
             </Row>
             <br/>
-            {/*<Row>*/}
-            {/*    <Col span={6} offset={18}>*/}
-            {/*        <Input.Search/>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
-            {/*<br/><br/>*/}
             <Table columns={column}></Table>
         </>
     )
@@ -111,15 +119,22 @@ const ItemRevalidationComponent = ({authInfo,itemCodeList}) => {
 ItemRevalidationComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    itemRevalidationList:PropTypes.array,
+    itemRevalidationLoading:PropTypes.any,
+    handleItemRevalidationList:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    return {authInfo,profileInfo}
+    const itemRevalidationList = selectItemRevalidationListData(state)
+    const itemRevalidationLoading = selectLoadingItemRevalidationData(state)
+    return {authInfo,itemRevalidationList,itemRevalidationLoading,profileInfo}
 }
 
 const actions = {
+    handleItemRevalidationList : getItemRevalidationStartAction
 }
+
 
 export default connect(mapState, actions)(ItemRevalidationComponent)

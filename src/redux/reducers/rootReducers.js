@@ -28,6 +28,7 @@ import itemCodeReducer from "./itemCodeReducer";
 import simpleInventoryReportReducer from "./simpleInventoryReportReducer";
 import searchInvoiceReducer from "./searchInvoiceReducer";
 import groupInvoiceReducer from "./groupInvoiceReducer";
+import itemRevalidationReducer from "./itemRevalidationReducer";
 
 
 
@@ -53,6 +54,7 @@ const rootReducer = combineReducers({
     inventoryReport:inventoryReportReducer,
     purchaseReport:purchaseReportReducer,
     itemCode:itemCodeReducer,
+    itemRevalidation:itemRevalidationReducer,
     simpleInventoryReport:simpleInventoryReportReducer,
     dispatchesReport:dispatchesReportReducer,
     dispatchRegisterReport:dispatchRegisterReportReducer,

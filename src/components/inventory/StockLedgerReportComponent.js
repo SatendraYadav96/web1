@@ -7,7 +7,7 @@ import {Button, Col, DatePicker, Input, Row, Table} from "antd";
 import moment from "moment/moment";
 import {selectStockLedgerListData, selectLoadingStockLedgerReportData} from "../../redux/selectors/stockLedgerReportSelector";
 import {getStockLedgerReportStartAction} from "../../redux/actions/reports/stockLedgerReportActions";
-import SelectItemCodeStatusComponent from "../widgets/itemCodeStatusComponent";
+import SelectItemCodeStatusComponent from "../widgets/SelectItemCodeStatusComponent";
 
 const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockLedgerReportLoading,handleStockLedgerReportList}) => {
 
