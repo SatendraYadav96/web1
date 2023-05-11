@@ -56,23 +56,23 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
         ])
     }
 
-        const searchInv = () => {
-            console.log(searchInvoiceList);
-            const data = {
-                monthIndex: month,
-                yearIndex: year,
-                recipientId: recipientCode,
-                invoiceNo: invoiceNo,
-            }
-
-
-
-            handleInvoiceList({
-                searchInvoice: data,
-                certificate: authInfo.token
-            });
-            searchData()
+    const searchInv = () => {
+        console.log(searchInvoiceList);
+        const data = {
+            monthIndex: month,
+            yearIndex: year,
+            recipientId: recipientCode,
+            invoiceNo: invoiceNo,
         }
+
+
+
+        handleInvoiceList({
+            searchInvoice: data,
+            certificate: authInfo.token
+        });
+        searchData()
+    }
 
 
     return(

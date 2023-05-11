@@ -11,7 +11,7 @@ export const GET_LOV_API =  { url: '/v1/lov', method: 'GET', auth: true }
 export const GET_UNACKNOWLEDGE_LIST_API = { url: '/v1/grn/acknowledge', method: 'GET', auth: true }
 export const REJECT_ACKNOWLEDGE_API = {url: '/v1/grn/rejectAcknowledge', method: 'PUT', auth: true}
 export const APPROVE_ACKNOWLEDGE_API = {url: '/v1/grn/approveAcknowledge', method: 'PUT', auth: true}
-export const GRN_UPLOAD_API = { url: '/v1/grn/getUploadLog', method: 'GET', auth: true }
+export const GRN_UPLOAD_API = { url: '/v1/upload/getGrnUploadLog', method: 'GET', auth: true }
 
 //ALLOCATIONS
 export const GET_ITEMS_TO_ALLOCATE_API = { url: '/v1/allocations/itemsToAllocate', method: 'GET', auth: true }
@@ -28,6 +28,9 @@ export const GET_MONTHLY_DISPATCH_API = {url: '/v1/dispatchInvoicing/getMonthlyD
 export const GET_EMPLOYEE_INVOICE_DETAILS_API = {url: '/v1/dispatchInvoicing/getEmployeeInvoiceDetails',method:'GET',auth:true}
 export const GET_SPECIAL_DISPATCH_API = {url: '/v1/dispatchInvoicing/getSpecialDispatchSearch',method:'GET',auth:true}
 export const GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_API = {url: '/v1/dispatchInvoicing/getSpecialEmployeeInvoiceDetails',method:'GET',auth:true}
+export const GET_DELIVERY_UPDATE_API = {url: '/v1/upload/getTransporterUploadLog',method:'GET',auth:true}
+export const GET_INVOICE_UPLOAD_API = {url: '/v1/upload/getInvoiceUploadLog',method:'GET',auth:true}
+
 
 //Reports
 export const GET_RECIPIENT_REPORT_API = {url: '/v1/report/getReportRecipient',method:'GET',auth:true}
@@ -96,3 +99,10 @@ export const GET_GROUP_INVOICE_API = {url: '/v1/invoice/getGroupInvoiceListHub',
 //  REVALIDATION
 export const GET_ITEM_REVALIDATION_API = {url: '/v1/revalidation/getItemRevalidationHub',method:'GET',auth:true}
 export const GET_ITEM_CODE_API = {url: '/v1/master/getItemCodeDropdown',method:'GET',auth:true}
+
+// DASHOARD API
+export const GET_PENDING_DISPATCH_API = {url: '/v1/dashboard/getPendingDispatch',method:'GET',auth:true}
+export const GET_HUB_NEAR_EXPIRY_API = {url: '/v1/dashboard/getHubNearExpiry',method:'GET',auth:true}
+export const GET_HUB_PENDING_REVALIDATION_API = {url: '/v1/dashboard/getHubPendingRevalidation',method:'GET',auth:true}
+export const GET_HUB_GRN_ERROR_LOG_API = {url: '/v1/dashboard/getHubGrnErrorLog',method:'GET',auth:true}
+export const GET_ITEM_EXPIRED_DETAILS_API = {url: '/v1/dashboard/getItemExpiredDetails',method:'GET',auth:true}

@@ -21,8 +21,7 @@ import {
 import {brandDropDownRequest, businessUnitDropDownRequest, costCenterDropDownRequest, divisionDropDownRequest, invoiceRequest, recipientDropDownRequest, teamDropDownRequest} from '../../api/dropDownRequests'
 
 
-//BUSINESS UNIT DROPDOWN
-
+//BUSINESS_UNIT_DROPDOWN
 export const businessUnitDropdownStartEpic = (action$) =>
     action$.pipe(
         ofType(BUSINESS_UNIT_DROPDOWN_START_ACTION),

@@ -11,57 +11,45 @@ import {selectHsn,selectHsnLoading} from "../../redux/selectors/hsnSelector"
 
 const AddHsnComponent = ({authInfo,profileInfo,insertHsn,hsnLoading,handleAddHsn}) => {
 
-
     const [hsn, setHsn] = useState()
     const [rate, setRate] = useState()
-
 
     const searchData = () => {
     }
 
     const handleHsnChange = (e) => {
-         setHsn(e.target.value)
-
-      }
+    setHsn(e.target.value)
+    }
 
     const handleRateChange = (e) => {
+        setRate(e.target.value)
+    }
 
-          setRate(e.target.value)
+    const handleInsertHsn = () => {
+        console.log(hsn);
+        console.log(rate);
+        console.log(insertHsn);
 
-            }
+        const data  = {"hcmCode":hsn, "rate":rate}
 
-
-
-      const handleInsertHsn = () => {
-       console.log(hsn);
-       console.log(rate);
-       console.log(insertHsn);
-
-
-            const data  = {"hcmCode":hsn, "rate":rate}
-            handleAddHsn({
+        handleAddHsn({
             certificate: authInfo.token,
             hsn: data
-
-            });
-            searchData()
-
-
-      }
-
-
+        });
+        searchData()
+    }
 
     return(
         <>
             <TitleWidget title="Add HSN" />
-            <Row gutter={[16,16]}>
+            <Row gutter={[8,8]}>
                 <Col span={3}>
                     HSN Number
-                    <br/><Input  style={{width:'150px'}} value={hsn} onChange={handleHsnChange}  ></Input>
+                    <br/><Input  style={{width:'100%'}} value={hsn} onChange={handleHsnChange}  ></Input>
                 </Col>
                 <Col span={3}>
                     Rate
-                    <br/><Input style={{width:'150px'}} value={rate} onChange={handleRateChange} ></Input>
+                    <br/><Input style={{width:'100%'}} value={rate} onChange={handleRateChange} ></Input>
                 </Col>
                 <Col span={3}>
                     <br/>
@@ -76,11 +64,11 @@ const AddHsnComponent = ({authInfo,profileInfo,insertHsn,hsnLoading,handleAddHsn
 
 
 AddHsnComponent.propTypes = {
-                authInfo: PropTypes.any,
-                profileInfo: PropTypes.any,
-                insertHsn:PropTypes.array,
-                hsnLoading:PropTypes.any,
-                handleAddHsn:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    insertHsn:PropTypes.object,
+    hsnLoading:PropTypes.any,
+    handleAddHsn:PropTypes.func
 }
 
 const mapState = (state) => {
@@ -91,9 +79,8 @@ const mapState = (state) => {
     return {authInfo,insertHsn,hsnLoading,profileInfo}
 }
 
-
 const actions = {
-handleAddHsn: addHsnStartAction,
+    handleAddHsn: addHsnStartAction,
 }
 
 export default connect(mapState, actions)(AddHsnComponent)

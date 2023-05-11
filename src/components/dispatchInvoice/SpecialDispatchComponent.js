@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -82,22 +82,21 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
 
 }
 
+    const getSpecialDispatchList = () => {
+        console.log(year);
+        console.log(month);
+        console.log(specialData);
+        handleSpecialDispatchList ({
+            year:year,
+            month:month,
+            certificate: authInfo.token
+        });
+        searchData()
+    }
 
-         const getSpecialDispatchList = () => {
-                console.log(year);
-                console.log(month);
-                console.log(specialData);
-                handleSpecialDispatchList ({
-                year:year,
-                month:month,
-                certificate: authInfo.token
-                });
-                  searchData()
-
-        }
-
-
-
+    useEffect(() => {
+        console.log(specialData)
+    },[specialData])
 
     return(
         <div>

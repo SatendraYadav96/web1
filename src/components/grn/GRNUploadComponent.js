@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -7,6 +7,7 @@ import {Button, Col, Row, Table} from "antd";
 import {Link} from "react-router-dom";
 import {grnUploadStartAction} from "../../redux/actions/grn/grnActions";
 import {selectGrnUpload} from "../../redux/selectors/grnSelectors";
+import {empty} from "rxjs";
 
 
 
@@ -14,6 +15,7 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrnUpload}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
+    const [data, setData] = useState([])
     const [flag, setFlag] = useState(false)
 
     const searchData = () => {
@@ -46,7 +48,7 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrnUpload}) => {
             {
               title: 'Status',
               key:'status',
-              dataIndex: 'statusId',
+              dataIndex: 'statusId.id',
               width:'100px'
             },
             {
@@ -71,19 +73,22 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrnUpload}) => {
         ])
     }
 
-
     const getGrnUpload = () => {
-
         handleGrnUpload ({
-
-        certificate: authInfo.token
-
+            certificate: authInfo.token
         });
-        searchData()
-
     }
 
+    useEffect(() => {
+        {Object.keys(grnUpload).length === 0 ? console.log('no data') : setData(grnUpload) }
+    }, [grnUpload])
 
+    useEffect(() => {
+        handleGrnUpload ({
+            certificate: authInfo.token
+        });
+        searchData()
+    }, [authInfo.token])
 
     return(
         <div>
@@ -94,11 +99,10 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrnUpload}) => {
                 <Col span={4}>
                     <Button type={'primary'} onClick={() => getGrnUpload()}>Process Now</Button>
                 </Col>
-
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} dataSource={grnUpload}/>
+                <Table columns={column} dataSource={data}/>
             }
         </div>
     )
@@ -112,13 +116,11 @@ GRNUploadComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const grnUpload = selectGrnUpload(state)
-    console.log(grnUpload)
     return {authInfo,grnUpload}
 }
 
 const actions = {
-handleGrnUpload: grnUploadStartAction
-
+    handleGrnUpload: grnUploadStartAction
 }
 
 export default connect(mapState, actions)(GRNUploadComponent)

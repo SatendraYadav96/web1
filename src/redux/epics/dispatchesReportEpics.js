@@ -7,8 +7,7 @@ import { dispatchesReportRequest } from '../../api/reportRequests'
 
 
 
-//DISPATCHES REPORT EPICS
-
+//DISPATCHES_REPORT
 export const getDispatchesReportStartEpic = (action$) =>
     action$.pipe(
         ofType(GET_DISPATCHES_REPORT_START),

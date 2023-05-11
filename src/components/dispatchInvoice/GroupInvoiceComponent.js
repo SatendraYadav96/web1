@@ -155,9 +155,9 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
       console.log(invoiceNumber)
 
       const data = {
-          "invoiceNumber": invoiceNumber,
-          "fromDate": formatedStartDateString,
-          "toDate": formatedEndDateString,
+          invoiceNumber: invoiceNumber,
+          fromDate: formatedStartDateString,
+          toDate: formatedEndDateString,
       }
 
       handleGroupInvoiceList ({

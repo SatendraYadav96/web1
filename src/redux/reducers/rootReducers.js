@@ -29,6 +29,9 @@ import simpleInventoryReportReducer from "./simpleInventoryReportReducer";
 import searchInvoiceReducer from "./searchInvoiceReducer";
 import groupInvoiceReducer from "./groupInvoiceReducer";
 import itemRevalidationReducer from "./itemRevalidationReducer";
+import deliveryUpdateReducer from "./deliveryUpdateReducer";
+import invoiceUploadReducer from "./invoiceUploadReducer";
+import dashboardReducer from "./dashboardReducer";
 
 
 
@@ -44,6 +47,8 @@ const rootReducer = combineReducers({
     pickingLoad:picklistReducer,
     monthlyDispatch:monthlyDispatchReducer,
     searchInvoice:searchInvoiceReducer,
+    deliveryUpdate:deliveryUpdateReducer,
+    invoiceUpload:invoiceUploadReducer,
     groupInvoice:groupInvoiceReducer,
     specialDispatch:specialDispatchReducer,
     recipientReport:recipientReportReducer,
@@ -63,7 +68,8 @@ const rootReducer = combineReducers({
     destructionReport:destructionReportReducer,
     addHsn:hsnInvoiceReducer,
     master:masterReducer,
-    dropDown:dropDownReducer
+    dropDown:dropDownReducer,
+    dashboard: dashboardReducer
 })
 
 export default rootReducer

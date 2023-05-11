@@ -30,9 +30,6 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         setFlag(true)
         if(status === "00000000-0000-0000-0000-000000000026"){
             setColumn([
-
-
-
                 {
                     title:'City',
                     key: 'city',
@@ -401,25 +398,23 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
     const getSpecialEmployeeInvoiceDetailsList = () => {
 
-           console.log(specialInvoiceDetails);
-           console.log(planId);
-           console.log(status);
+    console.log(specialInvoiceDetails);
+    console.log(planId);
+    console.log(status);
 
+    handleSpecialInvoiceDetailsList ({
+        planId:planId,
+        status:status,
+        certificate: authInfo.token
+    });
 
-           handleSpecialInvoiceDetailsList ({
+    searchData()
 
-             planId:planId,
-             status:status,
-             certificate: authInfo.token
-                });
-
-                 searchData()
-
-            }
+    }
 
 
     const handleBack = () => {
-        return navigate("/home/dispatchInvoicing/monthlyDispatch")
+        return navigate("/home/dispatchInvoicing/specialDispatch")
     }
 
     return(

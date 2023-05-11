@@ -18,13 +18,12 @@ import {
     RECIPIENT_SUCCESS_ACTION,
     INVOICE_DROPDOWN_START_ACTION,
     INVOICE_DROPDOWN_SUCCESS_ACTION,
-    INVOICE_DROPDOWN_FAIL_ACTION,
+    INVOICE_DROPDOWN_FAIL_ACTION, BUSINESS_UNIT_DROPDOWN_FAIL_ACTION,
 
 } from './dropDownActionConstants'
 
 
-//BUSINESS UNIT DROPDOWN
-
+//BUSINESS_UNIT_DROPDOWN
 export const businessUnitDropdownStartAction = (payload) => (dispatch) => {
     dispatch({
         type: BUSINESS_UNIT_DROPDOWN_START_ACTION,
@@ -41,7 +40,7 @@ export const businessUnitDropdownSuccessAction = (payload) => (dispatch) => {
 
 export const businessUnitDropdownFailAction = (payload) => (dispatch) => {
     dispatch({
-        type: BRAND_DROPDOWN_FAIL_ACTION,
+        type: BUSINESS_UNIT_DROPDOWN_FAIL_ACTION,
         payload: payload,
     })
 }

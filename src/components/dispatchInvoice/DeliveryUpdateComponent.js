@@ -1,14 +1,17 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
+import {selectDeliveryUpdateListData} from "../../redux/selectors/deliveryUpdateSelector";
+import {deliveryUpdateStartAction} from "../../redux/actions/dispatchInvoice/deliveryUpdateAction";
+import {deliveryUpdateRequest} from "../../api/invoiceRequests";
 
 
-const DeliveryUpdateComponent = ({authInfo}) => {
+const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handleDeliveryUpdateList}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -32,13 +35,13 @@ const DeliveryUpdateComponent = ({authInfo}) => {
             {
                 title: 'Total Records',
                 key: 'totalRecords',
-                dataIndex: 'totalRecords',
+                dataIndex: 'totalRecord',
                 width:'100px'
             },
             {
                 title: 'Records Uploaded',
                 key: 'recordsUploaded',
-                dataIndex: 'recordsUploaded',
+                dataIndex: 'recordUpload',
                 width:'100px'
             },
             {
@@ -69,6 +72,17 @@ const DeliveryUpdateComponent = ({authInfo}) => {
         ])
     }
 
+    useEffect(() => {
+        handleDeliveryUpdateList({
+            certificate: authInfo.token
+        })
+        searchData()
+    },[authInfo.token])
+
+    useEffect(() => {
+        console.log(deliveryUpdateList)
+    },[deliveryUpdateList])
+
     return(
         <div>
             <TitleWidget title={'Delivery Update'} />
@@ -79,12 +93,12 @@ const DeliveryUpdateComponent = ({authInfo}) => {
                     </Upload>
                 </Col>
                 <Col span={3}>
-                    <Button type={'primary'} onClick={() => searchData()}>Upload</Button>
+                    <Button type={'primary'}>Upload</Button>
                 </Col>
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={deliveryUpdateList}/>
             }
         </div>
     )
@@ -92,15 +106,19 @@ const DeliveryUpdateComponent = ({authInfo}) => {
 
 DeliveryUpdateComponent.propTypes = {
     authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    deliveryUpdateList:PropTypes.array,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const profileInfo = selectProfileInfo(state)
+    const deliveryUpdateList = selectDeliveryUpdateListData(state)
+    return {authInfo,profileInfo,deliveryUpdateList}
 }
 
 const actions = {
-
+    handleDeliveryUpdateList: deliveryUpdateStartAction,
 }
 
 export default connect(mapState, actions)(DeliveryUpdateComponent)

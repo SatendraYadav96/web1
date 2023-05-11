@@ -4,6 +4,7 @@ import {catchError, debounceTime, map, of, switchMap} from "rxjs";
 import {searchInvoiceRequest} from "../../api/invoiceRequests";
 import {searchInvoiceFailAction, searchInvoiceSuccessAction} from "../actions/dispatchInvoice/searchInvoiceAction";
 
+// SEARCH_INVOICE
 export const searchInvoiceStartEpic = (action$) =>
     action$.pipe(
         ofType(SEARCH_INVOICE_START),

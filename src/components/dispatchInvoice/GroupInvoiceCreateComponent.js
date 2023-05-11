@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {Button, Col, Input, Row, Select, Table} from "antd";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import {DatePicker} from "antd/es";
+import moment from "moment";
 
 
 const GroupInvoiceCreateComponent = ({authInfo}) => {
@@ -20,6 +21,14 @@ const GroupInvoiceCreateComponent = ({authInfo}) => {
 
     const getRecipientDetail = () => {
         setVisible(true)
+    }
+
+    const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
+    const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
+
+    const handleGroupInvoice = () => {
+
+        searchData()
     }
 
     const searchData = () => {
@@ -164,29 +173,20 @@ const GroupInvoiceCreateComponent = ({authInfo}) => {
                     Invoice Number: <br/><Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>
                 </Col>
                 <Col span={3}>
-                    From Date: <br/><DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>
+                    From Date: <br/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
                 </Col>
                 <Col span={3}>
-                    To Date: <br/><DatePicker value={toDate} onChange={(e) => setToDate(e)}/>
+                    To Date: <br/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
                 </Col>
                 <Col span={2}>
-                    <br/><Button type={'primary'} onClick={() => searchData()}>Search</Button>
+                    <br/><Button type={'primary'} onClick={handleGroupInvoice}>Search</Button>
                 </Col>
-                <Col span={1}>
-                    <br/><Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()}></Button>
-                </Col>
+                {/*<Col span={1}>*/}
+                {/*    <br/><Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()}></Button>*/}
+                {/*</Col>*/}
             </Row>
-            {/*<div className="grid">*/}
-            {/*    Invoice Number: <br/>*/}
-            {/*    <Select style={{ width: 120 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    From Date: <DatePicker value={fromDate} onChange={(e) => setFromDate(e)}/>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    To Date: <DatePicker value={toDate} onChange={(e) => setToDate(e)}/>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    <Button type={'primary'} onClick={() => searchData()}>Search</Button>*/}
-            {/*    <Button icon={<SearchOutlined />} style={{marginLeft: '700px'}} />*/}
-            {/*</div>*/}
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={2}>
