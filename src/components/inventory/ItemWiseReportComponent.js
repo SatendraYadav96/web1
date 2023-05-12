@@ -28,13 +28,13 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'businessUnit',
                 dataIndex:'busineesUnit',
                 width:'100px'
             },
             {
-                title:'Division',
+                title:'Sub Team',
                 key:'division',
                 dataIndex:'division',
                 width:'100px'
@@ -98,8 +98,8 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
         handleItemWiseReportList ({
             fromDate: formatedToDateString,
             toDate: formatedFromDateString,
-            divison: division,
-            businessUnit:businessUnit,
+            subTeam: division,
+            team:businessUnit,
             certificate: authInfo.token
         });
         searchData()
@@ -152,11 +152,11 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
             <TitleWidget title="Item Wise Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Business Unit <br/>
+                    Team <br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}  />
                 </Col>
                 <Col span={2}>
-                    Division <br/>
+                    SubTeam <br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
 

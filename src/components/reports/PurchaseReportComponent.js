@@ -32,13 +32,13 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px'
             },
             {
-                title:'Division',
+                title:'SubTeam',
                 key:'division',
                 dataIndex:'divison',
                 width:'100px'
@@ -168,8 +168,8 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
     useEffect(() => {
         setData(purchaseList.map(item => {
             return {
-                businessUnit: item.businessUnit,
-                division: item.divison,
+                team: item.businessUnit,
+                subTeam: item.divison,
                 grnDate: item.grnDate,
                 vendorName: item.vendorName,
                 vendorCode: item.vendorCode,

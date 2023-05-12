@@ -29,13 +29,13 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px'
             },
             {
-                title:'Division',
+                title:'SubTeam',
                 key:'division',
                 dataIndex:'divison',
                 width:'100px'
@@ -133,8 +133,8 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
     useEffect(() => {
         setData(consumptionList.map(item => {
             return {
-                businessUnit: item.businessUnit,
-                division: item.division,
+                team: item.businessUnit,
+                subTeam: item.division,
                 costCenter: item.costCenter,
                 itemName: item.itemName,
                 itemCode: item.itemCode,

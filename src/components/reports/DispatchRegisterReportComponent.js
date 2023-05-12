@@ -210,7 +210,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
     useEffect(() => {
         setData(dispatchRegisterList.map(item => {
             return {
-                businessUnit: item.businessUnit,
+                team: item.businessUnit,
                 lrNo: item.lrNo,
                 courierName: item.courierName,
                 noBoxes: item.noBoxes,

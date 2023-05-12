@@ -34,7 +34,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px'
@@ -122,7 +122,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
 
         handleDispatchesReportList ({
         businessUnit:businessUnit,
-        divison:division,
+        division:division,
         userId: profileInfo.id,
         userDesgId: profileInfo.userDesignation.id,
         startDate:formatedStartDateString,
@@ -146,7 +146,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
     useEffect(() => {
         setData(dispatchesList.map(item => {
             return {
-                businessUnit: item.businessUnit,
+                team: item.businessUnit,
                 recipientName: item.recipientName,
                 recipientCode: item.recipientCode,
                 teamName: item.teamName,

@@ -25,13 +25,13 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px'
             },
             {
-                title:'Division',
+                title:'SubTeam',
                 key:'division',
                 dataIndex:'division',
                 width:'100px'
@@ -152,10 +152,10 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
 
     const getNearToExpiryInputReportList = () => {
         handleNearToExpiryInputReportList ({
-            businessUnit:businessUnit,
+            Team:businessUnit,
             userId: profileInfo.id,
             userDesgId: profileInfo.userDesignation.id,
-            divison: division,
+            subTeam: division,
             type: "Input",
             certificate: authInfo.token
         });
@@ -167,11 +167,11 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
             <TitleWidget title="Near To Expiry Report Input" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Business Unit <br/>
+                    Team <br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division <br/>
+                    SubTeam <br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>

@@ -30,13 +30,13 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'',
                 dataIndex:'businessUnit',
                 width:'100px'
             },
             {
-                title:'Division',
+                title:'SubTeam',
                 key:'',
                 dataIndex:'division',
                 width:'100px'
@@ -142,8 +142,8 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
     useEffect(() => {
         setData(destructionList.map(item => {
             return {
-                businessUnit: item.businessUnit,
-                divison: item.divison,
+                team: item.businessUnit,
+                SubTeam: item.divison,
                 costCenter: item.costCenter,
                 itemName: item.itemName,
                 itemCode: item.itemCode,

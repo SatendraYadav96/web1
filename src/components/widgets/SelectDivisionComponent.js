@@ -24,7 +24,7 @@ const SelectDivisionComponent = ({value, onChange,authInfo,divisionDropdown,divi
         });
     }, [authInfo.token])
 
-    return <Select placeholder={"Select Division"} value={value} onSelect={onChange} style={{width: "100%"}}>
+    return <Select placeholder={"Select SubTeam"} value={value} onSelect={onChange} style={{width: "100%"}}>
         {divisionDropdown?.map( item => {
             return(<Option key={item.id} value={item.id}>{item.name}</Option>)
         })}

@@ -26,13 +26,13 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
         setFlag(true)
         setColumn([
             {
-                title:'Business Unit',
+                title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px'
             },
             {
-                title:'Division',
+                title:'SubTeam',
                 key:'division',
                 dataIndex:'division',
                 width:'100px'
@@ -161,8 +161,8 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
     useEffect(() => {
         setData(simpleInventoryList.map(item => {
             return {
-                businessUnit: item.businessUnit,
-                division: item.division,
+                team: item.businessUnit,
+                subTeam: item.division,
                 costCenterName: item.costCenter,
                 category: item.category,
                 productCode: item.productCode,
