@@ -230,13 +230,18 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             data: grnData,
             certificate: authInfo.token
         })
-
     }
+
+    useEffect(() => {
+        handleLoadList({
+            certificate: authInfo.token
+        })
+    },[authInfo.token])
 
     return (
         <div>
             <TitleWidget title={'GRN'} subTitle={'Acknowledge'}/>
-            <Table dataSource={data.grn} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>
+            {/*<Table dataSource={data} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>*/}
             <Modal title={'Reason'} onOk={() => reject()} onCancel={() => setReasonModal(false)} visible={reasonModal}>
                 <Input.TextArea onChange={(e) =>{setReason(e.target.value)}} value={reason} placeholder={"Write Reason.."}/>
             </Modal>

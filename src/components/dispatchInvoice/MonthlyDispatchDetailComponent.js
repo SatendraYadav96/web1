@@ -6,7 +6,7 @@ import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
-import {CloseCircleOutlined, InfoOutlined, SaveOutlined, ZoomInOutlined,ArrowRightOutlined} from "@ant-design/icons";
+import {CloseCircleOutlined, InfoOutlined, SaveOutlined, ZoomInOutlined, ArrowRightOutlined, FileOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
@@ -25,8 +25,10 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const [dispatchType, setDispatchType] = useState('0')
     const [printAction, setPrintAction] = useState(false)
     const [printAllAction, setPrintAllAction] = useState(false)
+    const [recipientInvoice, setRecipientInvoice] = useState(false)
     const [column, setColumn] = useState([])
     const [printColumn, setPrintColumn] = useState([])
+    const [recipientInvoiceColumn, setRecipientInvoiceColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [status, setStatus] = useState()
@@ -312,7 +314,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     dataIndex: '',
                     width: '30px',
                     render:() => {
-                        return <Button icon={<ZoomInOutlined />} ></Button>
+                        return <Button icon={<ZoomInOutlined />} onClick={handleRecipientInvoice}></Button>
                     }
                 },
                 {
@@ -321,18 +323,18 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     dataIndex: '',
                     width: '30px',
                     render:() => {
-                        return <Button icon={<CloseCircleOutlined />} ></Button>
+                        return <Button icon={<SaveOutlined />}></Button>
                     }
                 },
-                {
-                    title: '',
-                    key: '',
-                    dataIndex: '',
-                    width: '30px',
-                    render:() => {
-                        return <Button icon={<ArrowRightOutlined />}></Button>
-                    }
-                },
+                // {
+                //     title: '',
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:() => {
+                //         return <Button icon={<ArrowRightOutlined />}></Button>
+                //     }
+                // },
                 {
                     title: 'Group' ,
                     key: '',
@@ -457,6 +459,42 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 boxes: '',
                 weight: '',
             }
+        ])
+    }
+
+    const handleRecipientInvoice = () => {
+        setRecipientInvoice(true)
+        setRecipientInvoiceColumn([
+            {
+                title:'Item',
+                key: 'itemName',
+                dataIndex: 'itemName',
+                width:'300px',
+            },
+            {
+                title: 'Item Code',
+                key: 'itemCode',
+                dataIndex: 'itemCode',
+                width:'25px',
+            },
+            {
+                title: 'Quantity',
+                key: 'quatity',
+                dataIndex: 'quantity',
+                width:'25px',
+            },
+            {
+                title: 'Rate',
+                key: 'rate',
+                dataIndex: 'rate',
+                width:'25px',
+            },
+            {
+                title:'Total',
+                key: 'total',
+                dataIndex: 'total',
+                width: '25px',
+            },
         ])
     }
 
@@ -626,6 +664,18 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 <br/>
                 <Table
                     columns={printColumn}
+                    dataSource={printAllInvoice}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+            </Modal>
+            <Modal open={recipientInvoice} title="Recipient Invoices" footer={null} width={"60vw"} onCancel={() => {
+                setRecipientInvoice(false)
+            }}>
+                <Table
+                    columns={recipientInvoiceColumn}
                     dataSource={printAllInvoice}
                     scroll={{
                         x: 100,

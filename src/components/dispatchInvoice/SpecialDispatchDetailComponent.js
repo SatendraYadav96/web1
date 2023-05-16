@@ -397,21 +397,17 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
 
     const getSpecialEmployeeInvoiceDetailsList = () => {
+        console.log(specialInvoiceDetails);
+        console.log(planId);
+        console.log(status);
 
-    console.log(specialInvoiceDetails);
-    console.log(planId);
-    console.log(status);
-
-    handleSpecialInvoiceDetailsList ({
-        planId:planId,
-        status:status,
-        certificate: authInfo.token
-    });
-
-    searchData()
-
+        handleSpecialInvoiceDetailsList ({
+            planId:planId,
+            status:status,
+            certificate: authInfo.token
+        });
+        searchData()
     }
-
 
     const handleBack = () => {
         return navigate("/home/dispatchInvoicing/specialDispatch")

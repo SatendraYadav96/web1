@@ -24,6 +24,8 @@ export const GET_RECIPIENTS_API = { url: '/v1/recipient/forteam', method: 'GET',
 
 //DispatchInvoice
 export const GET_PICKING_LIST_API = {url: '/v1/dispatchInvoicing/getPickingList',method:'GET',auth:true}
+export const GET_PICKLIST_API = {url: '/v1/inventory/getPickList',method:'GET',auth:true}
+export const GET_PICKLIST_VIRTUAL_API = {url: '/v1/inventory/getPickListVirtual',method:'GET',auth:true}
 export const GET_MONTHLY_DISPATCH_API = {url: '/v1/dispatchInvoicing/getMonthlyDispatchSearch',method:'GET',auth:true}
 export const GET_EMPLOYEE_INVOICE_DETAILS_API = {url: '/v1/dispatchInvoicing/getEmployeeInvoiceDetails',method:'GET',auth:true}
 export const GET_SPECIAL_DISPATCH_API = {url: '/v1/dispatchInvoicing/getSpecialDispatchSearch',method:'GET',auth:true}

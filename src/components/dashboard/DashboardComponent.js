@@ -357,33 +357,39 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         ]);
         setColumnItemExpiredDetails([
             {
-                title: 'Start Time',
-                key: 'startTime',
-                dataIndex: 'startTime',
+                title: 'Item Name',
+                key: 'itemName',
+                dataIndex: 'itemName',
                 width: '200px'
             },
             {
-                title: 'End Time',
-                key: 'endTime',
-                dataIndex: 'endTime',
+                title: 'Category',
+                key: 'category',
+                dataIndex: 'category',
                 width: '100px'
             },
             {
-                title: 'Total Records',
-                key: 'totalRecords',
-                dataIndex: 'totalRecords',
+                title: 'Expiry Date',
+                key: 'expiryDate',
+                dataIndex: 'expiryDate',
                 width: '100px'
             },
             {
-                title: 'Record Uploaded',
-                key: 'recordsUploaded',
-                dataIndex: 'recordsUploaded',
+                title: 'Quantity',
+                key: 'quantity',
+                dataIndex: 'quantity',
                 width: '100px'
             },
             {
-                title: 'Status',
-                key: 'status',
-                dataIndex: 'status',
+                title: 'Cost',
+                key: 'cost',
+                dataIndex: 'cost',
+                width: '100px'
+            },
+            {
+                title: 'PoNo',
+                key: 'pono',
+                dataIndex: 'pono',
                 width: '100px'
             },
 

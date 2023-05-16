@@ -118,7 +118,7 @@ const hubGrnErrorLogFailReducer = (state = initialState, payload) => {
 const itemExpiredDetailsSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        itemExpiredDetails: payload.itemExpiredDetails,
+        itemExpiredDetails: payload.itemExpiredDetailsList,
         itemExpiredDetailsLoading: false,
         error: null
 
