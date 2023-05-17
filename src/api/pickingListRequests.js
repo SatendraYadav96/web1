@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {GET_EMPLOYEE_POPUP_DETAILS_API, GET_PICKING_LIST_API, GET_PICKLIST_API, GET_PICKLIST_STATUS_API, GET_PICKLIST_VIRTUAL_API} from "./apiConstants";
+import {GET_EMPLOYEE_POPUP_DETAILS_API, GET_INVOICE_FOR_UPLOAD_API, GET_PICKING_LIST_API, GET_PICKLIST_API, GET_PICKLIST_STATUS_API, GET_PICKLIST_VIRTUAL_API} from "./apiConstants";
 
 export const pickingListRequest = payload => {
     const api = {...GET_PICKING_LIST_API, url: `${GET_PICKING_LIST_API.url}/${payload.year}/${payload.month}/${payload.dispatchType}`}
@@ -24,5 +24,10 @@ export const pickListStatusRequest = payload => {
 export const employeePopupRequest = payload => {
     const api = {...GET_EMPLOYEE_POPUP_DETAILS_API, url: `${GET_EMPLOYEE_POPUP_DETAILS_API.url}/${payload.month}/${payload.year}/${payload.isSpecial}/${payload.employeeId}/${payload.invoiceHeaderId}`}
     return createRequest(api, payload.certificate, null)
+}
+
+export const invoiceGroupingRequest = payload => {
+    const api = {...GET_INVOICE_FOR_UPLOAD_API, url: `${GET_INVOICE_FOR_UPLOAD_API.url}`}
+    return createRequest(api, payload.certificate, payload.groupInvoice)
 }
 

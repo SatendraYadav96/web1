@@ -7,9 +7,12 @@ import {Button, Col, Input, Row, Select, Table} from "antd";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import {DatePicker} from "antd/es";
 import moment from "moment";
+import {selectGroupInvoiceUploadListData, selectLoadingGroupInvoiceUploadData} from "../../redux/selectors/groupInvoiceSelector";
+import {groupInvoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/groupInvoiceAction";
+import SelectInvoiceComponent from "../widgets/SelectInvoiceComponent";
 
 
-const GroupInvoiceCreateComponent = ({authInfo}) => {
+const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUploadLoading,handleGroupInvoiceUpload}) => {
 
     const [invoiceNumber, setInvoiceNumber] = useState()
     const [fromDate, setFromDate] = useState()
@@ -27,7 +30,15 @@ const GroupInvoiceCreateComponent = ({authInfo}) => {
     const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
 
     const handleGroupInvoice = () => {
-
+        const data = {
+            fromDate: formatedStartDateString,
+            toDate: formatedEndDateString,
+            invoiceNumber: invoiceNumber,
+        }
+        handleGroupInvoiceUpload({
+            certificate: authInfo.token,
+            groupInvoice: data,
+        })
         searchData()
     }
 
@@ -169,16 +180,16 @@ const GroupInvoiceCreateComponent = ({authInfo}) => {
         <div>
             <TitleWidget title={'Create Group Invoice'} > </TitleWidget>
             <Row gutter={[16,16]}>
-                <Col span={3}>
-                    Invoice Number: <br/><Select style={{ width: 150 }} value={invoiceNumber} onChange={(e) => setInvoiceNumber(e)}></Select>
-                </Col>
+                {/*<Col span={3}>*/}
+                {/*    Invoice Number: <br/><SelectInvoiceComponent/>*/}
+                {/*</Col>*/}
                 <Col span={3}>
                     From Date: <br/>
-                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     To Date: <br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={2}>
                     <br/><Button type={'primary'} onClick={handleGroupInvoice}>Search</Button>
@@ -201,16 +212,11 @@ const GroupInvoiceCreateComponent = ({authInfo}) => {
                     </div>
                 </Col>
             </Row>
-            {/*<div>*/}
-            {/*    <Button>Excel</Button>*/}
-            {/*    &nbsp;&nbsp;*/}
-            {/*    <Button>CSV</Button>*/}
-            {/*    <Input.Search style={{ width: 300, marginLeft: '1200px' }} />*/}
-            {/*</div>*/}
             <br/>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={groupInvoiceUpload}/>
             }
+            <br/>
             <div align={"right"}>
                 <Button type={"primary"}>Group Invoice</Button>
             </div>
@@ -220,15 +226,20 @@ const GroupInvoiceCreateComponent = ({authInfo}) => {
 
 GroupInvoiceCreateComponent.propTypes = {
     authInfo: PropTypes.any,
+    groupInvoiceUpload: PropTypes.array,
+    groupInvoiceUploadLoading:PropTypes.any,
+    handleGroupInvoiceUpload: PropTypes.any,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const groupInvoiceUpload = selectGroupInvoiceUploadListData(state)
+    const groupInvoiceUploadLoading = selectLoadingGroupInvoiceUploadData(state)
+    return {authInfo,groupInvoiceUpload,groupInvoiceUploadLoading}
 }
 
 const actions = {
-
+    handleGroupInvoiceUpload: groupInvoiceUploadStartAction
 }
 
 export default connect(mapState, actions)(GroupInvoiceCreateComponent)

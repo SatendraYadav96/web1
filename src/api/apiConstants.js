@@ -34,6 +34,7 @@ export const GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_API = {url: '/v1/inventory/get
 export const GET_EMPLOYEE_POPUP_DETAILS_API = {url: '/v1/inventory/getEmployeeInvoicePopupDetails',method:'GET',auth:true}
 export const GET_DELIVERY_UPDATE_API = {url: '/v1/upload/getTransporterUploadLog',method:'GET',auth:true}
 export const GET_INVOICE_UPLOAD_API = {url: '/v1/upload/getInvoiceUploadLog',method:'GET',auth:true}
+export const GET_INVOICE_FOR_UPLOAD_API = {url: '/v1/invoice/getInvoicesForGrouping',method:'POST',auth:true}
 
 
 //Reports
