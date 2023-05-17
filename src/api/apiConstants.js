@@ -26,10 +26,12 @@ export const GET_RECIPIENTS_API = { url: '/v1/recipient/forteam', method: 'GET',
 export const GET_PICKING_LIST_API = {url: '/v1/dispatchInvoicing/getPickingList',method:'GET',auth:true}
 export const GET_PICKLIST_API = {url: '/v1/inventory/getPickList',method:'GET',auth:true}
 export const GET_PICKLIST_VIRTUAL_API = {url: '/v1/inventory/getPickListVirtual',method:'GET',auth:true}
+export const GET_PICKLIST_STATUS_API = {url: '/v1/inventory/getPickListStatusByBM',method:'GET',auth:true}
 export const GET_MONTHLY_DISPATCH_API = {url: '/v1/dispatchInvoicing/getMonthlyDispatchSearch',method:'GET',auth:true}
 export const GET_EMPLOYEE_INVOICE_DETAILS_API = {url: '/v1/dispatchInvoicing/getEmployeeInvoiceDetails',method:'GET',auth:true}
 export const GET_SPECIAL_DISPATCH_API = {url: '/v1/dispatchInvoicing/getSpecialDispatchSearch',method:'GET',auth:true}
-export const GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_API = {url: '/v1/dispatchInvoicing/getSpecialEmployeeInvoiceDetails',method:'GET',auth:true}
+export const GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_API = {url: '/v1/inventory/getSpecialDispatchListForInvoicing',method:'GET',auth:true}
+export const GET_EMPLOYEE_POPUP_DETAILS_API = {url: '/v1/inventory/getEmployeeInvoicePopupDetails',method:'GET',auth:true}
 export const GET_DELIVERY_UPDATE_API = {url: '/v1/upload/getTransporterUploadLog',method:'GET',auth:true}
 export const GET_INVOICE_UPLOAD_API = {url: '/v1/upload/getInvoiceUploadLog',method:'GET',auth:true}
 

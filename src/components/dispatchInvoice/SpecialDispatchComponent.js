@@ -6,7 +6,7 @@ import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Table} from "antd";
 import {Option} from "antd/es/mentions";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import { getSpecialDispatchStartAction } from '../../redux/actions/dispatchInvoice/specialDispatchAction'
@@ -23,6 +23,7 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const history = useNavigate()
 
 
     const searchData = () => {
@@ -63,8 +64,8 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
                 key: '',
                 dataIndex: '',
                 width: '100px',
-                render: () => {
-                    return <Link to="/home/dispatchInvoicing/specialDispatch/details">Show</Link>
+                render: (_,row) => {
+                    return <Button to="/home/dispatchInvoicing/specialDispatch/details" onClick={() => handleShow(row)}>Show</Button>
                 }
             }
         ]);
@@ -81,6 +82,15 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
 
 
 }
+
+    const  handleShow = (row) => {
+        history("/home/dispatchInvoicing/specialDispatch/details", {state:
+            {
+                year: year,
+                month: month,
+                planId: row.idDip,
+            }});
+    }
 
     const getSpecialDispatchList = () => {
         console.log(year);

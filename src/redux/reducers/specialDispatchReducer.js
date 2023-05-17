@@ -1,6 +1,6 @@
 import { createReducer } from './reducerUtils'
 import {GET_SPECIALDISPATCH_SUCCESS,GET_SPECIALDISPATCH_FAIL,
-GET_SPECIALEMPLOYEEINVOICEDETAILS_SUCCESS,GET_SPECIALEMPLOYEEINVOICEDETAILS_FAIL} from "../actions/dispatchInvoice/specialDispatchActionConstant";
+GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_SUCCESS,GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_FAIL} from "../actions/dispatchInvoice/specialDispatchActionConstant";
 
 
 
@@ -10,7 +10,6 @@ GET_SPECIALEMPLOYEEINVOICEDETAILS_SUCCESS,GET_SPECIALEMPLOYEEINVOICEDETAILS_FAIL
 const initialState = {
     specialData: [],
     specialDispatchLoading: false,
-
     specialInvoiceDetails: [],
     specialInvoiceDetailsLoading: false,
     error: {}
@@ -75,8 +74,8 @@ const getSpecialEmployeeInvoiceDetailFailReducer = (state = initialState, payloa
 export default createReducer(initialState, {
     [GET_SPECIALDISPATCH_SUCCESS]: getSpecialDispatchSuccessReducer,
     [GET_SPECIALDISPATCH_FAIL]: getSpecialDispatchFailReducer,
-    [GET_SPECIALEMPLOYEEINVOICEDETAILS_SUCCESS]: getSpecialEmployeeInvoiceDetailSuccessReducer,
-    [GET_SPECIALEMPLOYEEINVOICEDETAILS_FAIL]: getSpecialEmployeeInvoiceDetailFailReducer
+    [GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_SUCCESS]: getSpecialEmployeeInvoiceDetailSuccessReducer,
+    [GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_FAIL]: getSpecialEmployeeInvoiceDetailFailReducer
 
 
 

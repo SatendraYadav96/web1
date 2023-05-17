@@ -15,8 +15,10 @@ import SelectDispatchTypeComponent from "../widgets/SelectDispatchTypeComponent"
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import {getEmployeeInvoiceDetailStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
 import {selectInvoiceListData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
+import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
+import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 
-const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoading,handleInvoiceDetailsList,printList,printInvoiceLoading,handlePrintInvoice,profileInfo}) => {
+const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoading,handleInvoiceDetailsList,printList,printInvoiceLoading,handlePrintInvoice,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup}) => {
 
     const navigate = useNavigate()
     const [year, setYear] = useState()
@@ -313,8 +315,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     key: '',
                     dataIndex: '',
                     width: '30px',
-                    render:() => {
-                        return <Button icon={<ZoomInOutlined />} onClick={handleRecipientInvoice}></Button>
+                    render:(_,row) => {
+                        return <Button icon={<ZoomInOutlined />} onClick={() => handleRecipientInvoice(row)}></Button>
                     }
                 },
                 {
@@ -462,7 +464,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
         ])
     }
 
-    const handleRecipientInvoice = () => {
+    const handleRecipientInvoice = (row) => {
         setRecipientInvoice(true)
         setRecipientInvoiceColumn([
             {
@@ -496,6 +498,14 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                 width: '25px',
             },
         ])
+        handleEmployeePopup({
+            certificate: authInfo.token,
+            month: month,
+            year: year,
+            isSpecial: 0,
+            employeeId: row.employeeID,
+            invoiceHeaderId: row.invoiceHeaderID,
+        })
     }
 
     const getEmployeeInvoiceDetailsList = () => {
@@ -676,7 +686,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
             }}>
                 <Table
                     columns={recipientInvoiceColumn}
-                    dataSource={printAllInvoice}
+                    dataSource={employeePopup}
                     scroll={{
                         x: 100,
                     }}
@@ -688,13 +698,16 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
 }
 
 MonthlyDispatchDetailComponent.propTypes = {
-        authInfo: PropTypes.any,
-        profileInfo: PropTypes.any,
-        invoiceList:PropTypes.array,
-        invoiceDetailsLoading:PropTypes.any,
-        printList:PropTypes.array,
-        printInvoiceLoading:PropTypes.any,
-        handleInvoiceDetailsList:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    invoiceList:PropTypes.array,
+    invoiceDetailsLoading:PropTypes.any,
+    printList:PropTypes.array,
+    printInvoiceLoading:PropTypes.any,
+    handleInvoiceDetailsList:PropTypes.func,
+    employeePopup:PropTypes.array,
+    employeePopupLoading:PropTypes.any,
+    handleEmployeePopup:PropTypes.func
 }
 
 const mapState = (state) => {
@@ -704,12 +717,15 @@ const mapState = (state) => {
     const invoiceDetailsLoading = selectLoadingInvoiceDetailsData(state)
     const printList = selectPrintListData(state)
     const printInvoiceLoading = selectLoadingPrintInvoiceData(state)
-    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo}
+    const employeePopup = selectEmployeePopupData(state)
+    const employeePopupLoading = selectEmployeePopupLoadingData(state)
+    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo,employeePopup,employeePopupLoading}
 }
 
 const actions = {
     handleInvoiceDetailsList: getEmployeeInvoiceDetailStartAction,
     handlePrintInvoice: getPrintInvoiceStartAction,
+    handleEmployeePopup: employeePopupStartAction,
 }
 
 export default connect(mapState, actions)(MonthlyDispatchDetailComponent)

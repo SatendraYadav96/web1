@@ -1,14 +1,14 @@
 import React, {useState,useEffect} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {getPickinglistStartAction, getPicklistStartAction, getPicklistVirtualStartAction} from '../../redux/actions/dispatchInvoice/picklistAction'
+import {getPickinglistStartAction, getPicklistStartAction, getPicklistStatusStartAction, getPicklistVirtualStartAction} from '../../redux/actions/dispatchInvoice/picklistAction'
 import {connect} from "react-redux";
 import {Button, Col, Modal, Row, Table} from "antd";
 import {DownloadOutlined} from "@ant-design/icons";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectDispatchTypeComponent from "../widgets/SelectDispatchTypeComponent";
-import {selectPicklistData, selectLoadingData, selectPickinglistData, selectPickLoadingData, selectPicklistVirtualData} from "../../redux/selectors/picklistSelector"
+import {selectPicklistData, selectLoadingData, selectPickinglistData, selectPickLoadingData, selectPicklistVirtualData, selectPickStatusLoadingData, selectPickVirtualLoadingData, selectPicklistStatusData} from "../../redux/selectors/picklistSelector"
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {SheetComponent} from "@antv/s2-react";
@@ -16,7 +16,7 @@ import {setLang} from "@antv/s2";
 
 
 
-const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profileInfo,picklist,picklistloading,handlePickList,picklistVirtual,picklistVirtualloading,handlePickListVirtual}) => {
+const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profileInfo,picklist,picklistloading,handlePickList,picklistVirtual,picklistVirtualloading,handlePickListVirtual,picklistStatus,picklistStatusloading,handlePickListStatus}) => {
     setLang('en_US')
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -27,12 +27,43 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
     const [month, setMonth] = useState(currentMonth)
     const [dispatchType, setDispatchType] = useState()
     const [columns, setColumns] = useState([])
+    const [modalColumns, setModalColumns] = useState([])
     const [flag, setFlag] = useState(false)
     const [dataSource, setDataSource] = useState([])
     const [statusBox, setStatusBox] = useState(false)
+    const [statusData, setStatusData] = useState(false)
 
-    const statusByBrandManager = () =>{
+    const statusByBrandManager = (row) => {
         setStatusBox(true)
+        handlePickListStatus({
+            year:year,
+            month:month,
+            teamId: row.teamID,
+            certificate: authInfo.token
+        })
+        modalData()
+    }
+
+    useEffect(() => {
+        console.log(`This is ${picklistStatus}`)
+        setStatusData(picklistStatus)
+    },[picklistStatus])
+
+    const modalData = () => {
+        setModalColumns([
+            {
+                title: 'Brand Manager',
+                key: 'managerName',
+                dataIndex: 'managerName',
+                width: '600px'
+            },
+            {
+                title: 'Status',
+                key: 'status',
+                dataIndex: 'status',
+                width: '200px'
+            },
+        ])
     }
 
     const searchData = () => {
@@ -53,8 +84,8 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
                     key: 'status',
                     dataIndex: 'status',
                     width: '500px',
-                    render: (_, {status}) => {
-                        return <Button type="link" onClick={() => statusByBrandManager()}>{status}</Button>
+                    render: (_,row) => {
+                        return <Button type="link" onClick={() => statusByBrandManager(row)}>Status By Brand Manager</Button>
                     }
                 },
                 {
@@ -173,21 +204,6 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
         console.log(pivotTableData)
     },[pivotTableData])
 
-    const statusColumn = [
-        {
-            title: 'Brand',
-            key:'brand',
-            dataIndex: 'brand',
-            width: '50px;'
-        },
-        {
-            title: 'Status',
-            key:'status',
-            dataIndex: 'status',
-            width: '50px;'
-        }
-
-    ]
 
     const getPickingList = () => {
         /*console.log(year);
@@ -200,6 +216,7 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
             dispatchType:dispatchType,
             certificate: authInfo.token
         });
+        setPivoTable(false)
         searchData()
     }
 
@@ -221,11 +238,12 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
                 certificate: authInfo.token
             })
         }
+        setPivoTable(true)
     }
 
     const s2Options = {
-        width: 2000,
-        height: 480,
+        width: 1700,
+        height: 700,
         interaction: {
             enableCopy: true,
         },
@@ -266,8 +284,12 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
                     /> : <Table dataSource={pickinglist} columns={columns}></Table>
             }
 
-            <Modal title={'Status By Brand Manager'} onOk={() => setStatusBox(false)} onCancel={() => setStatusBox(false)} visible={statusBox}>
-                <Table columns={statusColumn}/>
+            <Modal title={'Status By Brand Manager'} isOpen={statusBox} onOk={() => {
+                setStatusBox(false); setStatusData(undefined);
+            }} onCancel={() => {
+                setStatusBox(false); setStatusData(undefined);
+            }} visible={statusBox} width={900}>
+                <Table columns={modalColumns} dataSource={statusData}/>
             </Modal>
         </div>
     )
@@ -280,12 +302,15 @@ PickingSlipComponent.propTypes = {
     pickinglist:PropTypes.array,
     picklist:PropTypes.array,
     picklistVirtual:PropTypes.array,
+    picklistStatus:PropTypes.array,
     loading:PropTypes.any,
     picklistloading:PropTypes.any,
     picklistVirtualloading:PropTypes.any,
+    picklistStatusloading:PropTypes.any,
     handleLoadList:PropTypes.func,
     handlePickList:PropTypes.func,
     handlePickListVirtual:PropTypes.func,
+    handlePickListStatus:PropTypes.func,
 }
 
 
@@ -297,9 +322,11 @@ const mapState = (state) => {
     const picklist = selectPicklistData(state)
     const picklistloading = selectPickLoadingData(state)
     const picklistVirtual = selectPicklistVirtualData(state)
-    const picklistVirtualloading = selectPickLoadingData(state)
+    const picklistVirtualloading = selectPickVirtualLoadingData(state)
+    const picklistStatus = selectPicklistStatusData(state)
+    const picklistStatusloading = selectPickStatusLoadingData(state)
 
-    return {authInfo,pickinglist,loading,profileInfo,picklist,picklistloading,picklistVirtual,picklistVirtualloading}
+    return {authInfo,pickinglist,loading,profileInfo,picklist,picklistloading,picklistVirtual,picklistVirtualloading,picklistStatus,picklistStatusloading}
 }
 
 
@@ -307,6 +334,7 @@ const actions = {
     handleLoadList : getPickinglistStartAction,
     handlePickList : getPicklistStartAction,
     handlePickListVirtual : getPicklistVirtualStartAction,
+    handlePickListStatus : getPicklistStatusStartAction,
 }
 
 

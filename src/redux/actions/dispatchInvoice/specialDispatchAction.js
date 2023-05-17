@@ -1,5 +1,5 @@
 import {GET_SPECIALDISPATCH_START,GET_SPECIALDISPATCH_SUCCESS,GET_SPECIALDISPATCH_FAIL,
-GET_SPECIALEMPLOYEEINVOICEDETAILS_START,GET_SPECIALEMPLOYEEINVOICEDETAILS_SUCCESS,GET_SPECIALEMPLOYEEINVOICEDETAILS_FAIL} from "./specialDispatchActionConstant";
+GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_START,GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_SUCCESS,GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_FAIL} from "./specialDispatchActionConstant";
 
 
 
@@ -27,27 +27,23 @@ export const getSpecialDispatchFailAction = (payload) => (dispatch) =>{
     })
 }
 
-
-
-
-
 export const getSpecialEmployeeInvoiceDetailStartAction = (payload) => (dispatch) =>{
     dispatch({
-        type: GET_SPECIALEMPLOYEEINVOICEDETAILS_START,
+        type: GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_START,
         payload: payload,
     })
 }
 
 export const getSpecialEmployeeInvoiceDetailSuccessAction = (payload) => (dispatch) => {
     dispatch({
-        type: GET_SPECIALEMPLOYEEINVOICEDETAILS_SUCCESS,
+        type: GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_SUCCESS,
         payload: payload,
     })
 }
 
 export const getSpecialEmployeeInvoiceDetailFailAction = (payload) => (dispatch) =>{
     dispatch({
-        type: GET_SPECIALEMPLOYEEINVOICEDETAILS_FAIL,
+        type: GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_FAIL,
         payload: payload,
     })
 }

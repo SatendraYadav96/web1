@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Input, Modal, Row, Select, Table} from "antd";
+import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
@@ -12,9 +12,12 @@ import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import { getSpecialEmployeeInvoiceDetailStartAction } from '../../redux/actions/dispatchInvoice/specialDispatchAction'
 import {selectSpecialInvoiceListData,selectSpecialLoadingInvoiceDetailsData} from "../../redux/selectors/specialDispatchSelector"
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {ArrowRightOutlined, CloseCircleOutlined, InfoOutlined, SaveOutlined, ZoomInOutlined} from "@ant-design/icons";
+import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
+import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 
-const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo}) => {
+const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup}) => {
 
     const navigate = useNavigate()
 
@@ -23,8 +26,12 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [recipientInvoiceColumn, setRecipientInvoiceColumn] = useState([])
     const [status, setStatus] = useState([])
+    const [recipientInvoice, setRecipientInvoice] = useState(false)
     const [planId, setPlanId] = useState()
+
+    const location = useLocation()
 
     const searchData = () => {
         setFlag(true)
@@ -202,18 +209,18 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     title: 'Boxes',
                     key: 'boxes',
                     dataIndex: 'boxes',
-                    width: '50px',
-                    render:() =>{
-                        return <Input/>
+                    width: '150px',
+                    render:(_,row) =>{
+                        return <Input defaultValue={row.boxes} style={{width: "150px"}}/>
                     }
                 },
                 {
                     title: 'Weight',
                     key: 'weight',
                     dataIndex: 'weight',
-                    width: '50px',
-                    render: () =>{
-                        return <Input/>
+                    width: '100px',
+                    render: (_,row) =>{
+                        return <Input defaultValue={row.weight}/>
                     }
                 },
                 {
@@ -230,8 +237,8 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'lrNo',
                     dataIndex: 'lrNumber',
                     width: '170px',
-                    render: () => {
-                        return <Input/>
+                    render: (_,row) => {
+                        return <Input defaulValue={row.lrNumber} style={{width: "100px"}}/>
                     }
                 },
                 {
@@ -239,28 +246,28 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: '',
                     dataIndex: '',
                     width: '30px',
-                    render:() => {
-                        return <Button icon={<ZoomInOutlined />} ></Button>
+                    render:(_,row) => {
+                        return <Button icon={<ZoomInOutlined />} onClick={() => handleRecipientInvoice(row)}></Button>
                     }
                 },
-                {
-                    title: '',
-                    key: '',
-                    dataIndex: '',
-                    width: '30px',
-                    render:() => {
-                        return <Button icon={<CloseCircleOutlined />} ></Button>
-                    }
-                },
-                {
-                    title: '',
-                    key: '',
-                    dataIndex: '',
-                    width: '30px',
-                    render:() => {
-                        return <Button icon={<ArrowRightOutlined />}></Button>
-                    }
-                },
+                // {
+                //     title: '',
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:() => {
+                //         return <Button icon={<CloseCircleOutlined />} ></Button>
+                //     }
+                // },
+                // {
+                //     title: '',
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:() => {
+                //         return <Button icon={<ArrowRightOutlined />}></Button>
+                //     }
+                // },
                 {
                     title: 'Group' ,
                     key: '',
@@ -394,15 +401,13 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         ])
     }
 
-
-
     const getSpecialEmployeeInvoiceDetailsList = () => {
         console.log(specialInvoiceDetails);
         console.log(planId);
         console.log(status);
 
         handleSpecialInvoiceDetailsList ({
-            planId:planId,
+            planId:location.state.planId,
             status:status,
             certificate: authInfo.token
         });
@@ -413,52 +418,115 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         return navigate("/home/dispatchInvoicing/specialDispatch")
     }
 
+    const handleRecipientInvoice = (row) => {
+        setRecipientInvoice(true)
+        setRecipientInvoiceColumn([
+            {
+                title:'Item',
+                key: 'itemName',
+                dataIndex: 'itemName',
+                width:'300px',
+            },
+            {
+                title: 'Item Code',
+                key: 'itemCode',
+                dataIndex: 'itemCode',
+                width:'25px',
+            },
+            {
+                title: 'Quantity',
+                key: 'quantity',
+                dataIndex: 'quantity',
+                width:'25px',
+            },
+            {
+                title: 'Rate',
+                key: 'rate',
+                dataIndex: 'rate',
+                width:'25px',
+            },
+            {
+                title:'Total',
+                key: 'total',
+                dataIndex: 'total',
+                width: '25px',
+            },
+        ])
+        handleEmployeePopup({
+            certificate: authInfo.token,
+            month: location.state.month,
+            year: location.state.year,
+            isSpecial: 1,
+            employeeId: row.employeeId,
+            invoiceHeaderId: row.invoiceHeaderID,
+        })
+    }
+
+    useEffect(() => {
+        console.log(employeePopup)
+    },[employeePopup])
+
     return(
+        <>
+            <Row gutter={[16,16]}>
+                <Col span={3}>
+                    <Input value={location.state.year}/>
+                </Col>
+                <Col span={3}>
+                    <Input value={location.state.month}/>
+                </Col>
+                <Col span={3}>
+                    <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
+                </Col>
+                <Col span={2}>
+                    <Button type={'primary'} onClick={() => {getSpecialEmployeeInvoiceDetailsList()}} style={{width: "100%"}}>Submit</Button>
+                </Col>
+                <Col span={2}>
+                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
+                </Col>
+                <Col span={8}>
+                    {status === "00000000-0000-0000-0000-000000000026" &&
+                        <>
 
-        <Row gutter={[16,16]}>
-            <Col span={3}>
-                <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
-            </Col>
-            <Col span={3}>
-                <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
-            </Col>
-            <Col span={3}>
-                <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
-            </Col>
-            <Col span={2}>
-                <Button type={'primary'} onClick={() => {getSpecialEmployeeInvoiceDetailsList()}}>Submit</Button>
-            </Col>
-            <Col span={2}>
-                <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
-            </Col>
-            <Col span={8}>
-                {status === "00000000-0000-0000-0000-000000000026" &&
-                    <>
+                            <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>
 
-                        <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>
+                            &nbsp;
 
-                        &nbsp;
+                            <Button type={'primary'}>Export</Button>
+                        </>
+                    }
+                    {status === "00000000-0000-0000-0000-000000000027" &&
+                        <>
 
-                        <Button type={'primary'}>Export</Button>
-                    </>
-                }
-                {status === "00000000-0000-0000-0000-000000000027" &&
-                    <>
+                            <Button type={'primary'} style={{marginLeft: '10px'}}>Batch Invoice</Button>
 
-                        <Button type={'primary'} style={{marginLeft: '10px'}}>Batch Invoice</Button>
+                            &nbsp;
 
-                        &nbsp;
-
-                        <Button type={'primary'}>Group Invoice</Button>
-                    </>
-                }
-            </Col>
-            <Col span={4}>
-                <div align="right">
-                    <Input.Search style={{ width: 304 }} />
-                </div>
-            </Col>
-        </Row>
+                            <Button type={'primary'}>Group Invoice</Button>
+                        </>
+                    }
+                </Col>
+                <Col span={4}>
+                    <div align="right">
+                        <Input.Search style={{ width: 304 }} />
+                    </div>
+                </Col>
+            </Row>
+            <br/><br/>
+            <Table columns={column} dataSource={specialInvoiceDetails}/>
+            <Modal open={recipientInvoice} title="Recipient Invoices" footer={null} width={"60vw"} onCancel={() => {
+                setRecipientInvoice(false)
+            }}>
+                <Table
+                    columns={recipientInvoiceColumn}
+                    dataSource={employeePopup}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+            </Modal>
+        </>
         // <Row gutter={[8,8]}>
         //     <Col span={24}>
         //         <div align="right">
@@ -470,27 +538,29 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
 
 SpecialDispatchDetailComponent.propTypes = {
-     authInfo: PropTypes.any,
-     profileInfo: PropTypes.any,
-     specialInvoiceDetails:PropTypes.array,
-     specialInvoiceDetailsLoading:PropTypes.any,
-     handleSpecialInvoiceDetailsList:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    specialInvoiceDetails:PropTypes.array,
+    specialInvoiceDetailsLoading:PropTypes.any,
+    handleSpecialInvoiceDetailsList:PropTypes.func,
+    employeePopup:PropTypes.array,
+    employeePopupLoading:PropTypes.any,
+    handleEmployeePopup:PropTypes.func,
 }
 
 const mapState = (state) => {
-     const authInfo = selectAuthInfo(state)
-     const profileInfo = selectProfileInfo(state)
-     const specialInvoiceDetails = selectSpecialInvoiceListData(state)
-         //console.log(invoiceList)
-
-     const specialInvoiceDetailsLoading = selectSpecialLoadingInvoiceDetailsData(state)
-
-     return {authInfo,specialInvoiceDetails, specialInvoiceDetailsLoading,profileInfo}
+    const authInfo = selectAuthInfo(state)
+    const profileInfo = selectProfileInfo(state)
+    const specialInvoiceDetails = selectSpecialInvoiceListData(state)
+    const specialInvoiceDetailsLoading = selectSpecialLoadingInvoiceDetailsData(state)
+    const employeePopup = selectEmployeePopupData(state)
+    const employeePopupLoading = selectEmployeePopupLoadingData(state)
+    return {authInfo,specialInvoiceDetails, specialInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading}
 }
 
 const actions = {
-handleSpecialInvoiceDetailsList: getSpecialEmployeeInvoiceDetailStartAction
-
+    handleSpecialInvoiceDetailsList: getSpecialEmployeeInvoiceDetailStartAction,
+    handleEmployeePopup: employeePopupStartAction,
 }
 
 export default connect(mapState, actions)(SpecialDispatchDetailComponent)

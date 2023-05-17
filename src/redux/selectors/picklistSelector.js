@@ -43,3 +43,32 @@ export const selectPickVirtualLoadingData = createSelector(
     loadingSelection => loadingSelection
 );
 
+const picklistStatus = (state) => state.pickingLoad.picklistStatus;
+const loadingPickStatus = (state) => state.pickingLoad.picklistLoadingStatus
+
+
+export const selectPicklistStatusData = createSelector(
+    picklistStatus,
+    picklistStatusDataSelection => picklistStatusDataSelection
+);
+
+export const selectPickStatusLoadingData = createSelector(
+    loadingPickStatus,
+    loadingSelection => loadingSelection
+);
+
+
+const employeePopup = (state) => state.pickingLoad.employeePopup;
+const employeePopupLoading = (state) => state.pickingLoad.employeePopupLoading
+
+
+export const selectEmployeePopupData = createSelector(
+    employeePopup,
+    employeePopupSelection => employeePopupSelection
+);
+
+export const selectEmployeePopupLoadingData = createSelector(
+    employeePopupLoading,
+    loadingSelection => loadingSelection
+);
+

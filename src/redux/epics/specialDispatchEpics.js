@@ -1,4 +1,4 @@
-import {GET_SPECIALDISPATCH_START,GET_SPECIALEMPLOYEEINVOICEDETAILS_START} from '../actions/dispatchInvoice/specialDispatchActionConstant'
+import {GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_START, GET_SPECIALDISPATCH_START, GET_SPECIALEMPLOYEEINVOICEDETAILS_START} from '../actions/dispatchInvoice/specialDispatchActionConstant'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
 import {
@@ -24,12 +24,9 @@ export const getSpecialDispatchStartEpic = (action$) =>
         )
     )
 
-
-
-
 export const getSpecialEmployeeInvoiceDetailsStartEpic = (action$) =>
     action$.pipe(
-        ofType(GET_SPECIALEMPLOYEEINVOICEDETAILS_START),
+        ofType(GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_START),
         debounceTime(4000),
         switchMap((action) =>
             specialEmployeeInvoiceDetailsRequest(action.payload).pipe(
