@@ -17,6 +17,7 @@ import {getEmployeeInvoiceDetailStartAction, getPrintInvoiceStartAction} from '.
 import {selectInvoiceListData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
+import SelectTransportComponent from "../widgets/SelectTransportComponent";
 
 const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoading,handleInvoiceDetailsList,printList,printInvoiceLoading,handlePrintInvoice,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup}) => {
 
@@ -433,7 +434,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     dataIndex: 'transporter',
                     width: '170px'  ,
                     render: () =>{
-                        return <Select placeholder="Select Transporter"></Select>
+                        return <SelectTransportComponent/>
                     }
                 },
                 {

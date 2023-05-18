@@ -8,6 +8,7 @@ import {Option} from "antd/es/mentions";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import {useNavigate} from "react-router-dom";
+import SelectTransportComponent from "../widgets/SelectTransportComponent";
 
 
 const VirtualDispatchDetailComponent = ({authInfo}) => {
@@ -95,7 +96,7 @@ const VirtualDispatchDetailComponent = ({authInfo}) => {
                 dataIndex: 'transporter',
                 width: '170px'  ,
                 render: () =>{
-                    return <Select placeholder="Select Transporter"></Select>
+                    return <SelectTransportComponent/>
                 }
             },
             {
@@ -134,7 +135,7 @@ const VirtualDispatchDetailComponent = ({authInfo}) => {
     }
 
     const handleBack = () => {
-        return navigate("/home/dispatchInvoicing/monthlyDispatch")
+        return navigate("/home/dispatchInvoicing/virtualDispatch")
     }
 
     return(

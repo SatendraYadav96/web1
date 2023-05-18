@@ -84,7 +84,6 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
         certificate: authInfo.token
         });
         searchData()
-
     }
 
     return(
@@ -135,11 +134,8 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const monthList = selectMonthListData(state)
-
-
     const monthlyDispatchLoading = selectLoadingMonthDispatchData(state)
-
-        return {authInfo,monthList, monthlyDispatchLoading,profileInfo}
+    return {authInfo,monthList, monthlyDispatchLoading,profileInfo}
 }
 
 

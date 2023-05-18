@@ -52,8 +52,6 @@ export const GET_DESTRUCTION_REPORT_API = {url: '/v1/report/getReportDestruction
 export const ADD_HSN_API = { url: '/v1/hsn/addHsn', method: 'POST', auth: true }
 export const ADD_BOX_WEIGHT_API = { url: '/v1/hsn/editInvoiceHeader', method: 'PUT', auth: true }
 
-//MASTER
-
 //VENDOR
 export const GET_VENDOR_API = {url: '/v1/master/getVendor',method:'GET',auth:true}
 export const ADD_VENDOR_API = { url: '/v1/master/addVendor', method: 'POST', auth: true }

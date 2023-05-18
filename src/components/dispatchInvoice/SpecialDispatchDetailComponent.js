@@ -31,6 +31,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [status, setStatus] = useState([])
     const [recipientInvoice, setRecipientInvoice] = useState(false)
     const [planId, setPlanId] = useState()
+    const [transport, setTransport] = useState()
 
     const location = useLocation()
 
@@ -230,7 +231,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     dataIndex: 'transporter',
                     width: '170px'  ,
                     render: () =>{
-                        return <SelectTransportComponent />
+                        return <SelectTransportComponent onChange={(e) => setTransport(e)}/>
                     }
                 },
                 {

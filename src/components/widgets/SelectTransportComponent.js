@@ -37,7 +37,7 @@ const SelectTransportComponent = ({value, onChange,authInfo,profileInfo,transpor
             style={{width: "100%"}}
         >
             {transportDropdown?.map( item => {
-                return(<Option key={item.transporterId} value={item.transporterId} label={item.transporterName.toString()}>{item.transporterName}</Option>)
+                return(<Option key={item.transporterId} value={item.transporterId} label={item.transporterName.toString()} >{item.transporterName}</Option>)
             })}
         </Select>
     )

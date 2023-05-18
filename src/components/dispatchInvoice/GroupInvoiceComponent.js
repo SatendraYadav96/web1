@@ -210,8 +210,8 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
             <TitleWidget title={'Group Invoice'} > </TitleWidget>
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    Invoice Number: <br/>
-                    <SelectInvoiceComponent onChange={(e) => setInvoiceNumber(e)}/>
+                    Invoice Number <br/>
+                    <SelectInvoiceComponent/>
                 </Col>
                 <Col span={3}>
                     From Date: <br/>
