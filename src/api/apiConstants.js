@@ -74,6 +74,7 @@ export const GET_TEAM_DROPDOWN_API = {url: '/v1/master/getTeamDropdown',method:'
 export const GET_COST_CENTER_DROPDOWN_API = {url: '/v1/master/getCostCenterDropdown',method:'GET',auth:true}
 export const GET_RECIPIENT_DROPDOWN_API = {url: '/v1/master/getRecipientDropdown',method:'GET',auth:true}
 export const GET_INVOICE_DROPDOWN_API = {url: '/v1/master/getInvoiceDropdown',method:'GET',auth:true}
+export const GET_TRANSPORT_DROPDOWN_API = {url: '/v1/master/getTransporter',method:'GET',auth:true}
 
 
 // SAMPLES

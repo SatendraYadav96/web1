@@ -1,6 +1,5 @@
 import {
-    BRAND_DROPDOWN_START_ACTION,
-    BUSINESS_UNIT_DROPDOWN_START_ACTION, COST_CENTER_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION, INVOICE_DROPDOWN_START_ACTION, RECIPIENT_START_ACTION, TEAM_DROPDOWN_START_ACTION
+    BUSINESS_UNIT_DROPDOWN_START_ACTION, COST_CENTER_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION, INVOICE_DROPDOWN_START_ACTION, RECIPIENT_START_ACTION, TEAM_DROPDOWN_START_ACTION, TRANSPORT_DROPDOWN_START_ACTION
 } from '../actions/dropDown/dropDownActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -16,9 +15,9 @@ import {
     costCenterDropdownSuccessAction,
     costCenterDropdownFailAction,
     recipientDropdownSuccessAction,
-    recipientDropdownFailAction, invoiceDropdownSuccessAction, invoiceDropdownStartAction, invoiceDropdownFailAction,
+    recipientDropdownFailAction, invoiceDropdownSuccessAction, invoiceDropdownStartAction, invoiceDropdownFailAction, transportDropdownSuccessAction, transportDropdownFailAction,
 } from '../actions/dropDown/dropDownActions'
-import {brandDropDownRequest, businessUnitDropDownRequest, costCenterDropDownRequest, divisionDropDownRequest, invoiceRequest, recipientDropDownRequest, teamDropDownRequest} from '../../api/dropDownRequests'
+import {brandDropDownRequest, businessUnitDropDownRequest, costCenterDropDownRequest, divisionDropDownRequest, invoiceRequest, recipientDropDownRequest, teamDropDownRequest, transportDropdownRequest} from '../../api/dropDownRequests'
 
 
 //BUSINESS_UNIT_DROPDOWN
@@ -102,4 +101,19 @@ export const invoiceDropdownStartEpic = (action$) =>
             )
         )
     )
+
+
+//TRANSPORT DROPDOWN
+export const transportDropdownStartEpic = (action$) =>
+    action$.pipe(
+        ofType(TRANSPORT_DROPDOWN_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            transportDropdownRequest(action.payload).pipe(
+                map((listResponse) => transportDropdownSuccessAction({transportDropdown: listResponse.response})),
+                catchError((error) => of(transportDropdownFailAction({error: error}))),
+            )
+        )
+    )
+
 

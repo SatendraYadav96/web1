@@ -10,7 +10,7 @@ import {
     TEAM_DROPDOWN_FAIL_ACTION,
     COST_CENTER_DROPDOWN_SUCCESS_ACTION,
     COST_CENTER_DROPDOWN_FAIL_ACTION,
-    RECIPIENT_SUCCESS_ACTION, RECIPIENT_FAIL_ACTION, INVOICE_DROPDOWN_SUCCESS_ACTION, INVOICE_DROPDOWN_FAIL_ACTION,
+    RECIPIENT_SUCCESS_ACTION, RECIPIENT_FAIL_ACTION, INVOICE_DROPDOWN_SUCCESS_ACTION, INVOICE_DROPDOWN_FAIL_ACTION, TRANSPORT_DROPDOWN_SUCCESS_ACTION, TRANSPORT_DROPDOWN_FAIL_ACTION,
 
 } from '../actions/dropDown/dropDownActionConstants'
 
@@ -30,6 +30,8 @@ const initialState = {
     recipientDropdownLoading: false,
     invoiceDropdown: [],
     invoiceDropdownLoading: false,
+    transportDropdown: [],
+    transportDropdownLoading: false,
     error: null,
 }
 
@@ -174,6 +176,26 @@ const invoiceDropdownFailReducer = (state = initialState, payload) => {
     }
 }
 
+//TRANSPORT DROPDOWN
+const transportDropdownSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        transportDropdown: payload.transportDropdown,
+        transportDropdownLoading: false,
+        error: null
+
+    }
+}
+
+const transportDropdownFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        transportDropdown:[],
+        error: payload.error,
+        transportDropdownLoading: false,
+    }
+}
+
 export default createReducer(initialState, {
     [BUSINESS_UNIT_DROPDOWN_SUCCESS_ACTION]: businessUnitDropdownSuccessReducer,
     [BUSINESS_UNIT_DROPDOWN_FAIL_ACTION]: businessUnitDropdownFailReducer,
@@ -189,4 +211,6 @@ export default createReducer(initialState, {
     [RECIPIENT_FAIL_ACTION]: recipientDropdownFailReducer,
     [INVOICE_DROPDOWN_SUCCESS_ACTION]: invoiceDropdownSuccessReducer,
     [INVOICE_DROPDOWN_FAIL_ACTION]: invoiceDropdownFailReducer,
+    [TRANSPORT_DROPDOWN_SUCCESS_ACTION]: transportDropdownSuccessReducer,
+    [TRANSPORT_DROPDOWN_FAIL_ACTION]: transportDropdownFailReducer,
 })

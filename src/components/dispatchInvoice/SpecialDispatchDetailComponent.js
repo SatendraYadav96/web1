@@ -16,6 +16,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {ArrowRightOutlined, CloseCircleOutlined, InfoOutlined, SaveOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
+import SelectTransportComponent from "../widgets/SelectTransportComponent";
 
 const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup}) => {
 
@@ -229,7 +230,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     dataIndex: 'transporter',
                     width: '170px'  ,
                     render: () =>{
-                        return <Select placeholder="Select Transporter"></Select>
+                        return <SelectTransportComponent />
                     }
                 },
                 {

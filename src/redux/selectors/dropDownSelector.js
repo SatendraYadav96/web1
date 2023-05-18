@@ -54,3 +54,12 @@ const invoiceDropdownLoading = (state) => state.dropDown.invoiceDropdownLoading
 
 export const selectInvoiceDropdown = createSelector(invoiceDropdown, (invoiceDropdownSelect) => invoiceDropdownSelect)
 export const selectInvoiceDropdownLoading = createSelector(invoiceDropdownLoading, (invoiceDropdownLoadingSelect) => invoiceDropdownLoadingSelect)
+
+
+//TRANSPORT DROPDOWN
+const transportDropdown = (state) => state.dropDown.transportDropdown
+const transportDropdownLoading = (state) => state.dropDown.transportDropdownLoading
+
+export const selectTransportDropdown = createSelector(transportDropdown, (transportDropdownSelect) => transportDropdownSelect)
+export const selectTransportDropdownLoading = createSelector(transportDropdownLoading, (transportDropdownLoadingSelect) => transportDropdownLoadingSelect)
+
