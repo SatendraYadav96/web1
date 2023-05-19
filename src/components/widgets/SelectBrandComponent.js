@@ -9,20 +9,10 @@ import {connect} from "react-redux";
 
 const SelectBrandComponent = ({value, onChange,authInfo,profileInfo,brandDropdown,brandDropdownLoading,handleBrandDropDown}) => {
 
-    const [brandId, setBrandId] = useState()
-    const [brandName, setBrandName] = useState()
-
-
-    const data  = {"id":brandId, "name":brandName}
-
     useEffect(() => {
         console.log(brandDropdown)
-        console.log(data)
-        console.log(brandName)
-
         handleBrandDropDown ({
             certificate: authInfo.token,
-            brandDropdown: data
         });
     }, [authInfo.token])
 

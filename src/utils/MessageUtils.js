@@ -318,4 +318,40 @@ import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+    ADD_VENDOR_START: [{ action: 'showspinner' }],
+    ADD_VENDOR_SUCCESS: [{ action: 'hidespinner' }],
+    ADD_VENDOR_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    EDIT_VENDOR_START: [{ action: 'showspinner' }],
+    EDIT_VENDOR_SUCCESS: [{ action: 'hidespinner' }],
+    EDIT_VENDOR_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    EDIT_COST_CENTER_START: [{ action: 'showspinner' }],
+    EDIT_COST_CENTER_SUCCESS: [{ action: 'hidespinner' }],
+    EDIT_COST_CENTER_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_COST_CENTER_START: [{ action: 'showspinner' }],
+    ADD_COST_CENTER_SUCCESS: [{ action: 'hidespinner' }],
+    ADD_COST_CENTER_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
 }

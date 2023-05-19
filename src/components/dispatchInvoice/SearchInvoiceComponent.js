@@ -89,7 +89,7 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
                     <SelectRecipientCodeComponent onChange={(value) => setRecipientCode(value)}/>
                 </Col>
                 <Col span={3}>
-                    <SelectInvoiceComponent value={invoiceNo} onChange={(e) => setInvoiceNo(e)}/>
+                    <SelectInvoiceComponent onChange={(e) => setInvoiceNo(e)}/>
                 </Col>
                 <Col span={3}>
                     <Button type={'primary'} onClick={() => searchInv()}>Submit</Button>

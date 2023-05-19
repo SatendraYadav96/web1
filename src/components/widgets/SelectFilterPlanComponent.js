@@ -4,7 +4,7 @@ import {Option} from "antd/es/mentions";
 
 
 const SelectFilterPlanComponent = ({value, onChange}) => {
-    return <Select placeholder={"Select Plan Type"} value={value} onSelect={onChange}>
+    return <Select placeholder={"Select Plan Type"} value={value} onSelect={onChange} style={{width: "100%"}}>
         <Option value={0}>Monthly</Option>
         <Option value={1}>Special</Option>
         <Option value={2}>All</Option>

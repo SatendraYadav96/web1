@@ -163,11 +163,11 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
                 </Col>
                 <Col span={3}>
                     Transaction From Date <br/>
-                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     To Date <br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     <br/>

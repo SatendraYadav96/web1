@@ -241,7 +241,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         <>
             <TitleWidget title="Dispatch Register Report" />
             <Row gutter={[8,8]}>
-                <Col span={2}>
+                <Col span={3}>
                     Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
@@ -254,14 +254,14 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                     <SelectTeamComponent value={team} style={{width: "100%"}} onChange={(e) => setTeam(e)} />
                 </Col>
                 <Col span={3}>
-                    From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
-                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     Plan Type<br/>
-                    <SelectFilterPlanComponent value={filterPlan} style={{width: "100%"}} onChange={(e) => setFilterPlan(e)} />
+                    <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)}/>
                 </Col>
                 <Col span={3}>
                     <br/>

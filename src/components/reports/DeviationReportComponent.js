@@ -28,7 +28,7 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
         setFlag(true)
         setColumn([
             {
-                title:'BU',
+                title:'Team',
                 key:'',
                 dataIndex:'bu',
                 width:'100px'
