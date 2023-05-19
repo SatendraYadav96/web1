@@ -241,7 +241,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     return (
         <div>
             <TitleWidget title={'GRN'} subTitle={'Acknowledge'}/>
-            {/*<Table dataSource={data} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>*/}
+            <Table dataSource={ackData} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>
             <Modal title={'Reason'} onOk={() => reject()} onCancel={() => setReasonModal(false)} visible={reasonModal}>
                 <Input.TextArea onChange={(e) =>{setReason(e.target.value)}} value={reason} placeholder={"Write Reason.."}/>
             </Modal>
