@@ -155,18 +155,18 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
                     Team <br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}  />
                 </Col>
-                <Col span={2}>
+                <Col span={3}>
                     SubTeam <br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
 
                 <Col span={3}>
                     Date From: <br/>
-                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     Date To: <br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={2}>
                     <br/>

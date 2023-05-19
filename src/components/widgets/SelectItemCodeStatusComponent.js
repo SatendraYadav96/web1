@@ -57,7 +57,7 @@ const SelectItemCodeStatusComponent = ({value, childToParent,authInfo,itemCodeLi
                 </Select>
             </Col>
             <Col span={12}>
-                <Input value={name} />
+                <Input value={name} placeholder="Item Name" />
             </Col>
         </Row>
     )
