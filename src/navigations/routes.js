@@ -40,6 +40,16 @@ const EditVendorComponent = React.lazy(() => import('../components/masters/vendo
 const BusinessUnitComponent = React.lazy(() => import('../components/masters/businessUnit/BusinessUnitComponent'))
 const CreateBusinessUnitComponent = React.lazy(() => import('../components/masters/businessUnit/CreateBusinessUnitComponent'))
 const EditBusinessUnitComponent = React.lazy(() => import('../components/masters/businessUnit/EditBusinessUnitComponent'))
+const TeamComponent = React.lazy(() => import('../components/masters/team/TeamComponent'))
+const CreateTeamComponent = React.lazy(() => import('../components/masters/team/CreateTeamComponent'))
+const EditTeamComponent = React.lazy(() => import('../components/masters/team/EditTeamComponent'))
+const UserComponent = React.lazy(() => import('../components/masters/user/UserComponent'))
+const CreateUserComponent = React.lazy(() => import('../components/masters/user/CreateUserComponent'))
+const EditUserComponent = React.lazy(() => import('../components/masters/user/EditUserComponent'))
+const BrandComponent = React.lazy(() => import('../components/masters/brand/BrandComponent'))
+const CreateBrandComponent = React.lazy(() => import('../components/masters/brand/CreateBrandComponent'))
+const EditBrandComponent = React.lazy(() => import('../components/masters/brand/EditBrandComponent'))
+const FFComponent = React.lazy(() => import('../components/masters/ffMaster/ffMasterComponent'))
 const VirtualAllocationComponent = React.lazy(() => import('../components/allocation/VirtualAllocationComponent'))
 const SpecialAllocationComponent = React.lazy(() => import('../components/allocation/SpecialAllocationComponent'))
 const CreateSpecialAllocationComponent = React.lazy(() => import('../components/allocation/CreateSpecialAllocationComponent'))
@@ -95,9 +105,19 @@ const routes = [
     { path: '/home/masters/vendor', name: 'Vendor', element: VendorComponent},
     { path: '/home/masters/vendor/create', name: 'CreateVendor', element: CreateVendorComponent},
     { path: '/home/masters/vendor/edit/:id', name: 'EditVendor', element: EditVendorComponent},
-    { path: '/home/masters/businessUnit', name: 'Vendor', element: BusinessUnitComponent},
+    { path: '/home/masters/businessUnit', name: 'BusinessUnit', element: BusinessUnitComponent},
     { path: '/home/masters/businessUnit/create', name: 'CreateBusinessUnit', element: CreateBusinessUnitComponent},
     { path: '/home/masters/businessUnit/edit/:id', name: 'EditBusinessUnit', element: EditBusinessUnitComponent},
+    { path: '/home/masters/team', name: 'Team', element: TeamComponent},
+    { path: '/home/masters/team/create', name: 'CreateTeam', element: CreateTeamComponent},
+    { path: '/home/masters/team/edit/:id', name: 'EditTeam', element: EditTeamComponent},
+    { path: '/home/masters/user', name: 'User', element: UserComponent},
+    { path: '/home/masters/user/create', name: 'CreateUser', element: CreateUserComponent},
+    { path: '/home/masters/user/edit/:id', name: 'EditUser', element: EditUserComponent},
+    { path: '/home/masters/brand', name: 'Brand', element: BrandComponent},
+    { path: '/home/masters/brand/create', name: 'CreateBrand', element: CreateBrandComponent},
+    { path: '/home/masters/brand/edit/:id', name: 'EditBrand', element: EditBrandComponent},
+    { path: '/home/masters/ffMaster', name: 'FF', element: FFComponent},
     { path: '/home/masters/costCenter', name: 'CostCenter', element: CostCenterComponent},
     { path: '/home/masters/costCenter/create', name: 'CreateCostCenter', element: CreateCostCenterComponent},
     { path: '/home/masters/costCenter/edit/:id', name: 'EditCostCenter', element: EditCostCenterComponent},

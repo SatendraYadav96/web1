@@ -3,7 +3,7 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table} from "antd";
+import {Button, Col, Input, Row, Table} from "antd";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import {selectAgeingListData, selectLoadingAgeingReportData} from "../../redux/selectors/ageingReportSelector";
@@ -11,7 +11,7 @@ import {getAgeingReportStartAction} from "../../redux/actions/reports/ageingRepo
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx"
 
-const AgeingReportComponent = ({authInfo,profileInfo,ageingList,ageingReportLoading,handleAgeingReportList}) => {
+const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingReportList}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])

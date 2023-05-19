@@ -48,3 +48,20 @@ export const selectLoadingPrintInvoiceData = createSelector(
     printInvoiceLoading,
     loadingSelection => loadingSelection
 );
+
+
+
+//Monthly Dispatch
+const generateInvoiceList = (state) => state.monthlyDispatch.generateInvoiceList;
+const generateInvoiceLoading = (state) => state.monthlyDispatch.generateInvoiceLoading
+
+
+export const selectGenerateInvoiceListData = createSelector(
+    generateInvoiceList,
+    generateInvoiceListDataSelection => generateInvoiceListDataSelection
+);
+
+export const selectLoadingGenerateInvoiceData = createSelector(
+    generateInvoiceLoading,
+    loadingSelection => loadingSelection
+);

@@ -1,12 +1,12 @@
-import {GET_MONTHLYDISPATCH_START, GET_EMPLOYEEINVOICEDETAILS_START, GET_PRINT_INVOICE_START} from '../actions/dispatchInvoice/monthlyDispatchActionConstant'
+import {GET_MONTHLYDISPATCH_START, GET_EMPLOYEEINVOICEDETAILS_START, GET_PRINT_INVOICE_START, GET_GENERATE_INVOICE_START} from '../actions/dispatchInvoice/monthlyDispatchActionConstant'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
 import {
     getMonthlyDispatchSuccessAction, getMonthlyDispatchFailAction, getEmployeeInvoiceDetailSuccessAction,
-    getEmployeeInvoiceDetailFailAction, getPrintInvoiceSuccessAction, getPrintInvoiceFailAction
+    getEmployeeInvoiceDetailFailAction, getPrintInvoiceSuccessAction, getPrintInvoiceFailAction, getGenerateInvoiceSuccessAction, getGenerateInvoiceFailAction
 } from '../actions/dispatchInvoice/monthlyDispatchAction'
 import { monthlyDispatchRequest,employeeInvoiceDetailsRequest } from '../../api/monthlyDispatchRequests'
-import {printInvoiceRequest} from "../../api/invoiceRequests";
+import {generateInvoiceRequest, printInvoiceRequest} from "../../api/invoiceRequests";
 
 
 //Monthly Dispatch
@@ -37,7 +37,7 @@ export const getEmployeeInvoiceDetailsStartEpic = (action$) =>
     )
 
 
-//Monthly Dispatch
+//Monthly Dispatch Print Invoice
 export const getPrintInvoiceStartEpic = (action$) =>
     action$.pipe(
         ofType(GET_PRINT_INVOICE_START),
@@ -46,6 +46,20 @@ export const getPrintInvoiceStartEpic = (action$) =>
             printInvoiceRequest(action.payload).pipe(
                 map((listResponse) => getPrintInvoiceSuccessAction({printList: listResponse.response})),
                 catchError((error) => of(getPrintInvoiceFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//Monthly Dispatch Generate Invoice
+export const getGenerateInvoiceStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_GENERATE_INVOICE_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            generateInvoiceRequest(action.payload).pipe(
+                map((listResponse) => getGenerateInvoiceSuccessAction({generateInvoiceList: listResponse.response})),
+                catchError((error) => of(getGenerateInvoiceFailAction({error: error}))),
             )
         )
     )

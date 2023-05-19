@@ -99,6 +99,7 @@ export const GET_SIMPLE_INVENTORY_REPORT_API = {url: '/v1/report/getReportSimple
 export const GET_PRINT_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'POST',auth:true}
 export const SEARCH_INVOICE_API = {url: '/v1/invoice/searchInvoice',method:'POST',auth:true}
 export const GET_GROUP_INVOICE_API = {url: '/v1/invoice/getGroupInvoiceListHub',method:'POST',auth:true}
+export const GET_GENERATE_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'POST',auth:true}
 
 //  REVALIDATION
 export const GET_ITEM_REVALIDATION_API = {url: '/v1/revalidation/getItemRevalidationHub',method:'GET',auth:true}

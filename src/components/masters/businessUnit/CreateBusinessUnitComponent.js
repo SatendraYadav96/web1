@@ -21,7 +21,7 @@ const CreateBusinessUnitComponent = ({authInfo}) => {
     }
 
     const handleBack = () => {
-        return navigate("/home/masters/vendor")
+        return navigate("/home/masters/businessUnit")
     }
 
     return(

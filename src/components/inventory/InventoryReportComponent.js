@@ -202,11 +202,11 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
             <TitleWidget title="Inventory Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Business Unit <br/>
+                    Team <br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Division <br/>
+                    Sub Team <br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
@@ -242,7 +242,6 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
             }
         </>
     )
-
 }
 
 InventoryReportComponent.propTypes = {

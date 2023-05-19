@@ -13,13 +13,13 @@ import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import SelectDispatchTypeComponent from "../widgets/SelectDispatchTypeComponent";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
-import {getEmployeeInvoiceDetailStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
-import {selectInvoiceListData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
+import {getEmployeeInvoiceDetailStartAction, getGenerateInvoiceStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
+import {selectGenerateInvoiceListData, selectInvoiceListData, selectLoadingGenerateInvoiceData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
 
-const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoading,handleInvoiceDetailsList,printList,printInvoiceLoading,handlePrintInvoice,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup}) => {
+const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoading,handleInvoiceDetailsList,printList,printInvoiceLoading,handlePrintInvoice,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,generateInvoiceLoading,handleGenerateInvoice}) => {
 
     const navigate = useNavigate()
     const [year, setYear] = useState()
@@ -532,6 +532,12 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
         setPrintAction(true)
         setPrintInvoice(matchInvoice(invoiceList, checkedArr))
         console.log(invoiceList)
+        // handleGenerateInvoice({
+        //     genInv: {
+        //         invoiceHeaderID: printInvoice.invoiceHeaderID,
+        //         invoiceNumber: printInvoice.invoiceNumber,
+        //     },
+        // })
         printData()
     }
 
@@ -568,10 +574,12 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     //     })
     // }
     const handleInvoicePrint = () => {
-        handlePrintInvoice({
+        handleGenerateInvoice({
             inh: {
-                inhId: "CB01DAB4-46AF-4936-8DD1-0009FF4AC813",
-                invoiceNo: "100677",
+                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
+                invoiceNo: "106674",
+                // invoiceHeaderID: printInvoice.map((item) => item.invoiceHeaderID),
+                // invoiceNumber: printInvoice.map((item) => item.invoiceNumber),
             },
             certificate: authInfo.token
         })
@@ -587,6 +595,10 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
             certificate: authInfo.token
         })
     }
+
+    useEffect(() => {
+        console.log(generateInvoiceList)
+    },[generateInvoiceList])
 
     return(
         <div>
@@ -665,6 +677,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     }}
                 >
                 </Table>
+
             </Modal>
             <Modal open={printAllAction} title="Print All" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAllAction(false)
@@ -705,6 +718,8 @@ MonthlyDispatchDetailComponent.propTypes = {
     invoiceDetailsLoading:PropTypes.any,
     printList:PropTypes.array,
     printInvoiceLoading:PropTypes.any,
+    generateInvoiceList:PropTypes.array,
+    generateInvoiceLoading:PropTypes.any,
     handleInvoiceDetailsList:PropTypes.func,
     employeePopup:PropTypes.array,
     employeePopupLoading:PropTypes.any,
@@ -718,14 +733,17 @@ const mapState = (state) => {
     const invoiceDetailsLoading = selectLoadingInvoiceDetailsData(state)
     const printList = selectPrintListData(state)
     const printInvoiceLoading = selectLoadingPrintInvoiceData(state)
+    const generateInvoiceList = selectGenerateInvoiceListData(state)
+    const generateInvoiceLoading = selectLoadingGenerateInvoiceData(state)
     const employeePopup = selectEmployeePopupData(state)
     const employeePopupLoading = selectEmployeePopupLoadingData(state)
-    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo,employeePopup,employeePopupLoading}
+    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading}
 }
 
 const actions = {
     handleInvoiceDetailsList: getEmployeeInvoiceDetailStartAction,
     handlePrintInvoice: getPrintInvoiceStartAction,
+    handleGenerateInvoice: getGenerateInvoiceStartAction,
     handleEmployeePopup: employeePopupStartAction,
 }
 
