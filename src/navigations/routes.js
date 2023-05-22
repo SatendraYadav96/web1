@@ -49,7 +49,11 @@ const EditUserComponent = React.lazy(() => import('../components/masters/user/Ed
 const BrandComponent = React.lazy(() => import('../components/masters/brand/BrandComponent'))
 const CreateBrandComponent = React.lazy(() => import('../components/masters/brand/CreateBrandComponent'))
 const EditBrandComponent = React.lazy(() => import('../components/masters/brand/EditBrandComponent'))
+const FFMasterUploadComponent = React.lazy(() => import('../components/upload/FFMasterUpload'))
+const VirtualSampleUploadComponent = React.lazy(() => import('../components/upload/virtualSampleUpload'))
 const FFComponent = React.lazy(() => import('../components/masters/ffMaster/ffMasterComponent'))
+const CreateFFComponent = React.lazy(() => import('../components/masters/ffMaster/CreateFFComponent'))
+const EditFFComponent = React.lazy(() => import('../components/masters/ffMaster/EditFFComponent'))
 const VirtualAllocationComponent = React.lazy(() => import('../components/allocation/VirtualAllocationComponent'))
 const SpecialAllocationComponent = React.lazy(() => import('../components/allocation/SpecialAllocationComponent'))
 const CreateSpecialAllocationComponent = React.lazy(() => import('../components/allocation/CreateSpecialAllocationComponent'))
@@ -102,6 +106,8 @@ const routes = [
     { path: '/home/report/inventoryReversalReport', name: 'InventoryReversal', element: InventoryReversalReportComponent},
     { path: '/home/report/shipRocketReport', name: 'ShipRocketReport', element: ShipRocketReportComponent},
     { path: '/home/itemRevalidation', name: 'Item Revalidation', element: ItemRevalidationComponent},
+    { path: '/home/upload/ffMasterUplaod', name: 'FF Master Upload', element: FFMasterUploadComponent},
+    { path: '/home/upload/virtualSampleUpload', name: 'Virtual Sample Upload', element: VirtualSampleUploadComponent},
     { path: '/home/masters/vendor', name: 'Vendor', element: VendorComponent},
     { path: '/home/masters/vendor/create', name: 'CreateVendor', element: CreateVendorComponent},
     { path: '/home/masters/vendor/edit/:id', name: 'EditVendor', element: EditVendorComponent},
@@ -118,6 +124,8 @@ const routes = [
     { path: '/home/masters/brand/create', name: 'CreateBrand', element: CreateBrandComponent},
     { path: '/home/masters/brand/edit/:id', name: 'EditBrand', element: EditBrandComponent},
     { path: '/home/masters/ffMaster', name: 'FF', element: FFComponent},
+    { path: '/home/masters/ffMaster/create', name: 'CreateFF', element: CreateFFComponent},
+    { path: '/home/masters/ffMaster/edit/:id', name: 'EditFF', element: EditFFComponent},
     { path: '/home/masters/costCenter', name: 'CostCenter', element: CostCenterComponent},
     { path: '/home/masters/costCenter/create', name: 'CreateCostCenter', element: CreateCostCenterComponent},
     { path: '/home/masters/costCenter/edit/:id', name: 'EditCostCenter', element: EditCostCenterComponent},
