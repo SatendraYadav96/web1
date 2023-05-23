@@ -51,9 +51,14 @@ const CreateBrandComponent = React.lazy(() => import('../components/masters/bran
 const EditBrandComponent = React.lazy(() => import('../components/masters/brand/EditBrandComponent'))
 const FFMasterUploadComponent = React.lazy(() => import('../components/upload/FFMasterUpload'))
 const VirtualSampleUploadComponent = React.lazy(() => import('../components/upload/virtualSampleUpload'))
+const NonComplianceUnBlockingomponent = React.lazy(() => import('../components/complianceProcess/NonComplianceUnBlocking'))
+const MailLogsComponent = React.lazy(() => import('../components/mailLogs/MailLogs'))
+const ManagementDashboardComponent = React.lazy(() => import('../components/managementDashboard/ManagementDashboard'))
 const FFComponent = React.lazy(() => import('../components/masters/ffMaster/ffMasterComponent'))
 const CreateFFComponent = React.lazy(() => import('../components/masters/ffMaster/CreateFFComponent'))
 const EditFFComponent = React.lazy(() => import('../components/masters/ffMaster/EditFFComponent'))
+const ComplianceDetailsList = React.lazy(() => import('../components/overSamplingDetails/ComplianceDetailsList'))
+const BatchReconciliation = React.lazy(() => import('../components/batchReconciliation/BatchReconciliation'))
 const VirtualAllocationComponent = React.lazy(() => import('../components/allocation/VirtualAllocationComponent'))
 const SpecialAllocationComponent = React.lazy(() => import('../components/allocation/SpecialAllocationComponent'))
 const CreateSpecialAllocationComponent = React.lazy(() => import('../components/allocation/CreateSpecialAllocationComponent'))
@@ -108,6 +113,11 @@ const routes = [
     { path: '/home/itemRevalidation', name: 'Item Revalidation', element: ItemRevalidationComponent},
     { path: '/home/upload/ffMasterUplaod', name: 'FF Master Upload', element: FFMasterUploadComponent},
     { path: '/home/upload/virtualSampleUpload', name: 'Virtual Sample Upload', element: VirtualSampleUploadComponent},
+    { path: '/home/compliance/complianceDetailsList', name: 'Compliance Details List', element: ComplianceDetailsList},
+    { path: '/home/compliance/optimaMailSendLogs', name: 'Mail Logs', element: MailLogsComponent},
+    { path: '/home/managementDashboard/reconciliation', name: 'Batch Reconciliation', element: BatchReconciliation},
+    { path: '/home/managementDashboard', name: 'Management Dashboard', element: ManagementDashboardComponent},
+    { path: '/home/master/ffUnBlockList', name: 'Non Compliance UnBlocking', element: NonComplianceUnBlockingomponent},
     { path: '/home/masters/vendor', name: 'Vendor', element: VendorComponent},
     { path: '/home/masters/vendor/create', name: 'CreateVendor', element: CreateVendorComponent},
     { path: '/home/masters/vendor/edit/:id', name: 'EditVendor', element: EditVendorComponent},

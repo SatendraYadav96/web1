@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";;
 
 
-const VirtualSampleComponent = ({authInfo,profileInfo,}) => {
+const VirtualSampleComponent = ({authInfo}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -103,13 +103,11 @@ const VirtualSampleComponent = ({authInfo,profileInfo,}) => {
 
 VirtualSampleComponent.propTypes = {
     authInfo: PropTypes.any,
-    profileInfo: PropTypes.any,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    const profileInfo = selectProfileInfo(state)
-    return {authInfo,profileInfo}
+    return {authInfo}
 }
 
 const actions = {

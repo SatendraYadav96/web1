@@ -41,6 +41,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const [print, setPrint] = useState()
     const [printInvoice, setPrintInvoice] = useState()
     const [printAllInvoice, setPrintAllInvoice] = useState([])
+    const [count, setCount] = useState(0)
 
     const handleAllPrint = (event) => {
         setAllCheck(event.target.checked)
@@ -573,16 +574,28 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     //         certificate: authInfo.token
     //     })
     // }
+
+    const downloadPDF = (pdf, filename) => {
+        const linkSource = `data:application/pdf;base64,${pdf}`;
+        const downloadLink = document.createElement("a");
+        const fileName = `${filename}.pdf`;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        console.log("printed")
+    }
+
     const handleInvoicePrint = () => {
         handleGenerateInvoice({
             inh: {
-                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
-                invoiceNo: "106674",
-                // invoiceHeaderID: printInvoice.map((item) => item.invoiceHeaderID),
-                // invoiceNumber: printInvoice.map((item) => item.invoiceNumber),
+                // inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
+                // invoiceNo: "106674",
+                inh: printInvoice.map((item) => item.invoiceHeaderID),
+                invoiceNo: printInvoice.map((item) => item.invoiceNumber),
             },
             certificate: authInfo.token
         })
+        console.log(printInvoice)
     }
 
     const handleAllInvoicePrint = () => {
@@ -597,8 +610,20 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     }
 
     useEffect(() => {
-        console.log(generateInvoiceList)
+        if(generateInvoiceList.length !== 0) {
+            setCount(count => count + 1)
+        }
     },[generateInvoiceList])
+
+    useEffect(() => {
+        console.log(generateInvoiceList)
+        if(generateInvoiceList.length !== 0) {
+            downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+        } else {
+            console.log("no download")
+        }
+    },[count])
+
 
     return(
         <div>
@@ -611,10 +636,10 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
                     <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={3}>
-                    <SelectTeamComponent value={team} onChange={(e) => setTeam(e)}/>
+                    <SelectTeamComponent  onChange={(e) => setTeam(e)}/>
                 </Col>
                 <Col span={3}>
-                   <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
+                   <SelectInvoiceTypeComponent onChange={(e) => setStatus(e)}/>
                 </Col>
                 <Col span={2}>
                     <Button type={'primary'} onClick={() => getEmployeeInvoiceDetailsList()} style={{width: "100%"}}>Submit</Button>

@@ -12,7 +12,7 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
-    const [flag, setFlag] = useState(false)
+    const [flag, setFlag] = useState(true)
 
     const searchData = () => {
         setFlag(true)
