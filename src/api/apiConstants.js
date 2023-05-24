@@ -36,7 +36,6 @@ export const GET_DELIVERY_UPDATE_API = {url: '/v1/upload/getTransporterUploadLog
 export const GET_INVOICE_UPLOAD_API = {url: '/v1/upload/getInvoiceUploadLog',method:'GET',auth:true}
 export const GET_INVOICE_FOR_UPLOAD_API = {url: '/v1/invoice/getInvoicesForGrouping',method:'POST',auth:true}
 
-
 //Reports
 export const GET_RECIPIENT_REPORT_API = {url: '/v1/report/getReportRecipient',method:'GET',auth:true}
 export const GET_PURCHASE_REPORT_API = {url: '/v1/report/getReportPurchase',method:'GET',auth:true}
@@ -45,7 +44,6 @@ export const GET_DISPATCH_REGISTER_REPORT_API = {url: '/v1/report/getReportDispa
 export const GET_DEVIATION_REPORT_API = {url: '/v1/report/getReportDeviation',method:'GET',auth:true}
 export const GET_ITEM_CONSUMPTION_REPORT_API = {url: '/v1/report/getReportItemConsumption',method:'GET',auth:true}
 export const GET_DESTRUCTION_REPORT_API = {url: '/v1/report/getReportDestruction',method:'GET',auth:true}
-
 
 //  HSN & INVOICE
 
@@ -74,7 +72,6 @@ export const GET_RECIPIENT_DROPDOWN_API = {url: '/v1/master/getRecipientDropdown
 export const GET_INVOICE_DROPDOWN_API = {url: '/v1/master/getInvoiceDropdown',method:'GET',auth:true}
 export const GET_TRANSPORT_DROPDOWN_API = {url: '/v1/master/getTransporter',method:'GET',auth:true}
 
-
 // SAMPLES
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}
 export const EDIT_SAMPLES_API = { url: '/v1/master/editSample', method: 'PUT', auth: true }
@@ -100,12 +97,13 @@ export const GET_PRINT_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'PO
 export const SEARCH_INVOICE_API = {url: '/v1/invoice/searchInvoice',method:'POST',auth:true}
 export const GET_GROUP_INVOICE_API = {url: '/v1/invoice/getGroupInvoiceListHub',method:'POST',auth:true}
 export const GET_GENERATE_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'POST',auth:true}
+export const GET_GENERATE_LABEL_API = {url: '/v1/invoice/printLabel',method:'POST',auth:true}
 
 //  REVALIDATION
 export const GET_ITEM_REVALIDATION_API = {url: '/v1/revalidation/getItemRevalidationHub',method:'GET',auth:true}
 export const GET_ITEM_CODE_API = {url: '/v1/master/getItemCodeDropdown',method:'GET',auth:true}
 
-// DASHOARD API
+// DASHBOARD API
 export const GET_PENDING_DISPATCH_API = {url: '/v1/dashboard/getPendingDispatch',method:'GET',auth:true}
 export const GET_HUB_NEAR_EXPIRY_API = {url: '/v1/dashboard/getHubNearExpiry',method:'GET',auth:true}
 export const GET_HUB_PENDING_REVALIDATION_API = {url: '/v1/dashboard/getHubPendingRevalidation',method:'GET',auth:true}

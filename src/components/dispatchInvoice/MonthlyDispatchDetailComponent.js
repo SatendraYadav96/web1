@@ -13,13 +13,13 @@ import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import SelectDispatchTypeComponent from "../widgets/SelectDispatchTypeComponent";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
-import {getEmployeeInvoiceDetailStartAction, getGenerateInvoiceStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
-import {selectGenerateInvoiceListData, selectInvoiceListData, selectLoadingGenerateInvoiceData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
+import {getEmployeeInvoiceDetailStartAction, getGenerateInvoiceStartAction, getGenerateLabelStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
+import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectInvoiceListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
 
-const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoading,handleInvoiceDetailsList,printList,printInvoiceLoading,handlePrintInvoice,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,generateInvoiceLoading,handleGenerateInvoice}) => {
+const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel}) => {
 
     const navigate = useNavigate()
     const [year, setYear] = useState()
@@ -42,6 +42,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     const [printInvoice, setPrintInvoice] = useState()
     const [printAllInvoice, setPrintAllInvoice] = useState([])
     const [count, setCount] = useState(0)
+    const [countLabel, setCountLabel] = useState(0)
 
     const handleAllPrint = (event) => {
         setAllCheck(event.target.checked)
@@ -598,6 +599,18 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
         console.log(printInvoice)
     }
 
+    const handleLabelPrint = () => {
+        handleGenerateLabel({
+            inh: {
+                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
+                invoiceNo: "106674",
+                // inh: printInvoice.map((item) => item.invoiceHeaderID),
+                // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
+            },
+            certificate: authInfo.token
+        })
+    }
+
     const handleAllInvoicePrint = () => {
         handlePrintInvoice({
             inhId: printAllInvoice.map(item => item.invoiceHeaderID),
@@ -616,6 +629,12 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
     },[generateInvoiceList])
 
     useEffect(() => {
+        if(generateLabelList.length !== 0) {
+            setCountLabel(countLabel => countLabel + 1)
+        }
+    },[generateLabelList])
+
+    useEffect(() => {
         console.log(generateInvoiceList)
         if(generateInvoiceList.length !== 0) {
             downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
@@ -623,6 +642,15 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
             console.log("no download")
         }
     },[count])
+
+    useEffect(() => {
+        console.log(generateLabelList)
+        if(generateLabelList.length !== 0) {
+            downloadPDF(generateLabelList.content, generateLabelList.fileName)
+        } else {
+            console.log("no download")
+        }
+    },[countLabel])
 
 
     return(
@@ -692,7 +720,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,invoiceDetailsLoad
             }}>
                 <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print</p>
                 <Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleInvoicePrint()}>Print Invoice</Button>
-                <Button type={"primary"}>Print Label</Button>
+                <Button type={"primary"} onClick={() => handleLabelPrint()}>Print Label</Button>
                 <br/>
                 <Table
                     columns={printColumn}
@@ -748,7 +776,10 @@ MonthlyDispatchDetailComponent.propTypes = {
     handleInvoiceDetailsList:PropTypes.func,
     employeePopup:PropTypes.array,
     employeePopupLoading:PropTypes.any,
-    handleEmployeePopup:PropTypes.func
+    handleEmployeePopup:PropTypes.func,
+    generateLabelList:PropTypes.array,
+    generateLabelLoading:PropTypes.any,
+    handleGenerateLabel:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -760,15 +791,18 @@ const mapState = (state) => {
     const printInvoiceLoading = selectLoadingPrintInvoiceData(state)
     const generateInvoiceList = selectGenerateInvoiceListData(state)
     const generateInvoiceLoading = selectLoadingGenerateInvoiceData(state)
+    const generateLabelList = selectGenerateLabelListData(state)
+    const generateLabelLoading = selectLoadingGenerateLabelData(state)
     const employeePopup = selectEmployeePopupData(state)
     const employeePopupLoading = selectEmployeePopupLoadingData(state)
-    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading}
+    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading}
 }
 
 const actions = {
     handleInvoiceDetailsList: getEmployeeInvoiceDetailStartAction,
     handlePrintInvoice: getPrintInvoiceStartAction,
     handleGenerateInvoice: getGenerateInvoiceStartAction,
+    handleGenerateLabel: getGenerateLabelStartAction,
     handleEmployeePopup: employeePopupStartAction,
 }
 

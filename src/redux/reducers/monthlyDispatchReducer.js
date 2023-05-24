@@ -1,7 +1,7 @@
 import { createReducer } from './reducerUtils'
 import {
     GET_MONTHLYDISPATCH_SUCCESS, GET_MONTHLYDISPATCH_FAIL,
-    GET_EMPLOYEEINVOICEDETAILS_SUCCESS, GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL, GET_GENERATE_INVOICE_SUCCESS, GET_GENERATE_INVOICE_FAIL
+    GET_EMPLOYEEINVOICEDETAILS_SUCCESS, GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL, GET_GENERATE_INVOICE_SUCCESS, GET_GENERATE_INVOICE_FAIL, GET_GENERATE_LABEL_SUCCESS, GET_GENERATE_LABEL_FAIL
 } from "../actions/dispatchInvoice/monthlyDispatchActionConstant";
 
 
@@ -18,6 +18,8 @@ const initialState = {
     printInvoiceLoading: false,
     generateInvoiceList: [],
     generateInvoiceLoading: false,
+    generateLabelList: [],
+    generateLabelLoading: false,
     error: {}
 }
 
@@ -122,6 +124,28 @@ const getGenerateInvoiceFailReducer = (state = initialState, payload) => {
 }
 
 
+const getGenerateLabelSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        generateLabelList:payload.generateLabelList,
+        generateLabelLoading: false
+
+    }
+}
+
+
+const getGenerateLabelFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        generateLabelList:[],
+        generateLabelLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
 export default createReducer(initialState, {
     [GET_MONTHLYDISPATCH_SUCCESS]: getMonthlyDispatchSuccessReducer,
     [GET_MONTHLYDISPATCH_FAIL]: getMonthlyDispatchFailReducer,
@@ -131,4 +155,6 @@ export default createReducer(initialState, {
     [GET_PRINT_INVOICE_FAIL]: getPrintInvoiceFailReducer,
     [GET_GENERATE_INVOICE_SUCCESS]: getGenerateInvoiceSuccessReducer,
     [GET_GENERATE_INVOICE_FAIL]: getGenerateInvoiceFailReducer,
+    [GET_GENERATE_LABEL_SUCCESS]: getGenerateLabelSuccessReducer,
+    [GET_GENERATE_LABEL_FAIL]: getGenerateLabelFailReducer,
 })

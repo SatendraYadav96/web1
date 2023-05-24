@@ -1,7 +1,7 @@
 import {
     GET_MONTHLYDISPATCH_START, GET_MONTHLYDISPATCH_SUCCESS, GET_MONTHLYDISPATCH_FAIL,
     GET_EMPLOYEEINVOICEDETAILS_START, GET_EMPLOYEEINVOICEDETAILS_SUCCESS,
-    GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_START, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL, GET_GENERATE_INVOICE_START, GET_GENERATE_INVOICE_SUCCESS, GET_GENERATE_INVOICE_FAIL
+    GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_START, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL, GET_GENERATE_INVOICE_START, GET_GENERATE_INVOICE_SUCCESS, GET_GENERATE_INVOICE_FAIL, GET_GENERATE_LABEL_START, GET_GENERATE_LABEL_SUCCESS, GET_GENERATE_LABEL_FAIL
 } from "./monthlyDispatchActionConstant";
 
 //Monthly Dispatch Action
@@ -96,6 +96,30 @@ export const getGenerateInvoiceSuccessAction = (payload) => (dispatch) => {
 export const getGenerateInvoiceFailAction = (payload) => (dispatch) =>{
     dispatch({
         type: GET_GENERATE_INVOICE_FAIL,
+        payload: payload,
+    })
+}
+
+
+//Monthly Dispatch Generate Label
+
+export const getGenerateLabelStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_GENERATE_LABEL_START,
+        payload: payload,
+    })
+}
+
+export const getGenerateLabelSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_GENERATE_LABEL_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getGenerateLabelFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_GENERATE_LABEL_FAIL,
         payload: payload,
     })
 }
