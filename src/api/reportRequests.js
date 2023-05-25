@@ -26,7 +26,7 @@ export const purchaseReportRequest = payload => {
 //DISPATCHES REPORT
 
 export const dispatchesReportRequest = payload => {
-    const api = {...GET_DISPATCHES_REPORT_API, url: `${GET_DISPATCHES_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.filter}/${payload.filterPlan}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}`}
+    const api = {...GET_DISPATCHES_REPORT_API, url: `${GET_DISPATCHES_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.filter}/${payload.filterPlan}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.division}`}
     return createRequest(api, payload.certificate, null)
 }
 
