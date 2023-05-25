@@ -99,9 +99,7 @@ const EditCostCenterComponent = ({
             name: name,
             code: code,
             active: active,
-            brandId: {
-                id: brandId
-            },
+            brandId: { id: brandId }
         };
 
         console.log(data);
@@ -110,7 +108,7 @@ const EditCostCenterComponent = ({
         handleEditCostCenter({
             certificate: authInfo.token,
             ccm: data,
-            ccmId: id,
+            id: id,
         });
     }
 

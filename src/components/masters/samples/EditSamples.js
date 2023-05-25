@@ -48,7 +48,7 @@ const EditSamplesComponent = ({
       setName(samplesById.name)
       setLmid(samplesById.lmid)
       setActive(samplesById.active)
-      setBrandId(samplesById.brandId.name)
+      setBrandId(samplesById.brandId.id)
       setDescription(samplesById.description)
       setPackSize(samplesById.packSize)
       setCapSize(samplesById.cap)
