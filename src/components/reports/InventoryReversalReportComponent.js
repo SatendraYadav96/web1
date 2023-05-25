@@ -102,7 +102,6 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 width:'100px'
             }
         ])
-
         setDataSource([])
     }
 
@@ -118,25 +117,19 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
          console.log(formatedEndDateString);
          console.log(profileInfo.id);
          console.log(profileInfo.userDesignation.id);
-
          console.log(destructionList);
 
         handleDestructionReportList ({
-        businessUnit:businessUnit,
-        divison:division,
-        userId: profileInfo.id,
-        userDesgId: profileInfo.userDesignation.id,
-        fromDate:formatedStartDateString,
-        toDate:formatedEndDateString,
-        statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
-
-
-
-
-        certificate: authInfo.token
+            businessUnit:businessUnit,
+            divison:division,
+            userId: profileInfo.id,
+            userDesgId: profileInfo.userDesignation.id,
+            fromDate:formatedStartDateString,
+            toDate:formatedEndDateString,
+            statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
+            certificate: authInfo.token
         });
         searchData()
-
     }
 
     useEffect(() => {
@@ -173,11 +166,11 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 </Col>
                 <Col span={3}>
                     Reversal From Date <br/>
-                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     To Date <br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     <br/>
@@ -211,27 +204,26 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
             }
         </>
     )
-
 }
 
 InventoryReversalReportComponent.propTypes = {
-                    authInfo: PropTypes.any,
-                    profileInfo: PropTypes.any,
-                    destructionList:PropTypes.array,
-                    destructionReportLoading:PropTypes.any,
-                    handleDestructionReportList:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    destructionList:PropTypes.array,
+    destructionReportLoading:PropTypes.any,
+    handleDestructionReportList:PropTypes.func
 }
 
 const mapState = (state) => {
-                const authInfo = selectAuthInfo(state)
-                const profileInfo = selectProfileInfo(state)
-                const destructionList = selectDestructionListData(state)
-                const destructionReportLoading = selectLoadingDestructionReportData(state)
-                return {authInfo,destructionList,destructionReportLoading,profileInfo}
+    const authInfo = selectAuthInfo(state)
+    const profileInfo = selectProfileInfo(state)
+    const destructionList = selectDestructionListData(state)
+    const destructionReportLoading = selectLoadingDestructionReportData(state)
+    return {authInfo,destructionList,destructionReportLoading,profileInfo}
 }
 
 const actions = {
-handleDestructionReportList : getDestructionReportStartAction
+    handleDestructionReportList : getDestructionReportStartAction
 }
 
 export default connect(mapState, actions)(InventoryReversalReportComponent)

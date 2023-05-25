@@ -179,7 +179,6 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 </Col>
                 <Col span={3}>
                     To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
-                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     Type<br/>

@@ -1,4 +1,5 @@
 import {
+    BRAND_DROPDOWN_START_ACTION,
     BUSINESS_UNIT_DROPDOWN_START_ACTION, COST_CENTER_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION, INVOICE_DROPDOWN_START_ACTION, RECIPIENT_START_ACTION, TEAM_DROPDOWN_START_ACTION, TRANSPORT_DROPDOWN_START_ACTION
 } from '../actions/dropDown/dropDownActionConstants'
 import { ofType } from 'redux-observable'
@@ -29,6 +30,19 @@ export const businessUnitDropdownStartEpic = (action$) =>
             businessUnitDropDownRequest(action.payload).pipe(
                 map((listResponse) => businessUnitDropdownSuccessAction({buDropdown: listResponse.response})),
                 catchError((error) => of(businessUnitDropdownFailAction({error: error}))),
+            )
+        )
+    )
+
+//BRAND DROPDOWN
+export const brandDropdownStartEpic = (action$) =>
+    action$.pipe(
+        ofType(BRAND_DROPDOWN_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            brandDropDownRequest(action.payload).pipe(
+                map((listResponse) => brandDropdownSuccessAction({brandDropdown: listResponse.response})),
+                catchError((error) => of(brandDropdownFailAction({error: error}))),
             )
         )
     )

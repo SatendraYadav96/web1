@@ -37,7 +37,7 @@ const CreateSamplesComponent = ({
     }
 
     const handleBack = () => {
-        return navigate("/home/masters/vendor")
+        return navigate("/home/masters/samples")
     }
 
     const handleNameChange = (e) => {
