@@ -5,8 +5,7 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Table} from "antd";
-import {Option} from "antd/es/mentions";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import { getSpecialDispatchStartAction } from '../../redux/actions/dispatchInvoice/specialDispatchAction'

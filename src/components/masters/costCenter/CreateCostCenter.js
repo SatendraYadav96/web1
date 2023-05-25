@@ -101,9 +101,9 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
 CreateCostCenterComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
-    insertCostCenter:PropTypes.array,
-    insertCostCenterLoading:PropTypes.any,
-    handleAddCostCenter:PropTypes.func
+    insertCostCenter: PropTypes.array,
+    insertCostCenterLoading: PropTypes.any,
+    handleAddCostCenter: PropTypes.func,
 }
 
 const mapState = (state) => {

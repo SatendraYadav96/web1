@@ -20,15 +20,21 @@ import {
     GET_SAMPLES_BY_ID_SUCCESS,
     GET_SAMPLES_BY_ID_FAIL,
     EDIT_SAMPLES_FAIL,
-    ADD_COST_CENTER_SUCCESS, ADD_COST_CENTER_FAIL, ADD_SAMPLES_SUCCESS, ADD_SAMPLES_FAIL
+    ADD_COST_CENTER_SUCCESS, ADD_COST_CENTER_FAIL, ADD_SAMPLES_SUCCESS, ADD_SAMPLES_FAIL, GET_BUISNESS_UNIT_SUCCESS, GET_BUISNESS_UNIT_FAIL, ADD_BUISNESS_UNIT_SUCCESS, ADD_BUISNESS_UNIT_FAIL, EDIT_BUISNESS_UNIT_SUCCESS, EDIT_BUISNESS_UNIT_FAIL, BUISNESS_UNIT_BY_ID_SUCCESS, BUISNESS_UNIT_BY_ID_FAIL
 } from "../actions/master/masterActionConstants";
-
 
 
 //VENDOR
 
-
 const initialState = {
+    buisnessUnitList: [],
+    buisnessUnitLoading: false,
+    insertBuisnessUnit: [],
+    insertBuisnessUnitLoading: false,
+    editBuisnessUnit: [],
+    editBuisnessUnitLoading: false,
+    buisnessUnitById: [],
+    buisnessUnitByIdLoading:false,
     vendorList: [],
     vendorLoading: false,
     insertVendor: [],
@@ -51,6 +57,101 @@ const initialState = {
     samplesByIdLoading:false,
     error: {}
 }
+
+
+//BUISNESS UNIT
+const getBuisnessUnitSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        buisnessUnitList:payload.buisnessUnitList,
+        buisnessUnitLoading: false
+
+    }
+}
+
+
+
+const getBuisnessUnitFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        buisnessUnitList:[],
+        buisnessUnitLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//ADD BUISNESS UNIT
+
+const addBuisnessUnitSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        insertBuisnessUnit:payload.insertBuisnessUnit,
+        insertBuisnessUnitLoading: false
+
+    }
+}
+
+
+
+const addBuisnessUnitFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        insertBuisnessUnit:[],
+        insertBuisnessUnitLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//EDIT VENDOR
+
+const editBuisnessUnitSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        editBuisnessUnit:payload.editBuisnessUnit,
+        editBuisnessUnitLoading: false
+
+    }
+}
+
+
+const editBuisnessUnitFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        editBuisnessUnit:[],
+        editBuisnessUnitLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+const getBuisnessUnitByIdSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        buisnessUnitById:payload.buisnessUnitById,
+        buisnessUnitByIdLoading: false
+
+    }
+}
+
+const getBuisnessUnitByIdFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        buisnessUnitById:[],
+        buisnessUnitByIdLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 const getVendorSuccessReducer = (state = initialState, payload) => {
     return {
@@ -326,6 +427,14 @@ const addSamplesFailReducer = (state = initialState, payload) => {
 
 
 export default createReducer(initialState, {
+    [GET_BUISNESS_UNIT_SUCCESS]: getBuisnessUnitSuccessReducer,
+    [GET_BUISNESS_UNIT_FAIL]: getBuisnessUnitFailReducer,
+    [ADD_BUISNESS_UNIT_SUCCESS]: addBuisnessUnitSuccessReducer,
+    [ADD_BUISNESS_UNIT_FAIL]: addBuisnessUnitFailReducer,
+    [EDIT_BUISNESS_UNIT_SUCCESS]: editBuisnessUnitSuccessReducer,
+    [EDIT_BUISNESS_UNIT_FAIL]: editBuisnessUnitFailReducer,
+    [BUISNESS_UNIT_BY_ID_SUCCESS]: getBuisnessUnitByIdSuccessReducer,
+    [BUISNESS_UNIT_BY_ID_FAIL]: getBuisnessUnitByIdFailReducer,
     [GET_VENDOR_SUCCESS]: getVendorSuccessReducer,
     [GET_VENDOR_FAIL]: getVendorFailReducer,
     [ADD_VENDOR_SUCCESS]: addVendorSuccessReducer,

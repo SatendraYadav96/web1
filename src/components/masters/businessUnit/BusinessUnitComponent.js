@@ -1,16 +1,20 @@
 import React, {useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
+import {CSVLink} from "react-csv";
+import {selectBuisnessUnitListData, selectCostCenterListData, selectLoadingBuisnessUnitData, selectLoadingCostCenterData} from "../../../redux/selectors/masterSelector";
+import {getBuisnessUnitStartAction, getCostCenterStartAction} from "../../../redux/actions/master/masterActions";
+import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 
-const BusinessUnitComponent = ({authInfo}) => {
+const BusinessUnitComponent = ({authInfo,buisnessUnitList,buisnessUnitLoading,handleBuisnessUnitList}) => {
 
     const navigate = useNavigate()
-
+    const [status, setStatus] = useState(1)
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -35,8 +39,8 @@ const BusinessUnitComponent = ({authInfo}) => {
                 key: '',
                 dataIndex: '',
                 width: '100px',
-                render: () => {
-                    return <Button icon={<EditOutlined />} onClick={() => editBusinessUnit()}></Button>
+                render: (_,row) => {
+                    return <Button icon={<EditOutlined />} onClick={() => editBusinessUnit(row)}></Button>
                 }
             }
         ]);
@@ -54,8 +58,19 @@ const BusinessUnitComponent = ({authInfo}) => {
         return navigate("/home/masters/businessUnit/create")
     }
 
-    const editBusinessUnit = () => {
-        return navigate("/home/masters/businessUnit/edit")
+    const editBusinessUnit = (row) => {
+        return navigate(`/home/masters/businessUnit/edit/${row.id}`)
+    }
+
+    const getBuisnessUnitList = () => {
+        console.log(status);
+        console.log(buisnessUnitList);
+
+        handleBuisnessUnitList ({
+            certificate: authInfo.token,
+            status:status,
+        });
+        searchData()
     }
 
     return(
@@ -63,12 +78,11 @@ const BusinessUnitComponent = ({authInfo}) => {
             <TitleWidget title={"Master - Business Units"}/>
             <Row gutter={[8,8]}>
                 <Col span={4}>
-                    <Select style={{width:'150px'}}></Select>
+                    <SelectStatusComponent value={status} onChange={(e) => setStatus(e)} />
                 </Col>
-                <Col span={4}>
-                    <Button type={"primary"} onClick={() => searchData()}>Search</Button>
+                <Col span={2}>
+                    <Button type={"primary"} onClick={() => getBuisnessUnitList()} style={{width: "100%"}}>Search</Button>
                 </Col>
-                <Col span={14}></Col>
                 <Col span={2}>
                     <Button icon={<PlusOutlined />} onClick={()=> createBusinessUnit()}></Button>
                 </Col>
@@ -76,30 +90,47 @@ const BusinessUnitComponent = ({authInfo}) => {
             <br/><br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {/*<CSVLink*/}
+                    {/*    data={data}*/}
+                    {/*    filename={"costcenter.csv"}*/}
+                    {/*    onClick={() => {*/}
+                    {/*        console.log("clicked")*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    <Button>CSV</Button>*/}
+                    {/*</CSVLink>*/}
+                    {/*&nbsp;*/}
+                    {/*<Button onClick={handleExcel}>EXCEL</Button>*/}
                 </Col>
                 <Col span={12}></Col>
                 <Col span={6}><Input.Search/></Col>
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource} />
+                <Table columns={column} scroll={{y: '100%'}} dataSource={buisnessUnitList} />
             }
         </>
     )
 }
 
 BusinessUnitComponent.propTypes = {
-    authInfo: PropTypes.any
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    buisnessUnitList: PropTypes.array,
+    buisnessUnitLoading: PropTypes.any,
+    handleBuisnessUnitList: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const profileInfo = selectProfileInfo(state)
+    const buisnessUnitList = selectBuisnessUnitListData(state)
+    const buisnessUnitLoading = selectLoadingBuisnessUnitData(state)
+    return {authInfo,profileInfo,buisnessUnitList,buisnessUnitLoading}
 }
 
 const actions = {
-
+    handleBuisnessUnitList: getBuisnessUnitStartAction,
 }
 
 export default connect(mapState, actions) (BusinessUnitComponent)

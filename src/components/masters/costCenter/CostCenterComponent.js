@@ -46,7 +46,7 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
                 dataIndex: '',
                 width: '100px',
                 render: (_,row) => {
-                    return <Button icon={<EditOutlined />} onClick={() => editCostCenter(row)} ></Button>
+                    return <Button icon={<EditOutlined />} onClick={() => editCostCenter(row)}></Button>
                 }
             }
         ]);

@@ -1,19 +1,14 @@
 import React, {useEffect, useState} from "react";
-import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
-import {Option} from "antd/es/mentions";
-import SelectMonthComponent from "../widgets/SelectMonthComponent";
-import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import { getSpecialEmployeeInvoiceDetailStartAction } from '../../redux/actions/dispatchInvoice/specialDispatchAction'
 import {selectSpecialInvoiceListData,selectSpecialLoadingInvoiceDetailsData} from "../../redux/selectors/specialDispatchSelector"
-import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import {useLocation, useNavigate} from "react-router-dom";
-import {ArrowRightOutlined, CloseCircleOutlined, InfoOutlined, SaveOutlined, ZoomInOutlined} from "@ant-design/icons";
+import {InfoOutlined, SaveOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
@@ -486,29 +481,46 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
                 </Col>
-                <Col span={8}>
-                    {status === "00000000-0000-0000-0000-000000000026" &&
-                        <>
+            </Row>
+            <br/>
+                {status === "00000000-0000-0000-0000-000000000026" &&
+                    <>
 
-                            <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>
+                        <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>
 
-                            &nbsp;
+                        &nbsp;
 
-                            <Button type={'primary'}>Export</Button>
-                        </>
-                    }
-                    {status === "00000000-0000-0000-0000-000000000027" &&
-                        <>
+                        <Button type={'primary'}>Export</Button>
+                    </>
+                }
+                {status === "00000000-0000-0000-0000-000000000027" &&
+                    <>
+                        {/*<Col span={8}>*/}
+                        {/*    <Button type={'primary'} style={{marginLeft: '10px'}}>Batch Invoice</Button>*/}
 
-                            <Button type={'primary'} style={{marginLeft: '10px'}}>Batch Invoice</Button>
+                        {/*    &nbsp;*/}
 
-                            &nbsp;
-
-                            <Button type={'primary'}>Group Invoice</Button>
-                        </>
-                    }
-                </Col>
-                <Col span={4}>
+                        {/*    <Button type={'primary'}>Group Invoice</Button>*/}
+                        {/*</Col>*/}
+                        <Row gutter={[8,8]}>
+                            <Col span={3}>
+                                <Button type={'primary'} style={{width: '100%'}}>Group Invoice</Button>
+                            </Col>
+                            <Col span={3}>
+                                <Button type={'primary'} style={{width: '100%'}} >Batch Invoice</Button>
+                            </Col>
+                            <Col span={3}>
+                                <Button type={'primary'} style={{width: '100%'}}>Print</Button>
+                            </Col>
+                            <Col span={3}>
+                                <Button type={'primary'} style={{width: '100%'}} >Print All</Button>
+                            </Col>
+                        </Row>
+                    </>
+                }
+                <br/>
+            <Row>
+                <Col span={24}>
                     <div align="right">
                         <Input.Search style={{ width: 304 }} />
                     </div>

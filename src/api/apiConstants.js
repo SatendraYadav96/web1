@@ -50,6 +50,12 @@ export const GET_DESTRUCTION_REPORT_API = {url: '/v1/report/getReportDestruction
 export const ADD_HSN_API = { url: '/v1/hsn/addHsn', method: 'POST', auth: true }
 export const ADD_BOX_WEIGHT_API = { url: '/v1/hsn/editInvoiceHeader', method: 'PUT', auth: true }
 
+//BUISNESS UNIT
+export const GET_BUISNESS_UNIT_API = {url: '/v1/master/getBusinessUnit',method:'GET',auth:true}
+export const ADD_BUISNESS_UNIT_API = { url: '/v1/master/addBusinessUnit', method: 'POST', auth: true }
+export const EDIT_BUISNESS_UNIT_API = { url: '/v1/master/editBusinessUnit', method: 'PUT', auth: true }
+export const BUISNESS_UNIT_BY_ID_API = { url: '/v1/master/getBusinessUnitById', method: 'GET', auth: true }
+
 //VENDOR
 export const GET_VENDOR_API = {url: '/v1/master/getVendor',method:'GET',auth:true}
 export const ADD_VENDOR_API = { url: '/v1/master/addVendor', method: 'POST', auth: true }

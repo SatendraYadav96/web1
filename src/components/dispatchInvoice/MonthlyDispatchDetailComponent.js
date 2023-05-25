@@ -5,13 +5,11 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
-import {Option} from "antd/es/mentions";
-import {CloseCircleOutlined, InfoOutlined, SaveOutlined, ZoomInOutlined, ArrowRightOutlined, FileOutlined} from "@ant-design/icons";
+import {InfoOutlined, SaveOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
-import SelectDispatchTypeComponent from "../widgets/SelectDispatchTypeComponent";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import {getEmployeeInvoiceDetailStartAction, getGenerateInvoiceStartAction, getGenerateLabelStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
 import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectInvoiceListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
@@ -652,7 +650,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         }
     },[countLabel])
 
-
     return(
         <div>
             <TitleWidget title={'Monthly Dispatch'} />
@@ -677,20 +674,18 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                 </Col>
             </Row>
             <br/>
-            {
-             status === "00000000-0000-0000-0000-000000000026" &&
-            <Row gutter={[8,8]}>
-                <Col span={3}>
-                    <Button type={'primary'}  onClick={() => generateInvoice()}>Generate Invoices</Button>
-                </Col>
-                <Col span={2}>
-                    <Button type={'primary'}>Exports</Button>
-                </Col>
-                <Col span={16}></Col>
-            </Row>
+            {status === "00000000-0000-0000-0000-000000000026" &&
+                <Row gutter={[8,8]}>
+                    <Col span={3}>
+                        <Button type={'primary'}  onClick={() => generateInvoice()}>Generate Invoices</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button type={'primary'}>Exports</Button>
+                    </Col>
+                    <Col span={16}></Col>
+                </Row>
             }
-             {
-                status === "00000000-0000-0000-0000-000000000027" &&
+            {status === "00000000-0000-0000-0000-000000000027" &&
                 <Row gutter={[8,8]}>
                     <Col span={3}>
                         <Button type={'primary'}  onClick={() => generateInvoice()}>Group Invoice</Button>
@@ -703,7 +698,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     </Col>
                     <Col span={14}></Col>
                 </Row>
-                }
+            }
             <br/>
             {flag &&
                 <>
@@ -713,7 +708,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     <br/><br/>
                     <Table columns={column} dataSource={invoiceList}/>
                 </>
-
             }
             <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAction(false)
@@ -730,7 +724,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     }}
                 >
                 </Table>
-
             </Modal>
             <Modal open={printAllAction} title="Print All" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAllAction(false)

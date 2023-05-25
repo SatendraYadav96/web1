@@ -10,7 +10,7 @@ import {
     EDIT_SAMPLES_START,
     GET_SAMPLES_BY_ID_START,
     ADD_COST_CENTER_START,
-    ADD_SAMPLES_START
+    ADD_SAMPLES_START, GET_BUISNESS_UNIT_START, ADD_BUISNESS_UNIT_START, EDIT_BUISNESS_UNIT_START, BUISNESS_UNIT_BY_ID_START
 } from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -30,9 +30,94 @@ import {
     getCostCenterByIdSuccessAction,
     getCostCenterByIdFailAction,
     getSamplesSuccessAction,
-    getSamplesFailAction, editSamplesSuccessAction, getSamplesByIdSuccessAction, getSamplesByIdFailAction, editSamplesFailAction, addCostCenterSuccessAction, addCostCenterFailAction, addSamplesSuccessAction, addSamplesFailAction
+    getSamplesFailAction,
+    editSamplesSuccessAction,
+    getSamplesByIdSuccessAction,
+    getSamplesByIdFailAction,
+    editSamplesFailAction,
+    addCostCenterSuccessAction,
+    addCostCenterFailAction,
+    addSamplesSuccessAction,
+    addSamplesFailAction,
+    getBuisnessUnitSuccessAction,
+    getBuisnessUnitFailAction,
+    addBuisnessUnitSuccessAction, addBuisnessUnitFailAction, editBuisnessUnitSuccessAction, editBuisnessUnitFailAction, getBuisnessUnitByIdSuccessAction, getBuisnessUnitByIdFailAction
 } from '../actions/master/masterActions'
-import {vendorRequest, addVendorRequest, editVendorRequest, vendorByIdRequest, costCenterRequest, editCostCenterRequest, costCenterByIdRequest, samplesRequest, editSamplesRequest, samplesByIdRequest, addCostCenterRequest, addSamplesRequest} from '../../api/masterRequests'
+import {
+    vendorRequest,
+    addVendorRequest,
+    editVendorRequest,
+    vendorByIdRequest,
+    costCenterRequest,
+    editCostCenterRequest,
+    costCenterByIdRequest,
+    samplesRequest,
+    editSamplesRequest,
+    samplesByIdRequest,
+    addCostCenterRequest,
+    addSamplesRequest,
+    buisnessUnitRequest,
+    addBuisnessUnitRequest, editBuisnessUnitRequest, buisnessUnitByIdRequest
+} from '../../api/masterRequests'
+
+
+
+//BUISNESS UNIT
+
+export const getBuisnessUnitStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_BUISNESS_UNIT_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            buisnessUnitRequest(action.payload).pipe(
+                map((listResponse) => getBuisnessUnitSuccessAction({buisnessUnitList: listResponse.response})),
+                catchError((error) => of(getBuisnessUnitFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// ADD BUISNESS UNIT
+
+export const addBuisnessUnitStartEpic = (action$) =>
+    action$.pipe(
+        ofType(ADD_BUISNESS_UNIT_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            addBuisnessUnitRequest(action.payload).pipe(
+                map((listResponse) => addBuisnessUnitSuccessAction({insertBuisnessUnit: listResponse.response})),
+                catchError((error) => of(addBuisnessUnitFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//EDIT BUISNESS UNIT
+
+export const editBuisnessUnitStartEpic = (action$) =>
+    action$.pipe(
+        ofType(EDIT_BUISNESS_UNIT_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            editBuisnessUnitRequest(action.payload).pipe(
+                map((listResponse) => editBuisnessUnitSuccessAction({editBuisnessUnit: listResponse.response})),
+                catchError((error) => of(editBuisnessUnitFailAction({error: error}))),
+            )
+        )
+    )
+
+
+export const getBuisnessUnitByIdStartEpic = (action$) =>
+    action$.pipe(
+        ofType(BUISNESS_UNIT_BY_ID_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            buisnessUnitByIdRequest(action.payload).pipe(
+                map((listResponse) => getBuisnessUnitByIdSuccessAction({buisnessUnitById: listResponse.response})),
+                catchError((error) => of(getBuisnessUnitByIdFailAction({error: error}))),
+            )
+        )
+    )
 
 
 

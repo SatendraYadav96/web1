@@ -149,7 +149,6 @@ const ComplianceDetailsListComponent = ({authInfo}) => {
     //             batchNo: item.batchNo,
     //             medicalCode: item.medicalCode,
     //             noBoxes: item.noBoxes,
-    //
     //         }
     //     }))
     //     console.log(purchaseList)

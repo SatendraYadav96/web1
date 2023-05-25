@@ -1,5 +1,41 @@
 import {createRequest} from './httpUtils';
-import {GET_VENDOR_API, ADD_VENDOR_API, EDIT_VENDOR_API, GET_VENDOR_BY_ID_API, VENDOR_BY_ID_API, GET_COST_CENTER_API, EDIT_COST_CENTER_API, COST_CENTER_BY_ID_API, GET_SAMPLES_API, EDIT_SAMPLES_API, SAMPLES_BY_ID_API, ADD_COST_CENTER_API, ADD_SAMPLES_API} from "./apiConstants";
+import {
+    GET_VENDOR_API,
+    ADD_VENDOR_API,
+    EDIT_VENDOR_API,
+    GET_VENDOR_BY_ID_API,
+    VENDOR_BY_ID_API,
+    GET_COST_CENTER_API,
+    EDIT_COST_CENTER_API,
+    COST_CENTER_BY_ID_API,
+    GET_SAMPLES_API,
+    EDIT_SAMPLES_API,
+    SAMPLES_BY_ID_API,
+    ADD_COST_CENTER_API,
+    ADD_SAMPLES_API,
+    GET_BUISNESS_UNIT_API,
+    ADD_BUISNESS_UNIT_API, EDIT_BUISNESS_UNIT_API, BUISNESS_UNIT_BY_ID_API
+} from "./apiConstants";
+
+//BUISNESS_UNIT
+
+export const buisnessUnitRequest = payload => {
+    const api = {...GET_BUISNESS_UNIT_API, url: `${GET_BUISNESS_UNIT_API.url}/${payload.status}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const addBuisnessUnitRequest=  payload => {
+    return createRequest(ADD_BUISNESS_UNIT_API, payload.certificate, payload.bu)
+}
+
+export const editBuisnessUnitRequest=  payload => {
+    return createRequest(EDIT_BUISNESS_UNIT_API, payload.certificate, payload.bu)
+}
+
+export const buisnessUnitByIdRequest = payload => {
+    const api = {...BUISNESS_UNIT_BY_ID_API, url: `${BUISNESS_UNIT_BY_ID_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, null)
+}
 
 //VENDOR
 
