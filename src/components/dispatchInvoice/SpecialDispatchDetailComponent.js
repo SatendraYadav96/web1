@@ -208,7 +208,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     dataIndex: 'boxes',
                     width: '150px',
                     render:(_,row) =>{
-                        return <Input defaultValue={row.boxes} style={{width: "150px"}}/>
+                        return <Input defaultValue={row.boxes} style={{width: "150px"}} disabled/>
                     }
                 },
                 {
@@ -217,7 +217,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     dataIndex: 'weight',
                     width: '100px',
                     render: (_,row) =>{
-                        return <Input defaultValue={row.weight}/>
+                        return <Input defaultValue={row.weight} disabled/>
                     }
                 },
                 {
@@ -226,7 +226,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     dataIndex: 'transporter',
                     width: '170px'  ,
                     render: () =>{
-                        return <SelectTransportComponent onChange={(e) => setTransport(e)}/>
+                        return <SelectTransportComponent onChange={(e) => setTransport(e)} disabled={true}/>
                     }
                 },
                 {
@@ -235,7 +235,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     dataIndex: 'lrNumber',
                     width: '170px',
                     render: (_,row) => {
-                        return <Input defaulValue={row.lrNumber} style={{width: "100px"}}/>
+                        return <Input defaulValue={row.lrNumber} style={{width: "100px"}} disabled/>
                     }
                 },
                 {
@@ -502,7 +502,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
                         {/*    <Button type={'primary'}>Group Invoice</Button>*/}
                         {/*</Col>*/}
-                        <Row gutter={[8,8]}>
+                        <Row gutter={[16,16]}>
                             <Col span={3}>
                                 <Button type={'primary'} style={{width: '100%'}}>Group Invoice</Button>
                             </Col>

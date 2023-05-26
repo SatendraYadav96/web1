@@ -16,12 +16,30 @@ const SelectBrandComponent = ({value, onChange,authInfo,profileInfo,brandDropdow
         });
     }, [authInfo.token])
 
+    const handleChange = (value) => {
+        console.log(`selected ${value}`);
+    };
 
-    return <Select placeholder={"Select Brand"} value={value} onSelect={onChange} style={{width: "100%"}}>
-        {brandDropdown?.map( item => {
-            return(<Option key={item.id} value={item.id}>{item.name}</Option>)
-        })}
-    </Select>
+    return (
+        // <Select placeholder={"Select Brand"} value={value} onSelect={onChange} style={{width: "100%"}}>
+        //     {brandDropdown?.map( item => {
+        //         return(<Option key={item.id} value={item.id}>{item.name}</Option>)
+        //     })}
+        // </Select>
+        <Select
+            mode="multiple"
+            allowClear
+            style={{
+                width: '100%',
+            }}
+            placeholder="Select Brand"
+            onChange={onChange}
+        >
+            {brandDropdown?.map( item => {
+                return(<Option key={item.id} value={item.id}>{item.name}</Option>)
+            })}
+        </Select>
+    )
 }
 
 

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
@@ -8,15 +8,15 @@ import {Option} from "antd/es/mentions";
 import { FileOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
-import {selectInvoiceListData} from "../../redux/selectors/monthlyDispatchSelector";
+import {selectGenerateInvoiceListData, selectInvoiceListData, selectLoadingGenerateInvoiceData} from "../../redux/selectors/monthlyDispatchSelector";
 import {selectLoadingSearchInvoiceData, selectSearchListData} from "../../redux/selectors/searchInvoiceSelector";
-import {getEmployeeInvoiceDetailStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
+import {getEmployeeInvoiceDetailStartAction, getGenerateInvoiceStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 import {searchInvoiceStartAction} from "../../redux/actions/dispatchInvoice/searchInvoiceAction";
 import SelectRecipientComponent from "../widgets/SelectRecipientCodeComponent";
 import SelectRecipientCodeComponent from "../widgets/SelectRecipientCodeComponent";
 import SelectInvoiceComponent from "../widgets/SelectInvoiceComponent";
 
-const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchInvoiceLoading,handleInvoiceList}) => {
+const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchInvoiceLoading,handleInvoiceList,generateInvoiceList,handleGenerateInvoice}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -28,6 +28,7 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
     const [flag, setFlag] = useState(false)
     const [recipientCode, setRecipientCode] = useState("")
     const [invoiceNo, setInvoiceNo] = useState("")
+    const [count, setCount] = useState(0)
 
     const searchData = () => {
         setFlag(true)
@@ -44,7 +45,7 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
                 dataIndex: '',
                 width:'200px',
                 render:()=>{
-                    return <Button icon={<FileOutlined/>}></Button>
+                    return <Button icon={<FileOutlined/>} onClick={() => handleInvoice()}></Button>
                 }
             }
         ]);
@@ -54,6 +55,43 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
                 searchNumber:''
             }
         ])
+    }
+
+    const downloadPDF = (pdf, filename) => {
+        const linkSource = `data:application/pdf;base64,${pdf}`;
+        const downloadLink = document.createElement("a");
+        const fileName = `${filename}.pdf`;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        console.log("printed")
+    }
+
+    useEffect(() => {
+        if(generateInvoiceList.length !== 0) {
+            setCount(count => count + 1)
+        }
+    },[generateInvoiceList])
+
+    useEffect(() => {
+        console.log(generateInvoiceList)
+        if(generateInvoiceList.length !== 0) {
+            downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+        } else {
+            console.log("no download")
+        }
+    },[count])
+
+    const handleInvoice = () => {
+        handleGenerateInvoice({
+            inh: {
+                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
+                invoiceNo: "106674",
+                // inh: printInvoice.map((item) => item.invoiceHeaderID),
+                // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
+            },
+            certificate: authInfo.token
+        })
     }
 
     const searchInv = () => {
@@ -114,10 +152,13 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const searchInvoiceList = selectSearchListData(state)
     const searchInvoiceLoading = selectLoadingSearchInvoiceData(state)
-    return {authInfo,profileInfo,searchInvoiceList,searchInvoiceLoading}
+    const generateInvoiceList = selectGenerateInvoiceListData(state)
+    const generateInvoiceLoading = selectLoadingGenerateInvoiceData(state)
+    return {authInfo,profileInfo,searchInvoiceList,searchInvoiceLoading,generateInvoiceList,generateInvoiceLoading}
 }
 
 const actions = {
+    handleGenerateInvoice: getGenerateInvoiceStartAction,
     handleInvoiceList: searchInvoiceStartAction,
 }
 

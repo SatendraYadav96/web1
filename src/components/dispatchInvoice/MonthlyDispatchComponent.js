@@ -6,7 +6,7 @@ import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import { getMonthlyDispatchStartAction } from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
@@ -23,6 +23,7 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const history = useNavigate()
 
     const searchData = () => {
         setFlag(true)
@@ -52,12 +53,12 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
                 width:'100px'
             },
             {
-                title:'',
+                title: '',
                 key: '',
                 dataIndex: '',
                 width: '100px',
-                render: () => {
-                    return <Link to="/home/dispatchInvoicing/monthlyDispatch/details">Show</Link>
+                render: (_, row) => {
+                    return <Button to="/home/dispatchInvoicing/monthlyDispatch/details" onClick={() => handleShow(row)}>Show</Button>
                 }
             }
         ]);
@@ -72,6 +73,13 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
         ])
     }
 
+        const  handleShow = (row) => {
+            history("/home/dispatchInvoicing/monthlyDispatch/details", {state:
+                    {
+                        year: year,
+                        month: month,
+                    }});
+        }
 
     const getMonthlyDispatchList = () => {
        console.log(year);

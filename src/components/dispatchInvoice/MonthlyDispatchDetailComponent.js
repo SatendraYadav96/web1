@@ -6,7 +6,7 @@ import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
 import {InfoOutlined, SaveOutlined, ZoomInOutlined} from "@ant-design/icons";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
@@ -41,6 +41,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     const [printAllInvoice, setPrintAllInvoice] = useState([])
     const [count, setCount] = useState(0)
     const [countLabel, setCountLabel] = useState(0)
+    const location = useLocation()
 
     const handleAllPrint = (event) => {
         setAllCheck(event.target.checked)
@@ -186,7 +187,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     dataIndex: 'transporter',
                     width: '170px'  ,
                     render: () =>{
-                        return <Select placeholder="Select Transporter"></Select>
+                        return <SelectTransportComponent/>
                     }
                 },
                 {
@@ -281,7 +282,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     dataIndex: 'boxes',
                     width: '150px',
                     render:(_,row) =>{
-                        return <Input defaultValue={row.boxes} style={{width: "150px"}}/>
+                        return <Input defaultValue={row.boxes} style={{width: "150px"}} disabled/>
                     }
                 },
                 {
@@ -290,7 +291,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     dataIndex: 'weight',
                     width: '150px',
                     render:(_,row) =>{
-                        return <Input defaultValue={row.weight}/>
+                        return <Input defaultValue={row.weight} disabled/>
                     }
                 },
                 {
@@ -298,8 +299,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     key: 'transporter',
                     dataIndex: 'transporter',
                     width: '170px'  ,
-                    render: () =>{
-                        return <Select placeholder="Select Transporter"></Select>
+                    render: (_,row) =>{
+                        return <SelectTransportComponent value={row.transporterID} disabled={true} />
                     }
                 },
                 {
@@ -308,7 +309,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     dataIndex: 'lrNumber',
                     width: '170px',
                     render: (_,row) => {
-                        return <Input defaulValue={row.lrNo} style={{width: "100px"}}/>
+                        return <Input value={row.lrNumber} style={{width: "100px"}} disabled/>
                     }
                 },
                 {
@@ -510,16 +511,15 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     }
 
     const getEmployeeInvoiceDetailsList = () => {
-        console.log(year);
-        console.log(month);
-        //console.log(invoiceList);
+        console.log(location.state.year);
+        console.log(location.state.month);
         console.log(dispatchType);
         console.log(team);
         console.log(status);
 
         handleInvoiceDetailsList ({
-            year:year,
-            month:month,
+            year:location.state.year,
+            month:location.state.month,
             isSpecialDisp:dispatchType,
             teamId:team,
             status:status,
@@ -655,10 +655,10 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             <TitleWidget title={'Monthly Dispatch'} />
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
+                    <Input value={location.state.year}/>
                 </Col>
                 <Col span={3}>
-                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
+                    <Input value={location.state.month}/>
                 </Col>
                 <Col span={3}>
                     <SelectTeamComponent  onChange={(e) => setTeam(e)}/>
@@ -686,15 +686,15 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                 </Row>
             }
             {status === "00000000-0000-0000-0000-000000000027" &&
-                <Row gutter={[8,8]}>
+                <Row gutter={[16,16]}>
                     <Col span={3}>
-                        <Button type={'primary'}  onClick={() => generateInvoice()}>Group Invoice</Button>
+                        <Button type={'primary'}  onClick={() => generateInvoice()} style={{width: '100%'}}>Group Invoice</Button>
                     </Col>
                     <Col span={2}>
-                        <Button type={'primary'} onClick={handlePrint}>Print</Button>
+                        <Button type={'primary'} onClick={handlePrint} style={{width: '100%'}}>Print</Button>
                     </Col>
                     <Col span={2}>
-                        <Button type={'primary'} onClick={handleAllPrintInvoice}>Print All</Button>
+                        <Button type={'primary'} onClick={handleAllPrintInvoice} style={{width: '100%'}}>Print All</Button>
                     </Col>
                     <Col span={14}></Col>
                 </Row>

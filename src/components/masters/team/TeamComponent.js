@@ -65,7 +65,7 @@ const TeamComponent = ({authInfo}) => {
                 <Col span={3}>
                     <Select style={{width: '100%'}}></Select>
                 </Col>
-                <Col span={1}>
+                <Col span={2}>
                     <Button type={"primary"} onClick={() => searchData()} style={{width: '100%'}}>Search</Button>
                 </Col>
                 <Col span={2}>

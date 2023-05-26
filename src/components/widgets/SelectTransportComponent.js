@@ -7,7 +7,7 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {selectTransportDropdown, selectTransportDropdownLoading} from "../../redux/selectors/dropDownSelector";
 import PropTypes from "prop-types";
 
-const SelectTransportComponent = ({value, onChange,authInfo,profileInfo,transportDropdown,transportDropdownLoading,handleTransportDropdown}) => {
+const SelectTransportComponent = ({value, onChange,disabled,authInfo,profileInfo,transportDropdown,transportDropdownLoading,handleTransportDropdown}) => {
 
     const [transportId, setTransportId] = useState()
     const [transportName, setTransportName] = useState()
@@ -35,6 +35,7 @@ const SelectTransportComponent = ({value, onChange,authInfo,profileInfo,transpor
             value={value}
             onSelect={onChange}
             style={{width: "100%"}}
+            disabled={disabled}
         >
             {transportDropdown?.map( item => {
                 return(<Option key={item.transporterId} value={item.transporterId} label={item.transporterName.toString()} >{item.transporterName}</Option>)

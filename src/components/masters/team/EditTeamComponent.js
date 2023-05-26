@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
@@ -15,7 +15,8 @@ const EditTeamComponent = ({authInfo}) => {
     const navigate = useNavigate()
 
     const [checked, setChecked] = useState(true);
-    const [checkedValue, setCheckedValue] = useState(1)
+    const [checkedValue, setCheckedValue] = useState(1);
+    const [brand, setBrand] = useState([]);
 
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
@@ -26,6 +27,14 @@ const EditTeamComponent = ({authInfo}) => {
     const handleBack = () => {
         return navigate("/home/masters/team")
     }
+
+    const handleBrand = (value) => {
+        setBrand( value)
+    }
+
+    useEffect(() => {
+        console.log(brand)
+    },[brand])
 
     return(
         <>
@@ -44,7 +53,9 @@ const EditTeamComponent = ({authInfo}) => {
                     Code:<br/><Input placeholder={"Code"} disabled/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Brand :<br/><SelectBrandComponent/>
+                    Brand :<br/>
+                    <br/>
+                    <SelectBrandComponent onChange={handleBrand}/>
                 </Col>
             </Row>
             <br/>
