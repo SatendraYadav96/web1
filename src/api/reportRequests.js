@@ -33,7 +33,7 @@ export const dispatchesReportRequest = payload => {
 //DISPATCH REGISTER REPORT
 
 export const dispatchRegisterReportRequest = payload => {
-    const api = {...GET_DISPATCH_REGISTER_REPORT_API, url: `${GET_DISPATCH_REGISTER_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.team}/${payload.filterPlan}`}
+    const api = {...GET_DISPATCH_REGISTER_REPORT_API, url: `${GET_DISPATCH_REGISTER_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.division}/${payload.team}/{${payload.statusId}/${payload.filterPlan}`}
     return createRequest(api, payload.certificate, null)
 }
 

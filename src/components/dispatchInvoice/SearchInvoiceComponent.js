@@ -103,15 +103,12 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
             invoiceNo: invoiceNo,
         }
 
-
-
         handleInvoiceList({
             searchInvoice: data,
             certificate: authInfo.token
         });
         searchData()
     }
-
 
     return(
         <>

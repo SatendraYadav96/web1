@@ -26,6 +26,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
     const [endDate, setEndDate] = useState()
     const [team, setTeam] = useState()
     const [data, setData] = useState()
+    const [division, setDivision] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -104,7 +105,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 title: 'Designation',
                 key: '',
                 dataIndex: 'designation',
-                width: '100px'
+                width: '150px'
             },
             {
                 title: 'Employee Code',
@@ -116,7 +117,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 title: 'Address',
                 key: '',
                 dataIndex: 'address',
-                width: '100px'
+                width: '200px'
             },
             {
                 title: 'City',
@@ -187,15 +188,17 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
          console.log(dispatchRegisterList);
 
         handleDispatchRegisterReportList ({
-        businessUnit:businessUnit,
-        userId: profileInfo.id,
-        userDesgId: profileInfo.userDesignation.id,
-        startDate:formatedStartDateString,
-        endDate:formatedEndDateString,
-        team:team,
-        filterPlan:filterPlan,
+            businessUnit:businessUnit,
+            userId: profileInfo.id,
+            userDesgId: profileInfo.userDesignation.id,
+            startDate:formatedStartDateString,
+            endDate:formatedEndDateString,
+            division:division,
+            team:team,
+            statusId:"00000000-0000-0000-0000-000000000000",
+            filterPlan:filterPlan,
 
-        certificate: authInfo.token
+            certificate: authInfo.token
         });
         searchData()
     }
@@ -245,10 +248,10 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                     Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
-                {/*<Col span={3}>*/}
-                {/*    Subteam<br/>*/}
-                {/*    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />*/}
-                {/*</Col>*/}
+                <Col span={3}>
+                    Subteam<br/>
+                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                </Col>
                 <Col span={3}>
                     Sub Team <br/>
                     <SelectTeamComponent value={team} style={{width: "100%"}} onChange={(e) => setTeam(e)} />

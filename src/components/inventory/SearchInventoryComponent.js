@@ -19,7 +19,8 @@ import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryRep
 const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportList,inventoryReversalHistoryList,handleInventoryReversalHistoryList,editUnitAllocation,handleEditUnitAllocation,editBlockItem,handleEditBlockItem,reverseInventory, reverseInventoryLoading,handleReverseInventory,switchInventory,switchInventoryLoading,handleSwitchInventory}) => {
 
     const [columns, setColumns] = useState([])
-    const [select, setSelect] = useState(0)
+    const [active, setActive] = useState(0)
+    const [checked, setChecked] = useState(false);
     const [name, setName] = useState()
     const [balance, setBalance] = useState()
     const [revId, setRevId] = useState()
@@ -35,7 +36,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     const [checkedBI, setCheckedBI] = useState()
     const [currentUAId, setCurrentUAId] = useState()
     const [currentBIId, setCurrentBIId] = useState()
-    const [exhausted, setExhausted] = useState(false)
     const [popUp, setPopUp] = useState(0)
     const [reverse, setReverse] = useState(false)
     const [reversalHistory, setReversalHistory] = useState(false)
@@ -185,8 +185,8 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             },
             {
                 title: 'Base Pack',
-                key:'basePack',
-                dataIndex: 'basePack',
+                key:'packSize',
+                dataIndex: 'packSize',
                 width: '100px'
             },
             {
@@ -394,16 +394,6 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         quantity: '',
     }
 
-    const getInventoryReportList = () => {
-        console.log(inventoryList)
-        handleInventoryReportList ({
-            isExhausted: exhausted,
-            isPopup: popUp,
-            certificate: authInfo.token
-        });
-        searchData()
-    }
-
     const getInventoryReversalHistoryList = (row) => {
         reversalHistoryInventory()
         handleInventoryReversalHistoryList ({
@@ -444,6 +434,20 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         console.log(inventoryReversalHistoryList)
     }
 
+    const getInventoryReportList = () => {
+        console.log(inventoryList)
+        handleInventoryReportList ({
+            isExhausted: active,
+            certificate: authInfo.token
+        });
+        searchData()
+    }
+
+    const handleChange = (e) => {
+        console.log('checked = ', e.target.checked);
+        setChecked(e.target.checked);
+        setActive(e.target.checked ? 1 : 0)
+    }
 
     return(
         <div>
@@ -453,7 +457,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                     Item Name <br/><Input style={{width:"100%"}}/>
                 </Col>
                 <Col span={3}>
-                    Exhuasting Quantity <Checkbox />
+                    Exhuasting Quantity <Checkbox checked={checked} onChange={handleChange}/>
                 </Col>
                 <Col span={2}>
                     <br/>

@@ -2,7 +2,7 @@ import {ADD_SAMPLES_API, EDIT_BLOCK_ITEM_REPORT_API, EDIT_SAMPLES_API, EDIT_UNIT
 import {createRequest} from "./httpUtils";
 
 export const inventoryReportRequest = payload => {
-  const api = {...GET_INVENTORY_REPORT_API, url: `${GET_INVENTORY_REPORT_API.url}/${payload.isExhausted}/${payload.isPopup}`}
+  const api = {...GET_INVENTORY_REPORT_API, url: `${GET_INVENTORY_REPORT_API.url}/${payload.isExhausted}`}
   return createRequest(api, payload.certificate, null)
 }
 export const inventoryReversalHistoryRequest = payload => {
