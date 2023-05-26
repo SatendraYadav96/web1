@@ -98,8 +98,8 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
         handleItemWiseReportList ({
             fromDate: formatedToDateString,
             toDate: formatedFromDateString,
-            subTeam: division,
-            team:businessUnit,
+            divison: division,
+            businessUnit:businessUnit,
             certificate: authInfo.token
         });
         searchData()

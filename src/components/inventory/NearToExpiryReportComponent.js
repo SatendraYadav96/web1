@@ -152,10 +152,10 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
 
     const getNearToExpiryInputReportList = () => {
         handleNearToExpiryInputReportList ({
-            Team:businessUnit,
+            businessUnit:businessUnit,
             userId: profileInfo.id,
             userDesgId: profileInfo.userDesignation.id,
-            subTeam: division,
+            divison: division,
             type: "Input",
             certificate: authInfo.token
         });
