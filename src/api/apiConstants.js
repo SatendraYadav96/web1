@@ -46,7 +46,6 @@ export const GET_ITEM_CONSUMPTION_REPORT_API = {url: '/v1/report/getReportItemCo
 export const GET_DESTRUCTION_REPORT_API = {url: '/v1/report/getReportDestruction',method:'GET',auth:true}
 
 //  HSN & INVOICE
-
 export const ADD_HSN_API = { url: '/v1/hsn/addHsn', method: 'POST', auth: true }
 export const ADD_BOX_WEIGHT_API = { url: '/v1/hsn/editInvoiceHeader', method: 'PUT', auth: true }
 

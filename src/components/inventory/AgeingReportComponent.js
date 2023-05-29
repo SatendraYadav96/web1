@@ -50,7 +50,7 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
                 title:'Item Name',
                 key:'itemName',
                 dataIndex:'productName',
-                width:'100px'
+                width:'200px'
             },
             {
                 title:'Item Category',

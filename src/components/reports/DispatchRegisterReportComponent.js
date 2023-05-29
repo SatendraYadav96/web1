@@ -249,7 +249,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                     <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
                 <Col span={3}>
-                    Subteam<br/>
+                    Division<br/>
                     <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
                 </Col>
                 <Col span={3}>
