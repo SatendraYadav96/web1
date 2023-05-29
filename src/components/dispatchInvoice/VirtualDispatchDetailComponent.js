@@ -197,13 +197,12 @@ const VirtualDispatchDetailComponent = ({authInfo}) => {
                     <div align="right">
                         <Input.Search style={{ width: 304 }} />
                     </div>
-                </Col> />
+                </Col>
             </Row>
             <br/><br/>
             {flag &&
                 <Table columns={column} dataSource={dataSource}/>
             }
-
         </div>
     )
 }

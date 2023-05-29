@@ -61,7 +61,7 @@ const VirtualDispatchComponent = ({authInfo}) => {
                 dataIndex: '',
                 width: '100px',
                 render: () => {
-                    return <Link to="/home/pickingSlip/virtualDispatch/details">Show</Link>
+                    return <Link to="/home/dispatchInvoicing/virtualDispatch/details">Show</Link>
                 }
             }
         ]);

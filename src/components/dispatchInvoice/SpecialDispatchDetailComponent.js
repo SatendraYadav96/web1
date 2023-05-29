@@ -12,8 +12,10 @@ import {InfoOutlined, SaveOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
+import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData} from "../../redux/selectors/monthlyDispatchSelector";
+import {getGenerateInvoiceStartAction, getGenerateLabelStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 
-const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup}) => {
+const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel}) => {
 
     const navigate = useNavigate()
 
@@ -27,6 +29,14 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [recipientInvoice, setRecipientInvoice] = useState(false)
     const [planId, setPlanId] = useState()
     const [transport, setTransport] = useState()
+    const [printColumn, setPrintColumn] = useState([])
+    const [printInvoice, setPrintInvoice] = useState()
+    const [checkedArr, setCheckedArr] = useState([])
+    const [printAction, setPrintAction] = useState(false)
+    const [count, setCount] = useState(0)
+    const [countLabel, setCountLabel] = useState(0)
+
+
 
     const location = useLocation()
 
@@ -279,8 +289,8 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: '',
                     dataIndex: '',
                     width: '30px',
-                    render:() => {
-                        return <Checkbox/>
+                    render:(_,row) => {
+                        return <Checkbox onChange={(event) => handleChecked(event,row)}/>
                     }
                 }
             ]);
@@ -398,6 +408,60 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         ])
     }
 
+    const printData = () => {
+        setFlag(true)
+        setPrintColumn([
+            {
+                title:'Employee Name',
+                key: 'employeeName',
+                dataIndex: 'employeeName',
+                width:'150px',
+            },
+            {
+                title: 'Code',
+                key: 'code',
+                dataIndex: 'code',
+                width:'150px',
+            },
+            {
+                title:'Invoice No',
+                key: 'invoiceNo',
+                dataIndex: 'invoiceNumber',
+                width: '150px',
+            },
+            {
+                title: 'Status',
+                key: 'status',
+                dataIndex: 'invoiceStatus',
+                width: '150px'
+            },
+            {
+                title: 'Boxes',
+                key: 'boxes',
+                dataIndex: 'boxes',
+                width: '50px',
+            },
+            {
+                title: 'Weight',
+                key: 'weight',
+                dataIndex: 'weight',
+                width: '50px',
+            },
+            {
+                title: 'Transporter',
+                key: 'transporterDetails',
+                dataIndex: 'transporterDetails',
+                width: '170px',
+            },
+            {
+                title: 'LR No.',
+                key: 'lrNo',
+                dataIndex: 'lrNumber',
+                width: '170px',
+            },
+        ])
+    }
+
     const getSpecialEmployeeInvoiceDetailsList = () => {
         console.log(specialInvoiceDetails);
         console.log(planId);
@@ -409,6 +473,33 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             certificate: authInfo.token
         });
         searchData()
+    }
+
+    const handleChecked = (event,row) => {
+        let invoice = row.invoiceNumber
+        // event.target.checked ? setCheckedArr(current => [...current, row.invoiceNumber]) : checkedArr.filter(checked => checked.includes(row.invoiceNumber))
+        if (event.target.checked) {
+            setCheckedArr(current => [...current, row.invoiceNumber]);
+        }
+        else if (event.target.checked === false) {
+            setCheckedArr((current) => current.filter(checked => checked !== row.invoiceNumber))
+            console.log("removed")
+        }
+    }
+
+    const matchInvoice = (invoiceList,checkedArr) => invoiceList.filter(data => checkedArr.includes(data.invoiceNumber)).map(data => data);
+
+    const handlePrint = () => {
+        setPrintAction(true)
+        setPrintInvoice(matchInvoice(specialInvoiceDetails, checkedArr))
+        console.log(specialInvoiceDetails)
+        // handleGenerateInvoice({
+        //     genInv: {
+        //         invoiceHeaderID: printInvoice.invoiceHeaderID,
+        //         invoiceNumber: printInvoice.invoiceNumber,
+        //     },
+        // })
+        printData()
     }
 
     const handleBack = () => {
@@ -463,13 +554,79 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         console.log(employeePopup)
     },[employeePopup])
 
+    const handleInvoicePrint = () => {
+        handleGenerateInvoice({
+            inh: {
+                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
+                invoiceNo: "106674",
+                // inh: printInvoice.map((item) => item.invoiceHeaderID),
+                // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
+            },
+            certificate: authInfo.token
+        })
+        console.log(printInvoice)
+    }
+
+    const downloadPDF = (pdf, filename) => {
+        const linkSource = `data:application/pdf;base64,${pdf}`;
+        const downloadLink = document.createElement("a");
+        const fileName = `${filename}.pdf`;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        console.log("printed")
+    }
+
+    useEffect(() => {
+        if(generateInvoiceList.length !== 0) {
+            setCount(count => count + 1)
+        }
+    },[generateInvoiceList])
+
+    useEffect(() => {
+        console.log(generateInvoiceList)
+        if(generateInvoiceList.length !== 0) {
+            downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+        } else {
+            console.log("no download")
+        }
+    },[count])
+
+    useEffect(() => {
+        if(generateLabelList.length !== 0) {
+            setCountLabel(countLabel => countLabel + 1)
+        }
+    },[generateLabelList])
+
+    useEffect(() => {
+        console.log(generateLabelList)
+        if(generateLabelList.length !== 0) {
+            downloadPDF(generateLabelList.content, generateLabelList.fileName)
+        } else {
+            console.log("no download")
+        }
+    },[countLabel])
+
+    const handleLabelPrint = () => {
+        handleGenerateLabel({
+            inh: {
+                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
+                invoiceNo: "106674",
+                // inh: printInvoice.map((item) => item.invoiceHeaderID),
+                // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
+            },
+            certificate: authInfo.token
+        })
+    }
+
+
     return(
         <>
             <Row gutter={[16,16]}>
-                <Col span={3}>
+                <Col span={2}>
                     <Input value={location.state.year}/>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <Input value={location.state.month}/>
                 </Col>
                 <Col span={3}>
@@ -510,7 +667,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                                 <Button type={'primary'} style={{width: '100%'}} >Batch Invoice</Button>
                             </Col>
                             <Col span={3}>
-                                <Button type={'primary'} style={{width: '100%'}}>Print</Button>
+                                <Button type={'primary'} style={{width: '100%'}} onClick={handlePrint}>Print</Button>
                             </Col>
                             <Col span={3}>
                                 <Button type={'primary'} style={{width: '100%'}} >Print All</Button>
@@ -528,6 +685,22 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             </Row>
             <br/><br/>
             <Table columns={column} dataSource={specialInvoiceDetails}/>
+            <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
+                setPrintAction(false)
+            }}>
+                <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print</p>
+                <Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleInvoicePrint()}>Print Invoice</Button>
+                <Button type={"primary"} onClick={() => handleLabelPrint()}>Print Label</Button>
+                <br/>
+                <Table
+                    columns={printColumn}
+                    dataSource={printInvoice}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+            </Modal>
             <Modal open={recipientInvoice} title="Recipient Invoices" footer={null} width={"60vw"} onCancel={() => {
                 setRecipientInvoice(false)
             }}>
@@ -560,6 +733,12 @@ SpecialDispatchDetailComponent.propTypes = {
     employeePopup:PropTypes.array,
     employeePopupLoading:PropTypes.any,
     handleEmployeePopup:PropTypes.func,
+    generateLabelList:PropTypes.array,
+    generateLabelLoading:PropTypes.any,
+    handleGenerateLabel:PropTypes.func,
+    generateInvoiceList:PropTypes.array,
+    generateInvoiceLoading:PropTypes.any,
+    handleInvoiceDetailsList:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -569,11 +748,17 @@ const mapState = (state) => {
     const specialInvoiceDetailsLoading = selectSpecialLoadingInvoiceDetailsData(state)
     const employeePopup = selectEmployeePopupData(state)
     const employeePopupLoading = selectEmployeePopupLoadingData(state)
-    return {authInfo,specialInvoiceDetails, specialInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading}
+    const generateInvoiceList = selectGenerateInvoiceListData(state)
+    const generateInvoiceLoading = selectLoadingGenerateInvoiceData(state)
+    const generateLabelList = selectGenerateLabelListData(state)
+    const generateLabelLoading = selectLoadingGenerateLabelData(state)
+    return {authInfo,specialInvoiceDetails, specialInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading}
 }
 
 const actions = {
     handleSpecialInvoiceDetailsList: getSpecialEmployeeInvoiceDetailStartAction,
+    handleGenerateInvoice: getGenerateInvoiceStartAction,
+    handleGenerateLabel: getGenerateLabelStartAction,
     handleEmployeePopup: employeePopupStartAction,
 }
 

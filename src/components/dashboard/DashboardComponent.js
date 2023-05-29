@@ -408,89 +408,89 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         ]);
     }
 
-    // useEffect(() => {
-    //     handlePendingDispatch ({
-    //         certificate: authInfo.token
-    //     });
-    //     handleHubNearExpiry({
-    //         certificate: authInfo.token
-    //     })
-    //     handleHubPendingRevalidation({
-    //         certificate: authInfo.token
-    //     })
-    //     handleHubGrnErrorLog({
-    //         certificate: authInfo.token
-    //     })
-    //     handleItemExpiredDetails({
-    //         certificate: authInfo.token
-    //     })
-    //     searchData()
-    // },[status])
+    useEffect(() => {
+        handlePendingDispatch ({
+            certificate: authInfo.token
+        });
+        handleHubNearExpiry({
+            certificate: authInfo.token
+        })
+        handleHubPendingRevalidation({
+            certificate: authInfo.token
+        })
+        handleHubGrnErrorLog({
+            certificate: authInfo.token
+        })
+        handleItemExpiredDetails({
+            certificate: authInfo.token
+        })
+        searchData()
+    },[status])
 
     return (
         <div>
             <TitleWidget title={'Dashboards'}/>
-            <Row gutter={[8,8]}>
-                <Col span={9} >
-                    <LineChartComponent/>
+            {/*<Row gutter={[8,8]}>*/}
+            {/*    <Col span={9} >*/}
+            {/*        <LineChartComponent/>*/}
+            {/*    </Col>*/}
+            {/*    <Col span={11} offset={4}>*/}
+            {/*        <MultiLineChartComponent/>*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
+            {/*<br/><br/><hr/><br/><br/>*/}
+            {/*<Row gutter={[8,8]}>*/}
+            {/*    <Col span={8}>*/}
+            {/*        <PercentageColumnChartComponent/>*/}
+            {/*    </Col>*/}
+            {/*    <Col span={13} offset={3}>*/}
+            {/*        <PieChartComponent/>*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
+            {/*<br/><br/><hr/><br/><br/>*/}
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Card title="Approved Plan Pending for Dispatch" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
+                    {
+                        flag && <Table columns={columnPendingDispatch} scroll={{y: '100%'}} dataSource={pendingDispatchList} style={{height: "350px"}}/>
+                    }
+                    </Card>
                 </Col>
-                <Col span={11} offset={4}>
-                    <MultiLineChartComponent/>
+                <Col span={12}>
+                    <Card title="Near To Expiry Item" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
+                        {
+                            flag && <Table columns={columnHubNearExpiry} scroll={{y: '100%'}} dataSource={hubNearExpiryList} style={{height: "350px"}}/>
+                        }
+                    </Card>
                 </Col>
             </Row>
-            <br/><br/><hr/><br/><br/>
-            <Row gutter={[8,8]}>
-                <Col span={8}>
-                    <PercentageColumnChartComponent/>
+            <br/>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Card title="GRN Error Log In Last Upload" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px", overflow: "hidden"}}>
+                        {
+                            flag && <Table columns={columnHubGrnErrorLog} scroll={{y: '100%'}} dataSource={hubGrnErrorLogList} style={{height: "350px"}}/>
+                        }
+                    </Card>
                 </Col>
-                <Col span={13} offset={3}>
-                    <PieChartComponent/>
+                <Col span={12}>
+                    <Card title="Pending Request for Revalidation" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
+                        {
+                            flag && <Table columns={columnHubPendingRevalidation} scroll={{y: '100%'}} dataSource={hubPendingRevalidationList} style={{height: "350px"}}/>
+                        }
+                    </Card>
                 </Col>
             </Row>
-            <br/><br/><hr/><br/><br/>
-            {/*<Row gutter={16}>*/}
-            {/*    <Col span={12}>*/}
-            {/*        <Card title="Approved Plan Pending for Dispatch" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
-            {/*        {*/}
-            {/*            flag && <Table columns={columnPendingDispatch} scroll={{y: '100%'}} dataSource={pendingDispatchList} style={{height: "350px"}}/>*/}
-            {/*        }*/}
-            {/*        </Card>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={12}>*/}
-            {/*        <Card title="Near To Expiry Item" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
-            {/*            {*/}
-            {/*                flag && <Table columns={columnHubNearExpiry} scroll={{y: '100%'}} dataSource={hubNearExpiryList} style={{height: "350px"}}/>*/}
-            {/*            }*/}
-            {/*        </Card>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
-            {/*<br/>*/}
-            {/*<Row gutter={16}>*/}
-            {/*    <Col span={12}>*/}
-            {/*        <Card title="GRN Error Log In Last Upload" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px", overflow: "hidden"}}>*/}
-            {/*            {*/}
-            {/*                flag && <Table columns={columnHubGrnErrorLog} scroll={{y: '100%'}} dataSource={hubGrnErrorLogList} style={{height: "350px"}}/>*/}
-            {/*            }*/}
-            {/*        </Card>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={12}>*/}
-            {/*        <Card title="Pending Request for Revalidation" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
-            {/*            {*/}
-            {/*                flag && <Table columns={columnHubPendingRevalidation} scroll={{y: '100%'}} dataSource={hubPendingRevalidationList} style={{height: "350px"}}/>*/}
-            {/*            }*/}
-            {/*        </Card>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
-            {/*<br/>*/}
-            {/*<Row gutter={16}>*/}
-            {/*    <Col span={12}>*/}
-            {/*        <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
-            {/*            {*/}
-            {/*                flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "350px"}}/>*/}
-            {/*            }*/}
-            {/*        </Card>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
+            <br/>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
+                        {
+                            flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "350px"}}/>
+                        }
+                    </Card>
+                </Col>
+            </Row>
         </div>
     )
 }

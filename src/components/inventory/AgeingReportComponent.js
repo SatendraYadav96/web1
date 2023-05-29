@@ -60,62 +60,62 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
             },
             {
                 title:'(0-30) days',
-                key:'',
-                dataIndex:'',
+                key:'zeroToThirty',
+                dataIndex:'zeroToThirty',
                 width:'100px'
             },
             {
                 title:'Value',
-                key:'value',
-                dataIndex:'value',
+                key:'zeroToThirtyValue',
+                dataIndex:'zeroToThirtyValue',
                 width:'100px'
             },
             {
                 title:'(31-60) days',
-                key:'',
-                dataIndex:'',
+                key:'thirtyOneToSixty',
+                dataIndex:'thirtyOneToSixty',
                 width:'100px'
             },
             {
                 title:'Value',
-                key:'value',
-                dataIndex:'value',
+                key:'thirtyOneToSixtyValue',
+                dataIndex:'thirtyOneToSixtyValue',
                 width:'100px'
             },
             {
                 title:'(61-90) days',
-                key:'',
-                dataIndex:'',
+                key:'sixtyOneToNighty',
+                dataIndex:'sixtyOneToNighty',
                 width:'100px'
             },
             {
                 title:'Value',
-                key:'value',
-                dataIndex:'value',
+                key:'sixtyOneToNightyValue',
+                dataIndex:'sixtyOneToNightyValue',
                 width:'100px'
             },
             {
                 title:'(91-120) days',
-                key:'',
-                dataIndex:'',
+                key:'nightyOneToHundredTwenty',
+                dataIndex:'nightyOneToHundredTwenty',
                 width:'100px'
             },
             {
                 title:'Value',
-                key:'value',
-                dataIndex:'value',
+                key:'nightyOneToHundredTwentyValue',
+                dataIndex:'nightyOneToHundredTwentyValue',
                 width:'100px'
             },
             {
                 title:'(>120) days',
-                key:'',
-                dataIndex:'',
+                key:'aboveHundredTwenty',
+                dataIndex:'aboveHundredTwenty',
                 width:'100px'
             },
             {
                 title:'Value',
-                key:'value',
-                dataIndex:'value',
+                key:'aboveHundredTwentyValue',
+                dataIndex:'aboveHundredTwentyValue',
                 width:'100px'
             },
 

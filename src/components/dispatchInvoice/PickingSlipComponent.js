@@ -15,7 +15,6 @@ import {SheetComponent} from "@antv/s2-react";
 import {setLang} from "@antv/s2";
 
 
-
 const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profileInfo,picklist,picklistloading,handlePickList,picklistVirtual,picklistVirtualloading,handlePickListVirtual,picklistStatus,picklistStatusloading,handlePickListStatus}) => {
     setLang('en_US')
     const date = new Date();
