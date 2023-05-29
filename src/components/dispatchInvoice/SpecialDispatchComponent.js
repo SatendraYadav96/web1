@@ -16,7 +16,6 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
     const date = new Date();
     const currentYear = date.getFullYear();
     const currentMonth = date.getMonth()+1;
-
     const [year, setYear] = useState(currentYear)
     const [month, setMonth] = useState(currentMonth)
     const [column, setColumn] = useState([])
@@ -137,7 +136,6 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
             {/*/!*<br/><br/>*!/*/}
             {/*    <Table columns={column} dataSource={specialData}/>*/}
             {/*</>*/}
-
         </div>
     )
 }

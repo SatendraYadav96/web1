@@ -8,10 +8,7 @@ import {
 } from './hsnActionConstants'
 
 
-
 //Add Hsn API
-
-
 export const addHsnStartAction = (payload) => (dispatch) => {
   dispatch({
     type: ADD_HSN_START_ACTION,
@@ -34,10 +31,7 @@ export const addHsnFailAction = (payload) => (dispatch) => {
 }
 
 
-
 //EditInvoiceHeader API
-
-
 export const addBoxWeightStartAction = (payload) => (dispatch) => {
   dispatch({
     type: ADD_BOX_WEIGHT_START_ACTION,
@@ -58,4 +52,3 @@ export const addBoxWeightFailAction = (payload) => (dispatch) => {
     payload: payload,
   })
 }
-

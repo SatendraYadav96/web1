@@ -14,7 +14,6 @@ import SelectTransportComponent from "../widgets/SelectTransportComponent";
 const VirtualDispatchDetailComponent = ({authInfo}) => {
 
     const navigate = useNavigate()
-
     const [year, setYear] = useState()
     const [month, setMonth] = useState()
     const [column, setColumn] = useState([])

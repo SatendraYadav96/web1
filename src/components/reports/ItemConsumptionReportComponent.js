@@ -37,7 +37,7 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
             {
                 title:'SubTeam',
                 key:'division',
-                dataIndex:'divison',
+                dataIndex:'division',
                 width:'100px'
             },
             {

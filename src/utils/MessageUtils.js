@@ -319,7 +319,12 @@ import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
         },
     ],
     ADD_VENDOR_START: [{ action: 'showspinner' }],
-    ADD_VENDOR_SUCCESS: [{ action: 'hidespinner' }],
+    ADD_VENDOR_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
     ADD_VENDOR_FAIL: [
         { action: 'hidespinner' },
         {
@@ -328,7 +333,12 @@ import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
         },
     ],
     EDIT_VENDOR_START: [{ action: 'showspinner' }],
-    EDIT_VENDOR_SUCCESS: [{ action: 'hidespinner' }],
+    EDIT_VENDOR_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
     EDIT_VENDOR_FAIL: [
         { action: 'hidespinner' },
         {
@@ -337,7 +347,12 @@ import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
         },
     ],
     EDIT_COST_CENTER_START: [{ action: 'showspinner' }],
-    EDIT_COST_CENTER_SUCCESS: [{ action: 'hidespinner' }],
+    EDIT_COST_CENTER_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
     EDIT_COST_CENTER_FAIL: [
         { action: 'hidespinner' },
         {
@@ -346,8 +361,69 @@ import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
         },
     ],
     ADD_COST_CENTER_START: [{ action: 'showspinner' }],
-    ADD_COST_CENTER_SUCCESS: [{ action: 'hidespinner' }],
+    ADD_COST_CENTER_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
     ADD_COST_CENTER_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_SAMPLES_START: [{ action: 'showspinner' }],
+    ADD_SAMPLES_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_SAMPLES_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    EDIT_SAMPLES_START: [{ action: 'showspinner' }],
+    EDIT_SAMPLES_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    EDIT_SAMPLES_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_HSN_START_ACTION: [{ action: 'showspinner' }],
+    ADD_HSN_SUCCESS_ACTION: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_HSN_FAIL_ACTION: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_BOX_WEIGHT_START: [{ action: 'showspinner' }],
+    ADD_BOX_WEIGHT_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_BOX_WEIGHT_FAIL: [
         { action: 'hidespinner' },
         {
             action: 'showerror',
