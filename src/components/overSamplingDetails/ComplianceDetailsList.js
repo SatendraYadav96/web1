@@ -176,11 +176,11 @@ const ComplianceDetailsListComponent = ({authInfo}) => {
                 </Col>
                 <Col span={2}>
                     <br/>
-                    <Button type={"primary"} onClick={()=>getPurchaseReportList()}>Search</Button>
+                    <Button type={"primary"} onClick={()=>getPurchaseReportList()} style={{width: "100%"}}>Search</Button>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <br/>
-                    <Button type={"primary"} >Save</Button>
+                    <Button type={"primary"} style={{width: "100%"}}>Save</Button>
                 </Col>
             </Row>
             <br/>

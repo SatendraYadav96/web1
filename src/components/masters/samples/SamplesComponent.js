@@ -100,7 +100,7 @@ const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handl
               <SelectStatusComponent value={status} onChange={(e) => setStatus(e)} />
           </Col>
           <Col span={2}>
-              <Button type={"primary"} onClick={() => getSamplesList()}>Search</Button>
+              <Button type={"primary"} onClick={() => getSamplesList()} style={{width: '100%'}}>Search</Button>
           </Col>
           <Col span={1}>
               <Button icon={<PlusOutlined />} onClick={()=> createSamples()}></Button>

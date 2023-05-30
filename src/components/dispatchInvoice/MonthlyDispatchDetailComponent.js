@@ -586,36 +586,24 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
 
     const handleInvoicePrint = () => {
         handleGenerateInvoice({
-            inh: {
-                // inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
-                // invoiceNo: "106674",
-                inh: printInvoice.map((item) => item.invoiceHeaderID),
-                invoiceNo: printInvoice.map((item) => item.invoiceNumber),
-            },
+            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
         console.log(printInvoice)
     }
 
     const handleLabelPrint = () => {
+        console.log(printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})))
         handleGenerateLabel({
-            inh: {
-                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
-                invoiceNo: "106674",
-                // inh: printInvoice.map((item) => item.invoiceHeaderID),
-                // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
-            },
+            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
     }
 
     const handleAllInvoicePrint = () => {
+        // console.log(printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})))
         handlePrintInvoice({
-            inhId: printAllInvoice.map(item => item.invoiceHeaderID),
-            inh: {
-                inhId: printAllInvoice.map(item => item.invoiceHeaderID),
-                invoiceNo: printAllInvoice.map(item => item.invoiceNumber),
-            },
+            inh: printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
     }
@@ -635,7 +623,9 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     useEffect(() => {
         console.log(generateInvoiceList)
         if(generateInvoiceList.length !== 0) {
-            downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+            generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+            // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+            console.log(generateInvoiceList)
         } else {
             console.log("no download")
         }
@@ -644,7 +634,9 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     useEffect(() => {
         console.log(generateLabelList)
         if(generateLabelList.length !== 0) {
-            downloadPDF(generateLabelList.content, generateLabelList.fileName)
+            // downloadPDF(generateLabelList.content, generateLabelList.fileName)
+            console.log(generateLabelList)
+            generateLabelList.map((label) => downloadPDF(label.content, label.fileName))
         } else {
             console.log("no download")
         }

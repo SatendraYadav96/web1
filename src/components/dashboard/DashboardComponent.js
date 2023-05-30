@@ -409,21 +409,21 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
     }
 
     useEffect(() => {
-        handlePendingDispatch ({
-            certificate: authInfo.token
-        });
-        handleHubNearExpiry({
-            certificate: authInfo.token
-        })
-        handleHubPendingRevalidation({
-            certificate: authInfo.token
-        })
-        handleHubGrnErrorLog({
-            certificate: authInfo.token
-        })
-        handleItemExpiredDetails({
-            certificate: authInfo.token
-        })
+        // handlePendingDispatch ({
+        //     certificate: authInfo.token
+        // });
+        // handleHubNearExpiry({
+        //     certificate: authInfo.token
+        // })
+        // handleHubPendingRevalidation({
+        //     certificate: authInfo.token
+        // })
+        // handleHubGrnErrorLog({
+        //     certificate: authInfo.token
+        // })
+        // handleItemExpiredDetails({
+        //     certificate: authInfo.token
+        // })
         searchData()
     },[status])
 

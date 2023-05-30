@@ -44,8 +44,8 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
                 key: '',
                 dataIndex: '',
                 width:'200px',
-                render:()=>{
-                    return <Button icon={<FileOutlined/>} onClick={() => handleInvoice()}></Button>
+                render:(_,row)=>{
+                    return <Button icon={<FileOutlined/>} onClick={() => handleInvoice(row)}></Button>
                 }
             }
         ]);
@@ -76,20 +76,20 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
     useEffect(() => {
         console.log(generateInvoiceList)
         if(generateInvoiceList.length !== 0) {
-            downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+            generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
         } else {
             console.log("no download")
         }
     },[count])
 
-    const handleInvoice = () => {
+    const handleInvoice = (row) => {
         handleGenerateInvoice({
-            inh: {
-                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
-                invoiceNo: "106674",
-                // inh: printInvoice.map((item) => item.invoiceHeaderID),
-                // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
-            },
+            inh: [
+                {
+                inhId: row.inhId,
+                invoiceNo: `${row.invoiceNo}`,
+                },
+            ],
             certificate: authInfo.token
         })
     }

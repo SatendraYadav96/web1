@@ -180,7 +180,7 @@ DeviationReportComponent.propTypes = {
                 profileInfo: PropTypes.any,
                 deviationList:PropTypes.array,
                 deviationReportLoading:PropTypes.any,
-                handleDeviationReportList:PropTypes.fun
+                handleDeviationReportList:PropTypes.func,
 }
 
 const mapState = (state) => {
