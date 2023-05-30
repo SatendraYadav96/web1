@@ -5,7 +5,7 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {connect} from "react-redux";
 import {Button, Col, Input, Modal, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
-import { FileOutlined} from "@ant-design/icons";
+import {DownloadOutlined, FileOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {selectGenerateInvoiceListData, selectInvoiceListData, selectLoadingGenerateInvoiceData} from "../../redux/selectors/monthlyDispatchSelector";
@@ -37,16 +37,16 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
                 title:'Invoice Number',
                 key: 'searchNumber',
                 dataIndex: 'invoiceNo',
-                width:'100px'
+                width:'100px',
             },
             {
                 title: '',
                 key: '',
                 dataIndex: '',
                 width:'200px',
-                render:(_,row)=>{
-                    return <Button icon={<FileOutlined/>} onClick={() => handleInvoice(row)}></Button>
-                }
+                render:(_,row) => {
+                    return <Button icon={<DownloadOutlined />} onClick={() => handleInvoice(row)}></Button>
+                },
             }
         ]);
         setDataSource([
