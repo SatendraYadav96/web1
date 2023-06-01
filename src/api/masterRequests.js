@@ -3,7 +3,6 @@ import {
     GET_VENDOR_API,
     ADD_VENDOR_API,
     EDIT_VENDOR_API,
-    GET_VENDOR_BY_ID_API,
     VENDOR_BY_ID_API,
     GET_COST_CENTER_API,
     EDIT_COST_CENTER_API,
@@ -14,7 +13,9 @@ import {
     ADD_COST_CENTER_API,
     ADD_SAMPLES_API,
     GET_BUISNESS_UNIT_API,
-    ADD_BUISNESS_UNIT_API, EDIT_BUISNESS_UNIT_API, BUISNESS_UNIT_BY_ID_API
+    ADD_BUISNESS_UNIT_API,
+    EDIT_BUISNESS_UNIT_API,
+    BUISNESS_UNIT_BY_ID_API, GET_TEAM_API, TEAM_BY_ID_API, EDIT_TEAM_API
 } from "./apiConstants";
 
 //BUISNESS_UNIT
@@ -34,6 +35,26 @@ export const editBuisnessUnitRequest=  payload => {
 
 export const buisnessUnitByIdRequest = payload => {
     const api = {...BUISNESS_UNIT_BY_ID_API, url: `${BUISNESS_UNIT_BY_ID_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+//TEAM
+
+export const teamRequest = payload => {
+    const api = {...GET_TEAM_API, url: `${GET_TEAM_API.url}/${payload.status}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+// export const addTeamRequest=  payload => {
+//     return createRequest(ADD_TEAM_API, payload.certificate, payload.bu)
+// }
+//
+export const editTeamRequest=  payload => {
+    return createRequest(EDIT_TEAM_API, payload.certificate, payload.tem)
+}
+
+export const teamByIdRequest = payload => {
+    const api = {...TEAM_BY_ID_API, url: `${TEAM_BY_ID_API.url}/${payload.id}`}
     return createRequest(api, payload.certificate, null)
 }
 

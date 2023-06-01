@@ -63,3 +63,10 @@ const transportDropdownLoading = (state) => state.dropDown.transportDropdownLoad
 export const selectTransportDropdown = createSelector(transportDropdown, (transportDropdownSelect) => transportDropdownSelect)
 export const selectTransportDropdownLoading = createSelector(transportDropdownLoading, (transportDropdownLoadingSelect) => transportDropdownLoadingSelect)
 
+
+//TRANSPORT DROPDOWN
+const legalEntityDropdown = (state) => state.dropDown.legalEntityDropdown
+const legalEntityDropdownLoading = (state) => state.dropDown.legalEntityDropdownLoading
+
+export const selectLegalEntityDropdown = createSelector(legalEntityDropdown, (legalEntityDropdownSelect) => legalEntityDropdownSelect)
+export const selectLegalEntityDropdownLoading = createSelector(legalEntityDropdownLoading, (legalEntityDropdownLoadingSelect) => legalEntityDropdownLoadingSelect)

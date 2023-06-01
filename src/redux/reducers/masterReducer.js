@@ -20,7 +20,19 @@ import {
     GET_SAMPLES_BY_ID_SUCCESS,
     GET_SAMPLES_BY_ID_FAIL,
     EDIT_SAMPLES_FAIL,
-    ADD_COST_CENTER_SUCCESS, ADD_COST_CENTER_FAIL, ADD_SAMPLES_SUCCESS, ADD_SAMPLES_FAIL, GET_BUISNESS_UNIT_SUCCESS, GET_BUISNESS_UNIT_FAIL, ADD_BUISNESS_UNIT_SUCCESS, ADD_BUISNESS_UNIT_FAIL, EDIT_BUISNESS_UNIT_SUCCESS, EDIT_BUISNESS_UNIT_FAIL, BUISNESS_UNIT_BY_ID_SUCCESS, BUISNESS_UNIT_BY_ID_FAIL
+    ADD_COST_CENTER_SUCCESS,
+    ADD_COST_CENTER_FAIL,
+    ADD_SAMPLES_SUCCESS,
+    ADD_SAMPLES_FAIL,
+    GET_BUISNESS_UNIT_SUCCESS,
+    GET_BUISNESS_UNIT_FAIL,
+    ADD_BUISNESS_UNIT_SUCCESS,
+    ADD_BUISNESS_UNIT_FAIL,
+    EDIT_BUISNESS_UNIT_SUCCESS,
+    EDIT_BUISNESS_UNIT_FAIL,
+    BUISNESS_UNIT_BY_ID_SUCCESS,
+    BUISNESS_UNIT_BY_ID_FAIL,
+    GET_TEAM_SUCCESS, GET_TEAM_FAIL, TEAM_BY_ID_SUCCESS, TEAM_BY_ID_FAIL
 } from "../actions/master/masterActionConstants";
 
 
@@ -35,6 +47,14 @@ const initialState = {
     editBuisnessUnitLoading: false,
     buisnessUnitById: [],
     buisnessUnitByIdLoading:false,
+    teamList: [],
+    teamLoading: false,
+    insertTeam: [],
+    insertTeamLoading: false,
+    editTeam: [],
+    editTeamLoading: false,
+    teamById: [],
+    teamByIdLoading:false,
     vendorList: [],
     vendorLoading: false,
     insertVendor: [],
@@ -107,8 +127,7 @@ const addBuisnessUnitFailReducer = (state = initialState, payload) => {
     }
 }
 
-
-//EDIT VENDOR
+//EDIT BUSINESS UNIT
 
 const editBuisnessUnitSuccessReducer = (state = initialState, payload) => {
     return {
@@ -147,6 +166,100 @@ const getBuisnessUnitByIdFailReducer = (state = initialState, payload) => {
         ...state,
         buisnessUnitById:[],
         buisnessUnitByIdLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//TEAM
+const getTeamSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        teamList:payload.teamList,
+        teamLoading: false
+
+    }
+}
+
+
+
+const getTeamFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        teamList:[],
+        teamLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+// //ADD BUISNESS UNIT
+//
+// const addTeamSuccessReducer = (state = initialState, payload) => {
+//     return {
+//         ...state,
+//
+//         insertTeam:payload.insertTeam,
+//         insertTeamLoading: false
+//
+//     }
+// }
+//
+//
+//
+// const addTeamFailReducer = (state = initialState, payload) => {
+//     return {
+//         ...state,
+//         insertTeam:[],
+//         insertTeamLoading: false,
+//         error: payload.error,
+//
+//     }
+// }
+//
+//
+//EDIT TEAM
+
+const editTeamSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        editTeam:payload.editTeam,
+        editTeamLoading: false
+
+    }
+}
+
+
+const editTeamFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        editTeam:[],
+        editTeamLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+const getTeamByIdSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        teamById:payload.teamById,
+        teamByIdLoading: false
+
+    }
+}
+
+const getTeamByIdFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        teamById:[],
+        teamByIdLoading: false,
         error: payload.error,
 
     }
@@ -435,6 +548,14 @@ export default createReducer(initialState, {
     [EDIT_BUISNESS_UNIT_FAIL]: editBuisnessUnitFailReducer,
     [BUISNESS_UNIT_BY_ID_SUCCESS]: getBuisnessUnitByIdSuccessReducer,
     [BUISNESS_UNIT_BY_ID_FAIL]: getBuisnessUnitByIdFailReducer,
+    [GET_TEAM_SUCCESS]: getTeamSuccessReducer,
+    [GET_TEAM_FAIL]: getTeamFailReducer,
+    // [ADD_TEAM_SUCCESS]: addTeamSuccessReducer,
+    // [ADD_TEAM_FAIL]: addTeamFailReducer,
+    // [EDIT_TEAM_SUCCESS]: editTeamSuccessReducer,
+    // [EDIT_TEAM_FAIL]: editTeamFailReducer,
+    [TEAM_BY_ID_SUCCESS]: getTeamByIdSuccessReducer,
+    [TEAM_BY_ID_FAIL]: getTeamByIdFailReducer,
     [GET_VENDOR_SUCCESS]: getVendorSuccessReducer,
     [GET_VENDOR_FAIL]: getVendorFailReducer,
     [ADD_VENDOR_SUCCESS]: addVendorSuccessReducer,

@@ -34,6 +34,7 @@ const SelectBrandComponent = ({value, onChange,authInfo,profileInfo,brandDropdow
             }}
             placeholder="Select Brand"
             onChange={onChange}
+            value={value}
         >
             {brandDropdown?.map( item => {
                 return(<Option key={item.id} value={item.id}>{item.name}</Option>)

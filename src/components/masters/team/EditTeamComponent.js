@@ -5,26 +5,111 @@ import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row, Select} from "antd";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 import TextArea from "antd/es/input/TextArea";
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
+import {editTeamStartAction, getBuisnessUnitByIdStartAction, getTeamByIdStartAction} from "../../../redux/actions/master/masterActions";
+import {selectBusinessUnitByIdData, selectEditTeamData, selectTeamByIdData} from "../../../redux/selectors/masterSelector";
+import {propTypes} from "react-csv/lib/metaProps";
+import SelectDivisionComponent from "../../widgets/SelectDivisionComponent";
+import SelectLegalEntityComponent from "../../widgets/SelectLegalEntity";
 
-const EditTeamComponent = ({authInfo}) => {
+const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEditTeam}) => {
 
     const navigate = useNavigate()
 
     const [checked, setChecked] = useState(true);
     const [checkedValue, setCheckedValue] = useState(1);
-    const [brand, setBrand] = useState([]);
+    const [team, setTeam] = useState(undefined)
+    const [subTeam, setSubTeam] = useState()
+    const [name, setName] = useState()
+    const [active, setActive] = useState()
+    const [code, setCode] = useState()
+    const [brand, setBrand] = useState([])
+    const [legalEntity, setLegalEntity] = useState([])
 
-    const handleChange = (e) => {
-        console.log('checked = ', e.target.checked);
-        setChecked(e.target.checked);
-        setCheckedValue(e.target.checked ? 1 : 0)
+    let { id } = useParams();
+
+    useEffect( () => {
+        handleTeamById({
+            certificate: authInfo.token,
+            id: id,
+        });
+    }, [])
+
+    const handleSubmit = () => {
+        console.log(brand)
+        console.log(legalEntity)
+        const data = {
+            id: team.id,
+            name: name,
+            code: code,
+            active: active,
+            division: {
+                id: subTeam
+            },
+            brand: brand,
+            ety: legalEntity,
+        }
+        handleEditTeam({
+            certificate: authInfo.token,
+            tem: data,
+        })
     }
 
+
+    useEffect(() => {
+        if (teamById.len !== 0) {
+            console.log(teamById[0])
+            setTeam(teamById[0])
+            // setName(teamById[0].name)
+            // setCode(teamById[0].code)
+        }
+    },[teamById])
+
+
+    useEffect(() => {
+        // setBrand([])
+        if (team !== undefined) {
+            setName(team.name)
+            setCode(team.code)
+            setSubTeam(team.division.id)
+            let brandArray = []
+            let legalEntityArray = []
+            // setBrand(brands => ({
+            //     ...brands
+            //     team.brand.map(item => item.id)
+            // }))
+            for (var i of team.brand) {
+                // setBrand(prev => {
+                //     return [
+                //         ...prev,
+                //         i.id
+                //     ]
+                // })
+                brandArray.push(i.id);
+            }
+            setBrand(brandArray)
+            for (var j of team.ety) {
+                // setLegalEntity(prev => {
+                //     return [
+                //         ...prev,
+                //         j.id
+                //     ]
+                // })
+                legalEntityArray.push(j.id);
+            }
+            setLegalEntity(legalEntityArray)
+        }
+    },[team])
+
     const handleBack = () => {
+        setName(undefined)
+        setCode(undefined)
+        setSubTeam(undefined)
+        setBrand(undefined)
+        setLegalEntity(undefined)
         return navigate("/home/masters/team")
     }
 
@@ -32,46 +117,63 @@ const EditTeamComponent = ({authInfo}) => {
         setBrand( value)
     }
 
+    const handleLegalEntity = (value) => {
+        setLegalEntity( value)
+    }
+
     useEffect(() => {
         console.log(brand)
     },[brand])
+
+    const handleActiveChange = (e) => {
+        setChecked(e.target.checked);
+    };
+
+    useEffect(() => {
+        setActive(checked ? 1 : 0)
+    },[checked])
+
+    useEffect(() => {
+        console.log(active)
+    },[active])
 
     return(
         <>
             <TitleWidget title={"Edit Team"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Team:<br/><SelectBusinessUnitComponent/>
+                    Team:<br/><SelectDivisionComponent value={subTeam}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Name:<br/><Input placeholder={"Team Name "} />
+                    Name:<br/><Input placeholder={"Team Name "} value={name}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Code:<br/><Input placeholder={"Code"} disabled/>
+                    Code:<br/><Input placeholder={"Code"} value={code} disabled />
                 </Col>
                 <Col span={8} offset={2}>
                     Brand :<br/>
                     <br/>
-                    <SelectBrandComponent onChange={handleBrand}/>
+                    <SelectBrandComponent onChange={handleBrand} value={brand}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Legal Entity :<br/><Select style={{width: "100%"}}></Select>
+                    Legal Entity :<br/>
+                    <SelectLegalEntityComponent onChange={handleLegalEntity} value={legalEntity}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} ></Checkbox>
+                    IsActive: <Checkbox checked={checked} onChange={handleActiveChange}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={16}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertVendor()} style={{width: "100%"}}>Submit</Button>
+                    <Button type={"primary"} onClick={() => handleSubmit()} style={{width: "100%"}}>Submit</Button>
                 </Col>
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
@@ -83,16 +185,23 @@ const EditTeamComponent = ({authInfo}) => {
 }
 
 EditTeamComponent.propTypes = {
-    authInfo: PropTypes.any
+    authInfo: PropTypes.any,
+    teamById: PropTypes.any,
+    handleTeamById: PropTypes.func,
+    editTeam: PropTypes.any,
+    handleEditTeam: PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const teamById = selectTeamByIdData(state)
+    const editTeam = selectEditTeamData(state)
+    return {authInfo,teamById,editTeam}
 }
 
 const actions = {
-
+    handleTeamById: getTeamByIdStartAction,
+    handleEditTeam: editTeamStartAction,
 }
 
 export default connect(mapState, actions) (EditTeamComponent)

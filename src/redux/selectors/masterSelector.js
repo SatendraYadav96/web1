@@ -68,6 +68,71 @@ export const selectLoadingBusinessUnitByIdData = createSelector(
 );
 
 
+//TEAM
+
+const teamList = (state) => state.master.teamList;
+const teamLoading = (state) => state.master.teamLoading
+
+
+export const selectTeamListData = createSelector(
+    teamList,
+    teamListDataSelection => teamListDataSelection
+);
+
+export const selectLoadingTeamData = createSelector(
+    teamLoading,
+    loadingSelection => loadingSelection
+);
+
+//
+// //ADD BUISNESS UNIT
+// const insertTeam = (state) => state.master.insertTeam;
+// const insertTeamLoading = (state) => state.master.insertTeamLoading
+//
+//
+// export const selectInsertTeamData = createSelector(
+//     insertBuisnessUnit,
+//     insertTeamDataSelection => insertTeamDataSelection
+// );
+//
+// export const selectInsertTeamLoadingData = createSelector(
+//     insertTeamLoading,
+//     loadingSelection => loadingSelection
+// );
+
+
+//EDIT TEAM
+const editTeam = (state) => state.master.editTeam;
+const editTeamLoading = (state) => state.master.editTeamLoading
+
+
+export const selectEditTeamData = createSelector(
+    editTeam,
+    editTeamDataSelection => editTeamDataSelection
+);
+
+export const selectEditTeamLoadingData = createSelector(
+    editTeamLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//TEAM BY ID
+
+const teamById = (state) => state.master.teamById;
+const teamByIdLoading = (state) => state.master.teamByIdLoading
+
+
+export const selectTeamByIdData = createSelector(
+    teamById,
+    teamByIdDataSelection => teamByIdDataSelection
+);
+
+export const selectLoadingTeamByIdData = createSelector(
+    teamByIdLoading,
+    loadingSelection => loadingSelection
+);
+
 
 //VENDOR
 

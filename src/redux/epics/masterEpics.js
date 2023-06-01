@@ -10,7 +10,7 @@ import {
     EDIT_SAMPLES_START,
     GET_SAMPLES_BY_ID_START,
     ADD_COST_CENTER_START,
-    ADD_SAMPLES_START, GET_BUISNESS_UNIT_START, ADD_BUISNESS_UNIT_START, EDIT_BUISNESS_UNIT_START, BUISNESS_UNIT_BY_ID_START
+    ADD_SAMPLES_START, GET_BUISNESS_UNIT_START, ADD_BUISNESS_UNIT_START, EDIT_BUISNESS_UNIT_START, BUISNESS_UNIT_BY_ID_START, GET_TEAM_START, TEAM_BY_ID_START, EDIT_TEAM_START
 } from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -41,7 +41,18 @@ import {
     addSamplesFailAction,
     getBuisnessUnitSuccessAction,
     getBuisnessUnitFailAction,
-    addBuisnessUnitSuccessAction, addBuisnessUnitFailAction, editBuisnessUnitSuccessAction, editBuisnessUnitFailAction, getBuisnessUnitByIdSuccessAction, getBuisnessUnitByIdFailAction
+    addBuisnessUnitSuccessAction,
+    addBuisnessUnitFailAction,
+    editBuisnessUnitSuccessAction,
+    editBuisnessUnitFailAction,
+    getBuisnessUnitByIdSuccessAction,
+    getBuisnessUnitByIdFailAction,
+    getTeamSuccessAction,
+    getTeamFailAction,
+    getTeamByIdSuccessAction,
+    getTeamByIdFailAction,
+    editTeamSuccessAction,
+    editTeamFailAction
 } from '../actions/master/masterActions'
 import {
     vendorRequest,
@@ -57,7 +68,7 @@ import {
     addCostCenterRequest,
     addSamplesRequest,
     buisnessUnitRequest,
-    addBuisnessUnitRequest, editBuisnessUnitRequest, buisnessUnitByIdRequest
+    addBuisnessUnitRequest, editBuisnessUnitRequest, buisnessUnitByIdRequest, teamRequest, teamByIdRequest, editTeamRequest
 } from '../../api/masterRequests'
 
 
@@ -115,6 +126,62 @@ export const getBuisnessUnitByIdStartEpic = (action$) =>
             buisnessUnitByIdRequest(action.payload).pipe(
                 map((listResponse) => getBuisnessUnitByIdSuccessAction({buisnessUnitById: listResponse.response})),
                 catchError((error) => of(getBuisnessUnitByIdFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//TEAM
+export const getTeamStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_TEAM_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            teamRequest(action.payload).pipe(
+                map((listResponse) => getTeamSuccessAction({teamList: listResponse.response})),
+                catchError((error) => of(getTeamFailAction({error: error}))),
+            )
+        )
+    )
+
+//
+// // ADD BUISNESS UNIT
+//
+// export const addTeamStartEpic = (action$) =>
+//     action$.pipe(
+//         ofType(ADD_TEAM_START),
+//         debounceTime(4000),
+//         switchMap((action) =>
+//             addTeamRequest(action.payload).pipe(
+//                 map((listResponse) => addTeamSuccessAction({insertTeam: listResponse.response})),
+//                 catchError((error) => of(addTeamFailAction({error: error}))),
+//             )
+//         )
+//     )
+
+
+//EDIT TEAMS
+export const editTeamStartEpic = (action$) =>
+    action$.pipe(
+        ofType(EDIT_TEAM_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            editTeamRequest(action.payload).pipe(
+                map((listResponse) => editTeamSuccessAction({editTeam: listResponse.response})),
+                catchError((error) => of(editTeamFailAction({error: error}))),
+            )
+        )
+    )
+
+
+export const getTeamByIdStartEpic = (action$) =>
+    action$.pipe(
+        ofType(TEAM_BY_ID_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            teamByIdRequest(action.payload).pipe(
+                map((listResponse) => getTeamByIdSuccessAction({teamById: listResponse.response})),
+                catchError((error) => of(getTeamByIdFailAction({error: error}))),
             )
         )
     )

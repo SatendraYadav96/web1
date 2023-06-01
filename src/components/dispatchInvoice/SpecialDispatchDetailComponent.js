@@ -32,9 +32,12 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [printColumn, setPrintColumn] = useState([])
     const [printInvoice, setPrintInvoice] = useState()
     const [checkedArr, setCheckedArr] = useState([])
-    const [printAction, setPrintAction] = useState(false)
     const [count, setCount] = useState(0)
     const [countLabel, setCountLabel] = useState(0)
+    const [printAction, setPrintAction] = useState(false)
+    const [printAllAction, setPrintAllAction] = useState(false)
+    const [printAllInvoice, setPrintAllInvoice] = useState([])
+
 
 
 
@@ -556,15 +559,32 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
     const handleInvoicePrint = () => {
         handleGenerateInvoice({
-            inh: {
-                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
-                invoiceNo: "106674",
-                // inh: printInvoice.map((item) => item.invoiceHeaderID),
-                // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
-            },
+            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
+        // handleGenerateInvoice({
+        //     inh: {
+        //         inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
+        //         invoiceNo: "106674",
+        //         // inh: printInvoice.map((item) => item.invoiceHeaderID),
+        //         // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
+        //     },
+        //     certificate: authInfo.token
+        // })
         console.log(printInvoice)
+    }
+
+    const handleAllPrintInvoice = () => {
+        setPrintAllAction(true)
+        setPrintAllInvoice(specialInvoiceDetails)
+        printData()
+    }
+
+    const handleAllInvoicePrint = () => {
+        handleGenerateInvoice({
+            inh: specialInvoiceDetails.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            certificate: authInfo.token
+        })
     }
 
     const downloadPDF = (pdf, filename) => {
@@ -586,7 +606,8 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     useEffect(() => {
         console.log(generateInvoiceList)
         if(generateInvoiceList.length !== 0) {
-            downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+            generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+            // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
         } else {
             console.log("no download")
         }
@@ -601,7 +622,8 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     useEffect(() => {
         console.log(generateLabelList)
         if(generateLabelList.length !== 0) {
-            downloadPDF(generateLabelList.content, generateLabelList.fileName)
+            generateLabelList.map((label) => downloadPDF(label.content, label.fileName))
+            // downloadPDF(generateLabelList.content, generateLabelList.fileName)
         } else {
             console.log("no download")
         }
@@ -609,16 +631,10 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
     const handleLabelPrint = () => {
         handleGenerateLabel({
-            inh: {
-                inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
-                invoiceNo: "106674",
-                // inh: printInvoice.map((item) => item.invoiceHeaderID),
-                // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
-            },
+            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
     }
-
 
     return(
         <>
@@ -670,7 +686,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                                 <Button type={'primary'} style={{width: '100%'}} onClick={handlePrint}>Print</Button>
                             </Col>
                             <Col span={3}>
-                                <Button type={'primary'} style={{width: '100%'}} >Print All</Button>
+                                <Button type={'primary'} style={{width: '100%'}} onClick={handleAllPrintInvoice} >Print All</Button>
                             </Col>
                         </Row>
                     </>
@@ -707,6 +723,22 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                 <Table
                     columns={recipientInvoiceColumn}
                     dataSource={employeePopup}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+            </Modal>
+            <Modal open={printAllAction} title="Print All" footer={null} width={"70vw"} onCancel={() => {
+                setPrintAllAction(false)
+            }}>
+                <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print All</p>
+                <Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleAllInvoicePrint()}>Print Invoice</Button>
+                <Button type={"primary"}>Print Label</Button>
+                <br/>
+                <Table
+                    columns={printColumn}
+                    dataSource={printAllInvoice}
                     scroll={{
                         x: 100,
                     }}

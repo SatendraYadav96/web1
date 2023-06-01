@@ -1,6 +1,6 @@
 import {
     BRAND_DROPDOWN_START_ACTION,
-    BUSINESS_UNIT_DROPDOWN_START_ACTION, COST_CENTER_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION, INVOICE_DROPDOWN_START_ACTION, RECIPIENT_START_ACTION, TEAM_DROPDOWN_START_ACTION, TRANSPORT_DROPDOWN_START_ACTION
+    BUSINESS_UNIT_DROPDOWN_START_ACTION, COST_CENTER_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION, INVOICE_DROPDOWN_START_ACTION, LEGAL_ENTITY_DROPDOWN_START_ACTION, RECIPIENT_START_ACTION, TEAM_DROPDOWN_START_ACTION, TRANSPORT_DROPDOWN_START_ACTION
 } from '../actions/dropDown/dropDownActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -16,9 +16,9 @@ import {
     costCenterDropdownSuccessAction,
     costCenterDropdownFailAction,
     recipientDropdownSuccessAction,
-    recipientDropdownFailAction, invoiceDropdownSuccessAction, invoiceDropdownStartAction, invoiceDropdownFailAction, transportDropdownSuccessAction, transportDropdownFailAction,
+    recipientDropdownFailAction, invoiceDropdownSuccessAction, invoiceDropdownStartAction, invoiceDropdownFailAction, transportDropdownSuccessAction, transportDropdownFailAction, legalEntityDropdownSuccessAction, legalEntityDropdownFailAction,
 } from '../actions/dropDown/dropDownActions'
-import {brandDropDownRequest, businessUnitDropDownRequest, costCenterDropDownRequest, divisionDropDownRequest, invoiceRequest, recipientDropDownRequest, teamDropDownRequest, transportDropdownRequest} from '../../api/dropDownRequests'
+import {brandDropDownRequest, businessUnitDropDownRequest, costCenterDropDownRequest, divisionDropDownRequest, invoiceRequest, legalEntityDropdownRequest, recipientDropDownRequest, teamDropDownRequest, transportDropdownRequest} from '../../api/dropDownRequests'
 
 
 //BUSINESS_UNIT_DROPDOWN
@@ -126,6 +126,20 @@ export const transportDropdownStartEpic = (action$) =>
             transportDropdownRequest(action.payload).pipe(
                 map((listResponse) => transportDropdownSuccessAction({transportDropdown: listResponse.response})),
                 catchError((error) => of(transportDropdownFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//LEGAL ENTITY DROPDOWN
+export const legalEntityDropdownStartEpic = (action$) =>
+    action$.pipe(
+        ofType(LEGAL_ENTITY_DROPDOWN_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            legalEntityDropdownRequest(action.payload).pipe(
+                map((listResponse) => legalEntityDropdownSuccessAction({legalEntityDropdown: listResponse.response})),
+                catchError((error) => of(legalEntityDropdownFailAction({error: error}))),
             )
         )
     )

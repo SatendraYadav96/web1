@@ -55,6 +55,12 @@ export const ADD_BUISNESS_UNIT_API = { url: '/v1/master/addBusinessUnit', method
 export const EDIT_BUISNESS_UNIT_API = { url: '/v1/master/editBusinessUnit', method: 'PUT', auth: true }
 export const BUISNESS_UNIT_BY_ID_API = { url: '/v1/master/getBusinessUnitById', method: 'GET', auth: true }
 
+//TEAM
+export const GET_TEAM_API = {url: '/v1/master/getTeam',method:'GET',auth:true}
+// export const ADD_TEAM_API = { url: '/v1/master/addBusinessUnit', method: 'POST', auth: true }
+export const EDIT_TEAM_API = { url: '/v1/master/editTeam', method: 'PUT', auth: true }
+export const TEAM_BY_ID_API = { url: '/v1/master/getTeamById', method: 'GET', auth: true }
+
 //VENDOR
 export const GET_VENDOR_API = {url: '/v1/master/getVendor',method:'GET',auth:true}
 export const ADD_VENDOR_API = { url: '/v1/master/addVendor', method: 'POST', auth: true }
@@ -76,6 +82,7 @@ export const GET_COST_CENTER_DROPDOWN_API = {url: '/v1/master/getCostCenterDropd
 export const GET_RECIPIENT_DROPDOWN_API = {url: '/v1/master/getRecipientDropdown',method:'GET',auth:true}
 export const GET_INVOICE_DROPDOWN_API = {url: '/v1/master/getInvoiceDropdown',method:'GET',auth:true}
 export const GET_TRANSPORT_DROPDOWN_API = {url: '/v1/master/getTransporter',method:'GET',auth:true}
+export const GET_LEGAL_ENTITY_DROPDOWN_API = {url: '/v1/master/getLegalEntityDropdown',method:'GET',auth:true}
 
 // SAMPLES
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}

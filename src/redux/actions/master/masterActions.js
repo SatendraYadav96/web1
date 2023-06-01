@@ -2,15 +2,15 @@ import {
     GET_BUISNESS_UNIT_START,
     GET_BUISNESS_UNIT_SUCCESS,
     GET_BUISNESS_UNIT_FAIL,
-    // ADD_BUISNESS_UNIT_START,
-    // ADD_BUISNESS_UNIT_SUCCESS,
-    // ADD_BUISNESS_UNIT_FAIL,
-    // EDIT_BUISNESS_UNIT_START,
-    // EDIT_BUISNESS_UNIT_SUCCESS,
-    // EDIT_BUISNESS_UNIT_FAIL,
-    // BUISNESS_UNIT_BY_ID_START,
-    // BUISNESS_UNIT_BY_ID_SUCCESS,
-    // BUISNESS_UNIT_BY_ID_FAIL,
+    ADD_BUISNESS_UNIT_START,
+    ADD_BUISNESS_UNIT_SUCCESS,
+    ADD_BUISNESS_UNIT_FAIL,
+    EDIT_BUISNESS_UNIT_START,
+    EDIT_BUISNESS_UNIT_SUCCESS,
+    EDIT_BUISNESS_UNIT_FAIL,
+    BUISNESS_UNIT_BY_ID_START,
+    BUISNESS_UNIT_BY_ID_SUCCESS,
+    BUISNESS_UNIT_BY_ID_FAIL,
     GET_VENDOR_START,
     GET_VENDOR_SUCCESS,
     GET_VENDOR_FAIL,
@@ -46,11 +46,8 @@ import {
     ADD_COST_CENTER_FAIL,
     ADD_SAMPLES_START,
     ADD_SAMPLES_SUCCESS,
-    ADD_SAMPLES_FAIL,
-    ADD_BUISNESS_UNIT_START,
-    ADD_BUISNESS_UNIT_SUCCESS, ADD_BUISNESS_UNIT_FAIL, EDIT_BUISNESS_UNIT_START, EDIT_BUISNESS_UNIT_SUCCESS, EDIT_BUISNESS_UNIT_FAIL, BUISNESS_UNIT_BY_ID_START, BUISNESS_UNIT_BY_ID_SUCCESS, BUISNESS_UNIT_BY_ID_FAIL
+    ADD_SAMPLES_FAIL, GET_TEAM_START, GET_TEAM_SUCCESS, GET_TEAM_FAIL, TEAM_BY_ID_START, TEAM_BY_ID_SUCCESS, TEAM_BY_ID_FAIL, EDIT_TEAM_START, EDIT_TEAM_SUCCESS, EDIT_TEAM_FAIL,
 } from "./masterActionConstants";
-
 
 
 //  BUISNESS UNIT
@@ -144,6 +141,100 @@ export const getBuisnessUnitByIdFailAction = (payload) => (dispatch) =>{
         payload: payload,
     })
 }
+
+
+//  TEAM
+
+export const getTeamStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_TEAM_START,
+        payload: payload,
+    })
+}
+
+export const getTeamSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_TEAM_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getTeamFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_TEAM_FAIL,
+        payload: payload,
+    })
+}
+
+
+// // ADD BUISNESS UNIT
+//
+// export const addTeamStartAction = (payload) => (dispatch) => {
+//     dispatch({
+//         type: ADD_TEAM_START,
+//         payload: payload,
+//     })
+// }
+//
+// export const addTeamSuccessAction = (payload) => (dispatch) => {
+//     dispatch({
+//         type: ADD_TEAM_SUCCESS,
+//         payload: payload,
+//     })
+// }
+//
+// export const addTeamFailAction = (payload) => (dispatch) => {
+//     dispatch({
+//         type: ADD_TEAM_FAIL,
+//         payload: payload,
+//     })
+// }
+//
+//EDIT BUISNESS UNIT
+
+export const editTeamStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_TEAM_START,
+        payload: payload,
+    })
+}
+
+export const editTeamSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_TEAM_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const editTeamFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_TEAM_FAIL,
+        payload: payload,
+    })
+}
+
+
+export const getTeamByIdStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: TEAM_BY_ID_START,
+        payload: payload,
+    })
+}
+
+export const getTeamByIdSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: TEAM_BY_ID_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getTeamByIdFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: TEAM_BY_ID_FAIL,
+        payload: payload,
+    })
+}
+
 
 
 //  VENDOR

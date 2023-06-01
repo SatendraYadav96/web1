@@ -18,7 +18,7 @@ import {
     RECIPIENT_SUCCESS_ACTION,
     INVOICE_DROPDOWN_START_ACTION,
     INVOICE_DROPDOWN_SUCCESS_ACTION,
-    INVOICE_DROPDOWN_FAIL_ACTION, BUSINESS_UNIT_DROPDOWN_FAIL_ACTION, TRANSPORT_DROPDOWN_START_ACTION, TRANSPORT_DROPDOWN_SUCCESS_ACTION, TRANSPORT_DROPDOWN_FAIL_ACTION,
+    INVOICE_DROPDOWN_FAIL_ACTION, BUSINESS_UNIT_DROPDOWN_FAIL_ACTION, TRANSPORT_DROPDOWN_START_ACTION, TRANSPORT_DROPDOWN_SUCCESS_ACTION, TRANSPORT_DROPDOWN_FAIL_ACTION, LEGAL_ENTITY_DROPDOWN_START_ACTION, LEGAL_ENTITY_DROPDOWN_SUCCESS_ACTION, LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
 
 } from './dropDownActionConstants'
 
@@ -202,6 +202,29 @@ export const transportDropdownSuccessAction = (payload) => (dispatch) => {
 export const transportDropdownFailAction = (payload) => (dispatch) => {
     dispatch({
         type: TRANSPORT_DROPDOWN_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+//LEGAL ENTITY DROPDOWN
+export const legalEntityDropdownStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: LEGAL_ENTITY_DROPDOWN_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const legalEntityDropdownSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: LEGAL_ENTITY_DROPDOWN_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const legalEntityDropdownFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
         payload: payload,
     })
 }

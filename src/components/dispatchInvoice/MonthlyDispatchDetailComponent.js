@@ -602,7 +602,15 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
 
     const handleAllInvoicePrint = () => {
         // console.log(printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})))
-        handlePrintInvoice({
+        handleGenerateInvoice({
+            inh: printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            certificate: authInfo.token
+        })
+    }
+
+    const handleAllLabelPrint = () => {
+        // console.log(printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})))
+        handleGenerateLabel({
             inh: printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
@@ -722,7 +730,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             }}>
                 <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print All</p>
                 <Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleAllInvoicePrint()}>Print Invoice</Button>
-                <Button type={"primary"}>Print Label</Button>
+                <Button type={"primary"} onClick={() => handleAllLabelPrint()}>Print Label</Button>
                 <br/>
                 <Table
                     columns={printColumn}
