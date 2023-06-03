@@ -9,13 +9,28 @@ import {useNavigate} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 import TextArea from "antd/es/input/TextArea";
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
+import {selectInsertUserData} from "../../../redux/selectors/masterSelector";
+import {addBuisnessUnitStartAction, addUserStartAction} from "../../../redux/actions/master/masterActions";
+import SelectUserDesignationComponent from "../../widgets/SelectUserDesignationComponent";
+import SelectLegalEntityComponent from "../../widgets/SelectLegalEntity";
+import SelectUserStatusComponent from "../../widgets/SelectUserStatusComponent";
 
-const UserTeamComponent = ({authInfo}) => {
+const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
 
     const navigate = useNavigate()
 
     const [checked, setChecked] = useState(true);
     const [checkedValue, setCheckedValue] = useState(1)
+    const [name, setName] = useState()
+    const [loginName, setLoginName] = useState()
+    const [employeeCode, setEmployeeCode] = useState()
+    const [email, setEmail] = useState()
+    const [bu, setBU] = useState()
+    const [designation, setDesignation] = useState()
+    const [userStatus, setUserStatus] = useState()
+    const [status, setStatus] = useState()
+    const [brand, setBrand] = useState([])
+    const [legalEntity, setLegalEntity] = useState([])
 
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
@@ -27,58 +42,97 @@ const UserTeamComponent = ({authInfo}) => {
         return navigate("/home/masters/user")
     }
 
+    const handleDesignation = (value) => {
+        setDesignation(value)
+    }
+
+    const handleBrand = (value) => {
+        setBrand( value)
+    }
+
+    const handleLegalEntity = (value) => {
+        setLegalEntity( value)
+    }
+
+    const handleInsertUser = () => {
+        const data = {
+            name: name,
+            username: loginName,
+            employeeCode: employeeCode,
+            email: email,
+            approver: email,
+            userDesignation: {
+                id: designation
+            },
+            userStatus: {
+                id: status
+            },
+            legalEntity: {
+                id: legalEntity[0],
+            },
+            appBu: {
+                id: bu
+            },
+            brand: brand,
+        }
+        handleAddUser({
+            certificate: authInfo.token,
+            usr: data,
+        })
+    }
+
     return(
         <>
-            <TitleWidget title={"User Team"}/>
+            <TitleWidget title={"Create User"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Name:<br/><Input placeholder={"Name "} />
+                    Name:<br/><Input placeholder={"Name "} value={name} onChange={(e) => setName(e.target.value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Login Name:<br/><Input placeholder={"Login Name "} />
+                    Login Name:<br/><Input placeholder={"Login Name "} value={loginName} onChange={(e) => setLoginName(e.target.value)}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Employee Code:<br/><Input placeholder={"Employee Code"} />
+                    Employee Code:<br/><Input placeholder={"Employee Code"} value={employeeCode} onChange={(e) => setEmployeeCode(e.target.value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Email Address:<br/><Input placeholder={"Email Address"} />
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Role:<br/><Select style={{width: "100%"}}></Select>
-                </Col>
-                <Col span={8} offset={2}>
-                    Legal Entity :<br/><Select style={{width: "100%"}}></Select>
+                    Email Address:<br/><Input placeholder={"Email Address"} value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Brand :<br/><Select style={{width: "100%"}}></Select>
+                    Designation: <br/><SelectUserDesignationComponent value={designation} onChange={handleDesignation}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Team: <br/><Select style={{width: "100%"}}></Select>
+                    Legal Entity :<br/><SelectLegalEntityComponent onChange={handleLegalEntity} value={legalEntity.id}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Designation :<br/><Select style={{width: "100%"}}></Select>
+                    Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Status: <br/><Select style={{width: "100%"}}></Select>
+                    Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} disabled/>
+                </Col>
+            </Row>
+            <br/>
+            <Row gutter={[16,16]}>
+                <Col span={8} offset={2}>
+                    Status :<br/><SelectUserStatusComponent value={status} onChange={(value) => setStatus(value)}/>
+                </Col>
+                <Col span={8} offset={2}>
+                    Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={16}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertVendor()} style={{width: "100%"}}>Submit</Button>
+                    <Button type={"primary"} onClick={() => handleInsertUser()} style={{width: "100%"}}>Submit</Button>
                 </Col>
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
@@ -89,17 +143,18 @@ const UserTeamComponent = ({authInfo}) => {
 
 }
 
-UserTeamComponent.propTypes = {
-    authInfo: PropTypes.any
+CreateUserComponent.propTypes = {
+    authInfo: PropTypes.any,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
+    const insertUser = selectInsertUserData(state)
     return {authInfo}
 }
 
 const actions = {
-
+    handleAddUser: addUserStartAction,
 }
 
-export default connect(mapState, actions) (UserTeamComponent)
+export default connect(mapState, actions) (CreateUserComponent)

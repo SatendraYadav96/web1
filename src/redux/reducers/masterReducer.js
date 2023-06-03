@@ -32,7 +32,7 @@ import {
     EDIT_BUISNESS_UNIT_FAIL,
     BUISNESS_UNIT_BY_ID_SUCCESS,
     BUISNESS_UNIT_BY_ID_FAIL,
-    GET_TEAM_SUCCESS, GET_TEAM_FAIL, TEAM_BY_ID_SUCCESS, TEAM_BY_ID_FAIL
+    GET_TEAM_SUCCESS, GET_TEAM_FAIL, TEAM_BY_ID_SUCCESS, TEAM_BY_ID_FAIL, ADD_TEAM_SUCCESS, ADD_TEAM_FAIL, EDIT_TEAM_SUCCESS, EDIT_TEAM_FAIL, GET_USER_SUCCESS, GET_USER_FAIL, ADD_USER_SUCCESS, ADD_USER_FAIL, EDIT_USER_SUCCESS, EDIT_USER_FAIL, USER_BY_ID_SUCCESS, USER_BY_ID_FAIL
 } from "../actions/master/masterActionConstants";
 
 
@@ -55,6 +55,14 @@ const initialState = {
     editTeamLoading: false,
     teamById: [],
     teamByIdLoading:false,
+    userList: [],
+    userLoading: false,
+    insertUser: [],
+    insertUserLoading: false,
+    editUser: [],
+    editUserLoading: false,
+    userById: [],
+    userByIdLoading:false,
     vendorList: [],
     vendorLoading: false,
     insertVendor: [],
@@ -196,31 +204,31 @@ const getTeamFailReducer = (state = initialState, payload) => {
 }
 
 
-// //ADD BUISNESS UNIT
-//
-// const addTeamSuccessReducer = (state = initialState, payload) => {
-//     return {
-//         ...state,
-//
-//         insertTeam:payload.insertTeam,
-//         insertTeamLoading: false
-//
-//     }
-// }
-//
-//
-//
-// const addTeamFailReducer = (state = initialState, payload) => {
-//     return {
-//         ...state,
-//         insertTeam:[],
-//         insertTeamLoading: false,
-//         error: payload.error,
-//
-//     }
-// }
-//
-//
+//ADD TEAM
+
+const addTeamSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        insertTeam:payload.insertTeam,
+        insertTeamLoading: false
+
+    }
+}
+
+
+
+const addTeamFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        insertTeam:[],
+        insertTeamLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
 //EDIT TEAM
 
 const editTeamSuccessReducer = (state = initialState, payload) => {
@@ -260,6 +268,100 @@ const getTeamByIdFailReducer = (state = initialState, payload) => {
         ...state,
         teamById:[],
         teamByIdLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//TEAM
+const getUserSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        userList:payload.userList,
+        userLoading: false
+
+    }
+}
+
+
+
+const getUserFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        userList:[],
+        userLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//ADD TEAM
+
+const addUserSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        insertUser:payload.insertUser,
+        insertUserLoading: false
+
+    }
+}
+
+
+
+const addUserFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        insertUser:[],
+        insertUserLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//EDIT USER
+
+const editUserSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        editUser:payload.editUser,
+        editUserLoading: false
+
+    }
+}
+
+
+const editUserFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        editUser:[],
+        editUserLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+const getUserByIdSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        userById:payload.userById,
+        userByIdLoading: false
+
+    }
+}
+
+const getUserByIdFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        userById:[],
+        userByIdLoading: false,
         error: payload.error,
 
     }
@@ -550,12 +652,20 @@ export default createReducer(initialState, {
     [BUISNESS_UNIT_BY_ID_FAIL]: getBuisnessUnitByIdFailReducer,
     [GET_TEAM_SUCCESS]: getTeamSuccessReducer,
     [GET_TEAM_FAIL]: getTeamFailReducer,
-    // [ADD_TEAM_SUCCESS]: addTeamSuccessReducer,
-    // [ADD_TEAM_FAIL]: addTeamFailReducer,
-    // [EDIT_TEAM_SUCCESS]: editTeamSuccessReducer,
-    // [EDIT_TEAM_FAIL]: editTeamFailReducer,
+    [ADD_TEAM_SUCCESS]: addTeamSuccessReducer,
+    [ADD_TEAM_FAIL]: addTeamFailReducer,
+    [EDIT_TEAM_SUCCESS]: editTeamSuccessReducer,
+    [EDIT_TEAM_FAIL]: editTeamFailReducer,
     [TEAM_BY_ID_SUCCESS]: getTeamByIdSuccessReducer,
     [TEAM_BY_ID_FAIL]: getTeamByIdFailReducer,
+    [GET_USER_SUCCESS]: getUserSuccessReducer,
+    [GET_USER_FAIL]: getUserFailReducer,
+    [ADD_USER_SUCCESS]: addUserSuccessReducer,
+    [ADD_USER_FAIL]: addUserFailReducer,
+    [EDIT_USER_SUCCESS]: editUserSuccessReducer,
+    [EDIT_USER_FAIL]: editUserFailReducer,
+    [USER_BY_ID_SUCCESS]: getUserByIdSuccessReducer,
+    [USER_BY_ID_FAIL]: getUserByIdFailReducer,
     [GET_VENDOR_SUCCESS]: getVendorSuccessReducer,
     [GET_VENDOR_FAIL]: getVendorFailReducer,
     [ADD_VENDOR_SUCCESS]: addVendorSuccessReducer,

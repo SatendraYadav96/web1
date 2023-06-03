@@ -145,7 +145,7 @@ const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEdit
                     Team:<br/><SelectDivisionComponent value={subTeam}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Name:<br/><Input placeholder={"Team Name "} value={name}/>
+                    Name:<br/><Input placeholder={"Team Name "} value={name} onChange={(e) => setName(e.target.value)}/>
                 </Col>
             </Row>
             <br/>

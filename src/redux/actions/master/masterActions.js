@@ -46,7 +46,24 @@ import {
     ADD_COST_CENTER_FAIL,
     ADD_SAMPLES_START,
     ADD_SAMPLES_SUCCESS,
-    ADD_SAMPLES_FAIL, GET_TEAM_START, GET_TEAM_SUCCESS, GET_TEAM_FAIL, TEAM_BY_ID_START, TEAM_BY_ID_SUCCESS, TEAM_BY_ID_FAIL, EDIT_TEAM_START, EDIT_TEAM_SUCCESS, EDIT_TEAM_FAIL,
+    ADD_SAMPLES_FAIL,
+    GET_TEAM_START,
+    GET_TEAM_SUCCESS,
+    GET_TEAM_FAIL,
+    TEAM_BY_ID_START,
+    TEAM_BY_ID_SUCCESS,
+    TEAM_BY_ID_FAIL,
+    EDIT_TEAM_START,
+    EDIT_TEAM_SUCCESS,
+    EDIT_TEAM_FAIL,
+    ADD_TEAM_START,
+    ADD_TEAM_SUCCESS,
+    ADD_TEAM_FAIL,
+    USER_BY_ID_SUCCESS,
+    USER_BY_ID_FAIL,
+    USER_BY_ID_START,
+    EDIT_USER_FAIL,
+    EDIT_USER_SUCCESS, EDIT_USER_START, ADD_USER_FAIL, ADD_USER_SUCCESS, ADD_USER_START, GET_USER_FAIL, GET_USER_SUCCESS, GET_USER_START,
 } from "./masterActionConstants";
 
 
@@ -167,30 +184,30 @@ export const getTeamFailAction = (payload) => (dispatch) =>{
 }
 
 
-// // ADD BUISNESS UNIT
-//
-// export const addTeamStartAction = (payload) => (dispatch) => {
-//     dispatch({
-//         type: ADD_TEAM_START,
-//         payload: payload,
-//     })
-// }
-//
-// export const addTeamSuccessAction = (payload) => (dispatch) => {
-//     dispatch({
-//         type: ADD_TEAM_SUCCESS,
-//         payload: payload,
-//     })
-// }
-//
-// export const addTeamFailAction = (payload) => (dispatch) => {
-//     dispatch({
-//         type: ADD_TEAM_FAIL,
-//         payload: payload,
-//     })
-// }
-//
-//EDIT BUISNESS UNIT
+// ADD TEAM
+
+export const addTeamStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_TEAM_START,
+        payload: payload,
+    })
+}
+
+export const addTeamSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_TEAM_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const addTeamFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_TEAM_FAIL,
+        payload: payload,
+    })
+}
+
+//EDIT TEAM
 
 export const editTeamStartAction = (payload) => (dispatch) => {
     dispatch({
@@ -231,6 +248,99 @@ export const getTeamByIdSuccessAction = (payload) => (dispatch) => {
 export const getTeamByIdFailAction = (payload) => (dispatch) =>{
     dispatch({
         type: TEAM_BY_ID_FAIL,
+        payload: payload,
+    })
+}
+
+
+//  USER
+
+export const getUserStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_USER_START,
+        payload: payload,
+    })
+}
+
+export const getUserSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_USER_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getUserFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_USER_FAIL,
+        payload: payload,
+    })
+}
+
+
+// ADD TEAM
+
+export const addUserStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_USER_START,
+        payload: payload,
+    })
+}
+
+export const addUserSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_USER_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const addUserFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_USER_FAIL,
+        payload: payload,
+    })
+}
+
+//EDIT TEAM
+
+export const editUserStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_USER_START,
+        payload: payload,
+    })
+}
+
+export const editUserSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_USER_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const editUserFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_USER_FAIL,
+        payload: payload,
+    })
+}
+
+
+export const getUserByIdStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: USER_BY_ID_START,
+        payload: payload,
+    })
+}
+
+export const getUserByIdSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: USER_BY_ID_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getUserByIdFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: USER_BY_ID_FAIL,
         payload: payload,
     })
 }

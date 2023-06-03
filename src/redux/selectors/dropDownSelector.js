@@ -64,9 +64,17 @@ export const selectTransportDropdown = createSelector(transportDropdown, (transp
 export const selectTransportDropdownLoading = createSelector(transportDropdownLoading, (transportDropdownLoadingSelect) => transportDropdownLoadingSelect)
 
 
-//TRANSPORT DROPDOWN
+//LEGAL ENTITY DROPDOWN
 const legalEntityDropdown = (state) => state.dropDown.legalEntityDropdown
 const legalEntityDropdownLoading = (state) => state.dropDown.legalEntityDropdownLoading
 
 export const selectLegalEntityDropdown = createSelector(legalEntityDropdown, (legalEntityDropdownSelect) => legalEntityDropdownSelect)
 export const selectLegalEntityDropdownLoading = createSelector(legalEntityDropdownLoading, (legalEntityDropdownLoadingSelect) => legalEntityDropdownLoadingSelect)
+
+
+//USER DESIGNATION DROPDOWN
+const userDesignationDropdown = (state) => state.dropDown.userDesignationDropdown
+const userDesignationDropdownLoading = (state) => state.dropDown.userDesignationDropdownLoading
+
+export const selectUserDesignationDropdown = createSelector(userDesignationDropdown, (userDesignationDropdownSelect) => userDesignationDropdownSelect)
+export const selectUserDesignationDropdownLoading = createSelector(userDesignationDropdownLoading, (userDesignationDropdownLoadingSelect) => userDesignationDropdownLoadingSelect)

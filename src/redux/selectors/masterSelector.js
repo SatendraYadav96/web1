@@ -72,7 +72,7 @@ export const selectLoadingBusinessUnitByIdData = createSelector(
 
 const teamList = (state) => state.master.teamList;
 const teamLoading = (state) => state.master.teamLoading
-
+0
 
 export const selectTeamListData = createSelector(
     teamList,
@@ -84,21 +84,21 @@ export const selectLoadingTeamData = createSelector(
     loadingSelection => loadingSelection
 );
 
-//
-// //ADD BUISNESS UNIT
-// const insertTeam = (state) => state.master.insertTeam;
-// const insertTeamLoading = (state) => state.master.insertTeamLoading
-//
-//
-// export const selectInsertTeamData = createSelector(
-//     insertBuisnessUnit,
-//     insertTeamDataSelection => insertTeamDataSelection
-// );
-//
-// export const selectInsertTeamLoadingData = createSelector(
-//     insertTeamLoading,
-//     loadingSelection => loadingSelection
-// );
+
+//ADD TEAM
+const insertTeam = (state) => state.master.insertTeam;
+const insertTeamLoading = (state) => state.master.insertTeamLoading
+
+
+export const selectInsertTeamData = createSelector(
+    insertTeam,
+    insertTeamDataSelection => insertTeamDataSelection
+);
+
+export const selectInsertTeamLoadingData = createSelector(
+    insertTeamLoading,
+    loadingSelection => loadingSelection
+);
 
 
 //EDIT TEAM
@@ -130,6 +130,72 @@ export const selectTeamByIdData = createSelector(
 
 export const selectLoadingTeamByIdData = createSelector(
     teamByIdLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//USER
+
+const userList = (state) => state.master.userList;
+const userLoading = (state) => state.master.userLoading;
+
+
+export const selectUserListData = createSelector(
+    userList,
+    userListDataSelection => userListDataSelection
+);
+
+export const selectLoadingUserData = createSelector(
+    userLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//ADD USER
+const insertUser = (state) => state.master.insertUser;
+const insertUserLoading = (state) => state.master.insertUserLoading
+
+
+export const selectInsertUserData = createSelector(
+    insertUser,
+    insertUserDataSelection => insertUserDataSelection
+);
+
+export const selectInsertUserLoadingData = createSelector(
+    insertUserLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//EDIT USER
+const editUser = (state) => state.master.editUser;
+const editUserLoading = (state) => state.master.editUserLoading
+
+
+export const selectEditUserData = createSelector(
+    editUser,
+    editUserDataSelection => editUserDataSelection
+);
+
+export const selectEditUserLoadingData = createSelector(
+    editUserLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//USER BY ID
+
+const userById = (state) => state.master.userById;
+const userByIdLoading = (state) => state.master.userByIdLoading
+
+
+export const selectUserByIdData = createSelector(
+    userById,
+    userByIdDataSelection => userByIdDataSelection
+);
+
+export const selectLoadingUserByIdData = createSelector(
+    userByIdLoading,
     loadingSelection => loadingSelection
 );
 

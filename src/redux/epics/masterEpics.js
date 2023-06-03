@@ -10,7 +10,7 @@ import {
     EDIT_SAMPLES_START,
     GET_SAMPLES_BY_ID_START,
     ADD_COST_CENTER_START,
-    ADD_SAMPLES_START, GET_BUISNESS_UNIT_START, ADD_BUISNESS_UNIT_START, EDIT_BUISNESS_UNIT_START, BUISNESS_UNIT_BY_ID_START, GET_TEAM_START, TEAM_BY_ID_START, EDIT_TEAM_START
+    ADD_SAMPLES_START, GET_BUISNESS_UNIT_START, ADD_BUISNESS_UNIT_START, EDIT_BUISNESS_UNIT_START, BUISNESS_UNIT_BY_ID_START, GET_TEAM_START, TEAM_BY_ID_START, EDIT_TEAM_START, ADD_TEAM_START, GET_USER_START, EDIT_USER_START, USER_BY_ID_START, ADD_USER_START
 } from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -52,7 +52,7 @@ import {
     getTeamByIdSuccessAction,
     getTeamByIdFailAction,
     editTeamSuccessAction,
-    editTeamFailAction
+    editTeamFailAction, addTeamSuccessAction, addTeamFailAction, getUserSuccessAction, getUserFailAction, editUserSuccessAction, editUserFailAction, getUserByIdSuccessAction, getUserByIdFailAction, addUserSuccessAction, addUserFailAction
 } from '../actions/master/masterActions'
 import {
     vendorRequest,
@@ -68,7 +68,7 @@ import {
     addCostCenterRequest,
     addSamplesRequest,
     buisnessUnitRequest,
-    addBuisnessUnitRequest, editBuisnessUnitRequest, buisnessUnitByIdRequest, teamRequest, teamByIdRequest, editTeamRequest
+    addBuisnessUnitRequest, editBuisnessUnitRequest, buisnessUnitByIdRequest, teamRequest, teamByIdRequest, editTeamRequest, addTeamRequest, userRequest, editUserRequest, userByIdRequest, addUserRequest
 } from '../../api/masterRequests'
 
 
@@ -144,20 +144,20 @@ export const getTeamStartEpic = (action$) =>
         )
     )
 
-//
-// // ADD BUISNESS UNIT
-//
-// export const addTeamStartEpic = (action$) =>
-//     action$.pipe(
-//         ofType(ADD_TEAM_START),
-//         debounceTime(4000),
-//         switchMap((action) =>
-//             addTeamRequest(action.payload).pipe(
-//                 map((listResponse) => addTeamSuccessAction({insertTeam: listResponse.response})),
-//                 catchError((error) => of(addTeamFailAction({error: error}))),
-//             )
-//         )
-//     )
+
+// ADD TEAM
+
+export const addTeamStartEpic = (action$) =>
+    action$.pipe(
+        ofType(ADD_TEAM_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            addTeamRequest(action.payload).pipe(
+                map((listResponse) => addTeamSuccessAction({insertTeam: listResponse.response})),
+                catchError((error) => of(addTeamFailAction({error: error}))),
+            )
+        )
+    )
 
 
 //EDIT TEAMS
@@ -185,6 +185,62 @@ export const getTeamByIdStartEpic = (action$) =>
             )
         )
     )
+
+
+//USER
+export const getUserStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_USER_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            userRequest(action.payload).pipe(
+                map((listResponse) => getUserSuccessAction({userList: listResponse.response})),
+                catchError((error) => of(getUserFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// ADD USER
+
+export const addUserStartEpic = (action$) =>
+    action$.pipe(
+        ofType(ADD_USER_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            addUserRequest(action.payload).pipe(
+                map((listResponse) => addUserSuccessAction({insertUser: listResponse.response})),
+                catchError((error) => of(addUserFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//EDIT USER
+export const editUserStartEpic = (action$) =>
+    action$.pipe(
+        ofType(EDIT_USER_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            editUserRequest(action.payload).pipe(
+                map((listResponse) => editUserSuccessAction({editUser: listResponse.response})),
+                catchError((error) => of(editUserFailAction({error: error}))),
+            )
+        )
+    )
+
+export const getUserByIdStartEpic = (action$) =>
+    action$.pipe(
+        ofType(USER_BY_ID_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            userByIdRequest(action.payload).pipe(
+                map((listResponse) => getUserByIdSuccessAction({userById: listResponse.response})),
+                catchError((error) => of(getUserByIdFailAction({error: error}))),
+            )
+        )
+    )
+
 
 
 

@@ -15,7 +15,7 @@ import {
     GET_BUISNESS_UNIT_API,
     ADD_BUISNESS_UNIT_API,
     EDIT_BUISNESS_UNIT_API,
-    BUISNESS_UNIT_BY_ID_API, GET_TEAM_API, TEAM_BY_ID_API, EDIT_TEAM_API
+    BUISNESS_UNIT_BY_ID_API, GET_TEAM_API, TEAM_BY_ID_API, EDIT_TEAM_API, ADD_TEAM_API, GET_USER_API, ADD_USER_API, EDIT_USER_API, USER_BY_ID_API
 } from "./apiConstants";
 
 //BUISNESS_UNIT
@@ -45,16 +45,36 @@ export const teamRequest = payload => {
     return createRequest(api, payload.certificate, null)
 }
 
-// export const addTeamRequest=  payload => {
-//     return createRequest(ADD_TEAM_API, payload.certificate, payload.bu)
-// }
-//
+export const addTeamRequest=  payload => {
+    return createRequest(ADD_TEAM_API, payload.certificate, payload.tem)
+}
+
 export const editTeamRequest=  payload => {
     return createRequest(EDIT_TEAM_API, payload.certificate, payload.tem)
 }
 
 export const teamByIdRequest = payload => {
     const api = {...TEAM_BY_ID_API, url: `${TEAM_BY_ID_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+//USER
+
+export const userRequest = payload => {
+    const api = {...GET_USER_API, url: `${GET_USER_API.url}/${payload.status}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const addUserRequest=  payload => {
+    return createRequest(ADD_USER_API, payload.certificate, payload.usr)
+}
+
+export const editUserRequest=  payload => {
+    return createRequest(EDIT_USER_API, payload.certificate, payload.usr)
+}
+
+export const userByIdRequest = payload => {
+    const api = {...USER_BY_ID_API, url: `${USER_BY_ID_API.url}/${payload.id}`}
     return createRequest(api, payload.certificate, null)
 }
 

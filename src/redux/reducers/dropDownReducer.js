@@ -10,7 +10,16 @@ import {
     TEAM_DROPDOWN_FAIL_ACTION,
     COST_CENTER_DROPDOWN_SUCCESS_ACTION,
     COST_CENTER_DROPDOWN_FAIL_ACTION,
-    RECIPIENT_SUCCESS_ACTION, RECIPIENT_FAIL_ACTION, INVOICE_DROPDOWN_SUCCESS_ACTION, INVOICE_DROPDOWN_FAIL_ACTION, TRANSPORT_DROPDOWN_SUCCESS_ACTION, TRANSPORT_DROPDOWN_FAIL_ACTION, LEGAL_ENTITY_DROPDOWN_SUCCESS_ACTION, LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
+    RECIPIENT_SUCCESS_ACTION,
+    RECIPIENT_FAIL_ACTION,
+    INVOICE_DROPDOWN_SUCCESS_ACTION,
+    INVOICE_DROPDOWN_FAIL_ACTION,
+    TRANSPORT_DROPDOWN_SUCCESS_ACTION,
+    TRANSPORT_DROPDOWN_FAIL_ACTION,
+    LEGAL_ENTITY_DROPDOWN_SUCCESS_ACTION,
+    LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
+    USER_DESIGNATION_DROPDOWN_FAIL_ACTION,
+    USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION,
 
 } from '../actions/dropDown/dropDownActionConstants'
 
@@ -34,6 +43,8 @@ const initialState = {
     transportDropdownLoading: false,
     legalEntityDropdown: [],
     legalEntityDropdownLoading: false,
+    userDesignationDropdown: [],
+    userDesignationDropdownLoading: false,
     error: null,
 }
 
@@ -216,6 +227,26 @@ const legalEntityDropdownFailReducer = (state = initialState, payload) => {
     }
 }
 
+//USER DESIGNATION DROPDOWN
+const userDesignationDropdownSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        userDesignationDropdown: payload.userDesignationDropdown,
+        userDesignationDropdownLoading: false,
+        error: null
+
+    }
+}
+
+const userDesignationDropdownFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        userDesignationDropdown:[],
+        error: payload.error,
+        legalEntityDropdownLoading: false,
+    }
+}
+
 export default createReducer(initialState, {
     [BUSINESS_UNIT_DROPDOWN_SUCCESS_ACTION]: businessUnitDropdownSuccessReducer,
     [BUSINESS_UNIT_DROPDOWN_FAIL_ACTION]: businessUnitDropdownFailReducer,
@@ -235,4 +266,6 @@ export default createReducer(initialState, {
     [TRANSPORT_DROPDOWN_FAIL_ACTION]: transportDropdownFailReducer,
     [LEGAL_ENTITY_DROPDOWN_SUCCESS_ACTION]: legalEntityDropdownSuccessReducer,
     [LEGAL_ENTITY_DROPDOWN_FAIL_ACTION]: legalEntityDropdownFailReducer,
+    [USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION]: userDesignationDropdownSuccessReducer,
+    [USER_DESIGNATION_DROPDOWN_FAIL_ACTION]: userDesignationDropdownFailReducer,
 })

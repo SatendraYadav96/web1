@@ -16,9 +16,18 @@ import {
     costCenterDropdownSuccessAction,
     costCenterDropdownFailAction,
     recipientDropdownSuccessAction,
-    recipientDropdownFailAction, invoiceDropdownSuccessAction, invoiceDropdownStartAction, invoiceDropdownFailAction, transportDropdownSuccessAction, transportDropdownFailAction, legalEntityDropdownSuccessAction, legalEntityDropdownFailAction,
+    recipientDropdownFailAction,
+    invoiceDropdownSuccessAction,
+    invoiceDropdownStartAction,
+    invoiceDropdownFailAction,
+    transportDropdownSuccessAction,
+    transportDropdownFailAction,
+    legalEntityDropdownSuccessAction,
+    legalEntityDropdownFailAction,
+    userDesignationDropdownSuccessAction,
+    userDesignationDropdownFailAction,
 } from '../actions/dropDown/dropDownActions'
-import {brandDropDownRequest, businessUnitDropDownRequest, costCenterDropDownRequest, divisionDropDownRequest, invoiceRequest, legalEntityDropdownRequest, recipientDropDownRequest, teamDropDownRequest, transportDropdownRequest} from '../../api/dropDownRequests'
+import {brandDropDownRequest, businessUnitDropDownRequest, costCenterDropDownRequest, divisionDropDownRequest, invoiceRequest, legalEntityDropdownRequest, recipientDropDownRequest, teamDropDownRequest, transportDropdownRequest, userDesignationDropdownRequest} from '../../api/dropDownRequests'
 
 
 //BUSINESS_UNIT_DROPDOWN
@@ -140,6 +149,20 @@ export const legalEntityDropdownStartEpic = (action$) =>
             legalEntityDropdownRequest(action.payload).pipe(
                 map((listResponse) => legalEntityDropdownSuccessAction({legalEntityDropdown: listResponse.response})),
                 catchError((error) => of(legalEntityDropdownFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//USER DESIGNATION DROPDOWN
+export const userDesignationDropdownStartEpic = (action$) =>
+    action$.pipe(
+        ofType(LEGAL_ENTITY_DROPDOWN_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            userDesignationDropdownRequest(action.payload).pipe(
+                map((listResponse) => userDesignationDropdownSuccessAction({userDesignationDropdown: listResponse.response})),
+                catchError((error) => of(userDesignationDropdownFailAction({error: error}))),
             )
         )
     )

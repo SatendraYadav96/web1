@@ -1,5 +1,16 @@
 import {createRequest} from './httpUtils';
-import {GET_BRAND_DROPDOWN_API, GET_BUSINESS_UNIT_DROPDOWN_API, GET_COST_CENTER_DROPDOWN_API, GET_DIVISION_DROPDOWN_API, GET_INVOICE_DROPDOWN_API, GET_LEGAL_ENTITY_DROPDOWN_API, GET_RECIPIENT_DROPDOWN_API, GET_TEAM_DROPDOWN_API, GET_TRANSPORT_DROPDOWN_API} from "./apiConstants";
+import {
+    GET_BRAND_DROPDOWN_API,
+    GET_BUSINESS_UNIT_DROPDOWN_API,
+    GET_COST_CENTER_DROPDOWN_API,
+    GET_DIVISION_DROPDOWN_API,
+    GET_INVOICE_DROPDOWN_API,
+    GET_LEGAL_ENTITY_DROPDOWN_API,
+    GET_RECIPIENT_DROPDOWN_API,
+    GET_TEAM_DROPDOWN_API,
+    GET_TRANSPORT_DROPDOWN_API,
+    GET_USER_DESIGNATION_DROPDOWN_API
+} from "./apiConstants";
 
 //DROPDOWN
 export const businessUnitDropDownRequest = payload => {
@@ -44,6 +55,11 @@ export const transportDropdownRequest = payload => {
 
 export const legalEntityDropdownRequest = payload => {
     const api = {...GET_LEGAL_ENTITY_DROPDOWN_API, url: `${GET_LEGAL_ENTITY_DROPDOWN_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const userDesignationDropdownRequest = payload => {
+    const api = {...GET_USER_DESIGNATION_DROPDOWN_API, url: `${GET_USER_DESIGNATION_DROPDOWN_API.url}`}
     return createRequest(api, payload.certificate, null)
 }
 
