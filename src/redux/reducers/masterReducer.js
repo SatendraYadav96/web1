@@ -32,7 +32,24 @@ import {
     EDIT_BUISNESS_UNIT_FAIL,
     BUISNESS_UNIT_BY_ID_SUCCESS,
     BUISNESS_UNIT_BY_ID_FAIL,
-    GET_TEAM_SUCCESS, GET_TEAM_FAIL, TEAM_BY_ID_SUCCESS, TEAM_BY_ID_FAIL, ADD_TEAM_SUCCESS, ADD_TEAM_FAIL, EDIT_TEAM_SUCCESS, EDIT_TEAM_FAIL, GET_USER_SUCCESS, GET_USER_FAIL, ADD_USER_SUCCESS, ADD_USER_FAIL, EDIT_USER_SUCCESS, EDIT_USER_FAIL, USER_BY_ID_SUCCESS, USER_BY_ID_FAIL
+    GET_TEAM_SUCCESS,
+    GET_TEAM_FAIL,
+    TEAM_BY_ID_SUCCESS,
+    TEAM_BY_ID_FAIL,
+    ADD_TEAM_SUCCESS,
+    ADD_TEAM_FAIL,
+    EDIT_TEAM_SUCCESS,
+    EDIT_TEAM_FAIL,
+    GET_USER_SUCCESS,
+    GET_USER_FAIL,
+    ADD_USER_SUCCESS,
+    ADD_USER_FAIL,
+    EDIT_USER_SUCCESS,
+    EDIT_USER_FAIL,
+    USER_BY_ID_SUCCESS,
+    USER_BY_ID_FAIL,
+    GET_BRAND_SUCCESS,
+    GET_BRAND_FAIL, ADD_BRAND_SUCCESS, ADD_BRAND_FAIL, EDIT_BRAND_SUCCESS, EDIT_BRAND_FAIL, BRAND_BY_ID_SUCCESS, BRAND_BY_ID_FAIL
 } from "../actions/master/masterActionConstants";
 
 
@@ -63,6 +80,14 @@ const initialState = {
     editUserLoading: false,
     userById: [],
     userByIdLoading:false,
+    brandList: [],
+    brandLoading: false,
+    insertBrand: [],
+    insertBrandLoading: false,
+    editBrand: [],
+    editBrandLoading: false,
+    brandById: [],
+    brandByIdLoading:false,
     vendorList: [],
     vendorLoading: false,
     insertVendor: [],
@@ -274,7 +299,7 @@ const getTeamByIdFailReducer = (state = initialState, payload) => {
 }
 
 
-//TEAM
+//USER
 const getUserSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
@@ -298,7 +323,7 @@ const getUserFailReducer = (state = initialState, payload) => {
 }
 
 
-//ADD TEAM
+//ADD USER
 
 const addUserSuccessReducer = (state = initialState, payload) => {
     return {
@@ -368,6 +393,100 @@ const getUserByIdFailReducer = (state = initialState, payload) => {
 }
 
 
+//BRAND
+const getBrandSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        brandList:payload.brandList,
+        brandLoading: false
+
+    }
+}
+
+
+
+const getBrandFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        brandList:[],
+        brandLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//ADD BRAND
+
+const addBrandSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        insertBrand:payload.insertBrand,
+        insertBrandLoading: false
+
+    }
+}
+
+
+
+const addBrandFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        insertBrand:[],
+        insertBrandLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//EDIT BRAND
+
+const editBrandSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        editBrand:payload.editBrand,
+        editBrandLoading: false
+
+    }
+}
+
+
+const editBrandFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        editBrand:[],
+        editBrandLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+const getBrandByIdSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        brandById:payload.brandById,
+        brandByIdLoading: false
+
+    }
+}
+
+const getBrandByIdFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        brandById:[],
+        brandByIdLoading: false,
+        error: payload.error,
+
+    }
+}
+
+//VENDOR
 const getVendorSuccessReducer = (state = initialState, payload) => {
     return {
       ...state,
@@ -666,6 +785,14 @@ export default createReducer(initialState, {
     [EDIT_USER_FAIL]: editUserFailReducer,
     [USER_BY_ID_SUCCESS]: getUserByIdSuccessReducer,
     [USER_BY_ID_FAIL]: getUserByIdFailReducer,
+    [GET_BRAND_SUCCESS]: getBrandSuccessReducer,
+    [GET_BRAND_FAIL]: getBrandFailReducer,
+    [ADD_BRAND_SUCCESS]: addBrandSuccessReducer,
+    [ADD_BRAND_FAIL]: addBrandFailReducer,
+    [EDIT_BRAND_SUCCESS]: editBrandSuccessReducer,
+    [EDIT_BRAND_FAIL]: editBrandFailReducer,
+    [BRAND_BY_ID_SUCCESS]: getBrandByIdSuccessReducer,
+    [BRAND_BY_ID_FAIL]: getBrandByIdFailReducer,
     [GET_VENDOR_SUCCESS]: getVendorSuccessReducer,
     [GET_VENDOR_FAIL]: getVendorFailReducer,
     [ADD_VENDOR_SUCCESS]: addVendorSuccessReducer,

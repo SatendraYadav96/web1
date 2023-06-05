@@ -10,7 +10,22 @@ import {
     EDIT_SAMPLES_START,
     GET_SAMPLES_BY_ID_START,
     ADD_COST_CENTER_START,
-    ADD_SAMPLES_START, GET_BUISNESS_UNIT_START, ADD_BUISNESS_UNIT_START, EDIT_BUISNESS_UNIT_START, BUISNESS_UNIT_BY_ID_START, GET_TEAM_START, TEAM_BY_ID_START, EDIT_TEAM_START, ADD_TEAM_START, GET_USER_START, EDIT_USER_START, USER_BY_ID_START, ADD_USER_START
+    ADD_SAMPLES_START,
+    GET_BUISNESS_UNIT_START,
+    ADD_BUISNESS_UNIT_START,
+    EDIT_BUISNESS_UNIT_START,
+    BUISNESS_UNIT_BY_ID_START,
+    GET_TEAM_START,
+    TEAM_BY_ID_START,
+    EDIT_TEAM_START,
+    ADD_TEAM_START,
+    GET_USER_START,
+    EDIT_USER_START,
+    USER_BY_ID_START,
+    ADD_USER_START,
+    EDIT_BRAND_START,
+    BRAND_BY_ID_START,
+    ADD_BRAND_START, GET_BRAND_START
 } from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -52,7 +67,20 @@ import {
     getTeamByIdSuccessAction,
     getTeamByIdFailAction,
     editTeamSuccessAction,
-    editTeamFailAction, addTeamSuccessAction, addTeamFailAction, getUserSuccessAction, getUserFailAction, editUserSuccessAction, editUserFailAction, getUserByIdSuccessAction, getUserByIdFailAction, addUserSuccessAction, addUserFailAction
+    editTeamFailAction,
+    addTeamSuccessAction,
+    addTeamFailAction,
+    getUserSuccessAction,
+    getUserFailAction,
+    editUserSuccessAction,
+    editUserFailAction,
+    getUserByIdSuccessAction,
+    getUserByIdFailAction,
+    addUserSuccessAction,
+    addUserFailAction,
+    addBrandSuccessAction,
+    addBrandFailAction,
+    editBrandSuccessAction, editBrandFailAction, getBrandByIdSuccessAction, getBrandByIdFailAction, getBrandSuccessAction, getBrandFailAction
 } from '../actions/master/masterActions'
 import {
     vendorRequest,
@@ -68,7 +96,7 @@ import {
     addCostCenterRequest,
     addSamplesRequest,
     buisnessUnitRequest,
-    addBuisnessUnitRequest, editBuisnessUnitRequest, buisnessUnitByIdRequest, teamRequest, teamByIdRequest, editTeamRequest, addTeamRequest, userRequest, editUserRequest, userByIdRequest, addUserRequest
+    addBuisnessUnitRequest, editBuisnessUnitRequest, buisnessUnitByIdRequest, teamRequest, teamByIdRequest, editTeamRequest, addTeamRequest, userRequest, editUserRequest, userByIdRequest, addUserRequest, addBrandRequest, editBrandRequest, brandByIdRequest, brandRequest
 } from '../../api/masterRequests'
 
 
@@ -241,6 +269,60 @@ export const getUserByIdStartEpic = (action$) =>
         )
     )
 
+
+//BRAND
+export const getBrandStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_BRAND_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            brandRequest(action.payload).pipe(
+                map((listResponse) => getBrandSuccessAction({brandList: listResponse.response})),
+                catchError((error) => of(getBrandFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// ADD USER
+
+export const addBrandStartEpic = (action$) =>
+    action$.pipe(
+        ofType(ADD_BRAND_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            addBrandRequest(action.payload).pipe(
+                map((listResponse) => addBrandSuccessAction({insertBrand: listResponse.response})),
+                catchError((error) => of(addBrandFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//EDIT USER
+export const editBrandStartEpic = (action$) =>
+    action$.pipe(
+        ofType(EDIT_BRAND_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            editBrandRequest(action.payload).pipe(
+                map((listResponse) => editBrandSuccessAction({editBrand: listResponse.response})),
+                catchError((error) => of(editBrandFailAction({error: error}))),
+            )
+        )
+    )
+
+export const getBrandByIdStartEpic = (action$) =>
+    action$.pipe(
+        ofType(BRAND_BY_ID_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            brandByIdRequest(action.payload).pipe(
+                map((listResponse) => getBrandByIdSuccessAction({brandById: listResponse.response})),
+                catchError((error) => of(getBrandByIdFailAction({error: error}))),
+            )
+        )
+    )
 
 
 

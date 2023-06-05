@@ -63,7 +63,23 @@ import {
     USER_BY_ID_FAIL,
     USER_BY_ID_START,
     EDIT_USER_FAIL,
-    EDIT_USER_SUCCESS, EDIT_USER_START, ADD_USER_FAIL, ADD_USER_SUCCESS, ADD_USER_START, GET_USER_FAIL, GET_USER_SUCCESS, GET_USER_START,
+    EDIT_USER_SUCCESS,
+    EDIT_USER_START,
+    ADD_USER_FAIL,
+    ADD_USER_SUCCESS,
+    ADD_USER_START,
+    GET_USER_FAIL,
+    GET_USER_SUCCESS,
+    GET_USER_START,
+    BRAND_BY_ID_FAIL,
+    BRAND_BY_ID_SUCCESS,
+    BRAND_BY_ID_START,
+    EDIT_BRAND_FAIL,
+    EDIT_BRAND_SUCCESS,
+    EDIT_BRAND_START,
+    ADD_BRAND_FAIL,
+    ADD_BRAND_SUCCESS,
+    ADD_BRAND_START, GET_BRAND_FAIL, GET_BRAND_SUCCESS, GET_BRAND_START,
 } from "./masterActionConstants";
 
 
@@ -277,7 +293,7 @@ export const getUserFailAction = (payload) => (dispatch) =>{
 }
 
 
-// ADD TEAM
+// ADD USER
 
 export const addUserStartAction = (payload) => (dispatch) => {
     dispatch({
@@ -300,7 +316,7 @@ export const addUserFailAction = (payload) => (dispatch) => {
     })
 }
 
-//EDIT TEAM
+//EDIT USER
 
 export const editUserStartAction = (payload) => (dispatch) => {
     dispatch({
@@ -345,6 +361,95 @@ export const getUserByIdFailAction = (payload) => (dispatch) =>{
     })
 }
 
+
+//  BRAND
+export const getBrandStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_BRAND_START,
+        payload: payload,
+    })
+}
+
+export const getBrandSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_BRAND_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getBrandFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_BRAND_FAIL,
+        payload: payload,
+    })
+}
+
+
+// ADD BRAND
+export const addBrandStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_BRAND_START,
+        payload: payload,
+    })
+}
+
+export const addBrandSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_BRAND_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const addBrandFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_BRAND_FAIL,
+        payload: payload,
+    })
+}
+
+//EDIT USER
+export const editBrandStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_BRAND_START,
+        payload: payload,
+    })
+}
+
+export const editBrandSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_BRAND_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const editBrandFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_BRAND_FAIL,
+        payload: payload,
+    })
+}
+
+//GET BRAND BY ID
+export const getBrandByIdStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: BRAND_BY_ID_START,
+        payload: payload,
+    })
+}
+
+export const getBrandByIdSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: BRAND_BY_ID_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getBrandByIdFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: BRAND_BY_ID_FAIL,
+        payload: payload,
+    })
+}
 
 
 //  VENDOR

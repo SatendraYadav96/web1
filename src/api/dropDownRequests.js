@@ -9,7 +9,7 @@ import {
     GET_RECIPIENT_DROPDOWN_API,
     GET_TEAM_DROPDOWN_API,
     GET_TRANSPORT_DROPDOWN_API,
-    GET_USER_DESIGNATION_DROPDOWN_API
+    GET_USER_DESIGNATION_DROPDOWN_API, GET_USER_DROPDOWN_API
 } from "./apiConstants";
 
 //DROPDOWN
@@ -63,3 +63,7 @@ export const userDesignationDropdownRequest = payload => {
     return createRequest(api, payload.certificate, null)
 }
 
+export const userDropdownRequest = payload => {
+    const api = {...GET_USER_DROPDOWN_API, url: `${GET_USER_DROPDOWN_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}

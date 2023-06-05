@@ -26,7 +26,7 @@ import {
     LEGAL_ENTITY_DROPDOWN_START_ACTION,
     LEGAL_ENTITY_DROPDOWN_SUCCESS_ACTION,
     LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
-    USER_DESIGNATION_DROPDOWN_START_ACTION, USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION, USER_DESIGNATION_DROPDOWN_FAIL_ACTION,
+    USER_DESIGNATION_DROPDOWN_START_ACTION, USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION, USER_DESIGNATION_DROPDOWN_FAIL_ACTION, USER_DROPDOWN_START_ACTION, USER_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_FAIL_ACTION,
 
 } from './dropDownActionConstants'
 
@@ -261,3 +261,24 @@ export const userDesignationDropdownFailAction = (payload) => (dispatch) => {
 }
 
 
+//USER DROPDOWN
+export const userDropdownStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: USER_DROPDOWN_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const userDropdownSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: USER_DROPDOWN_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const userDropdownFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: USER_DROPDOWN_FAIL_ACTION,
+        payload: payload,
+    })
+}

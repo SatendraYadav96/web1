@@ -157,7 +157,8 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
                             }}
                         >
                             <Button>CSV</Button>
-                        </CSVLink>)}
+                        </CSVLink>)
+                    }
                     &nbsp;<Button>PDF</Button>
                 </Col>
                 <Col span={18}>

@@ -1,6 +1,15 @@
 import {
     BRAND_DROPDOWN_START_ACTION,
-    BUSINESS_UNIT_DROPDOWN_START_ACTION, COST_CENTER_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION, INVOICE_DROPDOWN_START_ACTION, LEGAL_ENTITY_DROPDOWN_START_ACTION, RECIPIENT_START_ACTION, TEAM_DROPDOWN_START_ACTION, TRANSPORT_DROPDOWN_START_ACTION
+    BUSINESS_UNIT_DROPDOWN_START_ACTION,
+    COST_CENTER_DROPDOWN_START_ACTION,
+    DIVISION_DROPDOWN_START_ACTION,
+    INVOICE_DROPDOWN_START_ACTION,
+    LEGAL_ENTITY_DROPDOWN_START_ACTION,
+    RECIPIENT_START_ACTION,
+    TEAM_DROPDOWN_START_ACTION,
+    TRANSPORT_DROPDOWN_START_ACTION,
+    USER_DESIGNATION_DROPDOWN_START_ACTION,
+    USER_DROPDOWN_START_ACTION
 } from '../actions/dropDown/dropDownActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -25,9 +34,21 @@ import {
     legalEntityDropdownSuccessAction,
     legalEntityDropdownFailAction,
     userDesignationDropdownSuccessAction,
-    userDesignationDropdownFailAction,
+    userDesignationDropdownFailAction, userDropdownSuccessAction, userDropdownFailAction,
 } from '../actions/dropDown/dropDownActions'
-import {brandDropDownRequest, businessUnitDropDownRequest, costCenterDropDownRequest, divisionDropDownRequest, invoiceRequest, legalEntityDropdownRequest, recipientDropDownRequest, teamDropDownRequest, transportDropdownRequest, userDesignationDropdownRequest} from '../../api/dropDownRequests'
+import {
+    brandDropDownRequest,
+    businessUnitDropDownRequest,
+    costCenterDropDownRequest,
+    divisionDropDownRequest,
+    invoiceRequest,
+    legalEntityDropdownRequest,
+    recipientDropDownRequest,
+    teamDropDownRequest,
+    transportDropdownRequest,
+    userDesignationDropdownRequest,
+    userDropdownRequest
+} from '../../api/dropDownRequests'
 
 
 //BUSINESS_UNIT_DROPDOWN
@@ -157,7 +178,7 @@ export const legalEntityDropdownStartEpic = (action$) =>
 //USER DESIGNATION DROPDOWN
 export const userDesignationDropdownStartEpic = (action$) =>
     action$.pipe(
-        ofType(LEGAL_ENTITY_DROPDOWN_START_ACTION),
+        ofType(USER_DESIGNATION_DROPDOWN_START_ACTION),
         debounceTime(4000),
         switchMap((action) =>
             userDesignationDropdownRequest(action.payload).pipe(
@@ -168,3 +189,15 @@ export const userDesignationDropdownStartEpic = (action$) =>
     )
 
 
+//USER DROPDOWN
+export const userDropdownStartEpic = (action$) =>
+    action$.pipe(
+        ofType(USER_DROPDOWN_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            userDropdownRequest(action.payload).pipe(
+                map((listResponse) => userDropdownSuccessAction({userDropdown: listResponse.response})),
+                catchError((error) => of(userDropdownFailAction({error: error}))),
+            )
+        )
+    )

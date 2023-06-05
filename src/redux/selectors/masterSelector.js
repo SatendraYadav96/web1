@@ -135,7 +135,6 @@ export const selectLoadingTeamByIdData = createSelector(
 
 
 //USER
-
 const userList = (state) => state.master.userList;
 const userLoading = (state) => state.master.userLoading;
 
@@ -184,7 +183,6 @@ export const selectEditUserLoadingData = createSelector(
 
 
 //USER BY ID
-
 const userById = (state) => state.master.userById;
 const userByIdLoading = (state) => state.master.userByIdLoading
 
@@ -196,6 +194,70 @@ export const selectUserByIdData = createSelector(
 
 export const selectLoadingUserByIdData = createSelector(
     userByIdLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//BRAND
+const brandList = (state) => state.master.brandList;
+const brandLoading = (state) => state.master.brandLoading;
+
+
+export const selectBrandListData = createSelector(
+    brandList,
+    brandListDataSelection => brandListDataSelection
+);
+
+export const selectLoadingBrandData = createSelector(
+    brandLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//ADD BRAND
+const insertBrand = (state) => state.master.insertBrand;
+const insertBrandLoading = (state) => state.master.insertBrandLoading
+
+
+export const selectInsertBrandData = createSelector(
+    insertBrand,
+    insertBrandDataSelection => insertBrandDataSelection
+);
+
+export const selectInsertBrandLoadingData = createSelector(
+    insertBrandLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//EDIT BRAND
+const editBrand = (state) => state.master.editBrand;
+const editBrandLoading = (state) => state.master.editBrandLoading
+
+
+export const selectEditBrandData = createSelector(
+    editBrand,
+    editBrandDataSelection => editBrandDataSelection
+);
+
+export const selectEditBrandLoadingData = createSelector(
+    editBrandLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//BRAND BY ID
+const brandById = (state) => state.master.brandById;
+const brandByIdLoading = (state) => state.master.brandByIdLoading
+
+
+export const selectBrandByIdData = createSelector(
+    brandById,
+    brandByIdDataSelection => brandByIdDataSelection
+);
+
+export const selectLoadingBrandByIdData = createSelector(
+    brandByIdLoading,
     loadingSelection => loadingSelection
 );
 

@@ -127,6 +127,7 @@ const UserComponent = ({authInfo,userList,handleUserList}) => {
 UserComponent.propTypes = {
     authInfo: PropTypes.any,
     userList: PropTypes.array,
+    handleUserList: PropTypes.func,
 }
 
 const mapState = (state) => {

@@ -96,6 +96,7 @@ export const GET_INVOICE_DROPDOWN_API = {url: '/v1/master/getInvoiceDropdown',me
 export const GET_TRANSPORT_DROPDOWN_API = {url: '/v1/master/getTransporter',method:'GET',auth:true}
 export const GET_LEGAL_ENTITY_DROPDOWN_API = {url: '/v1/master/getLegalEntityDropdown',method:'GET',auth:true}
 export const GET_USER_DESIGNATION_DROPDOWN_API = {url: '/v1/master/getUserDesignationDropdown',method:'GET',auth:true}
+export const GET_USER_DROPDOWN_API = {url: '/v1/master/getUserDropdown',method:'GET',auth:true}
 
 
 // SAMPLES

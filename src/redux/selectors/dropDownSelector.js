@@ -78,3 +78,11 @@ const userDesignationDropdownLoading = (state) => state.dropDown.userDesignation
 
 export const selectUserDesignationDropdown = createSelector(userDesignationDropdown, (userDesignationDropdownSelect) => userDesignationDropdownSelect)
 export const selectUserDesignationDropdownLoading = createSelector(userDesignationDropdownLoading, (userDesignationDropdownLoadingSelect) => userDesignationDropdownLoadingSelect)
+
+
+//USER DROPDOWN
+const userDropdown = (state) => state.dropDown.userDropdown
+const userDropdownLoading = (state) => state.dropDown.userDropdownLoading
+
+export const selectUserDropdown = createSelector(userDropdown, (userDropdownSelect) => userDropdownSelect)
+export const selectUserDropdownLoading = createSelector(userDropdownLoading, (userDropdownLoadingSelect) => userDropdownLoadingSelect)
