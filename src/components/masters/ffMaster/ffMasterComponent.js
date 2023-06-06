@@ -6,14 +6,22 @@ import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
+import SelectStatusComponent from "../../widgets/SelectStatusComponent";
+import SelectRecipientCodeComponent from "../../widgets/SelectRecipientCodeComponent";
+import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusComponent";
+import {selectFFListData} from "../../../redux/selectors/masterSelector";
+import {getFFStartAction} from "../../../redux/actions/master/masterActions";
 
-const TeamComponent = ({authInfo}) => {
+const TeamComponent = ({authInfo,ffList,handleFFList}) => {
 
     const navigate = useNavigate()
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [status, setStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
+    const [recipientCode, setRecipientCode] = useState("")
+
 
     const searchData = () => {
         setFlag(true)
@@ -21,20 +29,20 @@ const TeamComponent = ({authInfo}) => {
             {
                 title: 'Employee Code',
                 key: 'employeeCode',
-                dataIndex: 'employeeCode',
+                dataIndex: 'code',
                 width: '100px'
             },
             {
                 title: 'Employee Name',
                 key: 'employeeName',
-                dataIndex: 'employeeName',
+                dataIndex: 'name',
                 width: '100px'
             },
             {
                 title: 'Address',
                 key: 'address',
                 dataIndex: 'address',
-                width: '100px'
+                width: '200px'
             },
             {
                 title: 'City',
@@ -45,7 +53,8 @@ const TeamComponent = ({authInfo}) => {
             {
                 title: 'Role',
                 key: 'role',
-                dataIndex: 'role',
+                dataIndex: 'designation',
+                render: item => Object.values(item)[1],
                 width: '100px'
             },
             {
@@ -87,25 +96,27 @@ const TeamComponent = ({authInfo}) => {
             {
                 title: 'Mobile Number',
                 key: 'mobileNumber',
-                dataIndex: 'mobileNumber',
+                dataIndex: 'mobile',
                 width: '100px'
             },
             {
                 title: 'Email Address',
                 key: 'emailAddress',
-                dataIndex: 'emailAddress',
+                dataIndex: 'email',
                 width: '100px'
             },
             {
                 title: 'Team',
                 key: 'team',
                 dataIndex: 'team',
+                render: item => Object.values(item)[1],
                 width: '100px'
             },
             {
                 title: 'Sub Team',
                 key: 'subTeam',
-                dataIndex: 'subTeam',
+                dataIndex: 'businessUnit',
+                render: item => Object.values(item)[1],
                 width: '100px'
             },
             {
@@ -123,19 +134,19 @@ const TeamComponent = ({authInfo}) => {
             {
                 title: 'AM Email',
                 key: 'amEmail',
-                dataIndex: 'amEmail',
+                dataIndex: 'emailAM',
                 width: '100px'
             },
             {
                 title: 'RBM Email',
                 key: 'rbmEmail',
-                dataIndex: 'rbmEmail',
+                dataIndex: 'emailRBM',
                 width: '100px'
             },
             {
                 title: 'HQ',
                 key: 'hq',
-                dataIndex: 'hq',
+                dataIndex: 'headQuarter',
                 width: '100px'
             },
             {
@@ -164,17 +175,8 @@ const TeamComponent = ({authInfo}) => {
                 key: '',
                 dataIndex: '',
                 width: '100px',
-                render: () => {
-                    return <Button icon={<EditOutlined />} onClick={() => editTeam()}></Button>
-                }
-            },
-            {
-                title: '',
-                key: '',
-                dataIndex: '',
-                width: '100px',
-                render: () => {
-                    return <Button icon={<EditOutlined />} onClick={() => editTeam()}></Button>
+                render: (_,row) => {
+                    return <Button icon={<EditOutlined />} onClick={() => editTeam(row)}></Button>
                 }
             }
         ]);
@@ -192,8 +194,20 @@ const TeamComponent = ({authInfo}) => {
         return navigate("/home/masters/ffMaster/create")
     }
 
-    const editTeam = () => {
-        return navigate("/home/masters/ffMaster/edit")
+    const editTeam = (row) => {
+        return navigate(`/home/masters/ffMaster/edit/${row.id}`)
+    }
+
+    const handleFF = () => {
+        handleFFList({
+            ff: {
+                status: status,
+                ffCode: recipientCode,
+                ffName: "",
+            },
+            certificate: authInfo.token,
+        })
+        searchData()
     }
 
     return(
@@ -201,19 +215,13 @@ const TeamComponent = ({authInfo}) => {
             <TitleWidget title={"Master - FF"}/>
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    <Select style={{width: '100%'}}></Select>
+                    <SelectRecipientStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                 </Col>
-                <Col span={3}>
-                    <Input placeholder="Recipient Code"/>
-                </Col>
-                <Col span={3}>
-                    <Input placeholder="Recipient Name"/>
-                </Col>
-                <Col span={3}>
-                    <Select style={{width: '100%'}}></Select>
+                <Col span={6}>
+                    <SelectRecipientCodeComponent onChange={(value) => setRecipientCode(value)}/>
                 </Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => searchData()} style={{width: '100%'}}>Search</Button>
+                    <Button type={"primary"} onClick={() => handleFF()} style={{width: '100%'}}>Search</Button>
                 </Col>
                 <Col span={2}>
                     <Button icon={<PlusOutlined />} onClick={()=> createTeam()}></Button>
@@ -229,23 +237,26 @@ const TeamComponent = ({authInfo}) => {
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource} />
+                <Table columns={column} scroll={{y: '100%'}} dataSource={ffList} />
             }
         </>
     )
 }
 
 TeamComponent.propTypes = {
-    authInfo: PropTypes.any
+    authInfo: PropTypes.any,
+    ffList: PropTypes.array,
+    handleFFList: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const ffList = selectFFListData(state)
+    return {authInfo,ffList}
 }
 
 const actions = {
-
+    handleFFList: getFFStartAction,
 }
 
 export default connect(mapState, actions) (TeamComponent)

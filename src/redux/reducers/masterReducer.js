@@ -49,7 +49,7 @@ import {
     USER_BY_ID_SUCCESS,
     USER_BY_ID_FAIL,
     GET_BRAND_SUCCESS,
-    GET_BRAND_FAIL, ADD_BRAND_SUCCESS, ADD_BRAND_FAIL, EDIT_BRAND_SUCCESS, EDIT_BRAND_FAIL, BRAND_BY_ID_SUCCESS, BRAND_BY_ID_FAIL
+    GET_BRAND_FAIL, ADD_BRAND_SUCCESS, ADD_BRAND_FAIL, EDIT_BRAND_SUCCESS, EDIT_BRAND_FAIL, BRAND_BY_ID_SUCCESS, BRAND_BY_ID_FAIL, FF_BY_ID_FAIL, FF_BY_ID_SUCCESS, EDIT_FF_FAIL, EDIT_FF_SUCCESS, GET_FF_FAIL, GET_FF_SUCCESS
 } from "../actions/master/masterActionConstants";
 
 
@@ -88,6 +88,16 @@ const initialState = {
     editBrandLoading: false,
     brandById: [],
     brandByIdLoading:false,
+    ffList: [],
+    ffLoading: false,
+    insertFF: [],
+    insertFFLoading: false,
+    editFF: [],
+    editFFLoading: false,
+    ffById: [],
+    ffByIdLoading:false,
+    ffHistoryById: [],
+    ffHistoryByIdLoading:false,
     vendorList: [],
     vendorLoading: false,
     insertVendor: [],
@@ -486,6 +496,101 @@ const getBrandByIdFailReducer = (state = initialState, payload) => {
     }
 }
 
+
+//BRAND
+const getFFSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        ffList:payload.ffList,
+        ffLoading: false
+
+    }
+}
+
+
+
+const getFFFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        ffList:[],
+        ffLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+// //ADD BRAND
+//
+// const addFFSuccessReducer = (state = initialState, payload) => {
+//     return {
+//         ...state,
+//
+//         insertFF:payload.insertFF,
+//         insertFFLoading: false
+//
+//     }
+// }
+//
+//
+//
+// const addFFFailReducer = (state = initialState, payload) => {
+//     return {
+//         ...state,
+//         insertFF:[],
+//         insertFFLoading: false,
+//         error: payload.error,
+//
+//     }
+// }
+
+
+//EDIT BRAND
+
+const editFFSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        editFF:payload.editFF,
+        editFFLoading: false
+
+    }
+}
+
+
+const editFFFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        editFF:[],
+        editFFLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+const getFFByIdSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        ffById:payload.ffById,
+        ffByIdLoading: false
+
+    }
+}
+
+const getFFByIdFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        ffById:[],
+        ffByIdLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
 //VENDOR
 const getVendorSuccessReducer = (state = initialState, payload) => {
     return {
@@ -793,6 +898,16 @@ export default createReducer(initialState, {
     [EDIT_BRAND_FAIL]: editBrandFailReducer,
     [BRAND_BY_ID_SUCCESS]: getBrandByIdSuccessReducer,
     [BRAND_BY_ID_FAIL]: getBrandByIdFailReducer,
+    [GET_FF_SUCCESS]: getFFSuccessReducer,
+    [GET_FF_FAIL]: getFFFailReducer,
+    // [ADD_FF_SUCCESS]: addFFSuccessReducer,
+    // [ADD_FF_FAIL]: addFFFailReducer,
+    [EDIT_FF_SUCCESS]: editFFSuccessReducer,
+    [EDIT_FF_FAIL]: editFFFailReducer,
+    [FF_BY_ID_SUCCESS]: getFFByIdSuccessReducer,
+    [FF_BY_ID_FAIL]: getFFByIdFailReducer,
+    // [FF HISTORY_BY_ID_SUCCESS]: getFFByIdSuccessReducer,
+    // [FF HISTORY_BY_ID_FAIL]: getFFByIdFailReducer,
     [GET_VENDOR_SUCCESS]: getVendorSuccessReducer,
     [GET_VENDOR_FAIL]: getVendorFailReducer,
     [ADD_VENDOR_SUCCESS]: addVendorSuccessReducer,

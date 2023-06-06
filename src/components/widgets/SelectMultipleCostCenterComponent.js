@@ -1,17 +1,44 @@
 import React, {useEffect, useState} from "react";
-import {Select} from "antd";
-import {Option} from "antd/es/mentions";
+import {TreeSelect} from "antd";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {selectCostCenterDropdown, selectCostCenterDropdownLoading} from "../../redux/selectors/dropDownSelector";
 import {costCenterDropdownStartAction} from "../../redux/actions/dropDown/dropDownActions";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+const { TreeNode } = TreeSelect;
 
 const SelectCostCenterComponent = ({value, onChange,authInfo,costCenterDropdown,costCenterDropdownLoading,profileInfo,handleCostCenterDropDown}) => {
 
     const [costCenterId, setCostCenterId] = useState()
     const [costCenterName, setCostCenterName] = useState()
     const data  = {"id":costCenterId, "name":costCenterName}
+    const [dropdownData, setDropDownData] = useState([])
+
+    // useEffect(() => {
+    //     // let y = costCenterDropdown.map(item => ({
+    //     //     title: item.name,
+    //     //     value: item.id
+    //     // }))
+    //     setX(costCenterDropdown.map(item => ({
+    //         title: item.name,
+    //         value: item.id
+    //     })))
+    //     // y = undefined
+    //     // const z = x.map(({ value }) => value);
+    //     setAllIds(x.map(({ value }) => value))
+    // },[costCenterDropdown])
+
+    useEffect(() => {
+        setDropDownData(costCenterDropdown?.map(item => ({
+            title: item.name,
+            value: item.id,
+            key: item.id,
+        })))
+    },[costCenterDropdown])
+
+    useEffect(() => {
+        console.log(dropdownData)
+    },[dropdownData])
 
     useEffect(() => {
         console.log(costCenterDropdown)
@@ -24,11 +51,29 @@ const SelectCostCenterComponent = ({value, onChange,authInfo,costCenterDropdown,
         });
     }, [authInfo.token])
 
-    return <Select mode="multiple" allowClear onChange={onChange} placeholder={"Select CostCenter"} value={value} style={{width: "100%"}} >
-        {costCenterDropdown?.map( item => {
-            return(<Option key={item.id} value={item.id}>{item.name}</Option>)
-        })}
-    </Select>
+    return (
+        // <Select mode="multiple" allowClear onChange={onChange} placeholder={"Select CostCenter"} value={value} style={{width: "100%"}} >
+        //     <Option key="all" value="all">---SELECT ALL---</Option>
+        //     {costCenterDropdown?.map( item => {
+        //         return(<Option key={item.id} value={item.id}>{item.name}</Option>)
+        //     })}
+        // </Select>
+        <TreeSelect
+            allowClear={true}
+            placeholder="Select CostCenter"
+            treeCheckable={true}
+            showCheckedStrategy={TreeSelect.SHOW_CHILD}
+            style={{ width: "350px" }}
+            dropdownStyle={{ maxHeight: "300px" }}
+            onChange={onChange}
+            value={value}
+        >
+            <TreeNode value="all" title="all"></TreeNode>
+            {costCenterDropdown?.map( item => {
+                return(<TreeNode key={item.id} value={item.id} title={item.name}></TreeNode>)
+            })}
+        </TreeSelect>
+    )
 }
 
 SelectCostCenterComponent.propTypes = {

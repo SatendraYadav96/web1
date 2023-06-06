@@ -48,7 +48,13 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
     }
 
     const handleCostCenter = (value) => {
-        setCostCenter(value)
+        if (value && value.length && value.includes("all")) {
+            if (value.length === all.length + 1) {
+                return [];
+            }
+            return [...all];
+        }
+        return value;
     }
 
     useEffect(() => {

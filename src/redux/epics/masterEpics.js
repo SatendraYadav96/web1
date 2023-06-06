@@ -25,7 +25,7 @@ import {
     ADD_USER_START,
     EDIT_BRAND_START,
     BRAND_BY_ID_START,
-    ADD_BRAND_START, GET_BRAND_START
+    ADD_BRAND_START, GET_BRAND_START, GET_FF_START, EDIT_FF_START, FF_BY_ID_START
 } from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -80,7 +80,7 @@ import {
     addUserFailAction,
     addBrandSuccessAction,
     addBrandFailAction,
-    editBrandSuccessAction, editBrandFailAction, getBrandByIdSuccessAction, getBrandByIdFailAction, getBrandSuccessAction, getBrandFailAction
+    editBrandSuccessAction, editBrandFailAction, getBrandByIdSuccessAction, getBrandByIdFailAction, getBrandSuccessAction, getBrandFailAction, getFFSuccessAction, getFFFailAction, editFFSuccessAction, editFFFailAction, getFFByIdSuccessAction, getFFByIdFailAction
 } from '../actions/master/masterActions'
 import {
     vendorRequest,
@@ -96,7 +96,24 @@ import {
     addCostCenterRequest,
     addSamplesRequest,
     buisnessUnitRequest,
-    addBuisnessUnitRequest, editBuisnessUnitRequest, buisnessUnitByIdRequest, teamRequest, teamByIdRequest, editTeamRequest, addTeamRequest, userRequest, editUserRequest, userByIdRequest, addUserRequest, addBrandRequest, editBrandRequest, brandByIdRequest, brandRequest
+    addBuisnessUnitRequest,
+    editBuisnessUnitRequest,
+    buisnessUnitByIdRequest,
+    teamRequest,
+    teamByIdRequest,
+    editTeamRequest,
+    addTeamRequest,
+    userRequest,
+    editUserRequest,
+    userByIdRequest,
+    addUserRequest,
+    addBrandRequest,
+    editBrandRequest,
+    brandByIdRequest,
+    brandRequest,
+    ffRequest,
+    editFFRequest,
+    ffByIdRequest
 } from '../../api/masterRequests'
 
 
@@ -320,6 +337,61 @@ export const getBrandByIdStartEpic = (action$) =>
             brandByIdRequest(action.payload).pipe(
                 map((listResponse) => getBrandByIdSuccessAction({brandById: listResponse.response})),
                 catchError((error) => of(getBrandByIdFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//BRAND
+export const getFFStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_FF_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            ffRequest(action.payload).pipe(
+                map((listResponse) => getFFSuccessAction({ffList: listResponse.response})),
+                catchError((error) => of(getFFFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// // ADDFF
+//
+// export const addFFStartEpic = (action$) =>
+//     action$.pipe(
+//         ofType(ADD_FF_START),
+//         debounceTime(4000),
+//         switchMap((action) =>
+//             addFFRequest(action.payload).pipe(
+//                 map((listResponse) => addFFSuccessAction({insertFF: listResponse.response})),
+//                 catchError((error) => of(addFFFailAction({error: error}))),
+//             )
+//         )
+//     )
+
+
+//EDITFF
+export const editFFStartEpic = (action$) =>
+    action$.pipe(
+        ofType(EDIT_FF_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            editFFRequest(action.payload).pipe(
+                map((listResponse) => editFFSuccessAction({editFF: listResponse.response})),
+                catchError((error) => of(editFFFailAction({error: error}))),
+            )
+        )
+    )
+
+export const getFFByIdStartEpic = (action$) =>
+    action$.pipe(
+        ofType(FF_BY_ID_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            ffByIdRequest(action.payload).pipe(
+                map((listResponse) => getFFByIdSuccessAction({ffById: listResponse.response})),
+                catchError((error) => of(getFFByIdFailAction({error: error}))),
             )
         )
     )

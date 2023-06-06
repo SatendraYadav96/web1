@@ -79,7 +79,7 @@ import {
     EDIT_BRAND_START,
     ADD_BRAND_FAIL,
     ADD_BRAND_SUCCESS,
-    ADD_BRAND_START, GET_BRAND_FAIL, GET_BRAND_SUCCESS, GET_BRAND_START,
+    ADD_BRAND_START, GET_BRAND_FAIL, GET_BRAND_SUCCESS, GET_BRAND_START, GET_FF_FAIL, GET_FF_SUCCESS, GET_FF_START, EDIT_FF_START, EDIT_FF_SUCCESS, EDIT_FF_FAIL, FF_BY_ID_START, FF_BY_ID_SUCCESS, FF_BY_ID_FAIL,
 } from "./masterActionConstants";
 
 
@@ -447,6 +447,96 @@ export const getBrandByIdSuccessAction = (payload) => (dispatch) => {
 export const getBrandByIdFailAction = (payload) => (dispatch) =>{
     dispatch({
         type: BRAND_BY_ID_FAIL,
+        payload: payload,
+    })
+}
+
+
+//FF
+export const getFFStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_FF_START,
+        payload: payload,
+    })
+}
+
+export const getFFSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_FF_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getFFFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_FF_FAIL,
+        payload: payload,
+    })
+}
+
+
+// // ADD FF
+// export const addFFStartAction = (payload) => (dispatch) => {
+//     dispatch({
+//         type: ADD_FF_START,
+//         payload: payload,
+//     })
+// }
+//
+// export const addFFSuccessAction = (payload) => (dispatch) => {
+//     dispatch({
+//         type: ADD_FF_SUCCESS,
+//         payload: payload,
+//     })
+// }
+//
+// export const addFFFailAction = (payload) => (dispatch) => {
+//     dispatch({
+//         type: ADD_FF_FAIL,
+//         payload: payload,
+//     })
+// }
+
+//EDIT FF
+export const editFFStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_FF_START,
+        payload: payload,
+    })
+}
+
+export const editFFSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_FF_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const editFFFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EDIT_FF_FAIL,
+        payload: payload,
+    })
+}
+
+//GET FF BY ID
+export const getFFByIdStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: FF_BY_ID_START,
+        payload: payload,
+    })
+}
+
+export const getFFByIdSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: FF_BY_ID_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getFFByIdFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: FF_BY_ID_FAIL,
         payload: payload,
     })
 }

@@ -73,6 +73,13 @@ export const ADD_BRAND_API = { url: '/v1/master/addBrand', method: 'POST', auth:
 export const EDIT_BRAND_API = { url: '/v1/master/editBrand', method: 'PUT', auth: true }
 export const BRAND_BY_ID_API = { url: '/v1/master/getBrandById', method: 'GET', auth: true }
 
+//FF
+export const GET_FF_API = {url: '/v1/master/getFieldForce',method:'POST',auth:true}
+// export const ADD_FF_API = { url: '/v1/master/addBrand', method: 'POST', auth: true }
+export const EDIT_FF_API = { url: '/v1/master/editFieldForce', method: 'PUT', auth: true }
+export const FF_BY_ID_API = { url: '/v1/master/getFieldForceById', method: 'GET', auth: true }
+export const FF_HISTORY_BY_ID_API = { url: '/v1/master/getFieldForceHistory', method: 'GET', auth: true }
+
 //VENDOR
 export const GET_VENDOR_API = {url: '/v1/master/getVendor',method:'GET',auth:true}
 export const ADD_VENDOR_API = { url: '/v1/master/addVendor', method: 'POST', auth: true }

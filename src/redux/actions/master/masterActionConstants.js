@@ -71,6 +71,23 @@ export const BRAND_BY_ID_START = 'BRAND_BY_ID_START'
 export const BRAND_BY_ID_SUCCESS = 'BRAND_BY_ID_SUCCESS'
 export const BRAND_BY_ID_FAIL = 'BRAND_BY_ID_FAIL'
 
+//BRAND
+export const GET_FF_START = 'GET_FF_START'
+export const GET_FF_SUCCESS = 'GET_FF_SUCCESS'
+export const GET_FF_FAIL = 'GET_FF_FAIL'
+
+// export const ADD_FF_START = 'ADD_FF_START'
+// export const ADD_FF_SUCCESS = 'ADD_FF_SUCCESS'
+// export const ADD_FF_FAIL = 'ADD_FF_FAIL'
+
+export const EDIT_FF_START = 'EDIT_FF_START'
+export const EDIT_FF_SUCCESS = 'EDIT_FF_SUCCESS'
+export const EDIT_FF_FAIL = 'EDIT_FF_FAIL'
+
+export const FF_BY_ID_START = 'FF_BY_ID_START'
+export const FF_BY_ID_SUCCESS = 'FF_BY_ID_SUCCESS'
+export const FF_BY_ID_FAIL = 'FF_BY_ID_FAIL'
+
 
 //VENDOR
 

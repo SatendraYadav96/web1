@@ -262,6 +262,85 @@ export const selectLoadingBrandByIdData = createSelector(
 );
 
 
+//BRAND
+const ffList = (state) => state.master.ffList;
+const ffLoading = (state) => state.master.ffLoading;
+
+
+export const selectFFListData = createSelector(
+    ffList,
+    ffListDataSelection => ffListDataSelection
+);
+
+export const selectLoadingFFData = createSelector(
+    ffLoading,
+    loadingSelection => loadingSelection
+);
+
+
+// //ADD BRAND
+// const insertFF = (state) => state.master.insertFF;
+// const insertFFLoading = (state) => state.master.insertFFLoading
+//
+//
+// export const selectInsertFFData = createSelector(
+//     insertFF,
+//     insertFFDataSelection => insertFFDataSelection
+// );
+//
+// export const selectInsertFFLoadingData = createSelector(
+//     insertFFLoading,
+//     loadingSelection => loadingSelection
+// );
+
+
+//EDIT BRAND
+const editFF = (state) => state.master.editFF;
+const editFFLoading = (state) => state.master.editFFLoading
+
+
+export const selectEditFFData = createSelector(
+    editFF,
+    editBrandDataSelection => editBrandDataSelection
+);
+
+export const selectEditFFLoadingData = createSelector(
+    editFFLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//FF BY ID
+const ffById = (state) => state.master.ffById;
+const ffByIdLoading = (state) => state.master.ffByIdLoading
+
+
+export const selectFFByIdData = createSelector(
+    ffById,
+    ffByIdDataSelection => ffByIdDataSelection
+);
+
+export const selectLoadingFFByIdData = createSelector(
+    ffByIdLoading,
+    loadingSelection => loadingSelection
+);
+
+//FF HISTORY BY ID
+const ffHistoryById = (state) => state.master.ffHistoryById;
+const ffHistoryByIdLoading = (state) => state.master.ffHistoryByIdLoading
+
+
+export const selectFFHistoryByIdData = createSelector(
+    ffHistoryById,
+    ffHistoryByIdDataSelection => ffHistoryByIdDataSelection
+);
+
+export const selectLoadingFFHistoryByIdData = createSelector(
+    ffHistoryByIdLoading,
+    loadingSelection => loadingSelection
+);
+
+
 //VENDOR
 
 const vendorList = (state) => state.master.vendorList;

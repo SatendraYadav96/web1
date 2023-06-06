@@ -73,7 +73,7 @@ const BrandComponent = ({authInfo,brandList,handleBrandList}) => {
 
         handleBrandList ({
             certificate: authInfo.token,
-            status: 1,
+            status: status,
         });
         searchData()
     }

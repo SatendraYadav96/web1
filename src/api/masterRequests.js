@@ -15,7 +15,7 @@ import {
     GET_BUISNESS_UNIT_API,
     ADD_BUISNESS_UNIT_API,
     EDIT_BUISNESS_UNIT_API,
-    BUISNESS_UNIT_BY_ID_API, GET_TEAM_API, TEAM_BY_ID_API, EDIT_TEAM_API, ADD_TEAM_API, GET_USER_API, ADD_USER_API, EDIT_USER_API, USER_BY_ID_API, GET_BRAND_API, ADD_BRAND_API, EDIT_BRAND_API, BRAND_BY_ID_API
+    BUISNESS_UNIT_BY_ID_API, GET_TEAM_API, TEAM_BY_ID_API, EDIT_TEAM_API, ADD_TEAM_API, GET_USER_API, ADD_USER_API, EDIT_USER_API, USER_BY_ID_API, GET_BRAND_API, ADD_BRAND_API, EDIT_BRAND_API, BRAND_BY_ID_API, GET_FF_API, EDIT_FF_API, FF_BY_ID_API, FF_HISTORY_BY_ID_API
 } from "./apiConstants";
 
 //BUISNESS_UNIT
@@ -95,6 +95,30 @@ export const editBrandRequest=  payload => {
 
 export const brandByIdRequest = payload => {
     const api = {...BRAND_BY_ID_API, url: `${BRAND_BY_ID_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+//FF
+
+export const ffRequest = payload => {
+    return createRequest(GET_FF_API, payload.certificate, payload.ff)
+}
+
+// export const addFFRequest=  payload => {
+//     return createRequest(ADD_FF_API, payload.certificate, payload.brd)
+// }
+
+export const editFFRequest=  payload => {
+    return createRequest(EDIT_FF_API, payload.certificate, payload.brd)
+}
+
+export const ffByIdRequest = payload => {
+    const api = {...FF_BY_ID_API, url: `${FF_BY_ID_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const ffHistoryByIdRequest = payload => {
+    const api = {...FF_HISTORY_BY_ID_API, url: `${FF_HISTORY_BY_ID_API.url}/${payload.id}`}
     return createRequest(api, payload.certificate, null)
 }
 
