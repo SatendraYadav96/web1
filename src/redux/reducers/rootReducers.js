@@ -32,6 +32,7 @@ import itemRevalidationReducer from "./itemRevalidationReducer";
 import deliveryUpdateReducer from "./deliveryUpdateReducer";
 import invoiceUploadReducer from "./invoiceUploadReducer";
 import dashboardReducer from "./dashboardReducer";
+import monthlyApprovalReducer from "./monthlyApprovalReducer";
 
 
 
@@ -60,6 +61,7 @@ const rootReducer = combineReducers({
     purchaseReport:purchaseReportReducer,
     itemCode:itemCodeReducer,
     itemRevalidation:itemRevalidationReducer,
+    monthlyApproval:monthlyApprovalReducer,
     simpleInventoryReport:simpleInventoryReportReducer,
     dispatchesReport:dispatchesReportReducer,
     dispatchRegisterReport:dispatchRegisterReportReducer,
