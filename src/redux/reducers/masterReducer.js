@@ -49,7 +49,7 @@ import {
     USER_BY_ID_SUCCESS,
     USER_BY_ID_FAIL,
     GET_BRAND_SUCCESS,
-    GET_BRAND_FAIL, ADD_BRAND_SUCCESS, ADD_BRAND_FAIL, EDIT_BRAND_SUCCESS, EDIT_BRAND_FAIL, BRAND_BY_ID_SUCCESS, BRAND_BY_ID_FAIL, FF_BY_ID_FAIL, FF_BY_ID_SUCCESS, EDIT_FF_FAIL, EDIT_FF_SUCCESS, GET_FF_FAIL, GET_FF_SUCCESS
+    GET_BRAND_FAIL, ADD_BRAND_SUCCESS, ADD_BRAND_FAIL, EDIT_BRAND_SUCCESS, EDIT_BRAND_FAIL, BRAND_BY_ID_SUCCESS, BRAND_BY_ID_FAIL, FF_BY_ID_FAIL, FF_BY_ID_SUCCESS, EDIT_FF_FAIL, EDIT_FF_SUCCESS, GET_FF_FAIL, GET_FF_SUCCESS, ADD_FF_FAIL, ADD_FF_SUCCESS
 } from "../actions/master/masterActionConstants";
 
 
@@ -497,7 +497,7 @@ const getBrandByIdFailReducer = (state = initialState, payload) => {
 }
 
 
-//BRAND
+//FF
 const getFFSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
@@ -521,32 +521,31 @@ const getFFFailReducer = (state = initialState, payload) => {
 }
 
 
-// //ADD BRAND
-//
-// const addFFSuccessReducer = (state = initialState, payload) => {
-//     return {
-//         ...state,
-//
-//         insertFF:payload.insertFF,
-//         insertFFLoading: false
-//
-//     }
-// }
-//
-//
-//
-// const addFFFailReducer = (state = initialState, payload) => {
-//     return {
-//         ...state,
-//         insertFF:[],
-//         insertFFLoading: false,
-//         error: payload.error,
-//
-//     }
-// }
+//ADD BRAND
+const addFFSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        insertFF:payload.insertFF,
+        insertFFLoading: false
+
+    }
+}
 
 
-//EDIT BRAND
+
+const addFFFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        insertFF:[],
+        insertFFLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+//EDIT FF
 
 const editFFSuccessReducer = (state = initialState, payload) => {
     return {
@@ -900,8 +899,8 @@ export default createReducer(initialState, {
     [BRAND_BY_ID_FAIL]: getBrandByIdFailReducer,
     [GET_FF_SUCCESS]: getFFSuccessReducer,
     [GET_FF_FAIL]: getFFFailReducer,
-    // [ADD_FF_SUCCESS]: addFFSuccessReducer,
-    // [ADD_FF_FAIL]: addFFFailReducer,
+    [ADD_FF_SUCCESS]: addFFSuccessReducer,
+    [ADD_FF_FAIL]: addFFFailReducer,
     [EDIT_FF_SUCCESS]: editFFSuccessReducer,
     [EDIT_FF_FAIL]: editFFFailReducer,
     [FF_BY_ID_SUCCESS]: getFFByIdSuccessReducer,

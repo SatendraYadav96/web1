@@ -26,7 +26,14 @@ import {
     LEGAL_ENTITY_DROPDOWN_START_ACTION,
     LEGAL_ENTITY_DROPDOWN_SUCCESS_ACTION,
     LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
-    USER_DESIGNATION_DROPDOWN_START_ACTION, USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION, USER_DESIGNATION_DROPDOWN_FAIL_ACTION, USER_DROPDOWN_START_ACTION, USER_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_FAIL_ACTION,
+    USER_DESIGNATION_DROPDOWN_START_ACTION,
+    USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION,
+    USER_DESIGNATION_DROPDOWN_FAIL_ACTION,
+    USER_DROPDOWN_START_ACTION,
+    USER_DROPDOWN_SUCCESS_ACTION,
+    USER_DROPDOWN_FAIL_ACTION,
+    RECIPIENT_DESIGNATION_DROPDOWN_START_ACTION,
+    RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION,
 
 } from './dropDownActionConstants'
 
@@ -256,6 +263,29 @@ export const userDesignationDropdownSuccessAction = (payload) => (dispatch) => {
 export const userDesignationDropdownFailAction = (payload) => (dispatch) => {
     dispatch({
         type: USER_DESIGNATION_DROPDOWN_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+//RECIPIENT DESIGNATION DROPDOWN
+export const recipientDesignationDropdownStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: RECIPIENT_DESIGNATION_DROPDOWN_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const recipientDesignationDropdownSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const recipientDesignationDropdownFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION,
         payload: payload,
     })
 }

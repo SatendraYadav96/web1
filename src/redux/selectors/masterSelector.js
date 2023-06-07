@@ -278,23 +278,23 @@ export const selectLoadingFFData = createSelector(
 );
 
 
-// //ADD BRAND
-// const insertFF = (state) => state.master.insertFF;
-// const insertFFLoading = (state) => state.master.insertFFLoading
-//
-//
-// export const selectInsertFFData = createSelector(
-//     insertFF,
-//     insertFFDataSelection => insertFFDataSelection
-// );
-//
-// export const selectInsertFFLoadingData = createSelector(
-//     insertFFLoading,
-//     loadingSelection => loadingSelection
-// );
+//ADD BRAND
+const insertFF = (state) => state.master.insertFF;
+const insertFFLoading = (state) => state.master.insertFFLoading
 
 
-//EDIT BRAND
+export const selectInsertFFData = createSelector(
+    insertFF,
+    insertFFDataSelection => insertFFDataSelection
+);
+
+export const selectInsertFFLoadingData = createSelector(
+    insertFFLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//EDIT FF
 const editFF = (state) => state.master.editFF;
 const editFFLoading = (state) => state.master.editFFLoading
 

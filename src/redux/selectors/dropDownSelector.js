@@ -80,6 +80,14 @@ export const selectUserDesignationDropdown = createSelector(userDesignationDropd
 export const selectUserDesignationDropdownLoading = createSelector(userDesignationDropdownLoading, (userDesignationDropdownLoadingSelect) => userDesignationDropdownLoadingSelect)
 
 
+//USER DESIGNATION DROPDOWN
+const recipientDesignationDropdown = (state) => state.dropDown.recipientDesignationDropdown
+const recipientDesignationDropdownLoading = (state) => state.dropDown.recipientDesignationDropdownLoading
+
+export const selectRecipientDesignationDropdown = createSelector(recipientDesignationDropdown, (recipientDesignationDropdownSelect) => recipientDesignationDropdownSelect)
+export const selectRecipientDesignationDropdownLoading = createSelector(recipientDesignationDropdownLoading, (recipientDesignationDropdownLoadingSelect) => recipientDesignationDropdownLoadingSelect)
+
+
 //USER DROPDOWN
 const userDropdown = (state) => state.dropDown.userDropdown
 const userDropdownLoading = (state) => state.dropDown.userDropdownLoading

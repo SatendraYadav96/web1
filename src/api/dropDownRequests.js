@@ -5,7 +5,7 @@ import {
     GET_COST_CENTER_DROPDOWN_API,
     GET_DIVISION_DROPDOWN_API,
     GET_INVOICE_DROPDOWN_API,
-    GET_LEGAL_ENTITY_DROPDOWN_API,
+    GET_LEGAL_ENTITY_DROPDOWN_API, GET_RECIPIENT_DESIGNATION_DROPDOWN_API,
     GET_RECIPIENT_DROPDOWN_API,
     GET_TEAM_DROPDOWN_API,
     GET_TRANSPORT_DROPDOWN_API,
@@ -60,6 +60,11 @@ export const legalEntityDropdownRequest = payload => {
 
 export const userDesignationDropdownRequest = payload => {
     const api = {...GET_USER_DESIGNATION_DROPDOWN_API, url: `${GET_USER_DESIGNATION_DROPDOWN_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const recipientDesignationDropdownRequest = payload => {
+    const api = {...GET_RECIPIENT_DESIGNATION_DROPDOWN_API, url: `${GET_RECIPIENT_DESIGNATION_DROPDOWN_API.url}`}
     return createRequest(api, payload.certificate, null)
 }
 

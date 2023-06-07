@@ -4,7 +4,7 @@ import {
     COST_CENTER_DROPDOWN_START_ACTION,
     DIVISION_DROPDOWN_START_ACTION,
     INVOICE_DROPDOWN_START_ACTION,
-    LEGAL_ENTITY_DROPDOWN_START_ACTION,
+    LEGAL_ENTITY_DROPDOWN_START_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_START_ACTION,
     RECIPIENT_START_ACTION,
     TEAM_DROPDOWN_START_ACTION,
     TRANSPORT_DROPDOWN_START_ACTION,
@@ -34,7 +34,7 @@ import {
     legalEntityDropdownSuccessAction,
     legalEntityDropdownFailAction,
     userDesignationDropdownSuccessAction,
-    userDesignationDropdownFailAction, userDropdownSuccessAction, userDropdownFailAction,
+    userDesignationDropdownFailAction, userDropdownSuccessAction, userDropdownFailAction, recipientDesignationDropdownSuccessAction, recipientDesignationDropdownFailAction,
 } from '../actions/dropDown/dropDownActions'
 import {
     brandDropDownRequest,
@@ -42,7 +42,7 @@ import {
     costCenterDropDownRequest,
     divisionDropDownRequest,
     invoiceRequest,
-    legalEntityDropdownRequest,
+    legalEntityDropdownRequest, recipientDesignationDropdownRequest,
     recipientDropDownRequest,
     teamDropDownRequest,
     transportDropdownRequest,
@@ -184,6 +184,20 @@ export const userDesignationDropdownStartEpic = (action$) =>
             userDesignationDropdownRequest(action.payload).pipe(
                 map((listResponse) => userDesignationDropdownSuccessAction({userDesignationDropdown: listResponse.response})),
                 catchError((error) => of(userDesignationDropdownFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//RECIPIENT DESIGNATION DROPDOWN
+export const recipientDesignationDropdownStartEpic = (action$) =>
+    action$.pipe(
+        ofType(RECIPIENT_DESIGNATION_DROPDOWN_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            recipientDesignationDropdownRequest(action.payload).pipe(
+                map((listResponse) => recipientDesignationDropdownSuccessAction({recipientDesignationDropdown: listResponse.response})),
+                catchError((error) => of(recipientDesignationDropdownFailAction({error: error}))),
             )
         )
     )

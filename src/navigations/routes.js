@@ -34,6 +34,9 @@ const VirtualReconciliationComponent = React.lazy(() => import('../components/re
 const InventoryReversalReportComponent = React.lazy(() => import('../components/reports/InventoryReversalReportComponent'))
 const ShipRocketReportComponent = React.lazy(() => import('../components/reports/ShipRocketReportComponent'))
 const ItemRevalidationComponent = React.lazy(() => import('../components/revalidation/ItemRevalidationComponent'))
+const MonthlyInputPlan = React.lazy(() => import('../components/approvals/MonthlyInputPlan'))
+const SpecialDispatches = React.lazy(() => import('../components/approvals/SpecialDispatches'))
+const VirtualDispatches = React.lazy(() => import('../components/approvals/VirtualDispatches'))
 const VendorComponent = React.lazy(() => import('../components/masters/vendor/VendorComponent'))
 const CreateVendorComponent = React.lazy(() => import('../components/masters/vendor/CreateVendorComponent'))
 const EditVendorComponent = React.lazy(() => import('../components/masters/vendor/EditVendorComponent'))
@@ -111,6 +114,9 @@ const routes = [
     { path: '/home/report/inventoryReversalReport', name: 'InventoryReversal', element: InventoryReversalReportComponent},
     { path: '/home/report/shipRocketReport', name: 'ShipRocketReport', element: ShipRocketReportComponent},
     { path: '/home/itemRevalidation', name: 'Item Revalidation', element: ItemRevalidationComponent},
+    { path: '/home/approvals/monthlyInputPlan', name: 'MonthlyInputPlan', element: MonthlyInputPlan},
+    { path: '/home/approvals/specialDispatches', name: 'SpecialDispatches', element: SpecialDispatches},
+    { path: '/home/approvals/virtualDispatches', name: 'VirtualDispatches', element: VirtualDispatches},
     { path: '/home/upload/ffMasterUplaod', name: 'FF Master Upload', element: FFMasterUploadComponent},
     { path: '/home/upload/virtualSampleUpload', name: 'Virtual Sample Upload', element: VirtualSampleUploadComponent},
     { path: '/home/compliance/complianceDetailsList', name: 'Compliance Details List', element: ComplianceDetailsList},

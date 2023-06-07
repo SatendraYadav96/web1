@@ -193,7 +193,7 @@ const mapState = (state) => {
 }
 
 const actions = {
-handleDeviationReportList : getDeviationReportStartAction
+    handleDeviationReportList : getDeviationReportStartAction
 }
 
 export default connect(mapState, actions)(DeviationReportComponent)

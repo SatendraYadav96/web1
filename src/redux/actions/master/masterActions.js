@@ -79,7 +79,7 @@ import {
     EDIT_BRAND_START,
     ADD_BRAND_FAIL,
     ADD_BRAND_SUCCESS,
-    ADD_BRAND_START, GET_BRAND_FAIL, GET_BRAND_SUCCESS, GET_BRAND_START, GET_FF_FAIL, GET_FF_SUCCESS, GET_FF_START, EDIT_FF_START, EDIT_FF_SUCCESS, EDIT_FF_FAIL, FF_BY_ID_START, FF_BY_ID_SUCCESS, FF_BY_ID_FAIL,
+    ADD_BRAND_START, GET_BRAND_FAIL, GET_BRAND_SUCCESS, GET_BRAND_START, GET_FF_FAIL, GET_FF_SUCCESS, GET_FF_START, EDIT_FF_START, EDIT_FF_SUCCESS, EDIT_FF_FAIL, FF_BY_ID_START, FF_BY_ID_SUCCESS, FF_BY_ID_FAIL, ADD_FF_START, ADD_FF_SUCCESS, ADD_FF_FAIL,
 } from "./masterActionConstants";
 
 
@@ -475,27 +475,27 @@ export const getFFFailAction = (payload) => (dispatch) =>{
 }
 
 
-// // ADD FF
-// export const addFFStartAction = (payload) => (dispatch) => {
-//     dispatch({
-//         type: ADD_FF_START,
-//         payload: payload,
-//     })
-// }
-//
-// export const addFFSuccessAction = (payload) => (dispatch) => {
-//     dispatch({
-//         type: ADD_FF_SUCCESS,
-//         payload: payload,
-//     })
-// }
-//
-// export const addFFFailAction = (payload) => (dispatch) => {
-//     dispatch({
-//         type: ADD_FF_FAIL,
-//         payload: payload,
-//     })
-// }
+// ADD FF
+export const addFFStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_FF_START,
+        payload: payload,
+    })
+}
+
+export const addFFSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_FF_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const addFFFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ADD_FF_FAIL,
+        payload: payload,
+    })
+}
 
 //EDIT FF
 export const editFFStartAction = (payload) => (dispatch) => {

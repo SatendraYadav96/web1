@@ -19,7 +19,7 @@ import {
     LEGAL_ENTITY_DROPDOWN_SUCCESS_ACTION,
     LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
     USER_DESIGNATION_DROPDOWN_FAIL_ACTION,
-    USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_FAIL_ACTION,
+    USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_FAIL_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION,
 
 } from '../actions/dropDown/dropDownActionConstants'
 
@@ -249,6 +249,26 @@ const userDesignationDropdownFailReducer = (state = initialState, payload) => {
     }
 }
 
+//RECIPIENT DESIGNATION DROPDOWN
+const recipientDesignationDropdownSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        recipientDesignationDropdown: payload.recipientDesignationDropdown,
+        recipientDesignationDropdownLoading: false,
+        error: null
+
+    }
+}
+
+const recipientDesignationDropdownFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        recipientDesignationDropdown:[],
+        error: payload.error,
+        recipientDesignationDropdownLoading: false,
+    }
+}
+
 //USER DROPDOWN
 const userDropdownSuccessReducer = (state = initialState, payload) => {
     return {
@@ -290,6 +310,8 @@ export default createReducer(initialState, {
     [LEGAL_ENTITY_DROPDOWN_FAIL_ACTION]: legalEntityDropdownFailReducer,
     [USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION]: userDesignationDropdownSuccessReducer,
     [USER_DESIGNATION_DROPDOWN_FAIL_ACTION]: userDesignationDropdownFailReducer,
+    [RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION]: recipientDesignationDropdownSuccessReducer,
+    [RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION]: recipientDesignationDropdownFailReducer,
     [USER_DROPDOWN_SUCCESS_ACTION]: userDropdownSuccessReducer,
     [USER_DROPDOWN_FAIL_ACTION]: userDropdownFailReducer,
 })
