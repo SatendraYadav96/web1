@@ -278,7 +278,7 @@ export const selectLoadingFFData = createSelector(
 );
 
 
-//ADD BRAND
+//ADD FF
 const insertFF = (state) => state.master.insertFF;
 const insertFFLoading = (state) => state.master.insertFFLoading
 

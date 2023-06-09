@@ -49,7 +49,7 @@ import {
     USER_BY_ID_SUCCESS,
     USER_BY_ID_FAIL,
     GET_BRAND_SUCCESS,
-    GET_BRAND_FAIL, ADD_BRAND_SUCCESS, ADD_BRAND_FAIL, EDIT_BRAND_SUCCESS, EDIT_BRAND_FAIL, BRAND_BY_ID_SUCCESS, BRAND_BY_ID_FAIL, FF_BY_ID_FAIL, FF_BY_ID_SUCCESS, EDIT_FF_FAIL, EDIT_FF_SUCCESS, GET_FF_FAIL, GET_FF_SUCCESS, ADD_FF_FAIL, ADD_FF_SUCCESS
+    GET_BRAND_FAIL, ADD_BRAND_SUCCESS, ADD_BRAND_FAIL, EDIT_BRAND_SUCCESS, EDIT_BRAND_FAIL, BRAND_BY_ID_SUCCESS, BRAND_BY_ID_FAIL, FF_BY_ID_FAIL, FF_BY_ID_SUCCESS, EDIT_FF_FAIL, EDIT_FF_SUCCESS, GET_FF_FAIL, GET_FF_SUCCESS, ADD_FF_FAIL, ADD_FF_SUCCESS, FF_HISTORY_BY_ID_SUCCESS, FF_HISTORY_BY_ID_FAIL
 } from "../actions/master/masterActionConstants";
 
 
@@ -590,6 +590,27 @@ const getFFByIdFailReducer = (state = initialState, payload) => {
 }
 
 
+const getFFHistoryByIdSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        ffHistoryById:payload.ffHistoryById,
+        ffHistoryByIdLoading: false
+
+    }
+}
+
+const getFFHistoryByIdFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        ffHistoryById:[],
+        ffHistoryByIdLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
 //VENDOR
 const getVendorSuccessReducer = (state = initialState, payload) => {
     return {
@@ -905,8 +926,8 @@ export default createReducer(initialState, {
     [EDIT_FF_FAIL]: editFFFailReducer,
     [FF_BY_ID_SUCCESS]: getFFByIdSuccessReducer,
     [FF_BY_ID_FAIL]: getFFByIdFailReducer,
-    // [FF HISTORY_BY_ID_SUCCESS]: getFFByIdSuccessReducer,
-    // [FF HISTORY_BY_ID_FAIL]: getFFByIdFailReducer,
+    [FF_HISTORY_BY_ID_SUCCESS]: getFFHistoryByIdSuccessReducer,
+    [FF_HISTORY_BY_ID_FAIL]: getFFHistoryByIdFailReducer,
     [GET_VENDOR_SUCCESS]: getVendorSuccessReducer,
     [GET_VENDOR_FAIL]: getVendorFailReducer,
     [ADD_VENDOR_SUCCESS]: addVendorSuccessReducer,

@@ -79,7 +79,24 @@ import {
     EDIT_BRAND_START,
     ADD_BRAND_FAIL,
     ADD_BRAND_SUCCESS,
-    ADD_BRAND_START, GET_BRAND_FAIL, GET_BRAND_SUCCESS, GET_BRAND_START, GET_FF_FAIL, GET_FF_SUCCESS, GET_FF_START, EDIT_FF_START, EDIT_FF_SUCCESS, EDIT_FF_FAIL, FF_BY_ID_START, FF_BY_ID_SUCCESS, FF_BY_ID_FAIL, ADD_FF_START, ADD_FF_SUCCESS, ADD_FF_FAIL,
+    ADD_BRAND_START,
+    GET_BRAND_FAIL,
+    GET_BRAND_SUCCESS,
+    GET_BRAND_START,
+    GET_FF_FAIL,
+    GET_FF_SUCCESS,
+    GET_FF_START,
+    EDIT_FF_START,
+    EDIT_FF_SUCCESS,
+    EDIT_FF_FAIL,
+    FF_BY_ID_START,
+    FF_BY_ID_SUCCESS,
+    FF_BY_ID_FAIL,
+    ADD_FF_START,
+    ADD_FF_SUCCESS,
+    ADD_FF_FAIL,
+    FF_HISTORY_BY_ID_START,
+    FF_HISTORY_BY_ID_SUCCESS, FF_HISTORY_BY_ID_FAIL,
 } from "./masterActionConstants";
 
 
@@ -537,6 +554,28 @@ export const getFFByIdSuccessAction = (payload) => (dispatch) => {
 export const getFFByIdFailAction = (payload) => (dispatch) =>{
     dispatch({
         type: FF_BY_ID_FAIL,
+        payload: payload,
+    })
+}
+
+//GET FF HISTORY BY ID
+export const getFFHistoryByIdStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: FF_HISTORY_BY_ID_START,
+        payload: payload,
+    })
+}
+
+export const getFFHistoryByIdSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: FF_HISTORY_BY_ID_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getFFHistoryByIdFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: FF_HISTORY_BY_ID_FAIL,
         payload: payload,
     })
 }

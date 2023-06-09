@@ -25,7 +25,7 @@ import {
     ADD_USER_START,
     EDIT_BRAND_START,
     BRAND_BY_ID_START,
-    ADD_BRAND_START, GET_BRAND_START, GET_FF_START, EDIT_FF_START, FF_BY_ID_START, ADD_FF_START
+    ADD_BRAND_START, GET_BRAND_START, GET_FF_START, EDIT_FF_START, FF_BY_ID_START, ADD_FF_START, FF_HISTORY_BY_ID_START
 } from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -80,7 +80,21 @@ import {
     addUserFailAction,
     addBrandSuccessAction,
     addBrandFailAction,
-    editBrandSuccessAction, editBrandFailAction, getBrandByIdSuccessAction, getBrandByIdFailAction, getBrandSuccessAction, getBrandFailAction, getFFSuccessAction, getFFFailAction, editFFSuccessAction, editFFFailAction, getFFByIdSuccessAction, getFFByIdFailAction, addFFSuccessAction, addFFFailAction
+    editBrandSuccessAction,
+    editBrandFailAction,
+    getBrandByIdSuccessAction,
+    getBrandByIdFailAction,
+    getBrandSuccessAction,
+    getBrandFailAction,
+    getFFSuccessAction,
+    getFFFailAction,
+    editFFSuccessAction,
+    editFFFailAction,
+    getFFByIdSuccessAction,
+    getFFByIdFailAction,
+    addFFSuccessAction,
+    addFFFailAction,
+    getFFHistoryByIdSuccessAction, getFFHistoryByIdFailAction
 } from '../actions/master/masterActions'
 import {
     vendorRequest,
@@ -113,7 +127,7 @@ import {
     brandRequest,
     ffRequest,
     editFFRequest,
-    ffByIdRequest, addFFRequest
+    ffByIdRequest, addFFRequest, ffHistoryByIdRequest
 } from '../../api/masterRequests'
 
 
@@ -395,6 +409,21 @@ export const getFFByIdStartEpic = (action$) =>
             )
         )
     )
+
+
+//FF_HISTORY BY ID
+export const getFFHistoryByIdStartEpic = (action$) =>
+    action$.pipe(
+        ofType(FF_HISTORY_BY_ID_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            ffHistoryByIdRequest(action.payload).pipe(
+                map((listResponse) => getFFHistoryByIdSuccessAction({ffHistoryById: listResponse.response})),
+                catchError((error) => of(getFFHistoryByIdFailAction({error: error}))),
+            )
+        )
+    )
+
 
 
 

@@ -430,4 +430,243 @@ import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+    GET_BUISNESS_UNIT_START: [{ action: 'showspinner' }],
+    GET_BUISNESS_UNIT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_BUISNESS_UNIT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    BUISNESS_UNIT_BY_ID_START: [{ action: 'showspinner' }],
+    BUISNESS_UNIT_BY_ID_SUCCESS: [{ action: 'hidespinner' }],
+    BUISNESS_UNIT_BY_ID_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    EDIT_BUISNESS_UNIT_START: [{ action: 'showspinner' }],
+    EDIT_BUISNESS_UNIT_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    EDIT_BUISNESS_UNIT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_BUISNESS_UNIT_START: [{ action: 'showspinner' }],
+    ADD_BUISNESS_UNIT_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_BUISNESS_UNIT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_TEAM_START: [{ action: 'showspinner' }],
+    GET_TEAM_SUCCESS: [{ action: 'hidespinner' }],
+    GET_TEAM_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    TEAM_BY_ID_START: [{ action: 'showspinner' }],
+    TEAM_BY_ID_SUCCESS: [{ action: 'hidespinner' }],
+    TEAM_BY_ID_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    EDIT_TEAM_START: [{ action: 'showspinner' }],
+    EDIT_TEAM_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    EDIT_TEAM_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_TEAM_START: [{ action: 'showspinner' }],
+    ADD_TEAM_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_TEAM_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_USER_START: [{ action: 'showspinner' }],
+    GET_USER_SUCCESS: [{ action: 'hidespinner' }],
+    GET_USER_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    USER_BY_ID_START: [{ action: 'showspinner' }],
+    USER_BY_ID_SUCCESS: [{ action: 'hidespinner' }],
+    USER_BY_ID_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    EDIT_USER_START: [{ action: 'showspinner' }],
+    EDIT_USER_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    EDIT_USER_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_USER_START: [{ action: 'showspinner' }],
+    ADD_USER_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_USER_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_BRAND_START: [{ action: 'showspinner' }],
+    GET_BRAND_SUCCESS: [{ action: 'hidespinner' }],
+    GET_BRAND_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    BRAND_BY_ID_START: [{ action: 'showspinner' }],
+    BRAND_BY_ID_SUCCESS: [{ action: 'hidespinner' }],
+    BRAND_BY_ID_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    EDIT_BRAND_START: [{ action: 'showspinner' }],
+    EDIT_BRAND_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    EDIT_BRAND_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_BRAND_START: [{ action: 'showspinner' }],
+    ADD_BRAND_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_BRAND_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_FF_START: [{ action: 'showspinner' }],
+    GET_FF_SUCCESS: [{ action: 'hidespinner' }],
+    GET_FF_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    FF_BY_ID_START: [{ action: 'showspinner' }],
+    FF_BY_ID_SUCCESS: [{ action: 'hidespinner' }],
+    FF_BY_ID_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    FF_HISTORY_BY_ID_START: [{ action: 'showspinner' }],
+    FF_HISTORY_BY_ID_SUCCESS: [{ action: 'hidespinner' }],
+    FF_HISTORY_BY_ID_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    EDIT_FF_START: [{ action: 'showspinner' }],
+    EDIT_FF_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    EDIT_FF_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_FF_START: [{ action: 'showspinner' }],
+    ADD_FF_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_FF_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
 }

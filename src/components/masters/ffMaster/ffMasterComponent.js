@@ -3,24 +3,25 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row, Select, Table} from "antd";
-import {EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
+import {EditOutlined, PlusOutlined, InfoCircleOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
-import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import SelectRecipientCodeComponent from "../../widgets/SelectRecipientCodeComponent";
 import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusComponent";
-import {selectFFListData} from "../../../redux/selectors/masterSelector";
-import {getFFStartAction} from "../../../redux/actions/master/masterActions";
+import {selectFFHistoryByIdData, selectFFListData} from "../../../redux/selectors/masterSelector";
+import {getFFHistoryByIdStartAction, getFFStartAction} from "../../../redux/actions/master/masterActions";
 
-const TeamComponent = ({authInfo,ffList,handleFFList}) => {
+const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHistoryList}) => {
 
     const navigate = useNavigate()
 
     const [column, setColumn] = useState([])
+    const [historyColumn, setHistoryColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [status, setStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [recipientCode, setRecipientCode] = useState("")
+    const [ffHistory, setFFHistory] = useState(false)
 
 
     const searchData = () => {
@@ -176,11 +177,93 @@ const TeamComponent = ({authInfo,ffList,handleFFList}) => {
                 dataIndex: '',
                 width: '100px',
                 render: (_,row) => {
+                    return <Button icon={<InfoCircleOutlined/>} onClick={() => handleHistory(row)}></Button>
+                }
+            },
+            {
+                title: '',
+                key: '',
+                dataIndex: '',
+                width: '100px',
+                render: (_,row) => {
                     return <Button icon={<EditOutlined />} onClick={() => editTeam(row)}></Button>
                 }
             }
         ]);
-
+        setHistoryColumn([
+            {
+                title: 'Team',
+                key: 'team',
+                dataIndex: 'team',
+                width: '100px'
+            },
+            {
+                title: 'Designation',
+                key: 'designation',
+                dataIndex: 'designation',
+                width: '100px'
+            },
+            {
+                title: 'Contact',
+                key: 'contact',
+                dataIndex: 'contact',
+                width: '100px'
+            },
+            {
+                title: 'Address',
+                key: 'address',
+                dataIndex: 'address',
+                width: '200px'
+            },
+            {
+                title: 'City',
+                key: 'city',
+                dataIndex: 'city',
+                width: '100px'
+            },
+            {
+                title: 'State',
+                key: 'state',
+                dataIndex: 'state',
+                width: '100px'
+            },
+            {
+                title: 'Zip',
+                key: 'zip',
+                dataIndex: 'zip',
+                width: '100px'
+            },
+            {
+                title: 'CFA',
+                key: 'cfa',
+                dataIndex: 'cfa',
+                width: '100px'
+            },
+            {
+                title: 'Status',
+                key: 'status',
+                dataIndex: 'status',
+                width: '100px'
+            },
+            {
+                title: 'Remarks',
+                key: 'remarks',
+                dataIndex: 'remarks',
+                width: '100px'
+            },
+            {
+                title: 'Changed On',
+                key: 'changedOnDate',
+                dataIndex: 'changedOnDate',
+                width: '100px'
+            },
+            {
+                title: 'Changed By',
+                key: 'changedBy',
+                dataIndex: 'changedBy',
+                width: '100px'
+            },
+        ])
         setDataSource([
             {
                 key: '1',
@@ -208,6 +291,14 @@ const TeamComponent = ({authInfo,ffList,handleFFList}) => {
             certificate: authInfo.token,
         })
         searchData()
+    }
+
+    const handleHistory = (row) => {
+        handleFFHistoryList({
+            certificate: authInfo.token,
+            id: row.id,
+        })
+        setFFHistory(true)
     }
 
     return(
@@ -239,6 +330,18 @@ const TeamComponent = ({authInfo,ffList,handleFFList}) => {
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={ffList} />
             }
+            <Modal open={ffHistory} title="Recipient Invoices" footer={null} width={"80vw"} onCancel={() => {
+                setFFHistory(false)
+            }}>
+                <Table
+                    columns={historyColumn}
+                    dataSource={ffHistoryList}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+            </Modal>
         </>
     )
 }
@@ -252,11 +355,13 @@ TeamComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const ffList = selectFFListData(state)
-    return {authInfo,ffList}
+    const ffHistoryList = selectFFHistoryByIdData(state)
+    return {authInfo,ffList,ffHistoryList}
 }
 
 const actions = {
     handleFFList: getFFStartAction,
+    handleFFHistoryList: getFFHistoryByIdStartAction,
 }
 
 export default connect(mapState, actions) (TeamComponent)

@@ -51,9 +51,12 @@ export const ADD_BOX_WEIGHT_API = { url: '/v1/hsn/editInvoiceHeader', method: 'P
 
 //APPROVAL
 export const GET_MONTHLY_APPROVAL_API = {url: '/v1/approval/getMonthlyApprovalForBex',method:'GET',auth:true}
-// export const ADD_BUISNESS_UNIT_API = { url: '/v1/master/addBusinessUnit', method: 'POST', auth: true }
-// export const EDIT_BUISNESS_UNIT_API = { url: '/v1/master/editBusinessUnit', method: 'PUT', auth: true }
-// export const BUISNESS_UNIT_BY_ID_API = { url: '/v1/master/getBusinessUnitById', method: 'GET', auth: true }
+export const GET_MONTHLY_APPROVAL_DETAILS_API = {url: '/v1/approval/getMonthlyApprovalDetails',method:'GET',auth:true}
+export const RESET_PLAN_API = { url: '/v1/approval/resetDraftPlan', method: 'GET', auth: true }
+export const UNLOCK_PLAN_API = { url: '/v1/approval/unlockPlanForUserByMonthAndYear', method: 'PUT', auth: true }
+export const APPROVE_PLAN_API = { url: '/v1/approval/approvePlan', method: 'PUT', auth: true }
+export const REJECT_PLAN_API = { url: '/v1/approval/rejectPlan', method: 'PUT', auth: true }
+export const MONTHLY_TO_SPECIAL_API = { url: '/v1/approval/saveMonthlyToSpecial', method: 'PUT', auth: true }
 
 //BUISNESS UNIT
 export const GET_BUISNESS_UNIT_API = {url: '/v1/master/getBusinessUnit',method:'GET',auth:true}
