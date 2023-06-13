@@ -15,9 +15,12 @@ import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
+import {getComplianceDetailsStartAction} from "../../redux/actions/compliance/nonComplianceActions";
+import {selectComplianceDetailsListData} from "../../redux/selectors/nonComplianceSelector";
+import MonthlyInputPlan from "../approvals/MonthlyInputPlan";
 
 
-const ComplianceDetailsListComponent = ({authInfo}) => {
+const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleComplianceDetailsList}) => {
 
     // let now = new Date()
 
@@ -27,6 +30,8 @@ const ComplianceDetailsListComponent = ({authInfo}) => {
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
+    const [month, setMonth] = useState()
+    const [year, setYear] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
 
@@ -162,21 +167,29 @@ const ComplianceDetailsListComponent = ({authInfo}) => {
         setDivision(value)
     }
 
+    const getComplianceDetails = () => {
+        handleComplianceDetailsList({
+            certificate: authInfo.token,
+            month: month,
+            year: year,
+        })
+    }
+
     return(
         <>
             <TitleWidget title="Compliance Details List" />
             <Row gutter={[8,8]}>
                 <Col span={2}>
-                    Status<br/>
-                    <Select placeholder="Select Status" style={{width: "100%"}}/>
+                    Month<br/>
+                    <SelectMonthComponent onChange={(value) => setMonth(value)}/>
                 </Col>
                 <Col span={3}>
                     Year<br/>
-                    <SelectYearComponent />
+                    <SelectYearComponent onChange={(value) => setYear(value)}/>
                 </Col>
                 <Col span={2}>
                     <br/>
-                    <Button type={"primary"} onClick={()=>getPurchaseReportList()} style={{width: "100%"}}>Search</Button>
+                    <Button type={"primary"} onClick={()=>getComplianceDetails()} style={{width: "100%"}}>Search</Button>
                 </Col>
                 <Col span={2}>
                     <br/>
@@ -228,12 +241,12 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     // const profileInfo = selectProfileInfo(state)
     // const purchaseList = selectPurchaseListData(state)
-    // const purchaseReportLoading = selectLoadingPurchaseReportData(state)
-    return {authInfo}
+    const complianceDetailsList= selectComplianceDetailsListData(state)
+    return {authInfo,complianceDetailsList}
 }
 
 const actions = {
-    // handlePurchaseReportList : getPurchaseReportStartAction
+    handleComplianceDetailsList : getComplianceDetailsStartAction
 }
 
 export default connect(mapState, actions)(ComplianceDetailsListComponent)

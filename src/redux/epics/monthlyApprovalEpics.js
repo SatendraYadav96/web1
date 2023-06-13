@@ -1,7 +1,29 @@
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
-import {APPROVE_PLAN_START, GET_MONTHLY_APPROVAL_DETAILS_START, GET_MONTHLY_APPROVAL_START, MONTHLY_TO_SPECIAL_START, REJECT_PLAN_START, RESET_PLAN_START, UNLOCK_PLAN_START} from "../actions/approval/monthlyApprovalActionConstants";
-import {approvePlanRequest, monthlyApprovalDetailsRequest, monthlyApprovalRequest, monthlyToSpecialRequest, rejectPlanRequest, resetPlanRequest, unlockPlanRequest} from "../../api/approvalRequests";
+import {
+    APPROVE_PLAN_START,
+    GET_MONTHLY_APPROVAL_DETAILS_START,
+    GET_MONTHLY_APPROVAL_START,
+    GET_SPECIAL_PLAN_APPROVAL_DETAILS_START,
+    GET_SPECIAL_PLAN_APPROVAL_START, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_START, GET_VIRTUAL_PLAN_APPROVAL_START,
+    MONTHLY_TO_SPECIAL_START,
+    REJECT_PLAN_START,
+    RESET_PLAN_START,
+    UNLOCK_PLAN_START
+} from "../actions/approval/monthlyApprovalActionConstants";
+import {
+    approvePlanRequest,
+    monthlyApprovalDetailsRequest,
+    monthlyApprovalRequest,
+    monthlyToSpecialRequest,
+    rejectPlanRequest,
+    resetPlanRequest,
+    specialPlanApprovalDetailsRequest,
+    specialPlanApprovalRequest,
+    unlockPlanRequest,
+    virtualPlanApprovalDetailsRequest,
+    virtualPlanApprovalRequest
+} from "../../api/approvalRequests";
 import {
     approvePlanFailAction,
     approvePlanSuccessAction,
@@ -10,9 +32,9 @@ import {
     getMonthlyApprovalFailAction,
     getMonthlyApprovalSuccessAction, monthlyToSpecialFailAction, monthlyToSpecialSuccessAction, rejectPlanFailAction, rejectPlanSuccessAction,
     resetPlanFailAction,
-    resetPlanSuccessAction,
+    resetPlanSuccessAction, specialPlanApprovalDetailsFailAction, specialPlanApprovalDetailsSuccessAction, specialPlanApprovalFailAction, specialPlanApprovalSuccessAction,
     unlockPlanFailAction,
-    unlockPlanSuccessAction
+    unlockPlanSuccessAction, virtualPlanApprovalDetailsFailAction, virtualPlanApprovalDetailsSuccessAction, virtualPlanApprovalFailAction, virtualPlanApprovalSuccessAction
 } from "../actions/approval/monthlyApprovalActions";
 
 //MONTHLY APPROVAL
@@ -110,4 +132,56 @@ export const monthlyToSpecialStartEpic = (action$) =>
         )
     )
 
+//SPECIAL PLAN APPROVAL
+export const specialPlanApprovalStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_SPECIAL_PLAN_APPROVAL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            specialPlanApprovalRequest(action.payload).pipe(
+                map((listResponse) => specialPlanApprovalSuccessAction({specialPlanApprovalList: listResponse.response})),
+                catchError((error) => of(specialPlanApprovalFailAction({error: error}))),
+            )
+        )
+    )
+
+//SPECIAL PLAN DETAILS
+export const specialPlanApprovalDetailsStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_SPECIAL_PLAN_APPROVAL_DETAILS_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            specialPlanApprovalDetailsRequest(action.payload).pipe(
+                map((listResponse) => specialPlanApprovalDetailsSuccessAction({specialPlanApprovalDetailsList: listResponse.response})),
+                catchError((error) => of(specialPlanApprovalDetailsFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//VIRTUAL PLAN APPROVAL
+export const virtualPlanApprovalStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_VIRTUAL_PLAN_APPROVAL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            virtualPlanApprovalRequest(action.payload).pipe(
+                map((listResponse) => virtualPlanApprovalSuccessAction({virtualPlanApprovalList: listResponse.response})),
+                catchError((error) => of(virtualPlanApprovalFailAction({error: error}))),
+            )
+        )
+    )
+
+//VIRTUAL PLAN DETAILS
+export const virtualPlanApprovalDetailsStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_VIRTUAL_PLAN_APPROVAL_DETAILS_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            virtualPlanApprovalDetailsRequest(action.payload).pipe(
+                map((listResponse) => virtualPlanApprovalDetailsSuccessAction({virtualPlanApprovalDetailsList: listResponse.response})),
+                catchError((error) => of(virtualPlanApprovalDetailsFailAction({error: error}))),
+            )
+        )
+    )
 

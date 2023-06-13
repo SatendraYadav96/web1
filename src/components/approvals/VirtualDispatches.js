@@ -1,14 +1,25 @@
 import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row, Table} from "antd";
 import {ArrowRightOutlined, CheckOutlined, CloseOutlined, InfoCircleOutlined,  SyncOutlined, UnlockOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
+import {selectApprovePlanListData, selectRejectPlanListData, selectSpecialPlanApprovalDetailsListData, selectSpecialPlanApprovalListData, selectVirtualPlanApprovalDetailsListData, selectVirtualPlanApprovalListData} from "../../redux/selectors/monthlyApprovalSelector";
+import {
+    approvePlanStartAction,
+    getMonthlyApprovalDetailsStartAction,
+    getMonthlyApprovalStartAction,
+    rejectPlanStartAction,
+    specialPlanApprovalDetailsStartAction,
+    specialPlanApprovalStartAction,
+    virtualPlanApprovalDetailsStartAction,
+    virtualPlanApprovalStartAction
+} from "../../redux/actions/approval/monthlyApprovalActions";
 
-const VirtualDispatchesComponent = ({authInfo}) => {
+const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,rejectPlanList,virtualPlanApprovalList,virtualPlanApprovalDetailsList,handleVirtualPlan}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -24,14 +35,14 @@ const VirtualDispatchesComponent = ({authInfo}) => {
         setColumn([
             {
                 title:'Plan Purpose',
-                key: 'planPurpose',
-                dataIndex: 'planPurpose',
+                key: 'planName',
+                dataIndex: 'planName',
                 width:'200px',
             },
             {
                 title:'Brand Manager',
-                key: 'brandManager',
-                dataIndex: 'brandManager',
+                key: 'userName',
+                dataIndex: 'userName',
                 width:'200px',
             },
             {
@@ -42,8 +53,8 @@ const VirtualDispatchesComponent = ({authInfo}) => {
             },
             {
                 title:'Status',
-                key: 'status',
-                dataIndex: 'status',
+                key: 'planStatus',
+                dataIndex: 'planStatus',
                 width:'100px',
             },
             {
@@ -79,6 +90,13 @@ const VirtualDispatchesComponent = ({authInfo}) => {
     }
 
     const searchInv = () => {
+        handleVirtualPlan({
+            certificate: authInfo.token,
+            month: month,
+            year: year,
+            userId: profileInfo.id,
+            userDesgId: profileInfo.userDesignation.id,
+        })
         searchData()
     }
 
@@ -93,15 +111,12 @@ const VirtualDispatchesComponent = ({authInfo}) => {
                     <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={3}>
-                    <Input />
-                </Col>
-                <Col span={3}>
                     <Button type={'primary'} onClick={() => searchInv()}>Submit</Button>
                 </Col>
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={virtualPlanApprovalList}/>
             }
         </>
     )
@@ -109,15 +124,35 @@ const VirtualDispatchesComponent = ({authInfo}) => {
 
 VirtualDispatchesComponent.propTypes = {
     authInfo: PropTypes.any,
+    monthlyApprovalList: PropTypes.array,
+    monthlyApprovalDetailsList: PropTypes.array,
+    resetPlanList: PropTypes.array,
+    rejectPlanList: PropTypes.array,
+    virtualPlanApprovalDetailsList: PropTypes.array,
+    handleMonthlyApproval: PropTypes.func,
+    handleMonthlyApprovalDetails: PropTypes.func,
+    handleApprovePlanList: PropTypes.func,
+    handleVirtualPlanDetails: PropTypes.func,
+    handleRejectPlanList: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const profileInfo = selectProfileInfo(state)
+    const approvePlanList = selectApprovePlanListData(state)
+    const rejectPlanList = selectRejectPlanListData(state)
+    const virtualPlanApprovalList = selectVirtualPlanApprovalListData(state)
+    const virtualPlanApprovalDetailsList = selectVirtualPlanApprovalDetailsListData(state)
+    return {authInfo,profileInfo,approvePlanList,rejectPlanList,virtualPlanApprovalList,virtualPlanApprovalDetailsList}
 }
 
 const actions = {
-
+    handleMonthlyApproval: getMonthlyApprovalStartAction,
+    handleMonthlyApprovalDetails: getMonthlyApprovalDetailsStartAction,
+    handleApprovePlanList: approvePlanStartAction,
+    handleRejectPlanList: rejectPlanStartAction,
+    handleVirtualPlan: virtualPlanApprovalStartAction,
+    handleVirtualPlanDetails: virtualPlanApprovalDetailsStartAction,
 }
 
 export default connect(mapState, actions)(VirtualDispatchesComponent)

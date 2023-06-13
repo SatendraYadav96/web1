@@ -16,9 +16,11 @@ import XLSX from "xlsx"
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import {Option} from "antd/es/mentions";
+import {selectMailLogListData} from "../../redux/selectors/nonComplianceSelector";
+import {getMailLogStartAction} from "../../redux/actions/compliance/nonComplianceActions";
 
 
-const MailLogsComponent = ({authInfo}) => {
+const MailLogsComponent = ({authInfo,mailLogList,handleMailLog}) => {
 
     // let now = new Date()
 
@@ -28,6 +30,9 @@ const MailLogsComponent = ({authInfo}) => {
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
+    const [month, setMonth] = useState()
+    const [year, setYear] = useState()
+    const [type, setType] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
 
@@ -157,30 +162,152 @@ const MailLogsComponent = ({authInfo}) => {
         setDivision(value)
     }
 
+    useEffect(() => {
+        console.log(type)
+        if (type === 0) {
+            setDataSource([
+                {
+                    key: '1',
+                    field: 'Month',
+                    fieldValue: "",
+                },
+                {
+                    key: '2',
+                    field: 'Designation',
+                    fieldValue: "",
+                },
+                {
+                    key: '3',
+                    field: 'Total Mail Sent',
+                    fieldValue: "",
+                },
+                {
+                    key: '4',
+                    field: 'Repeat Within 7 Days',
+                    fieldValue: "",
+                },
+                {
+                    key: '5',
+                    field: 'AM Escalation',
+                    fieldValue: "",
+                },
+                {
+                    key: '6',
+                    field: 'Repeat After 7 Days',
+                    fieldValue: "",
+                },
+                {
+                    key: '7',
+                    field: 'Total Block',
+                    fieldValue: "",
+                },
+            ])
+        } else if (type === 1) {
+            setDataSource([
+                {
+                    key: '1',
+                    field: 'Month',
+                    fieldValue: "",
+                },
+                {
+                    key: '2',
+                    field: 'Designation',
+                    fieldValue: "",
+                },
+                {
+                    key: '3',
+                    field: 'Total Mail Sent',
+                    fieldValue: "",
+                },
+                {
+                    key: '4',
+                    field: 'Repeat Within 7 Days',
+                    fieldValue: "",
+                },
+                {
+                    key: '5',
+                    field: 'AM Escalation',
+                    fieldValue: "",
+                },
+                {
+                    key: '6',
+                    field: 'Repeat After 7 Days',
+                    fieldValue: "",
+                },
+            ])
+        } else if (type === 2) {
+            setDataSource([
+                {
+                    key: '1',
+                    field: 'Month',
+                    fieldValue: "",
+                },
+                {
+                    key: '2',
+                    field: 'Designation',
+                    fieldValue: "",
+                },
+                {
+                    key: '3',
+                    field: 'Total Mail Sent',
+                    fieldValue: "",
+                },
+            ])
+        } else if (type === 3) {
+            setDataSource([
+                {
+                    key: '1',
+                    field: 'Month',
+                    fieldValue: "",
+                },
+                {
+                    key: '2',
+                    field: 'Designation',
+                    fieldValue: "",
+                },
+                {
+                    key: '3',
+                    field: 'Total Mail Sent',
+                    fieldValue: "",
+                },
+            ])
+        }
+    },[type])
+
+    const getMailLog = () => {
+        handleMailLog({
+            certificate: authInfo.token,
+            type: type,
+            month: month,
+            year: year,
+        })
+        searchData()
+    }
+
     return(
         <>
             <TitleWidget title="Mail Logs" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Year<br/>
-                    <SelectYearComponent />
+                    <SelectYearComponent onChange={(value) => setYear(value)}/>
                 </Col>
                 <Col span={3}>
                     Month <br/>
-                    <SelectMonthComponent />
+                    <SelectMonthComponent onChange={(value) => setMonth(value)}/>
                 </Col>
                 <Col span={3}>
                     Type<br/>
-                    <Select placeholder="Select Type" style={{width: "100%"}}>
-                        <Option value={0}>Sample</Option>
-                        <Option value={1}>Input</Option>
-                        <Option value={2}>Sample Expiring > 30 Days</Option>
-                        <Option value={3}>Input Expiring > One day</Option>
+                    <Select placeholder="Select Type" style={{width: "100%"}} onChange={(value) => setType(value)}>
+                        <Option value={"Sample"}>Sample</Option>
+                        <Option value={"Input"}>Input</Option>
+                        <Option value={"1"}>Sample Expiring > 30 Days</Option>
+                        <Option value={"2"}>Input Expiring > One day</Option>
                     </Select>
                 </Col>
                 <Col span={3}>
                     <br/>
-                    <Button type={"primary"} onClick={()=>getPurchaseReportList()}>Search</Button>
+                    <Button type={"primary"} onClick={()=>getMailLog()}>Search</Button>
                 </Col>
             </Row>
             <br/>
@@ -217,22 +344,18 @@ const MailLogsComponent = ({authInfo}) => {
 
 MailLogsComponent.propTypes = {
     authInfo: PropTypes.any,
-    // profileInfo: PropTypes.any,
-    // purchaseList:PropTypes.array,
-    // purchaseReportLoading:PropTypes.any,
-    // handlePurchaseReportList:PropTypes.func
+    mailLogList:PropTypes.array,
+    handleMailLog:PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    // const profileInfo = selectProfileInfo(state)
-    // const purchaseList = selectPurchaseListData(state)
-    // const purchaseReportLoading = selectLoadingPurchaseReportData(state)
-    return {authInfo}
+    const mailLogList = selectMailLogListData(state)
+    return {authInfo,mailLogList}
 }
 
 const actions = {
-    // handlePurchaseReportList : getPurchaseReportStartAction
+    handleMailLog : getMailLogStartAction
 }
 
 export default connect(mapState, actions)(MailLogsComponent)

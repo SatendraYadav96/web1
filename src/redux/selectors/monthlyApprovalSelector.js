@@ -118,3 +118,68 @@ export const selectLoadingMonthlyToSpecialData = createSelector(
 );
 
 
+//SPECIAL PLAN APPROVAL
+
+const specialPlanApprovalList = (state) => state.monthlyApproval.specialPlanApprovalList;
+const specialPlanApprovalLoading = (state) => state.monthlyApproval.specialPlanApprovalLoading
+
+
+export const selectSpecialPlanApprovalListData = createSelector(
+    specialPlanApprovalList,
+    specialPlanApprovalListDataSelection => specialPlanApprovalListDataSelection
+);
+
+export const selectLoadingSpecialPlanApprovalData = createSelector(
+    specialPlanApprovalLoading,
+    loadingSelection => loadingSelection
+);
+
+//SPECIAL PLAN DETAILS APPROVAL
+
+const specialPlanApprovalDetailsList = (state) => state.monthlyApproval.specialPlanApprovalDetailsList;
+const specialPlanApprovalDetailsLoading = (state) => state.monthlyApproval.specialPlanApprovalDetailsLoading
+
+
+export const selectSpecialPlanApprovalDetailsListData = createSelector(
+    specialPlanApprovalDetailsList,
+    specialPlanApprovalDetailsListDataSelection => specialPlanApprovalDetailsListDataSelection
+);
+
+export const selectLoadingSpecialPlanApprovalDetailsData = createSelector(
+    specialPlanApprovalDetailsLoading,
+    loadingSelection => loadingSelection
+);
+
+
+//VIRTUAL PLAN APPROVAL
+
+const virtualPlanApprovalList = (state) => state.monthlyApproval.virtualPlanApprovalList;
+const virtualPlanApprovalLoading = (state) => state.monthlyApproval.virtualPlanApprovalLoading
+
+
+export const selectVirtualPlanApprovalListData = createSelector(
+    virtualPlanApprovalList,
+    virtualPlanApprovalListDataSelection => virtualPlanApprovalListDataSelection
+);
+
+export const selectLoadingVirtualPlanApprovalData = createSelector(
+    virtualPlanApprovalLoading,
+    loadingSelection => loadingSelection
+);
+
+//SPECIAL PLAN DETAILS APPROVAL
+
+const virtualPlanApprovalDetailsList = (state) => state.monthlyApproval.virtualPlanApprovalDetailsList;
+const virtualPlanApprovalDetailsLoading = (state) => state.monthlyApproval.virtualPlanApprovalDetailsLoading
+
+
+export const selectVirtualPlanApprovalDetailsListData = createSelector(
+    virtualPlanApprovalDetailsList,
+    virtualPlanApprovalDetailsListDataSelection => virtualPlanApprovalDetailsListDataSelection
+);
+
+export const virtualLoadingVirtualPlanApprovalDetailsData = createSelector(
+    virtualPlanApprovalDetailsLoading,
+    loadingSelection => loadingSelection
+);
+

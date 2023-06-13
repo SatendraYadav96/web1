@@ -57,6 +57,19 @@ export const UNLOCK_PLAN_API = { url: '/v1/approval/unlockPlanForUserByMonthAndY
 export const APPROVE_PLAN_API = { url: '/v1/approval/approvePlan', method: 'PUT', auth: true }
 export const REJECT_PLAN_API = { url: '/v1/approval/rejectPlan', method: 'PUT', auth: true }
 export const MONTHLY_TO_SPECIAL_API = { url: '/v1/approval/saveMonthlyToSpecial', method: 'PUT', auth: true }
+export const GET_SPECIAL_PLAN_APPROVAL_API = {url: '/v1/approval/getSpecialPlanForApproval',method:'GET',auth:true}
+export const GET_SPECIAL_PLAN_DETAILS_APPROVAL_DETAILS_API = {url: '/v1/approval/getSpecialPlanApprovalDetails',method:'GET',auth:true}
+export const GET_VIRTUAL_PLAN_APPROVAL_API = {url: '/v1/approval/getVirtualPlanForApproval',method:'GET',auth:true}
+export const GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API = {url: '/v1/approval/getVirtualPlanApprovalDetails',method:'GET',auth:true}
+
+//COMPLIANCE
+export const GET_NON_COMPLIANCE_API = {url: '/v1/compliance/recipientUnblockingPartial',method:'GET',auth:true}
+
+//OVER SAMPLING
+export const GET_COMPLIANCE_DETAILS_API = {url: '/v1/compliance/overSamplingDetails',method:'GET',auth:true}
+
+//MAIL LOG
+export const GET_MAIL_LOG_API = {url: '/v1/compliance/optimaMailLogs',method:'GET',auth:true}
 
 //BUISNESS UNIT
 export const GET_BUISNESS_UNIT_API = {url: '/v1/master/getBusinessUnit',method:'GET',auth:true}
@@ -114,7 +127,6 @@ export const GET_LEGAL_ENTITY_DROPDOWN_API = {url: '/v1/master/getLegalEntityDro
 export const GET_USER_DESIGNATION_DROPDOWN_API = {url: '/v1/master/getUserDesignationDropdown',method:'GET',auth:true}
 export const GET_RECIPIENT_DESIGNATION_DROPDOWN_API = {url: '/v1/master/getRecipientDesignationDropdown',method:'GET',auth:true}
 export const GET_USER_DROPDOWN_API = {url: '/v1/master/getUserDropdown',method:'GET',auth:true}
-
 
 // SAMPLES
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}

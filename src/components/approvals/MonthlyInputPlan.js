@@ -159,6 +159,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
     const [commentRejectModal, setCommentRejectModal] = useState(false)
     const [comment, setComment] = useState()
     const [planPurpose, setPlanPurpose] = useState()
+    const [checked, setChecked] = useState(false);
 
 
     const searchData = () => {
@@ -234,7 +235,8 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 width:'50px',
                 render:(_,row) => {
                     return <Button icon={<ArrowRightOutlined />} onClick={() => {
-                        setOpenMonthlyToSpecial(true)
+                        setOpenMonthlyToSpecial(true);
+                        setPlanId(row.dispatchPlanID)
                     }}></Button>
                 },
             },
@@ -326,7 +328,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width: '100px',
                 render: (_,row) => {
-                    return <Checkbox/>
+                    return <Checkbox checked={checked} onChange={handleChange}></Checkbox>
                 }
             }
         ]);
@@ -349,6 +351,12 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             userDesgId: profileInfo.userDesignation.id,
         })
         searchData()
+    }
+
+    const handleChange = (e) => {
+        console.log('checked = ', e.target.checked);
+        setChecked(e.target.checked);
+        setActive(e.target.checked ? 1 : 0)
     }
 
     const handleDetails = (row) => {
@@ -408,11 +416,11 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
         handleMonthlyToSpecialList({
             certificate: authInfo.token,
             plan: {
-                dispatchPlanId: row.dispatchPlanID,
-                planPurpose: row.userID,
-                month: month,
-                year: year,
-                isSpecialChange: false,
+                dispatchPlanId: planId,
+                planPurpose: planPurpose,
+                month: planMonth,
+                year: planYear,
+                isSpecialChange: true,
             },
         })
     }
@@ -475,7 +483,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             {/*Plan Change*/}
             <Modal title="Plan Change" open={openMonthlyToSpecial} width='60vw' onCancel={() => setOpenMonthlyToSpecial(false)}  footer={[
                 <Button onClick={() => setOpenMonthlyToSpecial(false)}>Close</Button>,
-                <Button type='primary' onClick={() => {setOpenMonthlyToSpecial(false); setCommentModal(true); handleClick()}}>Save</Button>
+                <Button type='primary' onClick={() => {setOpenMonthlyToSpecial(false); handleClick()}}>Save</Button>
             ]}>
                 <Table
                     columns={planColumn}

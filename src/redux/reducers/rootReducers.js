@@ -33,6 +33,7 @@ import deliveryUpdateReducer from "./deliveryUpdateReducer";
 import invoiceUploadReducer from "./invoiceUploadReducer";
 import dashboardReducer from "./dashboardReducer";
 import monthlyApprovalReducer from "./monthlyApprovalReducer";
+import complianceReducer from "./nonComplianceReducer";
 
 
 
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
     itemCode:itemCodeReducer,
     itemRevalidation:itemRevalidationReducer,
     monthlyApproval:monthlyApprovalReducer,
+    compliance:complianceReducer,
     simpleInventoryReport:simpleInventoryReportReducer,
     dispatchesReport:dispatchesReportReducer,
     dispatchRegisterReport:dispatchRegisterReportReducer,
