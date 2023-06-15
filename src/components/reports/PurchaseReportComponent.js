@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table,customFormat} from "antd";
+import {Button, Col, DatePicker, Input, Row, Table, customFormat, Space} from "antd";
 import {Select} from "antd/es";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
@@ -13,6 +13,8 @@ import {selectPurchaseListData,selectLoadingPurchaseReportData} from "../../redu
 import moment from 'moment'
 import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
 
 const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,handlePurchaseReportList}) => {
@@ -27,6 +29,99 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
     const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
     const searchData = () => {
         setFlag(true)
@@ -53,25 +148,28 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 title: 'Vendor Name',
                 key: 'vendorName',
                 dataIndex: 'vendorName',
-                width: '100px'
+                width: '150px',
+                ...getColumnSearchProps('vendorName'),
             },
             {
                 title: 'Vendor Code',
                 key: 'vendorCode',
                 dataIndex: 'vendorCode',
-                width: '100px'
+                width: '120px',
+                ...getColumnSearchProps('vendorCode'),
             },
             {
                 title: 'PO No.',
                 key: 'poNo',
                 dataIndex: 'poNo',
-                width: '100px'
+                width: '120px',
+                ...getColumnSearchProps('poNo'),
             },
             {
                 title: 'Input Name',
                 key: 'productName',
                 dataIndex: 'productName',
-                width: '100px'
+                width: '150px'
             },
             {
                 title: 'Product Code',
@@ -201,7 +299,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         <>
             <TitleWidget title="Purchase Report" />
             <Row gutter={[8,8]}>
-                <Col span={2}>
+                <Col span={3}>
                     Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit} />
                 </Col>
@@ -210,10 +308,10 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                     <SelectDivisionComponent value={division} onChange={handleDivision} />
                 </Col>
                  <Col span={3}>
-                     From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                     From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                  </Col>
                  <Col span={3}>
-                     To Date <br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                     To Date <br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                  </Col>
                 <Col span={3}>
                     <br/>

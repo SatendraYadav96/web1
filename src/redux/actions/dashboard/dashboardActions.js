@@ -5,7 +5,7 @@ import {
     HUB_NEAR_EXPIRY_START_ACTION,
     HUB_NEAR_EXPIRY_SUCCESS_ACTION,
     HUB_PENDING_REVALIDATION_FAIL_ACTION,
-    HUB_PENDING_REVALIDATION_START_ACTION, HUB_PENDING_REVALIDATION_SUCCESS_ACTION, ITEM_EXPIRED_DETAILS_FAIL_ACTION, ITEM_EXPIRED_DETAILS_START_ACTION, ITEM_EXPIRED_DETAILS_SUCCESS_ACTION,
+    HUB_PENDING_REVALIDATION_START_ACTION, HUB_PENDING_REVALIDATION_SUCCESS_ACTION, ITEM_EXPIRED_DETAILS_FAIL_ACTION, ITEM_EXPIRED_DETAILS_START_ACTION, ITEM_EXPIRED_DETAILS_SUCCESS_ACTION, MANAGEMENT_DASHBOARD_FAIL_ACTION, MANAGEMENT_DASHBOARD_START_ACTION, MANAGEMENT_DASHBOARD_SUCCESS_ACTION,
     PENDING_DISPATCH_FAIL_ACTION,
     PENDING_DISPATCH_START_ACTION,
     PENDING_DISPATCH_SUCCESS_ACTION
@@ -121,6 +121,29 @@ export const itemExpiredDetailsSuccessAction = (payload) => (dispatch) => {
 export const itemExpiredDetailsFailAction = (payload) => (dispatch) => {
     dispatch({
         type: ITEM_EXPIRED_DETAILS_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+//MANAGEMENT_DASHBOARD
+export const managementDashboardStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MANAGEMENT_DASHBOARD_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const managementDashboardSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MANAGEMENT_DASHBOARD_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const managementDashboardFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MANAGEMENT_DASHBOARD_FAIL_ACTION,
         payload: payload,
     })
 }

@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
-import {InfoOutlined, SaveOutlined, ZoomInOutlined} from "@ant-design/icons";
+import {Button, Checkbox, Col, Input, Modal, Row, Select, Space, Table} from "antd";
+import {InfoOutlined, SaveOutlined, SearchOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {useLocation, useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
@@ -16,6 +16,8 @@ import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectInvoic
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
+import Highlighter from 'react-highlight-words';
+
 
 const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel}) => {
 
@@ -41,7 +43,101 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     const [printAllInvoice, setPrintAllInvoice] = useState([])
     const [count, setCount] = useState(0)
     const [countLabel, setCountLabel] = useState(0)
-    const location = useLocation()
+    const location = useLocation();
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+
 
     const handleAllPrint = (event) => {
         setAllCheck(event.target.checked)
@@ -245,18 +341,25 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     key: 'employee',
                     dataIndex: 'employeeName',
                     width:'150px',
+                    ...getColumnSearchProps('employeeName'),
                 },
                 {
                     title: 'Code',
                     key: 'code',
                     dataIndex: 'code',
                     width:'150px',
+                    ...getColumnSearchProps('code'),
+                    sorter: (a, b) => a.code - b.code,
+                    sortDirections: ['descend', 'ascend'],
                 },
                 {
                     title:'Invoice No',
                     key: 'invoiceNo',
                     dataIndex: 'invoiceNumber',
                     width: '150px',
+                    ...getColumnSearchProps('invoiceNumber'),
+                    sorter: (a, b) => a.invoiceNumber - b.invoiceNumber,
+                    sortDirections: ['descend', 'ascend'],
                 },
                 {
                     title: 'Group No',
@@ -349,8 +452,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     }
                 },
                 {
-                    // title: `Print`,
-                    title: <Checkbox onChange={(event) => handleAllPrint(event)} >Print</Checkbox>,
+                    title: `Print`,
+                    // title: <Checkbox onChange={(event) => handleAllPrint(event)} >Print</Checkbox>,
                     key: '',
                     dataIndex: '',
                     width: '30px',
@@ -702,9 +805,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             <br/>
             {flag &&
                 <>
-                    <div align="right">
-                        <Input.Search style={{ width: 304 }} />
-                    </div>
                     <br/><br/>
                     <Table columns={column} dataSource={invoiceList}/>
                 </>

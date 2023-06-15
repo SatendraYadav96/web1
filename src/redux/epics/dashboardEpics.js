@@ -1,7 +1,7 @@
-import {HUB_GRN_ERROR_LOG_START_ACTION, HUB_NEAR_EXPIRY_START_ACTION, HUB_PENDING_REVALIDATION_START_ACTION, ITEM_EXPIRED_DETAILS_START_ACTION, PENDING_DISPATCH_START_ACTION} from "../actions/dashboard/dashboardActionConstants";
+import {HUB_GRN_ERROR_LOG_START_ACTION, HUB_NEAR_EXPIRY_START_ACTION, HUB_PENDING_REVALIDATION_START_ACTION, ITEM_EXPIRED_DETAILS_START_ACTION, MANAGEMENT_DASHBOARD_START_ACTION, PENDING_DISPATCH_START_ACTION} from "../actions/dashboard/dashboardActionConstants";
 import {ofType} from "redux-observable";
 import {catchError, debounceTime, map, of, switchMap} from "rxjs";
-import {hubGrnErrorLogRequest, hubNearExpiryRequest, hubPendingRevalidationRequest, itemExpiredDetailsRequest, pendingDispatchRequest} from "../../api/dashboardRequests";
+import {hubGrnErrorLogRequest, hubNearExpiryRequest, hubPendingRevalidationRequest, itemExpiredDetailsRequest, managementDashboardRequest, pendingDispatchRequest} from "../../api/dashboardRequests";
 import {
     hubGrnErrorLogFailAction,
     hubGrnErrorLogSuccessAction,
@@ -10,7 +10,7 @@ import {
     hubNearExpirySuccessAction,
     hubPendingRevalidationFailAction,
     hubPendingRevalidationStartAction,
-    hubPendingRevalidationSuccessAction, itemExpiredDetailsFailAction, itemExpiredDetailsSuccessAction,
+    hubPendingRevalidationSuccessAction, itemExpiredDetailsFailAction, itemExpiredDetailsSuccessAction, managementDashboardFailAction, managementDashboardSuccessAction,
     pendingDispatchFailAction,
     pendingDispatchSuccessAction
 } from "../actions/dashboard/dashboardActions";
@@ -83,6 +83,20 @@ export const itemExpiredDetailsStartEpic = (action$) =>
             itemExpiredDetailsRequest(action.payload).pipe(
                 map((listResponse) => itemExpiredDetailsSuccessAction({itemExpiredDetailsList: listResponse.response})),
                 catchError((error) => of(itemExpiredDetailsFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// ITEM_EXPIRED_DETAILS
+export const managementDashboardStartEpic = (action$) =>
+    action$.pipe(
+        ofType(MANAGEMENT_DASHBOARD_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            managementDashboardRequest(action.payload).pipe(
+                map((listResponse) => managementDashboardSuccessAction({managementDashboardList: listResponse.response})),
+                catchError((error) => of(managementDashboardFailAction({error: error}))),
             )
         )
     )

@@ -16,9 +16,12 @@ import XLSX from "xlsx"
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectTypeComponent from "../widgets/SelectTeamComponent";
+import {selectManagementDashboard} from "../../redux/selectors/dashboardSelector";
+import {managementDashboardStartAction} from "../../redux/actions/dashboard/dashboardActions";
+import {Option} from "antd/es/mentions";
 
 
-const ManagementDashboardComponent = ({authInfo}) => {
+const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleManagementDashboard}) => {
 
     // let now = new Date()
 
@@ -26,6 +29,11 @@ const ManagementDashboardComponent = ({authInfo}) => {
     const [division, setDivision] = useState()
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
+    const [type, setType] = useState()
+    const [month, setMonth] = useState()
+    const [year, setYear] = useState()
+    const [toMonth, setToMonth] = useState()
+    const [toYear, setToYear] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
@@ -35,106 +43,32 @@ const ManagementDashboardComponent = ({authInfo}) => {
         setFlag(true)
         setColumn([
             {
-                title:'Employee Code',
-                key:'employeeCode',
-                dataIndex:'employeeCode',
+                title:'Business Unit',
+                key:'businessunit',
+                dataIndex:'businessunit',
                 width:'100px'
             },
             {
-                title:'Employee Name',
-                key:'employeeCode',
-                dataIndex:'employeeCode',
+                title:'Brand Manager',
+                key:'brand_Manager',
+                dataIndex:'brand_Manager',
                 width:'100px'
             },
             {
-                title: 'Team',
-                key: 'team',
-                dataIndex: 'team',
+                title: 'Plantype',
+                key: 'plantype',
+                dataIndex: 'plantype',
                 width: '100px'
             },
             {
-                title: 'Headquater',
-                key: 'headquater',
-                dataIndex: 'headquater',
-                width: '100px'
-            },
-            {
-                title: 'AM',
-                key: 'am',
-                dataIndex: 'am',
-                width: '100px'
-            },
-            {
-                title: 'RBM',
-                key: 'rbm',
-                dataIndex: 'rbm',
-                width: '100px'
-            },
-            {
-                title: 'Month',
-                key: 'month',
-                dataIndex: 'month',
-                width: '100px'
-            },
-            {
-                title: 'Year',
-                key: 'year',
-                dataIndex: 'year',
-                width: '100px'
-            },
-            {
-                title: 'Is Blocked',
-                key: 'isBlocked',
-                dataIndex: 'isBlocked',
-                width: '100px'
-            },
-            {
-                title: 'Remark',
-                key: 'remark',
-                dataIndex: 'remark',
-                width: '100px'
-            },
-            {
-                title: 'Admin Remark',
-                key: 'adminRemark',
-                dataIndex: 'adminRemark',
+                title: 'Submission Date',
+                key: 'submitted_On',
+                dataIndex: 'submitted_On',
                 width: '100px'
             },
         ])
 
         setDataSource([])
-    }
-
-    // const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
-    // const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
-
-
-    const getPurchaseReportList = () => {
-        // console.log(businessUnit);
-        // console.log(division);
-        // console.log(startDate);
-        // console.log(endDate);
-        // console.log(profileInfo.id);
-        // console.log(profileInfo.userDesignation.id);
-        //
-        // console.log(purchaseList);
-
-        // handlePurchaseReportList ({
-        //     businessUnit:businessUnit,
-        //     divison:division,
-        //     userId: profileInfo.id,
-        //     userDesgId: profileInfo.userDesignation.id,
-        //     startDate:formatedStartDateString,
-        //     endDate:formatedEndDateString,
-        //     // startDate:startDate,
-        //     // endDate:endDate,
-        //
-        //
-        //
-        //     certificate: authInfo.token
-        // });
-        searchData()
-
     }
 
     const handleExcel = () => {
@@ -144,37 +78,18 @@ const ManagementDashboardComponent = ({authInfo}) => {
         XLSX.writeFile(wb,"PurchaseReport.XLSX")
     }
 
-    // useEffect(() => {
-    //     setData(purchaseList.map(item => {
-    //         return {
-    //             team: item.businessUnit,
-    //             subTeam: item.divison,
-    //             grnDate: item.grnDate,
-    //             vendorName: item.vendorName,
-    //             vendorCode: item.vendorCode,
-    //             poNo: item.poNo,
-    //             inputName: item.productName,
-    //             inputCode: item.productCode,
-    //             costCenter: item.costCenter,
-    //             quantity: item.quantity,
-    //             rate: item.rate,
-    //             value: item.value,
-    //             batchNo: item.batchNo,
-    //             medicalCode: item.medicalCode,
-    //             noBoxes: item.noBoxes,
-    //
-    //         }
-    //     }))
-    //     console.log(purchaseList)
-    // },[purchaseList])
 
-    // const handleBusinessUnit = (value) =>  {
-    //     setBusinessUnit(value)
-    // }
-    //
-    // const handleDivision = (value) => {
-    //     setDivision(value)
-    // }
+    const getManagementDashboard = () => {
+        handleManagementDashboard({
+            certificate: authInfo.token,
+            type: type,
+            month: month,
+            year: year,
+            toMonth: toMonth,
+            toYear: toYear,
+        })
+        searchData()
+    }
 
     return(
         <>
@@ -182,19 +97,33 @@ const ManagementDashboardComponent = ({authInfo}) => {
             <Row gutter={[8,8]}>
                 <Col span={5}>
                     Type<br/>
-                    <SelectTypeComponent/>
+                    <Select placeholder="Select Type" style={{width: "100%"}} onChange={(value) => setType(value)}>
+                        <Option value={1}>BU wise final monthly plan approvals</Option>
+                        <Option value={2}>BU Wise Special Dispatches</Option>
+                        <Option value={3}>BU wise block and unblock FF details</Option>
+                        <Option value={4}>Sample / Input Expired</Option>
+                        <Option value={5}>Value of Inputs to other than FF and RBM</Option>
+                    </Select>
                 </Col>
                 <Col span={3}>
-                    From<br/>
-                    <DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
+                    From Month<br/>
+                    <SelectMonthComponent onChange={(value) => setMonth(value)}/>
                 </Col>
                 <Col span={3}>
-                    Month <br/>
-                    <DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
+                    Year <br/>
+                    <SelectYearComponent onChange={(value) => setYear(value)}/>
+                </Col>
+                <Col span={3}>
+                    To Month<br/>
+                    <SelectMonthComponent onChange={(value) => setToMonth(value)}/>
+                </Col>
+                <Col span={3}>
+                    Year <br/>
+                    <SelectYearComponent onChange={(value) => setToYear(value)}/>
                 </Col>
                 <Col span={3}>
                     <br/>
-                    <Button type={"primary"} onClick={()=>getPurchaseReportList()}>Search</Button>
+                    <Button type={"primary"} onClick={()=>getManagementDashboard()}>Search</Button>
                 </Col>
             </Row>
             <br/>
@@ -222,7 +151,7 @@ const ManagementDashboardComponent = ({authInfo}) => {
             </Row>
             <br/>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource}/>
+                <Table columns={column} scroll={{y: '100%'}} dataSource={managementDashboardList}/>
             }
         </>
     )
@@ -231,22 +160,18 @@ const ManagementDashboardComponent = ({authInfo}) => {
 
 ManagementDashboardComponent.propTypes = {
     authInfo: PropTypes.any,
-    // profileInfo: PropTypes.any,
-    // purchaseList:PropTypes.array,
-    // purchaseReportLoading:PropTypes.any,
-    // handlePurchaseReportList:PropTypes.func
+    managementDashboardList:PropTypes.array,
+    handleManagementDashboard:PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    // const profileInfo = selectProfileInfo(state)
-    // const purchaseList = selectPurchaseListData(state)
-    // const purchaseReportLoading = selectLoadingPurchaseReportData(state)
-    return {authInfo}
+    const managementDashboardList = selectManagementDashboard(state)
+    return {authInfo,managementDashboardList}
 }
 
 const actions = {
-    // handlePurchaseReportList : getPurchaseReportStartAction
+    handleManagementDashboard : managementDashboardStartAction
 }
 
 export default connect(mapState, actions)(ManagementDashboardComponent)

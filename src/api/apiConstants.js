@@ -71,6 +71,9 @@ export const GET_COMPLIANCE_DETAILS_API = {url: '/v1/compliance/overSamplingDeta
 //MAIL LOG
 export const GET_MAIL_LOG_API = {url: '/v1/compliance/optimaMailLogs',method:'GET',auth:true}
 
+//MANAGEMENT DASHBOARD
+export const GET_MANAGEMENT_DASHBOARD_API = {url: '/v1/dashboard/bexManagementDashboard',method:'GET',auth:true}
+
 //BUISNESS UNIT
 export const GET_BUISNESS_UNIT_API = {url: '/v1/master/getBusinessUnit',method:'GET',auth:true}
 export const ADD_BUISNESS_UNIT_API = { url: '/v1/master/addBusinessUnit', method: 'POST', auth: true }

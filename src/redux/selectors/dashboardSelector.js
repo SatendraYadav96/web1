@@ -28,3 +28,10 @@ const itemExpiredDetails = (state) => state.dashboard.itemExpiredDetails
 const itemExpiredDetailsLoading = (state) => state.dashboard.itemExpiredDetailsLoading
 export const selectItemExpiredDetails = createSelector(itemExpiredDetails, (itemExpiredDetailsSelect) => itemExpiredDetailsSelect)
 export const selectItemExpiredDetailsLoading = createSelector(itemExpiredDetailsLoading, (itemExpiredDetailsLoadingSelect) => itemExpiredDetailsLoadingSelect)
+
+
+const managementDashboard = (state) => state.dashboard.managementDashboard
+const managementDashboardLoading = (state) => state.dashboard.managementDashboardLoading
+export const selectManagementDashboard = createSelector(managementDashboard, (managementDashboardSelect) => managementDashboardSelect)
+export const selectManagementDashboardLoading = createSelector(managementDashboardLoading, (managementDashboardLoadingSelect) => managementDashboardLoadingSelect)
+

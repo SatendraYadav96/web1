@@ -9,7 +9,7 @@ import {
     ITEM_EXPIRED_DETAILS_FAIL_ACTION,
     ITEM_EXPIRED_DETAILS_SUCCESS_ACTION,
     PENDING_DISPATCH_SUCCESS_ACTION,
-    PENDING_DISPATCH_FAIL_ACTION
+    PENDING_DISPATCH_FAIL_ACTION, MANAGEMENT_DASHBOARD_SUCCESS_ACTION, MANAGEMENT_DASHBOARD_FAIL_ACTION
 } from "../actions/dashboard/dashboardActionConstants";
 
 const initialState = {
@@ -23,6 +23,8 @@ const initialState = {
     hubGrnErrorLogLoading: false,
     itemExpiredDetails: [],
     itemExpiredDetailsLoading: false,
+    managementDashboard: [],
+    managementDashboardLoading: false,
     error: null,
 }
 
@@ -134,6 +136,28 @@ const itemExpiredDetailsFailReducer = (state = initialState, payload) => {
     }
 }
 
+
+//MANAGEMENT_DASHBOARD
+
+const managementDashboardSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        managementDashboard: payload.managementDashboardList,
+        managementDashboardLoading: false,
+        error: null
+
+    }
+}
+
+const managementDashboardFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        managementDashboard:[],
+        error: payload.error,
+        managementDashboardLoading: false,
+    }
+}
+
 export default createReducer(initialState, {
     [PENDING_DISPATCH_SUCCESS_ACTION]: pendingDispatchSuccessReducer,
     [PENDING_DISPATCH_FAIL_ACTION]: pendingDispatchFailReducer,
@@ -145,4 +169,6 @@ export default createReducer(initialState, {
     [HUB_GRN_ERROR_LOG_FAIL_ACTION]: hubGrnErrorLogFailReducer,
     [ITEM_EXPIRED_DETAILS_SUCCESS_ACTION]: itemExpiredDetailsSuccessReducer,
     [ITEM_EXPIRED_DETAILS_FAIL_ACTION]: itemExpiredDetailsFailReducer,
+    [MANAGEMENT_DASHBOARD_SUCCESS_ACTION]: managementDashboardSuccessReducer,
+    [MANAGEMENT_DASHBOARD_FAIL_ACTION]: managementDashboardFailReducer,
 })

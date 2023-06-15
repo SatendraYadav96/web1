@@ -26,6 +26,10 @@ const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUp
         setVisible(true)
     }
 
+    const handleBack = () => {
+        return navigate("/home/dispatchInvoicing/groupInvoice")
+    }
+
     const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
 
@@ -193,6 +197,9 @@ const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUp
                 </Col>
                 <Col span={2}>
                     <br/><Button type={'primary'} onClick={handleGroupInvoice}>Search</Button>
+                </Col>
+                <Col span={2}>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
                 </Col>
                 {/*<Col span={1}>*/}
                 {/*    <br/><Button icon={<PlusOutlined />} onClick={() => createGroupInvoice()}></Button>*/}
