@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Select, Table} from "antd";
+import SelectMonthComponent from "../widgets/SelectMonthComponent";
+import SelectYearComponent from "../widgets/SelectYearComponent";
 
 const VirtualAllocationComponent = ({authInfo}) => {
 
@@ -63,12 +65,12 @@ const VirtualAllocationComponent = ({authInfo}) => {
     return(
         <>
             <TitleWidget title={"Virtual Input Plan"}/>
-            <Row>
-               <Col span={4}>
-                   <Select style={{width:'150px'}}></Select>
+            <Row gutter={[8,8]}>
+               <Col span={3}>
+                   <SelectMonthComponent style={{width:'100%'}}/>
                </Col>
-                <Col span={4}>
-                    <Select style={{width: '150px'}}></Select>
+                <Col span={3}>
+                    <SelectYearComponent style={{width:'100%'}}/>
                 </Col>
                 <Col span={4}>
                     <Button type={"primary"}>Create / View</Button>

@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table} from "antd";
+import {Button, Col, DatePicker, Input, Row, Space, Table} from "antd";
 import {Select} from "antd/es";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
@@ -13,6 +13,8 @@ import {selectConsumptionListData,selectLoadingConsumptionReportData} from "../.
 import moment from 'moment'
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx";
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
 const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,consumptionReportLoading,handleConsumptionReportList}) => {
 
@@ -24,6 +26,100 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [division, setDivision] = useState()
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
     const searchData = () => {
         setFlag(true)
@@ -32,37 +128,43 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
                 title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('businessUnit'),
             },
             {
                 title:'SubTeam',
                 key:'division',
                 dataIndex:'division',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('division'),
             },
             {
                 title: 'Cost Center',
-                key: '',
+                key: 'costCenter',
                 dataIndex: 'costCenter',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('costCenter'),
             },
             {
                 title: 'Item Name',
-                key: '',
+                key: 'itemName',
                 dataIndex: 'itemName',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('itemName'),
             },
             {
                 title: 'Item Code',
-                key: '',
+                key: 'itemCode',
                 dataIndex: 'itemCode',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('itemCode'),
             },
             {
                 title: 'Type',
-                key: '',
+                key: 'itemType',
                 dataIndex: 'itemType',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('itemType'),
             },
             {
                 title: 'Expiry Date',
@@ -153,7 +255,7 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
         <>
             <TitleWidget title="Item Consumption Report" />
             <Row gutter={[8,8]}>
-                <Col span={2}>
+                <Col span={3}>
                     Team <br/>
                     <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
                 </Col>
@@ -189,11 +291,6 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
                         </CSVLink>)}
                     &nbsp;
                     <Button onClick={handleExcel}>EXCEL</Button>
-                </Col>
-                <Col span={18}>
-                    <div align="right">
-                        <Input.Search style={{ width: 300 }}/>
-                    </div>
                 </Col>
             </Row>
             <br/>

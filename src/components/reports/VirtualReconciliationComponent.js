@@ -196,7 +196,7 @@ const VirtualReconciliationComponent = ({authInfo}) => {
     return(
         <>
             <TitleWidget title="Virtual Reconciliation" />
-            <Row gutter={[16,16]}>
+            <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team <br/>
                     <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />

@@ -401,11 +401,6 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                     <Button onClick={handleExcel}>EXCEL</Button>
 
                 </Col>
-                <Col span={18}>
-                    <div align="right">
-                        <Input.Search style={{ width: 300 }}/>
-                    </div>
-                </Col>
             </Row>
             <br/>
             {flag &&

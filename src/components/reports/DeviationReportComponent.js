@@ -12,6 +12,7 @@ import moment from 'moment'
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import dayjs from "dayjs";
 import {CSVLink} from "react-csv";
+import XLSX from "xlsx";
 
 const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationReportLoading,handleDeviationReportList}) => {
 
@@ -108,6 +109,13 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
 
     }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"DeviationReport.XLSX")
+    }
+
     useEffect(() => {
         setData(deviationList.map(item => {
             return {
@@ -134,11 +142,11 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
                 </Col>
                 <Col span={3}>
                     From Date<br/>
-                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: '100%'}}/>
                 </Col>
                 <Col span={3}>
                     To Date<br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: '100%'}}/>
                 </Col>
                 <Col span={3}>
                     <br/>
@@ -157,14 +165,9 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
                             }}
                         >
                             <Button>CSV</Button>
-                        </CSVLink>)
-                    }
-                    &nbsp;<Button>PDF</Button>
-                </Col>
-                <Col span={18}>
-                    <div align="right">
-                        <Input.Search style={{ width: 300 }}/>
-                    </div>
+                        </CSVLink>)}
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
             </Row>
             <br/>

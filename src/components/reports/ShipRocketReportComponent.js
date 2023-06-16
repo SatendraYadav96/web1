@@ -21,12 +21,12 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport}) => {
       console.log(formatedStartDateString);
       console.log(formatedEndDateString);
 
-      handleShipRocketReport ({
-        fromDate:formatedStartDateString,
-        toDate:formatedEndDateString,
-        statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
-        certificate: authInfo.token
-      });
+      // handleShipRocketReport ({
+      //   fromDate:formatedStartDateString,
+      //   toDate:formatedEndDateString,
+      //   statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
+      //   certificate: authInfo.token
+      // });
 
     }
 
@@ -36,11 +36,11 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport}) => {
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     From Date <br/>
-                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')}/>
+                    <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     To Date<br/>
-                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')}/>
+                    <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     <br/>

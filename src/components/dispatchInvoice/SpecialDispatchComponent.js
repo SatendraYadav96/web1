@@ -216,13 +216,6 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
                 <Col span={4}>
                     <Button type={'primary'} onClick={() => getSpecialDispatchList()}>Submit</Button>
                 </Col>
-                <Col span={14}>
-                    <>
-                        <div align="right">
-                            <Input.Search style={{ width: 300 }} />
-                        </div>
-                    </>
-                </Col>
             </Row>
             <br/><br/>
             <Table columns={column} dataSource={specialData}/>
