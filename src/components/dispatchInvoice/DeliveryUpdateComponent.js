@@ -16,6 +16,7 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [file, setFile] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -83,17 +84,72 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
         console.log(deliveryUpdateList)
     },[deliveryUpdateList])
 
+    // const handleFileRead = async (event) => {
+    //     const file = event
+    //     console.log(file)
+    //     const base64 = await convertBase64(file)
+    //     console.log(base64)
+    // }
+
+    // const convertBase64 = async (file) => {
+    //     let result_base64 = await new Promise((resolve) => {
+    //         let fileReader = new FileReader();
+    //         fileReader.onload = (e) => resolve(fileReader.result);
+    //         fileReader.readAsDataURL(file);
+    //     });
+    //
+    //     console.log(result_base64); // aGV5IHRoZXJl...
+    //
+    //     return result_base64;
+    // }
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const handleUpload = (info) => {
+        setFile(info.fileList)
+        console.log(info)
+        // const file = info.file.originFileObj
+        // const base64 = await convertBase64(file)
+        // console.log(base64)
+        // console.log(file.name)
+    }
+
+    const upload = async () => {
+        console.log(file)
+        const newFile = file[0].originFileObj
+        const base64 = await convertBase64(newFile)
+        console.log(newFile)
+        console.log(base64)
+    }
+
+    const dummyRequest = ({ file, onSuccess }) => {
+        setTimeout(() => {
+            onSuccess("ok");
+        }, 0);
+    };
+
     return(
         <div>
             <TitleWidget title={'Delivery Update'} />
             <Row>
                 <Col span={3}>
-                    <Upload>
+                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file}>
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
                 <Col span={3}>
-                    <Button type={'primary'}>Upload</Button>
+                    <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
             </Row>
             <br/><br/>

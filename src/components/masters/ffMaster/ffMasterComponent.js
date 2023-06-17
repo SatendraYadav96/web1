@@ -1,15 +1,16 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Modal, Row, Select, Table} from "antd";
-import {EditOutlined, PlusOutlined, InfoCircleOutlined} from "@ant-design/icons";
+import {Button, Checkbox, Col, Input, Modal, Row, Select, Space, Table} from "antd";
+import {EditOutlined, PlusOutlined, InfoCircleOutlined, SearchOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import SelectRecipientCodeComponent from "../../widgets/SelectRecipientCodeComponent";
 import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusComponent";
 import {selectFFHistoryByIdData, selectFFListData} from "../../../redux/selectors/masterSelector";
 import {getFFHistoryByIdStartAction, getFFStartAction} from "../../../redux/actions/master/masterActions";
+import Highlighter from "react-highlight-words";
 
 const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHistoryList}) => {
 
@@ -22,7 +23,100 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
     const [status, setStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [recipientCode, setRecipientCode] = useState("")
     const [ffHistory, setFFHistory] = useState(false)
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
 
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
     const searchData = () => {
         setFlag(true)
@@ -31,7 +125,10 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                 title: 'Employee Code',
                 key: 'employeeCode',
                 dataIndex: 'code',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('employeeCode'),
+                sorter: (a, b) => a.employeeCode - b.employeeCode,
+                sortDirections: ['descend', 'ascend'],
             },
             {
                 title: 'Employee Name',
