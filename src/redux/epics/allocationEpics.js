@@ -1,8 +1,17 @@
 import { ofType } from 'redux-observable'
 import {catchError, debounceTime, forkJoin, map, of, switchMap} from 'rxjs'
-import {GET_ALLOCATIONS_FOR_PLAN_START, MONTHLY_ALLOCATION_START} from '../actions/allocation/allocationActionConstants'
+import {GET_ALLOCATIONS_FOR_PLAN_START, MONTHLY_ALLOCATION_START, RECIPIENTS_TO_ALLOCATE_LIST_START} from '../actions/allocation/allocationActionConstants'
 import {itemsToAllocateListRequest, monthlyPlanCreateViewRequest, allocationsForPlanRequest} from '../../api/allocationRequests'
-import {getAllocationsForPlanFailAction, getAllocationsForPlanStartAction, getAllocationsForPlanSuccessAction, monthlyAllocationFailAction, monthlyAllocationSuccessAction, teamsToAllocateListFailAction, teamsToAllocateListSuccessAction} from '../actions/allocation/allocationActions'
+import {
+    getAllocationsForPlanFailAction,
+    getAllocationsForPlanStartAction,
+    getAllocationsForPlanSuccessAction,
+    monthlyAllocationFailAction,
+    monthlyAllocationSuccessAction, recipientsToAllocateListFailAction,
+    recipientsToAllocateListStartAction, recipientsToAllocateListSuccessAction,
+    teamsToAllocateListFailAction,
+    teamsToAllocateListSuccessAction
+} from '../actions/allocation/allocationActions'
 
 export const allocationsForPlanStartEpic = (action$) =>
     action$.pipe(
@@ -28,6 +37,19 @@ export const monthlyPlanStartEpic = (action$) =>
                 map((planResponse) =>
                     monthlyAllocationSuccessAction({ plan: planResponse.response.plan, items: planResponse.response.item })),
                 catchError((error) => of(monthlyAllocationFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+
+export const recipientsToAllocateListStartEpic = (action$) =>
+    action$.pipe(
+        ofType(RECIPIENTS_TO_ALLOCATE_LIST_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            allocationsForPlanRequest(action.payload).pipe(
+                map((allocationResponse) => recipientsToAllocateListSuccessAction({recipientAllocations: allocationResponse.response})),
+                catchError((error) => of(recipientsToAllocateListFailAction({ error: error }))),
             ),
         ),
     )

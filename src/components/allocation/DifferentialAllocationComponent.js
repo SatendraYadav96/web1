@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {Col, InputNumber, Row, Spin, Transfer} from "antd";
 import {selectRecipientList} from "../../redux/selectors/recipientSelectors";
 
-const DifferentialAllocationComponent = ({teamId, handleLoadRecipients, authInfo, recipients}) => {
+const DifferentialAllocationComponent = ({teamId, handleLoadRecipients, authInfo, recipients, }) => {
     const [targetKeys, setTargetKeys] = useState([]);
     const [selectedKeys, setSelectedKeys] = useState([]);
     useEffect(()=> {

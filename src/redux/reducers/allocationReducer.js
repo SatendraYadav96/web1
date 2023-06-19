@@ -8,16 +8,18 @@ import {
     GET_ALLOCATIONS_FOR_PLAN_SUCCESS,
     MONTHLY_ALLOCATION_FAIL,
     MONTHLY_ALLOCATION_START,
-    MONTHLY_ALLOCATION_SUCCESS,
+    MONTHLY_ALLOCATION_SUCCESS, RECIPIENTS_TO_ALLOCATE_LIST_FAIL, RECIPIENTS_TO_ALLOCATE_LIST_START,
 } from "../actions/allocation/allocationActionConstants";
 const initialState = {
-  items: [],
-  allocations: [],
-  itemsLoading: false,
-  allocationsLoading: false,
-  commonAllocationDone: new Date(),
-  plan: [],
-  error: null,
+    items: [],
+    allocations: [],
+    itemsLoading: false,
+    recipientAllocations: [],
+    recipientAllocationsLoading: false,
+    allocationsLoading: false,
+    commonAllocationDone: new Date(),
+    plan: [],
+    error: null,
 }
 
 const allocationForPlanStartReducer = (state = initialState, payload) => {
@@ -89,6 +91,22 @@ const monthlyAllocationFailReducer = (state = initialState, payload) => {
     }
 }
 
+const recipientAllocationsSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        recipientAllocations: payload.recipientAllocations,
+        error: null,
+    }
+}
+
+const recipientAllocationsFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        error: payload.error,
+    }
+}
+
+
 const allocateToTeamReducer = (state = initialState, payload) => {
     const item = payload.item
     const team = payload.team
@@ -155,7 +173,9 @@ export default createReducer(initialState, {
     [ALLOCATION_PAGE_RESET]: allocationPageResetReducer,
     [MONTHLY_ALLOCATION_START]: monthlyAllocationStartReducer,
     [MONTHLY_ALLOCATION_SUCCESS]: monthlyAllocationSuccessReducer,
-    [MONTHLY_ALLOCATION_FAIL]: monthlyAllocationFailReducer,
+    [MONTHLY_ALLOCATION_START]: monthlyAllocationStartReducer,
+    [RECIPIENTS_TO_ALLOCATE_LIST_START]: recipientAllocationsSuccessReducer,
+    [RECIPIENTS_TO_ALLOCATE_LIST_FAIL]: recipientAllocationsFailReducer,
     [ALLOCATE_TO_TEAM]: allocateToTeamReducer,
     [ALLOCATE_TO_ALL_TEAMS]: allocateToAllTeamsReducer
 })

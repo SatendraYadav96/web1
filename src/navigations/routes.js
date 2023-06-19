@@ -64,6 +64,7 @@ const ComplianceDetailsList = React.lazy(() => import('../components/overSamplin
 const BatchReconciliation = React.lazy(() => import('../components/batchReconciliation/BatchReconciliation'))
 const VirtualAllocationComponent = React.lazy(() => import('../components/allocation/VirtualAllocationComponent'))
 const SpecialAllocationComponent = React.lazy(() => import('../components/allocation/SpecialAllocationComponent'))
+const SpecialAllocationMainComponent = React.lazy(() => import('../components/allocation/SpecialAllocationMainComponent'))
 const CreateSpecialAllocationComponent = React.lazy(() => import('../components/allocation/CreateSpecialAllocationComponent'))
 const MassRevalidationComponent = React.lazy(() => import('../components/revalidation/MassRevalidationComponent'))
 const AllocationReportComponent = React.lazy(() => import('../components/reports/AllocationReportComponent'))
@@ -82,7 +83,8 @@ const routes = [
     { path: '/home/grn/logs', name: 'GRNUploadComponent', element: GRNUploadComponent },
     { path: '/home/allocations/monthly/create', name: 'MonthlyAllocationComponent', element: MonthlyAllocationComponent },
     { path: '/home/allocations/virtual/create', name: 'VirtualAllocationComponent', element: VirtualAllocationComponent},
-    { path: '/home/allocations/special/create', name: 'SpecialAllocationComponent', element: SpecialAllocationComponent},
+    { path: '/home/allocations/special', name: 'SpecialAllocationMainComponent', element: SpecialAllocationMainComponent},
+    { path: '/home/allocations/special/create', name: 'SpecialAllocationComponent', element: SpecialAllocationMainComponent},
     { path: '/home/allocations/special/createNew', name: 'CreateSpecialAllocationComponent', element: CreateSpecialAllocationComponent},
     { path: '/login', name: 'Login', element: Login },
     { path: '/home/dispatchInvoicing/pickingSlip', name: 'PickingSlip', element: PickingSlipComponent},

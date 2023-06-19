@@ -80,10 +80,10 @@ const TeamAllocationComponent = ({
             key: 'change',
             render: (_, row)=> {
                 return <Button type={'link'}
-                               onClick={()=> {
-                                   setTeamForDifferential(row.id)
-                                   setShowDifferential(true)
-                               }}>Change</Button>
+                   onClick={()=> {
+                       setTeamForDifferential(row.id)
+                       setShowDifferential(true)
+                   }}>Change</Button>
             }
         },
     ]
