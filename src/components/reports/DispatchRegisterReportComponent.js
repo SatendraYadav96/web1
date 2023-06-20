@@ -223,7 +223,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 title: 'Address',
                 key: '',
                 dataIndex: 'address',
-                width: '200px'
+                width: '300px'
             },
             {
                 title: 'City',
@@ -247,7 +247,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 title: 'Mobile No',
                 key: '',
                 dataIndex: 'mobileNo',
-                width: '100px'
+                width: '120px'
             },
             {
                 title: 'Sub Team',

@@ -168,7 +168,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 title: 'State',
                 key: 'state',
                 dataIndex: 'state',
-                width: '100px'
+                width: '120px'
             },
             {
                 title: 'Pincode',
@@ -204,19 +204,19 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 title: 'Joining Date',
                 key: 'joiningDate',
                 dataIndex: 'joiningDate',
-                width: '100px'
+                width: '120px'
             },
             {
                 title: 'Phone',
                 key: 'phone',
                 dataIndex: 'mobile',
-                width: '100px'
+                width: '120px'
             },
             {
                 title: 'Email',
                 key: 'email',
                 dataIndex: 'email',
-                width: '100px'
+                width: '150px'
             },
             {
                 title: 'Sub Team',
@@ -366,10 +366,6 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                     Team<br/>
                     <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit}/>
                 </Col>
-                {/*<Col span={3}>*/}
-                {/*    Subteam<br/>*/}
-                {/*    <SelectDivisionComponent value={division} onChange={handleDivision}/>*/}
-                {/*</Col>*/}
                 <Col span={3}>
                     SubTeam<br/>
                     <SelectTeamComponent value={team} onChange={handleTeam}/>

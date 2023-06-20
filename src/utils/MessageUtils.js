@@ -669,4 +669,18 @@ import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+    GET_SPECIALDISPATCH_START: [{ action: 'showspinner' }],
+    GET_SPECIALDISPATCH_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    GET_SPECIALDISPATCH_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
 }

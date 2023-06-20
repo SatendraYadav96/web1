@@ -3,15 +3,17 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Row, Table, Upload} from "antd";
+import {Button, Col, message, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
 import {selectDeliveryUpdateListData} from "../../redux/selectors/deliveryUpdateSelector";
 import {deliveryUpdateStartAction} from "../../redux/actions/dispatchInvoice/deliveryUpdateAction";
 import {deliveryUpdateRequest} from "../../api/invoiceRequests";
+import {selectTransportUploadListData} from "../../redux/selectors/uploadSelector";
+import {transportUploadStartAction} from "../../redux/actions/upload/uploadActions";
 
 
-const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handleDeliveryUpdateList}) => {
+const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handleDeliveryUpdateList,handleTransportUploadList}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -118,6 +120,7 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
 
     const handleUpload = (info) => {
         setFile(info.fileList)
+        console.log(info.file.name)
         console.log(info)
         // const file = info.file.originFileObj
         // const base64 = await convertBase64(file)
@@ -129,8 +132,17 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
         console.log(file)
         const newFile = file[0].originFileObj
         const base64 = await convertBase64(newFile)
+        const bytecode = base64.split(",")[1];
         console.log(newFile)
-        console.log(base64)
+        console.log(bytecode)
+
+        handleTransportUploadList({
+            certificate: authInfo.token,
+            dto: {
+                byteCode: bytecode,
+                fileName: newFile.name,
+            }
+        })
     }
 
     const dummyRequest = ({ file, onSuccess }) => {
@@ -139,12 +151,22 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
         }, 0);
     };
 
+    const props = {
+        beforeUpload: (file) => {
+            const isCSV = file.type === 'text/csv';
+            if (!isCSV) {
+                message.error(`${file.name} is not a csv file`);
+            }
+            return isCSV || Upload.LIST_IGNORE;
+        },
+    };
+
     return(
         <div>
             <TitleWidget title={'Delivery Update'} />
             <Row>
                 <Col span={3}>
-                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file}>
+                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file} {...props}>
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
@@ -170,11 +192,13 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const deliveryUpdateList = selectDeliveryUpdateListData(state)
-    return {authInfo,profileInfo,deliveryUpdateList}
+    const transportUploadList = selectTransportUploadListData(state)
+    return {authInfo,profileInfo,deliveryUpdateList,transportUploadList}
 }
 
 const actions = {
     handleDeliveryUpdateList: deliveryUpdateStartAction,
+    handleTransportUploadList: transportUploadStartAction,
 }
 
 export default connect(mapState, actions)(DeliveryUpdateComponent)

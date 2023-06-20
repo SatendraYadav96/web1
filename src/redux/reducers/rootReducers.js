@@ -34,6 +34,7 @@ import invoiceUploadReducer from "./invoiceUploadReducer";
 import dashboardReducer from "./dashboardReducer";
 import monthlyApprovalReducer from "./monthlyApprovalReducer";
 import complianceReducer from "./nonComplianceReducer";
+import uploadReducer from "./uploadReducer";
 
 
 
@@ -73,7 +74,8 @@ const rootReducer = combineReducers({
     addHsn:hsnInvoiceReducer,
     master:masterReducer,
     dropDown:dropDownReducer,
-    dashboard: dashboardReducer
+    dashboard: dashboardReducer,
+    upload: uploadReducer,
 })
 
 export default rootReducer

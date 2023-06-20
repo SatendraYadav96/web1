@@ -168,3 +168,6 @@ export const GET_HUB_NEAR_EXPIRY_API = {url: '/v1/dashboard/getHubNearExpiry',me
 export const GET_HUB_PENDING_REVALIDATION_API = {url: '/v1/dashboard/getHubPendingRevalidation',method:'GET',auth:true}
 export const GET_HUB_GRN_ERROR_LOG_API = {url: '/v1/dashboard/getHubGrnErrorLog',method:'GET',auth:true}
 export const GET_ITEM_EXPIRED_DETAILS_API = {url: '/v1/dashboard/getItemExpiredDetails',method:'GET',auth:true}
+
+//UPLOAD
+export const TRANSPORT_UPLOAD_API = {url: '/v1/upload/transporterUpload',method:'POST',auth:true}
