@@ -44,11 +44,16 @@ const EditCostCenterComponent = ({
         console.log(costCenterById.brandId)
         console.log(costCenterById)
         if (costCenterById.brandId !== undefined) {
+            let brandArray = []
             console.log(costCenterById);
             setName(costCenterById.name)
             setCode(costCenterById.code)
             setActive(costCenterById.active)
-            setBrandId(costCenterById.brandId.id)
+            // setBrandId(costCenterById.brandId.id)
+            for (var i of costCenterById.brandId) {
+                brandArray.push(i.id);
+            }
+            setBrandId(brandArray)
             console.log(name);
         }
     },[costCenterById])
@@ -99,7 +104,7 @@ const EditCostCenterComponent = ({
             name: name,
             code: code,
             active: active,
-            brandId: { id: brandId }
+            brandId: brandId
         };
 
         console.log(data);
@@ -129,7 +134,7 @@ const EditCostCenterComponent = ({
                     IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Brand: <SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
+                    Brand: <SelectBrandComponent value={brandId} onChange={handleBrandChange} multiple='multiple'/>
                 </Col>
             </Row>
             <br/>

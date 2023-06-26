@@ -51,9 +51,7 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
             "name":name,
             "code":code ,
             "active": active,
-            "brandId": {
-                id: brandId
-            },
+            "brandId": brandId,
         }
         handleAddCostCenter({
             certificate: authInfo.token,
@@ -80,7 +78,7 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
                     IsActive: <Checkbox checked={checked} onChange={handleChange}></Checkbox>
                 </Col>
                 <Col span={8} offset={2}>
-                    Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
+                    Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange} multiple='multiple'/>
                 </Col>
             </Row>
             <br/>

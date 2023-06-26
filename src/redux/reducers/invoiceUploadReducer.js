@@ -1,5 +1,5 @@
 import { createReducer } from './reducerUtils'
-import {INVOICE_UPLOAD_SUCCESS, INVOICE_UPLOAD_FAIL} from "../actions/dispatchInvoice/invoiceUploadActionConstants";
+import {INVOICE_UPLOAD_SUCCESS, INVOICE_UPLOAD_FAIL, GET_INVOICE_UPLOAD_SUCCESS, GET_INVOICE_UPLOAD_FAIL} from "../actions/dispatchInvoice/invoiceUploadActionConstants";
 
 
 //Monthly Dispatch
@@ -29,6 +29,6 @@ const invoiceUploadFailReducer = (state = initialState, payload) => {
 }
 
 export default createReducer(initialState, {
-    [INVOICE_UPLOAD_SUCCESS]: invoiceUploadSuccessReducer,
-    [INVOICE_UPLOAD_FAIL]: invoiceUploadFailReducer,
+    [GET_INVOICE_UPLOAD_SUCCESS]: invoiceUploadSuccessReducer,
+    [GET_INVOICE_UPLOAD_FAIL]: invoiceUploadFailReducer,
 })

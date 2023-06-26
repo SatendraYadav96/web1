@@ -122,7 +122,7 @@ const EditSamplesComponent = ({
       <br/>
       <Row gutter={[16,16]}>
         <Col span={8} offset={2}>
-          Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
+          Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange} />
             {/*<Input placeholder={"Cost Center Brand"} value={brandId} onChange={handleBrandChange}/>*/}
           {/*<Select style={{width:'100%'}}></Select>*/}
         </Col>

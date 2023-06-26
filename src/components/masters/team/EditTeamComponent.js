@@ -156,7 +156,7 @@ const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEdit
                 <Col span={8} offset={2}>
                     Brand :<br/>
                     <br/>
-                    <SelectBrandComponent onChange={handleBrand} value={brand}/>
+                    <SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
                 </Col>
             </Row>
             <br/>

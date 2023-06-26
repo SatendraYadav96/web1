@@ -1,5 +1,6 @@
 import React from 'react'
 import Login from "../components/auth/Login";
+import UploadLogs from "../components/upload/NonComplianceUploadLogs";
 
 const Dashboard = React.lazy(() => import('../components/dashboard/DashboardComponent'))
 const GRNAcknowledgementComponent = React.lazy(() => import('../components/grn/GRNAcknowledgementComponent'))
@@ -37,6 +38,7 @@ const ItemRevalidationComponent = React.lazy(() => import('../components/revalid
 const MonthlyInputPlan = React.lazy(() => import('../components/approvals/MonthlyInputPlan'))
 const SpecialDispatches = React.lazy(() => import('../components/approvals/SpecialDispatches'))
 const VirtualDispatches = React.lazy(() => import('../components/approvals/VirtualDispatches'))
+const RecipientsBlockedListComponent = React.lazy(() => import('../components/masters/recipientsBlockedList/recipientBlockedListComponent'))
 const VendorComponent = React.lazy(() => import('../components/masters/vendor/VendorComponent'))
 const CreateVendorComponent = React.lazy(() => import('../components/masters/vendor/CreateVendorComponent'))
 const EditVendorComponent = React.lazy(() => import('../components/masters/vendor/EditVendorComponent'))
@@ -52,6 +54,11 @@ const EditUserComponent = React.lazy(() => import('../components/masters/user/Ed
 const BrandComponent = React.lazy(() => import('../components/masters/brand/BrandComponent'))
 const CreateBrandComponent = React.lazy(() => import('../components/masters/brand/CreateBrandComponent'))
 const EditBrandComponent = React.lazy(() => import('../components/masters/brand/EditBrandComponent'))
+const OptimaMailLogsComponent = React.lazy(() => import('../components/mailLogs/OptimaMailLogs'))
+const MaterialExpiryUploadComponent = React.lazy(() => import('../components/upload/MaterialExpiryUpload'))
+const ComplianceDetailsUploadComponent = React.lazy(() => import('../components/upload/ComplianceDetailsUploadLogs'))
+const OverSamplingUploadComponent = React.lazy(() => import('../components/upload/OverSamplingUpload'))
+const UploadLogsComponent = React.lazy(() => import('../components/upload/NonComplianceUploadLogs'))
 const FFMasterUploadComponent = React.lazy(() => import('../components/upload/FFMasterUpload'))
 const VirtualSampleUploadComponent = React.lazy(() => import('../components/upload/virtualSampleUpload'))
 const NonComplianceUnBlockingomponent = React.lazy(() => import('../components/complianceProcess/NonComplianceUnBlocking'))
@@ -92,6 +99,12 @@ const routes = [
     { path: '/home/dispatchInvoicing/monthlyDispatch/details', name: 'MonthlyDispatch', element: MonthlyDispatchDetailComponent},
     { path: '/home/dispatchInvoicing/specialDispatch', name: 'SpecialDispatch', element: SpecialDispatchComponent },
     { path: '/home/dispatchInvoicing/specialDispatch/details', name: 'SpecialDispatch', element: SpecialDispatchDetailComponent},
+    { path: '/home/compliance/optimaMailSendLogs', name: 'optima_mail_logs', element: OptimaMailLogsComponent },
+    { path: '/home/optimaMaterial/upload', name: 'material_expiry_upload', element: MaterialExpiryUploadComponent },
+    { path: '/home/optimaMi/upload', name: 'non_compliance_upload', element: UploadLogsComponent },
+    { path: '/home/compliance/upload', name: 'over_sampling_upload', element: OverSamplingUploadComponent },
+    { path: '/home/complianceDetails/upload', name: 'over_sampling_details_upload', element: ComplianceDetailsUploadComponent },
+    { path: '/home/master/ffBlockList', name: 'ffBlockList', element: RecipientsBlockedListComponent },
     { path: '/home/dispatchInvoicing/virtualDispatch', name: 'VirtualDispatch', element: VirtualDispatchComponent },
     { path: '/home/dispatchInvoicing/virtualDispatch/details', name: 'VirtualDispatch', element: VirtualDispatchDetailComponent},
     { path: '/home/dispatchInvoicing/groupInvoice', name: 'GroupInvoice', element: GroupInvoiceComponent},

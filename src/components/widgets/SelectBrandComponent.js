@@ -7,7 +7,7 @@ import {selectBrandDropdown, selectBrandDropdownLoading} from "../../redux/selec
 import {brandDropdownStartAction} from "../../redux/actions/dropDown/dropDownActions";
 import {connect} from "react-redux";
 
-const SelectBrandComponent = ({value, onChange,authInfo,profileInfo,brandDropdown,brandDropdownLoading,handleBrandDropDown}) => {
+const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,brandDropdown,brandDropdownLoading,handleBrandDropDown}) => {
 
     useEffect(() => {
         console.log(brandDropdown)
@@ -27,7 +27,7 @@ const SelectBrandComponent = ({value, onChange,authInfo,profileInfo,brandDropdow
         //     })}
         // </Select>
         <Select
-            mode="multiple"
+            mode={multiple}
             allowClear
             style={{
                 width: '100%',

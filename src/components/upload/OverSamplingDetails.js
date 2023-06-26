@@ -3,21 +3,20 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, message, Row, Table, Upload} from "antd";
+import {Button, Col, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
-import {ffUploadStartAction, grnUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import SelectQuarterNameComponent from "../widgets/SelectQuarterNameComponent";
+import SelectYearComponent from "../widgets/SelectYearComponent";
 
 ;
 
 
-const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload}) => {
+const OverSamplingUpload = ({authInfo,profileInfo,}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(true)
-    const [file, setFile] = useState([])
-
 
     const searchData = () => {
         setFlag(true)
@@ -32,7 +31,7 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload}) => {
                 title: 'End Time',
                 key: 'endTime',
                 dataIndex: 'endTime',
-                width:'200px'
+                width:'100px'
             },
             {
                 title: 'Total Records',
@@ -74,8 +73,12 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload}) => {
         ])
     }
 
+    useEffect(() => {
+        searchData()
+    },[])
+
     // useEffect(() => {
-    //     handleFFMasterUpdateList({
+    //     handleUploadList({
     //         certificate: authInfo.token
     //     })
     //     searchData()
@@ -85,72 +88,18 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload}) => {
     //     console.log(deliveryUpdateList)
     // },[deliveryUpdateList])
 
-    const handleUpload = (info) => {
-        setFile(info.fileList)
-        console.log(info.file.name)
-        console.log(info)
-        // const file = info.file.originFileObj
-        // const base64 = await convertBase64(file)
-        // console.log(base64)
-        // console.log(file.name)
-    }
-
-    const dummyRequest = ({ file, onSuccess }) => {
-        setTimeout(() => {
-            onSuccess("ok");
-        }, 0);
-    };
-
-    const props = {
-        beforeUpload: (file) => {
-            const isCSV = file.type === 'text/csv';
-            if (!isCSV) {
-                message.error(`${file.name} is not a csv file`);
-            }
-            return isCSV || Upload.LIST_IGNORE;
-        },
-    };
-
-    const convertBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file)
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            }
-            fileReader.onerror = (error) => {
-                reject(error);
-            }
-        })
-    }
-
-    const upload = async () => {
-        console.log(file)
-        const newFile = file[0].originFileObj
-        const base64 = await convertBase64(newFile)
-        const bytecode = base64.split(",")[1];
-        console.log(newFile)
-        console.log(bytecode)
-        handleFFUpload({
-            certificate: authInfo.token,
-            dto: {
-                byteCode: bytecode,
-                fileName: newFile.name,
-            }
-        })
-    }
-
     return(
         <div>
-            <TitleWidget title={'FF Master'} />
-            <Row>
+            <TitleWidget title={'Upload Logs'} />
+            <Row gutter={[16,16]}>
                 <Col span={3}>
-                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file} {...props}>
-                        <Button icon={<UploadOutlined />}>Select File</Button>
-                    </Upload>
+                    <SelectQuarterNameComponent  />
                 </Col>
                 <Col span={3}>
-                    <Button type={'primary'} onClick={upload}>Upload</Button>
+                    <SelectYearComponent />
+                </Col>
+                <Col span={3}>
+                    <Button type={'primary'}>Upload</Button>
                 </Col>
             </Row>
             <br/><br/>
@@ -161,10 +110,9 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload}) => {
     )
 }
 
-FFMasterUpdateComponent.propTypes = {
+OverSamplingUpload.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
-    handleFFUpload: PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -174,7 +122,6 @@ const mapState = (state) => {
 }
 
 const actions = {
-    handleFFUpload: ffUploadStartAction,
 }
 
-export default connect(mapState, actions)(FFMasterUpdateComponent)
+export default connect(mapState, actions)(OverSamplingUpload)

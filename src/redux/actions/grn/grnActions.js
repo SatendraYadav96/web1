@@ -66,21 +66,21 @@ export const approveAcknowledgeFailAction = (payload) => (dispatch) =>{
 
 
 
-export const grnUploadStartAction = (payload) => (dispatch) =>{
+export const grnStartAction = (payload) => (dispatch) =>{
     dispatch({
         type: GRN_UPLOAD_START,
         payload: payload,
     })
 }
 
-export const grnUploadSuccessAction = (payload) => (dispatch) => {
+export const grnSuccessAction = (payload) => (dispatch) => {
     dispatch({
         type: GRN_UPLOAD_SUCCESS,
         payload: payload,
     })
 }
 
-export const grnUploadFailAction = (payload) => (dispatch) =>{
+export const grnFailAction = (payload) => (dispatch) =>{
     dispatch({
         type: GRN_UPLOAD_FAIL,
         payload: payload,

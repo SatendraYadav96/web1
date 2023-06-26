@@ -53,7 +53,7 @@ const AddHsnComponent = ({authInfo,profileInfo,insertHsn,hsnLoading,handleAddHsn
                 </Col>
                 <Col span={3}>
                     <br/>
-                    <Button type={"primary"} onClick={()=>handleInsertHsn()}>Search</Button>
+                    <Button type={"primary"} onClick={()=>handleInsertHsn()}>Submit</Button>
                 </Col>
             </Row>
         </>

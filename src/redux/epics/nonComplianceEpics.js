@@ -1,7 +1,7 @@
 import {ofType} from "redux-observable";
 import {catchError, debounceTime, map, of, switchMap} from "rxjs";
 import {GET_COMPLIANCE_DETAILS_START, GET_MAIL_LOG_START, GET_NON_COMPLIANCE_START} from "../actions/compliance/nonComplianceActionConstants";
-import {complianceDetailsRequest, nonComplianceRequest, optimalMailRequest} from "../../api/complianceRequests";
+import {complianceDetailsRequest, nonComplianceRequest, optimalMailLogRequest, optimalMailRequest} from "../../api/complianceRequests";
 import {getComplianceDetailsFailAction, getComplianceDetailsSuccessAction, getMailLogFailAction, getMailLogStartAction, getMailLogSuccessAction, getNonComplianceFailAction, getNonComplianceSuccessAction} from "../actions/compliance/nonComplianceActions";
 
 
@@ -39,7 +39,7 @@ export const getMailLogStartEpic = (action$) =>
         ofType(GET_MAIL_LOG_START),
         debounceTime(4000),
         switchMap((action) =>
-            optimalMailRequest(action.payload).pipe(
+            optimalMailLogRequest(action.payload).pipe(
                 map((listResponse) => getMailLogSuccessAction({mailLogList: listResponse.response})),
                 catchError((error) => of(getMailLogFailAction({error: error}))),
             )

@@ -9,7 +9,7 @@ export const complianceDetailsRequest = payload => {
     const api = {...GET_COMPLIANCE_DETAILS_API, url: `${GET_COMPLIANCE_DETAILS_API.url}/${payload.month}/${payload.year}`}
     return createRequest(api, payload.certificate, null)
 }
-export const optimalMailRequest = payload => {
+export const optimalMailLogRequest = payload => {
     const api = {...GET_MAIL_LOG_API, url: `${GET_MAIL_LOG_API.url}/${payload.type}/${payload.month}/${payload.year}`}
     return createRequest(api, payload.certificate, null)
 }

@@ -168,6 +168,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     }
 
     const getComplianceDetails = () => {
+        searchData()
         handleComplianceDetailsList({
             certificate: authInfo.token,
             month: month,

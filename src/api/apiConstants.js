@@ -11,7 +11,7 @@ export const GET_LOV_API =  { url: '/v1/lov', method: 'GET', auth: true }
 export const GET_UNACKNOWLEDGE_LIST_API = { url: '/v1/grn/acknowledge', method: 'GET', auth: true }
 export const REJECT_ACKNOWLEDGE_API = {url: '/v1/grn/rejectAcknowledge', method: 'PUT', auth: true}
 export const APPROVE_ACKNOWLEDGE_API = {url: '/v1/grn/approveAcknowledge', method: 'PUT', auth: true}
-export const GRN_UPLOAD_API = { url: '/v1/upload/getGrnUploadLog', method: 'GET', auth: true }
+export const GRN_API = { url: '/v1/upload/getGrnUploadLog', method: 'GET', auth: true }
 
 //ALLOCATIONS
 export const GET_ITEMS_TO_ALLOCATE_API = { url: '/v1/allocations/itemsToAllocate', method: 'GET', auth: true }
@@ -171,3 +171,6 @@ export const GET_ITEM_EXPIRED_DETAILS_API = {url: '/v1/dashboard/getItemExpiredD
 
 //UPLOAD
 export const TRANSPORT_UPLOAD_API = {url: '/v1/upload/transporterUpload',method:'POST',auth:true}
+export const GRN_UPLOAD_API = {url: '/v1/upload/grnUpload',method:'POST',auth:true}
+export const FF_UPLOAD_API = {url: '/v1/upload/recipientUpload',method:'POST',auth:true}
+    export const VIRTUAL_UPLOAD_API = {url: '/v1/upload/virtualUpload',method:'POST',auth:true}

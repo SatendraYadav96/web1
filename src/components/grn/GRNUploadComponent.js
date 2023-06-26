@@ -3,20 +3,24 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Row, Table} from "antd";
+import {Button, Col, message, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
-import {grnUploadStartAction} from "../../redux/actions/grn/grnActions";
+import {grnStartAction} from "../../redux/actions/grn/grnActions";
 import {selectGrnUpload} from "../../redux/selectors/grnSelectors";
 import {empty} from "rxjs";
+import {UploadOutlined} from "@ant-design/icons";
+import {grnUploadStartAction} from "../../redux/actions/upload/uploadActions";
 
 
 
-const GRNUploadComponent = ({authInfo,grnUpload,handleGrnUpload}) => {
+const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [data, setData] = useState([])
     const [flag, setFlag] = useState(false)
+    const [file, setFile] = useState([])
+
 
     const searchData = () => {
         setFlag(true)
@@ -74,7 +78,7 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrnUpload}) => {
     }
 
     const getGrnUpload = () => {
-        handleGrnUpload ({
+        handleGrn ({
             certificate: authInfo.token
         });
     }
@@ -84,20 +88,78 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrnUpload}) => {
     }, [grnUpload])
 
     useEffect(() => {
-        handleGrnUpload ({
+        handleGrn ({
             certificate: authInfo.token
         });
         searchData()
     }, [authInfo.token])
 
+    const handleUpload = (info) => {
+        setFile(info.fileList)
+        console.log(info.file.name)
+        console.log(info)
+        // const file = info.file.originFileObj
+        // const base64 = await convertBase64(file)
+        // console.log(base64)
+        // console.log(file.name)
+    }
+
+    const dummyRequest = ({ file, onSuccess }) => {
+        setTimeout(() => {
+            onSuccess("ok");
+        }, 0);
+    };
+
+    const props = {
+        beforeUpload: (file) => {
+            const isCSV = file.type === 'text/csv';
+            if (!isCSV) {
+                message.error(`${file.name} is not a csv file`);
+            }
+            return isCSV || Upload.LIST_IGNORE;
+        },
+    };
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const upload = async () => {
+        console.log(file)
+        const newFile = file[0].originFileObj
+        const base64 = await convertBase64(newFile)
+        const bytecode = base64.split(",")[1];
+        console.log(newFile)
+        console.log(bytecode)
+        handleGrnUpload({
+            certificate: authInfo.token,
+            dto: {
+                byteCode: bytecode,
+                fileName: newFile.name,
+            }
+        })
+    }
+
     return(
         <div>
             <TitleWidget title={'GRN Upload Log'} />
             <Row>
-                <Col span={4}></Col>
-                <Col span={16}></Col>
-                <Col span={4}>
-                    <Button type={'primary'} onClick={() => getGrnUpload()}>Process Now</Button>
+                <Col span={3}>
+                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file} {...props}>
+                        <Button icon={<UploadOutlined />}>Select File</Button>
+                    </Upload>
+                </Col>
+                <Col span={3}>
+                    <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
             </Row>
             <br/><br/>
@@ -110,7 +172,8 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrnUpload}) => {
 
 GRNUploadComponent.propTypes = {
     authInfo: PropTypes.any,
-    grnUpload:PropTypes.any
+    grnUpload:PropTypes.any,
+    handleGrnUpload:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -120,7 +183,8 @@ const mapState = (state) => {
 }
 
 const actions = {
-    handleGrnUpload: grnUploadStartAction
+    handleGrn: grnStartAction,
+    handleGrnUpload: grnUploadStartAction,
 }
 
 export default connect(mapState, actions)(GRNUploadComponent)

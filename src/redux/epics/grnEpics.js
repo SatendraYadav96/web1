@@ -3,8 +3,10 @@ import { catchError, debounceTime, map, of, switchMap } from 'rxjs'
 import { uiMenuFailAction, uiMenuSuccessAction } from '../actions/ui/uiActions'
 import {APPROVE_ACKNOWLEDGE_START, REJECT_ACKNOWLEDGE_START, UNACKNOWLEDGE_LIST_START,GRN_UPLOAD_START} from "../actions/grn/grnActionConstants";
 import {approveAcknowledgeRequest, rejectAcknowledgeRequest, unacknowledgeListRequest,grnUploadRequest} from "../../api/grnRequests";
-import {approveAcknowledgeFailAction, approveAcknowledgeSuccessAction, rejectAcknowledgeFailAction, rejectAcknowledgeSuccessAction, unacknowledgeListFailAction, unacknowledgeListSuccessAction,
-grnUploadSuccessAction,grnUploadFailAction} from "../actions/grn/grnActions";
+import {
+    approveAcknowledgeFailAction, approveAcknowledgeSuccessAction, rejectAcknowledgeFailAction, rejectAcknowledgeSuccessAction, unacknowledgeListFailAction, unacknowledgeListSuccessAction,
+    grnUploadSuccessAction, grnUploadFailAction, grnSuccessAction, grnFailAction
+} from "../actions/grn/grnActions";
 
 export const unacknowledgeListStartEpic = (action$) =>
   action$.pipe(
@@ -44,14 +46,14 @@ export const approveAcknowledgeStartEpic = (action$) =>
 
 
 
-export const grnUploadStartEpic = (action$) =>
+export const grnStartEpic = (action$) =>
     action$.pipe(
         ofType(GRN_UPLOAD_START),
         debounceTime(4000),
         switchMap((action) =>
             grnUploadRequest(action.payload).pipe(
-                map((listResponse) => grnUploadSuccessAction({grnUpload: listResponse.response})),
-                catchError((error) => of(grnUploadFailAction({error: error}))),
+                map((listResponse) => grnSuccessAction({grnUpload: listResponse.response})),
+                catchError((error) => of(grnFailAction({error: error}))),
             )
         )
     )

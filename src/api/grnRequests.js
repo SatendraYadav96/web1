@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {APPROVE_ACKNOWLEDGE_API, GET_UNACKNOWLEDGE_LIST_API, REJECT_ACKNOWLEDGE_API, GRN_UPLOAD_API, GET_ITEM_CODE_API} from "./apiConstants";
+import {APPROVE_ACKNOWLEDGE_API, GET_UNACKNOWLEDGE_LIST_API, REJECT_ACKNOWLEDGE_API, GRN_UPLOAD_API, GET_ITEM_CODE_API, GRN_API} from "./apiConstants";
 
 export const unacknowledgeListRequest = payload => {
     const api = {...GET_UNACKNOWLEDGE_LIST_API, url: `${GET_UNACKNOWLEDGE_LIST_API.url}`}
@@ -20,6 +20,6 @@ export const approveAcknowledgeRequest = payload => {
 // }
 
 export const grnUploadRequest = payload => {
-    const api = {...GRN_UPLOAD_API, url: `${GRN_UPLOAD_API.url}`}
+    const api = {...GRN_API, url: `${GRN_API.url}`}
     return createRequest(api, payload.certificate, null)
 }
