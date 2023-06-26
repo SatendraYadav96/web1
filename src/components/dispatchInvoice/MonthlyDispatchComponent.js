@@ -206,13 +206,6 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
                 <Col span={2}>
                     <Button type={'primary'} onClick={() => getMonthlyDispatchList()}>Submit</Button>
                 </Col>
-                <Col span={14}>
-                    <>
-                        <div align="right">
-                            <Input.Search style={{ width: 300 }} />
-                        </div>
-                    </>
-                </Col>
             </Row>
             <br/><br/>
             <Table columns={column} dataSource={monthList}/>

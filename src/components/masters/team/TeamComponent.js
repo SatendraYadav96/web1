@@ -86,25 +86,7 @@ const TeamComponent = ({authInfo,teamList,teamLoading,handleTeamList}) => {
                     <Button icon={<PlusOutlined />} onClick={()=> createTeam()}></Button>
                 </Col>
             </Row>
-            <br/><br/>
-            <Row>
-                <Col span={6}>
-                    {/*<CSVLink*/}
-                    {/*    data={data}*/}
-                    {/*    filename={"costcenter.csv"}*/}
-                    {/*    onClick={() => {*/}
-                    {/*        console.log("clicked")*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <Button>CSV</Button>*/}
-                    {/*</CSVLink>*/}
-                    {/*&nbsp;*/}
-                    {/*<Button onClick={handleExcel}>EXCEL</Button>*/}
-                </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
-            </Row>
-            <br/><br/>
+            <br/>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={teamList} />
             }

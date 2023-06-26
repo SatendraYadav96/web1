@@ -154,7 +154,7 @@ const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEdit
                     Code:<br/><Input placeholder={"Code"} value={code} disabled />
                 </Col>
                 <Col span={8} offset={2}>
-                    Brand :<br/>
+                    Brand :
                     <br/>
                     <SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
                 </Col>

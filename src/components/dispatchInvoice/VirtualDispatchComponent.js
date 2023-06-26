@@ -109,11 +109,6 @@ const VirtualDispatchComponent = ({authInfo}) => {
                 <Col span={4}>
                     <Button type={'primary'} onClick={() => searchData()}>Submit</Button>
                 </Col>
-                <Col span={14}>
-                    <div align="right">
-                        <Input.Search style={{ width: 304 }} />
-                    </div>
-                </Col>
             </Row>
             <br/><br/>
             {flag &&

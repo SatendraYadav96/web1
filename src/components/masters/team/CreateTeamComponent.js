@@ -91,7 +91,7 @@ const CreateTeamComponent = ({authInfo,insertTeam,handleAddTeam}) => {
                     Code:<br/><Input placeholder={"Code"} onChange={(e) => setCode(e.target.value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand}/>
+                    Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
                 </Col>
             </Row>
             <br/>

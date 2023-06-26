@@ -219,13 +219,6 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
             </Row>
             <br/><br/>
             <Table columns={column} dataSource={specialData}/>
-            {/*<>*/}
-            {/*/!*<div align="right">*!/*/}
-            {/*/!*    <Input.Search style={{ width: 304 }} />*!/*/}
-            {/*/!*</div>*!/*/}
-            {/*/!*<br/><br/>*!/*/}
-            {/*    <Table columns={column} dataSource={specialData}/>*/}
-            {/*</>*/}
         </div>
     )
 }

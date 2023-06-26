@@ -191,13 +191,6 @@ const VirtualDispatchDetailComponent = ({authInfo}) => {
                     <Button type={'primary'} style={{width: "100%"}}>Export</Button>
                 </Col>
             </Row>
-            <Row gutter={[16,16]}>
-                <Col span={24}>
-                    <div align="right">
-                        <Input.Search style={{ width: 304 }} />
-                    </div>
-                </Col>
-            </Row>
             <br/><br/>
             {flag &&
                 <Table columns={column} dataSource={dataSource}/>

@@ -14,7 +14,7 @@ import SelectUserStatusComponent from "../../widgets/SelectUserStatusComponent";
 const UserComponent = ({authInfo,userList,handleUserList}) => {
 
     const navigate = useNavigate()
-    const [status, setStatus] = useState()
+    const [status, setStatus] = useState("1D2F12F3-F84A-4200-9590-70680528779B")
     const [column, setColumn] = useState([])
 
     const [dataSource, setDataSource] = useState([])

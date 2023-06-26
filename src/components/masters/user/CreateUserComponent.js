@@ -113,7 +113,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand}/>
+                    Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
                 </Col>
                 <Col span={8} offset={2}>
                     Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} disabled/>
