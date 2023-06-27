@@ -69,7 +69,7 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
         const data = {
             name: name,
             code: code,
-            active: active,
+            active: 1,
             division: {
                 id: subTeam
             },
@@ -108,18 +108,15 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
                 <Col span={8} offset={2}>
                     Cost Center :<br/><SelectMultipleCostCenterComponent value={costCenter} onChange={handleCostCenter}/>
                 </Col>
-                <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}/>
-                </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={16}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertBrand()} style={{width: "100%"}}>Submit</Button>
+                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
                 </Col>
                 <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
+                    <Button type={"primary"} onClick={() => handleInsertBrand()} style={{width: "100%"}}>Submit</Button>
                 </Col>
             </Row>
         </>

@@ -171,10 +171,10 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
             <Row gutter={[16,16]}>
                 <Col span={16}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertBrand()} style={{width: "100%"}}>Submit</Button>
+                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
                 </Col>
                 <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
+                    <Button type={"primary"} onClick={() => handleInsertBrand()} style={{width: "100%"}}>Submit</Button>
                 </Col>
             </Row>
         </>

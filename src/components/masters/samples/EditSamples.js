@@ -151,10 +151,10 @@ const EditSamplesComponent = ({
       <Row gutter={[16,16]}>
         <Col span={20}></Col>
         <Col span={2}>
-            <Button type={"primary"} onClick={()=>handleInsertSamples()}>Submit</Button>
+          <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
         </Col>
         <Col span={2}>
-            <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+            <Button type={"primary"} onClick={()=>handleInsertSamples()}>Submit</Button>
         </Col>
       </Row>
     </>

@@ -71,7 +71,7 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
     }
 
     const handleZipChange = (e) => {
-         setZip(e.target.value)
+         setZip(e)
     }
 
     const handleInsertVendor = () => {
@@ -93,7 +93,7 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
             "city":city,
             "state":state,
             "zip":zip,
-            "active":active,
+            "active":1,
         }
         handleAddVendor({
             certificate: authInfo.token,
@@ -133,20 +133,17 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
                 </Col>
                 <Col span={2}></Col>
                 <Col span={8} offset={2}>
-                    Zip: <Input placeholder={"Vendor Zip"} value={zip} onChange={handleZipChange} />
-                </Col>
-                <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}></Checkbox>
+                    Zip: <InputNumber  placeholder={"Vendor Zip"} value={zip} onChange={handleZipChange} />
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={20}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={()=>handleInsertVendor()}>Submit</Button>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
                 </Col>
                 <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                    <Button type={"primary"} onClick={()=>handleInsertVendor()}>Submit</Button>
                 </Col>
             </Row>
 

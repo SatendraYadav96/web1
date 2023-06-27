@@ -67,11 +67,11 @@ const EditBusinessUnitComponent = ({authInfo,editBuisnessUnit,buisnessUnitById,h
             </Row>
             <br/>
             <Row gutter={[16,16]}>
-                <Col span={22}>
-                    <Button type={"primary"} onClick={()=>handleInsertBusinessUnit()}>Submit</Button>
-                </Col>
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                </Col>
+                <Col span={22}>
+                    <Button type={"primary"} onClick={()=>handleInsertBusinessUnit()}>Submit</Button>
                 </Col>
             </Row>
         </>

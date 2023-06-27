@@ -41,7 +41,7 @@ const CreateTeamComponent = ({authInfo,insertTeam,handleAddTeam}) => {
         const data = {
             name: name,
             code: code,
-            active: active,
+            active: 1,
             division: {
                 id: subTeam
             },
@@ -100,18 +100,15 @@ const CreateTeamComponent = ({authInfo,insertTeam,handleAddTeam}) => {
                     Legal Entity :<br/>
                     <SelectLegalEntityComponent onChange={handleLegalEntity} value={legalEntity}/>
                 </Col>
-                <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} onChange={handleActiveChange}/>
-                </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={16}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertTeam()} style={{width: "100%"}}>Submit</Button>
+                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
                 </Col>
                 <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
+                    <Button type={"primary"} onClick={() => handleInsertTeam()} style={{width: "100%"}}>Submit</Button>
                 </Col>
             </Row>
         </>

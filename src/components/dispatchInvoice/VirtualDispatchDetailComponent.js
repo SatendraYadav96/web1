@@ -7,7 +7,7 @@ import {Button, Col, Input, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
 
 
@@ -19,6 +19,8 @@ const VirtualDispatchDetailComponent = ({authInfo}) => {
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const location = useLocation();
+
 
     const searchData = () => {
         setFlag(true)
@@ -137,6 +139,8 @@ const VirtualDispatchDetailComponent = ({authInfo}) => {
         return navigate("/home/dispatchInvoicing/virtualDispatch")
     }
 
+    console.log(location.state)
+
     return(
         <div>
             <TitleWidget title={'Virtual Dispatch'} />
@@ -172,12 +176,12 @@ const VirtualDispatchDetailComponent = ({authInfo}) => {
             {/*</div>*/}
             <br/>
             <Row gutter={[16,16]}>
-                <Col span={3}>
-                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
-                </Col>
-                <Col span={3}>
-                    <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
-                </Col>
+                {/*<Col span={3}>*/}
+                {/*    <Input value={location.state.year} disabled/>*/}
+                {/*</Col>*/}
+                {/*<Col span={3}>*/}
+                {/*    <Input value={location.state.year} disabled/>*/}
+                {/*</Col>*/}
                 <Col span={2}>
                     <Button type={'primary'} onClick={() => searchData()}>Submit</Button>
                 </Col>

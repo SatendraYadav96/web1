@@ -5,7 +5,7 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Modal, Row, Select, Table} from "antd";
 import {Option} from "antd/es/mentions";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 
@@ -20,6 +20,7 @@ const VirtualDispatchComponent = ({authInfo}) => {
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const history = useNavigate()
 
 
     const searchData = () => {
@@ -75,6 +76,14 @@ const VirtualDispatchComponent = ({authInfo}) => {
                 approvalDate:'20/7/2022'
             }
         ])
+    }
+
+    const  handleShow = () => {
+        history("/home/dispatchInvoicing/virtualDispatch/details", {state:
+            {
+                year: year,
+                month: month,
+            }});
     }
 
     return(

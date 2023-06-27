@@ -47,7 +47,7 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
         const data  = {
             "name":name,
             "code":code ,
-            "active": active,
+            "active": 1,
         }
         handleAddBuisnessUnit({
             certificate: authInfo.token,
@@ -68,19 +68,14 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
                     Code: <Input placeholder={"Business Unit Code"} onChange={handleCodeChange}/>
                 </Col>
             </Row>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} onChange={handleChange}></Checkbox>
-                </Col>
-            </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={20}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertCostCenter()}>Submit</Button>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
                 </Col>
                 <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                    <Button type={"primary"} onClick={() => handleInsertCostCenter()}>Submit</Button>
                 </Col>
             </Row>
         </>

@@ -194,14 +194,14 @@ const EditVendorComponent = ({
       </Row>
       <Row gutter={[16, 16]}>
         <Col span={20}></Col>
+          <Col span={2}>
+              <Button type={"default"} onClick={() => handleBack()}>
+                  Back
+              </Button>
+          </Col>
         <Col span={2}>
           <Button type={"primary"} onClick={handleInsertVendor}>
             Submit
-          </Button>
-        </Col>
-        <Col span={2}>
-          <Button type={"default"} onClick={() => handleBack()}>
-            Back
           </Button>
         </Col>
       </Row>

@@ -4,7 +4,7 @@ const { TextArea } = Input;
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row} from "antd";
+import {Button, Checkbox, Col, Input, InputNumber, Row} from "antd";
 import {Select} from "antd/es";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
@@ -58,11 +58,11 @@ const CreateSamplesComponent = ({
     };
 
     const handlePackSizeChange = (e) => {
-        setPackSize(e.target.value);
+        setPackSize(e);
     };
 
     const handleCapSizeChange = (e) => {
-        setCapSize(e.target.value);
+        setCapSize(e);
     };
 
     const handleInsertVendor = () => {
@@ -83,7 +83,7 @@ const CreateSamplesComponent = ({
             "description":description,
             "packSize":packSize,
             "cap":capSize,
-            "active":active,
+            "active":1,
         }
         handleAddSamples({
             certificate: authInfo.token,
@@ -115,26 +115,20 @@ const CreateSamplesComponent = ({
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Base Pack:<br/><Input placeholder={"Samples Packsize"} onChange={handlePackSizeChange}/>
+                    Base Pack:<br/><InputNumber placeholder={"Samples Packsize"} onChange={handlePackSizeChange} style={{width: '100%'}}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Cap Size:<br/><Input placeholder={"Samples cap size"} onChange={handleCapSizeChange}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} onChange={handleChange}></Checkbox>
+                    Cap Size:<br/><InputNumber placeholder={"Samples cap size"} onChange={handleCapSizeChange} style={{width: '100%'}}/>
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={20}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertVendor()}>Submit</Button>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
                 </Col>
                 <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                    <Button type={"primary"} onClick={() => handleInsertVendor()}>Submit</Button>
                 </Col>
             </Row>
         </>

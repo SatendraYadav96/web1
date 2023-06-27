@@ -172,13 +172,13 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
         ])
     }
 
-        const  handleShow = (row) => {
-            history("/home/dispatchInvoicing/monthlyDispatch/details", {state:
-                    {
-                        year: year,
-                        month: month,
-                    }});
-        }
+    const  handleShow = (row) => {
+        history("/home/dispatchInvoicing/monthlyDispatch/details", {state:
+            {
+                year: year,
+                month: month,
+            }});
+    }
 
     const getMonthlyDispatchList = () => {
        console.log(year);

@@ -50,7 +50,7 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
         const data  = {
             "name":name,
             "code":code ,
-            "active": active,
+            "active": 1,
             "brandId": brandId,
         }
         handleAddCostCenter({
@@ -75,9 +75,6 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} onChange={handleChange}></Checkbox>
-                </Col>
-                <Col span={8} offset={2}>
                     Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange} multiple='multiple'/>
                 </Col>
             </Row>
@@ -85,10 +82,10 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
             <Row gutter={[16,16]}>
                 <Col span={20}></Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertCostCenter()}>Submit</Button>
+                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
                 </Col>
                 <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
+                    <Button type={"primary"} onClick={() => handleInsertCostCenter()}>Submit</Button>
                 </Col>
             </Row>
         </>
