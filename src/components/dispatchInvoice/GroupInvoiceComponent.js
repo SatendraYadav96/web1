@@ -39,15 +39,15 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
         setColumn([
             {
                 title:'Invoice No',
-                key: 'invoiceNo',
-                dataIndex: 'invoiceNo',
+                key: 'invoiceNumber ',
+                dataIndex: 'invoiceNumber ',
                 width: '150px',
                 fixed: 'left'
             },
             {
                 title: 'Group No',
-                key: 'groupNo',
-                dataIndex: 'groupNo',
+                key: 'groupInvoiceNumber ',
+                dataIndex: 'groupInvoiceNumber ',
                 width: '150px',
                 fixed: 'left',
                 render: () => {
@@ -56,26 +56,26 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
             },
             {
                 title: 'Status',
-                key: 'status',
-                dataIndex: 'status',
+                key: 'statusID ',
+                dataIndex: 'statusID ',
                 width: '50px'
             },
             {
                 title: 'Invoice Date',
-                key: 'invoiceDate',
-                dataIndex: 'invoiceDate',
+                key: 'invoiceDate ',
+                dataIndex: 'invoiceDate ',
                 width: '50px'
             },
             {
                 title: 'Recipient',
-                key: 'recipient',
-                dataIndex: 'recipient',
+                key: 'recipientName ',
+                dataIndex: 'recipientName ',
                 width: '50px'
             },
             {
                 title: 'Boxes',
-                key: 'boxes',
-                dataIndex: 'boxes',
+                key: 'boxes ',
+                dataIndex: 'boxes ',
                 width: '50px'
             },
             {
@@ -86,14 +86,14 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
             },
             {
                 title: 'Transporter',
-                key: 'transporter',
-                dataIndex: 'transporter',
+                key: 'transporterName ',
+                dataIndex: 'transporterName ',
                 width: '170px'
             },
             {
                 title: 'LR No.',
-                key: 'lrNo',
-                dataIndex: 'lrNo',
+                key: 'lRNumber ',
+                dataIndex: 'lRNumber ',
                 width: '170px'
             }
         ]);

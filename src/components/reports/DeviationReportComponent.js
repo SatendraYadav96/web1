@@ -30,49 +30,49 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
         setColumn([
             {
                 title:'Team',
-                key:'',
+                key:'bu',
                 dataIndex:'bu',
                 width:'100px'
             },
             {
                 title: 'Quarter',
-                key: '',
+                key: 'quarter',
                 dataIndex: 'quarter',
                 width: '100px'
             },
             {
                 title: 'Brand Manager',
-                key: '',
+                key: 'brandManager',
                 dataIndex: 'brandManager',
                 width: '100px'
             },
             {
                 title: 'Brand',
-                key: '',
+                key: 'brand',
                 dataIndex: 'brand',
                 width: '100px'
             },
             {
                 title: 'Item Planned in QTR',
-                key: '',
+                key: 'itemPlannedInQtr',
                 dataIndex: 'itemPlannedInQtr',
                 width: '100px'
             },
             {
                 title: 'Item Dispatched in Allocation',
-                key: '',
+                key: 'itemDispatchedInAllocation',
                 dataIndex: 'itemDispatchedInAllocation',
                 width: '100px'
             },
             {
                 title: 'Dispatch Cycle',
-                key: '',
+                key: 'dispatchCycle',
                 dataIndex: 'dispatchCycle',
                 width: '100px'
             },
             {
                 title: 'Remarks',
-                key: '',
+                key: 'remarks',
                 dataIndex: 'remarks',
                 width: '100px'
             }

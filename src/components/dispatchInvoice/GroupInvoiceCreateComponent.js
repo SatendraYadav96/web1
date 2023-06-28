@@ -51,20 +51,20 @@ const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUp
         setColumn([
             {
                 title:'Invoice No',
-                key: 'invoiceNo',
-                dataIndex: 'invoiceNo',
+                key: 'invoiceNumber ',
+                dataIndex: 'invoiceNumber ',
                 width: '150px'
             },
             {
                 title:'Invoice Date',
-                key: 'invoiceDate',
-                dataIndex: 'invoiceDate',
+                key: 'invoiceDate ',
+                dataIndex: 'invoiceDate ',
                 width: '150px'
             },
             {
                 title: 'Dispatch Type',
-                key: 'dispatchType',
-                dataIndex: 'dispatchType',
+                key: 'dispatchType ',
+                dataIndex: 'dispatchType ',
                 width: '150px'
             },
             {
@@ -75,44 +75,44 @@ const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUp
             },
             {
                 title: 'Team Name',
-                key: 'teamName',
-                dataIndex: 'teamName',
+                key: 'teamName ',
+                dataIndex: 'teamName ',
                 width: '50px'
             },
             {
                 title: 'Employee Code',
-                key: 'employeeCode',
-                dataIndex: 'employeeCode',
+                key: 'recipientID ',
+                dataIndex: 'recipientID ',
                 width: '50px'
             },
             {
                 title: 'Employee Name',
-                key: 'employeeName',
-                dataIndex: 'employeeName',
+                key: 'recipientName ',
+                dataIndex: 'recipientName ',
                 width: '50px'
             },
             {
                 title: 'Designation',
-                key: 'designation',
-                dataIndex: 'designation',
+                key: 'recipientDesgName ',
+                dataIndex: 'recipientDesgName ',
                 width: '50px'
             },
             {
                 title: 'State',
-                key: 'state',
-                dataIndex: 'state',
+                key: 'recipientState ',
+                dataIndex: 'recipientState ',
                 width: '50px'
             },
             {
                 title: 'City',
-                key: 'city',
-                dataIndex: 'city',
+                key: 'recipientCity ',
+                dataIndex: 'recipientCity ',
                 width: '50px'
             },
             {
                 title: 'Group Number',
-                key: 'groupNumber',
-                dataIndex: 'groupNumber',
+                key: 'groupInvoiceNumber ',
+                dataIndex: 'groupInvoiceNumber ',
                 width: '50px'
             },
             {
