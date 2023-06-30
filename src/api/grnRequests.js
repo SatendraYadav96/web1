@@ -19,7 +19,7 @@ export const approveAcknowledgeRequest = payload => {
 //     return createRequest(GRN_UPLOAD_API, payload.certificate,null)
 // }
 
-export const grnUploadRequest = payload => {
+export const grnRequest = payload => {
     const api = {...GRN_API, url: `${GRN_API.url}`}
     return createRequest(api, payload.certificate, null)
 }

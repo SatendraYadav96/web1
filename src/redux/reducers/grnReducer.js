@@ -5,8 +5,10 @@ import {
   LOGIN_FAIL_ACTION,
   LOGIN_SUCCESS_ACTION,
 } from '../actions/auth/authActionConstants'
-import {APPROVE_ACKNOWLEDGE_FAIL, APPROVE_ACKNOWLEDGE_SUCCESS, REJECT_ACKNOWLEDGE_FAIL, REJECT_ACKNOWLEDGE_SUCCESS, UNACKNOWLEDGE_LIST_FAIL, UNACKNOWLEDGE_LIST_RESET, UNACKNOWLEDGE_LIST_START, UNACKNOWLEDGE_LIST_SUCCESS,
-GRN_UPLOAD_SUCCESS,GRN_UPLOAD_FAIL} from "../actions/grn/grnActionConstants";
+import {
+    APPROVE_ACKNOWLEDGE_FAIL, APPROVE_ACKNOWLEDGE_SUCCESS, REJECT_ACKNOWLEDGE_FAIL, REJECT_ACKNOWLEDGE_SUCCESS, UNACKNOWLEDGE_LIST_FAIL, UNACKNOWLEDGE_LIST_RESET, UNACKNOWLEDGE_LIST_START, UNACKNOWLEDGE_LIST_SUCCESS,
+    GRN_UPLOAD_SUCCESS, GRN_UPLOAD_FAIL, GRN_SUCCESS, GRN_FAIL
+} from "../actions/grn/grnActionConstants";
 const initialState = {
   unacknowledged: {},
   rejectAcknowledge: {},
@@ -95,6 +97,6 @@ export default createReducer(initialState, {
   [REJECT_ACKNOWLEDGE_FAIL]: rejectAcknowledgeFailReducer,
   [APPROVE_ACKNOWLEDGE_SUCCESS]: approveAcknowledgeSuccessReducer,
   [APPROVE_ACKNOWLEDGE_FAIL]: approveAcknowledgeFailReducer,
-  [GRN_UPLOAD_SUCCESS]: grnUploadSuccessReducer,
-  [GRN_UPLOAD_FAIL]: grnUploadFailReducer,
+  [GRN_SUCCESS]: grnUploadSuccessReducer,
+  [GRN_FAIL]: grnUploadFailReducer,
 })

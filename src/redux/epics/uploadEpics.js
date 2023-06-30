@@ -4,7 +4,7 @@ import {ffUploadFailAction, ffUploadSuccessAction, grnUploadFailAction, grnUploa
 import {FF_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
 import {ffUploadRequest, transportUploadRequest, virtualUploadRequest} from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
-import {grnUploadRequest} from "../../api/grnRequests";
+import {grnUploadRequest} from "../../api/uploadRequests";
 
 
 // TRANSPORT_UPLOAD
