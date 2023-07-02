@@ -1,6 +1,6 @@
 import {createReducer} from "./reducerUtils";
 import {GET_BUISNESS_UNIT_FAIL, GET_BUISNESS_UNIT_SUCCESS} from "../actions/master/masterActionConstants";
-import {FF_UPLOAD_FAIL, FF_UPLOAD_SUCCESS, TRANSPORT_UPLOAD_FAIL, TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_UPLOAD_FAIL, VIRTUAL_UPLOAD_SUCCESS} from "../actions/upload/uploadActionConstants";
+import {FF_UPLOAD_FAIL, FF_UPLOAD_SUCCESS, GRN_EXCEL_UPLOAD_FAIL, GRN_EXCEL_UPLOAD_SUCCESS, TRANSPORT_UPLOAD_FAIL, TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_UPLOAD_FAIL, VIRTUAL_UPLOAD_SUCCESS} from "../actions/upload/uploadActionConstants";
 import {GRN_UPLOAD_FAIL, GRN_UPLOAD_SUCCESS} from "../actions/upload/uploadActionConstants";
 
 const initialState = {
@@ -8,6 +8,8 @@ const initialState = {
     transportUploadLoading: false,
     grnUpload: [],
     grnUploadLoading: false,
+    grnExcelUpload: [],
+    grnExcelUploadLoading: false,
     virtualUpload: [],
     virtualUploadLoading: false,
     error: {}
@@ -48,6 +50,26 @@ const grnUploadFailReducer = (state = initialState, payload) => {
         ...state,
         grnUpload:[],
         grnUploadLoading: false,
+        error: payload.error,
+
+    }
+}
+
+//GRN_UPLOAD
+const grnExcelUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        grnExcelUpload:payload.grnExcelUpload,
+        grnExcelUploadLoading: false
+
+    }
+}
+
+const grnExcelUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        grnExcelUpload:[],
+        grnExcelUploadLoading: false,
         error: payload.error,
 
     }
@@ -100,6 +122,8 @@ export default createReducer(initialState, {
     [TRANSPORT_UPLOAD_FAIL]: transportUploadFailReducer,
     [GRN_UPLOAD_SUCCESS]: grnUploadSuccessReducer,
     [GRN_UPLOAD_FAIL]: grnUploadFailReducer,
+    [GRN_EXCEL_UPLOAD_SUCCESS]: grnExcelUploadSuccessReducer,
+    [GRN_EXCEL_UPLOAD_FAIL]: grnExcelUploadFailReducer,
     [FF_UPLOAD_SUCCESS]: ffUploadSuccessReducer,
     [FF_UPLOAD_FAIL]: ffUploadFailReducer,
     [VIRTUAL_UPLOAD_SUCCESS]: virtualUploadSuccessReducer,

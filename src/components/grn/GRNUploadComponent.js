@@ -149,6 +149,12 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload}) => {
         })
     }
 
+    const handleRefresh = () => {
+        handleGrn ({
+            certificate: authInfo.token
+        });
+    }
+
     return(
         <div>
             <TitleWidget title={'GRN Upload Log'} />
@@ -158,8 +164,11 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload}) => {
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <Button type={'primary'} onClick={upload}>Upload</Button>
+                </Col>
+                <Col span={2}>
+                    <Button type={'primary'} onClick={handleRefresh}>Refresh</Button>
                 </Col>
             </Row>
             <br/><br/>

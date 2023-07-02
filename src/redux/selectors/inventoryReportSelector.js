@@ -85,3 +85,17 @@ export const selectLoadingSwitchInventoryData = createSelector(
     switchInventoryLoading,
     loadingSelection => loadingSelection
 );
+
+const exportAllocation = (state) => state.inventoryReport.exportAllocation;
+const exportAllocationLoading = (state) => state.inventoryReport.exportAllocationLoading
+
+
+export const selectExportAllocationData = createSelector(
+    exportAllocation,
+    exportAllocationDataSelection => exportAllocationDataSelection
+);
+
+export const selectLoadingExportAllocationData = createSelector(
+    exportAllocationLoading,
+    loadingSelection => loadingSelection
+);

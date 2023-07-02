@@ -1,7 +1,21 @@
 
 
 // TRANSPORT_UPLOAD
-import {FF_UPLOAD_FAIL, FF_UPLOAD_START, FF_UPLOAD_SUCCESS, GRN_UPLOAD_FAIL, GRN_UPLOAD_START, GRN_UPLOAD_SUCCESS, TRANSPORT_UPLOAD_FAIL, TRANSPORT_UPLOAD_START, TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_UPLOAD_FAIL, VIRTUAL_UPLOAD_START, VIRTUAL_UPLOAD_SUCCESS} from "./uploadActionConstants";
+import {
+    FF_UPLOAD_FAIL,
+    FF_UPLOAD_START,
+    FF_UPLOAD_SUCCESS, GRN_EXCEL_UPLOAD_FAIL,
+    GRN_EXCEL_UPLOAD_START, GRN_EXCEL_UPLOAD_SUCCESS,
+    GRN_UPLOAD_FAIL,
+    GRN_UPLOAD_START,
+    GRN_UPLOAD_SUCCESS,
+    TRANSPORT_UPLOAD_FAIL,
+    TRANSPORT_UPLOAD_START,
+    TRANSPORT_UPLOAD_SUCCESS,
+    VIRTUAL_UPLOAD_FAIL,
+    VIRTUAL_UPLOAD_START,
+    VIRTUAL_UPLOAD_SUCCESS
+} from "./uploadActionConstants";
 
 export const transportUploadStartAction = (payload) => (dispatch) => {
     dispatch({
@@ -41,6 +55,27 @@ export const grnUploadSuccessAction = (payload) => (dispatch) => {
 export const grnUploadFailAction = (payload) => (dispatch) => {
     dispatch({
         type: GRN_UPLOAD_FAIL,
+        payload: payload,
+    })
+}
+
+export const grnExcelUploadStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GRN_EXCEL_UPLOAD_START,
+        payload: payload,
+    })
+}
+
+export const grnExcelUploadSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GRN_EXCEL_UPLOAD_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const grnExcelUploadFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GRN_EXCEL_UPLOAD_FAIL,
         payload: payload,
     })
 }

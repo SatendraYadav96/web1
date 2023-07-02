@@ -8,8 +8,11 @@ import {Option} from "antd/es/mentions";
 import {Link, useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
+import {selectVirtualData} from "../../redux/selectors/virtualDispatchSelector";
+import {getVirtualDispatchStartAction} from "../../redux/actions/dispatchInvoice/virtualDispatchAction";
 
-const VirtualDispatchComponent = ({authInfo}) => {
+
+const VirtualDispatchComponent = ({authInfo,virtualData,handleVirtualDispatchList}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -28,20 +31,20 @@ const VirtualDispatchComponent = ({authInfo}) => {
         setColumn([
             {
                 title:'Plan Purpose',
-                key: 'planPurpose',
-                dataIndex: 'planPurpose',
+                key: 'namePlan',
+                dataIndex: 'namePlan',
                 width:'100px'
             },
             {
                 title: 'Brand Manager Name',
-                key: 'brandManagerName',
-                dataIndex: 'brandManagerName',
+                key: 'nameBmRec',
+                dataIndex: 'nameBmRec',
                 width:'200px'
             },
             {
                 title: 'Plan Status',
-                key: 'planStatus',
-                dataIndex: 'planStatus',
+                key: 'nameStatusDip',
+                dataIndex: 'nameStatusDip',
                 width:'100px'
             },
             {
@@ -61,8 +64,8 @@ const VirtualDispatchComponent = ({authInfo}) => {
                 key: '',
                 dataIndex: '',
                 width: '100px',
-                render: () => {
-                    return <Link to="/home/dispatchInvoicing/virtualDispatch/details">Show</Link>
+                render: (_,row) => {
+                    return <Button to="/home/dispatchInvoicing/virtualDispatch/details" onClick={() => handleShow(row)}>Show</Button>
                 }
             }
         ]);
@@ -78,100 +81,59 @@ const VirtualDispatchComponent = ({authInfo}) => {
         ])
     }
 
-    const  handleShow = () => {
+    const  handleShow = (row) => {
         history("/home/dispatchInvoicing/virtualDispatch/details", {state:
             {
                 year: year,
                 month: month,
+                team: row.idTEM,
+                status: row.idPlanStatus,
+                planId: row.idDip,
             }});
+    }
+
+    const getVirtualDispatchList = () => {
+        handleVirtualDispatchList({
+            year:year,
+            month:month,
+            certificate: authInfo.token
+        })
+        searchData()
     }
 
     return(
         <div>
             <TitleWidget title={'Virtual Dispatch'} />
-            <Row gutter={[16,16]}>
+            <Row gutter={[8,8]}>
                 <Col span={3}>
-                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
-                    {/*<Select style={{ width: 120 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>*/}
-                    {/*    <Option value="2020">2020</Option>*/}
-                    {/*    <Option value="2021">2021</Option>*/}
-                    {/*    <Option value="2022">2022</Option>*/}
-                    {/*</Select>*/}
+                    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
                 </Col>
                 <Col span={3}>
-                    <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
-                    {/*<Select style={{ width: 120 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>*/}
-                    {/*    <Option  value='Janaury'>Janaury</Option>*/}
-                    {/*    <Option value='February'>February</Option>*/}
-                    {/*    <Option value='March'>March</Option>*/}
-                    {/*    <Option value='April'>April</Option>*/}
-                    {/*    <Option value='May'>May</Option>*/}
-                    {/*    <Option value='June'>June</Option>*/}
-                    {/*    <Option value='July'>July</Option>*/}
-                    {/*    <Option value='August'>August</Option>*/}
-                    {/*    <Option value='September'>September</Option>*/}
-                    {/*    <Option value='October'>October</Option>*/}
-                    {/*    <Option value='November'>November</Option>*/}
-                    {/*    <Option value='December'>December</Option>*/}
-                    {/*</Select>*/}
+                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={4}>
-                    <Button type={'primary'} onClick={() => searchData()}>Submit</Button>
+                    <Button type={'primary'} onClick={() => getVirtualDispatchList()}>Submit</Button>
                 </Col>
             </Row>
             <br/><br/>
-            {flag &&
-                <Table columns={column} dataSource={dataSource}/>
-            }
-
-            {/*<div className="grid">*/}
-            {/*    <Select style={{ width: 120 }} placeholder={'Year'} value={year} onChange={(e) => setYear(e)}>*/}
-            {/*        <Option value="2020">2020</Option>*/}
-            {/*        <Option value="2021">2021</Option>*/}
-            {/*        <Option value="2022">2022</Option>*/}
-            {/*    </Select>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    <Select style={{ width: 120 }} placeholder={'Month'} value={month} onChange={(e) => setMonth(e)}>*/}
-            {/*        <Option  value='Janaury'>Janaury</Option>*/}
-            {/*        <Option value='February'>February</Option>*/}
-            {/*        <Option value='March'>March</Option>*/}
-            {/*        <Option value='April'>April</Option>*/}
-            {/*        <Option value='May'>May</Option>*/}
-            {/*        <Option value='June'>June</Option>*/}
-            {/*        <Option value='July'>July</Option>*/}
-            {/*        <Option value='August'>August</Option>*/}
-            {/*        <Option value='September'>September</Option>*/}
-            {/*        <Option value='October'>October</Option>*/}
-            {/*        <Option value='November'>November</Option>*/}
-            {/*        <Option value='December'>December</Option>*/}
-            {/*    </Select>*/}
-            {/*    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-            {/*    <Button type={'primary'} onClick={() => searchData()}>Submit</Button>*/}
-            {/*</div>*/}
-            {/*<br/><br/>*/}
-            {/*<div align="right">*/}
-            {/*    <Input.Search style={{ width: 304 }} />*/}
-            {/*</div>*/}
-            {/*<br/><br/>*/}
-            {/*{flag &&*/}
-            {/*    <Table columns={column} dataSource={dataSource}/>*/}
-            {/*}*/}
-
+            <Table columns={column} dataSource={dataSource}/>
         </div>
     )
 }
 
 VirtualDispatchComponent.propTypes = {
     authInfo: PropTypes.any,
+    handleVirtualDispatchList: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const virtualData = selectVirtualData(state)
+    return {authInfo,virtualData}
 }
 
 const actions = {
-
+    handleVirtualDispatchList : getVirtualDispatchStartAction,
 }
 
 export default connect(mapState, actions)(VirtualDispatchComponent)

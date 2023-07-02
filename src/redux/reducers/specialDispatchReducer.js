@@ -76,7 +76,4 @@ export default createReducer(initialState, {
     [GET_SPECIALDISPATCH_FAIL]: getSpecialDispatchFailReducer,
     [GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_SUCCESS]: getSpecialEmployeeInvoiceDetailSuccessReducer,
     [GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_FAIL]: getSpecialEmployeeInvoiceDetailFailReducer
-
-
-
 })

@@ -35,6 +35,10 @@ export const GET_EMPLOYEE_POPUP_DETAILS_API = {url: '/v1/inventory/getEmployeeIn
 export const GET_DELIVERY_UPDATE_API = {url: '/v1/upload/getTransporterUploadLog',method:'GET',auth:true}
 export const GET_INVOICE_UPLOAD_API = {url: '/v1/upload/getInvoiceUploadLog',method:'GET',auth:true}
 export const GET_INVOICE_FOR_UPLOAD_API = {url: '/v1/invoice/getInvoicesForGrouping',method:'POST',auth:true}
+export const GET_VIRTUAL_DISPATCH_API = {url: '/v1/dispatchInvoicing/getVirtualDispatchSearch',method:'GET',auth:true}
+export const GET_VIRTUAL_DISPATCH_DETAILS_API = {url: '/v1/inventory/getVirtualDispatchListForInvoicing',method:'GET',auth:true}
+export const EXPORT_ALLOCATION_API = {url: '/v1/inventory/exportAllocation',method:'GET',auth:true}
+
 
 //Reports
 export const GET_RECIPIENT_REPORT_API = {url: '/v1/report/getReportRecipient',method:'GET',auth:true}
@@ -62,7 +66,7 @@ export const GET_SPECIAL_PLAN_DETAILS_APPROVAL_DETAILS_API = {url: '/v1/approval
 export const GET_VIRTUAL_PLAN_APPROVAL_API = {url: '/v1/approval/getVirtualPlanForApproval',method:'GET',auth:true}
 export const GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API = {url: '/v1/approval/getVirtualPlanApprovalDetails',method:'GET',auth:true}
 
-//COMPLIANCE
+//COMPLIANCE GRN
 export const GET_NON_COMPLIANCE_API = {url: '/v1/compliance/recipientUnblockingPartial',method:'GET',auth:true}
 
 //OVER SAMPLING
@@ -172,5 +176,6 @@ export const GET_ITEM_EXPIRED_DETAILS_API = {url: '/v1/dashboard/getItemExpiredD
 //UPLOAD
 export const TRANSPORT_UPLOAD_API = {url: '/v1/upload/transporterUpload',method:'POST',auth:true}
 export const GRN_UPLOAD_API = {url: '/v1/upload/grnUpload',method:'POST',auth:true}
+export const GRN_EXCEL_UPLOAD_API = {url: '/v1/upload/grnExcelData',method:'POST',auth:true}
 export const FF_UPLOAD_API = {url: '/v1/upload/recipientUpload',method:'POST',auth:true}
-    export const VIRTUAL_UPLOAD_API = {url: '/v1/upload/virtualUpload',method:'POST',auth:true}
+export const VIRTUAL_UPLOAD_API = {url: '/v1/upload/virtualUpload',method:'POST',auth:true}

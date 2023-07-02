@@ -32,6 +32,21 @@ export const selectLoadingGrnUploadData = createSelector(
 );
 
 
+const grnExcelUploadList = (state) => state.upload.grnExcelUpload;
+const grnExcelUploadLoading = (state) => state.upload.grnExcelUploadLoading
+
+
+export const selectGrnExcelUploadListData = createSelector(
+    grnExcelUploadList,
+    grnExcelUploadListDataSelection => grnExcelUploadListDataSelection
+);
+
+export const selectLoadingGrnExcelUploadData = createSelector(
+    grnExcelUploadLoading,
+    loadingSelection => loadingSelection
+);
+
+
 const ffUploadList = (state) => state.upload.ffUpload;
 const ffUploadLoading = (state) => state.upload.ffUploadLoading
 

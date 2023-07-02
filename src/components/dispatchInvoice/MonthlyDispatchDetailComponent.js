@@ -17,9 +17,14 @@ import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../red
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
 import Highlighter from 'react-highlight-words';
+import {exportAllocationStartAction} from "../../redux/actions/inventory/inventoryReportActions";
+import {selectExportAllocationData} from "../../redux/selectors/inventoryReportSelector";
+import XLSX from "xlsx"
+import {CSVLink} from "react-csv";
+import {delay} from "rxjs";
 
 
-const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel}) => {
+const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport}) => {
 
     const navigate = useNavigate()
     const [year, setYear] = useState()
@@ -43,6 +48,10 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     const [printAllInvoice, setPrintAllInvoice] = useState([])
     const [count, setCount] = useState(0)
     const [countLabel, setCountLabel] = useState(0)
+    const [exp, setExp] = useState([{
+        name: "",
+        age: "",
+    },])
     const location = useLocation();
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -753,6 +762,34 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         }
     },[countLabel])
 
+    // const handleExportAction = async () => {
+    //     await setTimeout(()=> {
+    //             document.getElementById("result").innerHTML = "Hello, I am here";
+    //         }
+    //         ,1000);
+    // }
+
+    useEffect(() => {
+        handleExport({
+            year: location.state.year,
+            month: location.state.month,
+            teamId: location.state.team,
+            status: location.state.status,
+            planId: null,
+            isVirtual: 0,
+            isSpecial: 0,
+            certificate: authInfo.token,
+        })
+    },[])
+
+    useEffect(() => {
+        if (exportAllocation) {
+            setExp(exportAllocation)
+        } else {
+            console.log("no Data")
+        }
+    }, [exportAllocation])
+
     return(
         <div>
             <TitleWidget title={'Monthly Dispatch'} />
@@ -783,7 +820,16 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                         <Button type={'primary'}  onClick={() => generateInvoice()}>Generate Invoices</Button>
                     </Col>
                     <Col span={2}>
-                        <Button type={'primary'}>Exports</Button>
+                        <CSVLink
+                            data={exp}
+                            filename={"exportAllocation.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button type={'primary'} >Exports</Button>
+                        </CSVLink>
+                        {/*<Button type={'primary'} >Exports</Button>*/}
                     </Col>
                     <Col span={16}></Col>
                 </Row>
@@ -873,6 +919,8 @@ MonthlyDispatchDetailComponent.propTypes = {
     generateLabelList:PropTypes.array,
     generateLabelLoading:PropTypes.any,
     handleGenerateLabel:PropTypes.func,
+    exportAllocation:PropTypes.any,
+    handleExport:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -888,7 +936,8 @@ const mapState = (state) => {
     const generateLabelLoading = selectLoadingGenerateLabelData(state)
     const employeePopup = selectEmployeePopupData(state)
     const employeePopupLoading = selectEmployeePopupLoadingData(state)
-    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading}
+    const exportAllocation = selectExportAllocationData(state)
+    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading,exportAllocation}
 }
 
 const actions = {
@@ -897,6 +946,7 @@ const actions = {
     handleGenerateInvoice: getGenerateInvoiceStartAction,
     handleGenerateLabel: getGenerateLabelStartAction,
     handleEmployeePopup: employeePopupStartAction,
+    handleExport: exportAllocationStartAction,
 }
 
 export default connect(mapState, actions)(MonthlyDispatchDetailComponent)

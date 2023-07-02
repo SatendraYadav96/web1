@@ -183,6 +183,8 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
             {
                 year: year,
                 month: month,
+                team: row.idTEM,
+                status: row.idPlanStatus,
                 planId: row.idDip,
             }});
     }
@@ -236,8 +238,7 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const specialData = selectSpecialData(state)
     const specialDispatchLoading = selectLoadingSpecialDispatchData(state)
-
-            return {authInfo,specialData, specialDispatchLoading,profileInfo}
+    return {authInfo,specialData, specialDispatchLoading,profileInfo}
 }
 
 const actions = {

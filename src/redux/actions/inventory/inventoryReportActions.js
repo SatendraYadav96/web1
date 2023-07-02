@@ -3,7 +3,7 @@ import {
     EDIT_BLOCK_ITEM_START, EDIT_BLOCK_ITEM_SUCCESS,
     EDIT_UNIT_ALLOCATION_FAIL,
     EDIT_UNIT_ALLOCATION_START,
-    EDIT_UNIT_ALLOCATION_SUCCESS,
+    EDIT_UNIT_ALLOCATION_SUCCESS, EXPORT_ALLOCATION_FAIL, EXPORT_ALLOCATION_START, EXPORT_ALLOCATION_SUCCESS,
     GET_INVENTORY_REPORT_FAIL,
     GET_INVENTORY_REPORT_START,
     GET_INVENTORY_REPORT_SUCCESS,
@@ -133,6 +133,27 @@ export const switchInventorySuccessAction = (payload) => (dispatch) =>{
 export const switchInventoryFailAction = (payload) => (dispatch) => {
     dispatch({
         type: SWITCH_INVENTORY_FAIL,
+        payload: payload,
+    })
+}
+
+export const exportAllocationStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: EXPORT_ALLOCATION_START,
+        payload: payload,
+    })
+}
+
+export const exportAllocationSuccessAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: EXPORT_ALLOCATION_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const exportAllocationFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: EXPORT_ALLOCATION_FAIL,
         payload: payload,
     })
 }

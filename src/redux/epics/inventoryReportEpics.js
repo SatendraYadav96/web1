@@ -1,17 +1,17 @@
 import {ofType} from "redux-observable";
 import {catchError, debounceTime, map, of, switchMap} from "rxjs";
-import {EDIT_BLOCK_ITEM_START, EDIT_UNIT_ALLOCATION_START, GET_INVENTORY_REPORT_START, GET_INVENTORY_REVERSAL_HISTORY_START, REVERSE_INVENTORY_START, SWITCH_INVENTORY_START} from "../actions/inventory/inventoryReportActionConstants";
+import {EDIT_BLOCK_ITEM_START, EDIT_UNIT_ALLOCATION_START, EXPORT_ALLOCATION_START, GET_INVENTORY_REPORT_START, GET_INVENTORY_REVERSAL_HISTORY_START, REVERSE_INVENTORY_START, SWITCH_INVENTORY_START} from "../actions/inventory/inventoryReportActionConstants";
 import {
     editBlockItemFailAction,
     editBlockItemSuccessAction,
     editUnitAllocationFailAction,
-    editUnitAllocationSuccessAction,
+    editUnitAllocationSuccessAction, exportAllocationFailAction, exportAllocationSuccessAction,
     getInventoryReportFailAction,
     getInventoryReportSuccessAction,
     getInventoryReversalHistoryFailAction,
     getInventoryReversalHistorySuccessAction, reverseInventoryFailAction, reverseInventorySuccessAction, switchInventoryFailAction, switchInventorySuccessAction
 } from "../actions/inventory/inventoryReportActions";
-import {editBlockItemRequest, editUnitAllocationRequest, inventoryReportRequest, inventoryRevarsalHistoryRequest, inventoryReversalHistoryRequest, reverseInventory, switchInventory} from "../../api/inventoryRequests";
+import {editBlockItemRequest, editUnitAllocationRequest, exportAllocation, inventoryReportRequest, inventoryRevarsalHistoryRequest, inventoryReversalHistoryRequest, reverseInventory, switchInventory} from "../../api/inventoryRequests";
 
 export const getInventoryReportStartEpic = (action$) =>
   action$.pipe(
@@ -81,6 +81,18 @@ export const switchInventoryStartEpic = (action$) =>
             switchInventory(action.payload).pipe(
                 map((listResponse) => switchInventorySuccessAction({switchInventory: listResponse.response})),
                 catchError((error) => of(switchInventoryFailAction({error: error}))),
+            )
+        )
+    )
+
+export const exportAllocationStartEpic = (action$) =>
+    action$.pipe(
+        ofType(EXPORT_ALLOCATION_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            exportAllocation(action.payload).pipe(
+                map((listResponse) => exportAllocationSuccessAction({exportAllocation: listResponse.response})),
+                catchError((error) => of(exportAllocationFailAction({error: error}))),
             )
         )
     )

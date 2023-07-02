@@ -3,7 +3,7 @@ import {
     EDIT_BLOCK_ITEM_FAIL,
     EDIT_BLOCK_ITEM_SUCCESS,
     EDIT_UNIT_ALLOCATION_FAIL,
-    EDIT_UNIT_ALLOCATION_SUCCESS,
+    EDIT_UNIT_ALLOCATION_SUCCESS, EXPORT_ALLOCATION_FAIL, EXPORT_ALLOCATION_SUCCESS,
     GET_INVENTORY_REPORT_FAIL,
     GET_INVENTORY_REPORT_SUCCESS,
     GET_INVENTORY_REVERSAL_HISTORY_FAIL,
@@ -21,6 +21,8 @@ const initialState = {
     reverseInventoryLoading: false,
     switchInventory: [],
     switchInventoryLoading: false,
+    exportAllocation: [],
+    exportAllocationLoading: false,
     error: {}
 }
 
@@ -142,6 +144,25 @@ const switchInventoryFailReducer = (state = initialState, payload) => {
     }
 }
 
+const exportAllocationSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        exportAllocation:payload.reverseInventory,
+        exportAllocationLoading: false
+
+    }
+}
+
+const exportAllocationFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        exportAllocation:[],
+        exportAllocationLoading: false,
+        error: payload.error,
+    }
+}
+
 export default createReducer(initialState, {
     [GET_INVENTORY_REPORT_SUCCESS]: getInventoryReportSuccessReducer,
     [GET_INVENTORY_REPORT_FAIL]: getInventoryReportFailReducer,
@@ -155,4 +176,6 @@ export default createReducer(initialState, {
     [REVERSE_INVENTORY_FAIL]: reverseInventoryFailReducer,
     [SWITCH_INVENTORY_SUCCESS]: switchInventorySuccessReducer,
     [SWITCH_INVENTORY_FAIL]: switchInventoryFailReducer,
+    [EXPORT_ALLOCATION_SUCCESS]: exportAllocationSuccessReducer,
+    [EXPORT_ALLOCATION_FAIL]: exportAllocationFailReducer,
 })

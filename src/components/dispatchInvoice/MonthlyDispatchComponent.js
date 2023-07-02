@@ -177,6 +177,9 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
             {
                 year: year,
                 month: month,
+                team: row.idTEM,
+                status: row.idPlanStatus,
+                planId: row.idDip,
             }});
     }
 

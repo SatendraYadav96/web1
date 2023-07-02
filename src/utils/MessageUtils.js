@@ -1,4 +1,4 @@
-import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
+import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -677,6 +677,20 @@ import {GET_RECIPIENT_REPORT_API} from "../api/apiConstants";
         },
     ],
     GET_SPECIALDISPATCH_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GRN_START: [{ action: 'showspinner' }],
+    GRN_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    GRN_FAIL: [
         { action: 'hidespinner' },
         {
             action: 'showerror',

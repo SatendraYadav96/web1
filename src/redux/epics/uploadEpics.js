@@ -1,8 +1,19 @@
 import {ofType} from "redux-observable";
 import {catchError, debounceTime, map, of, switchMap} from "rxjs";
-import {ffUploadFailAction, ffUploadSuccessAction, grnUploadFailAction, grnUploadSuccessAction, transportUploadFailAction, transportUploadStartAction, transportUploadSuccessAction, virtualUploadFailAction, virtualUploadSuccessAction} from "../actions/upload/uploadActions";
-import {FF_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
-import {ffUploadRequest, transportUploadRequest, virtualUploadRequest} from "../../api/uploadRequests";
+import {
+    ffUploadFailAction,
+    ffUploadSuccessAction, grnExcelUploadFailAction,
+    grnExcelUploadSuccessAction,
+    grnUploadFailAction,
+    grnUploadSuccessAction,
+    transportUploadFailAction,
+    transportUploadStartAction,
+    transportUploadSuccessAction,
+    virtualUploadFailAction,
+    virtualUploadSuccessAction
+} from "../actions/upload/uploadActions";
+import {FF_UPLOAD_START, GRN_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
+import {ffUploadRequest, grnExcelUploadRequest, transportUploadRequest, virtualUploadRequest} from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
 import {grnUploadRequest} from "../../api/uploadRequests";
 
@@ -29,6 +40,19 @@ export const grnUploadStartEpic = (action$) =>
             grnUploadRequest(action.payload).pipe(
                 map((listResponse) => grnUploadSuccessAction({grnUpload: listResponse.response})),
                 catchError((error) => of(grnUploadFailAction({error: error}))),
+            )
+        )
+    )
+
+// GRN_EXCEL_UPLOAD
+export const grnExcelUploadStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GRN_EXCEL_UPLOAD_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            grnExcelUploadRequest(action.payload).pipe(
+                map((listResponse) => grnExcelUploadSuccessAction({grnExcelUpload: listResponse.response})),
+                catchError((error) => of(grnExcelUploadFailAction({error: error}))),
             )
         )
     )

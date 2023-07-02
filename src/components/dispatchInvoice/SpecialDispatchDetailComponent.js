@@ -15,8 +15,11 @@ import SelectTransportComponent from "../widgets/SelectTransportComponent";
 import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData} from "../../redux/selectors/monthlyDispatchSelector";
 import {getGenerateInvoiceStartAction, getGenerateLabelStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 import Highlighter from "react-highlight-words";
+import {exportAllocationStartAction} from "../../redux/actions/inventory/inventoryReportActions";
+import {selectExportAllocationData} from "../../redux/selectors/inventoryReportSelector";
+import {CSVLink} from "react-csv";
 
-const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel}) => {
+const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,handleExport,exportAllocation}) => {
 
     const navigate = useNavigate()
 
@@ -33,6 +36,10 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [printColumn, setPrintColumn] = useState([])
     const [printInvoice, setPrintInvoice] = useState()
     const [checkedArr, setCheckedArr] = useState([])
+    const [exp, setExp] = useState([{
+        name: "",
+        age: "",
+    },])
     const [count, setCount] = useState(0)
     const [countLabel, setCountLabel] = useState(0)
     const [printAction, setPrintAction] = useState(false)
@@ -566,7 +573,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
     const getSpecialEmployeeInvoiceDetailsList = () => {
         console.log(specialInvoiceDetails);
-        console.log(planId);
+        console.log(location.state.planId);
         console.log(status);
 
         handleSpecialInvoiceDetailsList ({
@@ -735,6 +742,40 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         })
     }
 
+    // const handleExportAction = () => {
+    //     handleExport({
+    //         year: location.state.year,
+    //         month: location.state.month,
+    //         teamId: null,
+    //         status: location.state.status,
+    //         planId: location.state.planId,
+    //         isVirtual: 0,
+    //         isSpecial: 1,
+    //         certificate: authInfo.token,
+    //     })
+    // }
+
+    useEffect(() => {
+        handleExport({
+            year: location.state.year,
+            month: location.state.month,
+            teamId: null,
+            status: location.state.status,
+            planId: location.state.planId,
+            isVirtual: 0,
+            isSpecial: 1,
+            certificate: authInfo.token,
+        })
+    },[])
+
+    useEffect(() => {
+        if (exportAllocation) {
+            setExp(exportAllocation)
+        } else {
+            console.log("no Data")
+        }
+    }, [exportAllocation])
+
     return(
         <>
             <Row gutter={[16,16]}>
@@ -761,8 +802,16 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                         <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>
 
                         &nbsp;
-
-                        <Button type={'primary'}>Export</Button>
+                        <CSVLink
+                            data={exp}
+                            filename={"exportAllocation.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button type={'primary'} >Exports</Button>
+                        </CSVLink>
+                        {/*<Button type={'primary'} onClick={handleExportAction}>Export</Button>*/}
                     </>
                 }
                 {status === "00000000-0000-0000-0000-000000000027" &&
@@ -790,14 +839,6 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                         </Row>
                     </>
                 }
-                <br/>
-            <Row>
-                <Col span={24}>
-                    <div align="right">
-                        <Input.Search style={{ width: 304 }} />
-                    </div>
-                </Col>
-            </Row>
             <br/><br/>
             <Table columns={column} dataSource={specialInvoiceDetails}/>
             <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
@@ -870,6 +911,8 @@ SpecialDispatchDetailComponent.propTypes = {
     generateInvoiceList:PropTypes.array,
     generateInvoiceLoading:PropTypes.any,
     handleInvoiceDetailsList:PropTypes.func,
+    exportAllocation:PropTypes.any,
+    handleExport:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -883,7 +926,8 @@ const mapState = (state) => {
     const generateInvoiceLoading = selectLoadingGenerateInvoiceData(state)
     const generateLabelList = selectGenerateLabelListData(state)
     const generateLabelLoading = selectLoadingGenerateLabelData(state)
-    return {authInfo,specialInvoiceDetails, specialInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading}
+    const exportAllocation = selectExportAllocationData(state)
+    return {authInfo,specialInvoiceDetails, specialInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading,exportAllocation}
 }
 
 const actions = {
@@ -891,6 +935,7 @@ const actions = {
     handleGenerateInvoice: getGenerateInvoiceStartAction,
     handleGenerateLabel: getGenerateLabelStartAction,
     handleEmployeePopup: employeePopupStartAction,
+    handleExport: exportAllocationStartAction,
 }
 
 export default connect(mapState, actions)(SpecialDispatchDetailComponent)
