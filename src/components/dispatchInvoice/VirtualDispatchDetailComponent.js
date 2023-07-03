@@ -802,7 +802,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                 </Col>
             </Row>
             <br/>
-            {status === "00000000-0000-0000-0000-000000000026" &&
+            {status === "00000000-0000-0000-0000-000000000024" &&
                 <>
 
                     <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>

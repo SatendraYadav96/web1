@@ -814,7 +814,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                 </Col>
             </Row>
             <br/>
-            {status === "00000000-0000-0000-0000-000000000026" &&
+            {status === "00000000-0000-0000-0000-000000000024" &&
                 <Row gutter={[8,8]}>
                     <Col span={3}>
                         <Button type={'primary'}  onClick={() => generateInvoice()}>Generate Invoices</Button>
