@@ -52,7 +52,7 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload}) => {
             {
               title: 'Status',
               key:'status',
-              dataIndex: 'statusId.id',
+              dataIndex: 'status',
               width:'100px'
             },
             {
