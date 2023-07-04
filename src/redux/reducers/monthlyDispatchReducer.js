@@ -1,7 +1,7 @@
 import { createReducer } from './reducerUtils'
 import {
     GET_MONTHLYDISPATCH_SUCCESS, GET_MONTHLYDISPATCH_FAIL,
-    GET_EMPLOYEEINVOICEDETAILS_SUCCESS, GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL, GET_GENERATE_INVOICE_SUCCESS, GET_GENERATE_INVOICE_FAIL, GET_GENERATE_LABEL_SUCCESS, GET_GENERATE_LABEL_FAIL
+    GET_EMPLOYEEINVOICEDETAILS_SUCCESS, GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL, GET_GENERATE_INVOICE_SUCCESS, GET_GENERATE_INVOICE_FAIL, GET_GENERATE_LABEL_SUCCESS, GET_GENERATE_LABEL_FAIL, GET_GEN_INVOICE_SUCCESS, GET_GEN_INVOICE_FAIL
 } from "../actions/dispatchInvoice/monthlyDispatchActionConstant";
 
 
@@ -18,6 +18,8 @@ const initialState = {
     printInvoiceLoading: false,
     generateInvoiceList: [],
     generateInvoiceLoading: false,
+    genInvoiceList: [],
+    genInvoiceLoading: false,
     generateLabelList: [],
     generateLabelLoading: false,
     error: {}
@@ -123,6 +125,27 @@ const getGenerateInvoiceFailReducer = (state = initialState, payload) => {
     }
 }
 
+const getGenInvoiceSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        genInvoiceList:payload.genInvoiceList,
+        genInvoiceLoading: false
+
+    }
+}
+
+
+const getGenInvoiceFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        genInvoiceList:[],
+        genInvoiceLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 const getGenerateLabelSuccessReducer = (state = initialState, payload) => {
     return {
@@ -155,6 +178,8 @@ export default createReducer(initialState, {
     [GET_PRINT_INVOICE_FAIL]: getPrintInvoiceFailReducer,
     [GET_GENERATE_INVOICE_SUCCESS]: getGenerateInvoiceSuccessReducer,
     [GET_GENERATE_INVOICE_FAIL]: getGenerateInvoiceFailReducer,
+    [GET_GEN_INVOICE_SUCCESS]: getGenInvoiceSuccessReducer,
+    [GET_GEN_INVOICE_FAIL]: getGenInvoiceFailReducer,
     [GET_GENERATE_LABEL_SUCCESS]: getGenerateLabelSuccessReducer,
     [GET_GENERATE_LABEL_FAIL]: getGenerateLabelFailReducer,
 })

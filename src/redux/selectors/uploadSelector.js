@@ -17,6 +17,22 @@ export const selectLoadingTransportUploadData = createSelector(
 );
 
 
+//TRANSPORT EXCEL UPLOAD
+const transportExcelUploadList = (state) => state.upload.transportExcelUpload;
+const transportExcelUploadLoading = (state) => state.upload.transportExcelUploadLoading
+
+
+export const selectTransportExcelUploadListData = createSelector(
+    transportExcelUploadList,
+    transportExcelUploadListDataSelection => transportExcelUploadListDataSelection
+);
+
+export const selectLoadingTransportExcelUploadData = createSelector(
+    transportExcelUploadLoading,
+    loadingSelection => loadingSelection
+);
+
+
 const grnUploadList = (state) => state.upload.grnUpload;
 const grnUploadLoading = (state) => state.upload.grnUploadLoading
 
@@ -73,6 +89,21 @@ export const selectVirtualUploadListData = createSelector(
 
 export const selectLoadingVirtualUploadData = createSelector(
     virtualUploadLoading,
+    loadingSelection => loadingSelection
+);
+
+
+const invoiceUploadList = (state) => state.upload.invoiceUpload;
+const invoiceUploadLoading = (state) => state.upload.invoiceUploadLoading
+
+
+export const selectInvoiceUploadListData = createSelector(
+    invoiceUploadList,
+    invoiceUploadListDataSelection => invoiceUploadListDataSelection
+);
+
+export const selectLoadingInvoiceUploadData = createSelector(
+    invoiceUploadLoading,
     loadingSelection => loadingSelection
 );
 

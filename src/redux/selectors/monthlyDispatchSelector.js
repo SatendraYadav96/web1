@@ -65,6 +65,21 @@ export const selectLoadingGenerateInvoiceData = createSelector(
     loadingSelection => loadingSelection
 );
 
+//Monthly Dispatch
+const genInvoiceList = (state) => state.monthlyDispatch.genInvoiceList;
+const genInvoiceLoading = (state) => state.monthlyDispatch.genInvoiceLoading
+
+
+export const selectGenInvoiceListData = createSelector(
+    genInvoiceList,
+    genInvoiceListDataSelection => genInvoiceListDataSelection
+);
+
+export const selectLoadingGenInvoiceData = createSelector(
+    genInvoiceLoading,
+    loadingSelection => loadingSelection
+);
+
 
 //Monthly Dispatch Generate Label
 const generateLabelList = (state) => state.monthlyDispatch.generateLabelList;

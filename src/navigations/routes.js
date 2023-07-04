@@ -14,6 +14,7 @@ const SpecialDispatchDetailComponent = React.lazy(() => import('../components/di
 const VirtualDispatchComponent = React.lazy(() => import('../components/dispatchInvoice/VirtualDispatchComponent'))
 const VirtualDispatchDetailComponent = React.lazy(() => import('../components/dispatchInvoice/VirtualDispatchDetailComponent'))
 const GroupInvoiceComponent = React.lazy(() => import('../components/dispatchInvoice/GroupInvoiceComponent'))
+const InvoiceUploadDetailComponent = React.lazy(() => import('../components/dispatchInvoice/InvoiceUploadDetailComponent'))
 const GroupInvoiceCreateComponent = React.lazy(() => import('../components/dispatchInvoice/GroupInvoiceCreateComponent'))
 const SearchInvoiceComponent = React.lazy(() => import('../components/dispatchInvoice/SearchInvoiceComponent'))
 const DeliveryUpdateComponent = React.lazy(() => import('../components/dispatchInvoice/DeliveryUpdateComponent'))
@@ -75,7 +76,6 @@ const SpecialAllocationMainComponent = React.lazy(() => import('../components/al
 const CreateSpecialAllocationComponent = React.lazy(() => import('../components/allocation/CreateSpecialAllocationComponent'))
 const MassRevalidationComponent = React.lazy(() => import('../components/revalidation/MassRevalidationComponent'))
 const AllocationReportComponent = React.lazy(() => import('../components/reports/AllocationReportComponent'))
-const InvoiceUploadDetailComponent = React.lazy(() => import('../components/dispatchInvoice/InvoiceUploadDetailComponent'))
 const CostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/CostCenterComponent'))
 const CreateCostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/CreateCostCenter'))
 const EditCostCenterComponent = React.lazy(() => import ('../components/masters/costCenter/EditCostCenter'))
@@ -97,6 +97,7 @@ const routes = [
     { path: '/home/dispatchInvoicing/pickingSlip', name: 'PickingSlip', element: PickingSlipComponent},
     { path: '/home/dispatchInvoicing/monthlyDispatch', name: 'MonthlyDispatch', element: MonthlyDispatchComponent },
     { path: '/home/dispatchInvoicing/monthlyDispatch/details', name: 'MonthlyDispatch', element: MonthlyDispatchDetailComponent},
+    { path: '/home/dispatchInvoicing/invoiceupload', name: 'InvoiceUpload', element: InvoiceUploadDetailComponent},
     { path: '/home/dispatchInvoicing/specialDispatch', name: 'SpecialDispatch', element: SpecialDispatchComponent },
     { path: '/home/dispatchInvoicing/specialDispatch/details', name: 'SpecialDispatch', element: SpecialDispatchDetailComponent},
     { path: '/home/compliance/optimaMailSendLogs', name: 'optima_mail_logs', element: OptimaMailLogsComponent },

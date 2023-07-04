@@ -148,7 +148,7 @@ const exportAllocationSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
 
-        exportAllocation:payload.reverseInventory,
+        exportAllocation:payload.exportAllocation,
         exportAllocationLoading: false
 
     }

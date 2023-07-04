@@ -1,17 +1,33 @@
 import {createReducer} from "./reducerUtils";
 import {GET_BUISNESS_UNIT_FAIL, GET_BUISNESS_UNIT_SUCCESS} from "../actions/master/masterActionConstants";
-import {FF_UPLOAD_FAIL, FF_UPLOAD_SUCCESS, GRN_EXCEL_UPLOAD_FAIL, GRN_EXCEL_UPLOAD_SUCCESS, TRANSPORT_UPLOAD_FAIL, TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_UPLOAD_FAIL, VIRTUAL_UPLOAD_SUCCESS} from "../actions/upload/uploadActionConstants";
+import {
+    FF_UPLOAD_FAIL,
+    FF_UPLOAD_SUCCESS,
+    GRN_EXCEL_UPLOAD_FAIL,
+    GRN_EXCEL_UPLOAD_SUCCESS,
+    INVOICE_UPLOAD_FAIL,
+    INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL,
+    TRANSPORT_EXCEL_UPLOAD_SUCCESS,
+    TRANSPORT_UPLOAD_FAIL,
+    TRANSPORT_UPLOAD_SUCCESS,
+    VIRTUAL_UPLOAD_FAIL,
+    VIRTUAL_UPLOAD_SUCCESS
+} from "../actions/upload/uploadActionConstants";
 import {GRN_UPLOAD_FAIL, GRN_UPLOAD_SUCCESS} from "../actions/upload/uploadActionConstants";
 
 const initialState = {
     transportUpload: [],
     transportUploadLoading: false,
+    transportExcelUpload: [],
+    transportExcelUploadLoading: false,
     grnUpload: [],
     grnUploadLoading: false,
     grnExcelUpload: [],
     grnExcelUploadLoading: false,
     virtualUpload: [],
     virtualUploadLoading: false,
+    invoiceUpload: [],
+    invoiceUploadLoading: false,
     error: {}
 }
 
@@ -30,6 +46,26 @@ const transportUploadFailReducer = (state = initialState, payload) => {
         ...state,
         transportUpload:[],
         transportUploadLoading: false,
+        error: payload.error,
+
+    }
+}
+
+//TRANSPORT_EXPORT_UPLOAD
+const transportExcelUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        transportExcelUpload:payload.transportExcelUpload,
+        transportExcelUploadLoading: false
+
+    }
+}
+
+const transportExcelUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        transportExcelUpload:[],
+        transportExcelUploadLoading: false,
         error: payload.error,
 
     }
@@ -116,10 +152,32 @@ const virtualUploadFailReducer = (state = initialState, payload) => {
     }
 }
 
+// INVOICE_UPLOAD
+const invoiceUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        invoiceUpload:payload.invoiceUpload,
+        invoiceUploadLoading: false
+
+    }
+}
+
+const invoiceUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        invoiceUpload:[],
+        invoiceUploadLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 export default createReducer(initialState, {
     [TRANSPORT_UPLOAD_SUCCESS]: transportUploadSuccessReducer,
     [TRANSPORT_UPLOAD_FAIL]: transportUploadFailReducer,
+    [TRANSPORT_EXCEL_UPLOAD_SUCCESS]: transportExcelUploadSuccessReducer,
+    [TRANSPORT_EXCEL_UPLOAD_FAIL]: transportExcelUploadFailReducer,
     [GRN_UPLOAD_SUCCESS]: grnUploadSuccessReducer,
     [GRN_UPLOAD_FAIL]: grnUploadFailReducer,
     [GRN_EXCEL_UPLOAD_SUCCESS]: grnExcelUploadSuccessReducer,
@@ -128,5 +186,7 @@ export default createReducer(initialState, {
     [FF_UPLOAD_FAIL]: ffUploadFailReducer,
     [VIRTUAL_UPLOAD_SUCCESS]: virtualUploadSuccessReducer,
     [VIRTUAL_UPLOAD_FAIL]: virtualUploadFailReducer,
+    [INVOICE_UPLOAD_SUCCESS]: invoiceUploadSuccessReducer,
+    [INVOICE_UPLOAD_FAIL]: invoiceUploadFailReducer,
 
 })

@@ -160,6 +160,7 @@ export const GET_PRINT_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'PO
 export const SEARCH_INVOICE_API = {url: '/v1/invoice/searchInvoice',method:'POST',auth:true}
 export const GET_GROUP_INVOICE_API = {url: '/v1/invoice/getGroupInvoiceListHub',method:'POST',auth:true}
 export const GET_GENERATE_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'POST',auth:true}
+export const GET_GEN_INVOICE_API = {url: '/v1/invoice/generateInvoice',method:'POST',auth:true}
 export const GET_GENERATE_LABEL_API = {url: '/v1/invoice/printLabel',method:'POST',auth:true}
 
 //  REVALIDATION
@@ -175,7 +176,9 @@ export const GET_ITEM_EXPIRED_DETAILS_API = {url: '/v1/dashboard/getItemExpiredD
 
 //UPLOAD
 export const TRANSPORT_UPLOAD_API = {url: '/v1/upload/transporterUpload',method:'POST',auth:true}
+export const TRANSPORT_EXCEL_UPLOAD_API = {url: '/v1/upload/transportExcelData',method:'GET',auth:true}
 export const GRN_UPLOAD_API = {url: '/v1/upload/grnUpload',method:'POST',auth:true}
-export const GRN_EXCEL_UPLOAD_API = {url: '/v1/upload/grnExcelData',method:'POST',auth:true}
+export const GRN_EXCEL_UPLOAD_API = {url: '/v1/upload/grnExcelData',method:'GET',auth:true}
 export const FF_UPLOAD_API = {url: '/v1/upload/recipientUpload',method:'POST',auth:true}
 export const VIRTUAL_UPLOAD_API = {url: '/v1/upload/virtualUpload',method:'POST',auth:true}
+export const INVOICE_UPLOAD_API = {url: '/v1/upload/invoiceUpload',method:'POST',auth:true}

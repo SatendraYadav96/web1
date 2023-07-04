@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Modal, Row, Select, Space, Table} from "antd";
-import {InfoOutlined, SaveOutlined, SearchOutlined, ZoomInOutlined} from "@ant-design/icons";
+import {Button, Checkbox, Col, Input, message, Modal, Row, Select, Space, Table, Upload} from "antd";
+import {InfoOutlined, SaveOutlined, SearchOutlined, UploadOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {useLocation, useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
-import {getEmployeeInvoiceDetailStartAction, getGenerateInvoiceStartAction, getGenerateLabelStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
+import {getEmployeeInvoiceDetailStartAction, getGenerateInvoiceStartAction, getGenerateLabelStartAction, getGenInvoiceStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
 import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectInvoiceListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
@@ -22,13 +22,12 @@ import {selectExportAllocationData} from "../../redux/selectors/inventoryReportS
 import XLSX from "xlsx"
 import {CSVLink} from "react-csv";
 import {delay} from "rxjs";
+import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
 
 
-const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport}) => {
+const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleGenInvoice,handleInvoiceUpload}) => {
 
     const navigate = useNavigate()
-    const [year, setYear] = useState()
-    const [month, setMonth] = useState()
     const [team, setTeam] = useState()
     const [dispatchType, setDispatchType] = useState('0')
     const [printAction, setPrintAction] = useState(false)
@@ -47,15 +46,15 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     const [printInvoice, setPrintInvoice] = useState()
     const [printAllInvoice, setPrintAllInvoice] = useState([])
     const [count, setCount] = useState(0)
+    const [lrNo, setLrNo] = useState()
     const [countLabel, setCountLabel] = useState(0)
-    const [exp, setExp] = useState([{
-        name: "",
-        age: "",
-    },])
+    const [exp, setExp] = useState([])
     const location = useLocation();
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const [file, setFile] = useState([])
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -224,7 +223,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
 
     const searchData = () => {
         setFlag(true)
-        if(status === "00000000-0000-0000-0000-000000000026"){
+        if(status === "00000000-0000-0000-0000-000000000024"){
             setColumn([
                 {
                     title:'City',
@@ -301,7 +300,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     dataIndex: 'lrNumber',
                     width: '170px',
                     render: (_,row) => {
-                        return <Input defaulValue={row.lrNumber}/>
+                        return <Input value={row.lrNumber} onChange={(e) => setLrNo(e.target.value)}/>
                     }
                 },
                 {
@@ -318,8 +317,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     key: '',
                     dataIndex: '',
                     width: '30px',
-                    render:() => {
-                        return <Button icon={<InfoOutlined />} ></Button>
+                    render:(_,row) => {
+                        return <Button icon={<ZoomInOutlined />} onClick={() => handleRecipientInvoice(row)}></Button>
                     }
                 }
             ]);
@@ -658,6 +657,14 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         setPrintAllInvoice(invoiceList)
         printData()
     }
+    // const handleGen = () => {
+    //     handleGenInvoice({
+    //         year: location.state.year,
+    //         month: location.state.month,
+    //         boxes: box,
+    //
+    //     })
+    // }
 
     useEffect(() => {
         console.log(printInvoice)
@@ -784,11 +791,83 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
 
     useEffect(() => {
         if (exportAllocation) {
-            setExp(exportAllocation)
+            setExp(exportAllocation.map(item => {
+                return {
+                    "Month": item.month,
+                    "Year": item.year,
+                    "Plan Name": item.planName,
+                    "State": item.state,
+                    "Employee": item.employeeName,
+                    "Designation": item.designation,
+                    "Code": item.code,
+                    "Boxes": item.boxes,
+                    "Weight": item.weight,
+                    "Dimension": item.dimension,
+                    "Transporter": item.transporterID,
+                    "LR Nov": item.lrNumber,
+                    "PlanId": item.planId,
+                    "Plan": item.plan,
+                }
+            }))
         } else {
             console.log("no Data")
         }
     }, [exportAllocation])
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const upload = async () => {
+        console.log(file)
+        const newFile = file[0].originFileObj
+        const base64 = await convertBase64(newFile)
+        const bytecode = base64.split(",")[1];
+        console.log(newFile)
+        console.log(bytecode)
+        handleInvoiceUpload({
+            certificate: authInfo.token,
+            dto: {
+                byteCode: bytecode,
+                fileName: newFile.name,
+            }
+        })
+    }
+
+    const handleUpload = (info) => {
+        setFile(info.fileList)
+        console.log(info.file.name)
+        console.log(info)
+        // const file = info.file.originFileObj
+        // const base64 = await convertBase64(file)
+        // console.log(base64)
+        // console.log(file.name)
+    }
+
+    const dummyRequest = ({ file, onSuccess }) => {
+        setTimeout(() => {
+            onSuccess("ok");
+        }, 0);
+    };
+
+    const props = {
+        beforeUpload: (file) => {
+            const isCSV = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            if (!isCSV) {
+                message.error(`${file.name} is not a csv file`);
+            }
+            return isCSV || Upload.LIST_IGNORE;
+        },
+    };
 
     return(
         <div>
@@ -817,21 +896,37 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             {status === "00000000-0000-0000-0000-000000000024" &&
                 <Row gutter={[8,8]}>
                     <Col span={3}>
-                        <Button type={'primary'}  onClick={() => generateInvoice()}>Generate Invoices</Button>
+                        <Button type={'primary'} style={{ width: '100%'}} onClick={() => navigate(`/home/dispatchInvoicing/invoiceupload`)} >Generate Invoices</Button>
                     </Col>
                     <Col span={2}>
                         <CSVLink
-                            data={exp}
+                            data={exp.length > 0 ? exp : [
+                                {
+                                    "Month": "",
+                                    "Year": "",
+                                    "Plan Name": "",
+                                    "State": "",
+                                    "Employee": "",
+                                    "Designation": "",
+                                    "Code": "",
+                                    "Boxes": "",
+                                    "Weight": "",
+                                    "Dimension": "",
+                                    "Transporter": "",
+                                    "LR Nov": "",
+                                    "PlanId": "",
+                                    "Plan": "",
+                                }
+                            ]}
                             filename={"exportAllocation.csv"}
                             onClick={() => {
                                 console.log("clicked")
                             }}
+                            style={{width: '100%'}}
                         >
                             <Button type={'primary'} >Exports</Button>
                         </CSVLink>
-                        {/*<Button type={'primary'} >Exports</Button>*/}
                     </Col>
-                    <Col span={16}></Col>
                 </Row>
             }
             {status === "00000000-0000-0000-0000-000000000027" &&
@@ -944,9 +1039,12 @@ const actions = {
     handleInvoiceDetailsList: getEmployeeInvoiceDetailStartAction,
     handlePrintInvoice: getPrintInvoiceStartAction,
     handleGenerateInvoice: getGenerateInvoiceStartAction,
+    handleGenInvoice: getGenInvoiceStartAction,
     handleGenerateLabel: getGenerateLabelStartAction,
     handleEmployeePopup: employeePopupStartAction,
     handleExport: exportAllocationStartAction,
+    handleInvoiceUpload: invoiceUploadStartAction,
+
 }
 
 export default connect(mapState, actions)(MonthlyDispatchDetailComponent)

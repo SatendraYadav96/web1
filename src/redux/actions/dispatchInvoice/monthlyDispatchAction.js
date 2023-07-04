@@ -1,7 +1,21 @@
 import {
-    GET_MONTHLYDISPATCH_START, GET_MONTHLYDISPATCH_SUCCESS, GET_MONTHLYDISPATCH_FAIL,
-    GET_EMPLOYEEINVOICEDETAILS_START, GET_EMPLOYEEINVOICEDETAILS_SUCCESS,
-    GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_START, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL, GET_GENERATE_INVOICE_START, GET_GENERATE_INVOICE_SUCCESS, GET_GENERATE_INVOICE_FAIL, GET_GENERATE_LABEL_START, GET_GENERATE_LABEL_SUCCESS, GET_GENERATE_LABEL_FAIL
+    GET_MONTHLYDISPATCH_START,
+    GET_MONTHLYDISPATCH_SUCCESS,
+    GET_MONTHLYDISPATCH_FAIL,
+    GET_EMPLOYEEINVOICEDETAILS_START,
+    GET_EMPLOYEEINVOICEDETAILS_SUCCESS,
+    GET_EMPLOYEEINVOICEDETAILS_FAIL,
+    GET_PRINT_INVOICE_START,
+    GET_PRINT_INVOICE_SUCCESS,
+    GET_PRINT_INVOICE_FAIL,
+    GET_GENERATE_INVOICE_START,
+    GET_GENERATE_INVOICE_SUCCESS,
+    GET_GENERATE_INVOICE_FAIL,
+    GET_GENERATE_LABEL_START,
+    GET_GENERATE_LABEL_SUCCESS,
+    GET_GENERATE_LABEL_FAIL,
+    GET_GEN_INVOICE_START,
+    GET_GEN_INVOICE_SUCCESS, GET_GEN_INVOICE_FAIL
 } from "./monthlyDispatchActionConstant";
 
 //Monthly Dispatch Action
@@ -96,6 +110,30 @@ export const getGenerateInvoiceSuccessAction = (payload) => (dispatch) => {
 export const getGenerateInvoiceFailAction = (payload) => (dispatch) =>{
     dispatch({
         type: GET_GENERATE_INVOICE_FAIL,
+        payload: payload,
+    })
+}
+
+
+//Generate Invoice
+
+export const getGenInvoiceStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_GEN_INVOICE_START,
+        payload: payload,
+    })
+}
+
+export const getGenInvoiceSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_GEN_INVOICE_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getGenInvoiceFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_GEN_INVOICE_FAIL,
         payload: payload,
     })
 }
