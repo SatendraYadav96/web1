@@ -119,7 +119,7 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
     useEffect(() => {
         setData(deviationList.map(item => {
             return {
-                businessUnit: item.businessUnit,
+                team: item.bu,
                 quarter: item.quarter,
                 brandManager: item.brandManager,
                 brand: item.brand,

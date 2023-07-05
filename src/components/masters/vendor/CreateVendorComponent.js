@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row,message} from "antd";
+import {Button, Checkbox, Col, Input, Row, message, InputNumber} from "antd";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import { addVendorStartAction } from '../../../redux/actions/master/masterActions';
 import {selectInsertVendorData,selectInsertVendorLoadingData} from "../../../redux/selectors/masterSelector";

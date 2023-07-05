@@ -73,70 +73,93 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
              key:'poNo',
              dataIndex: 'poNo',
              fixed:'left',
-             width:'100px'},
-        {title:'Cost Center',
+             width:'100px'
+        },
+        {
+            title:'Cost Center',
             key:'costCenter',
             dataIndex: 'costCenter',
-            width:'150px'},
-        {title:'Cost Center Code',
+            width:'150px'
+        },
+        {
+            title:'Cost Center Code',
             key:'costCenterCode',
             dataIndex: 'costCenterCode',
             width:'150px',
-            render: (_,{costCenterCode})=> (<Input value={costCenterCode || ''} disabled={true}/>)},
-        {title:'Item',
+            render: (_,{costCenterCode})=> (<Input value={costCenterCode || ''} disabled={true}/>)
+        },
+        {
+            title:'Item',
             key:'itemName',
             dataIndex: 'itemName',
-            width:'100px'},
-        {title:'Category',
+            width:'100px'
+        },
+        {
+            title:'Category',
             key:'category',
             dataIndex: 'category',
             width:'100px',
-            render:(_,{category})=> (data.categoryList[category.id] )},
-        {title:'Quantity',
+            render:(_,{category})=> (data.categoryList[category.id] )
+        },
+        {
+            title:'Quantity',
             key:'qty',
-            dataIndex: 'qty'},
-        {title:'Value',
+            dataIndex: 'qty'
+        },
+        {
+            title:'Value',
             key:'value',
-            dataIndex: 'value'},
-        {title:'HSN Code',
+            dataIndex: 'value'
+        },
+        {
+            title:'HSN Code',
             key:'hsnCode',
             dataIndex: 'hsnCode',
             width:'150px',
-            render: (_,{id, hsnCode}) => { const row = arr[id];
-            let hsn = '';
-            if (row !== undefined){
-             hsn = row.hsn;
+            render: (_,{id, hsnCode}) => {
+                const row = arr[id];
+                let hsn = '';
+                if (row !== undefined){
+                 hsn = row.hsn;
+                }
+                return ( <Input value={hsnCode != null ? hsnCode : hsn} onChange={e => changeGrnData(id,'hsn',e.target.value)} />)
             }
-            return ( <Input value={hsnCode != null ? hsnCode : hsn   }
-                            onChange={e => changeGrnData(id,'hsn',e.target.value)} />)
-            }},
-        {title:'Rate %',
+        },
+        {
+            title:'Rate %',
             key:'ratePerGRN',
             dataIndex: 'ratePerGRN',
             render: (_,{id, ratePerGRN}) =>{const row = arr[id];
-            let rate = '';
-            if(row !== undefined){
-                rate = row.ratePer;
+                let rate = '';
+                if(row !== undefined){
+                    rate = row.ratePer;
+                }
+                return (<Input value={ratePerGRN != null ? ratePerGRN : rate } onChange={e => changeGrnData(id,'ratePer',e.target.value)}/>)
             }
-            return (<Input value={ratePerGRN != null ? ratePerGRN : rate }
-                     onChange={e => changeGrnData(id,'ratePer',e.target.value)}/>)
-            }},
-        {title:'Received Date',
+        },
+        {
+            title:'Received Date',
             key:'postingDate',
             dataIndex: 'postingDate',
             width:'150px',
-            render: (_, {postingDate})=>(toDdMmYYYY(postingDate))},
-        {title:'Expiry Date',
+            render: (_, {postingDate})=>(toDdMmYYYY(postingDate))
+        },
+        {
+            title:'Expiry Date',
             key:'expiryDate',
             dataIndex: 'expiryDate',
             width:'200px',
-            render: (_,{expiryDate})=>{return <DatePicker defaultValue={moment(toDdMmYYYY(expiryDate), 'DD-MM-YYYY') || ''} disabled={true}/>}},
-        {title:'Medical Code/ Batch No',
+            render: (_,{expiryDate})=>{return <DatePicker defaultValue={moment(toDdMmYYYY(expiryDate), 'DD-MM-YYYY') || ''} disabled={true}/>}
+        },
+        {
+            title:'Medical Code/ Batch No',
             key:'batchNo',
             dataIndex: 'batchNo | lineText',
             width:'200px',
             render: (_, {batchNo, lineText})=> {
-                    return lineText != null ? <Input value={lineText} /> : <Input value={ batchNo } disabled={true}/> } },
+                return lineText != null ? <Input value={lineText} /> : <Input value={ batchNo } disabled={true}/>
+            }
+        },
         {
             title: 'Base Pack',
             dataIndex: '',
@@ -158,8 +181,10 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                     unit = row.units;
                 }
                 return (<Input value={unit} onChange={e => changeGrnData(id,'units',e.target.value)}/>)
-            }},
-        {title:'No Of Boxes',
+            }
+        },
+        {
+            title:'No Of Boxes',
             dataIndex: '',
             editable: true,
             render: (_, {id})=> {const row = arr[id];
@@ -167,9 +192,11 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 if(row !== undefined){
                     num = row.numBoxes;
                 }
-            return (<Input value={num} onChange={e => changeGrnData(id,'numBoxes',e.target.value)}/>)
-            }},
-        {title:'Item Code',
+                return (<Input value={num} onChange={e => changeGrnData(id,'numBoxes',e.target.value)}/>)
+            }
+        },
+        {
+            title:'Item Code',
             key:'itemCode',
             dataIndex: 'itemCode',
             width:'150px',
@@ -185,12 +212,15 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                     i = limid
                 }
                 return (<Input.Search value={i} onSearch={e =>changeGrnData(id, 'itemCode', i)} />)
-            }},
-        {title:'',
+            }
+        },
+        {
+            title:'',
             key:'',
             dataIndex: '',
             render: (_, row)=> (<><Button type="primary" onClick={()=> acknowledge(row)} icon={<CheckOutlined />} size={"small"} />&nbsp;&nbsp;<Button type="primary" onClick={()=> rejectBox(row.id)} icon={<CloseOutlined />} size={"small"} /></>),
-            fixed: 'right' },
+            fixed: 'right'
+        },
     ]
 
     const rejectBox = (id) =>{
@@ -242,7 +272,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     return (
         <div>
             <TitleWidget title={'GRN'} subTitle={'Acknowledge'}/>
-            <Table dataSource={ackData} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>
+            <Table dataSource={data ? data.grn : ackData} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>
             <Modal title={'Reason'} onOk={() => reject()} onCancel={() => setReasonModal(false)} visible={reasonModal}>
                 <Input.TextArea onChange={(e) =>{setReason(e.target.value)}} value={reason} placeholder={"Write Reason.."}/>
             </Modal>

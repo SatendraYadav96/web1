@@ -1,4 +1,5 @@
 import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
+import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -691,6 +692,34 @@ import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
         },
     ],
     GRN_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    ADD_BOX_WEIGHT_START_ACTION: [{ action: 'showspinner' }],
+    ADD_BOX_WEIGHT_SUCCESS_ACTION: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    ADD_BOX_WEIGHTN_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_DEVIATION_REPORT_START: [{ action: 'showspinner' }],
+    GET_DEVIATION_REPORT_SUCCESS: [{ action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'action completed', type: 'success' } },
+        },
+    ],
+    GET_DEVIATION_REPORT_FAIL: [
         { action: 'hidespinner' },
         {
             action: 'showerror',

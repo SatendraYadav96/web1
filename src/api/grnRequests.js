@@ -2,8 +2,8 @@ import {createRequest} from './httpUtils';
 import {APPROVE_ACKNOWLEDGE_API, GET_UNACKNOWLEDGE_LIST_API, REJECT_ACKNOWLEDGE_API, GRN_UPLOAD_API, GET_ITEM_CODE_API, GRN_API} from "./apiConstants";
 
 export const unacknowledgeListRequest = payload => {
-    const api = {...GET_UNACKNOWLEDGE_LIST_API, url: `${GET_UNACKNOWLEDGE_LIST_API.url}`}
-    return createRequest(api, payload.certificate, null)
+    // const api = {...GET_UNACKNOWLEDGE_LIST_API, url: `${GET_UNACKNOWLEDGE_LIST_API.url}`}
+    return createRequest(GET_UNACKNOWLEDGE_LIST_API, payload.certificate, null)
 }
 
 export const rejectAcknowledgeRequest = payload =>{

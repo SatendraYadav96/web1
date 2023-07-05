@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, message, Modal, Row, Select, Space, Table, Upload} from "antd";
+import {Button, Checkbox, Col, Input, InputNumber, message, Modal, Row, Select, Space, Table, Upload} from "antd";
 import {InfoOutlined, SaveOutlined, SearchOutlined, UploadOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {useLocation, useNavigate} from "react-router-dom";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
@@ -23,6 +23,7 @@ import XLSX from "xlsx"
 import {CSVLink} from "react-csv";
 import {delay} from "rxjs";
 import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {Option} from "antd/es/mentions";
 
 
 const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleGenInvoice,handleInvoiceUpload}) => {
@@ -46,7 +47,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     const [printInvoice, setPrintInvoice] = useState()
     const [printAllInvoice, setPrintAllInvoice] = useState([])
     const [count, setCount] = useState(0)
-    const [lrNo, setLrNo] = useState()
     const [countLabel, setCountLabel] = useState(0)
     const [exp, setExp] = useState([])
     const location = useLocation();
@@ -54,6 +54,15 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const [file, setFile] = useState([])
+    const [draftModal, setDraftModal] = useState(false)
+    const [lrNo, setLrNo] = useState()
+    const [empId, setEmpId] = useState()
+    const [box, setBox] = useState()
+    const [dimension, setDimension] = useState()
+    const [weight, setWeight] = useState()
+    const [transport, setTransport] = useState()
+
+
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -267,49 +276,52 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     dataIndex: 'invoiceStatus',
                     width: '150px'
                 },
-                {
-                    title: 'Boxes',
-                    key: 'boxes',
-                    dataIndex: 'boxes',
-                    width: '150px',
-                    render:() =>{
-                        return <Input/>
-                    }
-                },
-                {
-                    title: 'Weight',
-                    key: 'weight',
-                    dataIndex: 'weight',
-                    width: '150px',
-                    render: () =>{
-                        return <Input/>
-                    }
-                },
-                {
-                    title: 'Transporter',
-                    key: 'transporter',
-                    dataIndex: 'transporter',
-                    width: '170px'  ,
-                    render: () =>{
-                        return <SelectTransportComponent/>
-                    }
-                },
-                {
-                    title: 'LR No.',
-                    key: 'lrNo',
-                    dataIndex: 'lrNumber',
-                    width: '170px',
-                    render: (_,row) => {
-                        return <Input value={row.lrNumber} onChange={(e) => setLrNo(e.target.value)}/>
-                    }
-                },
+                // {
+                //     title: 'Boxes',
+                //     key: 'boxes',
+                //     dataIndex: 'boxes',
+                //     width: '150px',
+                //     render:() =>{
+                //         return <Input/>
+                //     }
+                // },
+                // {
+                //     title: 'Weight',
+                //     key: 'weight',
+                //     dataIndex: 'weight',
+                //     width: '150px',
+                //     render: () =>{
+                //         return <Input/>
+                //     }
+                // },
+                // {
+                //     title: 'Transporter',
+                //     key: 'transporter',
+                //     dataIndex: 'transporter',
+                //     width: '170px'  ,
+                //     render: () =>{
+                //         return <SelectTransportComponent/>
+                //     }
+                // },
+                // {
+                //     title: 'LR No.',
+                //     key: 'lrNo',
+                //     dataIndex: 'lrNumber',
+                //     width: '170px',
+                //     render: (_,row) => {
+                //         return <Input value={row.lrNumber} onChange={(e) => setLrNo(e.target.value)}/>
+                //     }
+                // },
                 {
                     title: '',
                     key: '',
                     dataIndex: '',
                     width: '30px',
-                    render:() => {
-                        return <Button icon={<SaveOutlined />} ></Button>
+                    render:(_,row) => {
+                        return <Button icon={<SaveOutlined />} onClick={() => {
+                            setDraftModal(true);
+                            setEmpId(row.employeeId)
+                        }}></Button>
                     }
                 },
                 {
@@ -869,6 +881,34 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         },
     };
 
+    const handleSave = () => {
+        console.log({
+            "recipientId": empId,
+            "boxes": box,
+            "weight": weight,
+            "transporter": transport,
+            "lrNo": lrNo,
+            "month": location.state.month,
+            "year": location.state.year,
+            "isSpecial": 1
+        })
+
+        handleGenInvoice({
+            certificate: authInfo.token,
+            genInv: [{
+                recipientId: empId,
+                boxes: box,
+                weight: weight,
+                transporter: transport,
+                lrNo: lrNo.toString(),
+                dimension: dimension,
+                month: location.state.month,
+                year: location.state.year,
+                isSpecial: 1
+            }]
+        })
+    }
+
     return(
         <div>
             <TitleWidget title={'Monthly Dispatch'} />
@@ -993,6 +1033,43 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     }}
                 >
                 </Table>
+            </Modal>
+            <Modal open={draftModal} title="Special Draft Details" footer={null} width={"60vw"} onCancel={() => {
+                setDraftModal(false)
+            }}>
+                <Row gutter={[16,16]}>
+                    <Col span={3}>
+                        Boxes:<br/>
+                        <InputNumber value={box} onChange={(e) => setBox(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={3}>
+                        Weight:<br/>
+                        <InputNumber value={weight} onChange={(e) => setWeight(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={4}>
+                        Transport:<br/>
+                        <SelectTransportComponent onChange={(e) => setTransport(e)}/>
+                    </Col>
+                    <Col span={4}>
+                        LR No.:<br/>
+                        <InputNumber value={lrNo} onChange={(e) => setLrNo(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={4}>
+                        Dimension:<br/>
+                        <Select onSelect={(e) => setDimension(e)} style={{width: "100%"}}>
+                            <Option value='SMALL'>SMALL</Option>
+                            <Option value='MEDIUM'>MEDIUM</Option>
+                            <Option value='XLARGE'>XLARGE</Option>
+                            <Option value='SMALL'>SMALL</Option>
+                        </Select>
+                    </Col>
+                </Row>
+                <Row gutter={[16,16]}>
+                    <Col span={22}></Col>
+                    <Col span={2}>
+                        <Button type='primary' onClick={handleSave}>Save</Button>
+                    </Col>
+                </Row>
             </Modal>
         </div>
     )

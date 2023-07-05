@@ -19,6 +19,8 @@ import {exportAllocationStartAction} from "../../redux/actions/inventory/invento
 import {selectExportAllocationData} from "../../redux/selectors/inventoryReportSelector";
 import {CSVLink} from "react-csv";
 import {grnUploadStartAction, invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import TitleWidget from "../../widgets/TitleWidget";
+import {Option} from "antd/es/mentions";
 
 const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,handleExport,exportAllocation,handleGenInvoice,handleInvoiceUpload}) => {
 
@@ -37,7 +39,9 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [printColumn, setPrintColumn] = useState([])
     const [printInvoice, setPrintInvoice] = useState()
     const [lrNo, setLrNo] = useState()
+    const [empId, setEmpId] = useState()
     const [box, setBox] = useState()
+    const [dimension, setDimension] = useState()
     const [weight, setWeight] = useState()
     const [d, setD] = useState({})
     const [checkedArr, setCheckedArr] = useState([])
@@ -46,12 +50,12 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [countLabel, setCountLabel] = useState(0)
     const [printAction, setPrintAction] = useState(false)
     const [printAllAction, setPrintAllAction] = useState(false)
+    const [draftModal, setDraftModal] = useState(false)
     const [printAllInvoice, setPrintAllInvoice] = useState([])
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const [file, setFile] = useState([])
-    const [editingRow, setEditingRow] = useState(null)
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -201,74 +205,55 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     dataIndex: 'invoiceStatus',
                     width: '50px'
                 },
-                {
-                    title: 'Boxes',
-                    key: 'boxes',
-                    dataIndex: 'boxes',
-                    width: '50px',
-                    render:(text,record) =>{
-                        if (editingRow === record.key) {
-                            return (
-                                <Form.Item name="boxes">
-                                    <InputNumber value={box} onChange={(e) => {
-                                        setBox(e);
-                                        console.log(e)
-                                    }}/>
-                                </Form.Item>
-                            )
-                        }
-                    }
-                },
-                {
-                    title: 'Weight',
-                    key: 'weight',
-                    dataIndex: 'weight',
-                    width: '50px',
-                    render: (_,row) =>{
-                        return <InputNumber value={weight} onChange={(e) => {
-                            setWeight(e);
-                            console.log(e)
-                        }}/>
-                    }
-                },
-                {
-                    title: 'Transporter',
-                    key: 'transporter',
-                    dataIndex: 'transporter',
-                    width: '170px'  ,
-                    render: (_,row) =>{
-                        return <SelectTransportComponent value={transport} onChange={(e) => {
-                            setTransport(e);
-                            console.log(e)
-                        }} />
-                    }
-                },
-                {
-                    title: 'LR No.',
-                    key: 'lrNo',
-                    dataIndex: 'lrNumber',
-                    width: '170px',
-                    render: (_,row) => {
-                        return <Input value={lrNo} onChange={(e) => {
-                            setLrNo(e.target.value);
-                            console.log(e.target.value)
-                        }}/>
-                    }
-                },
+                // {
+                //     title: 'Boxes',
+                //     key: 'boxes',
+                //     dataIndex: 'boxes',
+                //     width: '50px',
+                //     render:(text) =>{
+                //         return <InputNumber />
+                //     }
+                // },
+                // {
+                //     title: 'Weight',
+                //     key: 'weight',
+                //     dataIndex: 'weight',
+                //     width: '50px',
+                //     render: (_,row) =>{
+                //         return <InputNumber />
+                //     }
+                // },
+                // {
+                //     title: 'Transporter',
+                //     key: 'transporter',
+                //     dataIndex: 'transporter',
+                //     width: '170px'  ,
+                //     render: (_,row) =>{
+                //         return <SelectTransportComponent />
+                //     }
+                // },
+                // {
+                //     title: 'LR No.',
+                //     key: 'lrNo',
+                //     dataIndex: 'lrNumber',
+                //     width: '170px',
+                //     render: (_,row) => {
+                //         return <Input value={lrNo} onChange={(e) => {
+                //             setLrNo(e.target.value);
+                //             console.log(e.target.value)
+                //         }}/>
+                //     }
+                // },
                 {
                     title: '',
                     key: 'lrNumber',
                     dataIndex: '',
                     width: '30px',
-                    render:(_,record) => {
-                        return (
-                            <>
-                                <Button type="link" onClick={() => {
-                                    setEditingRow(record.invoiceNumber)
-                                }}>Edit</Button>
-                                <Button icon={<SaveOutlined />} onClick={() => handleGen()}></Button>
-                            </>
-                        )
+                    render:(_,row) => {
+                        return <Button icon={<SaveOutlined />} onClick={() => {
+                            setDraftModal(true);
+                            setEmpId(row.employeeId)
+                        }}></Button>
                     }
                 },
                 {
@@ -618,6 +603,15 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         searchData()
     }
 
+    // const handleGen = (key) => () => {
+    //     console.log(box)
+    //     console.log(weight)
+    //     // const data = {
+    //     //     boxes: box,
+    //     // }
+    //     // console.log(data)
+    // }
+
     const handleChecked = (event,row) => {
         let invoice = row.invoiceNumber
         // event.target.checked ? setCheckedArr(current => [...current, row.invoiceNumber]) : checkedArr.filter(checked => checked.includes(row.invoiceNumber))
@@ -776,15 +770,6 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         })
     }
 
-    const handleGen = () => {
-        console.log(box)
-        console.log(weight)
-        const data = {
-            boxes: box,
-            weight: weight,
-        }
-        console.log(data)
-    }
 
     // const handleExportAction = () => {
     //     handleExport({
@@ -893,8 +878,38 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         },
     };
 
+    const handleSave = () => {
+        console.log({
+            "recipientId": empId,
+            "boxes": box,
+            "weight": weight,
+            "transporter": transport,
+            "lrNo": lrNo,
+            "month": location.state.month,
+            "year": location.state.year,
+            "isSpecial": 1
+        })
+
+        handleGenInvoice({
+            certificate: authInfo.token,
+            genInv: [{
+                recipientId: empId,
+                boxes: box,
+                weight: weight,
+                transporter: transport,
+                lrNo: lrNo.toString(),
+                dimension: dimension,
+                month: location.state.month,
+                year: location.state.year,
+                isSpecial: 1
+            }]
+        })
+    }
+
+
     return(
         <>
+            <TitleWidget title={'Special Dispatch'} />
             <Row gutter={[16,16]}>
                 <Col span={2}>
                     <Input value={location.state.year}/>
@@ -976,9 +991,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     </>
                 }
             <br/><br/>
-            <Form>
-                <Table columns={column} dataSource={specialInvoiceDetails}/>
-            </Form>
+            <Table columns={column} dataSource={specialInvoiceDetails}/>
             <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAction(false)
             }}>
@@ -1023,6 +1036,43 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                 >
                 </Table>
             </Modal>
+            <Modal open={draftModal} title="Special Draft Details" footer={null} width={"60vw"} onCancel={() => {
+                setDraftModal(false)
+            }}>
+                <Row gutter={[16,16]}>
+                    <Col span={3}>
+                        Boxes:<br/>
+                        <InputNumber value={box} onChange={(e) => setBox(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={3}>
+                        Weight:<br/>
+                        <InputNumber value={weight} onChange={(e) => setWeight(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={4}>
+                        Transport:<br/>
+                        <SelectTransportComponent onChange={(e) => setTransport(e)}/>
+                    </Col>
+                    <Col span={4}>
+                        LR No.:<br/>
+                        <InputNumber value={lrNo} onChange={(e) => setLrNo(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={4}>
+                        Dimension:<br/>
+                        <Select onSelect={(e) => setDimension(e)} style={{width: "100%"}}>
+                            <Option value='SMALL'>SMALL</Option>
+                            <Option value='MEDIUM'>MEDIUM</Option>
+                            <Option value='XLARGE'>XLARGE</Option>
+                            <Option value='SMALL'>SMALL</Option>
+                        </Select>
+                    </Col>
+                </Row>
+                <Row gutter={[16,16]}>
+                    <Col span={22}></Col>
+                    <Col span={2}>
+                        <Button type='primary' onClick={handleSave}>Save</Button>
+                    </Col>
+                </Row>
+            </Modal>
         </>
         // <Row gutter={[8,8]}>
         //     <Col span={24}>
@@ -1031,7 +1081,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         //         </div>
         //     </Col>
         // </Row>
-        )}
+)}
 
 
 SpecialDispatchDetailComponent.propTypes = {

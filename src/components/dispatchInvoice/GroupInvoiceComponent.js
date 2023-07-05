@@ -20,12 +20,12 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
 
     const navigate = useNavigate()
 
-    const [invoiceNumber, setInvoiceNumber] = useState("")
+    // const [invoiceNumber, setInvoiceNumber] = useState("")
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
-
+    const [invoiceNo, setInvoiceNo] = useState(0)
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [visible, setVisible] = useState(false)
@@ -152,10 +152,10 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
     const getGroupInvoiceList = () => {
       console.log(formatedStartDateString);
       console.log(formatedEndDateString);
-      console.log(invoiceNumber)
+      console.log(invoiceNo)
 
       const data = {
-          invoiceNumber: invoiceNumber,
+          invoiceNumber: invoiceNo,
           fromDate: formatedStartDateString,
           toDate: formatedEndDateString,
       }
@@ -211,7 +211,7 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
             <Row gutter={[16,16]}>
                 <Col span={3}>
                     Invoice Number <br/>
-                    <SelectInvoiceComponent/>
+                    <SelectInvoiceComponent onChange={(e) => setInvoiceNo(e)}/>
                 </Col>
                 <Col span={3}>
                     From Date: <br/>

@@ -185,7 +185,7 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
                     {data &&
                         (<CSVLink
                             data={data}
-                            filename={"AgeingReport.csv"}
+                            filename={"NearToExpiryInputReport.csv"}
                             onClick={() => {
                                 console.log("clicked")
                             }}

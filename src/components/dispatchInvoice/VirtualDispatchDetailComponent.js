@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, message, Modal, Row, Select, Space, Table, Upload} from "antd";
+import {Button, Checkbox, Col, Input, InputNumber, message, Modal, Row, Select, Space, Table, Upload} from "antd";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import { getSpecialEmployeeInvoiceDetailStartAction } from '../../redux/actions/dispatchInvoice/specialDispatchAction'
 import {selectSpecialInvoiceListData,selectSpecialLoadingInvoiceDetailsData} from "../../redux/selectors/specialDispatchSelector"
@@ -21,6 +21,8 @@ import {selectExportAllocationData} from "../../redux/selectors/inventoryReportS
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import {CSVLink} from "react-csv";
 import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {Option} from "antd/es/mentions";
+import TitleWidget from "../../widgets/TitleWidget";
 const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleInvoiceUpload}) => {
 
     const navigate = useNavigate()
@@ -36,7 +38,6 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     const [status, setStatus] = useState([])
     const [recipientInvoice, setRecipientInvoice] = useState(false)
     const [planId, setPlanId] = useState()
-    const [transport, setTransport] = useState()
     const [printColumn, setPrintColumn] = useState([])
     const [printInvoice, setPrintInvoice] = useState()
     const [checkedArr, setCheckedArr] = useState([])
@@ -49,6 +50,13 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const [file, setFile] = useState([])
+    const [draftModal, setDraftModal] = useState(false)
+    const [lrNo, setLrNo] = useState()
+    const [empId, setEmpId] = useState()
+    const [box, setBox] = useState()
+    const [dimension, setDimension] = useState()
+    const [weight, setWeight] = useState()
+    const [transport, setTransport] = useState()
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -198,49 +206,52 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     dataIndex: 'invoiceStatus',
                     width: '50px'
                 },
-                {
-                    title: 'Boxes',
-                    key: 'boxes',
-                    dataIndex: 'boxes',
-                    width: '50px',
-                    render:() =>{
-                        return <Input/>
-                    }
-                },
-                {
-                    title: 'Weight',
-                    key: 'weight',
-                    dataIndex: 'weight',
-                    width: '50px',
-                    render: () =>{
-                        return <Input/>
-                    }
-                },
-                {
-                    title: 'Transporter',
-                    key: 'transporter',
-                    dataIndex: 'transporter',
-                    width: '170px'  ,
-                    render: () =>{
-                        return <Select placeholder="Select Transporter"></Select>
-                    }
-                },
-                {
-                    title: 'LR No.',
-                    key: 'lrNo',
-                    dataIndex: 'lrNumber',
-                    width: '170px',
-                    render: () => {
-                        return <Input/>
-                    }
-                },
+                // {
+                //     title: 'Boxes',
+                //     key: 'boxes',
+                //     dataIndex: 'boxes',
+                //     width: '50px',
+                //     render:() =>{
+                //         return <Input/>
+                //     }
+                // },
+                // {
+                //     title: 'Weight',
+                //     key: 'weight',
+                //     dataIndex: 'weight',
+                //     width: '50px',
+                //     render: () =>{
+                //         return <Input/>
+                //     }
+                // },
+                // {
+                //     title: 'Transporter',
+                //     key: 'transporter',
+                //     dataIndex: 'transporter',
+                //     width: '170px'  ,
+                //     render: () =>{
+                //         return <Select placeholder="Select Transporter"></Select>
+                //     }
+                // },
+                // {
+                //     title: 'LR No.',
+                //     key: 'lrNo',
+                //     dataIndex: 'lrNumber',
+                //     width: '170px',
+                //     render: () => {
+                //         return <Input/>
+                //     }
+                // },
                 {
                     title: '',
                     key: '',
                     dataIndex: '',
                     width: '30px',
-                    render:() => {
-                        return <Button icon={<SaveOutlined />} ></Button>
+                    render:(_,row) => {
+                        return <Button icon={<SaveOutlined />} onClick={() => {
+                            setDraftModal(true);
+                            setEmpId(row.employeeId)
+                        }}></Button>
                     }
                 },
                 {
@@ -796,8 +807,37 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
         }
     }, [exportAllocation])
 
+    const handleSave = () => {
+        console.log({
+            "recipientId": empId,
+            "boxes": box,
+            "weight": weight,
+            "transporter": transport,
+            "lrNo": lrNo,
+            "month": location.state.month,
+            "year": location.state.year,
+            "isSpecial": 1
+        })
+
+        handleGenInvoice({
+            certificate: authInfo.token,
+            genInv: [{
+                recipientId: empId,
+                boxes: box,
+                weight: weight,
+                transporter: transport,
+                lrNo: lrNo.toString(),
+                dimension: dimension,
+                month: location.state.month,
+                year: location.state.year,
+                isSpecial: 1
+            }]
+        })
+    }
+
     return(
         <>
+            <TitleWidget title={'Virtual Dispatch'} />
             <Row gutter={[16,16]}>
                 {/*<Col span={2}>*/}
                 {/*    <Input value={location.state.year}/>*/}
@@ -882,14 +922,6 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     </Row>
                 </>
             }
-            <br/>
-            <Row>
-                <Col span={24}>
-                    <div align="right">
-                        <Input.Search style={{ width: 304 }} />
-                    </div>
-                </Col>
-            </Row>
             <br/><br/>
             <Table columns={column} dataSource={specialInvoiceDetails}/>
             <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
@@ -935,6 +967,43 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     }}
                 >
                 </Table>
+            </Modal>
+            <Modal open={draftModal} title="Special Draft Details" footer={null} width={"60vw"} onCancel={() => {
+                setDraftModal(false)
+            }}>
+                <Row gutter={[16,16]}>
+                    <Col span={3}>
+                        Boxes:<br/>
+                        <InputNumber value={box} onChange={(e) => setBox(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={3}>
+                        Weight:<br/>
+                        <InputNumber value={weight} onChange={(e) => setWeight(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={4}>
+                        Transport:<br/>
+                        <SelectTransportComponent onChange={(e) => setTransport(e)}/>
+                    </Col>
+                    <Col span={4}>
+                        LR No.:<br/>
+                        <InputNumber value={lrNo} onChange={(e) => setLrNo(e)} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={4}>
+                        Dimension:<br/>
+                        <Select onSelect={(e) => setDimension(e)} style={{width: "100%"}}>
+                            <Option value='SMALL'>SMALL</Option>
+                            <Option value='MEDIUM'>MEDIUM</Option>
+                            <Option value='XLARGE'>XLARGE</Option>
+                            <Option value='SMALL'>SMALL</Option>
+                        </Select>
+                    </Col>
+                </Row>
+                <Row gutter={[16,16]}>
+                    <Col span={22}></Col>
+                    <Col span={2}>
+                        <Button type='primary' onClick={handleSave}>Save</Button>
+                    </Col>
+                </Row>
             </Modal>
         </>
         // <Row gutter={[8,8]}>
