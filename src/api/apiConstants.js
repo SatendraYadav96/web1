@@ -1,4 +1,6 @@
 export const AUTH_CERTIFICATE = 'Authorization'
+
+// export const BASE_URL = 'http://promobee-uat:8080'
 export const BASE_URL = 'http://localhost:8080'
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
