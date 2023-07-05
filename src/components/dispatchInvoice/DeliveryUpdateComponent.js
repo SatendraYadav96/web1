@@ -9,16 +9,21 @@ import {UploadOutlined} from "@ant-design/icons";
 import {selectDeliveryUpdateListData} from "../../redux/selectors/deliveryUpdateSelector";
 import {deliveryUpdateStartAction} from "../../redux/actions/dispatchInvoice/deliveryUpdateAction";
 import {deliveryUpdateRequest} from "../../api/invoiceRequests";
-import {selectTransportUploadListData} from "../../redux/selectors/uploadSelector";
-import {transportUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectGrnExcelUploadListData, selectTransportExcelUploadListData, selectTransportUploadListData} from "../../redux/selectors/uploadSelector";
+import {grnExcelUploadStartAction, transportExcelUploadStartAction, transportUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import XLSX from "xlsx";
 
 
-const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handleDeliveryUpdateList,handleTransportUploadList}) => {
+const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handleDeliveryUpdateList,handleTransportUploadList,transportExcelData,handleGrnExcelUpload}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [file, setFile] = useState([])
+    const [viewE, setViewE] = useState(false)
+    const [viewD, setViewD] = useState(false)
+    const [expErr, setExpErr] = useState([])
+    const [exp, setExp] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -57,9 +62,15 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
                 title:'',
                 key: '',
                 dataIndex: '',
-                width: '100px',
-                render: () => {
-                    return (<><Link to="">View Errors</Link> | <Link to="">Download Details</Link></>)
+                width: '130px',
+                render: (_,row) => {
+                    return (<><Link onClick={() => {
+                        handleViewError(row)
+                        setViewE(true)
+                    }} to="">View Errors </Link>|<Link onClick={() => {
+                        handleViewError(row)
+                        setViewD(true)
+                    }} to=""> Download Details</Link></>)
                 }
             }
         ]);
@@ -76,6 +87,87 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
     }
 
     useEffect(() => {
+        console.log(transportExcelData)
+        if (transportExcelData) {
+            console.log("there is data")
+            setExpErr(transportExcelData.map(item => {
+                return {
+                    "Invoice No": item.invoiceNo,
+                    "LR No": item.lrNo,
+                    "Box": item.boxNo,
+                    "Weight": item.weight,
+                    "Dispatch Date": item.dispatchDate,
+                    "Expected Delivery Date": item.expectedDeliveryDate,
+                    "Actual Delivery Date": item.actuallyDeliveryDate,
+                    "Transporter": item.trnName,
+                    "Delivered To Name": item.deliveredToName,
+                    "Cost": item.deliveryCost,
+                    "Docket Status": item.docketState,
+                    "Error ": item.errorText,
+                }
+            }))
+            setExp(transportExcelData.map(item => {
+                return {
+                    "Invoice No": item.invoiceNo,
+                    "LR No": item.lrNo,
+                    "Box": item.boxNo,
+                    "Weight": item.weight,
+                    "Dispatch Date": item.dispatchDate,
+                    "Expected Delivery Date": item.expectedDeliveryDate,
+                    "Actual Delivery Date": item.actuallyDeliveryDate,
+                    "Transporter": item.trnName,
+                    "Delivered To Name": item.deliveredToName,
+                    "Cost": item.deliveryCost,
+                    "Docket Status": item.docketState,
+                }
+            }))
+        } else {
+            console.log('no data')
+        }
+    },[transportExcelData])
+
+    useEffect(() => {
+        console.log("expErr: ", expErr)
+        if (viewE) {
+            if (expErr.length > 0) {
+                handleExcelErr(expErr)
+                setViewE(false)
+            }
+        }
+    },[expErr])
+
+    useEffect(() => {
+        console.log("exp: ", exp)
+        if (viewD) {
+            if (exp.length > 0) {
+                handleExcel(exp)
+                setViewD(false)
+            }
+        }
+    },[exp])
+
+    const handleExcelErr = (data) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"deliveryupdateerror.XLSX")
+    }
+
+    const handleExcel = (data) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"deliveryupdate.XLSX")
+    }
+
+    const handleViewError = (row) => {
+        handleGrnExcelUpload({
+            uplId: row.uplId,
+            certificate: authInfo.token
+        })
+    }
+
+    useEffect(() => {
         handleDeliveryUpdateList({
             certificate: authInfo.token
         })
@@ -85,6 +177,13 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
     useEffect(() => {
         console.log(deliveryUpdateList)
     },[deliveryUpdateList])
+
+    const refresh = () => {
+        handleDeliveryUpdateList({
+            certificate: authInfo.token
+        })
+        searchData()
+    }
 
     // const handleFileRead = async (event) => {
     //     const file = event
@@ -170,9 +269,10 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
+                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button></Col>
             </Row>
             <br/><br/>
             {flag &&
@@ -186,6 +286,7 @@ DeliveryUpdateComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     deliveryUpdateList:PropTypes.array,
+    transportExcelData:PropTypes.array,
 }
 
 const mapState = (state) => {
@@ -193,12 +294,16 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const deliveryUpdateList = selectDeliveryUpdateListData(state)
     const transportUploadList = selectTransportUploadListData(state)
-    return {authInfo,profileInfo,deliveryUpdateList,transportUploadList}
+    const transportExcelData = selectTransportExcelUploadListData(state)
+
+    return {authInfo,profileInfo,deliveryUpdateList,transportUploadList,transportExcelData}
 }
 
 const actions = {
     handleDeliveryUpdateList: deliveryUpdateStartAction,
     handleTransportUploadList: transportUploadStartAction,
+    handleGrnExcelUpload: transportExcelUploadStartAction,
+
 }
 
 export default connect(mapState, actions)(DeliveryUpdateComponent)

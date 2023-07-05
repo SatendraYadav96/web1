@@ -7,17 +7,23 @@ import {Button, Col, message, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {grnStartAction} from "../../redux/actions/grn/grnActions";
 import {selectGrnUpload} from "../../redux/selectors/grnSelectors";
-import {empty} from "rxjs";
 import {UploadOutlined} from "@ant-design/icons";
-import {grnUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {grnExcelUploadStartAction, grnUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectGrnExcelUploadListData} from "../../redux/selectors/uploadSelector";
+import {CSVLink} from "react-csv";
+import XLSX from "xlsx";
 
 
 
-const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload}) => {
+const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handleGrnExcelUpload,grnExcelData}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [data, setData] = useState([])
+    const [viewE, setViewE] = useState(false)
+    const [viewD, setViewD] = useState(false)
+    const [expErr, setExpErr] = useState([])
+    const [exp, setExp] = useState([])
     const [flag, setFlag] = useState(false)
     const [file, setFile] = useState([])
 
@@ -59,9 +65,19 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload}) => {
                 title:'',
                 key: '',
                 dataIndex: '',
-                width: '100px',
-                render: () => {
-                    return (<><Link to="">View Errors</Link> | <Link to="">Download Details</Link></>)
+                width: '130px',
+                render: (_,row) => {
+                    return (
+                        <>
+                            <Link onClick={() => {
+                                handleViewError(row)
+                                setViewE(true)
+                            }} to="">View Errors </Link>|<Link onClick={() => {
+                            handleViewError(row)
+                            setViewD(true)
+                        }} to=""> Download Details</Link>
+                        </>
+                    )
                 }
             }
         ]);
@@ -75,6 +91,105 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload}) => {
                 status:''
             }
         ])
+    }
+
+    useEffect(() => {
+        console.log(grnExcelData)
+        if (grnExcelData) {
+            console.log("there is data")
+            setExpErr(grnExcelData.map(item => {
+                return {
+                    "PO": item.poNo,
+                    "Cost Ctr": item.costCenter,
+                    "Material": item.material,
+                    "Batch": item.batchNo,
+                    "Material Description": item.materialDescription,
+                    "Pstng Date": item.postingDate,
+                    "Qty in UnE": item.quantity,
+                    "Amount in LC": item.amount,
+                    "Vendor Code": item.vendorCode,
+                    "Vendor Name": item.vendorName,
+                    "Rate": item.ratePerUnit,
+                    "Medical Code": item.medicalCode,
+                    "Mat.Doc.": item.materialDoc,
+                    "Item": item.itemNo,
+                    "Sample Expiry": item.sampleExpiry,
+                    "Expiry Date": item.expiryDate,
+                    "Error ": item.errorText,
+                }
+            }))
+            setExp(grnExcelData.map(item => {
+                return {
+                    "PO": item.poNo,
+                    "Cost Ctr": item.costCenter,
+                    "Material": item.material,
+                    "Batch": item.batchNo,
+                    "Material Description": item.materialDescription,
+                    "Pstng Date": item.postingDate,
+                    "Qty in UnE": item.quantity,
+                    "Amount in LC": item.amount,
+                    "Vendor Code": item.vendorCode,
+                    "Vendor Name": item.vendorName,
+                    "Rate": item.ratePerUnit,
+                    "Medical Code": item.medicalCode,
+                    "Mat.Doc.": item.materialDoc,
+                    "Item": item.itemNo,
+                    "Sample Expiry": item.sampleExpiry,
+                    "Expiry Date": item.expiryDate,
+                }
+            }))
+        } else {
+            console.log('no data')
+        }
+    },[grnExcelData])
+
+    useEffect(() => {
+        console.log("expErr: ", expErr)
+        if (viewE) {
+            if (expErr.length > 0) {
+                handleExcelErr(expErr)
+                setViewE(false)
+            }
+        }
+    },[expErr])
+
+    useEffect(() => {
+        console.log("exp: ", exp)
+        if (viewD) {
+            if (exp.length > 0) {
+                handleExcel(exp)
+                setViewD(false)
+            }
+        }
+    },[exp])
+
+    // useEffect(() => {
+    //     console.log("expErr: ", expErr)
+    //     if (expErr.length > 0) {
+    //         handleExcel(expErr)
+    //         setViewE(false)
+    //     }
+    // },[expErr])
+
+    const handleExcelErr = (data) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"grnviewerrors.XLSX")
+    }
+
+    const handleExcel = (data) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"grnviewDownload.XLSX")
+    }
+
+    const handleViewError = (row) => {
+        handleGrnExcelUpload({
+            uplId: row.uplId,
+            certificate: authInfo.token
+        })
     }
 
     const getGrnUpload = () => {
@@ -182,18 +297,21 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload}) => {
 GRNUploadComponent.propTypes = {
     authInfo: PropTypes.any,
     grnUpload:PropTypes.any,
+    grnExcelData:PropTypes.array,
     handleGrnUpload:PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const grnUpload = selectGrnUpload(state)
-    return {authInfo,grnUpload}
+    const grnExcelData = selectGrnExcelUploadListData(state)
+    return {authInfo,grnUpload,grnExcelData}
 }
 
 const actions = {
     handleGrn: grnStartAction,
     handleGrnUpload: grnUploadStartAction,
+    handleGrnExcelUpload: grnExcelUploadStartAction,
 }
 
 export default connect(mapState, actions)(GRNUploadComponent)

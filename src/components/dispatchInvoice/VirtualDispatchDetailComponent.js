@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Modal, Row, Select, Space, Table} from "antd";
+import {Button, Checkbox, Col, Input, message, Modal, Row, Select, Space, Table, Upload} from "antd";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import { getSpecialEmployeeInvoiceDetailStartAction } from '../../redux/actions/dispatchInvoice/specialDispatchAction'
 import {selectSpecialInvoiceListData,selectSpecialLoadingInvoiceDetailsData} from "../../redux/selectors/specialDispatchSelector"
 import {useLocation, useNavigate} from "react-router-dom";
-import {InfoOutlined, SaveOutlined, SearchOutlined, ZoomInOutlined} from "@ant-design/icons";
+import {InfoOutlined, SaveOutlined, SearchOutlined, UploadOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
@@ -20,8 +20,8 @@ import {exportAllocationStartAction} from "../../redux/actions/inventory/invento
 import {selectExportAllocationData} from "../../redux/selectors/inventoryReportSelector";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import {CSVLink} from "react-csv";
-
-const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport}) => {
+import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
+const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleInvoiceUpload}) => {
 
     const navigate = useNavigate()
 
@@ -32,10 +32,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [recipientInvoiceColumn, setRecipientInvoiceColumn] = useState([])
-    const [exp, setExp] = useState([{
-        name: "",
-        age: "",
-    },])
+    const [exp, setExp] = useState([])
     const [status, setStatus] = useState([])
     const [recipientInvoice, setRecipientInvoice] = useState(false)
     const [planId, setPlanId] = useState()
@@ -51,6 +48,8 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const [file, setFile] = useState([])
+
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -773,7 +772,25 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
 
     useEffect(() => {
         if (exportAllocation) {
-            setExp(exportAllocation)
+            setExp(exportAllocation.map(item => {
+                return {
+                    "Month": item.month,
+                    "Year": item.year,
+                    "Plan Name": item.planName,
+                    "State": item.state,
+                    "Employee": item.employeeName,
+                    "Designation": item.designation,
+                    "Code": item.code,
+                    "Boxes": item.boxes,
+                    "Weight": item.weight,
+                    "Dimension": item.dimension,
+                    "Transporter": item.transporterID,
+                    "LR Nov": item.lrNumber,
+                    "PlanId": item.planId,
+                    "Plan": item.plan,
+                    "FFCode": item.ffCode,
+                }
+            }))
         } else {
             console.log("no Data")
         }
@@ -804,19 +821,39 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
             <br/>
             {status === "00000000-0000-0000-0000-000000000024" &&
                 <>
-
-                    <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>
-
-                    &nbsp;
-                    <CSVLink
-                        data={exp}
-                        filename={"exportAllocation.csv"}
-                        onClick={() => {
-                            console.log("clicked")
-                        }}
-                    >
-                        <Button type={'primary'} >Exports</Button>
-                    </CSVLink>
+                    <Row gutter={[8,8]}>
+                        <Col span={3}>
+                            <Button type={'primary'} style={{ width: '100%'}} onClick={() => navigate(`/home/dispatchInvoicing/invoiceupload`)} >Generate Invoices</Button>
+                        </Col>
+                        <Col span={2}>
+                            <CSVLink
+                                data={exp.length > 0 ? exp : [{
+                                    "Month": "",
+                                    "Year": "",
+                                    "Plan Name": "",
+                                    "State": "",
+                                    "Employee": "",
+                                    "Designation": "",
+                                    "Code": "",
+                                    "Boxes": "",
+                                    "Weight": "",
+                                    "Dimension": "",
+                                    "Transporter": "",
+                                    "LR Nov": "",
+                                    "PlanId": "",
+                                    "Plan": "",
+                                    "FFCode": "",
+                                }]}
+                                filename={"exportAllocation.csv"}
+                                onClick={() => {
+                                    console.log("clicked")
+                                }}
+                                style={{width: '100%'}}
+                            >
+                                <Button type={'primary'} >Exports</Button>
+                            </CSVLink>
+                        </Col>
+                    </Row>
                     {/*<Button type={'primary'} onClick={handleExportAction}>Export</Button>*/}
                 </>
             }
@@ -950,6 +987,8 @@ const actions = {
     handleGenerateLabel: getGenerateLabelStartAction,
     handleEmployeePopup: employeePopupStartAction,
     handleExport: exportAllocationStartAction,
+    handleInvoiceUpload: invoiceUploadStartAction,
+
 }
 
 export default connect(mapState, actions)(VirtualDispatchDetails)

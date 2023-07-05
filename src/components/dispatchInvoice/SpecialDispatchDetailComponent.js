@@ -3,23 +3,24 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Modal, Row, Select, Space, Table} from "antd";
+import {Button, Checkbox, Col, Form, Input, InputNumber, message, Modal, Row, Select, Space, Table, Upload} from "antd";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import { getSpecialEmployeeInvoiceDetailStartAction } from '../../redux/actions/dispatchInvoice/specialDispatchAction'
 import {selectSpecialInvoiceListData,selectSpecialLoadingInvoiceDetailsData} from "../../redux/selectors/specialDispatchSelector"
 import {useLocation, useNavigate} from "react-router-dom";
-import {InfoOutlined, SaveOutlined, SearchOutlined, ZoomInOutlined} from "@ant-design/icons";
+import {InfoOutlined, SaveOutlined, SearchOutlined, UploadOutlined, ZoomInOutlined} from "@ant-design/icons";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
 import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData} from "../../redux/selectors/monthlyDispatchSelector";
-import {getGenerateInvoiceStartAction, getGenerateLabelStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
+import {getGenerateInvoiceStartAction, getGenerateLabelStartAction, getGenInvoiceStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 import Highlighter from "react-highlight-words";
 import {exportAllocationStartAction} from "../../redux/actions/inventory/inventoryReportActions";
 import {selectExportAllocationData} from "../../redux/selectors/inventoryReportSelector";
 import {CSVLink} from "react-csv";
+import {grnUploadStartAction, invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
 
-const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,handleExport,exportAllocation}) => {
+const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleSpecialInvoiceDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,handleExport,exportAllocation,handleGenInvoice,handleInvoiceUpload}) => {
 
     const navigate = useNavigate()
 
@@ -35,11 +36,12 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [transport, setTransport] = useState()
     const [printColumn, setPrintColumn] = useState([])
     const [printInvoice, setPrintInvoice] = useState()
+    const [lrNo, setLrNo] = useState()
+    const [box, setBox] = useState()
+    const [weight, setWeight] = useState()
+    const [d, setD] = useState({})
     const [checkedArr, setCheckedArr] = useState([])
-    const [exp, setExp] = useState([{
-        name: "",
-        age: "",
-    },])
+    const [exp, setExp] = useState([])
     const [count, setCount] = useState(0)
     const [countLabel, setCountLabel] = useState(0)
     const [printAction, setPrintAction] = useState(false)
@@ -48,6 +50,9 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const [file, setFile] = useState([])
+    const [editingRow, setEditingRow] = useState(null)
+
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -145,7 +150,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
     const searchData = () => {
         setFlag(true)
-        if(status === "00000000-0000-0000-0000-000000000026"){
+        if(status === "00000000-0000-0000-0000-000000000024"){
             setColumn([
                 {
                     title:'City',
@@ -201,8 +206,17 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'boxes',
                     dataIndex: 'boxes',
                     width: '50px',
-                    render:() =>{
-                        return <Input/>
+                    render:(text,record) =>{
+                        if (editingRow === record.key) {
+                            return (
+                                <Form.Item name="boxes">
+                                    <InputNumber value={box} onChange={(e) => {
+                                        setBox(e);
+                                        console.log(e)
+                                    }}/>
+                                </Form.Item>
+                            )
+                        }
                     }
                 },
                 {
@@ -210,8 +224,11 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'weight',
                     dataIndex: 'weight',
                     width: '50px',
-                    render: () =>{
-                        return <Input/>
+                    render: (_,row) =>{
+                        return <InputNumber value={weight} onChange={(e) => {
+                            setWeight(e);
+                            console.log(e)
+                        }}/>
                     }
                 },
                 {
@@ -219,8 +236,11 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'transporter',
                     dataIndex: 'transporter',
                     width: '170px'  ,
-                    render: () =>{
-                        return <Select placeholder="Select Transporter"></Select>
+                    render: (_,row) =>{
+                        return <SelectTransportComponent value={transport} onChange={(e) => {
+                            setTransport(e);
+                            console.log(e)
+                        }} />
                     }
                 },
                 {
@@ -228,26 +248,36 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'lrNo',
                     dataIndex: 'lrNumber',
                     width: '170px',
-                    render: () => {
-                        return <Input/>
+                    render: (_,row) => {
+                        return <Input value={lrNo} onChange={(e) => {
+                            setLrNo(e.target.value);
+                            console.log(e.target.value)
+                        }}/>
                     }
                 },
                 {
                     title: '',
-                    key: '',
+                    key: 'lrNumber',
                     dataIndex: '',
                     width: '30px',
-                    render:() => {
-                        return <Button icon={<SaveOutlined />} ></Button>
+                    render:(_,record) => {
+                        return (
+                            <>
+                                <Button type="link" onClick={() => {
+                                    setEditingRow(record.invoiceNumber)
+                                }}>Edit</Button>
+                                <Button icon={<SaveOutlined />} onClick={() => handleGen()}></Button>
+                            </>
+                        )
                     }
                 },
                 {
                     title: '',
-                    key: '',
-                    dataIndex: '',
+                    key: 'code',
+                    dataIndex: 'code',
                     width: '30px',
-                    render:() => {
-                        return <Button icon={<InfoOutlined />} ></Button>
+                    render:(_,row) => {
+                        return <Button icon={<ZoomInOutlined />} onClick={() => handleRecipientInvoice(row)}></Button>
                     }
                 }
             ]);
@@ -517,6 +547,10 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         ])
     }
 
+    useEffect(() => {
+        console.log("These are boxes: ",box )
+    },[box])
+
     const printData = () => {
         setFlag(true)
         setPrintColumn([
@@ -742,6 +776,16 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         })
     }
 
+    const handleGen = () => {
+        console.log(box)
+        console.log(weight)
+        const data = {
+            boxes: box,
+            weight: weight,
+        }
+        console.log(data)
+    }
+
     // const handleExportAction = () => {
     //     handleExport({
     //         year: location.state.year,
@@ -769,12 +813,85 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     },[])
 
     useEffect(() => {
+        console.log("this is",exportAllocation)
         if (exportAllocation) {
-            setExp(exportAllocation)
+            setExp(exportAllocation.map(item => {
+                return {
+                    "Month": item.month,
+                    "Year": item.year,
+                    "Plan Name": item.planName,
+                    "State": item.state,
+                    "Employee": item.employeeName,
+                    "Designation": item.designation,
+                    "Code": item.code,
+                    "Boxes": item.boxes,
+                    "Weight": item.weight,
+                    "Dimension": item.dimension,
+                    "Transporter": item.transporterID,
+                    "LR Nov": item.lrNumber,
+                    "PlanId": item.planId,
+                    "Plan": item.plan,
+                }
+            }))
         } else {
             console.log("no Data")
         }
     }, [exportAllocation])
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const upload = async () => {
+        console.log(file)
+        const newFile = file[0].originFileObj
+        const base64 = await convertBase64(newFile)
+        const bytecode = base64.split(",")[1];
+        console.log(newFile)
+        console.log(bytecode)
+        handleInvoiceUpload({
+            certificate: authInfo.token,
+            dto: {
+                byteCode: bytecode,
+                fileName: newFile.name,
+            }
+        })
+    }
+
+    const handleUpload = (info) => {
+        setFile(info.fileList)
+        console.log(info.file.name)
+        console.log(info)
+        // const file = info.file.originFileObj
+        // const base64 = await convertBase64(file)
+        // console.log(base64)
+        // console.log(file.name)
+    }
+
+    const dummyRequest = ({ file, onSuccess }) => {
+        setTimeout(() => {
+            onSuccess("ok");
+        }, 0);
+    };
+
+    const props = {
+        beforeUpload: (file) => {
+            const isCSV = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            if (!isCSV) {
+                message.error(`${file.name} is not a csv file`);
+            }
+            return isCSV || Upload.LIST_IGNORE;
+        },
+    };
 
     return(
         <>
@@ -798,19 +915,38 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             <br/>
                 {status === "00000000-0000-0000-0000-000000000024" &&
                     <>
-
-                        <Button type={'primary'} style={{marginLeft: '10px'}}>Generate Invoices</Button>
-
-                        &nbsp;
-                        <CSVLink
-                            data={exp}
-                            filename={"exportAllocation.csv"}
-                            onClick={() => {
-                                console.log("clicked")
-                            }}
-                        >
-                            <Button type={'primary'} >Exports</Button>
-                        </CSVLink>
+                        <Row gutter={[8,8]}>
+                            <Col span={3}>
+                                <Button type={'primary'} style={{ width: '100%'}} onClick={() => navigate(`/home/dispatchInvoicing/invoiceupload`)} >Generate Invoices</Button>
+                            </Col>
+                            <Col span={2}>
+                                <CSVLink
+                                    data={exp.length > 0 ? exp : [{
+                                        "Month": "",
+                                        "Year": "",
+                                        "Plan Name": "",
+                                        "State": "",
+                                        "Employee": "",
+                                        "Designation": "",
+                                        "Code": "",
+                                        "Boxes": "",
+                                        "Weight": "",
+                                        "Dimension": "",
+                                        "Transporter": "",
+                                        "LR Nov": "",
+                                        "PlanId": "",
+                                        "Plan": "",
+                                    }]}
+                                    filename={"exportAllocation.csv"}
+                                    onClick={() => {
+                                        console.log("clicked")
+                                    }}
+                                    style={{width: '100%'}}
+                                >
+                                    <Button type={'primary'} >Exports</Button>
+                                </CSVLink>
+                            </Col>
+                        </Row>
                         {/*<Button type={'primary'} onClick={handleExportAction}>Export</Button>*/}
                     </>
                 }
@@ -840,7 +976,9 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     </>
                 }
             <br/><br/>
-            <Table columns={column} dataSource={specialInvoiceDetails}/>
+            <Form>
+                <Table columns={column} dataSource={specialInvoiceDetails}/>
+            </Form>
             <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAction(false)
             }}>
@@ -936,6 +1074,8 @@ const actions = {
     handleGenerateLabel: getGenerateLabelStartAction,
     handleEmployeePopup: employeePopupStartAction,
     handleExport: exportAllocationStartAction,
+    handleGenInvoice: getGenInvoiceStartAction,
+    handleInvoiceUpload: invoiceUploadStartAction,
 }
 
 export default connect(mapState, actions)(SpecialDispatchDetailComponent)

@@ -5,17 +5,16 @@ import {
     ffUploadSuccessAction, grnExcelUploadFailAction,
     grnExcelUploadSuccessAction,
     grnUploadFailAction,
-    grnUploadSuccessAction,
+    grnUploadSuccessAction, invoiceUploadFailAction, invoiceUploadSuccessAction, transportExcelUploadFailAction, transportExcelUploadSuccessAction,
     transportUploadFailAction,
     transportUploadStartAction,
     transportUploadSuccessAction,
     virtualUploadFailAction,
     virtualUploadSuccessAction
 } from "../actions/upload/uploadActions";
-import {FF_UPLOAD_START, GRN_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
-import {ffUploadRequest, grnExcelUploadRequest, transportUploadRequest, virtualUploadRequest} from "../../api/uploadRequests";
+import {FF_UPLOAD_START, GRN_EXCEL_UPLOAD_START, INVOICE_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
+import {ffUploadRequest, grnExcelUploadRequest, transportExcelUploadRequest, transportUploadRequest, virtualUploadRequest,invoicesUploadRequest,grnUploadRequest} from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
-import {grnUploadRequest} from "../../api/uploadRequests";
 
 
 // TRANSPORT_UPLOAD
@@ -27,6 +26,19 @@ export const transportUploadStartEpic = (action$) =>
             transportUploadRequest(action.payload).pipe(
                 map((listResponse) => transportUploadSuccessAction({transportUpload: listResponse.response})),
                 catchError((error) => of(transportUploadFailAction({error: error}))),
+            )
+        )
+    )
+
+// TRANSPORT_EXCEL_UPLOAD
+export const transportExcelUploadStartEpic = (action$) =>
+    action$.pipe(
+        ofType(TRANSPORT_EXCEL_UPLOAD_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            transportExcelUploadRequest(action.payload).pipe(
+                map((listResponse) => transportExcelUploadSuccessAction({transportExcelUpload: listResponse.response})),
+                catchError((error) => of(transportExcelUploadFailAction({error: error}))),
             )
         )
     )
@@ -80,6 +92,20 @@ export const virtualUploadStartEpic = (action$) =>
             virtualUploadRequest(action.payload).pipe(
                 map((listResponse) => virtualUploadSuccessAction({virtualUpload: listResponse.response})),
                 catchError((error) => of(virtualUploadFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// INVOICE_UPLOAD
+export const invoiceUploadsStartEpic = (action$) =>
+    action$.pipe(
+        ofType(INVOICE_UPLOAD_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            invoicesUploadRequest(action.payload).pipe(
+                map((listResponse) => invoiceUploadSuccessAction({invoiceUpload: listResponse.response})),
+                catchError((error) => of(invoiceUploadFailAction({error: error}))),
             )
         )
     )

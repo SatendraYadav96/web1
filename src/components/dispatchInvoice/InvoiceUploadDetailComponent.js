@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 import {selectInvoiceUploadListData} from "../../redux/selectors/invoiceUploadSelector";
 import {invoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/invoiceUploadAction";
 
-const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList}) => {
+const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -104,7 +104,7 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
 
     const props = {
         beforeUpload: (file) => {
-            const isCSV = file.type === 'text/csv';
+            const isCSV = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
             if (!isCSV) {
                 message.error(`${file.name} is not a csv file`);
             }
@@ -145,12 +145,12 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
         <div>
             <TitleWidget title={'Upload Invoice Details'} />
             <Row gutter={16}>
-                <Col span={3}>
-                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file} {...props}>
+                <Col span={2.5}>
+                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file} {...props} style={{width: '100%'}}>
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
                 <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button></Col>
@@ -177,6 +177,8 @@ const mapState = (state) => {
 
 const actions = {
     handleInvoiceUploadList: invoiceUploadStartAction,
+    handleInvoiceUpload: invoiceUploadStartAction,
+
 }
 
 export default connect(mapState, actions)(InvoiceUploadDetailComponent)

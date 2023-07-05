@@ -116,7 +116,7 @@ const VirtualDispatchComponent = ({authInfo,virtualData,handleVirtualDispatchLis
                 </Col>
             </Row>
             <br/><br/>
-            <Table columns={column} dataSource={dataSource}/>
+            <Table columns={column} dataSource={virtualData}/>
         </div>
     )
 }

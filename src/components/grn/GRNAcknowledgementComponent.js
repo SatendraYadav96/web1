@@ -68,7 +68,8 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
 
 
     const column=[
-        {title:'PO No.',
+        {
+            title:'PO No.',
              key:'poNo',
              dataIndex: 'poNo',
              fixed:'left',
