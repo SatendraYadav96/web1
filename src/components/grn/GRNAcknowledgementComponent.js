@@ -18,6 +18,9 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     const [grnId, setGrnId] = useState()
     const [reason, setReason] = useState()
     const [flag, setFlag] = useState(true)
+    const [showModal, setShowModal] = useState(false)
+    const [rowData, setRowData] = useState()
+    const [itemCode, setItemCode] = useState()
 
     useEffect(()=> {
         handleLoadList({
@@ -211,6 +214,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 else {
                     i = limid
                 }
+                setItemCode(i)
                 return (<Input.Search value={i} onSearch={e =>changeGrnData(id, 'itemCode', i)} />)
             }
         },
@@ -218,7 +222,10 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             title:'',
             key:'',
             dataIndex: '',
-            render: (_, row)=> (<><Button type="primary" onClick={()=> acknowledge(row)} icon={<CheckOutlined />} size={"small"} />&nbsp;&nbsp;<Button type="primary" onClick={()=> rejectBox(row.id)} icon={<CloseOutlined />} size={"small"} /></>),
+            render: (_, row)=> (<><Button type="primary" onClick={()=> {
+                setRowData(row)
+                setShowModal(true)
+            }} icon={<CheckOutlined />} size={"small"} />&nbsp;&nbsp;<Button type="primary" onClick={()=> rejectBox(row.id)} icon={<CloseOutlined />} size={"small"} /></>),
             fixed: 'right'
         },
     ]
@@ -247,7 +254,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             "category":  r.category.id,
             "costCenterCode": r.costCenterCode,
             "expiryDate": r.expiryDate,
-            "itemCode": r.itemCode,
+            "itemCode": itemCode,
             "medicalCode": (r.lineText !== null ? r. lineText: r.batchNo),
             "basePack": r.basePack,
             "numBoxes": r.numBoxes,
@@ -275,6 +282,8 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             <Table dataSource={data ? data.grn : ackData} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>
             <Modal title={'Reason'} onOk={() => reject()} onCancel={() => setReasonModal(false)} visible={reasonModal}>
                 <Input.TextArea onChange={(e) =>{setReason(e.target.value)}} value={reason} placeholder={"Write Reason.."}/>
+            </Modal>
+            <Modal title={'Are You Sure'} onOk={() => acknowledge(rowData)} onCancel={() => setShowModal(false)} open={showModal}>
             </Modal>
         </div>
     )

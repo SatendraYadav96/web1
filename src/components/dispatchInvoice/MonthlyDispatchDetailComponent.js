@@ -625,8 +625,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         ])
         handleEmployeePopup({
             certificate: authInfo.token,
-            month: month,
-            year: year,
+            month: location.state.month,
+            year: location.state.year,
             isSpecial: 0,
             employeeId: row.employeeID,
             invoiceHeaderId: row.invoiceHeaderID,
@@ -641,8 +641,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         console.log(status);
 
         handleInvoiceDetailsList ({
-            year:location.state.year,
-            month:location.state.month,
+            year: location.state.year,
+            month: location.state.month,
             isSpecialDisp:dispatchType,
             teamId:team,
             status:status,
@@ -904,9 +904,11 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                 dimension: dimension,
                 month: location.state.month,
                 year: location.state.year,
-                isSpecial: 1
+                isSpecial: 0
             }]
         })
+
+        setDraftModal(false)
     }
 
     return(

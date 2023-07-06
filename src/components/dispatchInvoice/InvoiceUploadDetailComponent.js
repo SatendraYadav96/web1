@@ -104,7 +104,7 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
 
     const props = {
         beforeUpload: (file) => {
-            const isCSV = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            const isCSV = file.type === 'text/csv';
             if (!isCSV) {
                 message.error(`${file.name} is not a csv file`);
             }

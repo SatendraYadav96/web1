@@ -13,7 +13,7 @@ import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/pick
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
 import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData} from "../../redux/selectors/monthlyDispatchSelector";
-import {getGenerateInvoiceStartAction, getGenerateLabelStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
+import {getGenerateInvoiceStartAction, getGenerateLabelStartAction, getGenInvoiceStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 import Highlighter from "react-highlight-words";
 import {getVirtualDispatchDetailsStartAction} from "../../redux/actions/dispatchInvoice/virtualDispatchAction";
 import {exportAllocationStartAction} from "../../redux/actions/inventory/inventoryReportActions";
@@ -23,7 +23,8 @@ import {CSVLink} from "react-csv";
 import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
 import {Option} from "antd/es/mentions";
 import TitleWidget from "../../widgets/TitleWidget";
-const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleInvoiceUpload}) => {
+import {selectVirtualDispatchListData} from "../../redux/selectors/virtualDispatchSelector";
+const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleInvoiceUpload,handleGenInvoice,virtualDispatchDetails}) => {
 
     const navigate = useNavigate()
 
@@ -155,7 +156,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
 
     const searchData = () => {
         setFlag(true)
-        if(status === "00000000-0000-0000-0000-000000000026"){
+        if(status === "00000000-0000-0000-0000-000000000024"){
             setColumn([
                 {
                     title:'City',
@@ -625,7 +626,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     }
 
     const handleBack = () => {
-        return navigate("/home/dispatchInvoicing/specialDispatch")
+        return navigate("/home/dispatchInvoicing/virtualDispatch")
     }
 
     const handleRecipientInvoice = (row) => {
@@ -833,6 +834,8 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                 isSpecial: 1
             }]
         })
+
+        setDraftModal(false)
     }
 
     return(
@@ -923,7 +926,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                 </>
             }
             <br/><br/>
-            <Table columns={column} dataSource={specialInvoiceDetails}/>
+            <Table columns={column} dataSource={virtualDispatchDetails}/>
             <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAction(false)
             }}>
@@ -1029,6 +1032,7 @@ VirtualDispatchDetails.propTypes = {
     generateLabelLoading:PropTypes.any,
     handleGenerateLabel:PropTypes.func,
     generateInvoiceList:PropTypes.array,
+    virtualDispatchDetails:PropTypes.array,
     generateInvoiceLoading:PropTypes.any,
     handleInvoiceDetailsList:PropTypes.func,
     exportAllocation:PropTypes.any,
@@ -1047,7 +1051,8 @@ const mapState = (state) => {
     const generateLabelList = selectGenerateLabelListData(state)
     const generateLabelLoading = selectLoadingGenerateLabelData(state)
     const exportAllocation = selectExportAllocationData(state)
-    return {authInfo,specialInvoiceDetails, specialInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading,exportAllocation}
+    const virtualDispatchDetails = selectVirtualDispatchListData(state)
+    return {authInfo,specialInvoiceDetails, virtualDispatchDetails, specialInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading,exportAllocation}
 }
 
 const actions = {
@@ -1057,6 +1062,7 @@ const actions = {
     handleEmployeePopup: employeePopupStartAction,
     handleExport: exportAllocationStartAction,
     handleInvoiceUpload: invoiceUploadStartAction,
+    handleGenInvoice: getGenInvoiceStartAction,
 
 }
 

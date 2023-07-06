@@ -275,7 +275,13 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
         },
     ],
     GRN_UPLOAD_START: [{ action: 'showspinner' }],
-    GRN_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+    GRN_UPLOAD_SUCCESS: [
+        { action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'Upload Successful', type: 'success' } },
+        },
+    ],
     GRN_UPLOAD_FAIL: [
         { action: 'hidespinner' },
         {
@@ -311,7 +317,13 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
         },
     ],
     DELIVERY_UPDATE_START: [{ action: 'showspinner' }],
-    DELIVERY_UPDATE_SUCCESS: [{ action: 'hidespinner' }],
+    DELIVERY_UPDATE_SUCCESS: [
+        { action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'Upload Successful', type: 'success' } },
+        },
+    ],
     DELIVERY_UPDATE_FAIL: [
         { action: 'hidespinner' },
         {
@@ -323,7 +335,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     ADD_VENDOR_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Vendor added successfully', type: 'success' } },
         },
     ],
     ADD_VENDOR_FAIL: [
@@ -337,7 +349,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     EDIT_VENDOR_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Vendor edited successfully', type: 'success' } },
         },
     ],
     EDIT_VENDOR_FAIL: [
@@ -351,7 +363,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     EDIT_COST_CENTER_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Cost Center edited successfully', type: 'success' } },
         },
     ],
     EDIT_COST_CENTER_FAIL: [
@@ -365,7 +377,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     ADD_COST_CENTER_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Cost Center edited successfully', type: 'success' } },
         },
     ],
     ADD_COST_CENTER_FAIL: [
@@ -379,7 +391,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     ADD_SAMPLES_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Samples added successfully', type: 'success' } },
         },
     ],
     ADD_SAMPLES_FAIL: [
@@ -390,10 +402,11 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
         },
     ],
     EDIT_SAMPLES_START: [{ action: 'showspinner' }],
-    EDIT_SAMPLES_SUCCESS: [{ action: 'hidespinner' },
+    EDIT_SAMPLES_SUCCESS: [
+        { action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Samples edited successfully', type: 'success' } },
         },
     ],
     EDIT_SAMPLES_FAIL: [
@@ -453,7 +466,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     EDIT_BUISNESS_UNIT_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Business Unit edited successfully', type: 'success' } },
         },
     ],
     EDIT_BUISNESS_UNIT_FAIL: [
@@ -467,7 +480,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     ADD_BUISNESS_UNIT_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Business Unit added successfully', type: 'success' } },
         },
     ],
     ADD_BUISNESS_UNIT_FAIL: [
@@ -499,7 +512,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     EDIT_TEAM_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Team edited successfully', type: 'success' } },
         },
     ],
     EDIT_TEAM_FAIL: [
@@ -513,7 +526,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     ADD_TEAM_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'team added successfully', type: 'success' } },
         },
     ],
     ADD_TEAM_FAIL: [
@@ -545,7 +558,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     EDIT_USER_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'user edited successfully', type: 'success' } },
         },
     ],
     EDIT_USER_FAIL: [
@@ -559,7 +572,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     ADD_USER_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'user added successfully', type: 'success' } },
         },
     ],
     ADD_USER_FAIL: [
@@ -591,7 +604,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     EDIT_BRAND_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'brand edited successfully', type: 'success' } },
         },
     ],
     EDIT_BRAND_FAIL: [
@@ -605,7 +618,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     ADD_BRAND_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'brand added successfully', type: 'success' } },
         },
     ],
     ADD_BRAND_FAIL: [
@@ -646,7 +659,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     EDIT_FF_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'ff edited successfully', type: 'success' } },
         },
     ],
     EDIT_FF_FAIL: [
@@ -660,7 +673,7 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
     ADD_FF_SUCCESS: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'ff added successfully', type: 'success' } },
         },
     ],
     ADD_FF_FAIL: [
