@@ -48,7 +48,8 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
     useEffect(() => {
         handleUserById({
             certificate: authInfo.token,
-            id: "DC36AC10-609C-4D92-93D4-20CF2B3EF70A",
+            id: id,
+            // id: "DC36AC10-609C-4D92-93D4-20CF2B3EF70A",
         })
     },[])
 

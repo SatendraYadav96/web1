@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
@@ -11,6 +11,8 @@ import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusC
 import {selectFFHistoryByIdData, selectFFListData} from "../../../redux/selectors/masterSelector";
 import {getFFHistoryByIdStartAction, getFFStartAction} from "../../../redux/actions/master/masterActions";
 import Highlighter from "react-highlight-words";
+import XLSX from "xlsx";
+import {CSVLink} from "react-csv";
 
 const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHistoryList}) => {
 
@@ -26,6 +28,8 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const [data, setData] = useState()
+
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -159,7 +163,7 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                 title: 'State',
                 key: 'state',
                 dataIndex: 'state',
-                width: '100px'
+                width: '120px'
             },
             {
                 title: 'Zip',
@@ -251,12 +255,6 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                 title: 'Remark',
                 key: 'remark',
                 dataIndex: 'remark',
-                width: '100px'
-            },
-            {
-                title: 'State',
-                key: 'state',
-                dataIndex: 'state',
                 width: '100px'
             },
             {
@@ -398,6 +396,42 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
         setFFHistory(true)
     }
 
+    useEffect(() => {
+        setData(ffList.map(item => {
+            return {
+                'Employee Name': item.name,
+                'Employee Code': item.code,
+                'Address': item.address,
+                'City': item.city,
+                'Role': item.designation,
+                'State': item.state,
+                'Zip': item.zip,
+                'Zone': item.zone,
+                'Employee WorkId': item.workId,
+                'Gender': item.gender,
+                'Joining Date': item.joiningDate,
+                'Mobile Number': item.mobile,
+                'Email Address': item.email,
+                'Team': item.team,
+                'Sub Team': item.businessUnit,
+                'AM Name': item.amName,
+                'AM Code': item.amCode,
+                'AM Email': item.emailAM,
+                'RBM Code': item.emailRBM,
+                'HQ': item.headQuarter,
+                'Remark': item.remark,
+            }
+        }))
+        console.log(ffList)
+    },[ffList])
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"ffmaster.XLSX")
+    }
+
     return(
         <>
             <TitleWidget title={"Master - FF"}/>
@@ -418,7 +452,18 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
             <br/><br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"ffmaster.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={12}></Col>
                 <Col span={6}><Input.Search/></Col>

@@ -52,6 +52,15 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+    GET_SAMPLES_BY_ID_START: [{ action: 'showspinner' }],
+    GET_SAMPLES_BY_ID_SUCCESS: [{ action: 'hidespinner' }],
+    GET_SAMPLES_BY_ID_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
     GET_MONTHLYDISPATCH_START: [{ action: 'showspinner' }],
     GET_MONTHLYDISPATCH_SUCCESS: [{ action: 'hidespinner' }],
     GET_MONTHLYDISPATCH_FAIL: [
