@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {approveAcknowledgeStartAction, rejectAcknowledgeStartAction, unacknowledgeListStartAction} from "../../redux/actions/grn/grnActions";
-import {Button, Checkbox, DatePicker, Input, Modal, Table} from "antd";
+import {Button, Checkbox, Col, DatePicker, Input, Modal, Row, Table} from "antd";
 import {selectApproveAcknowledge, selectUnacknowledged} from "../../redux/selectors/grnSelectors";
 import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
 import {toDdMmYYYY} from "../../utils/DateUtils";
 import moment from "moment";
 import {isArray} from "@craco/craco/lib/utils";
+
 
 const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAcknowledge, handleRejectAcknowledge, approveAcknowledge, handleApproveAcknowledge}) => {
     const ackData = []
@@ -28,6 +29,12 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         })
     },[])
 
+    const handleRefresh = () => {
+        handleLoadList({
+            certificate: authInfo.token
+        })
+    }
+
 
 
     useEffect(() => {
@@ -40,7 +47,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             }
             setArr(ackData)
         }
-       console.log(data)
+        console.log(data)
         console.log(arr)
         console.log(isArray(arr))
     }, [data])
@@ -73,10 +80,10 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     const column=[
         {
             title:'PO No.',
-             key:'poNo',
-             dataIndex: 'poNo',
-             fixed:'left',
-             width:'100px'
+            key:'poNo',
+            dataIndex: 'poNo',
+            fixed:'left',
+            width:'100px'
         },
         {
             title:'Cost Center',
@@ -123,7 +130,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 const row = arr[id];
                 let hsn = '';
                 if (row !== undefined){
-                 hsn = row.hsn;
+                    hsn = row.hsn;
                 }
                 return ( <Input value={hsnCode != null ? hsnCode : hsn} onChange={e => changeGrnData(id,'hsn',e.target.value)} />)
             }
@@ -279,8 +286,15 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     return (
         <div>
             <TitleWidget title={'GRN'} subTitle={'Acknowledge'}/>
-            <Table dataSource={data ? data.grn : ackData} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>
-            <Modal title={'Reason'} onOk={() => reject()} onCancel={() => setReasonModal(false)} visible={reasonModal}>
+            <Row gutter={[8,8]}>
+               <Col span={2}>
+                   <Button type='primary' onClick={handleRefresh} >Refresh</Button>
+               </Col>
+            </Row>
+            <Row gutter={[8,8]}>
+                <Table dataSource={data ? data.grn : ackData} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>
+            </Row>
+            <Modal title={'Reason'} onOk={() => reject()} onCancel={() => setReasonModal(false)} open={reasonModal}>
                 <Input.TextArea onChange={(e) =>{setReason(e.target.value)}} value={reason} placeholder={"Write Reason.."}/>
             </Modal>
             <Modal title={'Are You Sure'} onOk={() => acknowledge(rowData)} onCancel={() => setShowModal(false)} open={showModal}>
@@ -288,6 +302,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         </div>
     )
 }
+
 GRNAcknowledgementComponent.propTypes = {
     authInfo: PropTypes.any,
     handleLoadList: PropTypes.func,

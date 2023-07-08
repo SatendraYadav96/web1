@@ -1,5 +1,6 @@
 import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
 import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnActionConstants";
+import {UNACKNOWLEDGE_LIST_START} from "../redux/actions/grn/grnActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -257,7 +258,13 @@ import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnAction
         },
     ],
     UNACKNOWLEDGE_LIST_START: [{ action: 'showspinner' }],
-    UNACKNOWLEDGE_LIST_SUCCESS: [{ action: 'hidespinner' }],
+    UNACKNOWLEDGE_LIST_SUCCESS: [
+        { action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: { message: { text: 'Action Completed', type: 'success' } },
+        },
+    ],
     UNACKNOWLEDGE_LIST_FAIL: [
         { action: 'hidespinner' },
         {
