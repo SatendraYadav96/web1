@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import TitleWidget from '../../widgets/TitleWidget';
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {approveAcknowledgeStartAction, rejectAcknowledgeStartAction, unacknowledgeListStartAction} from "../../redux/actions/grn/grnActions";
-import {Button, Checkbox, Col, DatePicker, Input, Modal, Row, Table} from "antd";
+import {Button, Checkbox, Col, DatePicker, Input, Modal, Row, Space, Table} from "antd";
 import {selectApproveAcknowledge, selectUnacknowledged} from "../../redux/selectors/grnSelectors";
-import {CheckOutlined, CloseOutlined} from "@ant-design/icons";
+import {CheckOutlined, CloseOutlined, SearchOutlined} from "@ant-design/icons";
 import {toDdMmYYYY} from "../../utils/DateUtils";
 import moment from "moment";
 import {isArray} from "@craco/craco/lib/utils";
+import Highlighter from "react-highlight-words";
 
 
 const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAcknowledge, handleRejectAcknowledge, approveAcknowledge, handleApproveAcknowledge}) => {
@@ -22,6 +23,100 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     const [showModal, setShowModal] = useState(false)
     const [rowData, setRowData] = useState()
     const [itemCode, setItemCode] = useState()
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
     useEffect(()=> {
         handleLoadList({
@@ -34,8 +129,6 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             certificate: authInfo.token
         })
     }
-
-
 
     useEffect(() => {
         if(data.grn !== undefined){
@@ -83,26 +176,30 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             key:'poNo',
             dataIndex: 'poNo',
             fixed:'left',
-            width:'100px'
+            width:'100px',
+            ...getColumnSearchProps('poNo'),
         },
         {
             title:'Cost Center',
             key:'costCenter',
             dataIndex: 'costCenter',
-            width:'150px'
+            width:'150px',
+            ...getColumnSearchProps('costCenter'),
         },
         {
             title:'Cost Center Code',
             key:'costCenterCode',
             dataIndex: 'costCenterCode',
             width:'150px',
-            render: (_,{costCenterCode})=> (<Input value={costCenterCode || ''} disabled={true}/>)
+            ...getColumnSearchProps('costCenterCode'),
+            // render: (_,{costCenterCode})=> (<Input value={costCenterCode || ''} disabled={true}/>)
         },
         {
             title:'Item',
             key:'itemName',
             dataIndex: 'itemName',
-            width:'100px'
+            width:'100px',
+            ...getColumnSearchProps('itemName'),
         },
         {
             title:'Category',
@@ -210,6 +307,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             key:'itemCode',
             dataIndex: 'itemCode',
             width:'150px',
+            // ...getColumnSearchProps('itemCode'),
             render: (_,{limid, category, id})=> {
                 let i = ''
                 if (data.itemCategory["NON_MEDICAL"] == category.id) {
@@ -291,16 +389,18 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                    <Button type='primary' onClick={handleRefresh} >Refresh</Button>
                </Col>
             </Row>
+            <br/>
             <Row gutter={[8,8]}>
                 <Table dataSource={data ? data.grn : ackData} columns={column}  pagination={false} size="small" scroll={{ x: 2000 }} rowKey={'ID_GRN'}/>
             </Row>
-            <Modal title={'Reason'} onOk={() => reject()} onCancel={() => setReasonModal(false)} open={reasonModal}>
+            <Modal title={'GRN UnAcknowledge'} onOk={() => reject()} onCancel={() => setReasonModal(false)} open={reasonModal}>
                 <Input.TextArea onChange={(e) =>{setReason(e.target.value)}} value={reason} placeholder={"Write Reason.."}/>
             </Modal>
-            <Modal title={'Are You Sure'} onOk={() => {
+            <Modal title={'GRN Acknowledgement'} onOk={() => {
                 acknowledge(rowData);
                 setShowModal(false)
             }} onCancel={() => setShowModal(false)} open={showModal}>
+                Are you sure you want to approve?
             </Modal>
         </div>
     )

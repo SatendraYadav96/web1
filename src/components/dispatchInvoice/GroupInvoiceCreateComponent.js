@@ -10,6 +10,8 @@ import {selectGroupInvoiceUploadListData, selectLoadingGroupInvoiceUploadData} f
 import {groupInvoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/groupInvoiceAction";
 import SelectInvoiceComponent from "../widgets/SelectInvoiceComponent";
 import {useNavigate} from "react-router-dom";
+import {CSVLink} from "react-csv";
+import XLSX from "xlsx";
 
 
 const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUploadLoading,handleGroupInvoiceUpload}) => {
@@ -202,6 +204,13 @@ const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUp
         console.log(groupInvoiceUpload)
     },[groupInvoiceUpload])
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(groupInvoiceUpload);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"groupinvoice.xlsx")
+    }
+
     return(
         <div>
             <TitleWidget title={'Create Group Invoice'} > </TitleWidget>
@@ -231,11 +240,19 @@ const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUp
             </Row>
             <br/>
             <Row gutter={[16,16]}>
-                <Col span={2}>
-                    <Button>Excel</Button>
-                </Col>
-                <Col span={2}>
-                    <Button>CSV</Button>
+                <Col span={6}>
+                    {groupInvoiceUpload &&
+                        (<CSVLink
+                            data={groupInvoiceUpload}
+                            filename={"groupinvoice.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={20}>
                     <div align="right">

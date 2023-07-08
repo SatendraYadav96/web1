@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {GET_DELIVERY_UPDATE_API, GET_GEN_INVOICE_API, GET_GENERATE_INVOICE_API, GET_GENERATE_LABEL_API, GET_GROUP_INVOICE_API, GET_INVOICE_DROPDOWN_API, GET_INVOICE_UPLOAD_API, GET_PRINT_INVOICE_API, SEARCH_INVOICE_API} from "./apiConstants";
+import {GET_DELIVERY_UPDATE_API, GET_GEN_INVOICE_API, GET_GENERATE_INVOICE_API, GET_GENERATE_LABEL_API, GET_GROUP_INVOICE_API, GET_INVOICE_DROPDOWN_API, GET_INVOICE_UPLOAD_API, GET_PRINT_INVOICE_API, INVOICE_UPLOAD_API, SEARCH_INVOICE_API} from "./apiConstants";
 
 //monthly dispatch
 export const printInvoiceRequest = payload => {
@@ -24,6 +24,11 @@ export const deliveryUpdateRequest = payload => {
 
 export const invoiceUploadRequest = payload => {
     const api = {...GET_INVOICE_UPLOAD_API, url: `${GET_INVOICE_UPLOAD_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const invoiceUploadCsvRequest = payload => {
+    const api = {...INVOICE_UPLOAD_API, url: `${INVOICE_UPLOAD_API.url}`}
     return createRequest(api, payload.certificate, null)
 }
 

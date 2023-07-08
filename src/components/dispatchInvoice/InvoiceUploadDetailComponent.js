@@ -7,7 +7,7 @@ import {Button, Col, message, Row, Table, Upload} from "antd";
 import {UploadOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
 import {selectInvoiceUploadListData} from "../../redux/selectors/invoiceUploadSelector";
-import {invoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/invoiceUploadAction";
+import {invoiceUploadCsvStartAction, invoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/invoiceUploadAction";
 
 const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload}) => {
 
@@ -132,7 +132,7 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
         const bytecode = base64.split(",")[1];
         console.log(newFile)
         console.log(bytecode)
-        handleInvoiceUploadList({
+        handleInvoiceUpload({
             certificate: authInfo.token,
             dto: {
                 byteCode: bytecode,
@@ -166,6 +166,7 @@ InvoiceUploadDetailComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     invoiceUploadList:PropTypes.array,
+    handleInvoiceUpload:PropTypes.array,
 }
 
 const mapState = (state) => {
@@ -177,7 +178,7 @@ const mapState = (state) => {
 
 const actions = {
     handleInvoiceUploadList: invoiceUploadStartAction,
-    handleInvoiceUpload: invoiceUploadStartAction,
+    handleInvoiceUpload: invoiceUploadCsvStartAction,
 
 }
 
