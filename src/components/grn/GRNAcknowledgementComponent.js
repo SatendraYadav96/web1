@@ -258,9 +258,9 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         console.log(arr[row.id])
         const r = arr[row.id]
         let grnData = {
-            "category":  r.category.id,
+            "category":  r.category.id ,
             "costCenterCode": r.costCenterCode,
-            "expiryDate": r.expiryDate,
+            "expiryDate": moment(r.expiryDate).format('yyyy-MM-DD').toString(),
             "itemCode": itemCode,
             "medicalCode": (r.lineText !== null ? r. lineText: r.batchNo),
             "basePack": r.basePack,
@@ -297,7 +297,10 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             <Modal title={'Reason'} onOk={() => reject()} onCancel={() => setReasonModal(false)} open={reasonModal}>
                 <Input.TextArea onChange={(e) =>{setReason(e.target.value)}} value={reason} placeholder={"Write Reason.."}/>
             </Modal>
-            <Modal title={'Are You Sure'} onOk={() => acknowledge(rowData)} onCancel={() => setShowModal(false)} open={showModal}>
+            <Modal title={'Are You Sure'} onOk={() => {
+                acknowledge(rowData);
+                setShowModal(false)
+            }} onCancel={() => setShowModal(false)} open={showModal}>
             </Modal>
         </div>
     )
