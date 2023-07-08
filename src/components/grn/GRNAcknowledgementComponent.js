@@ -262,7 +262,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             "costCenterCode": r.costCenterCode,
             "expiryDate": moment(r.expiryDate).format('yyyy-MM-DD').toString(),
             "itemCode": itemCode,
-            "medicalCode": (r.lineText !== null ? r. lineText: r.batchNo),
+            "medicalCode": (r.lineText !== null ? r. lineText: ""),
             "basePack": r.basePack,
             "numBoxes": r.numBoxes,
             "hsnCode": (r.hsnCode !== null ? r.hsnCode: r.hsn),
