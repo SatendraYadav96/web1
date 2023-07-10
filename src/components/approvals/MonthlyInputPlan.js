@@ -473,7 +473,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             </Modal>
 
             {/*Plan Reject*/}
-            <Modal title="Plan Reject!" open={openReject} onOk={() => {setOpenReject(false); setCommentModal(true)}} onCancel={() => setOpenReject(false)}>
+            <Modal title="Plan Reject!" open={openReject} onOk={() => {setOpenReject(false); setCommentRejectModal(true)}} onCancel={() => setOpenReject(false)}>
                 <p>Are you sure, you want to reject the selected plan?</p>
             </Modal>
             <Modal title="Plan Reject!" open={commentRejectModal} onOk={handleReject} onCancel={() => setCommentRejectModal(false)}>

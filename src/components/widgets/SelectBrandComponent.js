@@ -32,7 +32,7 @@ const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,bra
             style={{
                 width: '100%',
             }}
-            placeholder="Select Brand"
+            placeholder={"Select Brand"}
             onChange={onChange}
             value={value}
         >

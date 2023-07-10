@@ -25,7 +25,6 @@ export const commonActionsEpic = (action$) =>
               emitActions.push(showSpinner())
               break
             case 'hidespinner':
-                console.log(action.type, 'gfdgdgdfgfdgdgdfdgfdfgdf')
               emitActions.push(hideSpinner())
               break
             case 'showsuccess':

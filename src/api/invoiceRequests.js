@@ -24,12 +24,12 @@ export const deliveryUpdateRequest = payload => {
 
 export const invoiceUploadRequest = payload => {
     const api = {...GET_INVOICE_UPLOAD_API, url: `${GET_INVOICE_UPLOAD_API.url}`}
-    return createRequest(api, payload.certificate, null)
+    return createRequest(api, payload.certificate, )
 }
 
 export const invoiceUploadCsvRequest = payload => {
     const api = {...INVOICE_UPLOAD_API, url: `${INVOICE_UPLOAD_API.url}`}
-    return createRequest(api, payload.certificate, null)
+    return createRequest(api, payload.certificate, payload.dto)
 }
 
 export const generateInvoiceRequest = payload => {

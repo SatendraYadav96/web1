@@ -180,7 +180,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
         <>
             <TitleWidget title="Compliance Details List" />
             <Row gutter={[8,8]}>
-                <Col span={2}>
+                <Col span={3}>
                     Month<br/>
                     <SelectMonthComponent onChange={(value) => setMonth(value)}/>
                 </Col>

@@ -7,7 +7,7 @@ import {teamDropdownStartAction} from "../../redux/actions/dropDown/dropDownActi
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-const SelectTeamComponent = ({value, onChange,authInfo,teamDropdown,teamDropdownLoading,profileInfo,handleTeamDropDown}) => {
+const SelectTeamComponent = ({value, multiple, onChange,authInfo,teamDropdown,teamDropdownLoading,profileInfo,handleTeamDropDown}) => {
 
     const [teamId, setTeamId] = useState()
     const [teamName, setTeamName] = useState()
@@ -24,7 +24,7 @@ const SelectTeamComponent = ({value, onChange,authInfo,teamDropdown,teamDropdown
         });
     }, [authInfo.token])
 
-    return <Select placeholder={"Select Sub Team"} value={value} onSelect={onChange} style={{width: "100%"}}>
+    return <Select mode={multiple} allowClear placeholder={"Select Sub Team"} value={value} onChange={onChange} style={{width: "100%"}}>
         {teamDropdown?.map( item => {
             return(<Option key={item.id} value={item.id}>{item.name}</Option>)
         })}

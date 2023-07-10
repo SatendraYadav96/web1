@@ -190,7 +190,7 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
         <>
             <TitleWidget title="Non Compliance UnBlocking" />
             <Row gutter={[8,8]}>
-                <Col span={2}>
+                <Col span={3}>
                     Status<br/>
                     <SelectUnBlockingStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                 </Col>

@@ -15,11 +15,14 @@ import {CSVLink} from "react-csv";
 import XLSX from "xlsx"
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import {selectBuDropdown, selectTeamDropdown} from "../../redux/selectors/dropDownSelector";
 
-const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientReportLoading,handleRecipientReportList}) => {
+const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientReportLoading,handleRecipientReportList,buDropdown,teamDropdown}) => {
 
     const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
     const [team, setTeam] = useState()
+    const [t, setT] = useState()
     const [recipientStatus, setRecipientStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
@@ -124,14 +127,8 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         setFlag(true)
         setColumn([
             {
-                title:'Team',
-                key:'businessUnit',
-                dataIndex:'businessUnit',
-                width:'100px'
-            },
-            {
-                title: 'Emp Code',
-                key: 'empId',
+                title: 'Employee Code',
+                key: 'employeeCode',
                 dataIndex: 'employeeCode',
                 width: '100px',
                 ...getColumnSearchProps('employeeCode'),
@@ -141,16 +138,8 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             {
                 title: 'Employee Name',
                 key: 'employeeName',
-                dataIndex: 'employeeName',
-                width: '150px',
-                ...getColumnSearchProps('employeeName'),
-            },
-            {
-                title: 'Job Role',
-                key: 'jobRole',
-                dataIndex: 'designation',
-                width: '100px',
-                ...getColumnSearchProps('designation'),
+                dataIndex: 'name',
+                width: '100px'
             },
             {
                 title: 'Address',
@@ -165,31 +154,32 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 width: '100px'
             },
             {
+                title: 'Role',
+                key: 'role',
+                dataIndex: 'designation',
+                // render: item => Object.values(item)[1],
+                width: '100px'
+            },
+            {
                 title: 'State',
                 key: 'state',
                 dataIndex: 'state',
                 width: '120px'
             },
             {
-                title: 'Pincode',
-                key: 'pincode',
+                title: 'Zip',
+                key: 'zip',
                 dataIndex: 'zip',
                 width: '100px'
             },
             {
                 title: 'Zone',
-                key: 'region',
+                key: 'zone',
                 dataIndex: 'zone',
                 width: '100px'
             },
             {
-                title: 'Login Id',
-                key: 'loginId',
-                dataIndex: 'loginId',
-                width: '100px'
-            },
-            {
-                title: 'Work Id',
+                title: 'Employee WorkId',
                 key: 'workId',
                 dataIndex: 'workId',
                 width: '100px'
@@ -204,86 +194,52 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 title: 'Joining Date',
                 key: 'joiningDate',
                 dataIndex: 'joiningDate',
-                width: '120px'
+                width: '100px'
             },
             {
-                title: 'Phone',
-                key: 'phone',
+                title: 'Mobile Number',
+                key: 'mobileNumber',
                 dataIndex: 'mobile',
-                width: '120px'
+                width: '100px'
             },
             {
-                title: 'Email',
-                key: 'email',
+                title: 'Email Address',
+                key: 'emailAddress',
                 dataIndex: 'email',
-                width: '150px'
+                width: '100px'
+            },
+            {
+                title: 'Team',
+                key: 'divison',
+                dataIndex: 'divison',
+                // render: item => Object.values(item)[1],
+                width: '100px'
             },
             {
                 title: 'Sub Team',
-                key: 'teamName',
-                dataIndex: 'team',
+                key: 'businessUnit',
+                dataIndex: 'businessUnit',
+                // render: item => Object.values(item)[1],
                 width: '100px'
             },
             {
-                title: 'NSM',
-                key: 'nsm',
-                dataIndex: 'nsmName',
+                title: 'AM Email',
+                key: 'amEmail',
+                dataIndex: 'emailAM',
                 width: '100px'
             },
             {
-                title: 'NSM Emp Code',
-                key: 'nsmEmpId',
-                dataIndex: 'nsmCode',
+                title: 'RBM Email',
+                key: 'rbmEmail',
+                dataIndex: 'emailRBM',
                 width: '100px'
             },
             {
-                title: 'RBM',
-                key: 'rbm',
-                dataIndex: 'rmName',
+                title: 'HQ',
+                key: 'hq',
+                dataIndex: 'headQuarter',
                 width: '100px'
             },
-            {
-                title: 'RBM Emp Code',
-                key: 'rbmEmpId',
-                dataIndex: 'rmCode',
-                width: '100px'
-            },
-            {
-                title: 'AM',
-                key: 'am',
-                dataIndex: 'amName',
-                width: '100px'
-            },
-            {
-                title: 'AM Emp Code',
-                key: 'amEmpId',
-                dataIndex: 'amCode',
-                width: '100px'
-            },
-            {
-                title: 'CFA',
-                key: 'cfa',
-                dataIndex: 'cfa',
-                width: '100px'
-            },
-            {
-                title: 'Headquater',
-                key: 'headquater',
-                dataIndex: 'hq',
-                width: '100px'
-            },
-            {
-                title: 'Remarks',
-                key: 'remarks',
-                dataIndex: 'remarks',
-                width: '100px'
-            },
-            {
-                title: 'Status',
-                key: 'status',
-                dataIndex: 'status',
-                width: '100px'
-            }
         ])
 
         setDataSource([])
@@ -297,14 +253,30 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
          console.log(recipientList);
 
         handleRecipientReportList ({
-        businessUnit:businessUnit,
+        businessUnit: bu,
         //division:division,
-        team:team,
+        team: t,
         statusId:recipientStatus,
         certificate: authInfo.token
         });
         searchData()
     }
+
+    useEffect(() => {
+        setBU([buDropdown?.map(item => item.id)])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        setT([teamDropdown?.map(item => item.id)])
+    },[teamDropdown])
+
+    useEffect(() => {
+        setT(team)
+    },[team])
 
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
@@ -340,8 +312,6 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 amCode: item.amCode,
                 cfa: item.cfa,
                 hq: item.hq,
-                remarks: item.remarks,
-                status: item.status,
             }
         }))
     },[recipientList])
@@ -362,13 +332,13 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         <>
             <TitleWidget title="Recipient Report" />
             <Row gutter={[8,8]}>
-                <Col span={2}>
+                <Col span={3}>
                     Team<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit}/>
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     SubTeam<br/>
-                    <SelectTeamComponent value={team} onChange={handleTeam}/>
+                    <SelectTeamComponent value={team} onChange={handleTeam} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Recipient Status<br/>
@@ -383,7 +353,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             <Row>
                 <Col span={6}>
                     {data &&
-                        (<CSVLink
+                        (<><CSVLink
                             data={data}
                             filename={"recipientreport.csv"}
                             onClick={() => {
@@ -391,10 +361,10 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                             }}
                         >
                             <Button>CSV</Button>
-                        </CSVLink>
+                        </CSVLink>&nbsp;
+                        <Button onClick={handleExcel}>EXCEL</Button></>
                         )
-                    }&nbsp;
-                    <Button onClick={handleExcel}>EXCEL</Button>
+                    }
 
                 </Col>
             </Row>
@@ -410,6 +380,8 @@ RecipientReportComponent.propTypes = {
         authInfo: PropTypes.any,
         profileInfo: PropTypes.any,
         recipientList:PropTypes.array,
+        buDropdown:PropTypes.array,
+        teamDropdown:PropTypes.array,
         recipientReportLoading:PropTypes.any,
         handleRecipientReportList:PropTypes.func
 }
@@ -419,7 +391,9 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const recipientList = selectRecipientListData(state)
     const recipientReportLoading = selectLoadingRecipientReportData(state)
-    return {authInfo,recipientList,recipientReportLoading,profileInfo}
+    const buDropdown = selectBuDropdown(state)
+    const teamDropdown = selectTeamDropdown(state)
+    return {authInfo,recipientList,recipientReportLoading,profileInfo,buDropdown,teamDropdown}
 }
 
 const actions = {

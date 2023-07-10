@@ -8,6 +8,7 @@ import {UploadOutlined} from "@ant-design/icons";
 import {Link} from "react-router-dom";
 import {selectInvoiceUploadListData} from "../../redux/selectors/invoiceUploadSelector";
 import {invoiceUploadCsvStartAction, invoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/invoiceUploadAction";
+import XLSX from "xlsx";
 
 const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload}) => {
 
@@ -15,6 +16,10 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [file, setFile] = useState([])
+    const [viewE, setViewE] = useState(false)
+    const [viewD, setViewD] = useState(false)
+    const [expErr, setExpErr] = useState([])
+    const [exp, setExp] = useState([])
 
 
     const searchData = () => {
@@ -55,8 +60,18 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
                 key: '',
                 dataIndex: '',
                 width: '150px',
-                render: () => {
-                    return (<><Link to="">View Errors</Link> | <Link to="">Download File</Link></>)
+                render: (_,row) => {
+                    return (
+                        <>
+                            <Link onClick={() => {
+                                handleViewError(row)
+                                setViewE(true)
+                            }} to="">View Errors </Link>|<Link onClick={() => {
+                            handleViewError(row)
+                            setViewD(true)
+                        }} to=""> Download Details</Link>
+                        </>
+                    )
                 }
             }
         ]);
@@ -70,6 +85,47 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
                 status:''
             }
         ])
+    }
+
+    const handleViewError = (row) => {
+        // handleGrnExcelUpload({
+        //     uplId: row.uplId,
+        //     certificate: authInfo.token
+        // })
+    }
+
+    useEffect(() => {
+        console.log("expErr: ", expErr)
+        if (viewE) {
+            if (expErr.length > 0) {
+                handleExcelErr(expErr)
+                setViewE(false)
+            }
+        }
+    },[expErr])
+
+    useEffect(() => {
+        console.log("exp: ", exp)
+        if (viewD) {
+            if (exp.length > 0) {
+                handleExcel(exp)
+                setViewD(false)
+            }
+        }
+    },[exp])
+
+    const handleExcelErr = (data) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"grnviewerrors.XLSX")
+    }
+
+    const handleExcel = (data) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"grnviewDownload.XLSX")
     }
 
     const refresh = () => {
