@@ -14,14 +14,15 @@ const SelectDivisionComponent = ({value, multiple, onChange,authInfo,divisionDro
     const data  = {"id":divisionId, "name":divisionName}
 
     useEffect(() => {
-        console.log(divisionDropdown)
-        console.log(data)
-        console.log(divisionName)
+        // console.log(divisionDropdown)
+        // console.log(data)
+        // console.log(divisionName)
 
         handleDivisionDropDown ({
             certificate: authInfo.token,
             divisionDropdown: data
         });
+        console.log(divisionDropdown)
     }, [authInfo.token])
 
     return <Select mode={multiple} allowClear placeholder={"Select SubTeam"} value={value} onChange={onChange} style={{width: "100%"}}>

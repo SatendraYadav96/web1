@@ -12,8 +12,8 @@ import {GET_DESTRUCTION_REPORT_API} from "./apiConstants";
 //RECIPIENT REPORT
 
 export const recipientReportRequest = payload => {
-    const api = {...GET_RECIPIENT_REPORT_API, url: `${GET_RECIPIENT_REPORT_API.url}/${payload.businessUnit}/${payload.team}/${payload.statusId}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_RECIPIENT_REPORT_API, url: `${GET_RECIPIENT_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.ff)
 }
 
 //PURCHASE REPORT

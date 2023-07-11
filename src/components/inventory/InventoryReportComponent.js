@@ -12,8 +12,9 @@ import {getSimpleInventoryReportStartAction} from "../../redux/actions/reports/s
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx";
 import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
+import {divisionDropdownStartAction} from "../../redux/actions/dropDown/dropDownActions";
 
-const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,simpleInventoryReportLoading,handleSimpleInventoryReportList,buDropdown,divisionDropdown}) => {
+const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,simpleInventoryReportLoading,handleSimpleInventoryReportList,buDropdown,divisionDropdown,handleDivisionDropDown}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -186,7 +187,7 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
                 gstRate: item.gstRate,
             }
         }))
-        console.log(simpleInventoryList)
+        // console.log(simpleInventoryList)
     },[simpleInventoryList])
 
     const getInventoryReport = () => {
@@ -203,7 +204,9 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
     }
 
     useEffect(() => {
-        setBU([buDropdown?.map(item => item.id)])
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
     },[buDropdown])
 
     useEffect(() => {
@@ -211,7 +214,9 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
     },[businessUnit])
 
     useEffect(() => {
-        setD([divisionDropdown?.map(item => item.id)])
+        console.log(divisionDropdown)
+        let array = [divisionDropdown?.map(item => item.id)]
+        setD(array[0])
     },[divisionDropdown])
 
     useEffect(() => {
@@ -280,7 +285,8 @@ InventoryReportComponent.propTypes = {
     buDropdown:PropTypes.array,
     divisionDropdown:PropTypes.array,
     simpleInventoryReportLoading:PropTypes.any,
-    handleSimpleInventoryReportList:PropTypes.func
+    handleSimpleInventoryReportList:PropTypes.func,
+    handleDivisionDropDown:PropTypes.func
 }
 
 const mapState = (state) => {
@@ -290,12 +296,11 @@ const mapState = (state) => {
     const divisionDropdown = selectDivisionDropdown(state)
     const simpleInventoryList = selectSimpleInventoryListData(state)
     const simpleInventoryReportLoading = selectLoadingSimpleInventoryReportData(state)
-    return {authInfo,simpleInventoryList,simpleInventoryReportLoading,profileInfo,buDropdown}
+    return {authInfo,simpleInventoryList,simpleInventoryReportLoading,divisionDropdown,profileInfo,buDropdown}
 }
 
 const actions = {
-    handleSimpleInventoryReportList : getSimpleInventoryReportStartAction
-
+    handleSimpleInventoryReportList : getSimpleInventoryReportStartAction,
 }
 
 export default connect(mapState, actions)(InventoryReportComponent)

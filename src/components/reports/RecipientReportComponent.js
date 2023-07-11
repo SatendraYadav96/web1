@@ -253,17 +253,21 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
          console.log(recipientList);
 
         handleRecipientReportList ({
-        businessUnit: bu,
-        //division:division,
-        team: t,
-        statusId:recipientStatus,
-        certificate: authInfo.token
+            ff: {
+                businessUnit: bu,
+                //division:division,
+                team: t,
+                statusId:recipientStatus,
+            },
+            certificate: authInfo.token
         });
         searchData()
     }
 
     useEffect(() => {
-        setBU([buDropdown?.map(item => item.id)])
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
     },[buDropdown])
 
     useEffect(() => {
@@ -271,7 +275,9 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
     },[businessUnit])
 
     useEffect(() => {
-        setT([teamDropdown?.map(item => item.id)])
+        console.log(teamDropdown)
+        let array = [teamDropdown?.map(item => item.id)]
+        setT(array[0])
     },[teamDropdown])
 
     useEffect(() => {
@@ -382,7 +388,6 @@ RecipientReportComponent.propTypes = {
         recipientList:PropTypes.array,
         buDropdown:PropTypes.array,
         teamDropdown:PropTypes.array,
-        recipientReportLoading:PropTypes.any,
         handleRecipientReportList:PropTypes.func
 }
 
@@ -390,14 +395,13 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const recipientList = selectRecipientListData(state)
-    const recipientReportLoading = selectLoadingRecipientReportData(state)
     const buDropdown = selectBuDropdown(state)
     const teamDropdown = selectTeamDropdown(state)
-    return {authInfo,recipientList,recipientReportLoading,profileInfo,buDropdown,teamDropdown}
+    return {authInfo,recipientList,profileInfo,buDropdown,teamDropdown}
 }
 
 const actions = {
-handleRecipientReportList : getRecipientReportStartAction
+    handleRecipientReportList : getRecipientReportStartAction
 
 }
 

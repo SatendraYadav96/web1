@@ -43,7 +43,7 @@ export const EXPORT_ALLOCATION_API = {url: '/v1/inventory/exportAllocation',meth
 
 
 //Reports
-export const GET_RECIPIENT_REPORT_API = {url: '/v1/report/getReportRecipient',method:'GET',auth:true}
+export const GET_RECIPIENT_REPORT_API = {url: '/v1/report/getReportRecipient',method:'POST',auth:true}
 export const GET_PURCHASE_REPORT_API = {url: '/v1/report/getReportPurchase',method:'GET',auth:true}
 export const GET_DISPATCHES_REPORT_API = {url: '/v1/report/getReportDispatches',method:'GET',auth:true}
 export const GET_DISPATCH_REGISTER_REPORT_API = {url: '/v1/report/getReportDispatchRegister',method:'GET',auth:true}
