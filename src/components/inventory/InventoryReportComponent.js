@@ -228,7 +228,7 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
 
     return(
         <>
-            <TitleWidget title="Inventory Report" />
+            <TitleWidget title="Inventory Report " />
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team <br/>
