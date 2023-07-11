@@ -11,14 +11,17 @@ import {selectSimpleInventoryListData, selectLoadingSimpleInventoryReportData} f
 import {getSimpleInventoryReportStartAction} from "../../redux/actions/reports/simpleInventoryReportActions";
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx";
+import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
 
-const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,simpleInventoryReportLoading,handleSimpleInventoryReportList}) => {
+const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,simpleInventoryReportLoading,handleSimpleInventoryReportList,buDropdown,divisionDropdown}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
     const [division, setDivision] = useState()
+    const [d, setD] = useState()
     const [data, setData] = useState()
 
 
@@ -188,13 +191,39 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
 
     const getInventoryReport = () => {
         handleSimpleInventoryReportList({
-            businessUnit:businessUnit,
-            divison: division,
-            userId: profileInfo.id,
-            userDesgId: profileInfo.userDesignation.id,
+            simInv: {
+                businessUnit:bu,
+                divison: d,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+            },
             certificate: authInfo.token
         })
         searchData()
+    }
+
+    useEffect(() => {
+        setBU([buDropdown?.map(item => item.id)])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        setD([divisionDropdown?.map(item => item.id)])
+    },[divisionDropdown])
+
+    useEffect(() => {
+        setD(division)
+    },[division])
+
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    const handleDivision = (value) => {
+        setDivision(value)
     }
 
     return(
@@ -203,11 +232,11 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team <br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit} multiple={'multiple'} />
                 </Col>
                 <Col span={3}>
                     Sub Team <br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} onChange={handleDivision} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     <br/>
@@ -248,6 +277,8 @@ InventoryReportComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     simpleInventoryList:PropTypes.array,
+    buDropdown:PropTypes.array,
+    divisionDropdown:PropTypes.array,
     simpleInventoryReportLoading:PropTypes.any,
     handleSimpleInventoryReportList:PropTypes.func
 }
@@ -255,9 +286,11 @@ InventoryReportComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
+    const buDropdown = selectBuDropdown(state)
+    const divisionDropdown = selectDivisionDropdown(state)
     const simpleInventoryList = selectSimpleInventoryListData(state)
     const simpleInventoryReportLoading = selectLoadingSimpleInventoryReportData(state)
-    return {authInfo,simpleInventoryList,simpleInventoryReportLoading,profileInfo}
+    return {authInfo,simpleInventoryList,simpleInventoryReportLoading,profileInfo,buDropdown}
 }
 
 const actions = {

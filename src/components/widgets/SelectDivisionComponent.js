@@ -7,7 +7,7 @@ import {divisionDropdownStartAction} from "../../redux/actions/dropDown/dropDown
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-const SelectDivisionComponent = ({value, onChange,authInfo,divisionDropdown,divisionDropdownLoading,profileInfo,handleDivisionDropDown}) => {
+const SelectDivisionComponent = ({value, multiple, onChange,authInfo,divisionDropdown,divisionDropdownLoading,profileInfo,handleDivisionDropDown}) => {
 
     const [divisionId, setDivisionId] = useState()
     const [divisionName, setDivisionName] = useState()
@@ -24,7 +24,7 @@ const SelectDivisionComponent = ({value, onChange,authInfo,divisionDropdown,divi
         });
     }, [authInfo.token])
 
-    return <Select placeholder={"Select SubTeam"} value={value} onSelect={onChange} style={{width: "100%"}}>
+    return <Select mode={multiple} allowClear placeholder={"Select SubTeam"} value={value} onChange={onChange} style={{width: "100%"}}>
         {divisionDropdown?.map( item => {
             return(<Option key={item.id} value={item.id}>{item.name}</Option>)
         })}

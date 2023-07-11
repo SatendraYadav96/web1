@@ -155,7 +155,7 @@ export const GET_STOCK_LEDGER_REPORT_API = {url: '/v1/report/getStockLedgerRepor
 export const GET_AGEING_REPORT_API = {url: '/v1/report/getAgeingReport',method:'GET',auth:true}
 export const GET_NEAR_TO_EXPIRY_INPUT_REPORT_API = {url: '/v1/report/getReportNearToExpiryInput',method:'GET',auth:true}
 export const GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API = {url: '/v1/report/getReportNearToExpirySample',method:'GET',auth:true}
-export const GET_SIMPLE_INVENTORY_REPORT_API = {url: '/v1/report/getReportSimpleInventory',method:'GET',auth:true}
+export const GET_SIMPLE_INVENTORY_REPORT_API = {url: '/v1/report/getReportSimpleInventory',method:'POST',auth:true}
 
 // INVOICE
 export const GET_PRINT_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'POST',auth:true}

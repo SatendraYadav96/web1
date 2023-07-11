@@ -88,7 +88,7 @@ export const nearToExpirySampleReportRequest = payload => {
 
 // SIMPLE INVENTORY
 export const simpleInventoryReportRequest = payload => {
-    const api = {...GET_SIMPLE_INVENTORY_REPORT_API, url: `${GET_SIMPLE_INVENTORY_REPORT_API.url}/${payload.businessUnit}/${payload.divison}/${payload.userId}/${payload.userDesgId}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_SIMPLE_INVENTORY_REPORT_API, url: `${GET_SIMPLE_INVENTORY_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.simInv)
 }
 
