@@ -133,7 +133,7 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
                 </Col>
                 <Col span={2}></Col>
                 <Col span={8} offset={2}>
-                    Zip: <InputNumber  placeholder={"Vendor Zip"} value={zip} onChange={handleZipChange} />
+                    Zip: <br/><InputNumber  placeholder={"Vendor Zip"} value={zip} onChange={handleZipChange} style={{width: '100%'}}/>
                 </Col>
             </Row>
             <br/>

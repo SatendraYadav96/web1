@@ -19,15 +19,15 @@ export const recipientReportRequest = payload => {
 //PURCHASE REPORT
 
 export const purchaseReportRequest = payload => {
-    const api = {...GET_PURCHASE_REPORT_API, url: `${GET_PURCHASE_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_PURCHASE_REPORT_API, url: `${GET_PURCHASE_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.pur)
 }
 
 //DISPATCHES REPORT
 
 export const dispatchesReportRequest = payload => {
-    const api = {...GET_DISPATCHES_REPORT_API, url: `${GET_DISPATCHES_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.filter}/${payload.filterPlan}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.division}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_DISPATCHES_REPORT_API, url: `${GET_DISPATCHES_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.disp)
 }
 
 //DISPATCH REGISTER REPORT

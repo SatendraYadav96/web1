@@ -3,7 +3,7 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, DatePicker, Input, Row, Select} from "antd";
+import {Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select} from "antd";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
@@ -43,6 +43,7 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF}) => {
     const [status, setStatus] = useState()
     const [date, setDate] = useState()
     const [remarks, setRemarks] = useState("")
+    const [form] = Form.useForm();
 
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
@@ -98,110 +99,226 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF}) => {
     return(
         <>
             <TitleWidget title={"Create FF"}/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Employee Code:<br/><Input placeholder={"Recipient Code"} value={code} onChange={(e) => setCode(e.target.value)}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Employee Name:<br/><Input placeholder={"Recipient Name "} value={name} onChange={(e) => setName(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Address:<br/><TextArea placeholder={"Recipient Address"} value={address} onChange={(e) => setAddress(e.target.value)}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    City :<br/><Input placeholder={"City "} value={city} onChange={(e) => setCity(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Role :<br/>
-                    <SelectRecipientDesignationComponent value={role} onChange={(value) => setRole(value)}/>
-                    {/*<Select style={{width: "100%"}} placeholder="Select Designation"></Select>*/}
-                </Col>
-                <Col span={8} offset={2}>
-                    State :<br/><Input placeholder={"State "} value={state} onChange={(e) => setState(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Zip :<br/><Input placeholder={"Contact "} value={zip} onChange={(e) => setZip(e.target.value)}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Zone :<br/><Input placeholder={"Contact "} value={zone} onChange={(e) => setZone(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Employee Workday id :<br/><Input placeholder={"Contact "} value={workId} onChange={(e) => setWorkId(e.target.value)}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Gender :<br/><Input placeholder={"Contact "} value={gender} onChange={(e) => setGender(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Joining Date :<br/><DatePicker value={moment(jDate)} onChange={(e) => setJDate(e)} format={"DD/MM/YYYY"} style={{width: "100%"}}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Mobile Number :<br/><Input placeholder={"Contact "} value={number} onChange={(e) => setNumber(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Email Address :<br/><Input placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Team :<br/>
-                    <SelectBusinessUnitComponent value={team} onChange={(value) => setTeam(value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Sub Team :<br/>
-                    <SelectTeamComponent value={subTeam} onChange={(value) => setSubTeam(value)}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    RBM Email :<br/><Input style={{width: "100%"}} placeholder="RM Email" value={rbmEmail} onChange={(e) => setRBMEmail(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    AM Email :<br/><Input style={{width: "100%"}} placeholder="AM Email" value={amEmail} onChange={(e) => setAMEmail(e.target.value)}></Input>
-                </Col>
-                <Col span={8} offset={2}>
-                    Headquater :<br/><Input style={{width: "100%"}} placeholder="Headquater" value={headquater} onChange={(e) => setHeadquater(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Status :<br/>
-                    <SelectRecipientStatusComponent value={status} onChange={(value) => setStatus(value)}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Remarks :<br/><TextArea style={{width: "100%"}} placeholder="Remarks" onChange={(value) => setRemarks(value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={16}></Col>
-                <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
-                </Col>
-                <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertFF()} style={{width: "100%"}}>Submit</Button>
-                </Col>
-            </Row>
+            <Form onFinish={() => handleInsertFF()} form={form}>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Employee Code:
+                        <Form.Item
+                            name="code"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your code!',
+                                },
+                            ]}
+                            style={{marginBottom: 0}}
+                        >
+                            <Input placeholder={"Recipient Code"} value={code} onChange={(e) => setCode(e.target.value)}/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Employee Name:
+                        <Form.Item
+                            name="name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your name!',
+                                },
+                            ]}
+                            style={{marginBottom: 0}}
+                        >
+                            <Input placeholder={"Recipient Name "} value={name} onChange={(e) => setName(e.target.value)}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Address:<br/><TextArea placeholder={"Recipient Address"} value={address} onChange={(e) => setAddress(e.target.value)}/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        City :<br/><Input placeholder={"City "} value={city} onChange={(e) => setCity(e.target.value)}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Role :
+                        <Form.Item
+                            name="role"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your role!',
+                                },
+                            ]}
+                            style={{marginBottom: 0}}
+                        >
+                            <SelectRecipientDesignationComponent value={role} onChange={(value) => setRole(value)}/>
+                        </Form.Item>
+                        {/*<Select style={{width: "100%"}} placeholder="Select Designation"></Select>*/}
+                    </Col>
+                    <Col span={8} offset={2}>
+                        State :<br/><Input placeholder={"State "} value={state} onChange={(e) => setState(e.target.value)}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Zip :
+                            <InputNumber  placeholder={"Zip"} value={zip} onChange={(e) => setZip(e)} style={{width: '100%'}} maxLength={6}/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Zone :<br/><Input placeholder={"Zone "} value={zone} onChange={(e) => setZone(e.target.value)}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Employee Workday id :<br/><Input placeholder={"Contact "} value={workId} onChange={(e) => setWorkId(e.target.value)}/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Gender :<br/><Input placeholder={"Contact "} value={gender} onChange={(e) => setGender(e.target.value)}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Joining Date :<br/><DatePicker value={moment(jDate)} onChange={(e) => setJDate(e)} format={"DD/MM/YYYY"} style={{width: "100%"}}/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Mobile Number :<br/><Input placeholder={"Contact "} value={number} onChange={(e) => setNumber(e.target.value)}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Email Address :
+                        <Form.Item
+                            name="email"
+                            // label="E-mail"
+                            rules={[
+                                {
+                                    pattern: /^[^\s@]+@sanofi\.com$/,
+                                    message: 'The input is not valid E-mail!',
+                                },
+                                {
+                                    required: true,
+                                    message: 'Please input your E-mail!',
+                                },
+                            ]}
+                            style={{marginBottom: 0}}
+                        >
+                            <Input placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Team :
+                        <Form.Item
+                            name="team"
+                            // label="E-mail"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your team!',
+                                },
+                            ]}
+                            style={{marginBottom: 0}}
+                        >
+                            <SelectBusinessUnitComponent value={team} onChange={(value) => setTeam(value)}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Sub Team :
+                        <Form.Item
+                            name="subteam"
+                            // label="E-mail"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your team!',
+                                },
+                            ]}
+                            style={{marginBottom: 0}}
+                        >
+                            <SelectTeamComponent value={subTeam} onChange={(value) => setSubTeam(value)}/>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        RBM Email :
+                        <Form.Item
+                            name="rbmEmail"
+                            // label="E-mail"
+                            rules={[
+                                {
+                                    pattern: /^[^\s@]+@sanofi\.com$/,
+                                    message: 'The input is not valid E-mail!',
+                                },
+                                {
+                                    required: true,
+                                    message: 'Please input your E-mail!',
+                                },
+                            ]}
+                            style={{marginBottom: 0}}
+                        >
+                            <Input style={{width: "100%"}} placeholder="RM Email" value={rbmEmail} onChange={(e) => setRBMEmail(e.target.value)}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        AM Email :
+                        <Form.Item
+                            name="amEmail"
+                            // label="E-mail"
+                            rules={[
+                                {
+                                    pattern: /^[^\s@]+@sanofi\.com$/,
+                                    message: 'The input is not valid E-mail!',
+                                },
+                                {
+                                    required: true,
+                                    message: 'Please input your E-mail!',
+                                },
+                            ]}
+                            style={{marginBottom: 0}}
+                        >
+                            <Input style={{width: "100%"}} placeholder="AM Email" value={amEmail} onChange={(e) => setAMEmail(e.target.value)}></Input>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Headquater :<br/><Input style={{width: "100%"}} placeholder="Headquater" value={headquater} onChange={(e) => setHeadquater(e.target.value)}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Status :<br/>
+                        <SelectRecipientStatusComponent value={status} onChange={(value) => setStatus(value)}/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Remarks :<br/><TextArea style={{width: "100%"}} placeholder="Remarks" onChange={(value) => setRemarks(value)}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={16}></Col>
+                    <Col span={2}>
+                        <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Form.Item>
+                            {/*<Button type={"primary"} onClick={() => handleInsertFF()} style={{width: "100%"}} htmlType="submit">Submit</Button>*/}
+                            <Button type={"primary"} style={{width: "100%"}} htmlType="submit">Submit</Button>
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
         </>
     )
 

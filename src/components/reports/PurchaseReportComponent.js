@@ -15,20 +15,23 @@ import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
 
 
-const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,handlePurchaseReportList}) => {
+const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,handlePurchaseReportList,buDropdown,divisionDropdown}) => {
 
     let now = new Date()
 
-    const [businessUnit, setBusinessUnit] = useState()
-    const [division, setDivision] = useState()
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
+    const [division, setDivision] = useState()
+    const [d, setD] = useState()
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -238,21 +241,18 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
 
        console.log(purchaseList);
 
-      handlePurchaseReportList ({
-      businessUnit:businessUnit,
-      divison:division,
-      userId: profileInfo.id,
-      userDesgId: profileInfo.userDesignation.id,
-      startDate:formatedStartDateString,
-      endDate:formatedEndDateString,
-      // startDate:startDate,
-      // endDate:endDate,
-
-
-
+    handlePurchaseReportList ({
+      pur: {
+          businessUnit:bu,
+          divison:d,
+          userId: profileInfo.id,
+          userDesgId: profileInfo.userDesignation.id,
+          startDate:formatedStartDateString,
+          endDate:formatedEndDateString,
+      },
       certificate: authInfo.token
-      });
-      searchData()
+    });
+    searchData()
 
     }
 
@@ -287,6 +287,26 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         console.log(purchaseList)
     },[purchaseList])
 
+    useEffect(() => {
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        console.log(divisionDropdown)
+        let array = [divisionDropdown?.map(item => item.id)]
+        setD(array[0])
+    },[divisionDropdown])
+
+    useEffect(() => {
+        setD(division)
+    },[division])
+
     const handleBusinessUnit = (value) =>  {
       setBusinessUnit(value)
     }
@@ -301,11 +321,11 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit} />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Subteam<br/>
-                    <SelectDivisionComponent value={division} onChange={handleDivision} />
+                    <SelectDivisionComponent value={division} onChange={handleDivision} multiple={'multiple'}/>
                 </Col>
                  <Col span={3}>
                      From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
@@ -345,23 +365,27 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
 }
 
 PurchaseReportComponent.propTypes = {
-            authInfo: PropTypes.any,
-            profileInfo: PropTypes.any,
-            purchaseList:PropTypes.array,
-            purchaseReportLoading:PropTypes.any,
-            handlePurchaseReportList:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    purchaseList:PropTypes.array,
+    buDropdown:PropTypes.array,
+    divisionDropdown:PropTypes.array,
+    purchaseReportLoading:PropTypes.any,
+    handlePurchaseReportList:PropTypes.func
 }
 
 const mapState = (state) => {
-        const authInfo = selectAuthInfo(state)
-        const profileInfo = selectProfileInfo(state)
-        const purchaseList = selectPurchaseListData(state)
-        const purchaseReportLoading = selectLoadingPurchaseReportData(state)
-        return {authInfo,purchaseList,purchaseReportLoading,profileInfo}
+    const authInfo = selectAuthInfo(state)
+    const profileInfo = selectProfileInfo(state)
+    const purchaseList = selectPurchaseListData(state)
+    const buDropdown = selectBuDropdown(state)
+    const divisionDropdown = selectDivisionDropdown(state)
+    const purchaseReportLoading = selectLoadingPurchaseReportData(state)
+    return {authInfo,purchaseList,purchaseReportLoading,profileInfo,buDropdown,divisionDropdown}
 }
 
 const actions = {
-handlePurchaseReportList : getPurchaseReportStartAction
+    handlePurchaseReportList : getPurchaseReportStartAction
 }
 
 export default connect(mapState, actions)(PurchaseReportComponent)

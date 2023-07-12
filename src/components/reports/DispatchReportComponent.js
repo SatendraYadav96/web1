@@ -17,12 +17,11 @@ import {CSVLink} from "react-csv";
 import XLSX from "xlsx"
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
 
 
-const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatchesReportLoading,handleDispatchesReportList}) => {
+const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatchesReportLoading,handleDispatchesReportList,buDropdown,divisionDropdown}) => {
 
-    const [businessUnit, setBusinessUnit] = useState()
-    const [division, setDivision] = useState()
     const [filter, setFilter] = useState()
     const [filterPlan, setFilterPlan] = useState()
     const [startDate, setStartDate] = useState()
@@ -31,6 +30,10 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
+    const [division, setDivision] = useState()
+    const [d, setD] = useState()
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -218,20 +221,20 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
          console.log(profileInfo.userDesignation.id);
          console.log(filter);
          console.log(filterPlan);
-
          console.log(dispatchesList);
 
         handleDispatchesReportList ({
-        businessUnit:businessUnit,
-        division:division,
-        userId: profileInfo.id,
-        userDesgId: profileInfo.userDesignation.id,
-        startDate:formatedStartDateString,
-        endDate:formatedEndDateString,
-        filter:filter,
-        filterPlan:filterPlan,
-
-        certificate: authInfo.token
+            disp: {
+                businessUnit:bu,
+                division:d,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+                startDate:formatedStartDateString,
+                endDate:formatedEndDateString,
+                filter:filter,
+                filterPlan:filterPlan,
+            },
+            certificate: authInfo.token
         });
         searchData()
 
@@ -263,17 +266,37 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
         console.log(dispatchesList)
     },[dispatchesList])
 
+    useEffect(() => {
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        console.log(divisionDropdown)
+        let array = [divisionDropdown?.map(item => item.id)]
+        setD(array[0])
+    },[divisionDropdown])
+
+    useEffect(() => {
+        setD(division)
+    },[division])
+
     return(
         <>
             <TitleWidget title="Dispatches Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Subteam<br/>
-                    <SelectDivisionComponent value={division} style={{width: '100%'}} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} style={{width: '100%'}} onChange={(e) => setDivision(e)} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
@@ -321,23 +344,27 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
 }
 
 DispatchReportComponent.propTypes = {
-                authInfo: PropTypes.any,
-                profileInfo: PropTypes.any,
-                dispatchesList:PropTypes.array,
-                dispatchesReportLoading:PropTypes.any,
-                handleDispatchesReportList:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    dispatchesList:PropTypes.array,
+    buDropdown:PropTypes.array,
+    divisionDropdown:PropTypes.array,
+    dispatchesReportLoading:PropTypes.any,
+    handleDispatchesReportList:PropTypes.func
 }
 
 const mapState = (state) => {
-            const authInfo = selectAuthInfo(state)
-            const profileInfo = selectProfileInfo(state)
-            const dispatchesList = selectDispatchesListData(state)
-            const dispatchesReportLoading = selectLoadingDispatchesReportData(state)
-            return {authInfo,dispatchesList,dispatchesReportLoading,profileInfo}
+    const authInfo = selectAuthInfo(state)
+    const profileInfo = selectProfileInfo(state)
+    const buDropdown = selectBuDropdown(state)
+    const divisionDropdown = selectDivisionDropdown(state)
+    const dispatchesList = selectDispatchesListData(state)
+    const dispatchesReportLoading = selectLoadingDispatchesReportData(state)
+    return {authInfo,dispatchesList,dispatchesReportLoading,profileInfo}
 }
 
 const actions = {
-handleDispatchesReportList : getDispatchesReportStartAction
+    handleDispatchesReportList : getDispatchesReportStartAction
 }
 
 export default connect(mapState, actions)(DispatchReportComponent)
