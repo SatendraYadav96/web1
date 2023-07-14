@@ -33,8 +33,8 @@ export const dispatchesReportRequest = payload => {
 //DISPATCH REGISTER REPORT
 
 export const dispatchRegisterReportRequest = payload => {
-    const api = {...GET_DISPATCH_REGISTER_REPORT_API, url: `${GET_DISPATCH_REGISTER_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.division}/${payload.team}/{${payload.statusId}/${payload.filterPlan}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_DISPATCH_REGISTER_REPORT_API, url: `${GET_DISPATCH_REGISTER_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.dispReg)
 }
 
 //DEVIATION REPORT
@@ -48,22 +48,22 @@ export const deviationReportRequest = payload => {
 //ITEM CONSUMPTION REPORT
 
 export const itemConsumptionReportRequest = payload => {
-    const api = {...GET_ITEM_CONSUMPTION_REPORT_API, url: `${GET_ITEM_CONSUMPTION_REPORT_API.url}/${payload.fromDate}/${payload.toDate}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_ITEM_CONSUMPTION_REPORT_API, url: `${GET_ITEM_CONSUMPTION_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.item)
 }
 
 
 //DESTRUCTION REPORT
 
 export const destructionReportRequest = payload => {
-    const api = {...GET_DESTRUCTION_REPORT_API, url: `${GET_DESTRUCTION_REPORT_API.url}/${payload.fromDate}/${payload.toDate}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}/${payload.statusId}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_DESTRUCTION_REPORT_API, url: `${GET_DESTRUCTION_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.dest)
 }
 
 //ITEM WISE REPORT
 export const itemWiseReportRequest = payload => {
-    const api = {...GET_ITEM_WISE_REPORT_API, url: `${GET_ITEM_WISE_REPORT_API.url}/${payload.fromDate}/${payload.toDate}/${payload.businessUnit}/${payload.divison}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_ITEM_WISE_REPORT_API, url: `${GET_ITEM_WISE_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.item)
 }
 
 export const stockLedgerReportRequest = payload => {
@@ -72,13 +72,13 @@ export const stockLedgerReportRequest = payload => {
 }
 
 export const ageingReportRequest = payload => {
-    const api = {...GET_AGEING_REPORT_API, url: `${GET_AGEING_REPORT_API.url}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_AGEING_REPORT_API, url: `${GET_AGEING_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.age)
 }
 
 export const nearToExpiryInputReportRequest = payload => {
-    const api = {...GET_NEAR_TO_EXPIRY_INPUT_REPORT_API, url: `${GET_NEAR_TO_EXPIRY_INPUT_REPORT_API.url}/${payload.userId}/${payload.userDesgId}/${payload.businessUnit}/${payload.divison}/${payload.type}`}
-    return createRequest(api, payload.certificate, null)
+    const api = {...GET_NEAR_TO_EXPIRY_INPUT_REPORT_API, url: `${GET_NEAR_TO_EXPIRY_INPUT_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.sample)
 }
 
 export const nearToExpirySampleReportRequest = payload => {

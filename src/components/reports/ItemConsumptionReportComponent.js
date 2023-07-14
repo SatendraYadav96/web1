@@ -15,17 +15,20 @@ import {CSVLink} from "react-csv";
 import XLSX from "xlsx";
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
 
-const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,consumptionReportLoading,handleConsumptionReportList}) => {
+const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,consumptionReportLoading,handleConsumptionReportList,buDropdown,divisionDropdown}) => {
 
-    const [businessUnit, setBusinessUnit] = useState()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
     const [data, setData] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
-    const [flag, setFlag] = useState(false)
+    const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
     const [division, setDivision] = useState()
+    const [d, setD] = useState()
+    const [flag, setFlag] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -213,13 +216,15 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
          console.log(consumptionList);
 
         handleConsumptionReportList ({
-        businessUnit:businessUnit,
-        divison:division,
-        userId: profileInfo.id,
-        userDesgId: profileInfo.userDesignation.id,
-        fromDate:formatedStartDateString,
-        toDate:formatedEndDateString,
-        certificate: authInfo.token
+            item: {
+                businessUnit:bu,
+                divison:d,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+                fromDate:formatedStartDateString,
+                toDate:formatedEndDateString,
+            },
+            certificate: authInfo.token
         });
 
         searchData()
@@ -251,17 +256,61 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
         console.log(consumptionList)
     },[consumptionList])
 
+    useEffect(() => {
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        console.log(divisionDropdown)
+        let array = [divisionDropdown?.map(item => item.id)]
+        setD(array[0])
+    },[divisionDropdown])
+
+    useEffect(() => {
+        setD(division)
+    },[division])
+
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    const handleDivision = (value) => {
+        setDivision(value)
+    }
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
+
     return(
         <>
             <TitleWidget title="Item Consumption Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team <br/>
-                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={handleBusinessUnit} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Subteam<br/>
-                    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={handleDivision} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Transaction From Date <br/>
@@ -302,23 +351,25 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
 }
 
 ItemConsumptionReportComponent.propTypes = {
-                authInfo: PropTypes.any,
-                profileInfo: PropTypes.any,
-                consumptionList:PropTypes.array,
-                consumptionReportLoading:PropTypes.any,
-                handleConsumptionReportList:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    consumptionList:PropTypes.array,
+    consumptionReportLoading:PropTypes.any,
+    handleConsumptionReportList:PropTypes.func
 }
 
 const mapState = (state) => {
-            const authInfo = selectAuthInfo(state)
-            const profileInfo = selectProfileInfo(state)
-            const consumptionList = selectConsumptionListData(state)
-            const consumptionReportLoading = selectLoadingConsumptionReportData(state)
-            return {authInfo,consumptionList,consumptionReportLoading,profileInfo}
+    const authInfo = selectAuthInfo(state)
+    const profileInfo = selectProfileInfo(state)
+    const buDropdown = selectBuDropdown(state)
+    const divisionDropdown = selectDivisionDropdown(state)
+    const consumptionList = selectConsumptionListData(state)
+    const consumptionReportLoading = selectLoadingConsumptionReportData(state)
+    return {authInfo,consumptionList,consumptionReportLoading,profileInfo,buDropdown,divisionDropdown}
 }
 
 const actions = {
-handleConsumptionReportList : getItemConsumptionReportStartAction
+    handleConsumptionReportList : getItemConsumptionReportStartAction
 }
 
 export default connect(mapState, actions)(ItemConsumptionReportComponent)

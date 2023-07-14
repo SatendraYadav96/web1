@@ -46,10 +46,10 @@ export const EXPORT_ALLOCATION_API = {url: '/v1/inventory/exportAllocation',meth
 export const GET_RECIPIENT_REPORT_API = {url: '/v1/report/getReportRecipient',method:'POST',auth:true}
 export const GET_PURCHASE_REPORT_API = {url: '/v1/report/getReportPurchase',method:'POST',auth:true}
 export const GET_DISPATCHES_REPORT_API = {url: '/v1/report/getReportDispatches',method:'POST',auth:true}
-export const GET_DISPATCH_REGISTER_REPORT_API = {url: '/v1/report/getReportDispatchRegister',method:'GET',auth:true}
+export const GET_DISPATCH_REGISTER_REPORT_API = {url: '/v1/report/getReportDispatchRegister',method:'POST',auth:true}
 export const GET_DEVIATION_REPORT_API = {url: '/v1/report/getReportDeviation',method:'GET',auth:true}
-export const GET_ITEM_CONSUMPTION_REPORT_API = {url: '/v1/report/getReportItemConsumption',method:'GET',auth:true}
-export const GET_DESTRUCTION_REPORT_API = {url: '/v1/report/getReportDestruction',method:'GET',auth:true}
+export const GET_ITEM_CONSUMPTION_REPORT_API = {url: '/v1/report/getReportItemConsumption',method:'POST',auth:true}
+export const GET_DESTRUCTION_REPORT_API = {url: '/v1/report/getReportDestruction',method:'POST',auth:true}
 
 //  HSN & INVOICE
 export const ADD_HSN_API = { url: '/v1/hsn/addHsn', method: 'POST', auth: true }
@@ -150,10 +150,10 @@ export const EDIT_UNIT_ALLOCATION_REPORT_API = {url: '/v1/inventory/editUnitAllo
 export const EDIT_BLOCK_ITEM_REPORT_API = {url: '/v1/inventory/blockItem',method:'PUT',auth:true}
 export const REVERSE_INVENTORY_API = { url: '/v1/inventory/reverseInventory', method: 'POST', auth: true }
 export const SWITCH_INVENTORY_API = { url: '/v1/inventory/switchInventory', method: 'POST', auth: true }
-export const GET_ITEM_WISE_REPORT_API = {url: '/v1/report/getItemWiseReport',method:'GET',auth:true}
+export const GET_ITEM_WISE_REPORT_API = {url: '/v1/report/getItemWiseReport',method:'POST',auth:true}
 export const GET_STOCK_LEDGER_REPORT_API = {url: '/v1/report/getStockLedgerReport',method:'GET',auth:true}
-export const GET_AGEING_REPORT_API = {url: '/v1/report/getAgeingReport',method:'GET',auth:true}
-export const GET_NEAR_TO_EXPIRY_INPUT_REPORT_API = {url: '/v1/report/getReportNearToExpiryInput',method:'GET',auth:true}
+export const GET_AGEING_REPORT_API = {url: '/v1/report/getAgeingReport',method:'POST',auth:true}
+export const GET_NEAR_TO_EXPIRY_INPUT_REPORT_API = {url: '/v1/report/getReportNearToExpiryInput',method:'POST',auth:true}
 export const GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API = {url: '/v1/report/getReportNearToExpirySample',method:'GET',auth:true}
 export const GET_SIMPLE_INVENTORY_REPORT_API = {url: '/v1/report/getReportSimpleInventory',method:'POST',auth:true}
 

@@ -10,15 +10,18 @@ import {selectAgeingListData, selectLoadingAgeingReportData} from "../../redux/s
 import {getAgeingReportStartAction} from "../../redux/actions/reports/ageingReportActions";
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx"
+import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
 
-const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingReportList}) => {
+const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingReportList,buDropdown,divisionDropdown,}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [data, setData] = useState()
     const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
     const [division, setDivision] = useState()
+    const [d, setD] = useState()
 
     const searchData = () => {
         setFlag(true)
@@ -161,14 +164,60 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
 
     const getAgeingReportList = () => {
         handleAgeingReportList ({
-            businessUnit:businessUnit,
-            userId: profileInfo.id,
-            userDesgId: profileInfo.userDesignation.id,
-            divison: division,
+            age: {
+                businessUnit:bu,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+                divison: d,
+            },
             certificate: authInfo.token
         });
         searchData()
     }
+
+    useEffect(() => {
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        console.log(divisionDropdown)
+        let array = [divisionDropdown?.map(item => item.id)]
+        setD(array[0])
+    },[divisionDropdown])
+
+    useEffect(() => {
+        setD(division)
+    },[division])
+
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    const handleDivision = (value) => {
+        setDivision(value)
+    }
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
 
     return(
         <>
@@ -176,11 +225,11 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team <br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     SubTeam <br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} onChange={handleDivision} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     <br/>
@@ -222,6 +271,8 @@ AgeingReportComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     ageingList:PropTypes.array,
+    buDropdown:PropTypes.array,
+    divisionDropdown:PropTypes.array,
     ageingReportLoading:PropTypes.any,
     handleAgeingReportList:PropTypes.func
 }
@@ -230,8 +281,10 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const ageingList = selectAgeingListData(state)
+    const buDropdown = selectBuDropdown(state)
+    const divisionDropdown = selectDivisionDropdown(state)
     const ageingReportLoading = selectLoadingAgeingReportData(state)
-    return {authInfo,ageingList,ageingReportLoading,profileInfo}
+    return {authInfo,ageingList,ageingReportLoading,profileInfo,buDropdown,divisionDropdown}
 }
 
 const actions = {

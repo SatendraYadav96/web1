@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row, Table} from "antd";
-import {ArrowRightOutlined, CheckOutlined, CloseOutlined, InfoCircleOutlined,  SyncOutlined, UnlockOutlined} from "@ant-design/icons";
+import {ArrowRightOutlined, CheckOutlined, CloseCircleOutlined, CloseOutlined, InfoCircleOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {selectApprovePlanListData, selectRejectPlanListData, selectSpecialPlanApprovalDetailsListData, selectSpecialPlanApprovalListData, selectVirtualPlanApprovalDetailsListData, selectVirtualPlanApprovalListData} from "../../redux/selectors/monthlyApprovalSelector";
@@ -65,6 +65,14 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                 render:(_,row) => {
                     return <Button icon={<InfoCircleOutlined/>}></Button>
                 },
+            },{
+                title: 'Reject',
+                key: '',
+                dataIndex: '',
+                width:'50px',
+                render:(_,row) => {
+                    return <Button icon={<CloseCircleOutlined />}></Button>
+                },
             },
             {
                 title: 'Review',
@@ -116,7 +124,7 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} dataSource={virtualPlanApprovalList}/>
+                <Table columns={column} dataSource={dataSource}/>
             }
         </>
     )

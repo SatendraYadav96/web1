@@ -18,20 +18,24 @@ import {CSVLink} from "react-csv";
 import XLSX from "xlsx"
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import {selectBuDropdown, selectDivisionDropdown, selectTeamDropdown} from "../../redux/selectors/dropDownSelector";
 
-const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,dispatchRegisterReportLoading,handleDispatchRegisterReportList}) => {
+const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,dispatchRegisterReportLoading,handleDispatchRegisterReportList,buDropdown,divisionDropdown,teamDropdown}) => {
 
     let now = dayjs()
-    const [businessUnit, setBusinessUnit] = useState()
     const [filterPlan, setFilterPlan] = useState()
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
-    const [team, setTeam] = useState()
     const [data, setData] = useState()
-    const [division, setDivision] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
+    const [division, setDivision] = useState()
+    const [d, setD] = useState()
+    const [team, setTeam] = useState()
+    const [t, setT] = useState()
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -139,11 +143,11 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
 
             {
                 title: 'LR No.',
-                key: 'lrNo',
-                dataIndex: 'lrNo',
+                key: 'lrno',
+                dataIndex: 'lrno',
                 width: '100px',
-                ...getColumnSearchProps('lrNo'),
-                sorter: (a, b) => a.lrNo - b.lrNo,
+                ...getColumnSearchProps('lrno'),
+                sorter: (a, b) => a.lrno - b.lrno,
                 sortDirections: ['descend', 'ascend'],
             },
             {
@@ -154,14 +158,14 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
             },
             {
                 title: 'No Of Boxes',
-                key: '',
-                dataIndex: 'noBoxes',
+                key: 'noOfBoxes',
+                dataIndex: 'noOfBoxes',
                 width: '100px'
             },
             {
                 title: 'Weight',
-                key: '',
-                dataIndex: 'weights',
+                key: 'weight',
+                dataIndex: 'weight',
                 width: '100px'
             },
             {
@@ -294,16 +298,17 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
          console.log(dispatchRegisterList);
 
         handleDispatchRegisterReportList ({
-            businessUnit:businessUnit,
-            userId: profileInfo.id,
-            userDesgId: profileInfo.userDesignation.id,
-            startDate:formatedStartDateString,
-            endDate:formatedEndDateString,
-            division:division,
-            team:team,
-            statusId:"00000000-0000-0000-0000-000000000000",
-            filterPlan:filterPlan,
-
+            dispReg: {
+                businessUnit:bu,
+                division:d,
+                startDate:formatedStartDateString,
+                endDate:formatedEndDateString,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+                team:t,
+                filterPlan:filterPlan,
+                statusId:"00000000-0000-0000-0000-000000000000",
+            },
             certificate: authInfo.token
         });
         searchData()
@@ -346,21 +351,83 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         console.log(dispatchRegisterList)
     },[dispatchRegisterList])
 
+    useEffect(() => {
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        console.log(divisionDropdown)
+        let array = [divisionDropdown?.map(item => item.id)]
+        setD(array[0])
+    },[divisionDropdown])
+
+    useEffect(() => {
+        setD(division)
+    },[division])
+
+    useEffect(() => {
+        console.log(teamDropdown)
+        let array = [teamDropdown?.map(item => item.id)]
+        setT(array[0])
+    },[teamDropdown])
+
+    useEffect(() => {
+        setT(team)
+    },[team])
+
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    const handleDivision = (value) => {
+        setDivision(value)
+    }
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
+
+    useEffect(() => {
+        if (t?.length === 0) {
+            let array = [teamDropdown?.map(item => item.id)]
+            setT(array[0])
+        }
+        console.log(t)
+    },[t])
+
     return(
         <>
             <TitleWidget title="Dispatch Register Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit}  multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Division<br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} onChange={handleDivision}  multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Sub Team <br/>
-                    <SelectTeamComponent value={team} style={{width: "100%"}} onChange={(e) => setTeam(e)} />
+                    <SelectTeamComponent value={team} style={{width: "100%"}} onChange={(e) => setTeam(e)} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
@@ -368,7 +435,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 <Col span={3}>
                     To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
-                <Col span={2}>
+                <Col span={3}>
                     Plan Type<br/>
                     <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)}/>
                 </Col>
@@ -430,6 +497,9 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
 DispatchReportComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    buDropdown:PropTypes.array,
+    teamDropdown:PropTypes.array,
+    divisionDropdown:PropTypes.array,
     dispatchRegisterList:PropTypes.array,
     dispatchRegisterReportLoading:PropTypes.any,
     handleDispatchRegisterReportList:PropTypes.func
@@ -438,9 +508,12 @@ DispatchReportComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
+    const buDropdown = selectBuDropdown(state)
+    const teamDropdown = selectTeamDropdown(state)
+    const divisionDropdown = selectDivisionDropdown(state)
     const dispatchRegisterList = selectDispatchRegisterListData(state)
     const dispatchRegisterReportLoading = selectLoadingDispatchRegisterReportData(state)
-    return {authInfo,dispatchRegisterList,dispatchRegisterReportLoading,profileInfo}
+    return {authInfo,dispatchRegisterList,dispatchRegisterReportLoading,profileInfo,buDropdown,divisionDropdown,teamDropdown}
 }
 
 const actions = {

@@ -315,6 +315,22 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         setDivision(value)
     }
 
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
+
     return(
         <>
             <TitleWidget title="Purchase Report" />

@@ -62,7 +62,7 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
                 title:'Product Name',
                 key:'inputName',
                 dataIndex:'productName',
-                width:'100px'
+                width:'200px'
             },
 
             {
@@ -218,6 +218,23 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
         let array = [divisionDropdown?.map(item => item.id)]
         setD(array[0])
     },[divisionDropdown])
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
+
 
     useEffect(() => {
         setD(division)

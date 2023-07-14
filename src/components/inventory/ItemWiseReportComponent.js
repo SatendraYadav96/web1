@@ -12,17 +12,20 @@ import {selectItemWiseListData, selectLoadingItemWiseReportData} from "../../red
 import {getItemWiseReportStartAction} from "../../redux/actions/reports/itemWiseReportActions";
 import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
+import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
 
-const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseReportLoading,handleItemWiseReportList}) => {
+const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseReportLoading,handleItemWiseReportList,buDropdown,divisionDropdown}) => {
 
-    const [businessUnit, setBusinessUnit] = useState()
-    const [division, setDivision] = useState()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [data, setData] = useState()
+    const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
+    const [division, setDivision] = useState()
+    const [d, setD] = useState()
 
     const searchData = () => {
         setFlag(true)
@@ -96,10 +99,12 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
         console.log(division);
 
         handleItemWiseReportList ({
-            fromDate: formatedToDateString,
-            toDate: formatedFromDateString,
-            divison: division,
-            businessUnit:businessUnit,
+            item: {
+                fromDate: formatedToDateString,
+                toDate: formatedFromDateString,
+                divison: d,
+                businessUnit:bu,
+            },
             certificate: authInfo.token
         });
         searchData()
@@ -147,17 +152,61 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
         console.log(dateString)
     }
 
+    useEffect(() => {
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        console.log(divisionDropdown)
+        let array = [divisionDropdown?.map(item => item.id)]
+        setD(array[0])
+    },[divisionDropdown])
+
+    useEffect(() => {
+        setD(division)
+    },[division])
+
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    const handleDivision = (value) => {
+        setDivision(value)
+    }
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
+
     return(
         <>
             <TitleWidget title="Item Wise Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team <br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)}  />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit}  multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     SubTeam <br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} onChange={handleDivision} multiple={'multiple'}/>
                 </Col>
 
                 <Col span={3}>
@@ -210,6 +259,8 @@ ItemWiseReportComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     itemWiseList:PropTypes.array,
+    buDropdown:PropTypes.array,
+    divisionDropdown:PropTypes.array,
     itemWiseReportLoading:PropTypes.any,
     handleItemWiseReportList:PropTypes.func
 }
@@ -217,9 +268,11 @@ ItemWiseReportComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
+    const buDropdown = selectBuDropdown(state)
+    const divisionDropdown = selectDivisionDropdown(state)
     const itemWiseList = selectItemWiseListData(state)
     const itemWiseReportLoading = selectLoadingItemWiseReportData(state)
-    return {authInfo,profileInfo,itemWiseList,itemWiseReportLoading}
+    return {authInfo,profileInfo,itemWiseList,itemWiseReportLoading,buDropdown,divisionDropdown}
 }
 
 const actions = {

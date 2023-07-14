@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+ import React, {useEffect, useRef, useState} from 'react';
 import TitleWidget from '../../widgets/TitleWidget';
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -319,6 +319,9 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 else {
                     i = limid
                 }
+                console.log(i)
+                console.log(itemCode)
+                console.log(data)
                 setItemCode(i)
                 return (<Input.Search value={i} onSearch={e =>changeGrnData(id, 'itemCode', i)} />)
             }

@@ -13,12 +13,15 @@ import {selectDestructionListData,selectLoadingDestructionReportData} from "../.
 import moment from 'moment'
 import dayjs from "dayjs";
 import {CSVLink} from "react-csv";
+import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
 
-const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,destructionReportLoading,handleDestructionReportList}) => {
+const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,destructionReportLoading,handleDestructionReportList,buDropdown,divisionDropdown}) => {
 
     let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
     const [division, setDivision] = useState()
+    const [d, setD] = useState()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
     const [data, setData] = useState()
@@ -120,13 +123,15 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
          console.log(destructionList);
 
         handleDestructionReportList ({
-            businessUnit:businessUnit,
-            divison:division,
-            userId: profileInfo.id,
-            userDesgId: profileInfo.userDesignation.id,
-            fromDate:formatedStartDateString,
-            toDate:formatedEndDateString,
-            statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
+            dest: {
+                businessUnit:bu,
+                divison:d,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+                fromDate:formatedStartDateString,
+                toDate:formatedEndDateString,
+                statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
+            },
             certificate: authInfo.token
         });
         searchData()
@@ -152,17 +157,61 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
         console.log(destructionList)
     },[destructionList])
 
+    useEffect(() => {
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    useEffect(() => {
+        console.log(divisionDropdown)
+        let array = [divisionDropdown?.map(item => item.id)]
+        setD(array[0])
+    },[divisionDropdown])
+
+    useEffect(() => {
+        setD(division)
+    },[division])
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
+
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    const handleDivision = (value) => {
+        setDivision(value)
+    }
+
     return(
         <>
             <TitleWidget title="Inventory Reversal Report" />
             <Row gutter={[8,8]}>
-                <Col span={2}>
+                <Col span={3}>
                     Team<br/>
-                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={(e) => setBusinessUnit(e)} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Subteam<br/>
-                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} />
+                    <SelectDivisionComponent value={division} onChange={(e) => setDivision(e)} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
                     Reversal From Date <br/>
@@ -210,6 +259,8 @@ InventoryReversalReportComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     destructionList:PropTypes.array,
+    buDropdown:PropTypes.array,
+    divisionDropdown:PropTypes.array,
     destructionReportLoading:PropTypes.any,
     handleDestructionReportList:PropTypes.func
 }
@@ -217,9 +268,11 @@ InventoryReversalReportComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
+    const buDropdown = selectBuDropdown(state)
+    const divisionDropdown = selectDivisionDropdown(state)
     const destructionList = selectDestructionListData(state)
     const destructionReportLoading = selectLoadingDestructionReportData(state)
-    return {authInfo,destructionList,destructionReportLoading,profileInfo}
+    return {authInfo,destructionList,destructionReportLoading,profileInfo,buDropdown,divisionDropdown}
 }
 
 const actions = {

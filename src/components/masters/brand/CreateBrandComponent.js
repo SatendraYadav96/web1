@@ -10,8 +10,9 @@ import SelectUserComponent from "../../widgets/SelectUserComponent";
 import SelectMultipleCostCenterComponent from "../../widgets/SelectMultipleCostCenterComponent";
 import {selectEditBrandData, selectInsertBrandData} from "../../../redux/selectors/masterSelector";
 import {addBrandStartAction, editBrandStartAction} from "../../../redux/actions/master/masterActions";
+import {selectCostCenterDropdown} from "../../../redux/selectors/dropDownSelector";
 
-const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
+const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown}) => {
 
     const navigate = useNavigate()
 
@@ -23,6 +24,7 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
     const [user, setUser] = useState()
     const [team, setTeam] = useState()
     const [costCenter, setCostCenter] = useState()
+    const [cc, setCC] = useState()
     const [subTeam, setSubTeam] = useState()
 
     const handleChange = (e) => {
@@ -48,13 +50,14 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
     }
 
     const handleCostCenter = (value) => {
-        if (value && value.length && value.includes("all")) {
-            if (value.length === all.length + 1) {
-                return [];
-            }
-            return [...all];
-        }
-        return value;
+        // if (value && value.length && value.includes("all")) {
+        //     if (value.length === all.length + 1) {
+        //         return [];
+        //     }
+        //     return [...all];
+        // }
+        // return value;
+        setCostCenter(value)
     }
 
     useEffect(() => {
@@ -65,6 +68,20 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
         console.log(active)
     },[active])
 
+    useEffect(() => {
+        console.log(costCenter)
+        if (costCenter?.includes('all')) {
+            console.log('has all')
+            setCC(costCenterDropdown?.map(item => item.id))
+        } else {
+            setCC(costCenter)
+        }
+    },[costCenter])
+
+    useEffect(() => {
+        console.log(cc)
+    },[cc])
+
     const handleInsertBrand = () => {
         const data = {
             name: name,
@@ -73,10 +90,10 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
             division: {
                 id: subTeam
             },
-            team: team,
-            costCenter: costCenter,
+            costCenter: cc,
             user: user,
         };
+        console.log(data)
         handleAddBrand({
             certificate: authInfo.token,
             brd: data,
@@ -97,7 +114,7 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Code:<br/><Input placeholder={"Code"} value={code} />
+                    Code:<br/><Input placeholder={"Code"} value={code} onChange={(e) => setCode(e.target.value)}/>
                 </Col>
                 <Col span={8} offset={2}>
                     User :<br/><SelectUserComponent value={user} onChange={handleUser}/>
@@ -107,6 +124,9 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
                     Cost Center :<br/><SelectMultipleCostCenterComponent value={costCenter} onChange={handleCostCenter}/>
+                </Col>
+                <Col span={8} offset={2}>
+                    Owner :<br/><Select placeholder="Select Owner" style={{width: "100%"}}></Select>
                 </Col>
             </Row>
             <br/>
@@ -127,13 +147,15 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand}) => {
 BrandTeamComponent.propTypes = {
     authInfo: PropTypes.any,
     addBrand: PropTypes.array,
+    costCenterDropdown: PropTypes.array,
     handleAddBrand: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const addBrand = selectInsertBrandData(state)
-    return {authInfo,addBrand}
+    const costCenterDropdown = selectCostCenterDropdown(state)
+    return {authInfo,addBrand,costCenterDropdown}
 }
 
 const actions = {
