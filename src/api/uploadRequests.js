@@ -1,6 +1,6 @@
 import {createRequest} from "./httpUtils";
 
-import {ADD_BUISNESS_UNIT_API, FF_UPLOAD_API, GET_HUB_NEAR_EXPIRY_API, GRN_EXCEL_UPLOAD_API, GRN_UPLOAD_API, INVOICE_UPLOAD_API, TRANSPORT_EXCEL_UPLOAD_API, TRANSPORT_UPLOAD_API, VIRTUAL_UPLOAD_API} from "./apiConstants";
+import {ADD_BUISNESS_UNIT_API, FF_UPLOAD_API, GET_HUB_NEAR_EXPIRY_API, GRN_EXCEL_UPLOAD_API, GRN_UPLOAD_API, INVOICE_EXCEL_UPLOAD_API, INVOICE_UPLOAD_API, TRANSPORT_EXCEL_UPLOAD_API, TRANSPORT_UPLOAD_API, VIRTUAL_UPLOAD_API} from "./apiConstants";
 
 export const transportUploadRequest=  payload => {
     return createRequest(TRANSPORT_UPLOAD_API, payload.certificate, payload.dto)
@@ -24,4 +24,8 @@ export const virtualUploadRequest=  payload => {
 }
 export const invoicesUploadRequest=  payload => {
     return createRequest(INVOICE_UPLOAD_API, payload.certificate, payload.dto)
+}
+export const invoiceExcelUploadRequest=  payload => {
+    const api = {...INVOICE_EXCEL_UPLOAD_API, url: `${INVOICE_EXCEL_UPLOAD_API.url}/${payload.uplId}`}
+    return createRequest(api, payload.certificate, null)
 }

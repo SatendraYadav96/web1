@@ -9,8 +9,10 @@ import {Link} from "react-router-dom";
 import {selectInvoiceUploadListData} from "../../redux/selectors/invoiceUploadSelector";
 import {invoiceUploadCsvStartAction, invoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/invoiceUploadAction";
 import XLSX from "xlsx";
+import {grnExcelUploadStartAction, invoiceExcelUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectGrnExcelUploadListData, selectInvoiceExcelUploadListData} from "../../redux/selectors/uploadSelector";
 
-const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload}) => {
+const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload,handleInvoiceExcelUpload,invoiceExcelData}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -87,11 +89,59 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
         ])
     }
 
+    useEffect(() => {
+        console.log(invoiceExcelData)
+        if (invoiceExcelData) {
+            console.log("there is data")
+            setExpErr(invoiceExcelData.map(item => {
+                return {
+                    "Month": item.month,
+                    "Year": item.year,
+                    "Plan Name": item.planName,
+                    "State": item.state,
+                    "Employee": item.employeeName,
+                    "Designation": item.employeeDesignation,
+                    "Code": item.code,
+                    "Boxes": item.boxes,
+                    "Weight": item.weight,
+                    "Dimension": item.dimension,
+                    "Transporter": item.transporterId,
+                    "LR Nov": item.lrNo,
+                    "PlanId": item.planId,
+                    "Plan": item.planName,
+                    "FFCode": item.ffCode,
+                    "Error": item.errorText,
+                }
+            }))
+            setExp(invoiceExcelData.map(item => {
+                return {
+                    "Month": item.month,
+                    "Year": item.year,
+                    "Plan Name": item.planName,
+                    "State": item.state,
+                    "Employee": item.employeeName,
+                    "Designation": item.employeeDesignation,
+                    "Code": item.code,
+                    "Boxes": item.boxes,
+                    "Weight": item.weight,
+                    "Dimension": item.dimension,
+                    "Transporter": item.transporterId,
+                    "LR Nov": item.lrNo,
+                    "PlanId": item.planId,
+                    "Plan": item.planName,
+                    "FFCode": item.ffCode,
+                }
+            }))
+        } else {
+            console.log('no data')
+        }
+    },[invoiceExcelData])
+
     const handleViewError = (row) => {
-        // handleGrnExcelUpload({
-        //     uplId: row.uplId,
-        //     certificate: authInfo.token
-        // })
+        handleInvoiceExcelUpload({
+            uplId: row.uplId,
+            certificate: authInfo.token
+        })
     }
 
     useEffect(() => {
@@ -118,14 +168,14 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"grnviewerrors.XLSX")
+        XLSX.writeFile(wb,"invoiceerrors.XLSX")
     }
 
     const handleExcel = (data) => {
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"grnviewDownload.XLSX")
+        XLSX.writeFile(wb,"invoiceDownload.XLSX")
     }
 
     const refresh = () => {
@@ -222,20 +272,24 @@ InvoiceUploadDetailComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     invoiceUploadList:PropTypes.array,
-    handleInvoiceUpload:PropTypes.array,
+    invoiceExcelData:PropTypes.array,
+    handleInvoiceUpload:PropTypes.func,
+    handleInvoiceExcelUpload:PropTypes.func,
+
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const invoiceUploadList = selectInvoiceUploadListData(state)
-    return {authInfo,profileInfo,invoiceUploadList}
+    const invoiceExcelData = selectInvoiceExcelUploadListData(state)
+    return {authInfo,profileInfo,invoiceUploadList,invoiceExcelData}
 }
 
 const actions = {
     handleInvoiceUploadList: invoiceUploadStartAction,
     handleInvoiceUpload: invoiceUploadCsvStartAction,
-
+    handleInvoiceExcelUpload: invoiceExcelUploadStartAction,
 }
 
 export default connect(mapState, actions)(InvoiceUploadDetailComponent)

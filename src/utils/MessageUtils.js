@@ -755,4 +755,13 @@ import {UNACKNOWLEDGE_LIST_START} from "../redux/actions/grn/grnActionConstants"
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+    GET_INVOICE_UPLOAD_START: [{ action: 'showspinner' }],
+    GET_INVOICE_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+    GET_INVOICE_UPLOAD_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
 }

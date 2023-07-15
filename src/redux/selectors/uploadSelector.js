@@ -108,3 +108,18 @@ export const selectLoadingInvoiceUploadData = createSelector(
 );
 
 
+const invoiceExcelUploadList = (state) => state.upload.invoiceExcelUpload;
+const invoiceExcelUploadLoading = (state) => state.upload.invoiceExcelUploadLoading
+
+
+export const selectInvoiceExcelUploadListData = createSelector(
+    invoiceExcelUploadList,
+    invoiceExcelUploadListDataSelection => invoiceExcelUploadListDataSelection
+);
+
+export const selectLoadingInvoiceExcelUploadData = createSelector(
+    invoiceExcelUploadLoading,
+    loadingSelection => loadingSelection
+);
+
+

@@ -5,15 +5,15 @@ import {
     ffUploadSuccessAction, grnExcelUploadFailAction,
     grnExcelUploadSuccessAction,
     grnUploadFailAction,
-    grnUploadSuccessAction, invoiceUploadFailAction, invoiceUploadSuccessAction, transportExcelUploadFailAction, transportExcelUploadSuccessAction,
+    grnUploadSuccessAction, invoiceExcelUploadFailAction, invoiceExcelUploadSuccessAction, invoiceUploadFailAction, invoiceUploadSuccessAction, transportExcelUploadFailAction, transportExcelUploadSuccessAction,
     transportUploadFailAction,
     transportUploadStartAction,
     transportUploadSuccessAction,
     virtualUploadFailAction,
     virtualUploadSuccessAction
 } from "../actions/upload/uploadActions";
-import {FF_UPLOAD_START, GRN_EXCEL_UPLOAD_START, INVOICE_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
-import {ffUploadRequest, grnExcelUploadRequest, transportExcelUploadRequest, transportUploadRequest, virtualUploadRequest,invoicesUploadRequest,grnUploadRequest} from "../../api/uploadRequests";
+import {FF_UPLOAD_START, GRN_EXCEL_UPLOAD_START, INVOICE_EXCEL_UPLOAD_START, INVOICE_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
+import {ffUploadRequest, grnExcelUploadRequest, transportExcelUploadRequest, transportUploadRequest, virtualUploadRequest, invoicesUploadRequest, grnUploadRequest, invoiceExcelUploadRequest} from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
 
 
@@ -106,6 +106,20 @@ export const invoiceUploadsStartEpic = (action$) =>
             invoicesUploadRequest(action.payload).pipe(
                 map((listResponse) => invoiceUploadSuccessAction({invoiceUpload: listResponse.response})),
                 catchError((error) => of(invoiceUploadFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// INVOICE_EXCEL_UPLOAD
+export const invoiceExcelUploadsStartEpic = (action$) =>
+    action$.pipe(
+        ofType(INVOICE_EXCEL_UPLOAD_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            invoiceExcelUploadRequest(action.payload).pipe(
+                map((listResponse) => invoiceExcelUploadSuccessAction({invoiceExcelUpload: listResponse.response})),
+                catchError((error) => of(invoiceExcelUploadFailAction({error: error}))),
             )
         )
     )

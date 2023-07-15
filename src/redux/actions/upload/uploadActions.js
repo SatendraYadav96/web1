@@ -8,7 +8,7 @@ import {
     GRN_EXCEL_UPLOAD_START, GRN_EXCEL_UPLOAD_SUCCESS,
     GRN_UPLOAD_FAIL,
     GRN_UPLOAD_START,
-    GRN_UPLOAD_SUCCESS, INVOICE_UPLOAD_FAIL, INVOICE_UPLOAD_START, INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_SUCCESS,
+    GRN_UPLOAD_SUCCESS, INVOICE_EXCEL_UPLOAD_FAIL, INVOICE_EXCEL_UPLOAD_START, INVOICE_EXCEL_UPLOAD_SUCCESS, INVOICE_UPLOAD_FAIL, INVOICE_UPLOAD_START, INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_SUCCESS,
     TRANSPORT_UPLOAD_FAIL,
     TRANSPORT_UPLOAD_START,
     TRANSPORT_UPLOAD_SUCCESS,
@@ -162,6 +162,27 @@ export const invoiceUploadSuccessAction = (payload) => (dispatch) => {
 export const invoiceUploadFailAction = (payload) => (dispatch) => {
     dispatch({
         type: INVOICE_UPLOAD_FAIL,
+        payload: payload,
+    })
+}
+
+export const invoiceExcelUploadStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: INVOICE_EXCEL_UPLOAD_START,
+        payload: payload,
+    })
+}
+
+export const invoiceExcelUploadSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: INVOICE_EXCEL_UPLOAD_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const invoiceExcelUploadFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: INVOICE_EXCEL_UPLOAD_FAIL,
         payload: payload,
     })
 }

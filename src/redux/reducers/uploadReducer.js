@@ -4,7 +4,7 @@ import {
     FF_UPLOAD_FAIL,
     FF_UPLOAD_SUCCESS,
     GRN_EXCEL_UPLOAD_FAIL,
-    GRN_EXCEL_UPLOAD_SUCCESS,
+    GRN_EXCEL_UPLOAD_SUCCESS, INVOICE_EXCEL_UPLOAD_FAIL, INVOICE_EXCEL_UPLOAD_SUCCESS,
     INVOICE_UPLOAD_FAIL,
     INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL,
     TRANSPORT_EXCEL_UPLOAD_SUCCESS,
@@ -28,6 +28,8 @@ const initialState = {
     virtualUploadLoading: false,
     invoiceUpload: [],
     invoiceUploadLoading: false,
+    invoiceExcelUpload: [],
+    invoiceExcelUploadLoading: false,
     error: {}
 }
 
@@ -172,6 +174,26 @@ const invoiceUploadFailReducer = (state = initialState, payload) => {
     }
 }
 
+// INVOICE_EXCEL_UPLOAD
+const invoiceExcelUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        invoiceExcelUpload:payload.invoiceExcelUpload,
+        invoiceExcelUploadLoading: false
+
+    }
+}
+
+const invoiceExcelUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        invoiceExcelUpload:[],
+        invoiceExcelUploadLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 export default createReducer(initialState, {
     [TRANSPORT_UPLOAD_SUCCESS]: transportUploadSuccessReducer,
@@ -188,5 +210,7 @@ export default createReducer(initialState, {
     [VIRTUAL_UPLOAD_FAIL]: virtualUploadFailReducer,
     [INVOICE_UPLOAD_SUCCESS]: invoiceUploadSuccessReducer,
     [INVOICE_UPLOAD_FAIL]: invoiceUploadFailReducer,
+    [INVOICE_EXCEL_UPLOAD_SUCCESS]: invoiceExcelUploadSuccessReducer,
+    [INVOICE_EXCEL_UPLOAD_FAIL]: invoiceExcelUploadFailReducer,
 
 })
