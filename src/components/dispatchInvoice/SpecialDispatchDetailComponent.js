@@ -892,7 +892,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
         handleGenInvoice({
             certificate: authInfo.token,
-            genInv: [{
+            genInv: {
                 recipientId: empId,
                 boxes: box,
                 weight: weight,
@@ -902,8 +902,10 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                 month: location.state.month,
                 year: location.state.year,
                 isSpecial: 1
-            }]
+            }
         })
+
+        setDraftModal(false)
     }
 
 

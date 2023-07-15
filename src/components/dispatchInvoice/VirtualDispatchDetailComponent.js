@@ -679,7 +679,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
 
     const handleInvoicePrint = () => {
         handleGenerateInvoice({
-            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            inh: printInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
         // handleGenerateInvoice({

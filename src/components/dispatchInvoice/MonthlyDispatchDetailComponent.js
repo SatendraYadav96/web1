@@ -895,7 +895,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
 
         handleGenInvoice({
             certificate: authInfo.token,
-            genInv: [{
+            genInv: {
                 recipientId: empId,
                 boxes: box,
                 weight: weight,
@@ -905,7 +905,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                 month: location.state.month,
                 year: location.state.year,
                 isSpecial: 0
-            }]
+            }
         })
 
         setDraftModal(false)

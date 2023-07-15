@@ -88,11 +88,11 @@ const AddInvoiceComponent = ({authInfo,profileInfo,boxWeight,boxWeightLoading,ha
 }
 
 AddInvoiceComponent.propTypes = {
-                    authInfo: PropTypes.any,
-                    profileInfo: PropTypes.any,
-                    boxWeight:PropTypes.array,
-                    boxWeightLoading:PropTypes.any,
-                    handleAddBoxWeight:PropTypes.func
+    authInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
+    boxWeight:PropTypes.array,
+    boxWeightLoading:PropTypes.any,
+    handleAddBoxWeight:PropTypes.func
 }
 
 const mapState = (state) => {
@@ -104,7 +104,7 @@ const mapState = (state) => {
 }
 
 const actions = {
-handleAddBoxWeight: addBoxWeightStartAction,
+    handleAddBoxWeight: addBoxWeightStartAction,
 }
 
 export default connect(mapState, actions)(AddInvoiceComponent)
