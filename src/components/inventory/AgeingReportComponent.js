@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Input, Row, Table} from "antd";
+import {Button, Col, Input, Row, Space, Table} from "antd";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import {selectAgeingListData, selectLoadingAgeingReportData} from "../../redux/selectors/ageingReportSelector";
@@ -11,6 +11,8 @@ import {getAgeingReportStartAction} from "../../redux/actions/reports/ageingRepo
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx"
 import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
 const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingReportList,buDropdown,divisionDropdown,}) => {
 
@@ -23,6 +25,101 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
     const [division, setDivision] = useState()
     const [d, setD] = useState()
 
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+
     const searchData = () => {
         setFlag(true)
         setColumn([
@@ -30,36 +127,40 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
                 title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
-                width:'100px'
+                width:'100px',
             },
             {
                 title:'SubTeam',
                 key:'division',
                 dataIndex:'division',
-                width:'100px'
+                width:'100px',
             },{
                 title:'Cost Center',
                 key:'costCenter',
                 dataIndex:'costCenterName',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('costCenterName'),
             },
             {
                 title:'Item Code',
                 key:'itemCode',
                 dataIndex:'productCode',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('productCode'),
             },
             {
                 title:'Item Name',
                 key:'itemName',
                 dataIndex:'productName',
-                width:'200px'
+                width:'200px',
+                ...getColumnSearchProps('productName'),
             },
             {
                 title:'Item Category',
                 key:'itemCategory',
                 dataIndex:'category',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('category'),
             },
             {
                 title:'(0-30) days',
@@ -202,6 +303,22 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
     const handleDivision = (value) => {
         setDivision(value)
     }
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
 
     useEffect(() => {
         if (bu?.length === 0) {

@@ -193,9 +193,10 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
             },
             {
                 title: 'Invoice No.',
-                key: '',
+                key: 'invoiceNo',
                 dataIndex: 'invoiceNo',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('invoiceNo'),
             },
             {
                 title: 'Invoice Date',

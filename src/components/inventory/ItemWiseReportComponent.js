@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table} from "antd";
+import {Button, Col, DatePicker, Input, Row, Space, Table} from "antd";
 import {Select} from "antd/es";
 import moment from "moment";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
@@ -13,6 +13,8 @@ import {getItemWiseReportStartAction} from "../../redux/actions/reports/itemWise
 import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
 import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
 const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseReportLoading,handleItemWiseReportList,buDropdown,divisionDropdown}) => {
 
@@ -26,6 +28,100 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
     const [bu, setBU] = useState()
     const [division, setDivision] = useState()
     const [d, setD] = useState()
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
     const searchData = () => {
         setFlag(true)
@@ -34,55 +130,57 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
                 title:'Team',
                 key:'businessUnit',
                 dataIndex:'busineesUnit',
-                width:'100px'
+                width:'100px',
             },
             {
                 title:'Sub Team',
                 key:'division',
                 dataIndex:'division',
-                width:'100px'
+                width:'100px',
             },
             {
                 title:'Item Name',
                 key:'itemName',
                 dataIndex:'itemName',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('itemName'),
             },
             {
                 title:'Category',
                 key:'category',
                 dataIndex:'category',
-                width:'100px'
+                width:'100px',
             },
             {
                 title:'Item Code',
                 key:'itemCode',
                 dataIndex:'itemCode',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('itemCode'),
             },
             {
                 title:'Opening Quantity',
                 key:'openingQuantity',
                 dataIndex:'openingQuantity',
-                width:'100px'
+                width:'100px',
             },
             {
                 title:'Received Quantity',
                 key:'receivedQuantity',
                 dataIndex:'receivedQuantity',
-                width:'100px'
+                width:'100px',
             },
             {
                 title:'Dispatched Quantity',
                 key:'dispatchedQuantity',
                 dataIndex:'dispatchedQuantity',
-                width:'100px'
+                width:'100px',
             },
             {
                 title:'Closing Quantity',
                 key:'closingQuantity',
                 dataIndex:'closingQuantity',
-                width:'100px'
+                width:'100px',
             }
         ])
 

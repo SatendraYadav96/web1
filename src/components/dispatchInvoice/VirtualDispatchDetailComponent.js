@@ -163,28 +163,32 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     key: 'city',
                     dataIndex: 'city',
                     width:'150px',
-                    fixed:'left'
+                    fixed:'left',
+                    ...getColumnSearchProps('city'),
                 },
                 {
                     title: 'State',
                     key: 'state',
                     dataIndex: 'state',
                     width:'150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('state'),
                 },
                 {
                     title: 'Employee',
                     key: 'employee',
                     dataIndex: 'employeeName',
                     width:'150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('employeeName'),
                 },
                 {
                     title: 'Code',
                     key: 'code',
                     dataIndex: 'code',
                     width:'150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('code'),
                 },
                 {
                     title:'Invoice No',
@@ -192,20 +196,20 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     dataIndex: 'invoiceNumber',
                     width: '150px',
                     fixed: 'left',
-
+                    ...getColumnSearchProps('invoiceNumber'),
                 },
                 {
                     title: 'Group No',
                     key: 'groupNo',
                     dataIndex: 'groupInvoiceNumber',
                     width: '150px',
-                    fixed: 'left'
+                    fixed: 'left',
                 },
                 {
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
-                    width: '50px'
+                    width: '50px',
                 },
                 // {
                 //     title: 'Boxes',

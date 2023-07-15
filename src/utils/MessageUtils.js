@@ -1,6 +1,7 @@
 import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
 import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnActionConstants";
 import {UNACKNOWLEDGE_LIST_START} from "../redux/actions/grn/grnActionConstants";
+import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} from "../redux/actions/dropDown/dropDownActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -775,6 +776,24 @@ import {UNACKNOWLEDGE_LIST_START} from "../redux/actions/grn/grnActionConstants"
         },
     ],
     GET_GEN_INVOICE_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    BUSINESS_UNIT_DROPDOWN_START_ACTION: [{ action: 'showspinner' }],
+    BUSINESS_UNIT_DROPDOWN_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+    BUSINESS_UNIT_DROPDOWN_FAIL_ACTION: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    DIVISION_DROPDOWN_START_ACTION: [{ action: 'showspinner' }],
+    DIVISION_DROPDOWN_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+    DIVISION_DROPDOWN_FAIL_ACTION: [
         { action: 'hidespinner' },
         {
             action: 'showerror',

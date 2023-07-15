@@ -139,62 +139,65 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 title: 'Employee Name',
                 key: 'employeeName',
                 dataIndex: 'name',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('name'),
             },
             {
                 title: 'Address',
                 key: 'address',
                 dataIndex: 'address',
-                width: '200px'
+                width: '200px',
             },
             {
                 title: 'City',
                 key: 'city',
                 dataIndex: 'city',
-                width: '100px'
+                width: '100px',
             },
             {
                 title: 'Role',
                 key: 'role',
                 dataIndex: 'designation',
                 // render: item => Object.values(item)[1],
-                width: '100px'
+                width: '100px',
             },
             {
                 title: 'State',
                 key: 'state',
                 dataIndex: 'state',
-                width: '120px'
+                width: '120px',
+                ...getColumnSearchProps('state'),
             },
             {
                 title: 'Zip',
                 key: 'zip',
                 dataIndex: 'zip',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('zip'),
             },
             {
                 title: 'Zone',
                 key: 'zone',
                 dataIndex: 'zone',
-                width: '100px'
+                width: '100px',
             },
             {
                 title: 'Employee WorkId',
                 key: 'workId',
                 dataIndex: 'workId',
-                width: '100px'
+                width: '100px',
             },
             {
                 title: 'Gender',
                 key: 'gender',
                 dataIndex: 'gender',
-                width: '100px'
+                width: '100px',
             },
             {
                 title: 'Joining Date',
                 key: 'joiningDate',
                 dataIndex: 'joiningDate',
-                width: '100px'
+                width: '100px',
             },
             {
                 title: 'Mobile Number',
@@ -226,13 +229,15 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 title: 'AM Email',
                 key: 'amEmail',
                 dataIndex: 'emailAM',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('emailAM'),
             },
             {
                 title: 'RBM Email',
                 key: 'rbmEmail',
                 dataIndex: 'emailRBM',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('emailRBM'),
             },
             {
                 title: 'HQ',
@@ -284,6 +289,30 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         setT(team)
     },[team])
 
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    const handleDivision = (value) => {
+        setTeam(value)
+    }
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (t?.length === 0) {
+            let array = [teamDropdown?.map(item => item.id)]
+            setT(array[0])
+        }
+        console.log(t)
+    },[t])
+
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
         ws = XLSX.utils.json_to_sheet(data);
@@ -321,10 +350,6 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             }
         }))
     },[recipientList])
-
-    const handleBusinessUnit = (value) =>  {
-        setBusinessUnit(value)
-    }
 
     // const handleDivision = (value) => {
     //     setDivision(value)

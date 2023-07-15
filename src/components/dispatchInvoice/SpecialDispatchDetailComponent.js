@@ -161,28 +161,32 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'city',
                     dataIndex: 'city',
                     width:'150px',
-                    fixed:'left'
+                    fixed:'left',
+                    ...getColumnSearchProps('city'),
                 },
                 {
                     title: 'State',
                     key: 'state',
                     dataIndex: 'state',
                     width:'150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('state'),
                 },
                 {
                     title: 'Employee',
                     key: 'employee',
                     dataIndex: 'employeeName',
                     width:'150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('employeeName'),
                 },
                 {
                     title: 'Code',
                     key: 'code',
                     dataIndex: 'code',
                     width:'150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('code'),
                 },
                 {
                     title:'Invoice No',
@@ -190,7 +194,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     dataIndex: 'invoiceNumber',
                     width: '150px',
                     fixed: 'left',
-
+                    ...getColumnSearchProps('invoiceNumber'),
                 },
                 {
                     title: 'Group No',
