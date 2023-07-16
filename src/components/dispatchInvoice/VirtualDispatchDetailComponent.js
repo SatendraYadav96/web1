@@ -914,12 +914,12 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     {/*    <Button type={'primary'}>Group Invoice</Button>*/}
                     {/*</Col>*/}
                     <Row gutter={[16,16]}>
-                        <Col span={3}>
-                            <Button type={'primary'} style={{width: '100%'}}>Group Invoice</Button>
-                        </Col>
-                        <Col span={3}>
-                            <Button type={'primary'} style={{width: '100%'}} >Batch Invoice</Button>
-                        </Col>
+                        {/*<Col span={3}>*/}
+                        {/*    <Button type={'primary'} style={{width: '100%'}}>Group Invoice</Button>*/}
+                        {/*</Col>*/}
+                        {/*<Col span={3}>*/}
+                        {/*    <Button type={'primary'} style={{width: '100%'}} >Batch Invoice</Button>*/}
+                        {/*</Col>*/}
                         <Col span={3}>
                             <Button type={'primary'} style={{width: '100%'}} onClick={handlePrint}>Print</Button>
                         </Col>

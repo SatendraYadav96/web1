@@ -46,8 +46,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
     const [print, setPrint] = useState()
     const [printInvoice, setPrintInvoice] = useState()
     const [printAllInvoice, setPrintAllInvoice] = useState([])
-    const [count, setCount] = useState(0)
-    const [countLabel, setCountLabel] = useState(0)
+    const [count, setCount] = useState(1)
+    const [countLabel, setCountLabel] = useState(1)
     const [exp, setExp] = useState([])
     const location = useLocation();
     const [searchText, setSearchText] = useState('');
@@ -467,15 +467,15 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                 //         return <Button icon={<ArrowRightOutlined />}></Button>
                 //     }
                 // },
-                {
-                    title: 'Group' ,
-                    key: '',
-                    dataIndex: '',
-                    width: '30px',
-                    render:() => {
-                        return <Checkbox/>
-                    }
-                },
+                // {
+                //     title: 'Group' ,
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:() => {
+                //         return <Checkbox/>
+                //     }
+                // },
                 {
                     title: `Print`,
                     // title: <Checkbox onChange={(event) => handleAllPrint(event)} >Print</Checkbox>,
@@ -726,30 +726,31 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             certificate: authInfo.token
         })
         console.log(printInvoice)
+        setCount(0)
     }
 
     const handleLabelPrint = () => {
-        console.log(printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})))
         handleGenerateLabel({
             inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
+        setCountLabel(0)
     }
 
     const handleAllInvoicePrint = () => {
-        // console.log(printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})))
         handleGenerateInvoice({
             inh: printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
+        setCount(0)
     }
 
     const handleAllLabelPrint = () => {
-        // console.log(printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})))
         handleGenerateLabel({
             inh: printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
+        setCountLabel(0)
     }
 
     useEffect(() => {
@@ -764,27 +765,56 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         }
     },[generateLabelList])
 
-    useEffect(() => {
-        console.log(generateInvoiceList)
-        if(generateInvoiceList.length !== 0) {
-            generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
-            // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
-            console.log(generateInvoiceList)
-        } else {
-            console.log("no download")
-        }
-    },[count])
+    // useEffect(() => {
+    //     console.log(generateInvoiceList)
+    //     if(generateInvoiceList.length !== 0) {
+    //         generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+    //         // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+    //         console.log(generateInvoiceList)
+    //     } else {
+    //         console.log("no download")
+    //     }
+    // },[count])
 
     useEffect(() => {
-        console.log(generateLabelList)
-        if(generateLabelList.length !== 0) {
-            // downloadPDF(generateLabelList.content, generateLabelList.fileName)
-            console.log(generateLabelList)
-            generateLabelList.map((label) => downloadPDF(label.content, label.fileName))
-        } else {
-            console.log("no download")
+        console.log('me invoice')
+        console.log(generateInvoiceList)
+        if (count === 0) {
+            if(generateInvoiceList?.length > 0) {
+                generateInvoiceList?.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+                // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+            } else {
+                console.log("no downloads")
+            }
         }
-    },[countLabel])
+        setCount(1)
+    },[generateInvoiceList])
+
+    useEffect(() => {
+        console.log('me Lable')
+        console.log(generateLabelList)
+        if (countLabel === 0) {
+            console.log(generateLabelList)
+            if(generateLabelList?.length > 0) {
+                generateLabelList?.map((label) => downloadPDF(label.content, label.fileName))
+                // downloadPDF(generateLabelList.content, generateLabelList.fileName)
+            } else {
+                console.log("no download")
+            }
+        }
+        setCountLabel(1)
+    },[generateLabelList])
+
+    // useEffect(() => {
+    //     console.log(generateLabelList)
+    //     if(generateLabelList.length !== 0) {
+    //         // downloadPDF(generateLabelList.content, generateLabelList.fileName)
+    //         console.log(generateLabelList)
+    //         generateLabelList.map((label) => downloadPDF(label.content, label.fileName))
+    //     } else {
+    //         console.log("no download")
+    //     }
+    // },[countLabel])
 
     // const handleExportAction = async () => {
     //     await setTimeout(()=> {
@@ -918,7 +948,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
 
     return(
         <div>
-            <TitleWidget title={'Monthly Dispatch'} />
+            <TitleWidget title={'Monthly Dispatch '} />
             <Row gutter={[16,16]}>
                 <Col span={3}>
                     <Input value={location.state.year}/>
@@ -978,9 +1008,9 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             }
             {status === "00000000-0000-0000-0000-000000000027" &&
                 <Row gutter={[16,16]}>
-                    <Col span={3}>
-                        <Button type={'primary'}  onClick={() => generateInvoice()} style={{width: '100%'}}>Group Invoice</Button>
-                    </Col>
+                    {/*<Col span={3}>*/}
+                    {/*    <Button type={'primary'}  onClick={() => generateInvoice()} style={{width: '100%'}}>Group Invoice</Button>*/}
+                    {/*</Col>*/}
                     <Col span={2}>
                         <Button type={'primary'} onClick={handlePrint} style={{width: '100%'}}>Print</Button>
                     </Col>

@@ -37,6 +37,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [planId, setPlanId] = useState()
     const [transport, setTransport] = useState()
     const [printColumn, setPrintColumn] = useState([])
+    const [genInv, setGenInv] = useState([])
     const [printInvoice, setPrintInvoice] = useState()
     const [lrNo, setLrNo] = useState()
     const [empId, setEmpId] = useState()
@@ -46,8 +47,9 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [d, setD] = useState({})
     const [checkedArr, setCheckedArr] = useState([])
     const [exp, setExp] = useState([])
-    const [count, setCount] = useState(0)
-    const [countLabel, setCountLabel] = useState(0)
+    const [count, setCount] = useState(1)
+    const [c, setc] = useState(0)
+    const [countLabel, setCountLabel] = useState(1)
     const [printAction, setPrintAction] = useState(false)
     const [printAllAction, setPrintAllAction] = useState(false)
     const [draftModal, setDraftModal] = useState(false)
@@ -403,15 +405,15 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                 //         return <Button icon={<ArrowRightOutlined />}></Button>
                 //     }
                 // },
-                {
-                    title: 'Group' ,
-                    key: '',
-                    dataIndex: '',
-                    width: '30px',
-                    render:() => {
-                        return <Checkbox/>
-                    }
-                },
+                // {
+                //     title: 'Group' ,
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:() => {
+                //         return <Checkbox/>
+                //     }
+                // },
                 {
                     title: 'Print',
                     key: '',
@@ -617,6 +619,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     // }
 
     const handleChecked = (event,row) => {
+        console.log(row.invoiceNumber)
         let invoice = row.invoiceNumber
         // event.target.checked ? setCheckedArr(current => [...current, row.invoiceNumber]) : checkedArr.filter(checked => checked.includes(row.invoiceNumber))
         if (event.target.checked) {
@@ -642,6 +645,10 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         // })
         printData()
     }
+
+    useEffect(() => {
+        console.log(checkedArr)
+    },[checkedArr])
 
     const handleBack = () => {
         return navigate("/home/dispatchInvoicing/specialDispatch")
@@ -697,19 +704,11 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
 
     const handleInvoicePrint = () => {
         handleGenerateInvoice({
-            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            inh: printInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
-        // handleGenerateInvoice({
-        //     inh: {
-        //         inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
-        //         invoiceNo: "106674",
-        //         // inh: printInvoice.map((item) => item.invoiceHeaderID),
-        //         // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
-        //     },
-        //     certificate: authInfo.token
-        // })
         console.log(printInvoice)
+        setCount(0)
     }
 
     const handleAllPrintInvoice = () => {
@@ -723,6 +722,15 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             inh: specialInvoiceDetails.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
+        setCount(0)
+    }
+
+    const handleLabelPrint = () => {
+        handleGenerateLabel({
+            inh: printInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            certificate: authInfo.token
+        })
+        setCountLabel(0)
     }
 
     const downloadPDF = (pdf, filename) => {
@@ -736,44 +744,44 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     }
 
     useEffect(() => {
-        if(generateInvoiceList.length !== 0) {
-            setCount(count => count + 1)
+        console.log('me invoice')
+        console.log(generateInvoiceList)
+        if (count === 0) {
+            if(generateInvoiceList?.length > 0) {
+                generateInvoiceList?.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+                // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+            } else {
+                console.log("no download")
+            }
         }
+        setCount(1)
     },[generateInvoiceList])
 
-    useEffect(() => {
-        console.log(generateInvoiceList)
-        if(generateInvoiceList.length !== 0) {
-            generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
-            // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
-        } else {
-            console.log("no download")
-        }
-    },[count])
+    // useEffect(() => {
+    //     console.log('me invoice')
+    //     console.log(genInv)
+    //     if(genInv?.length > 0) {
+    //         genInv.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+    //         // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+    //     } else {
+    //         console.log("no download")
+    //     }
+    // },[c])
 
     useEffect(() => {
-        if(generateLabelList.length !== 0) {
-            setCountLabel(countLabel => countLabel + 1)
-        }
-    },[generateLabelList])
-
-    useEffect(() => {
+        console.log('me Lable')
         console.log(generateLabelList)
-        if(generateLabelList.length !== 0) {
-            generateLabelList.map((label) => downloadPDF(label.content, label.fileName))
-            // downloadPDF(generateLabelList.content, generateLabelList.fileName)
-        } else {
-            console.log("no download")
+        if (countLabel === 0) {
+            console.log(generateLabelList)
+            if(generateLabelList?.length > 0) {
+                generateLabelList?.map((label) => downloadPDF(label.content, label.fileName))
+                // downloadPDF(generateLabelList.content, generateLabelList.fileName)
+            } else {
+                console.log("no download")
+            }
         }
-    },[countLabel])
-
-    const handleLabelPrint = () => {
-        handleGenerateLabel({
-            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
-            certificate: authInfo.token
-        })
-    }
-
+        setCountLabel(1)
+    },[generateLabelList])
 
     // const handleExportAction = () => {
     //     handleExport({
@@ -799,11 +807,11 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             isSpecial: 1,
             certificate: authInfo.token,
         })
-    },[])
+    },[authInfo])
 
     useEffect(() => {
         console.log("this is",exportAllocation)
-        if (exportAllocation) {
+        if (exportAllocation?.length > 0) {
             setExp(exportAllocation.map(item => {
                 return {
                     "Month": item.month,
@@ -981,12 +989,12 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                         {/*    <Button type={'primary'}>Group Invoice</Button>*/}
                         {/*</Col>*/}
                         <Row gutter={[16,16]}>
-                            <Col span={3}>
-                                <Button type={'primary'} style={{width: '100%'}}>Group Invoice</Button>
-                            </Col>
-                            <Col span={3}>
-                                <Button type={'primary'} style={{width: '100%'}} >Batch Invoice</Button>
-                            </Col>
+                            {/*<Col span={3}>*/}
+                            {/*    <Button type={'primary'} style={{width: '100%'}}>Group Invoice</Button>*/}
+                            {/*</Col>*/}
+                            {/*<Col span={3}>*/}
+                            {/*    <Button type={'primary'} style={{width: '100%'}} >Batch Invoice</Button>*/}
+                            {/*</Col>*/}
                             <Col span={3}>
                                 <Button type={'primary'} style={{width: '100%'}} onClick={handlePrint}>Print</Button>
                             </Col>
