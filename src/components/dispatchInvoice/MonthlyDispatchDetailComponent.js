@@ -660,12 +660,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         setPrintAction(true)
         setPrintInvoice(matchInvoice(invoiceList, checkedArr))
         console.log(invoiceList)
-        // handleGenerateInvoice({
-        //     genInv: {
-        //         invoiceHeaderID: printInvoice.invoiceHeaderID,
-        //         invoiceNumber: printInvoice.invoiceNumber,
-        //     },
-        // })
         printData()
     }
 
@@ -674,14 +668,6 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         setPrintAllInvoice(invoiceList)
         printData()
     }
-    // const handleGen = () => {
-    //     handleGenInvoice({
-    //         year: location.state.year,
-    //         month: location.state.month,
-    //         boxes: box,
-    //
-    //     })
-    // }
 
     useEffect(() => {
         console.log(printInvoice)
@@ -731,7 +717,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
 
     const handleLabelPrint = () => {
         handleGenerateLabel({
-            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            inh: printInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
         setCountLabel(0)
@@ -739,7 +725,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
 
     const handleAllInvoicePrint = () => {
         handleGenerateInvoice({
-            inh: printAllInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            inh: printAllInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
         setCount(0)

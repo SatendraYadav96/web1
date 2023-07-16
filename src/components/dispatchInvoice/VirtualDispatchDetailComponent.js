@@ -42,8 +42,8 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     const [printColumn, setPrintColumn] = useState([])
     const [printInvoice, setPrintInvoice] = useState()
     const [checkedArr, setCheckedArr] = useState([])
-    const [count, setCount] = useState(0)
-    const [countLabel, setCountLabel] = useState(0)
+    const [count, setCount] = useState(1)
+    const [countLabel, setCountLabel] = useState(1)
     const [printAction, setPrintAction] = useState(false)
     const [printAllAction, setPrintAllAction] = useState(false)
     const [printAllInvoice, setPrintAllInvoice] = useState([])
@@ -616,19 +616,6 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
 
     const matchInvoice = (invoiceList,checkedArr) => invoiceList.filter(data => checkedArr.includes(data.invoiceNumber)).map(data => data);
 
-    const handlePrint = () => {
-        setPrintAction(true)
-        setPrintInvoice(matchInvoice(specialInvoiceDetails, checkedArr))
-        console.log(specialInvoiceDetails)
-        // handleGenerateInvoice({
-        //     genInv: {
-        //         invoiceHeaderID: printInvoice.invoiceHeaderID,
-        //         invoiceNumber: printInvoice.invoiceNumber,
-        //     },
-        // })
-        printData()
-    }
-
     const handleBack = () => {
         return navigate("/home/dispatchInvoicing/virtualDispatch")
     }
@@ -681,27 +668,27 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
         console.log(employeePopup)
     },[employeePopup])
 
+    const handlePrint = () => {
+        setPrintAction(true)
+        setPrintInvoice(matchInvoice(specialInvoiceDetails, checkedArr))
+        console.log(specialInvoiceDetails)
+        printData()
+    }
+
     const handleInvoicePrint = () => {
         handleGenerateInvoice({
             inh: printInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
-        // handleGenerateInvoice({
-        //     inh: {
-        //         inh: "A451F0B2-3A80-4929-9D31-003ABE763870",
-        //         invoiceNo: "106674",
-        //         // inh: printInvoice.map((item) => item.invoiceHeaderID),
-        //         // invoiceNo: printInvoice.map((item) => item.invoiceNumber),
-        //     },
-        //     certificate: authInfo.token
-        // })
         console.log(printInvoice)
+        setCount(0)
     }
 
     const handleAllPrintInvoice = () => {
         setPrintAllAction(true)
         setPrintAllInvoice(specialInvoiceDetails)
         printData()
+        setCount(0)
     }
 
     const handleAllInvoicePrint = () => {
@@ -709,6 +696,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
             inh: specialInvoiceDetails.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
+        setCount(0)
     }
 
     const downloadPDF = (pdf, filename) => {
@@ -728,36 +716,74 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     },[generateInvoiceList])
 
     useEffect(() => {
-        console.log(generateInvoiceList)
-        if(generateInvoiceList.length !== 0) {
-            generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
-            // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
-        } else {
-            console.log("no download")
-        }
-    },[count])
-
-    useEffect(() => {
         if(generateLabelList.length !== 0) {
             setCountLabel(countLabel => countLabel + 1)
         }
     },[generateLabelList])
 
     useEffect(() => {
-        console.log(generateLabelList)
-        if(generateLabelList.length !== 0) {
-            generateLabelList.map((label) => downloadPDF(label.content, label.fileName))
-            // downloadPDF(generateLabelList.content, generateLabelList.fileName)
-        } else {
-            console.log("no download")
+        console.log('me invoice')
+        console.log(generateInvoiceList)
+        if (count === 0) {
+            if(generateInvoiceList?.length > 0) {
+                generateInvoiceList?.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+                // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+            } else {
+                console.log("no downloads")
+            }
         }
-    },[countLabel])
+        setCount(1)
+    },[generateInvoiceList])
+
+    useEffect(() => {
+        console.log('me Lable')
+        console.log(generateLabelList)
+        if (countLabel === 0) {
+            console.log(generateLabelList)
+            if(generateLabelList?.length > 0) {
+                generateLabelList?.map((label) => downloadPDF(label.content, label.fileName))
+                // downloadPDF(generateLabelList.content, generateLabelList.fileName)
+            } else {
+                console.log("no download")
+            }
+        }
+        setCountLabel(1)
+    },[generateLabelList])
+
+    // useEffect(() => {
+    //     console.log(generateInvoiceList)
+    //     if(generateInvoiceList.length !== 0) {
+    //         generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+    //         // downloadPDF(generateInvoiceList.content, generateInvoiceList.fileName)
+    //     } else {
+    //         console.log("no download")
+    //     }
+    // },[count])
+    //
+    // useEffect(() => {
+    //     console.log(generateLabelList)
+    //     if(generateLabelList.length !== 0) {
+    //         generateLabelList.map((label) => downloadPDF(label.content, label.fileName))
+    //         // downloadPDF(generateLabelList.content, generateLabelList.fileName)
+    //     } else {
+    //         console.log("no download")
+    //     }
+    // },[countLabel])
+
+    const handleAllLabelPrint = () => {
+        handleGenerateLabel({
+            inh: printAllInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            certificate: authInfo.token
+        })
+        setCountLabel(0)
+    }
 
     const handleLabelPrint = () => {
         handleGenerateLabel({
-            inh: printInvoice.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            inh: printInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
+        setCountLabel(0)
     }
     //
     // const handleExportAction = () => {
