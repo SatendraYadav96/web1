@@ -1,6 +1,15 @@
 
 
-import {GET_VIRTUAL_DISPATCH_START, GET_VIRTUAL_DISPATCH_SUCCESS, GET_VIRTUAL_DISPATCH_FAIL, GET_VIRTUAL_DISPATCH_DETAILS_START, GET_VIRTUAL_DISPATCH_DETAILS_SUCCESS, GET_VIRTUAL_DISPATCH_DETAILS_FAIL} from "./virtualDispatchActionConstants";
+import {
+    GET_VIRTUAL_DISPATCH_START,
+    GET_VIRTUAL_DISPATCH_SUCCESS,
+    GET_VIRTUAL_DISPATCH_FAIL,
+    GET_VIRTUAL_DISPATCH_DETAILS_START,
+    GET_VIRTUAL_DISPATCH_DETAILS_SUCCESS,
+    GET_VIRTUAL_DISPATCH_DETAILS_FAIL,
+    GET_GEN_VIRTUAL_INVOICE_START,
+    GET_GEN_VIRTUAL_INVOICE_SUCCESS, GET_GEN_VIRTUAL_INVOICE_FAIL
+} from "./virtualDispatchActionConstants";
 
 //Virtual Dispatch Action
 
@@ -46,3 +55,27 @@ export const getVirtualDispatchDetailsFailAction = (payload) => (dispatch) =>{
         payload: payload,
     })
 }
+
+//Generate Invoice
+
+export const getGenVirtualInvoiceStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_GEN_VIRTUAL_INVOICE_START,
+        payload: payload,
+    })
+}
+
+export const getGenVirtualInvoiceSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_GEN_VIRTUAL_INVOICE_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getGenVirtualInvoiceFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_GEN_VIRTUAL_INVOICE_FAIL,
+        payload: payload,
+    })
+}
+

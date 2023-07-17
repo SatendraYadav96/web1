@@ -15,7 +15,7 @@ import SelectTransportComponent from "../widgets/SelectTransportComponent";
 import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData} from "../../redux/selectors/monthlyDispatchSelector";
 import {getGenerateInvoiceStartAction, getGenerateLabelStartAction, getGenInvoiceStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 import Highlighter from "react-highlight-words";
-import {getVirtualDispatchDetailsStartAction} from "../../redux/actions/dispatchInvoice/virtualDispatchAction";
+import {getGenVirtualInvoiceStartAction, getVirtualDispatchDetailsStartAction} from "../../redux/actions/dispatchInvoice/virtualDispatchAction";
 import {exportAllocationStartAction} from "../../redux/actions/inventory/inventoryReportActions";
 import {selectExportAllocationData} from "../../redux/selectors/inventoryReportSelector";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
@@ -24,7 +24,7 @@ import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions
 import {Option} from "antd/es/mentions";
 import TitleWidget from "../../widgets/TitleWidget";
 import {selectVirtualDispatchListData} from "../../redux/selectors/virtualDispatchSelector";
-const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleInvoiceUpload,handleGenInvoice,virtualDispatchDetails}) => {
+const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleInvoiceUpload,handleGenInvoice,handleGenVirtualInvoice,virtualDispatchDetails}) => {
 
     const navigate = useNavigate()
 
@@ -58,6 +58,8 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     const [dimension, setDimension] = useState()
     const [weight, setWeight] = useState()
     const [transport, setTransport] = useState()
+    const location = useLocation();
+
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -151,8 +153,6 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
             ),
     });
 
-
-    const location = useLocation()
 
     const searchData = () => {
         setFlag(true)
@@ -256,6 +256,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                         return <Button icon={<SaveOutlined />} onClick={() => {
                             setDraftModal(true);
                             setEmpId(row.employeeId)
+                            setPlanId(row.planId)
                         }}></Button>
                     }
                 },
@@ -850,21 +851,24 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
             "isSpecial": 1
         })
 
-        handleGenInvoice({
+        handleGenVirtualInvoice({
             certificate: authInfo.token,
-            genInv: [{
+            genInv: {
                 recipientId: empId,
+                planId: planId,
                 boxes: box,
                 weight: weight,
                 transporter: transport,
                 lrNo: lrNo.toString(),
                 dimension: dimension,
-                month: location.state.month,
-                year: location.state.year,
-                isSpecial: 1
-            }]
+                isvirtual: 1
+            }
         })
-
+        setBox(undefined)
+        setWeight(undefined)
+        setTransport(undefined)
+        setLrNo(undefined)
+        setDimension(undefined)
         setDraftModal(false)
     }
 
@@ -879,7 +883,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                 {/*    <Input value={location.state.month}/>*/}
                 {/*</Col>*/}
                 <Col span={3}>
-                    <SelectTeamComponent  onChange={(e) => setTeam(e)}/>
+                    <SelectTeamComponent onChange={(e) => setTeam(e)} />
                 </Col>
                 <Col span={3}>
                     <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
@@ -1067,6 +1071,8 @@ VirtualDispatchDetails.propTypes = {
     handleInvoiceDetailsList:PropTypes.func,
     exportAllocation:PropTypes.any,
     handleExport:PropTypes.func,
+    handleGenInvoice:PropTypes.func,
+    handleGenVirtualInvoice:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -1093,7 +1099,7 @@ const actions = {
     handleExport: exportAllocationStartAction,
     handleInvoiceUpload: invoiceUploadStartAction,
     handleGenInvoice: getGenInvoiceStartAction,
-
+    handleGenVirtualInvoice: getGenVirtualInvoiceStartAction,
 }
 
 export default connect(mapState, actions)(VirtualDispatchDetails)

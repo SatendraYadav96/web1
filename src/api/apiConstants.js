@@ -163,6 +163,7 @@ export const SEARCH_INVOICE_API = {url: '/v1/invoice/searchInvoice',method:'POST
 export const GET_GROUP_INVOICE_API = {url: '/v1/invoice/getGroupInvoiceListHub',method:'POST',auth:true}
 export const GET_GENERATE_INVOICE_API = {url: '/v1/invoice/printInvoice',method:'POST',auth:true}
 export const GET_GEN_INVOICE_API = {url: '/v1/invoice/generateInvoice',method:'POST',auth:true}
+export const GET_GEN_VIRTUAL_INVOICE_API = {url: '/v1/invoice/generateInvoiceVirtual',method:'POST',auth:true}
 export const GET_GENERATE_LABEL_API = {url: '/v1/invoice/printLabel',method:'POST',auth:true}
 
 //  REVALIDATION

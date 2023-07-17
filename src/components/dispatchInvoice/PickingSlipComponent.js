@@ -220,7 +220,16 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
     }
 
     const handleDifferntial = (row) => {
-        if (dispatchType !== "Virtual") {
+        if (dispatchType === "0") {
+            handlePickList({
+                year:year,
+                month:month,
+                teamId: row.teamId,
+                isSpecial: dispatchType,
+                certificate: authInfo.token
+            })
+        }
+        if (dispatchType === "1") {
             handlePickList({
                 year:year,
                 month:month,
@@ -228,12 +237,13 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
                 isSpecial: dispatchType,
                 certificate: authInfo.token
             })
-        } if (dispatchType === "Virtual") {
+        }
+        if (dispatchType === "Virtual") {
             handlePickListVirtual({
                 year:year,
                 month:month,
                 teamId: row.planID,
-                isSpecial: dispatchType,
+                isSpecial: 1,
                 certificate: authInfo.token
             })
         }

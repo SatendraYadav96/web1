@@ -1,8 +1,9 @@
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
 import { virtualDispatchRequest,virtualDispatchDetailsRequest } from '../../api/virtualDispatchRequests'
-import {GET_VIRTUAL_DISPATCH_DETAILS_FAIL, GET_VIRTUAL_DISPATCH_DETAILS_START, GET_VIRTUAL_DISPATCH_START} from "../actions/dispatchInvoice/virtualDispatchActionConstants";
-import {getVirtualDispatchDetailsFailAction, getVirtualDispatchDetailsSuccessAction, getVirtualDispatchFailAction, getVirtualDispatchSuccessAction} from "../actions/dispatchInvoice/virtualDispatchAction";
+import {GET_GEN_VIRTUAL_INVOICE_START, GET_VIRTUAL_DISPATCH_DETAILS_FAIL, GET_VIRTUAL_DISPATCH_DETAILS_START, GET_VIRTUAL_DISPATCH_START} from "../actions/dispatchInvoice/virtualDispatchActionConstants";
+import {getGenVirtualInvoiceFailAction, getGenVirtualInvoiceSuccessAction, getVirtualDispatchDetailsFailAction, getVirtualDispatchDetailsSuccessAction, getVirtualDispatchFailAction, getVirtualDispatchSuccessAction} from "../actions/dispatchInvoice/virtualDispatchAction";
+import {genVirtualInvoiceRequest} from "../../api/invoiceRequests";
 
 
 
@@ -35,3 +36,15 @@ export const getVirtualDispatchDetailsStartEpic = (action$) =>
         )
     )
 
+//Virtual Dispatch Generate Invoice
+export const getGenVirtualInvoiceStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_GEN_VIRTUAL_INVOICE_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            genVirtualInvoiceRequest(action.payload).pipe(
+                map((listResponse) => getGenVirtualInvoiceSuccessAction({generateVirtualInvoiceList: listResponse.response})),
+                catchError((error) => of(getGenVirtualInvoiceFailAction({error: error}))),
+            )
+        )
+    )

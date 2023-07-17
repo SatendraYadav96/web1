@@ -800,4 +800,22 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+    GET_VIRTUAL_DISPATCH_START: [{ action: 'showspinner' }],
+    GET_VIRTUAL_DISPATCH_SUCCESS: [{ action: 'hidespinner' }],
+    GET_VIRTUAL_DISPATCH_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_VIRTUAL_DISPATCH_DETAILS_START: [{ action: 'showspinner' }],
+    GET_VIRTUAL_DISPATCH_DETAILS_SUCCESS: [{ action: 'hidespinner' }],
+    GET_VIRTUAL_DISPATCH_DETAILS_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
 }
