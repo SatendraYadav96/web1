@@ -186,7 +186,7 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
     }
 
     useEffect(() => {
-        if (picklist.length !== 0){
+        if (picklist?.length !== 0){
             console.log(picklist)
             setPivotTableData(picklist)
             console.log("data has been changed")
@@ -196,7 +196,7 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
     },[picklist])
 
     useEffect(() => {
-        if (picklistVirtual.length !== 0){
+        if (picklistVirtual?.length !== 0){
             console.log(picklistVirtual)
             setPivotTableData(picklistVirtual)
             console.log("data has been changed")
@@ -231,11 +231,12 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
     }
 
     const handleDifferntial = (row) => {
+        console.log(row.teamID)
         if (dispatchType === "0") {
             handlePickList({
                 year:year,
                 month:month,
-                teamId: row.teamId,
+                teamId: row.teamID,
                 isSpecial: dispatchType,
                 certificate: authInfo.token
             })
