@@ -926,10 +926,10 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             <TitleWidget title={'Special Dispatch'} />
             <Row gutter={[16,16]}>
                 <Col span={2}>
-                    <Input value={location.state.year}/>
+                    <Input value={location.state.year} disabled/>
                 </Col>
                 <Col span={2}>
-                    <Input value={location.state.month}/>
+                    <Input value={location.state.month} disabled/>
                 </Col>
                 <Col span={3}>
                     <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>

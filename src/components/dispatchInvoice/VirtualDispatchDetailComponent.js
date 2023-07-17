@@ -876,15 +876,15 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
         <>
             <TitleWidget title={'Virtual Dispatch'} />
             <Row gutter={[16,16]}>
-                {/*<Col span={2}>*/}
-                {/*    <Input value={location.state.year}/>*/}
-                {/*</Col>*/}
-                {/*<Col span={2}>*/}
-                {/*    <Input value={location.state.month}/>*/}
-                {/*</Col>*/}
-                <Col span={3}>
-                    <SelectTeamComponent onChange={(e) => setTeam(e)} />
+                <Col span={2}>
+                    <Input value={location.state.year} disabled/>
                 </Col>
+                <Col span={2}>
+                    <Input value={location.state.month} disabled/>
+                </Col>
+                {/*<Col span={3}>*/}
+                {/*    <SelectTeamComponent value={location.state.team} disabled />*/}
+                {/*</Col>*/}
                 <Col span={3}>
                     <SelectInvoiceTypeComponent value={status} onChange={(e) => setStatus(e)}/>
                 </Col>

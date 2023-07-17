@@ -649,7 +649,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             year: location.state.year,
             month: location.state.month,
             isSpecialDisp:dispatchType,
-            teamId:team,
+            teamId:location.state.team,
             status:status,
             certificate: authInfo.token
         });
@@ -937,13 +937,13 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             <TitleWidget title={'Monthly Dispatch '} />
             <Row gutter={[16,16]}>
                 <Col span={3}>
-                    <Input value={location.state.year}/>
+                    <Input value={location.state.year} disabled/>
                 </Col>
                 <Col span={3}>
-                    <Input value={location.state.month}/>
+                    <Input value={location.state.month} disabled/>
                 </Col>
                 <Col span={3}>
-                    <SelectTeamComponent  onChange={(e) => setTeam(e)}/>
+                    <SelectTeamComponent value={location.state.team} disabled/>
                 </Col>
                 <Col span={3}>
                    <SelectInvoiceTypeComponent onChange={(e) => setStatus(e)}/>
