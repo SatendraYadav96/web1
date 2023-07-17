@@ -196,6 +196,16 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
     },[picklist])
 
     useEffect(() => {
+        if (picklistVirtual.length !== 0){
+            console.log(picklistVirtual)
+            setPivotTableData(picklistVirtual)
+            console.log("data has been changed")
+            console.log(typeof picklist)
+            setPivoTable(true)
+        }
+    },[picklistVirtual])
+
+    useEffect(() => {
         console.log(pivotData)
     },[pivotData])
 
@@ -216,6 +226,7 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
             certificate: authInfo.token
         });
         setPivoTable(false)
+        setPivotTableData(undefined)
         searchData()
     }
 
@@ -258,6 +269,11 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
         },
     };
 
+    useEffect(() => {
+        console.log(`This is ${picklistVirtual}`)
+        console.log(picklistVirtual)
+    },[picklistVirtual])
+
 
     return(
         <div>
@@ -277,6 +293,11 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
                         style={{width: "100%"}}
                         onClick = {() => getPickingList()} >Submit</Button>
                 </Col>
+
+                {/*{if (dispatchType === "0") {*/}
+                {/*    */}
+                {/*}}*/}
+
                 <Col span={1.5}>
                     <Button type={'primary'} onClick = {() => setPivoTable(false)} style={{width: "100%"}}>Back</Button>
                 </Col>

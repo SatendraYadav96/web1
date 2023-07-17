@@ -83,7 +83,7 @@ const getPicklistVirtualSuccessReducer = (state = initialState, payload) => {
     return {
       ...state,
 
-      picklistVirtual:payload.picklist,
+      picklistVirtual:payload.picklistVirtual,
       picklistLoadingVirtual: false
 
 
