@@ -265,9 +265,9 @@ const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUp
                 <Table columns={column} dataSource={groupInvoiceUpload}/>
             }
             <br/>
-            <div align={"right"}>
-                <Button type={"primary"}>Group Invoice</Button>
-            </div>
+            {/*<div align={"right"}>*/}
+            {/*    <Button type={"primary"}>Group Invoice</Button>*/}
+            {/*</div>*/}
         </div>
     )
 }

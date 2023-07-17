@@ -334,13 +334,7 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
         },
     ],
     DELIVERY_UPDATE_START: [{ action: 'showspinner' }],
-    DELIVERY_UPDATE_SUCCESS: [
-        { action: 'hidespinner' },
-        {
-            action: 'showsuccess',
-            payload: { message: { text: 'Upload Successful', type: 'success' } },
-        },
-    ],
+    DELIVERY_UPDATE_SUCCESS: [{ action: 'hidespinner' },],
     DELIVERY_UPDATE_FAIL: [
         { action: 'hidespinner' },
         {
@@ -812,6 +806,33 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
     GET_VIRTUAL_DISPATCH_DETAILS_START: [{ action: 'showspinner' }],
     GET_VIRTUAL_DISPATCH_DETAILS_SUCCESS: [{ action: 'hidespinner' }],
     GET_VIRTUAL_DISPATCH_DETAILS_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_DISPATCH_REGISTER_REPORT_START: [{ action: 'showspinner' }],
+    GET_DISPATCH_REGISTER_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_DISPATCH_REGISTER_REPORT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_ITEM_CONSUMPTION_REPORT_START: [{ action: 'showspinner' }],
+    GET_ITEM_CONSUMPTION_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_ITEM_CONSUMPTION_REPORT_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    GET_DESTRUCTION_REPORT_START: [{ action: 'showspinner' }],
+    GET_DESTRUCTION_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+    GET_DESTRUCTION_REPORT_FAIL: [
         { action: 'hidespinner' },
         {
             action: 'showerror',
