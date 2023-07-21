@@ -29,7 +29,7 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
     const [flag, setFlag] = useState(false)
     const [recipientCode, setRecipientCode] = useState("")
     const [invoiceNo, setInvoiceNo] = useState("")
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(1)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -165,18 +165,21 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
     }
 
     useEffect(() => {
-        if(generateInvoiceList.length !== 0) {
-            setCount(count => count + 1)
+        if(generateInvoiceList?.length !== 0) {
+            setCount(0)
         }
     },[generateInvoiceList])
 
     useEffect(() => {
         console.log(generateInvoiceList)
-        if(generateInvoiceList.length !== 0) {
-            generateInvoiceList.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
-        } else {
-            console.log("no download")
+        if (count === 0) {
+            if(generateInvoiceList?.length !== 0) {
+                generateInvoiceList?.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+            } else {
+                console.log("no downloads")
+            }
         }
+        setCount(1)
     },[count])
 
     const handleInvoice = (row) => {
@@ -227,6 +230,7 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
                     <Button type={'primary'} onClick={() => searchInv()}>Submit</Button>
                 </Col>
             </Row>
+            <span>Total Rows: <b>{searchInvoiceList?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={searchInvoiceList}/>
             }

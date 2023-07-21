@@ -221,6 +221,7 @@ const VirtualReconciliationComponent = ({authInfo}) => {
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{dataSource?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource}/>
             }

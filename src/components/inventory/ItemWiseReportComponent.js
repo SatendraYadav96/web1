@@ -345,6 +345,7 @@ const ItemWiseReportComponent = ({authInfo,profileInfo,itemWiseList,itemWiseRepo
                 {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>
             <br/>
+            <span>Total Rows: <b>{itemWiseList?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={itemWiseList}/>
             }

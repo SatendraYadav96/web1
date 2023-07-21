@@ -279,6 +279,7 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
                 {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{vendorList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={vendorList} />
             }

@@ -110,6 +110,7 @@ const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockL
                 <Col span={6}><Input.Search/></Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{stockLedgerList?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={stockLedgerList}/>
             }

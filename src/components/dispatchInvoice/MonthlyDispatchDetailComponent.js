@@ -1010,6 +1010,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             {flag &&
                 <>
                     <br/><br/>
+                    <span>Total Rows: <b>{invoiceList?.length}</b></span>
                     <Table columns={column} dataSource={invoiceList}/>
                 </>
             }

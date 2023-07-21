@@ -376,6 +376,7 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{ageingList?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={ageingList}/>
             }

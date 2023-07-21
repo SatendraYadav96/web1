@@ -960,6 +960,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                 </>
             }
             <br/><br/>
+            <span>Total Rows: <b>{virtualDispatchDetails?.length}</b></span>
             <Table columns={column} dataSource={virtualDispatchDetails}/>
             <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAction(false)

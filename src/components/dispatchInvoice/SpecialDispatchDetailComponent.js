@@ -48,7 +48,6 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [checkedArr, setCheckedArr] = useState([])
     const [exp, setExp] = useState([])
     const [count, setCount] = useState(1)
-    const [c, setc] = useState(0)
     const [countLabel, setCountLabel] = useState(1)
     const [printAction, setPrintAction] = useState(false)
     const [printAllAction, setPrintAllAction] = useState(false)
@@ -1005,6 +1004,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     </>
                 }
             <br/><br/>
+            <span>Total Rows: <b>{specialInvoiceDetails?.length}</b></span>
             <Table columns={column} dataSource={specialInvoiceDetails}/>
             <Modal open={printAction} title="Print" footer={null} width={"70vw"} onCancel={() => {
                 setPrintAction(false)

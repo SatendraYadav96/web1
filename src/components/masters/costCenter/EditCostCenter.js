@@ -125,7 +125,7 @@ const EditCostCenterComponent = ({
                     Name: <Input placeholder={"Cost Center Name"} value={name} onChange={handleNameChange}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Code: <Input placeholder={"Cost Center Code"} value={code} disabled={true} onChange={handleCodeChange}/>
+                    Code: <Input placeholder={"Cost Center Code"} value={code} onChange={handleCodeChange}/>
                 </Col>
             </Row>
             <br/>

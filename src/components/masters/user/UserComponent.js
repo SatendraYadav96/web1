@@ -117,6 +117,7 @@ const UserComponent = ({authInfo,userList,handleUserList}) => {
                 <Col span={6}><Input.Search/></Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{userList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={userList} />
             }

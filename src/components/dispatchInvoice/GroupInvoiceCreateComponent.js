@@ -261,6 +261,7 @@ const GroupInvoiceCreateComponent = ({authInfo,groupInvoiceUpload,groupInvoiceUp
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{groupInvoiceUpload?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={groupInvoiceUpload}/>
             }

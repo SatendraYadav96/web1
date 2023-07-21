@@ -287,6 +287,30 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
         setD(division)
     },[division])
 
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    const handleDivision = (value) => {
+        setDivision(value)
+    }
+
+    useEffect(() => {
+        if (bu?.length === 0) {
+            let array = [buDropdown?.map(item => item.id)]
+            setBU(array[0])
+        }
+        console.log(bu)
+    },[bu])
+
+    useEffect(() => {
+        if (d?.length === 0) {
+            let array = [divisionDropdown?.map(item => item.id)]
+            setD(array[0])
+        }
+        console.log(d)
+    },[d])
+
     return(
         <>
             <TitleWidget title="Dispatches Report" />
@@ -361,7 +385,7 @@ const mapState = (state) => {
     const divisionDropdown = selectDivisionDropdown(state)
     const dispatchesList = selectDispatchesListData(state)
     const dispatchesReportLoading = selectLoadingDispatchesReportData(state)
-    return {authInfo,dispatchesList,dispatchesReportLoading,profileInfo}
+    return {authInfo,dispatchesList,dispatchesReportLoading,profileInfo,buDropdown,divisionDropdown}
 }
 
 const actions = {

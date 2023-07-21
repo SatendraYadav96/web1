@@ -129,6 +129,7 @@ const BrandComponent = ({authInfo,brandList,handleBrandList}) => {
                 <Col span={6}><Input.Search/></Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{brandList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={brandList} />
             }

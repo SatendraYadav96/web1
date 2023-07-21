@@ -87,6 +87,7 @@ const TeamComponent = ({authInfo,teamList,teamLoading,handleTeamList}) => {
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{teamList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={teamList} />
             }

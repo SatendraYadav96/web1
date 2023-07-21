@@ -355,6 +355,7 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{nearToExpiryInputList?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={nearToExpiryInputList}/>
             }

@@ -16,11 +16,15 @@ import moment from 'moment'
 import dayjs from "dayjs";
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx"
-import {SearchOutlined} from "@ant-design/icons";
+import {DownloadOutlined, SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import {selectBuDropdown, selectDivisionDropdown, selectTeamDropdown} from "../../redux/selectors/dropDownSelector";
+import {businessUnitDropdownStartAction, divisionDropdownStartAction, teamDropdownStartAction} from "../../redux/actions/dropDown/dropDownActions";
+import {Link} from "react-router-dom";
+import {getGenerateInvoiceStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
+import {selectGenerateInvoiceListData} from "../../redux/selectors/monthlyDispatchSelector";
 
-const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,dispatchRegisterReportLoading,handleDispatchRegisterReportList,buDropdown,divisionDropdown,teamDropdown}) => {
+const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,dispatchRegisterReportLoading,handleDispatchRegisterReportList,buDropdown,divisionDropdown,teamDropdown,handleBusinessUnitDropDown,handleDivisionDropDown,handleTeamDropDown,handleGenerateInvoice,generateInvoiceList}) => {
 
     let now = dayjs()
     const [filterPlan, setFilterPlan] = useState()
@@ -35,6 +39,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
     const [division, setDivision] = useState()
     const [d, setD] = useState()
     const [team, setTeam] = useState()
+    const [count, setCount] = useState(1)
     const [t, setT] = useState()
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -178,6 +183,15 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 sortDirections: ['descend', 'ascend'],
             },
             {
+                title: 'Download Invoice',
+                key: '',
+                dataIndex: '',
+                width: '100px',
+                render:(_,row) => {
+                    return <Button icon={<DownloadOutlined />} onClick={() => handleInvoice(row)}></Button>
+                },
+            },
+            {
                 title: 'Sample Value',
                 key: '',
                 dataIndex: 'sampleValue',
@@ -272,7 +286,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 width: '100px'
             },
             {
-                title: 'Cost',
+                title: 'Courier Cost',
                 key: '',
                 dataIndex: 'cost',
                 width: '100px'
@@ -312,6 +326,46 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
             certificate: authInfo.token
         });
         searchData()
+    }
+
+    const downloadPDF = (pdf, filename) => {
+        const linkSource = `data:application/pdf;base64,${pdf}`;
+        const downloadLink = document.createElement("a");
+        const fileName = `${filename}.pdf`;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        console.log("printed")
+    }
+
+    useEffect(() => {
+        if(generateInvoiceList?.length !== 0) {
+            setCount(0)
+        }
+    },[generateInvoiceList])
+
+    useEffect(() => {
+        console.log(generateInvoiceList)
+        if (count === 0) {
+            if(generateInvoiceList?.length !== 0) {
+                generateInvoiceList?.map((invoice) => downloadPDF(invoice.content, invoice.fileName))
+            } else {
+                console.log("no download")
+            }
+        }
+        setCount(1)
+    },[count])
+
+    const handleInvoice = (row) => {
+        handleGenerateInvoice({
+            inh: [
+                {
+                    inhId: row.inhId,
+                    invoiceNo: `${row.invoiceNo}`,
+                },
+            ],
+            certificate: authInfo.token
+        })
     }
 
     const handleExcel = () => {
@@ -413,6 +467,18 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         console.log(t)
     },[t])
 
+    const handleRefresh = () => {
+        handleBusinessUnitDropDown({
+            certificate: authInfo.token,
+        })
+        handleDivisionDropDown({
+            certificate: authInfo.token,
+        })
+        handleTeamDropDown ({
+            certificate: authInfo.token,
+        })
+    }
+
     return(
         <>
             <TitleWidget title="Dispatch Register Report" />
@@ -439,9 +505,13 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                     Plan Type<br/>
                     <SelectFilterPlanComponent value={filterPlan} onChange={(e) => setFilterPlan(e)}/>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <br/>
-                    <Button type={"primary"} onClick={()=>getDispatchRegisterReportList()}>Search</Button>
+                    <Button type={"primary"} onClick={()=>getDispatchRegisterReportList()} style={{width: "100%"}}>Search</Button>
+                </Col>
+                <Col span={2}>
+                    <br/>
+                    <Button onClick={()=>handleRefresh()} style={{width: "100%"}}>Refresh</Button>
                 </Col>
             </Row>
             {/*<Row gutter={[16,16]}>*/}
@@ -486,8 +556,21 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 </Col>
             </Row>
             <br/>
-            {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={dispatchRegisterList}/>
+            {flag && (
+                <>
+                    <span>Total Rows: <b>{dispatchRegisterList?.length}</b></span>
+                    <Table
+                        columns={column}
+                        scroll={{y: '100%'}}
+                        dataSource={dispatchRegisterList}
+                        // pagination={false}
+                        // footer={(currentPageData) => {
+                        //     // console.log(currentPageData);
+                        //     return <span>{currentPageData.length}</span>;
+                        // }}
+                    />
+                </>
+                )
             }
         </>
     )
@@ -511,13 +594,19 @@ const mapState = (state) => {
     const buDropdown = selectBuDropdown(state)
     const teamDropdown = selectTeamDropdown(state)
     const divisionDropdown = selectDivisionDropdown(state)
+    const generateInvoiceList = selectGenerateInvoiceListData(state)
     const dispatchRegisterList = selectDispatchRegisterListData(state)
     const dispatchRegisterReportLoading = selectLoadingDispatchRegisterReportData(state)
-    return {authInfo,dispatchRegisterList,dispatchRegisterReportLoading,profileInfo,buDropdown,divisionDropdown,teamDropdown}
+    return {authInfo,dispatchRegisterList,dispatchRegisterReportLoading,profileInfo,buDropdown,divisionDropdown,teamDropdown,generateInvoiceList}
 }
 
 const actions = {
-    handleDispatchRegisterReportList : getDispatchRegisterReportStartAction
+    handleDispatchRegisterReportList : getDispatchRegisterReportStartAction,
+    handleBusinessUnitDropDown : businessUnitDropdownStartAction,
+    handleDivisionDropDown : divisionDropdownStartAction,
+    handleGenerateInvoice: getGenerateInvoiceStartAction,
+    handleTeamDropDown : teamDropdownStartAction
+
 }
 
 export default connect(mapState, actions)(DispatchReportComponent)

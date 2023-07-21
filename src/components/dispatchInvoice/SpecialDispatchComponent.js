@@ -220,6 +220,7 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
                 </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{specialData?.length}</b></span>
             <Table columns={column} dataSource={specialData}/>
         </div>
     )

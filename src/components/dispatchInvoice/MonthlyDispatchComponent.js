@@ -211,6 +211,7 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
                 </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{monthList?.length}</b></span>
             <Table columns={column} dataSource={monthList}/>
             {/*<br/><br/>*/}
 

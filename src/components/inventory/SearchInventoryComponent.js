@@ -465,6 +465,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{inventoryList?.length}</b></span>
             {flag &&
                 <Table dataSource={inventoryList} columns={columns}/>
             }

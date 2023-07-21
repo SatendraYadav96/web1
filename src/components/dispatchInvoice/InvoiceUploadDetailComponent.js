@@ -263,6 +263,7 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
                 <Col span={15}></Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{invoiceUploadList?.length}</b></span>
                 <Table columns={column} dataSource={invoiceUploadList}/>
         </div>
     )

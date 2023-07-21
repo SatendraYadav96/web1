@@ -343,6 +343,7 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{consumptionList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={consumptionList}/>
             }

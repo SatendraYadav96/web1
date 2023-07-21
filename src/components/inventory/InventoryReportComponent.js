@@ -393,6 +393,7 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{simpleInventoryList?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={simpleInventoryList}/>
             }

@@ -230,6 +230,7 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
                 </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{costCenterList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={costCenterList} />
             }

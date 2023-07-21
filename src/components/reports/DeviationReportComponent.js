@@ -270,6 +270,7 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{deviationList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={deviationList}/>
             }

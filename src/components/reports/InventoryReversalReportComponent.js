@@ -248,6 +248,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{destructionList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={destructionList}/>
             }

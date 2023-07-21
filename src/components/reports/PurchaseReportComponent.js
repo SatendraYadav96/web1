@@ -372,6 +372,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{purchaseList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={purchaseList}/>
             }

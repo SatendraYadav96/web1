@@ -82,6 +82,7 @@ const AllocationReportComponent = ({authInfo}) => {
                 <Col span={6}><Input.Search/></Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{dataSource?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource}/>
             }

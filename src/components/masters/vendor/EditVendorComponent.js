@@ -129,7 +129,6 @@ const EditVendorComponent = ({
           Name:
           <Input
             placeholder={"Vendor Name"}
-            disabled={true}
             value={name}
             onChange={handleNameChange}
           />

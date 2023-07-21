@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import TitleWidget from '../../widgets/TitleWidget'
-import {Button, Card, Col, Row, Table} from "antd";
+import {Button, Card, Col, Input, Row, Space, Table} from "antd";
 import {Line,G2} from "@ant-design/plots/es/index"
-import { each, findIndex } from '@antv/util';
+import { Column } from '@ant-design/plots';
 import LineChartComponent from "./LineChartComponent";
 import MultiLineChartComponent from "./BarChartComponent";
 import PercentageColumnChartComponent from "./PercentageColumnChartComponent";
-import {Pie} from "@ant-design/plots";
 import PieChartComponent from "./PieChartComponent";
 import GroupChartComponent from "./GroupChartComponent";
-import {EditOutlined} from "@ant-design/icons";
+import {EditOutlined, SearchOutlined} from "@ant-design/icons";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {selectLoadingVendorData, selectVendorListData} from "../../redux/selectors/masterSelector";
 import PropTypes from "prop-types";
@@ -27,18 +26,145 @@ import {
     selectPendingDispatchLoading
 } from "../../redux/selectors/dashboardSelector";
 import {hubGrnErrorLogStartAction, hubNearExpiryStartAction, hubPendingRevalidationStartAction, itemExpiredDetailsStartAction, pendingDispatchStartAction} from "../../redux/actions/dashboard/dashboardActions";
+import Highlighter from "react-highlight-words";
 
 const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,hubNearExpiryList,hubNearExpiryLoading,handleHubNearExpiry,hubPendingRevalidationList,hubPendingRevalidationLoading,handleHubPendingRevalidation,hubGrnErrorLogList,hubGrnErrorLogLoading,handleHubGrnErrorLog,itemExpiredDetailsList,itemExpiredDetailsLoading,handleItemExpiredDetails}) => {
 
     const [status, setStatus] = useState(1)
     const [columnPendingDispatch, setColumnPendingDispatch] = useState([])
     const [columnHubNearExpiry, setColumnHubNearExpiry] = useState([])
+    // const [colData, setColData] = useState([
+    //     {
+    //         "month": "JAN",
+    //         "type": "Monthly",
+    //         "sale": 14500
+    //     },
+    //     {
+    //         "month": "JAN",
+    //         "type": "Special",
+    //         "sale": 8500
+    //     },
+    //     {
+    //         "month": "JAN",
+    //         "type": "Virtual",
+    //         "sale": 10000
+    //     },
+    //     {
+    //         "month": "FEB",
+    //         "type": "Monthly",
+    //         "sale": 7000
+    //     },
+    //     {
+    //         "month": "FEB",
+    //         "type": "Special",
+    //         "sale": 9000
+    //     },
+    //     {
+    //         "month": "FEB",
+    //         "type": "Virtual",
+    //         "sale": 8500
+    //     },
+    // ])
     const [columnHubPendingRevalidation, setColumnHubPendingRevalidation] = useState([])
     const [columnHubGrnErrorLog, setColumnHubGrnErrorLog] = useState([])
     const [columnItemExpiredDetails, setColumnItemExpiredDetails] = useState([])
     const [flag, setFlag] = useState(false)
     const [dataSource, setDataSource] = useState([])
     const { InteractionAction, registerInteraction, registerAction } = G2;
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+
     const data = [
         {
             year: '1991',
@@ -253,7 +379,8 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                 title: 'Type',
                 key: 'type',
                 dataIndex: 'allocationType',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('allocationType'),
             },
             {
                 title: 'Submission Date',
@@ -412,12 +539,12 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         handlePendingDispatch ({
             certificate: authInfo.token
         });
-        handleHubNearExpiry({
-            certificate: authInfo.token
-        })
-        handleHubPendingRevalidation({
-            certificate: authInfo.token
-        })
+        // handleHubNearExpiry({
+        //     certificate: authInfo.token
+        // })
+        // handleHubPendingRevalidation({
+        //     certificate: authInfo.token
+        // })
         handleHubGrnErrorLog({
             certificate: authInfo.token
         })
@@ -426,6 +553,89 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         })
         searchData()
     },[status])
+
+    // useEffect(() => {
+    //     setColData([
+    //         {
+    //             "month": "JAN",
+    //             "type": "Monthly",
+    //             "sale": 14500
+    //         },
+    //         {
+    //             "month": "JAN",
+    //             "type": "Special",
+    //             "sale": 8500
+    //         },
+    //         {
+    //             "month": "JAN",
+    //             "type": "Virtual",
+    //             "sale": 10000
+    //         },
+    //         {
+    //             "month": "FEB",
+    //             "type": "Monthly",
+    //             "sale": 7000
+    //         },
+    //         {
+    //             "month": "FEB",
+    //             "type": "Special",
+    //             "sale": 9000
+    //         },
+    //         {
+    //             "month": "FEB",
+    //             "type": "Virtual",
+    //             "sale": 8500
+    //         },
+    //     ])
+    // },[])
+
+    // useEffect(() => {
+    //     console.log(colData)
+    // },[colData])
+
+    const colData = [
+        {
+            "month": "JAN",
+            "type": "Monthly",
+            "sale": 14500
+        },
+        {
+            "month": "JAN",
+            "type": "Special",
+            "sale": 8500
+        },
+        {
+            "month": "JAN",
+            "type": "Virtual",
+            "sale": 10000
+        },
+        {
+            "month": "FEB",
+            "type": "Monthly",
+            "sale": 7000
+        },
+        {
+            "month": "FEB",
+            "type": "Special",
+            "sale": 9000
+        },
+        {
+            "month": "FEB",
+            "type": "Virtual",
+            "sale": 8500
+        },
+    ]
+
+    // const colConfig = {
+    //     colData,
+    //     xField: 'month',
+    //     yField: 'sale',
+    //     seriesField: 'type',
+    //     isGroup: true,
+    //     columnStyle: {
+    //         radius: [20, 20, 0, 0],
+    //     },
+    // };
 
     return (
         <div>
@@ -457,12 +667,19 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                     </Card>
                 </Col>
                 <Col span={12}>
-                    <Card title="Near To Expiry Item" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
+                    <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
                         {
-                            flag && <Table columns={columnHubNearExpiry} scroll={{y: '100%'}} dataSource={hubNearExpiryList} style={{height: "350px"}}/>
+                            flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "350px"}}/>
                         }
                     </Card>
                 </Col>
+                {/*<Col span={12}>*/}
+                {/*    <Card title="Near To Expiry Item" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
+                {/*        {*/}
+                {/*            flag && <Table columns={columnHubNearExpiry} scroll={{y: '100%'}} dataSource={hubNearExpiryList} style={{height: "350px"}}/>*/}
+                {/*        }*/}
+                {/*    </Card>*/}
+                {/*</Col>*/}
             </Row>
             <br/>
             <Row gutter={16}>
@@ -474,23 +691,24 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                     </Card>
                 </Col>
                 <Col span={12}>
-                    <Card title="Pending Request for Revalidation" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
-                        {
-                            flag && <Table columns={columnHubPendingRevalidation} scroll={{y: '100%'}} dataSource={hubPendingRevalidationList} style={{height: "350px"}}/>
-                        }
-                    </Card>
+                {/*    <Card title="Pending Request for Revalidation" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
+                {/*        {*/}
+                {/*            flag && <Table columns={columnHubPendingRevalidation} scroll={{y: '100%'}} dataSource={hubPendingRevalidationList} style={{height: "350px"}}/>*/}
+                {/*        }*/}
+                {/*    </Card>*/}
+                {/*    <Column {...colConfig} />*/}
                 </Col>
             </Row>
             <br/>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
-                        {
-                            flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "350px"}}/>
-                        }
-                    </Card>
-                </Col>
-            </Row>
+            {/*<Row gutter={16}>*/}
+            {/*    <Col span={12}>*/}
+            {/*        <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
+            {/*            {*/}
+            {/*                flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "350px"}}/>*/}
+            {/*            }*/}
+            {/*        </Card>*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
         </div>
     )
 }

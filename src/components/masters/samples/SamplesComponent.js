@@ -225,6 +225,7 @@ const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handl
           </Col>
         </Row>
         <br/><br/>
+      <span>Total Rows: <b>{samplesList?.length}</b></span>
         {flag &&
           <Table columns={column} scroll={{y: '100%'}} dataSource={samplesList} />
         }

@@ -400,6 +400,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{recipientList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={recipientList}/>
             }

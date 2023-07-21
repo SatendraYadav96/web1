@@ -252,6 +252,7 @@ const GroupInvoiceComponent = ({authInfo,profileInfo,groupInvoiceList,groupInvoi
                 </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{groupInvoiceList?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={groupInvoiceList}/>
             }
