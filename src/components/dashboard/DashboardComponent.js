@@ -27,6 +27,8 @@ import {
 } from "../../redux/selectors/dashboardSelector";
 import {hubGrnErrorLogStartAction, hubNearExpiryStartAction, hubPendingRevalidationStartAction, itemExpiredDetailsStartAction, pendingDispatchStartAction} from "../../redux/actions/dashboard/dashboardActions";
 import Highlighter from "react-highlight-words";
+import BarChartComponent from "./BarChartComponent";
+import ColumnChartComponent from "./ColumnChartComponent";
 
 const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,hubNearExpiryList,hubNearExpiryLoading,handleHubNearExpiry,hubPendingRevalidationList,hubPendingRevalidationLoading,handleHubPendingRevalidation,hubGrnErrorLogList,hubGrnErrorLogLoading,handleHubGrnErrorLog,itemExpiredDetailsList,itemExpiredDetailsLoading,handleItemExpiredDetails}) => {
 
@@ -660,14 +662,14 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             {/*<br/><br/><hr/><br/><br/>*/}
             <Row gutter={16}>
                 <Col span={12}>
-                    <Card title="Approved Plan Pending for Dispatch" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
+                    <Card title="Approved Plan Pending for Dispatch" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
                     {
                         flag && <Table columns={columnPendingDispatch} scroll={{y: '100%'}} dataSource={pendingDispatchList} style={{height: "350px"}}/>
                     }
                     </Card>
                 </Col>
                 <Col span={12}>
-                    <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
+                    <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
                         {
                             flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "350px"}}/>
                         }
@@ -684,19 +686,21 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             <br/>
             <Row gutter={16}>
                 <Col span={12}>
-                    <Card title="GRN Error Log In Last Upload" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px", overflow: "hidden"}}>
+                    <Card title="GRN Error Log In Last Upload" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px", overflow: "hidden"}}>
                         {
                             flag && <Table columns={columnHubGrnErrorLog} scroll={{y: '100%'}} dataSource={hubGrnErrorLogList} style={{height: "350px"}}/>
                         }
                     </Card>
                 </Col>
                 <Col span={12}>
-                {/*    <Card title="Pending Request for Revalidation" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
+                    <Card title="Pending Request for Revalidation" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
                 {/*        {*/}
                 {/*            flag && <Table columns={columnHubPendingRevalidation} scroll={{y: '100%'}} dataSource={hubPendingRevalidationList} style={{height: "350px"}}/>*/}
                 {/*        }*/}
-                {/*    </Card>*/}
-                {/*    <Column {...colConfig} />*/}
+                        {/*<Column {...colConfig} />*/}
+
+                        <ColumnChartComponent />
+                    </Card>
                 </Col>
             </Row>
             <br/>
