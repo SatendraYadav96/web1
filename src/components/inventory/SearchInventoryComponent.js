@@ -250,7 +250,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 render:(_,row) =>{
                     return(
                         <>
-                            <Row gutter={[16,16]}>
+                            <Row gutter={[16,16]} style={{marginBottom: '5px'}}>
                                 <Col span={14}>
                                     <Button onClick={() => handleReverseInventoryClick(row)}>
                                         Reverse

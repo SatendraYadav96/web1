@@ -200,10 +200,28 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
             },
             {
                 title: 'Invoice Date',
-                key: '',
+                key: 'invoiceDate',
                 dataIndex: 'invoiceDate',
                 width: '100px'
-            }
+            },
+            {
+                title: 'LR No',
+                key: 'lrno',
+                dataIndex: 'lrno',
+                width: '100px'
+            },
+            {
+                title: 'Courier Name',
+                key: 'courierName',
+                dataIndex: 'courierName',
+                width: '100px'
+            },
+            {
+                title: 'Docket Status',
+                key: 'docketStatus',
+                dataIndex: 'docketStatus',
+                width: '100px'
+            },
         ])
 
         setDataSource([])
@@ -262,6 +280,9 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 amount: item.amount,
                 invoiceNo: item.invoiceNo,
                 invoiceDate: item.invoiceDate,
+                'LR No': item.lrno,
+                'Courier Name': item.courierName,
+                'Docket Status': item.docketStatus,
             }
         }))
         console.log(dispatchesList)

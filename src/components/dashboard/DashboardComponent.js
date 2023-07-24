@@ -29,6 +29,7 @@ import {hubGrnErrorLogStartAction, hubNearExpiryStartAction, hubPendingRevalidat
 import Highlighter from "react-highlight-words";
 import BarChartComponent from "./BarChartComponent";
 import ColumnChartComponent from "./ColumnChartComponent";
+import HorizontalBarComponent from "./HorizontalBarComponent";
 
 const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,hubNearExpiryList,hubNearExpiryLoading,handleHubNearExpiry,hubPendingRevalidationList,hubPendingRevalidationLoading,handleHubPendingRevalidation,hubGrnErrorLogList,hubGrnErrorLogLoading,handleHubGrnErrorLog,itemExpiredDetailsList,itemExpiredDetailsLoading,handleItemExpiredDetails}) => {
 
@@ -556,45 +557,6 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         searchData()
     },[status])
 
-    // useEffect(() => {
-    //     setColData([
-    //         {
-    //             "month": "JAN",
-    //             "type": "Monthly",
-    //             "sale": 14500
-    //         },
-    //         {
-    //             "month": "JAN",
-    //             "type": "Special",
-    //             "sale": 8500
-    //         },
-    //         {
-    //             "month": "JAN",
-    //             "type": "Virtual",
-    //             "sale": 10000
-    //         },
-    //         {
-    //             "month": "FEB",
-    //             "type": "Monthly",
-    //             "sale": 7000
-    //         },
-    //         {
-    //             "month": "FEB",
-    //             "type": "Special",
-    //             "sale": 9000
-    //         },
-    //         {
-    //             "month": "FEB",
-    //             "type": "Virtual",
-    //             "sale": 8500
-    //         },
-    //     ])
-    // },[])
-
-    // useEffect(() => {
-    //     console.log(colData)
-    // },[colData])
-
     const colData = [
         {
             "month": "JAN",
@@ -628,91 +590,46 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         },
     ]
 
-    // const colConfig = {
-    //     colData,
-    //     xField: 'month',
-    //     yField: 'sale',
-    //     seriesField: 'type',
-    //     isGroup: true,
-    //     columnStyle: {
-    //         radius: [20, 20, 0, 0],
-    //     },
-    // };
-
     return (
         <div>
             <TitleWidget title={'Dashboards'}/>
-            {/*<Row gutter={[8,8]}>*/}
-            {/*    <Col span={9} >*/}
-            {/*        <LineChartComponent/>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={11} offset={4}>*/}
-            {/*        <MultiLineChartComponent/>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
-            {/*<br/><br/><hr/><br/><br/>*/}
-            {/*<Row gutter={[8,8]}>*/}
-            {/*    <Col span={8}>*/}
-            {/*        <PercentageColumnChartComponent/>*/}
-            {/*    </Col>*/}
-            {/*    <Col span={13} offset={3}>*/}
-            {/*        <PieChartComponent/>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
-            {/*<br/><br/><hr/><br/><br/>*/}
             <Row gutter={16}>
                 <Col span={12}>
-                    <Card title="Approved Plan Pending for Dispatch" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
-                    {
-                        flag && <Table columns={columnPendingDispatch} scroll={{y: '100%'}} dataSource={pendingDispatchList} style={{height: "350px"}}/>
-                    }
+                    <Card title="Dispatches Month wise" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
+                        <ColumnChartComponent />
                     </Card>
                 </Col>
                 <Col span={12}>
-                    <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
-                        {
-                            flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "350px"}}/>
-                        }
+                    <Card title="Special Courier Cost Month Wises" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
+                        <HorizontalBarComponent />
                     </Card>
                 </Col>
-                {/*<Col span={12}>*/}
-                {/*    <Card title="Near To Expiry Item" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
-                {/*        {*/}
-                {/*            flag && <Table columns={columnHubNearExpiry} scroll={{y: '100%'}} dataSource={hubNearExpiryList} style={{height: "350px"}}/>*/}
-                {/*        }*/}
-                {/*    </Card>*/}
-                {/*</Col>*/}
             </Row>
             <br/>
             <Row gutter={16}>
                 <Col span={12}>
                     <Card title="GRN Error Log In Last Upload" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px", overflow: "hidden"}}>
                         {
-                            flag && <Table columns={columnHubGrnErrorLog} scroll={{y: '100%'}} dataSource={hubGrnErrorLogList} style={{height: "350px"}}/>
+                            flag && <Table columns={columnHubGrnErrorLog} scroll={{y: '100%'}} dataSource={hubGrnErrorLogList} style={{height: "400px"}}/>
                         }
                     </Card>
                 </Col>
                 <Col span={12}>
-                    <Card title="Pending Request for Revalidation" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
-                {/*        {*/}
-                {/*            flag && <Table columns={columnHubPendingRevalidation} scroll={{y: '100%'}} dataSource={hubPendingRevalidationList} style={{height: "350px"}}/>*/}
-                {/*        }*/}
-                        {/*<Column {...colConfig} />*/}
-
-                        <ColumnChartComponent />
+                    <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
+                        {
+                            flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "400px"}}/>
+                        }
                     </Card>
                 </Col>
             </Row>
             <br/>
-            {/*<Row gutter={16}>*/}
-            {/*    <Col span={12}>*/}
-            {/*        <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>*/}
-            {/*            {*/}
-            {/*                flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "350px"}}/>*/}
-            {/*            }*/}
-            {/*        </Card>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
+            <Row gutter={16}>
+                <Card title="Approved Plan Pending for Dispatch" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
+                    {
+                        flag && <Table columns={columnPendingDispatch} scroll={{y: '100%'}} dataSource={pendingDispatchList} style={{height: "400px"}}/>
+                    }
+                </Card>
+            </Row>
         </div>
     )
 }

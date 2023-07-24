@@ -360,7 +360,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         handleGenerateInvoice({
             inh: [
                 {
-                    inhId: row.inhId,
+                    inhId: row.invoiceHeaderID,
                     invoiceNo: `${row.invoiceNo}`,
                 },
             ],
@@ -372,7 +372,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"RecipientReport.xlsx")
+        XLSX.writeFile(wb,"DispatchRegisterReport.xlsx")
     }
 
     useEffect(() => {
@@ -381,12 +381,12 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 team: item.businessUnit,
                 lrNo: item.lrNo,
                 courierName: item.courierName,
-                noBoxes: item.noBoxes,
-                weights: item.weights,
+                noBoxes: item.noOfBoxes,
+                weights: item.weight,
                 invoiceNo: item.invoiceNo,
                 sampleValue: item.sampleValue,
                 itemValue: item.itemValue,
-                invoiceValue: item.values,
+                invoiceValue: item.value,
                 invoiceDate: item.invoiceDate,
                 recipient: item.recipient,
                 designation: item.designation,
@@ -399,7 +399,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 teamName: item.teamName,
                 nameofReceiver: item.nameofReceiver,
                 dateofDelivery: item.dateofDelivery,
-                cost: item.cost,
+                "Courier Cost": item.cost,
             }
         }))
         console.log(dispatchRegisterList)

@@ -64,6 +64,21 @@ const ColumnChartComponent = () => {
             type: "Virtual",
             sale: 6555
         },
+        {
+            month: "MAY",
+            type: "Monthly",
+            sale: 7520
+        },
+        {
+            month: "MAY",
+            type: "Special",
+            sale: 7312
+        },
+        {
+            month: "MAY",
+            type: "Virtual",
+            sale: 9555
+        },
     ];
     const config = {
         data,
@@ -73,9 +88,6 @@ const ColumnChartComponent = () => {
         isGroup: true,
         columnStyle: {
             radius: [20, 20, 0, 0],
-        },
-        legend: {
-            position: 'top-left',
         },
     };
     return <Column {...config} />;

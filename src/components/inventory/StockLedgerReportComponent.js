@@ -8,6 +8,8 @@ import moment from "moment/moment";
 import {selectStockLedgerListData, selectLoadingStockLedgerReportData} from "../../redux/selectors/stockLedgerReportSelector";
 import {getStockLedgerReportStartAction} from "../../redux/actions/reports/stockLedgerReportActions";
 import SelectItemCodeStatusComponent from "../widgets/SelectItemCodeStatusComponent";
+import {CSVLink} from "react-csv";
+import XLSX from "xlsx";
 
 const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockLedgerReportLoading,handleStockLedgerReportList}) => {
 
@@ -15,8 +17,30 @@ const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockL
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [fromDate, setFromDate] = useState()
+    const [data, setData] = useState()
     const [itemId, setItemId] = useState()
     const [toDate, setToDate] = useState()
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"DispatchesReport.XLSX")
+    }
+
+    useEffect(() => {
+        setData(stockLedgerList?.map(item => {
+            return {
+                'Transaction Date': item.transactionDate,
+                'Particulars': item.particulars,
+                'Receipt': item.receipt,
+                'Issue': item.balance,
+                'Batch No': item.batchNo,
+            }
+        }))
+        console.log(stockLedgerList)
+    },[stockLedgerList])
+
 
     const searchData = () => {
         setFlag(true)
@@ -50,9 +74,14 @@ const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockL
                 key:'balance',
                 dataIndex:'balance',
                 width:'100px'
+            },
+            {
+                title:'Batch No',
+                key:'batchNo',
+                dataIndex:'batchNo',
+                width:'100px'
             }
         ])
-
         setDataSource([])
     }
 
@@ -104,10 +133,19 @@ const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockL
             <br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"stockLedgerreport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
             </Row>
             <br/>
             <span>Total Rows: <b>{stockLedgerList?.length}</b></span>
