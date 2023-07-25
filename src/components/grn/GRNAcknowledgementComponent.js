@@ -152,6 +152,9 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         console.log(arr)
     }
 
+    useEffect(() => {
+        console.log(arr)
+    },[arr])
 
     const generateItemCode = (limid, categoryId, id) => {
         if(arr === undefined){

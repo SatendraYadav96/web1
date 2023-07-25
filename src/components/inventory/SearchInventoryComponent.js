@@ -15,10 +15,12 @@ import {
     selectLoadingEditBlockItemData, selectLoadingReverseInventoryData, selectReverseInventoryData, selectSwitchInventoryData, selectLoadingSwitchInventoryData
 } from "../../redux/selectors/inventoryReportSelector";
 import {editBlockItemStartAction, editUnitAllocationStartAction, getInventoryReportStartAction, getInventoryReversalHistoryStartAction, reverseInventoryStartAction, switchInventoryStartAction} from "../../redux/actions/inventory/inventoryReportActions";
+import {CheckOutlined} from "@ant-design/icons";
 
 const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportList,inventoryReversalHistoryList,handleInventoryReversalHistoryList,editUnitAllocation,handleEditUnitAllocation,editBlockItem,handleEditBlockItem,reverseInventory, reverseInventoryLoading,handleReverseInventory,switchInventory,switchInventoryLoading,handleSwitchInventory}) => {
 
     const [columns, setColumns] = useState([])
+    const [modalColumns, setModalColumns] = useState([])
     const [active, setActive] = useState(0)
     const [checked, setChecked] = useState(false);
     const [name, setName] = useState()
@@ -34,6 +36,11 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     const [flag, setFlag] = useState(false)
     const [checkedUA, setCheckedUA] = useState()
     const [checkedBI, setCheckedBI] = useState()
+    const [reversal, setReversal] = useState()
+    const [multipleReversal, setMultipleReversal] = useState()
+    const [reversalModal, setReversalModal] = useState(false)
+    const [checkedArr, setCheckedArr] = useState([])
+    const [revQty, setRevQty] = useState([])
     const [currentUAId, setCurrentUAId] = useState()
     const [currentBIId, setCurrentBIId] = useState()
     const [popUp, setPopUp] = useState(0)
@@ -58,6 +65,37 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     const onChange = (value) => {
         setReverseQty (value)
     };
+
+    // const matchData = (invoiceList,checkedArr) => invoiceList.filter(data => checkedArr.includes(data.invId)).map(data => data);
+
+    const onChangeMultipleQty = (value,row) => {
+        console.log(value)
+        setRevQty(revQty.map(obj => {
+            // if id equals to the changes row's id, update qty property
+            if (obj.invId === row.invId) {
+                console.log(obj)
+                return {...obj, quantity: value};
+            }
+            return obj;
+        }))
+    };
+
+    const onChangeMultipleRemark = (value,row) => {
+        console.log(value)
+        // console.log(revQty)
+        setRevQty(revQty.map(obj => {
+            // if id equals to the changes row's id, update qty property
+            if (obj.invId === row.invId) {
+                return {...obj, remarks: value};
+            }
+            return obj;
+        }))
+    };
+
+
+    const handleRow = () => {
+        console.log(multipleReversal)
+    }
 
     const handleRemark = (value) => {
         setRemark (value)
@@ -87,6 +125,48 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         console.log(row.invId)
         setCurrentBIId(row.invId)
     }
+
+    const handleReversal = (event,row) => {
+        console.log('checked = ', event.target.checked);
+        if (event.target.checked) {
+            setReversal(row.invId)
+            setCheckedArr(current => [...current, row.invId]);
+        }
+        else if (event.target.checked === false) {
+            setCheckedArr((current) => current.filter(checked => checked !== row.invId))
+            console.log("removed")
+        }
+        console.log(row.invId)
+    }
+
+    const matchData = (invoiceList,checkedArr) => invoiceList.filter(data => checkedArr.includes(data.invId)).map(data => data);
+
+    const handleMultipleReversal = () => {
+        // setPrintAction(true)
+        console.log(matchData(inventoryList, checkedArr))
+        setMultipleReversal(matchData(inventoryList, checkedArr))
+        setReversalModal(true)
+        // handleGenerateInvoice({
+        //     genInv: {
+        //         invoiceHeaderID: printInvoice.invoiceHeaderID,
+        //         invoiceNumber: printInvoice.invoiceNumber,
+        //     },
+        // })
+    }
+
+    useEffect(() => {
+        console.log(multipleReversal)
+        let q = multipleReversal?.map(item => ({
+            invId: item.invId,
+            quantity: 0,
+            remarks: '',
+        }))
+        setRevQty(q)
+    },[multipleReversal])
+
+    useEffect(() => {
+        console.log(checkedArr)
+    },[checkedArr])
 
     useEffect(() => {
         console.log(checkedBI)
@@ -244,6 +324,15 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 width: '100px'
             },
             {
+                title: 'Reversal',
+                key:'',
+                dataIndex: 'invId',
+                width: '100px',
+                render: (_,row) => {
+                    return <Checkbox value={reversal} onChange={(event) => handleReversal(event,row)}/>
+                }
+            },
+            {
                 title: '',
                 key:'',
                 dataIndex: '',
@@ -274,6 +363,33 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 }
             }
         ]);
+        setModalColumns([
+            {
+                title: 'Name',
+                key: 'itemName',
+                dataIndex: 'itemName',
+                width: '100px'
+            },
+            {
+                title: 'Qty Balance',
+                key:'qtyBalanced',
+                dataIndex: 'qtyBalanced',
+                width: '100px',
+            },
+            {
+                title: 'Qty',
+                key:'',
+                dataIndex: 'invId',
+                render: (_,row) => {
+                    return (
+                        <>
+                            <InputNumber min={0} defaultValue={0} onChange={(e) => onChangeMultiple(e,row)} /> &nbsp;
+                            <Button type={"primary"} icon={<CheckOutlined />} onClick={() => handleRow(row)}/>
+                        </>
+                    )
+                }
+            },
+        ])
         setDataSource([
             {
                 key: '1',
@@ -412,7 +528,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             quantity: reverseQty,
         }
         handleReverseInventory({
-            inv: data,
+            inv: [data],
             certificate: authInfo.token,
         })
     }
@@ -453,15 +569,19 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         <div>
             <TitleWidget title={"Search Inventory"}/>
             <Row gutter={[16, 16]}>
-                <Col span={3}>
-                    Item Name <br/><Input style={{width:"100%"}}/>
-                </Col>
+                {/*<Col span={3}>*/}
+                {/*    Item Name <br/><Input style={{width:"100%"}}/>*/}
+                {/*</Col>*/}
                 <Col span={3}>
                     Exhuasting Quantity <Checkbox checked={checked} onChange={handleChange}/>
                 </Col>
                 <Col span={2}>
                     <br/>
-                    <Button type={"primary"} onClick={() => getInventoryReportList()}>Search</Button>
+                    <Button type={"primary"} onClick={() => getInventoryReportList()} style={{width: "100%"}}>Search</Button>
+                </Col>
+                <Col span={3}>
+                    <br/>
+                    <Button type={"primary"} onClick={() => handleMultipleReversal()} style={{width: "100%"}}>Mutiple Reverse</Button>
                 </Col>
             </Row>
             <br/>
@@ -523,7 +643,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 </Row>
             </Modal>
             <Modal
-                visible={reversalHistory}
+                open={reversalHistory}
                 title="Reversal History"
                 footer={null}
                 onCancel={() => {
@@ -542,7 +662,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
 
             </Modal>
             <Modal
-                visible={switchForm}
+                open={switchForm}
                 width={900}
                 title="Switch Inventory from"
                 footer={null}
@@ -574,6 +694,71 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                     <Col span={6}>Remarks<Input onChange={(e) => setSwitchRemark(e.target.value)}/></Col>
                     <Col span={6}><br/><Button onClick={handleSwitch}>Switch</Button></Col>
                 </Row>
+            </Modal>
+            <Modal open={reversalModal} title="Multiple Reversal" footer={[
+                <Button type={"primary"} onClick={() => console.log(revQty)} >Reverse</Button>
+            ]} width={"70vw"} onCancel={() => {
+                setReversalModal(false)
+            }}>
+                {/*<p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print</p>*/}
+                {/*<Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleInvoicePrint()}>Print Invoice</Button>*/}
+                {/*<Button type={"primary"} onClick={() => handleLabelPrint()}>Print Label</Button>*/}
+                {/*<br/>*/}
+                {/*<Table*/}
+                {/*    columns={modalColumns}*/}
+                {/*    dataSource={multipleReversal}*/}
+                {/*    scroll={{*/}
+                {/*        x: 100,*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*</Table>*/}
+                <Row gutter={16}>
+                    <Col span={4} style={{fontWeight: 'bold', fontSize: 17}}>Name</Col>
+                    <Col span={3} style={{fontWeight: 'bold', fontSize: 17}}>Qty Balance</Col>
+                    <Col span={3} style={{fontWeight: 'bold', fontSize: 17}}>Qty</Col>
+                    <Col span={3} style={{fontWeight: 'bold', fontSize: 17}}>Remark</Col>
+                </Row>
+                <hr/>
+                {multipleReversal?.map(item => {
+                    return(
+                        <>
+                            <Row gutter={16}>
+                                <Col span={4} style={{fontSize: 14}}>{item.itemName}</Col>
+                                <Col span={3} style={{fontSize: 14}}>{item.qtyBalanced}</Col>
+                                <Col span={3} style={{fontSize: 14}}>
+                                    <InputNumber min={0} defaultValue={0} onChange={(e) => onChangeMultipleQty(e,item)} />
+                                </Col>
+                                <Col span={3} style={{fontSize: 14}}>
+                                    <Select
+                                        style={{
+                                            width: 120,
+                                        }}
+                                        options={[
+                                            {
+                                                value: 'EXPIRED',
+                                                label: 'EXPIRED',
+                                            },
+                                            {
+                                                value: 'PRUNED',
+                                                label: 'PRUNED',
+                                            },
+                                            {
+                                                value: 'SHORT RECEIPT',
+                                                label: 'SHORT RECEIPT',
+                                            },
+                                            {
+                                                value: 'DAMAGED',
+                                                label: 'DAMAGED',
+                                            },
+                                        ]}
+                                        onChange={(value) => onChangeMultipleRemark(value,item)}
+                                    />
+                                </Col>
+                            </Row>
+                            <hr/>
+                        </>
+                    )
+                })}
             </Modal>
         </div>
     )
