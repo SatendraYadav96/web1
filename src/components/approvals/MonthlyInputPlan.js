@@ -405,18 +405,19 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             certificate: authInfo.token,
             plan: {
                 planId: row.dispatchPlanID,
-                apiId: row.userID,
+                apiId: row.dispatchPlanID,
                 approvalType: 0,
                 comment: comment,
             },
         })
+        setCommentRejectModal(false)
     }
 
     const handleClick = (row) => {
         handleMonthlyToSpecialList({
             certificate: authInfo.token,
             plan: {
-                dispatchPlanId: planId,
+                planId: planId,
                 planPurpose: planPurpose,
                 month: planMonth,
                 year: planYear,

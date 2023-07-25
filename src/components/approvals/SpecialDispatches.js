@@ -394,9 +394,9 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
         handleRejectPlanList({
             certificate: authInfo.token,
             plan: {
-                planId: planId,
-                // apiId: row.userID,
-                approvalType: 0,
+                planId: row.dispatchPlanID,
+                apiId: row.dispatchPlanID,
+                approvalType: 1,
                 comment: comment,
             },
         })

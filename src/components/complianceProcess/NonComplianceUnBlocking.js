@@ -12,6 +12,7 @@ import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import {getNonComplianceStartAction} from "../../redux/actions/compliance/nonComplianceActions";
 import SelectUnBlockingStatusComponent from "../widgets/SelectUnBlockingStatus";
 import * as nonComplianceList from "rxjs";
+import {selectNonComplianceListData} from "../../redux/selectors/nonComplianceSelector";
 
 
 const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonCompliance}) => {
@@ -54,19 +55,19 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
             {
                 title: 'Headquater',
                 key: 'headquater',
-                dataIndex: 'headquater',
+                dataIndex: 'headquarter',
                 width: '100px'
             },
             {
                 title: 'AM',
                 key: 'am',
-                dataIndex: 'am',
+                dataIndex: 'emailAM',
                 width: '100px'
             },
             {
                 title: 'RBM',
                 key: 'rbm',
-                dataIndex: 'rbm',
+                dataIndex: 'emailRM',
                 width: '100px'
             },
             {
@@ -84,7 +85,7 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
             {
                 title: 'Is Blocked',
                 key: 'isBlocked',
-                dataIndex: 'isBlocked',
+                dataIndex: 'isBockedFF',
                 width: '100px'
             },
             {
@@ -96,7 +97,7 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
             {
                 title: 'Admin Remark',
                 key: 'adminRemark',
-                dataIndex: 'adminRemark',
+                dataIndex: 'remarkByAdmin',
                 width: '100px'
             },
         ])
@@ -226,7 +227,7 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
             </Row>
             <br/>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={data}/>
+                <Table columns={column} scroll={{y: '100%'}} dataSource={nonComplianceList}/>
             }
         </>
     )
@@ -242,7 +243,7 @@ NonComplianceUnBlockingComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     // const profileInfo = selectProfileInfo(state)
-    const nonComplianceList = getNonComplianceStartAction(state)
+    const nonComplianceList = selectNonComplianceListData(state)
     return {authInfo,nonComplianceList}
 }
 
