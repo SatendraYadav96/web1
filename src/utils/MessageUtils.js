@@ -839,4 +839,30 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+    GET_SPECIAL_PLAN_APPROVAL_START: [{ action: 'showspinner' }],
+    GET_SPECIAL_PLAN_APPROVAL_SUCCESS: [{ action: 'hidespinner' }],
+    GET_SPECIAL_PLAN_APPROVAL_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
+    REJECT_PLAN_START: [{ action: 'showspinner' }],
+    REJECT_PLAN_SUCCESS: [
+        { action: 'hidespinner' },
+        {
+            action: 'showsuccess',
+            payload: {
+                message: { text: 'Rejected!', type: 'success' }
+            },
+        },
+    ],
+    REJECT_PLAN_FAIL: [
+        { action: 'hidespinner' },
+        {
+            action: 'showerror',
+            payload: { message: { text: 'action failed', type: 'error' } },
+        },
+    ],
 }
