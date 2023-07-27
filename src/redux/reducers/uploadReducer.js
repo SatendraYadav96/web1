@@ -9,7 +9,7 @@ import {
     INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL,
     TRANSPORT_EXCEL_UPLOAD_SUCCESS,
     TRANSPORT_UPLOAD_FAIL,
-    TRANSPORT_UPLOAD_SUCCESS,
+    TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_FAIL, VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
     VIRTUAL_UPLOAD_FAIL,
     VIRTUAL_UPLOAD_SUCCESS
 } from "../actions/upload/uploadActionConstants";
@@ -30,6 +30,8 @@ const initialState = {
     invoiceUploadLoading: false,
     invoiceExcelUpload: [],
     invoiceExcelUploadLoading: false,
+    virtualSample: [],
+    virtualSampleLoading: false,
     error: {}
 }
 
@@ -194,6 +196,26 @@ const invoiceExcelUploadFailReducer = (state = initialState, payload) => {
     }
 }
 
+// INVOICE_EXCEL_UPLOAD
+const virtualSampleSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualSample:payload.virtualSample,
+        virtualSampleLoading: false
+
+    }
+}
+
+const virtualSampleFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualSample:[],
+        virtualSampleLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 export default createReducer(initialState, {
     [TRANSPORT_UPLOAD_SUCCESS]: transportUploadSuccessReducer,
@@ -212,5 +234,7 @@ export default createReducer(initialState, {
     [INVOICE_UPLOAD_FAIL]: invoiceUploadFailReducer,
     [INVOICE_EXCEL_UPLOAD_SUCCESS]: invoiceExcelUploadSuccessReducer,
     [INVOICE_EXCEL_UPLOAD_FAIL]: invoiceExcelUploadFailReducer,
+    [VIRTUAL_SAMPLE_UPLOAD_SUCCESS]: virtualSampleSuccessReducer,
+    [VIRTUAL_SAMPLE_UPLOAD_FAIL]: virtualSampleFailReducer,
 
 })

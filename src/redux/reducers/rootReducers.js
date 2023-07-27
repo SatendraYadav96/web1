@@ -36,6 +36,8 @@ import dashboardReducer from "./dashboardReducer";
 import monthlyApprovalReducer from "./monthlyApprovalReducer";
 import complianceReducer from "./nonComplianceReducer";
 import uploadReducer from "./uploadReducer";
+import batchReconciliation from "../../components/batchReconciliation/BatchReconciliation";
+import batchReconciliationReportReducer from "./batchReconciliationReportReducer";
 
 
 
@@ -62,6 +64,7 @@ const rootReducer = combineReducers({
     ageingReport:ageingReportReducer,
     nearToExpiryInputReport:nearToExpiryInputReportReducer,
     inventoryReport:inventoryReportReducer,
+    batchReconciliation: batchReconciliationReportReducer,
     purchaseReport:purchaseReportReducer,
     itemCode:itemCodeReducer,
     itemRevalidation:itemRevalidationReducer,

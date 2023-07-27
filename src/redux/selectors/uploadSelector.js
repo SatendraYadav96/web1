@@ -123,3 +123,18 @@ export const selectLoadingInvoiceExcelUploadData = createSelector(
 );
 
 
+const virtualSampleList = (state) => state.upload.virtualSample;
+const virtualSampleLoading = (state) => state.upload.virtualSampleLoading
+
+
+export const selectVirtualSampleListData = createSelector(
+    virtualSampleList,
+    virtualSampleListDataSelection => virtualSampleListDataSelection
+);
+
+export const selectLoadingVirtualSampleData = createSelector(
+    virtualSampleLoading,
+    loadingSelection => loadingSelection
+);
+
+

@@ -15,9 +15,11 @@ import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
+import {getBatchReconciliationStartAction} from "../../redux/actions/reports/batchReconciliationReportActions";
+import {selectBatchReconciliationListData} from "../../redux/selectors/batchReconciliationReportSelector";
 
 
-const BatchReconciliationComponent = ({authInfo}) => {
+const BatchReconciliationComponent = ({authInfo,handleBatchReconciliation,batchReconciliationList}) => {
 
     // let now = new Date()
 
@@ -35,27 +37,27 @@ const BatchReconciliationComponent = ({authInfo}) => {
         setColumn([
             {
                 title:'Buisness Unit',
-                key:'buisnessUnit',
-                dataIndex:'buisnessUnit',
+                key:'bu',
+                dataIndex:'bu',
                 width:'100px'
             },
             {
                 title:'Brand//CC',
-                key:'brandCC',
-                dataIndex:'brandCC',
-                width:'100px'
+                key:'brand',
+                dataIndex:'brand',
+                width:'150px'
             },
             {
                 title: 'SKU Details',
-                key: 'skuDetails',
-                dataIndex: 'skuDetails',
+                key: 'prodcutname',
+                dataIndex: 'prodcutname',
                 width: '100px'
             },
             {
                 title: 'Batch Number',
-                key: 'batchNumber',
-                dataIndex: 'batchNumber',
-                width: '100px'
+                key: 'batch_No',
+                dataIndex: 'batch_No',
+                width: '110px'
             },
             {
                 title: 'Expiry Date',
@@ -71,50 +73,50 @@ const BatchReconciliationComponent = ({authInfo}) => {
             },
             {
                 title: 'Qty Rcvd at Hub',
-                key: 'qtyRcvdAtHub',
-                dataIndex: 'qtyRcvdAtHub',
+                key: 'receivedatHub',
+                dataIndex: 'receivedatHub',
                 width: '100px'
             },
             {
                 title: 'Dispatched at Hub',
-                key: 'dispatchedAtHub',
-                dataIndex: 'dispatchedAtHub',
+                key: 'dispatched',
+                dataIndex: 'dispatched',
                 width: '100px'
             },
             {
                 title: 'Balance With Hub',
-                key: 'balanceWithHub',
-                dataIndex: 'balanceWithHub',
+                key: 'hub_Balance',
+                dataIndex: 'hub_Balance',
                 width: '100px'
             },
             {
                 title: 'Destroyed at Hub',
-                key: 'destroyedAtHub',
-                dataIndex: 'destroyedAtHub',
+                key: 'destroyed',
+                dataIndex: 'destroyed',
                 width: '100px'
             },
             {
                 title: 'Validated by FF',
-                key: 'validatedByFF',
-                dataIndex: 'validatedByFF',
+                key: 'validated',
+                dataIndex: 'validated',
                 width: '100px'
             },
             {
                 title: 'Pending Validation by FF',
-                key: 'pendingValidationByFF',
-                dataIndex: 'pendingValidationByFF',
+                key: 'pending_Validation',
+                dataIndex: 'pending_Validation',
                 width: '100px'
             },
             {
                 title: 'Distributed by FF',
-                key: 'distributedByFF',
-                dataIndex: 'distributedByFF',
+                key: 'distribute',
+                dataIndex: 'distribute',
                 width: '100px'
             },
             {
                 title: 'FF Balance',
-                key: 'ffBalance',
-                dataIndex: 'ffBalance',
+                key: 'balance',
+                dataIndex: 'balance',
                 width: '100px'
             },
         ])
@@ -124,6 +126,12 @@ const BatchReconciliationComponent = ({authInfo}) => {
 
     const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
+
+    useEffect(() => {
+        handleBatchReconciliation({
+            certificate: authInfo.token,
+        })
+    },[])
 
 
     const getPurchaseReportList = () => {
@@ -157,11 +165,32 @@ const BatchReconciliationComponent = ({authInfo}) => {
         searchData()
     },[authInfo.token])
 
+    useEffect(() => {
+        setData(batchReconciliationList?.map(item => {
+            return ({
+                'Business Unit': item.bu,
+                'Brand//CC': item.brand,
+                'SKU Details': item.prodcutname,
+                'Batch Number': item.batch_No,
+                'Expiry Date': item.expiryDate,
+                'Product Code': item.productCode,
+                'Qty Rcvd at Hub': item.receivedatHub,
+                'Dispatched at Hub': item.dispatched,
+                'Balance With Hub': item.hub_Balance,
+                'Destroyed at Hub': item.destroyed,
+                'Validated by FF': item.validated,
+                'Pending Validation by FF': item.pending_Validation,
+                'Distributed by FF': item.distribute,
+                'FF Balance': item.balance,
+            })
+        }))
+    },[batchReconciliationList])
+
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"PurchaseReport.XLSX")
+        XLSX.writeFile(wb,"BatchReconciliation.XLSX")
     }
 
     // useEffect(() => {
@@ -202,12 +231,12 @@ const BatchReconciliationComponent = ({authInfo}) => {
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     <br/>
-                    <Button type={"primary"} >Download</Button>
+                    <Button type={"primary"} onClick={handleExcel}>Download</Button>
                 </Col>
             </Row>
             <br/>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource}/>
+                <Table columns={column} scroll={{y: '100%'}} dataSource={batchReconciliationList}/>
             }
         </>
     )
@@ -224,13 +253,13 @@ BatchReconciliationComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     // const profileInfo = selectProfileInfo(state)
-    // const purchaseList = selectPurchaseListData(state)
+    const batchReconciliationList = selectBatchReconciliationListData(state)
     // const purchaseReportLoading = selectLoadingPurchaseReportData(state)
-    return {authInfo}
+    return {authInfo,batchReconciliationList}
 }
 
 const actions = {
-    // handlePurchaseReportList : getPurchaseReportStartAction
+    handleBatchReconciliation : getBatchReconciliationStartAction
 }
 
 export default connect(mapState, actions)(BatchReconciliationComponent)

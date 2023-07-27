@@ -11,7 +11,7 @@ import {
     GRN_UPLOAD_SUCCESS, INVOICE_EXCEL_UPLOAD_FAIL, INVOICE_EXCEL_UPLOAD_START, INVOICE_EXCEL_UPLOAD_SUCCESS, INVOICE_UPLOAD_FAIL, INVOICE_UPLOAD_START, INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_SUCCESS,
     TRANSPORT_UPLOAD_FAIL,
     TRANSPORT_UPLOAD_START,
-    TRANSPORT_UPLOAD_SUCCESS,
+    TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_FAIL, VIRTUAL_SAMPLE_UPLOAD_START, VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
     VIRTUAL_UPLOAD_FAIL,
     VIRTUAL_UPLOAD_START,
     VIRTUAL_UPLOAD_SUCCESS
@@ -187,4 +187,24 @@ export const invoiceExcelUploadFailAction = (payload) => (dispatch) => {
     })
 }
 
+export const virtualSampleStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: VIRTUAL_SAMPLE_UPLOAD_START,
+        payload: payload,
+    })
+}
+
+export const virtualSampleSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const virtualSampleFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: VIRTUAL_SAMPLE_UPLOAD_FAIL,
+        payload: payload,
+    })
+}
 

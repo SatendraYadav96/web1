@@ -8,12 +8,12 @@ import {
     grnUploadSuccessAction, invoiceExcelUploadFailAction, invoiceExcelUploadSuccessAction, invoiceUploadFailAction, invoiceUploadSuccessAction, transportExcelUploadFailAction, transportExcelUploadSuccessAction,
     transportUploadFailAction,
     transportUploadStartAction,
-    transportUploadSuccessAction,
+    transportUploadSuccessAction, virtualSampleFailAction, virtualSampleSuccessAction,
     virtualUploadFailAction,
     virtualUploadSuccessAction
 } from "../actions/upload/uploadActions";
 import {FF_UPLOAD_START, GRN_EXCEL_UPLOAD_START, INVOICE_EXCEL_UPLOAD_START, INVOICE_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
-import {ffUploadRequest, grnExcelUploadRequest, transportExcelUploadRequest, transportUploadRequest, virtualUploadRequest, invoicesUploadRequest, grnUploadRequest, invoiceExcelUploadRequest} from "../../api/uploadRequests";
+import {ffUploadRequest, grnExcelUploadRequest, transportExcelUploadRequest, transportUploadRequest, virtualUploadRequest, invoicesUploadRequest, grnUploadRequest, invoiceExcelUploadRequest, virtualSampleRequest} from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
 
 
@@ -120,6 +120,20 @@ export const invoiceExcelUploadsStartEpic = (action$) =>
             invoiceExcelUploadRequest(action.payload).pipe(
                 map((listResponse) => invoiceExcelUploadSuccessAction({invoiceExcelUpload: listResponse.response})),
                 catchError((error) => of(invoiceExcelUploadFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// INVOICE_EXCEL_UPLOAD
+export const virtualSampleStartEpic = (action$) =>
+    action$.pipe(
+        ofType(INVOICE_EXCEL_UPLOAD_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            virtualSampleRequest(action.payload).pipe(
+                map((listResponse) => virtualSampleSuccessAction({virtualSample: listResponse.response})),
+                catchError((error) => of(virtualSampleFailAction({error: error}))),
             )
         )
     )

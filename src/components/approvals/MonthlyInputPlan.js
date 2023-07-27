@@ -192,7 +192,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<SyncOutlined spin/>} onClick={() => handleReset(row)}></Button>
+                    return <Button icon={<SyncOutlined spin/>} disabled={row.planStatus !== 'REVIEWED'} onClick={() => handleReset(row)}></Button>
                 },
             },
             {
@@ -201,7 +201,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<UnlockOutlined />} onClick={() => handleUnlock(row)}></Button>
+                    return <Button icon={<UnlockOutlined />} disabled onClick={() => handleUnlock(row)}></Button>
                 },
             },
             {
@@ -210,7 +210,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<CheckOutlined />} onClick={() => {
+                    return <Button icon={<CheckOutlined />} disabled={row.planStatus === 'REVIEWED' || row.planStatus === 'DRAFT'} onClick={() => {
                         setOpen(true);
                         setPlanId(row.dispatchPlanID);
                     }}></Button>
@@ -222,7 +222,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<CloseOutlined />} onClick={() => {
+                    return <Button icon={<CloseOutlined />} disabled={row.planStatus === 'REVIEWED'} onClick={() => {
                         setOpenReject(true);
                         setPlanId(row.dispatchPlanID);
                     }}></Button>
@@ -234,7 +234,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<ArrowRightOutlined />} onClick={() => {
+                    return <Button icon={<ArrowRightOutlined />} disabled={row.planStatus !== 'REVIEWED'} onClick={() => {
                         setOpenMonthlyToSpecial(true);
                         setPlanId(row.dispatchPlanID)
                     }}></Button>

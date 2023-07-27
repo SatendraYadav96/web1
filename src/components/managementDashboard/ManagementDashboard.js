@@ -71,11 +71,24 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
         setDataSource([])
     }
 
+    useEffect(() => {
+        if (managementDashboardList) {
+            setData(managementDashboardList?.map(item => {
+                return {
+                    "Business Unit": item.businessUnit,
+                    "Brand Manager": item.brand_Manager,
+                    "Plan type": item.plantype,
+                    "Submission Date": item.submitted_On,
+                }
+            }))
+        }
+    },[managementDashboardList])
+
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"PurchaseReport.XLSX")
+        XLSX.writeFile(wb,"ManagementReport.XLSX")
     }
 
 
@@ -129,19 +142,23 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
             <br/>
             <Row>
                 <Col span={6}>
-                    {/*{data &&*/}
-                    {/*    (<CSVLink*/}
-                    {/*        data={data}*/}
-                    {/*        filename={"purchasereport.csv"}*/}
-                    {/*        onClick={() => {*/}
-                    {/*            console.log("clicked")*/}
-                    {/*        }}*/}
-                    {/*    >*/}
-                    {/*        <Button>CSV</Button>*/}
-                    {/*    </CSVLink>)}*/}
-                    <Button>CSV</Button>
-                    &nbsp;
-                    <Button onClick={handleExcel}>EXCEL</Button>
+                    {data &&
+                        (
+                            <>
+                                <CSVLink
+                                    data={data}
+                                    filename={"ManagementReport.csv"}
+                                    onClick={() => {
+                                        console.log("clicked")
+                                    }}
+                                >
+                                    <Button>CSV</Button>
+                                </CSVLink>
+                                <Button onClick={handleExcel}>EXCEL</Button>
+                            </>
+                        )
+                    }
+
                 </Col>
                 <Col span={18}>
                     <div align="right">

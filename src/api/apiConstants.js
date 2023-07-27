@@ -51,6 +51,7 @@ export const GET_DISPATCH_REGISTER_REPORT_API = {url: '/v1/report/getReportDispa
 export const GET_DEVIATION_REPORT_API = {url: '/v1/report/getReportDeviation',method:'GET',auth:true}
 export const GET_ITEM_CONSUMPTION_REPORT_API = {url: '/v1/report/getReportItemConsumption',method:'POST',auth:true}
 export const GET_DESTRUCTION_REPORT_API = {url: '/v1/report/getReportDestruction',method:'POST',auth:true}
+export const GET_BATCH_RECONCILIATION_REPORT_API = {url: '/v1/report/getBatchReconciliation',method:'GET',auth:true}
 
 //  HSN & INVOICE
 export const ADD_HSN_API = { url: '/v1/hsn/addHsn', method: 'POST', auth: true }
@@ -187,4 +188,5 @@ export const FF_UPLOAD_API = {url: '/v1/upload/recipientUpload',method:'POST',au
 export const VIRTUAL_UPLOAD_API = {url: '/v1/upload/virtualUpload',method:'POST',auth:true}
 export const INVOICE_UPLOAD_API = {url: '/v1/upload/invoiceUpload',method:'POST',auth:true}
 export const INVOICE_EXCEL_UPLOAD_API = {url: '/v1/upload/invoiceExcelData',method:'GET',auth:true}
-
+// export const INVOICE_EXCEL_UPLOAD_API = {url: '/v1/upload/invoiceExcelData',method:'GET',auth:true}
+export const VIRTUAL_SAMPLE_UPLOAD_API = {url: '/v1/upload/virtualSampleExcelData',method:'GET',auth:true}

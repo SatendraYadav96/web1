@@ -126,7 +126,6 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
         //     certificate: authInfo.token
         // });
         searchData()
-
     }
 
     const handleExcel = () => {

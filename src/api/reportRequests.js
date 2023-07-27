@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {GET_AGEING_REPORT_API, GET_ITEM_WISE_REPORT_API, GET_NEAR_TO_EXPIRY_INPUT_REPORT_API, GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API, GET_RECIPIENT_REPORT_API, GET_SIMPLE_INVENTORY_REPORT_API, GET_STOCK_LEDGER_REPORT_API} from "./apiConstants";
+import {GET_AGEING_REPORT_API, GET_BATCH_RECONCILIATION_REPORT_API, GET_ITEM_WISE_REPORT_API, GET_NEAR_TO_EXPIRY_INPUT_REPORT_API, GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API, GET_RECIPIENT_REPORT_API, GET_SIMPLE_INVENTORY_REPORT_API, GET_STOCK_LEDGER_REPORT_API} from "./apiConstants";
 import {GET_PURCHASE_REPORT_API} from "./apiConstants";
 import {GET_DISPATCHES_REPORT_API} from "./apiConstants";
 import {GET_DISPATCH_REGISTER_REPORT_API} from "./apiConstants";
@@ -90,5 +90,10 @@ export const nearToExpirySampleReportRequest = payload => {
 export const simpleInventoryReportRequest = payload => {
     const api = {...GET_SIMPLE_INVENTORY_REPORT_API, url: `${GET_SIMPLE_INVENTORY_REPORT_API.url}`}
     return createRequest(api, payload.certificate, payload.simInv)
+}
+
+// BATCH RECONCILIATION
+export const batchReconciliationReportRequest = payload => {
+    return createRequest(GET_BATCH_RECONCILIATION_REPORT_API, payload.certificate, null)
 }
 

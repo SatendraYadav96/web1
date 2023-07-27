@@ -6,12 +6,13 @@ import {connect} from "react-redux";
 import {Button, Col, message, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
-import {ffUploadStartAction, virtualUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {ffUploadStartAction, virtualSampleStartAction, virtualUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectVirtualSampleListData} from "../../redux/selectors/uploadSelector";
 
 ;
 
 
-const VirtualSampleComponent = ({authInfo,handleVirtualUpload}) => {
+const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampleUpload,virtualSampleData}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -140,6 +141,13 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload}) => {
         })
     }
 
+    useEffect(() => {
+        handleVirtualSampleUpload({
+            certificate: authInfo.token,
+
+        })
+    },[])
+
     return(
         <div>
             <TitleWidget title={'Virtual Sample'} />
@@ -163,16 +171,20 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload}) => {
 
 VirtualSampleComponent.propTypes = {
     authInfo: PropTypes.any,
+    virtualSampleData: PropTypes.array,
     handleVirtualUpload: PropTypes.func,
+    handleVirtualSampleUpload: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const virtualSampleData = selectVirtualSampleListData(state)
+    return {authInfo,virtualSampleData}
 }
 
 const actions = {
     handleVirtualUpload: virtualUploadStartAction,
+    handleVirtualSampleUpload: virtualSampleStartAction,
 }
 
 export default connect(mapState, actions)(VirtualSampleComponent)

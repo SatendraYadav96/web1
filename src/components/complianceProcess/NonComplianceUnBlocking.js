@@ -148,7 +148,7 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
     }
 
     useEffect(() => {
-        {nonComplianceList.len > 0 ? setData(nonComplianceList.map(item => {
+        {nonComplianceList.length > 0 ? setData(nonComplianceList?.map(item => {
             return {
                 team: item.businessUnit,
                 subTeam: item.divison,
@@ -214,7 +214,7 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
                     {data &&
                         (<CSVLink
                             data={data}
-                            filename={"consumptionreport.csv"}
+                            filename={"NonComplianceUnBlocking.csv"}
                             onClick={() => {
                                 console.log("clicked")
                             }}
