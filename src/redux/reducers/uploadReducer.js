@@ -1,7 +1,7 @@
 import {createReducer} from "./reducerUtils";
 import {GET_BUISNESS_UNIT_FAIL, GET_BUISNESS_UNIT_SUCCESS} from "../actions/master/masterActionConstants";
 import {
-    FF_UPLOAD_FAIL,
+    FF_UPLOAD_FAIL, FF_UPLOAD_LOG_FAIL, FF_UPLOAD_LOG_SUCCESS,
     FF_UPLOAD_SUCCESS,
     GRN_EXCEL_UPLOAD_FAIL,
     GRN_EXCEL_UPLOAD_SUCCESS, INVOICE_EXCEL_UPLOAD_FAIL, INVOICE_EXCEL_UPLOAD_SUCCESS,
@@ -9,7 +9,7 @@ import {
     INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL,
     TRANSPORT_EXCEL_UPLOAD_SUCCESS,
     TRANSPORT_UPLOAD_FAIL,
-    TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_FAIL, VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
+    TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_FAIL, VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL, VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
     VIRTUAL_UPLOAD_FAIL,
     VIRTUAL_UPLOAD_SUCCESS
 } from "../actions/upload/uploadActionConstants";
@@ -32,6 +32,12 @@ const initialState = {
     invoiceExcelUploadLoading: false,
     virtualSample: [],
     virtualSampleLoading: false,
+    virtualSampleLog: [],
+    virtualSampleLogLoading: false,
+    ffExcelUpload: [],
+    ffExcelUploadLoading: false,
+    ffUploadLog: [],
+    ffUploadLogLoading: false,
     error: {}
 }
 
@@ -216,6 +222,66 @@ const virtualSampleFailReducer = (state = initialState, payload) => {
     }
 }
 
+// SAMPLE_UPLOAD_LOG
+const virtualSampleLogSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualSampleLog:payload.virtualSampleLog,
+        virtualSampleLogLoading: false
+
+    }
+}
+
+const virtualSampleLogFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualSampleLog:[],
+        virtualSampleLogLoading: false,
+        error: payload.error,
+
+    }
+}
+
+// INVOICE_EXCEL_UPLOAD
+const ffExcelUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        ffExcelUpload:payload.ffExcelUpload,
+        ffExcelUploadLoading: false
+
+    }
+}
+
+const ffExcelUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        ffExcelUpload:[],
+        ffExcelUploadLoading: false,
+        error: payload.error,
+
+    }
+}
+
+// SAMPLE_UPLOAD_LOG
+const ffUploadLogSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        ffUploadLog:payload.ffUploadLog,
+        ffUploadLogLoading: false
+
+    }
+}
+
+const ffUploadLogFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        ffUploadLog:[],
+        ffUploadLogLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 export default createReducer(initialState, {
     [TRANSPORT_UPLOAD_SUCCESS]: transportUploadSuccessReducer,
@@ -234,7 +300,9 @@ export default createReducer(initialState, {
     [INVOICE_UPLOAD_FAIL]: invoiceUploadFailReducer,
     [INVOICE_EXCEL_UPLOAD_SUCCESS]: invoiceExcelUploadSuccessReducer,
     [INVOICE_EXCEL_UPLOAD_FAIL]: invoiceExcelUploadFailReducer,
-    [VIRTUAL_SAMPLE_UPLOAD_SUCCESS]: virtualSampleSuccessReducer,
-    [VIRTUAL_SAMPLE_UPLOAD_FAIL]: virtualSampleFailReducer,
+    [FF_UPLOAD_SUCCESS]: ffExcelUploadSuccessReducer,
+    [FF_UPLOAD_FAIL]: ffExcelUploadFailReducer,
+    [FF_UPLOAD_LOG_SUCCESS]: ffUploadLogSuccessReducer,
+    [FF_UPLOAD_LOG_FAIL]: ffUploadLogFailReducer,
 
 })

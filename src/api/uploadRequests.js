@@ -1,6 +1,19 @@
 import {createRequest} from "./httpUtils";
 
-import {ADD_BUISNESS_UNIT_API, FF_UPLOAD_API, GET_HUB_NEAR_EXPIRY_API, GRN_EXCEL_UPLOAD_API, GRN_UPLOAD_API, INVOICE_EXCEL_UPLOAD_API, INVOICE_UPLOAD_API, TRANSPORT_EXCEL_UPLOAD_API, TRANSPORT_UPLOAD_API, VIRTUAL_SAMPLE_UPLOAD_API, VIRTUAL_UPLOAD_API} from "./apiConstants";
+import {
+    ADD_BUISNESS_UNIT_API, FF_EXCEL_UPLOAD_API,
+    FF_UPLOAD_API, FF_UPLOAD_LOG_API,
+    GET_HUB_NEAR_EXPIRY_API,
+    GRN_EXCEL_UPLOAD_API,
+    GRN_UPLOAD_API,
+    INVOICE_EXCEL_UPLOAD_API,
+    INVOICE_UPLOAD_API,
+    TRANSPORT_EXCEL_UPLOAD_API,
+    TRANSPORT_UPLOAD_API,
+    VIRTUAL_SAMPLE_UPLOAD_API,
+    VIRTUAL_SAMPLE_UPLOAD_EXCEL_API, VIRTUAL_SAMPLE_UPLOAD_LOG_API,
+    VIRTUAL_UPLOAD_API
+} from "./apiConstants";
 
 export const transportUploadRequest=  payload => {
     return createRequest(TRANSPORT_UPLOAD_API, payload.certificate, payload.dto)
@@ -33,3 +46,16 @@ export const virtualSampleRequest=  payload => {
     const api = {...VIRTUAL_SAMPLE_UPLOAD_API, url: `${VIRTUAL_SAMPLE_UPLOAD_API.url}/${payload.uplId}`}
     return createRequest(api, payload.certificate, null)
 }
+export const virtualSampleLogRequest=  payload => {
+    const api = {...VIRTUAL_SAMPLE_UPLOAD_LOG_API, url: `${VIRTUAL_SAMPLE_UPLOAD_LOG_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+export const ffExcelUploadRequest=  payload => {
+    const api = {...FF_EXCEL_UPLOAD_API, url: `${FF_EXCEL_UPLOAD_API.url}/${payload.uplId}`}
+    return createRequest(api, payload.certificate, null)
+}
+export const ffUploadLogRequest=  payload => {
+    const api = {...FF_UPLOAD_LOG_API, url: `${FF_UPLOAD_LOG_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+

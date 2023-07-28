@@ -6,19 +6,23 @@ import {connect} from "react-redux";
 import {Button, Col, message, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
-import {ffUploadStartAction, virtualSampleStartAction, virtualUploadStartAction} from "../../redux/actions/upload/uploadActions";
-import {selectVirtualSampleListData} from "../../redux/selectors/uploadSelector";
+import {ffUploadStartAction, virtualSampleLogStartAction, virtualSampleStartAction, virtualUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectVirtualSampleListData, selectVirtualSampleLogListData} from "../../redux/selectors/uploadSelector";
+import XLSX from "xlsx";
 
 ;
 
 
-const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampleUpload,virtualSampleData}) => {
+const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampleUpload,virtualSampleData,handleVirtualSampleLogUpload,virtualSampleLogData}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [file, setFile] = useState([])
-
+    const [viewE, setViewE] = useState(false)
+    const [viewD, setViewD] = useState(false)
+    const [expErr, setExpErr] = useState([])
+    const [exp, setExp] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -27,13 +31,13 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                 title:'Start Time',
                 key: 'startTime',
                 dataIndex: 'startTime',
-                width:'100px'
+                width:'150px'
             },
             {
                 title: 'End Time',
                 key: 'endTime',
                 dataIndex: 'endTime',
-                width:'200px'
+                width:'150px'
             },
             {
                 title: 'Total Records',
@@ -57,9 +61,19 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                 title:'',
                 key: '',
                 dataIndex: '',
-                width: '100px',
-                render: () => {
-                    return (<><Link to="">View Errors</Link> | <Link to="">Download Details</Link></>)
+                width: '150px',
+                render: (_,row) => {
+                    return (
+                        <>
+                            <Link onClick={() => {
+                                handleViewError(row)
+                                setViewE(true)
+                            }} to="">View Errors </Link>|<Link onClick={() => {
+                            handleViewError(row)
+                            setViewD(true)
+                        }} to=""> Download Details</Link>
+                        </>
+                    )
                 }
             }
         ]);
@@ -74,17 +88,6 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
             }
         ])
     }
-
-    // useEffect(() => {
-    //     handleVirtualSampleList({
-    //         certificate: authInfo.token
-    //     })
-    //     searchData()
-    // },[authInfo.token])
-    //
-    // useEffect(() => {
-    //     console.log(deliveryUpdateList)
-    // },[deliveryUpdateList])
 
     const handleUpload = (info) => {
         setFile(info.fileList)
@@ -106,7 +109,7 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
         beforeUpload: (file) => {
             const isCSV = file.type === 'text/csv';
             if (!isCSV) {
-                message.error(`${file.name} is not a csv file`);
+                message?.error(`${file.name} is not a csv file`);
             }
             return isCSV || Upload.LIST_IGNORE;
         },
@@ -142,11 +145,116 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
     }
 
     useEffect(() => {
-        handleVirtualSampleUpload({
+        searchData()
+        handleVirtualSampleLogUpload({
             certificate: authInfo.token,
-
         })
-    },[])
+    },[authInfo])
+
+    const handleViewError = (row) => {
+        handleVirtualSampleUpload({
+            uplId: row.uplId,
+            certificate: authInfo.token
+        })
+    }
+
+    useEffect(() => {
+        console.log("expErr: ", expErr)
+        if (viewE) {
+            if (expErr.length > 0) {
+                handleExcelErr(expErr)
+                setViewE(false)
+            }
+        }
+    },[expErr])
+
+    useEffect(() => {
+        console.log("exp: ", exp)
+        if (viewD) {
+            if (exp.length > 0) {
+                handleExcel(exp)
+                setViewD(false)
+            }
+        }
+    },[exp])
+
+    const handleExcelErr = (data) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"virtualSampleErrors.XLSX")
+    }
+
+    const handleExcel = (data) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"virtualSampleDownload.XLSX")
+    }
+
+    useEffect(() => {
+        console.log(virtualSampleData)
+        if (virtualSampleData) {
+            console.log("there is data")
+            setExpErr(virtualSampleData?.map(item => {
+                return {
+                    "Created By": item.createdBy,
+                    "User Email": item.userEmail,
+                    "User Position": item.userPosition,
+                    "Employee Id": item.empId,
+                    "SKU": item.sku,
+                    "LOT": item.lot,
+                    "External Id": item.externalId,
+                    "Customer": item.customer,
+                    "Mobile": item.mobile,
+                    "Quantity": item.quantity,
+                    "Request Status": item.requestStatus,
+                    "Team": item.team,
+                    "Sub Team": item.subTeam,
+                    "Address": item.address,
+                    "Street1": item.street1,
+                    "Street2": item.street2,
+                    "Street3": item.street3,
+                    "City": item.city,
+                    "State": item.state,
+                    "Postal Code ": item.postalCode,
+                    "Date Created ": item.dateCreated,
+                    "Request Completed": item.requestCompleted,
+                    "Request Started": item.requestStarted,
+                    "Error": item.errorText,
+                }
+            }))
+            setExp(virtualSampleData?.map(item => {
+                return {
+                    "Created By": item.createdBy,
+                    "User Email": item.userEmail,
+                    "User Position": item.userPosition,
+                    "Employee Id": item.empId,
+                    "SKU": item.sku,
+                    "LOT": item.lot,
+                    "External Id": item.externalId,
+                    "Customer": item.customer,
+                    "Mobile": item.mobile,
+                    "Quantity": item.quantity,
+                    "Request Status": item.requestStatus,
+                    "Team": item.team,
+                    "Sub Team": item.subTeam,
+                    "Address": item.address,
+                    "Street1": item.street1,
+                    "Street2": item.street2,
+                    "Street3": item.street3,
+                    "City": item.city,
+                    "State": item.state,
+                    "Postal Code ": item.postalCode,
+                    "Date Created ": item.dateCreated,
+                    "Request Completed": item.requestCompleted,
+                    "Request Started": item.requestStarted,
+                }
+            }))
+        } else {
+            console.log('no data')
+        }
+    },[virtualSampleData])
 
     return(
         <div>
@@ -161,9 +269,10 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                     <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
             </Row>
-            <br/><br/>
+            <br/>
+            <span>Total Rows: <b>{virtualSampleLogData?.length}</b></span>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={virtualSampleLogData}/>
             }
         </div>
     )
@@ -172,19 +281,23 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
 VirtualSampleComponent.propTypes = {
     authInfo: PropTypes.any,
     virtualSampleData: PropTypes.array,
+    virtualSampleLogData: PropTypes.array,
     handleVirtualUpload: PropTypes.func,
     handleVirtualSampleUpload: PropTypes.func,
+    handleVirtualSampleLogUpload: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const virtualSampleData = selectVirtualSampleListData(state)
-    return {authInfo,virtualSampleData}
+    const virtualSampleLogData = selectVirtualSampleLogListData(state)
+    return {authInfo,virtualSampleData,virtualSampleLogData}
 }
 
 const actions = {
     handleVirtualUpload: virtualUploadStartAction,
     handleVirtualSampleUpload: virtualSampleStartAction,
+    handleVirtualSampleLogUpload: virtualSampleLogStartAction,
 }
 
 export default connect(mapState, actions)(VirtualSampleComponent)

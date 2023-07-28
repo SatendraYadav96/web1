@@ -1,19 +1,46 @@
 import {ofType} from "redux-observable";
 import {catchError, debounceTime, map, of, switchMap} from "rxjs";
 import {
-    ffUploadFailAction,
+    ffExcelUploadFailAction,
+    ffExcelUploadSuccessAction,
+    ffUploadFailAction, ffUploadLogFailAction, ffUploadLogSuccessAction,
     ffUploadSuccessAction, grnExcelUploadFailAction,
     grnExcelUploadSuccessAction,
     grnUploadFailAction,
     grnUploadSuccessAction, invoiceExcelUploadFailAction, invoiceExcelUploadSuccessAction, invoiceUploadFailAction, invoiceUploadSuccessAction, transportExcelUploadFailAction, transportExcelUploadSuccessAction,
     transportUploadFailAction,
     transportUploadStartAction,
-    transportUploadSuccessAction, virtualSampleFailAction, virtualSampleSuccessAction,
+    transportUploadSuccessAction, virtualSampleFailAction, virtualSampleLogFailAction, virtualSampleLogSuccessAction, virtualSampleSuccessAction,
     virtualUploadFailAction,
     virtualUploadSuccessAction
 } from "../actions/upload/uploadActions";
-import {FF_UPLOAD_START, GRN_EXCEL_UPLOAD_START, INVOICE_EXCEL_UPLOAD_START, INVOICE_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START, VIRTUAL_UPLOAD_START} from "../actions/upload/uploadActionConstants";
-import {ffUploadRequest, grnExcelUploadRequest, transportExcelUploadRequest, transportUploadRequest, virtualUploadRequest, invoicesUploadRequest, grnUploadRequest, invoiceExcelUploadRequest, virtualSampleRequest} from "../../api/uploadRequests";
+import {
+    FF_EXCEL_UPLOAD_START,
+    FF_UPLOAD_LOG_START,
+    FF_UPLOAD_START,
+    GRN_EXCEL_UPLOAD_START,
+    INVOICE_EXCEL_UPLOAD_START,
+    INVOICE_UPLOAD_START,
+    TRANSPORT_EXCEL_UPLOAD_START,
+    TRANSPORT_UPLOAD_START,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_START,
+    VIRTUAL_SAMPLE_UPLOAD_START,
+    VIRTUAL_UPLOAD_START
+} from "../actions/upload/uploadActionConstants";
+import {
+    ffUploadRequest,
+    grnExcelUploadRequest,
+    transportExcelUploadRequest,
+    transportUploadRequest,
+    virtualUploadRequest,
+    invoicesUploadRequest,
+    grnUploadRequest,
+    invoiceExcelUploadRequest,
+    virtualSampleRequest,
+    virtualSampleLogRequest,
+    ffExcelUploadRequest,
+    ffUploadLogRequest
+} from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
 
 
@@ -125,15 +152,56 @@ export const invoiceExcelUploadsStartEpic = (action$) =>
     )
 
 
-// INVOICE_EXCEL_UPLOAD
+// VIRTUAL_SAMPLE_UPLOAD
 export const virtualSampleStartEpic = (action$) =>
     action$.pipe(
-        ofType(INVOICE_EXCEL_UPLOAD_START),
+        ofType(VIRTUAL_SAMPLE_UPLOAD_START),
         debounceTime(4000),
         switchMap((action) =>
             virtualSampleRequest(action.payload).pipe(
                 map((listResponse) => virtualSampleSuccessAction({virtualSample: listResponse.response})),
                 catchError((error) => of(virtualSampleFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// VIRTUAL_SAMPLE_UPLOAD_LOG
+export const virtualSampleLogStartEpic = (action$) =>
+    action$.pipe(
+        ofType(VIRTUAL_SAMPLE_UPLOAD_LOG_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            virtualSampleLogRequest(action.payload).pipe(
+                map((listResponse) => virtualSampleLogSuccessAction({virtualSampleLog: listResponse.response})),
+                catchError((error) => of(virtualSampleLogFailAction({error: error}))),
+            )
+        )
+    )
+
+// FF_UPLOAD
+export const ffExcelUploadStartEpic = (action$) =>
+    action$.pipe(
+        ofType(FF_EXCEL_UPLOAD_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            ffExcelUploadRequest(action.payload).pipe(
+                map((listResponse) => ffExcelUploadSuccessAction({ffExcelUpload: listResponse.response})),
+                catchError((error) => of(ffExcelUploadFailAction({error: error}))),
+            )
+        )
+    )
+
+
+// FF_UPLOAD_LOG
+export const ffUploadLogStartEpic = (action$) =>
+    action$.pipe(
+        ofType(FF_UPLOAD_LOG_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            ffUploadLogRequest(action.payload).pipe(
+                map((listResponse) => ffUploadLogSuccessAction({ffUploadLog: listResponse.response})),
+                catchError((error) => of(ffUploadLogFailAction({error: error}))),
             )
         )
     )

@@ -138,3 +138,49 @@ export const selectLoadingVirtualSampleData = createSelector(
 );
 
 
+const virtualSampleLogList = (state) => state.upload.virtualSampleLog;
+const virtualSampleLogLoading = (state) => state.upload.virtualSampleLogLoading
+
+
+export const selectVirtualSampleLogListData = createSelector(
+    virtualSampleLogList,
+    virtualSampleLogListDataSelection => virtualSampleLogListDataSelection
+);
+
+export const selectLoadingVirtualSampleLogData = createSelector(
+    virtualSampleLogLoading,
+    loadingSelection => loadingSelection
+);
+
+
+
+const ffExcelUploadList = (state) => state.upload.ffExcelUpload;
+const ffExcelUploadLoading = (state) => state.upload.ffExcelUploadLoading
+
+
+export const selectffExcelUploadListData = createSelector(
+    ffExcelUploadList,
+    ffExcelUploadListDataSelection => ffExcelUploadListDataSelection
+);
+
+export const selectLoadingffExcelUploadData = createSelector(
+    ffExcelUploadLoading,
+    loadingSelection => loadingSelection
+);
+
+
+const ffUploadLogList = (state) => state.upload.ffUploadLog;
+const ffUploadLogLoading = (state) => state.upload.ffUploadLogLoading
+
+
+export const selectffUploadLogListData = createSelector(
+    ffUploadLogList,
+    ffUploadLogListDataSelection => ffUploadLogListDataSelection
+);
+
+export const selectLoadingffUploadLogData = createSelector(
+    ffUploadLogLoading,
+    loadingSelection => loadingSelection
+);
+
+

@@ -41,32 +41,172 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
 
     const searchData = () => {
         setFlag(true)
-        setColumn([
-            {
-                title:'Business Unit',
-                key:'businessunit',
-                dataIndex:'businessunit',
-                width:'100px'
-            },
-            {
-                title:'Brand Manager',
-                key:'brand_Manager',
-                dataIndex:'brand_Manager',
-                width:'100px'
-            },
-            {
-                title: 'Plantype',
-                key: 'plantype',
-                dataIndex: 'plantype',
-                width: '100px'
-            },
-            {
-                title: 'Submission Date',
-                key: 'submitted_On',
-                dataIndex: 'submitted_On',
-                width: '100px'
-            },
-        ])
+        if (type === 1) {
+            setColumn([
+                {
+                    title:'Business Unit',
+                    key:'businessunit',
+                    dataIndex:'businessunit',
+                    width:'100px'
+                },
+                {
+                    title:'Brand Manager',
+                    key:'brand_Manager',
+                    dataIndex:'brand_Manager',
+                    width:'100px'
+                },
+                {
+                    title: 'Plantype',
+                    key: 'plantype',
+                    dataIndex: 'plantype',
+                    width: '100px'
+                },
+                {
+                    title: 'Submission Date',
+                    key: 'submitted_On',
+                    dataIndex: 'submitted_On',
+                    width: '100px'
+                },
+            ])
+        } else if (type === 2) {
+            setColumn([
+                {
+                    title:'Business Unit',
+                    key:'businessunit',
+                    dataIndex:'businessunit',
+                    width:'100px'
+                },
+                {
+                    title:'Brand Manager',
+                    key:'brand_Manager',
+                    dataIndex:'brand_Manager',
+                    width:'100px'
+                },
+                {
+                    title: 'Category',
+                    key: 'category',
+                    dataIndex: 'category',
+                    width: '100px'
+                },
+                {
+                    title: 'Total FF',
+                    key: 'totalFF',
+                    dataIndex: 'totalFF',
+                    width: '100px'
+                },
+                {
+                    title: 'Amount',
+                    key: 'cost',
+                    dataIndex: 'cost',
+                    width: '100px'
+                },
+            ])
+        } else if (type === 3) {
+            setColumn([
+                {
+                    title:'Month',
+                    key:'month',
+                    dataIndex:'month',
+                    width:'100px'
+                },
+                {
+                    title:'Year',
+                    key:'year',
+                    dataIndex:'year',
+                    width:'100px'
+                },
+                {
+                    title: 'Team',
+                    key: 'team',
+                    dataIndex: 'team',
+                    width: '100px'
+                },
+                {
+                    title: 'Block',
+                    key: 'bLOCK',
+                    dataIndex: 'bLOCK',
+                    width: '100px'
+                },
+                {
+                    title: 'Unblock',
+                    key: 'uNBLOCK',
+                    dataIndex: 'uNBLOCK',
+                    width: '100px'
+                },
+            ])
+        } else if (type === 4) {
+            setColumn([
+                {
+                    title:'Item Name',
+                    key:'itemName',
+                    dataIndex:'itemName',
+                    width:'100px'
+                },
+                {
+                    title:'Item Code',
+                    key:'item_Code',
+                    dataIndex:'item_Code',
+                    width:'100px'
+                },
+                {
+                    title: 'Quantity',
+                    key: 'quantity',
+                    dataIndex: 'quantity',
+                    width: '100px'
+                },
+                {
+                    title: 'Expiry Date',
+                    key: 'expiryDate',
+                    dataIndex: 'expiryDate',
+                    width: '100px'
+                },
+                {
+                    title: 'Amount',
+                    key: 'cost',
+                    dataIndex: 'cost',
+                    width: '100px'
+                },
+            ])
+        } else if (type === 5) {
+            setColumn([
+                {
+                    title:'Name',
+                    key:'name',
+                    dataIndex:'name',
+                    width:'100px'
+                },
+                {
+                    title:'Item Name',
+                    key:'itemName',
+                    dataIndex:'itemName',
+                    width:'100px'
+                },
+                {
+                    title: 'Item Code',
+                    key: 'itemCode',
+                    dataIndex: 'itemCode',
+                    width: '100px'
+                },
+                {
+                    title: 'Quantity',
+                    key: 'quantity',
+                    dataIndex: 'quantity',
+                    width: '100px'
+                },
+                {
+                    title: 'Updated On',
+                    key: 'created_on',
+                    dataIndex: 'created_on',
+                    width: '100px'
+                },
+                {
+                    title: 'Amount',
+                    key: 'cost',
+                    dataIndex: 'cost',
+                    width: '100px'
+                },
+            ])
+        }
 
         setDataSource([])
     }
@@ -74,15 +214,54 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
     useEffect(() => {
         if (managementDashboardList) {
             setData(managementDashboardList?.map(item => {
-                return {
-                    "Business Unit": item.businessUnit,
-                    "Brand Manager": item.brand_Manager,
-                    "Plan type": item.plantype,
-                    "Submission Date": item.submitted_On,
+                if (type === 1) {
+                    return {
+                        "Business Unit": item.businessUnit,
+                        "Brand Manager": item.brand_Manager,
+                        "Plan type": item.plantype,
+                        "Submission Date": item.submitted_On,
+                    }
+                } else if (type === 2) {
+                    return {
+                        "Business Unit": item.businessunit,
+                        "Brand Manager": item.brand_Manager,
+                        "Category": item.category,
+                        "Total FF": item.totalFF,
+                        "Amount": item.cost,
+                    }
+                } else if (type === 3) {
+                    return {
+                        "Month": item.month,
+                        "Year": item.year,
+                        "Team": item.team,
+                        "Block": item.bLOCK,
+                        "Unblock": item.uNBLOCK,
+                    }
+                } else if (type === 4) {
+                    return {
+                        "Item Name": item.itemName,
+                        "Item Code": item.item_Code,
+                        "Quantity": item.quantity,
+                        "Expiry Date": item.expiryDate,
+                        "Amount": item.cost,
+                    }
+                } else if (type === 4) {
+                    return {
+                        "Name": item.name,
+                        "Item Name": item.itemName,
+                        "Item Code": item.item_Code,
+                        "Quantity": item.quantity,
+                        "Updated On": item.created_on,
+                        "Amount": item.cost,
+                    }
                 }
             }))
         }
     },[managementDashboardList])
+
+    useEffect(() => {
+
+    })
 
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
@@ -90,7 +269,6 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
         XLSX.writeFile(wb,"ManagementReport.XLSX")
     }
-
 
     const getManagementDashboard = () => {
         handleManagementDashboard({
@@ -154,6 +332,7 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
                                 >
                                     <Button>CSV</Button>
                                 </CSVLink>
+                                &nbsp;
                                 <Button onClick={handleExcel}>EXCEL</Button>
                             </>
                         )

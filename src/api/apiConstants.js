@@ -190,3 +190,6 @@ export const INVOICE_UPLOAD_API = {url: '/v1/upload/invoiceUpload',method:'POST'
 export const INVOICE_EXCEL_UPLOAD_API = {url: '/v1/upload/invoiceExcelData',method:'GET',auth:true}
 // export const INVOICE_EXCEL_UPLOAD_API = {url: '/v1/upload/invoiceExcelData',method:'GET',auth:true}
 export const VIRTUAL_SAMPLE_UPLOAD_API = {url: '/v1/upload/virtualSampleExcelData',method:'GET',auth:true}
+export const VIRTUAL_SAMPLE_UPLOAD_LOG_API = {url: '/v1/upload/getVirtualSampleUploadLog',method:'GET',auth:true}
+export const FF_EXCEL_UPLOAD_API = {url: '/v1/upload/recipientExcelData',method:'GET',auth:true}
+export const FF_UPLOAD_LOG_API = {url: '/v1/upload/getRecipientUploadLog',method:'GET',auth:true}
