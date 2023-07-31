@@ -109,7 +109,7 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
         beforeUpload: (file) => {
             const isCSV = file.type === 'text/csv';
             if (!isCSV) {
-                message.error(`${file.name} is not a csv file`);
+                message?.error(`${file.name} is not a csv file`);
             }
             return isCSV || Upload.LIST_IGNORE;
         },
@@ -193,9 +193,10 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
     }
 
     useEffect(() => {
-        console.log(`I am Super man${ffExcelUpload}`)
+        // console.log(`I am Super man${ffExcelUpload}`)
         if (ffExcelUpload) {
             console.log("there is data")
+            console.log(ffExcelUpload)
             // setExpErr(ffExcelUpload?.map(item => item))
             // setExp(ffExcelUpload?.map(item => item))
             setExpErr(ffExcelUpload?.map(item => {

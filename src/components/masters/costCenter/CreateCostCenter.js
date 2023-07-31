@@ -75,7 +75,7 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange} multiple='multiple'/>
+                    Brand:<br/><SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
                 </Col>
             </Row>
             <br/>

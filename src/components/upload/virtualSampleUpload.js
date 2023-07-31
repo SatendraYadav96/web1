@@ -48,7 +48,7 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
             {
                 title: 'Records Uploaded',
                 key: 'recordsUploaded',
-                dataIndex: 'recordUpload',
+                dataIndex: 'recordsUpload',
                 width:'100px'
             },
             {
@@ -88,6 +88,10 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
             }
         ])
     }
+
+    useEffect(() => {
+        console.log(virtualSampleLogData)
+    },[virtualSampleLogData])
 
     const handleUpload = (info) => {
         setFile(info.fileList)

@@ -131,7 +131,7 @@ const EditCostCenterComponent = ({
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Brand: <SelectBrandComponent value={brandId} onChange={handleBrandChange} multiple='multiple'/>
+                    Brand: <SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
                 </Col>
             </Row>
             <br/>

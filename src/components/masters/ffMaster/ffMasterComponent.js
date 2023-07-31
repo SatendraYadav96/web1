@@ -138,7 +138,8 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                 title: 'Employee Name',
                 key: 'employeeName',
                 dataIndex: 'name',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('name'),
             },
             {
                 title: 'Address',

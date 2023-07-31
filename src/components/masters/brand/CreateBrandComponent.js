@@ -10,9 +10,9 @@ import SelectUserComponent from "../../widgets/SelectUserComponent";
 import SelectMultipleCostCenterComponent from "../../widgets/SelectMultipleCostCenterComponent";
 import {selectEditBrandData, selectInsertBrandData} from "../../../redux/selectors/masterSelector";
 import {addBrandStartAction, editBrandStartAction} from "../../../redux/actions/master/masterActions";
-import {selectCostCenterDropdown} from "../../../redux/selectors/dropDownSelector";
+import {selectCostCenterDropdown, selectUserDropdown} from "../../../redux/selectors/dropDownSelector";
 
-const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown}) => {
+const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown,userDropdown}) => {
 
     const navigate = useNavigate()
 
@@ -25,6 +25,7 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
     const [team, setTeam] = useState()
     const [costCenter, setCostCenter] = useState()
     const [cc, setCC] = useState()
+    const [usr, setUsr] = useState()
     const [subTeam, setSubTeam] = useState()
 
     const handleChange = (e) => {
@@ -77,6 +78,16 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
             setCC(costCenter)
         }
     },[costCenter])
+
+    useEffect(() => {
+        console.log(user)
+        if (user?.includes('all')) {
+            console.log('has all')
+            setUsr(userDropdown?.map(item => item.id))
+        } else {
+            setUsr(user)
+        }
+    },[user])
 
     useEffect(() => {
         console.log(cc)
@@ -155,7 +166,8 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const addBrand = selectInsertBrandData(state)
     const costCenterDropdown = selectCostCenterDropdown(state)
-    return {authInfo,addBrand,costCenterDropdown}
+    const userDropdown = selectUserDropdown(state)
+    return {authInfo,addBrand,costCenterDropdown,userDropdown}
 }
 
 const actions = {
