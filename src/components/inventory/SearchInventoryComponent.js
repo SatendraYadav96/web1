@@ -360,7 +360,8 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 title: 'PO No.',
                 key:'poNo',
                 dataIndex: 'poNo',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('poNo'),
             },
             {
                 title: 'Base Pack',
