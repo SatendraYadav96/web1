@@ -125,6 +125,8 @@ export const EDIT_COST_CENTER_API = { url: '/v1/master/editCostCenter', method: 
 export const COST_CENTER_BY_ID_API = { url: '/v1/master/getCostCenterById', method: 'GET', auth: true }
 export const ADD_COST_CENTER_API = { url: '/v1/master/addCostCenter', method: 'POST', auth: true }
 
+export const GET_MASTER_BLOCKED_LIST_API = {url: '/v1/compliance/masterBlockedList',method:'GET',auth:true}
+
 //DROPDOWN
 export const GET_BUSINESS_UNIT_DROPDOWN_API = {url: '/v1/master/getBusinessUnitDropdown',method:'GET',auth:true}
 export const GET_BRAND_DROPDOWN_API = {url: '/v1/master/getBrandDropdown',method:'GET',auth:true}
@@ -193,3 +195,5 @@ export const VIRTUAL_SAMPLE_UPLOAD_API = {url: '/v1/upload/virtualSampleExcelDat
 export const VIRTUAL_SAMPLE_UPLOAD_LOG_API = {url: '/v1/upload/getVirtualSampleUploadLog',method:'GET',auth:true}
 export const FF_EXCEL_UPLOAD_API = {url: '/v1/upload/recipientExcelData',method:'GET',auth:true}
 export const FF_UPLOAD_LOG_API = {url: '/v1/upload/getRecipientUploadLog',method:'GET',auth:true}
+export const RECIPIENT_UPLOAD_LOG_API = {url: '/v1/upload/getRecipientUploadLog',method:'GET',auth:true}
+export const NON_COMPLIANCE_UPLOAD_LOG_API = {url: '/v1/upload/getNonComplianceUploadLog',method:'GET',auth:true}

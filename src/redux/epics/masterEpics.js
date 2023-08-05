@@ -25,7 +25,7 @@ import {
     ADD_USER_START,
     EDIT_BRAND_START,
     BRAND_BY_ID_START,
-    ADD_BRAND_START, GET_BRAND_START, GET_FF_START, EDIT_FF_START, FF_BY_ID_START, ADD_FF_START, FF_HISTORY_BY_ID_START
+    ADD_BRAND_START, GET_BRAND_START, GET_FF_START, EDIT_FF_START, FF_BY_ID_START, ADD_FF_START, FF_HISTORY_BY_ID_START, GET_MASTER_BLOCKED_LIST_START
 } from '../actions/master/masterActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -94,7 +94,7 @@ import {
     getFFByIdFailAction,
     addFFSuccessAction,
     addFFFailAction,
-    getFFHistoryByIdSuccessAction, getFFHistoryByIdFailAction
+    getFFHistoryByIdSuccessAction, getFFHistoryByIdFailAction, getMasterBlockedListSuccessAction, getMasterBlockedListFailAction
 } from '../actions/master/masterActions'
 import {
     vendorRequest,
@@ -127,7 +127,7 @@ import {
     brandRequest,
     ffRequest,
     editFFRequest,
-    ffByIdRequest, addFFRequest, ffHistoryByIdRequest
+    ffByIdRequest, addFFRequest, ffHistoryByIdRequest, masterBlockedListRequest
 } from '../../api/masterRequests'
 
 
@@ -586,6 +586,18 @@ export const addSamplesStartEpic = (action$) =>
             addSamplesRequest(action.payload).pipe(
                 map((listResponse) => addSamplesSuccessAction({insertSamples: listResponse.response})),
                 catchError((error) => of(addSamplesFailAction({error: error}))),
+            )
+        )
+    )
+
+export const getMasterBlockedListStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_MASTER_BLOCKED_LIST_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            masterBlockedListRequest(action.payload).pipe(
+                map((listResponse) => getMasterBlockedListSuccessAction({masterBlockedListList: listResponse.response})),
+                catchError((error) => of(getMasterBlockedListFailAction({error: error}))),
             )
         )
     )

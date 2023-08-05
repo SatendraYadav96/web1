@@ -534,3 +534,17 @@ export const selectInsertSamplesLoadingData = createSelector(
     insertSamplesLoading,
     loadingSelection => loadingSelection
 );
+
+const masterBlockedList = (state) => state.master.masterBlockedList;
+const masterBlockedLoading = (state) => state.master.masterBlockedListLoading
+
+
+export const selectMasterBlockedListData = createSelector(
+    masterBlockedList,
+    masterBlockedListDataSelection => masterBlockedListDataSelection
+);
+
+export const selectLoadingMasterBlockedListData = createSelector(
+    masterBlockedLoading,
+    loadingSelection => loadingSelection
+);

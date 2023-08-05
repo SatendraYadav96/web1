@@ -15,7 +15,25 @@ import {
     GET_BUISNESS_UNIT_API,
     ADD_BUISNESS_UNIT_API,
     EDIT_BUISNESS_UNIT_API,
-    BUISNESS_UNIT_BY_ID_API, GET_TEAM_API, TEAM_BY_ID_API, EDIT_TEAM_API, ADD_TEAM_API, GET_USER_API, ADD_USER_API, EDIT_USER_API, USER_BY_ID_API, GET_BRAND_API, ADD_BRAND_API, EDIT_BRAND_API, BRAND_BY_ID_API, GET_FF_API, EDIT_FF_API, FF_BY_ID_API, FF_HISTORY_BY_ID_API, ADD_FF_API
+    BUISNESS_UNIT_BY_ID_API,
+    GET_TEAM_API,
+    TEAM_BY_ID_API,
+    EDIT_TEAM_API,
+    ADD_TEAM_API,
+    GET_USER_API,
+    ADD_USER_API,
+    EDIT_USER_API,
+    USER_BY_ID_API,
+    GET_BRAND_API,
+    ADD_BRAND_API,
+    EDIT_BRAND_API,
+    BRAND_BY_ID_API,
+    GET_FF_API,
+    EDIT_FF_API,
+    FF_BY_ID_API,
+    FF_HISTORY_BY_ID_API,
+    ADD_FF_API,
+    GET_MASTER_BLOCKED_LIST_API
 } from "./apiConstants";
 
 //BUISNESS_UNIT
@@ -179,4 +197,9 @@ export const samplesByIdRequest = payload => {
 
 export const addSamplesRequest=  payload => {
     return createRequest(ADD_SAMPLES_API, payload.certificate, payload.smp)
+}
+
+export const masterBlockedListRequest = payload => {
+    const api = {...GET_MASTER_BLOCKED_LIST_API, url: `${GET_MASTER_BLOCKED_LIST_API.url}/${payload.year}`}
+    return createRequest(api, payload.certificate, null)
 }

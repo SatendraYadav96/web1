@@ -96,7 +96,7 @@ import {
     ADD_FF_SUCCESS,
     ADD_FF_FAIL,
     FF_HISTORY_BY_ID_START,
-    FF_HISTORY_BY_ID_SUCCESS, FF_HISTORY_BY_ID_FAIL,
+    FF_HISTORY_BY_ID_SUCCESS, FF_HISTORY_BY_ID_FAIL, GET_MASTER_BLOCKED_LIST_START, GET_MASTER_BLOCKED_LIST_SUCCESS, GET_MASTER_BLOCKED_LIST_FAIL,
 } from "./masterActionConstants";
 
 
@@ -844,6 +844,27 @@ export const addSamplesSuccessAction = (payload) => (dispatch) => {
 export const addSamplesFailAction = (payload) => (dispatch) => {
     dispatch({
         type: ADD_SAMPLES_FAIL,
+        payload: payload,
+    })
+}
+
+export const getMasterBlockedListStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_MASTER_BLOCKED_LIST_START,
+        payload: payload,
+    })
+}
+
+export const getMasterBlockedListSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_MASTER_BLOCKED_LIST_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getMasterBlockedListFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: GET_MASTER_BLOCKED_LIST_FAIL,
         payload: payload,
     })
 }

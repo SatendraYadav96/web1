@@ -184,3 +184,33 @@ export const selectLoadingffUploadLogData = createSelector(
 );
 
 
+const recipientUploadLogList = (state) => state.upload.recipientUploadLog;
+const recipientUploadLogLoading = (state) => state.upload.recipientUploadLogLoading
+
+
+export const selectRecipientUploadLogListData = createSelector(
+    recipientUploadLogList,
+    recipientUploadLogListDataSelection => recipientUploadLogListDataSelection
+);
+
+export const selectLoadingRecipientUploadLogData = createSelector(
+    recipientUploadLogLoading,
+    loadingSelection => loadingSelection
+);
+
+
+const nonComplianceUploadLogList = (state) => state.upload.nonComplianceUploadLog;
+const nonComplianceUploadLogLoading = (state) => state.upload.nonComplianceUploadLogLoading
+
+
+export const selectNonComplianceUploadLogListData = createSelector(
+    nonComplianceUploadLogList,
+    nonComplianceUploadLogListDataSelection => nonComplianceUploadLogListDataSelection
+);
+
+export const selectLoadingNonComplianceUploadLogData = createSelector(
+    nonComplianceUploadLogLoading,
+    loadingSelection => loadingSelection
+);
+
+

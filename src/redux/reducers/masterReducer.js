@@ -49,7 +49,24 @@ import {
     USER_BY_ID_SUCCESS,
     USER_BY_ID_FAIL,
     GET_BRAND_SUCCESS,
-    GET_BRAND_FAIL, ADD_BRAND_SUCCESS, ADD_BRAND_FAIL, EDIT_BRAND_SUCCESS, EDIT_BRAND_FAIL, BRAND_BY_ID_SUCCESS, BRAND_BY_ID_FAIL, FF_BY_ID_FAIL, FF_BY_ID_SUCCESS, EDIT_FF_FAIL, EDIT_FF_SUCCESS, GET_FF_FAIL, GET_FF_SUCCESS, ADD_FF_FAIL, ADD_FF_SUCCESS, FF_HISTORY_BY_ID_SUCCESS, FF_HISTORY_BY_ID_FAIL
+    GET_BRAND_FAIL,
+    ADD_BRAND_SUCCESS,
+    ADD_BRAND_FAIL,
+    EDIT_BRAND_SUCCESS,
+    EDIT_BRAND_FAIL,
+    BRAND_BY_ID_SUCCESS,
+    BRAND_BY_ID_FAIL,
+    FF_BY_ID_FAIL,
+    FF_BY_ID_SUCCESS,
+    EDIT_FF_FAIL,
+    EDIT_FF_SUCCESS,
+    GET_FF_FAIL,
+    GET_FF_SUCCESS,
+    ADD_FF_FAIL,
+    ADD_FF_SUCCESS,
+    FF_HISTORY_BY_ID_SUCCESS,
+    FF_HISTORY_BY_ID_FAIL,
+    GET_MASTER_BLOCKED_LIST_SUCCESS, GET_MASTER_BLOCKED_LIST_FAIL
 } from "../actions/master/masterActionConstants";
 
 
@@ -118,6 +135,8 @@ const initialState = {
     editSamplesLoading: false,
     samplesById: [],
     samplesByIdLoading:false,
+    masterBlockedList: [],
+    masterBlockedListLoading: false,
     error: {}
 }
 
@@ -884,6 +903,26 @@ const addSamplesFailReducer = (state = initialState, payload) => {
     }
 }
 
+const getMasterBlockedListSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        masterBlockedList:payload.masterBlockedList,
+        masterBlockedListLoading: false
+
+    }
+}
+
+const getMasterBlockedListFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        masterBlockedList:[],
+        masterBlockedListLoading: false,
+        error: payload.error,
+
+    }
+}
+
 
 export default createReducer(initialState, {
     [GET_BUISNESS_UNIT_SUCCESS]: getBuisnessUnitSuccessReducer,
@@ -952,6 +991,8 @@ export default createReducer(initialState, {
     [GET_SAMPLES_BY_ID_FAIL]: getSamplesByIdFailReducer,
     [ADD_SAMPLES_SUCCESS]: addSamplesSuccessReducer,
     [ADD_SAMPLES_FAIL]: addSamplesFailReducer,
+    [GET_MASTER_BLOCKED_LIST_SUCCESS]: getMasterBlockedListSuccessReducer,
+    [GET_MASTER_BLOCKED_LIST_FAIL]: getMasterBlockedListFailReducer,
   })
 
 

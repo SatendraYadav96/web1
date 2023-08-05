@@ -3,17 +3,40 @@
 // TRANSPORT_UPLOAD
 import {
     FF_EXCEL_UPLOAD_FAIL,
-    FF_EXCEL_UPLOAD_START, FF_EXCEL_UPLOAD_SUCCESS,
-    FF_UPLOAD_FAIL, FF_UPLOAD_LOG_FAIL, FF_UPLOAD_LOG_START, FF_UPLOAD_LOG_SUCCESS,
+    FF_EXCEL_UPLOAD_START,
+    FF_EXCEL_UPLOAD_SUCCESS,
+    FF_UPLOAD_FAIL,
+    FF_UPLOAD_LOG_FAIL,
+    FF_UPLOAD_LOG_START,
+    FF_UPLOAD_LOG_SUCCESS,
     FF_UPLOAD_START,
-    FF_UPLOAD_SUCCESS, GRN_EXCEL_UPLOAD_FAIL,
-    GRN_EXCEL_UPLOAD_START, GRN_EXCEL_UPLOAD_SUCCESS,
+    FF_UPLOAD_SUCCESS,
+    GRN_EXCEL_UPLOAD_FAIL,
+    GRN_EXCEL_UPLOAD_START,
+    GRN_EXCEL_UPLOAD_SUCCESS,
     GRN_UPLOAD_FAIL,
     GRN_UPLOAD_START,
-    GRN_UPLOAD_SUCCESS, INVOICE_EXCEL_UPLOAD_FAIL, INVOICE_EXCEL_UPLOAD_START, INVOICE_EXCEL_UPLOAD_SUCCESS, INVOICE_UPLOAD_FAIL, INVOICE_UPLOAD_START, INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_EXCEL_UPLOAD_SUCCESS,
+    GRN_UPLOAD_SUCCESS,
+    INVOICE_EXCEL_UPLOAD_FAIL,
+    INVOICE_EXCEL_UPLOAD_START,
+    INVOICE_EXCEL_UPLOAD_SUCCESS,
+    INVOICE_UPLOAD_FAIL,
+    INVOICE_UPLOAD_START,
+    INVOICE_UPLOAD_SUCCESS, NON_COMPLIANCE_UPLOAD_LOG_FAIL, NON_COMPLIANCE_UPLOAD_LOG_START, NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, RECIPIENT_UPLOAD_LOG_FAIL,
+    RECIPIENT_UPLOAD_LOG_START,
+    RECIPIENT_UPLOAD_LOG_SUCCESS,
+    TRANSPORT_EXCEL_UPLOAD_FAIL,
+    TRANSPORT_EXCEL_UPLOAD_START,
+    TRANSPORT_EXCEL_UPLOAD_SUCCESS,
     TRANSPORT_UPLOAD_FAIL,
     TRANSPORT_UPLOAD_START,
-    TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_FAIL, VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL, VIRTUAL_SAMPLE_UPLOAD_LOG_START, VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_START, VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
+    TRANSPORT_UPLOAD_SUCCESS,
+    VIRTUAL_SAMPLE_UPLOAD_FAIL,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_START,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS,
+    VIRTUAL_SAMPLE_UPLOAD_START,
+    VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
     VIRTUAL_UPLOAD_FAIL,
     VIRTUAL_UPLOAD_START,
     VIRTUAL_UPLOAD_SUCCESS
@@ -269,6 +292,48 @@ export const ffUploadLogSuccessAction = (payload) => (dispatch) => {
 export const ffUploadLogFailAction = (payload) => (dispatch) => {
     dispatch({
         type: FF_UPLOAD_LOG_FAIL,
+        payload: payload,
+    })
+}
+
+export const recipientUploadLogStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: RECIPIENT_UPLOAD_LOG_START,
+        payload: payload,
+    })
+}
+
+export const recipientUploadLogSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: RECIPIENT_UPLOAD_LOG_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const recipientUploadLogFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: RECIPIENT_UPLOAD_LOG_FAIL,
+        payload: payload,
+    })
+}
+
+export const nonComplianceUploadLogStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: NON_COMPLIANCE_UPLOAD_LOG_START,
+        payload: payload,
+    })
+}
+
+export const nonComplianceUploadLogSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: NON_COMPLIANCE_UPLOAD_LOG_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const nonComplianceUploadLogFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: NON_COMPLIANCE_UPLOAD_LOG_FAIL,
         payload: payload,
     })
 }

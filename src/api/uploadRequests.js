@@ -7,7 +7,7 @@ import {
     GRN_EXCEL_UPLOAD_API,
     GRN_UPLOAD_API,
     INVOICE_EXCEL_UPLOAD_API,
-    INVOICE_UPLOAD_API,
+    INVOICE_UPLOAD_API, NON_COMPLIANCE_UPLOAD_LOG_API, RECIPIENT_UPLOAD_LOG_API,
     TRANSPORT_EXCEL_UPLOAD_API,
     TRANSPORT_UPLOAD_API,
     VIRTUAL_SAMPLE_UPLOAD_API,
@@ -56,6 +56,14 @@ export const ffExcelUploadRequest=  payload => {
 }
 export const ffUploadLogRequest=  payload => {
     const api = {...FF_UPLOAD_LOG_API, url: `${FF_UPLOAD_LOG_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+export const recipientUploadLogRequest=  payload => {
+    const api = {...RECIPIENT_UPLOAD_LOG_API, url: `${RECIPIENT_UPLOAD_LOG_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+export const nonComplianceUploadLogRequest=  payload => {
+    const api = {...NON_COMPLIANCE_UPLOAD_LOG_API, url: `${NON_COMPLIANCE_UPLOAD_LOG_API.url}`}
     return createRequest(api, payload.certificate, null)
 }
 

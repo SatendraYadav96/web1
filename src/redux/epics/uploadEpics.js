@@ -3,14 +3,30 @@ import {catchError, debounceTime, map, of, switchMap} from "rxjs";
 import {
     ffExcelUploadFailAction,
     ffExcelUploadSuccessAction,
-    ffUploadFailAction, ffUploadLogFailAction, ffUploadLogSuccessAction,
-    ffUploadSuccessAction, grnExcelUploadFailAction,
+    ffUploadFailAction,
+    ffUploadLogFailAction,
+    ffUploadLogSuccessAction,
+    ffUploadSuccessAction,
+    grnExcelUploadFailAction,
     grnExcelUploadSuccessAction,
     grnUploadFailAction,
-    grnUploadSuccessAction, invoiceExcelUploadFailAction, invoiceExcelUploadSuccessAction, invoiceUploadFailAction, invoiceUploadSuccessAction, transportExcelUploadFailAction, transportExcelUploadSuccessAction,
+    grnUploadSuccessAction,
+    invoiceExcelUploadFailAction,
+    invoiceExcelUploadSuccessAction,
+    invoiceUploadFailAction,
+    invoiceUploadSuccessAction, nonComplianceUploadLogFailAction,
+    nonComplianceUploadLogSuccessAction,
+    recipientUploadLogFailAction,
+    recipientUploadLogSuccessAction,
+    transportExcelUploadFailAction,
+    transportExcelUploadSuccessAction,
     transportUploadFailAction,
     transportUploadStartAction,
-    transportUploadSuccessAction, virtualSampleFailAction, virtualSampleLogFailAction, virtualSampleLogSuccessAction, virtualSampleSuccessAction,
+    transportUploadSuccessAction,
+    virtualSampleFailAction,
+    virtualSampleLogFailAction,
+    virtualSampleLogSuccessAction,
+    virtualSampleSuccessAction,
     virtualUploadFailAction,
     virtualUploadSuccessAction
 } from "../actions/upload/uploadActions";
@@ -20,7 +36,7 @@ import {
     FF_UPLOAD_START,
     GRN_EXCEL_UPLOAD_START,
     INVOICE_EXCEL_UPLOAD_START,
-    INVOICE_UPLOAD_START,
+    INVOICE_UPLOAD_START, NON_COMPLIANCE_UPLOAD_LOG_START, RECIPIENT_UPLOAD_LOG_START,
     TRANSPORT_EXCEL_UPLOAD_START,
     TRANSPORT_UPLOAD_START,
     VIRTUAL_SAMPLE_UPLOAD_LOG_START,
@@ -39,7 +55,7 @@ import {
     virtualSampleRequest,
     virtualSampleLogRequest,
     ffExcelUploadRequest,
-    ffUploadLogRequest
+    ffUploadLogRequest, recipientUploadLogRequest, nonComplianceUploadLogRequest
 } from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
 
@@ -202,6 +218,32 @@ export const ffUploadLogStartEpic = (action$) =>
             ffUploadLogRequest(action.payload).pipe(
                 map((listResponse) => ffUploadLogSuccessAction({ffUploadLog: listResponse.response})),
                 catchError((error) => of(ffUploadLogFailAction({error: error}))),
+            )
+        )
+    )
+
+// FF_UPLOAD_LOG
+export const recipientUploadLogStartEpic = (action$) =>
+    action$.pipe(
+        ofType(RECIPIENT_UPLOAD_LOG_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            recipientUploadLogRequest(action.payload).pipe(
+                map((listResponse) => recipientUploadLogSuccessAction({recipientUploadLog: listResponse.response})),
+                catchError((error) => of(recipientUploadLogFailAction({error: error}))),
+            )
+        )
+    )
+
+// FF_UPLOAD_LOG
+export const nonComplianceUploadLogStartEpic = (action$) =>
+    action$.pipe(
+        ofType(NON_COMPLIANCE_UPLOAD_LOG_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            nonComplianceUploadLogRequest(action.payload).pipe(
+                map((listResponse) => nonComplianceUploadLogSuccessAction({nonComplianceUploadLog: listResponse.response})),
+                catchError((error) => of(nonComplianceUploadLogFailAction({error: error}))),
             )
         )
     )

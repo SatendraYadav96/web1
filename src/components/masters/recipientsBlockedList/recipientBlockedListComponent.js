@@ -6,18 +6,23 @@ import {connect} from "react-redux";
 import {Button, Col, Input, Row, Select, Table} from "antd";
 import {EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {useNavigate, useParams} from "react-router-dom";
-import {selectBuisnessUnitListData, selectCostCenterListData, selectLoadingBuisnessUnitData, selectLoadingCostCenterData} from "../../../redux/selectors/masterSelector";
-import {getBuisnessUnitStartAction, getCostCenterStartAction} from "../../../redux/actions/master/masterActions";
+import {selectBuisnessUnitListData, selectCostCenterListData, selectLoadingBuisnessUnitData, selectLoadingCostCenterData, selectMasterBlockedListData} from "../../../redux/selectors/masterSelector";
+import {getBuisnessUnitStartAction, getCostCenterStartAction, getMasterBlockedListStartAction} from "../../../redux/actions/master/masterActions";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import SelectYearComponent from "../../widgets/SelectYearComponent";
+import {selectMonthlyApprovalListData} from "../../../redux/selectors/monthlyApprovalSelector";
+import {resetPlanStartAction} from "../../../redux/actions/approval/monthlyApprovalActions";
 
-const BusinessUnitComponent = ({authInfo}) => {
+const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedList}) => {
 
     const navigate = useNavigate()
+    const date = new Date();
+    const currentYear = date.getFullYear();
     const [status, setStatus] = useState(1)
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [year, setYear] = useState(currentYear)
 
     const searchData = () => {
         setFlag(true)
@@ -122,13 +127,12 @@ const BusinessUnitComponent = ({authInfo}) => {
         return navigate(`/home/masters/businessUnit/edit/${row.id}`)
     }
 
-    const getBuisnessUnitList = () => {
+    const getMasterBlockedList = () => {
         console.log(status);
-        console.log(buisnessUnitList);
 
-        handleBuisnessUnitList ({
+        handleMasterBlockedList ({
             certificate: authInfo.token,
-            status:status,
+            year:year,
         });
         searchData()
     }
@@ -137,11 +141,11 @@ const BusinessUnitComponent = ({authInfo}) => {
         <>
             <TitleWidget title={"Master - Business Units"}/>
             <Row gutter={[8,8]}>
-                <Col span={2}>
-                    <SelectYearComponent />
+                <Col span={3}>
+                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
                 </Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => getBuisnessUnitList()} style={{width: "100%"}}>Search</Button>
+                    <Button type={"primary"} onClick={() => getMasterBlockedList()} style={{width: "100%"}}>Search</Button>
                 </Col>
                 <Col span={2}>
                     <Button onClick={()=> createBusinessUnit()}>Save</Button>
@@ -162,12 +166,10 @@ const BusinessUnitComponent = ({authInfo}) => {
                     {/*&nbsp;*/}
                     {/*<Button onClick={handleExcel}>EXCEL</Button>*/}
                 </Col>
-                <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={buisnessUnitList} />
+                <Table columns={column} scroll={{y: '100%'}} dataSource={masterBlockedList} />
             }
         </>
     )
@@ -179,11 +181,13 @@ BusinessUnitComponent.propTypes = {
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const masterBlockedList = selectMasterBlockedListData(state)
+    return {authInfo,masterBlockedList}
 }
 
 const actions = {
-
+    handleResetPlanList: resetPlanStartAction,
+    handleMasterBlockedList: getMasterBlockedListStartAction,
 }
 
 export default connect(mapState, actions) (BusinessUnitComponent)

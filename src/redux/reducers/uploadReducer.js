@@ -8,7 +8,7 @@ import {
     GRN_EXCEL_UPLOAD_FAIL,
     GRN_EXCEL_UPLOAD_SUCCESS, INVOICE_EXCEL_UPLOAD_FAIL, INVOICE_EXCEL_UPLOAD_SUCCESS,
     INVOICE_UPLOAD_FAIL,
-    INVOICE_UPLOAD_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL,
+    INVOICE_UPLOAD_SUCCESS, NON_COMPLIANCE_UPLOAD_LOG_FAIL, NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, RECIPIENT_UPLOAD_LOG_FAIL, RECIPIENT_UPLOAD_LOG_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL,
     TRANSPORT_EXCEL_UPLOAD_SUCCESS,
     TRANSPORT_UPLOAD_FAIL,
     TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_FAIL, VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL, VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
@@ -40,6 +40,10 @@ const initialState = {
     ffExcelUploadLoading: false,
     ffUploadLog: [],
     ffUploadLogLoading: false,
+    recipientUploadLog: [],
+    recipientUploadLogLoading: false,
+    nonComplianceUploadLog: [],
+    nonComplianceUploadLogLoading: false,
     error: {}
 }
 
@@ -285,6 +289,48 @@ const ffUploadLogFailReducer = (state = initialState, payload) => {
 }
 
 
+// SAMPLE_UPLOAD_LOG
+const recipientUploadLogSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        recipientUploadLog:payload.recipientUploadLog,
+        recipientUploadLogLoading: false
+
+    }
+}
+
+const recipientUploadLogFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        recipientUploadLog:[],
+        recipientUploadLogLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+// SAMPLE_UPLOAD_LOG
+const nonComplianceUploadLogSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        nonComplianceUploadLog:payload.nonComplianceUploadLog,
+        nonComplianceUploadLogLoading: false
+
+    }
+}
+
+const nonComplianceUploadLogFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        nonComplianceUploadLog:[],
+        nonComplianceUploadLogLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
 export default createReducer(initialState, {
     [TRANSPORT_UPLOAD_SUCCESS]: transportUploadSuccessReducer,
     [TRANSPORT_UPLOAD_FAIL]: transportUploadFailReducer,
@@ -308,5 +354,9 @@ export default createReducer(initialState, {
     [FF_EXCEL_UPLOAD_FAIL]: ffExcelUploadFailReducer,
     [FF_UPLOAD_LOG_SUCCESS]: ffUploadLogSuccessReducer,
     [FF_UPLOAD_LOG_FAIL]: ffUploadLogFailReducer,
+    [RECIPIENT_UPLOAD_LOG_SUCCESS]: recipientUploadLogSuccessReducer,
+    [RECIPIENT_UPLOAD_LOG_FAIL]: recipientUploadLogFailReducer,
+    [NON_COMPLIANCE_UPLOAD_LOG_SUCCESS]: nonComplianceUploadLogSuccessReducer,
+    [NON_COMPLIANCE_UPLOAD_LOG_FAIL]: nonComplianceUploadLogFailReducer,
 
 })
