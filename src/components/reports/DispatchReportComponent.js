@@ -136,7 +136,15 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('businessUnit'),
+            },
+            {
+                title: 'Sub Team',
+                key: '',
+                dataIndex: 'teamName',
+                width: '100px',
+                ...getColumnSearchProps('teamName'),
             },
             {
                 title: 'Recipient Name',
@@ -154,17 +162,13 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 sorter: (a, b) => a.recipientCode - b.recipientCode,
                 sortDirections: ['descend', 'ascend'],
             },
-            {
-                title: 'Team Name',
-                key: '',
-                dataIndex: 'teamName',
-                width: '100px'
-            },
+
             {
                 title: 'Job Role',
                 key: '',
                 dataIndex: 'desigation',
-                width: '110px'
+                width: '110px',
+                ...getColumnSearchProps('desigation'),
             },
             {
                 title: 'Product Code',
@@ -177,19 +181,22 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 title: 'Input Name',
                 key: '',
                 dataIndex: 'productName',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('productName'),
             },
             {
                 title: 'Quantity',
                 key: '',
                 dataIndex: 'quantity',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('quantity'),
             },
             {
                 title: 'Amount',
                 key: '',
                 dataIndex: 'amount',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('amount'),
             },
             {
                 title: 'Invoice No.',
@@ -202,25 +209,29 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 title: 'Invoice Date',
                 key: 'invoiceDate',
                 dataIndex: 'invoiceDate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('invoiceDate'),
             },
             {
                 title: 'LR No',
                 key: 'lrno',
                 dataIndex: 'lrno',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('lrnolrno'),
             },
             {
                 title: 'Courier Name',
                 key: 'courierName',
                 dataIndex: 'courierName',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('courierName'),
             },
             {
                 title: 'Docket Status',
                 key: 'docketStatus',
                 dataIndex: 'docketStatus',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('docketStatus'),
             },
         ])
 
@@ -270,9 +281,9 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
         setData(dispatchesList.map(item => {
             return {
                 team: item.businessUnit,
+                subTeam: item.teamName,
                 recipientName: item.recipientName,
                 recipientCode: item.recipientCode,
-                teamName: item.teamName,
                 designation: item.desigation,
                 productCode: item.productCode,
                 productName: item.productName,
@@ -280,9 +291,9 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 amount: item.amount,
                 invoiceNo: item.invoiceNo,
                 invoiceDate: item.invoiceDate,
-                'LR No': item.lrno,
-                'Courier Name': item.courierName,
-                'Docket Status': item.docketStatus,
+                lrNo: item.lrno,
+                courierName: item.courierName,
+                docketStatus: item.docketStatus,
             }
         }))
         console.log(dispatchesList)
@@ -381,6 +392,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 </Col>
             </Row>
             <br/>
+            <span>Total Rows: <b>{dispatchesList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={dispatchesList}/>
             }

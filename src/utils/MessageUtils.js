@@ -1,5 +1,5 @@
 import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
-import {ADD_BOX_WEIGHT_START_ACTION} from "../redux/actions/hsnInvoice/hsnActionConstants";
+import {ADD_BOX_WEIGHT_START_ACTION, ADD_HSN_FAIL_ACTION, ADD_HSN_START_ACTION, ADD_HSN_SUCCESS_ACTION} from "../redux/actions/hsnInvoice/hsnActionConstants";
 import {UNACKNOWLEDGE_LIST_START} from "../redux/actions/grn/grnActionConstants";
 import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} from "../redux/actions/dropDown/dropDownActionConstants";
 
@@ -427,18 +427,22 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+
+        // hsn add message
+
+
     ADD_HSN_START_ACTION: [{ action: 'showspinner' }],
     ADD_HSN_SUCCESS_ACTION: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'HSN created successfully !', type: 'success' } },
         },
     ],
     ADD_HSN_FAIL_ACTION: [
         { action: 'hidespinner' },
         {
             action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
+            payload: { message: { text: 'HSN creation failed !', type: 'error' } },
         },
     ],
     ADD_BOX_WEIGHT_START: [{ action: 'showspinner' }],
@@ -726,14 +730,14 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
     ADD_BOX_WEIGHT_SUCCESS_ACTION: [{ action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'action completed', type: 'success' } },
+            payload: { message: { text: 'Box & Weight updated successfully !', type: 'success' } },
         },
     ],
     ADD_BOX_WEIGHTN_FAIL: [
         { action: 'hidespinner' },
         {
             action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
+            payload: { message: { text: 'Box & Weight updation failed !', type: 'error' } },
         },
     ],
     GET_DEVIATION_REPORT_START: [{ action: 'showspinner' }],
@@ -865,4 +869,14 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+
+
+
+
+
+
+
+
+
+
 }

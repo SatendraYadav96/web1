@@ -143,35 +143,15 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
-                width:'100px'
-            },
-
-            {
-                title: 'LR No.',
-                key: 'lrno',
-                dataIndex: 'lrno',
-                width: '100px',
-                ...getColumnSearchProps('lrno'),
-                sorter: (a, b) => a.lrno - b.lrno,
-                sortDirections: ['descend', 'ascend'],
+                width:'100px',
+                ...getColumnSearchProps('businessUnit'),
             },
             {
-                title: 'Courier Name',
+                title: 'Sub Team',
                 key: '',
-                dataIndex: 'courierName',
-                width: '100px'
-            },
-            {
-                title: 'No Of Boxes',
-                key: 'noOfBoxes',
-                dataIndex: 'noOfBoxes',
-                width: '100px'
-            },
-            {
-                title: 'Weight',
-                key: 'weight',
-                dataIndex: 'weight',
-                width: '100px'
+                dataIndex: 'teamName',
+                width: '100px',
+                ...getColumnSearchProps('teamName'),
             },
             {
                 title: 'Invoice No',
@@ -192,41 +172,11 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 },
             },
             {
-                title: 'Sample Value',
-                key: '',
-                dataIndex: 'sampleValue',
-                width: '100px'
-            },
-            {
-                title: 'Item Value',
-                key: '',
-                dataIndex: 'itemValue',
-                width: '100px'
-            },
-            {
-                title: 'Invoice Value',
-                key: '',
-                dataIndex: 'values',
-                width: '100px'
-            },
-            {
-                title: 'Invoice Date',
-                key: '',
-                dataIndex: 'invoiceDate',
-                width: '120px'
-            },
-            {
-                title: 'Recipient',
+                title: 'Employee Name',
                 key: 'recipient',
                 dataIndex: 'recipient',
                 width: '150px',
                 ...getColumnSearchProps('recipient'),
-            },
-            {
-                title: 'Designation',
-                key: '',
-                dataIndex: 'designation',
-                width: '150px'
             },
             {
                 title: 'Employee Code',
@@ -238,58 +188,133 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 sortDirections: ['descend', 'ascend'],
             },
             {
+                title: 'Designation',
+                key: '',
+                dataIndex: 'designation',
+                width: '150px',
+                ...getColumnSearchProps('designation'),
+            },
+
+            {
                 title: 'Address',
                 key: '',
                 dataIndex: 'address',
-                width: '300px'
+                width: '300px',
+                ...getColumnSearchProps('address'),
             },
             {
                 title: 'City',
                 key: '',
                 dataIndex: 'city',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('city'),
             },
             {
                 title: 'State',
                 key: '',
                 dataIndex: 'state',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('state'),
             },
             {
                 title: 'Zip',
                 key: '',
                 dataIndex: 'zip',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('zip'),
             },
             {
                 title: 'Mobile No',
                 key: '',
                 dataIndex: 'mobileNo',
-                width: '120px'
+                width: '120px',
+                ...getColumnSearchProps('mobileNo'),
             },
             {
-                title: 'Sub Team',
-                key: '',
-                dataIndex: 'teamName',
-                width: '100px'
+                title: 'No Of Boxes',
+                key: 'noOfBoxes',
+                dataIndex: 'noOfBoxes',
+                width: '100px',
+                ...getColumnSearchProps('noOfBoxes'),
             },
+            {
+                title: 'Weight',
+                key: 'weight',
+                dataIndex: 'weight',
+                width: '100px',
+                ...getColumnSearchProps('weight'),
+            },
+
+            {
+                title: 'Sample Value',
+                key: '',
+                dataIndex: 'sampleValue',
+                width: '100px',
+                ...getColumnSearchProps('sampleValue'),
+            },
+            {
+                title: 'Item Value',
+                key: '',
+                dataIndex: 'itemValue',
+                width: '100px',
+                ...getColumnSearchProps('itemValue'),
+            },
+            {
+                title: 'Invoice Value',
+                key: '',
+                dataIndex: 'value',
+                width: '100px',
+                ...getColumnSearchProps('value'),
+            },
+            {
+                title: 'Invoice Date',
+                key: '',
+                dataIndex: 'invoiceDate',
+                width: '120px',
+                ...getColumnSearchProps('invoiceDate'),
+            },
+
+
+            {
+                title: 'LR No.',
+                key: 'lrno',
+                dataIndex: 'lrno',
+                width: '100px',
+                ...getColumnSearchProps('lrno'),
+                sorter: (a, b) => a.lrno - b.lrno,
+                sortDirections: ['descend', 'ascend'],
+            },
+            {
+                title: 'Courier Name',
+                key: '',
+                dataIndex: 'courierName',
+                width: '100px',
+                ...getColumnSearchProps('courierName'),
+            },
+
+
+
             {
                 title: 'Name of Receiver',
                 key: '',
                 dataIndex: 'nameofReceiver',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('nameofReceiver'),
             },
             {
                 title: 'Date of Delivery',
                 key: '',
                 dataIndex: 'dateofDelivery',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('dateofDelivery'),
             },
             {
                 title: 'Courier Cost',
                 key: '',
                 dataIndex: 'cost',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('cost'),
+
             }
         ])
 
@@ -379,27 +404,27 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
         setData(dispatchRegisterList.map(item => {
             return {
                 team: item.businessUnit,
-                lrNo: item.lrNo,
-                courierName: item.courierName,
-                noBoxes: item.noOfBoxes,
-                weights: item.weight,
+                subTeam: item.teamName,
                 invoiceNo: item.invoiceNo,
-                sampleValue: item.sampleValue,
-                itemValue: item.itemValue,
-                invoiceValue: item.value,
-                invoiceDate: item.invoiceDate,
-                recipient: item.recipient,
-                designation: item.designation,
+                employeeName: item.recipient,
                 employeeCode: item.employeeCode,
+                designation: item.designation,
                 address: item.address,
                 city: item.city,
                 state: item.state,
                 zip: item.zip,
                 mobileNo: item.mobileNo,
-                teamName: item.teamName,
+                noBoxes: item.noOfBoxes,
+                weights: item.weight,
+                sampleValue: item.sampleValue,
+                itemValue: item.itemValue,
+                invoiceValue: item.value,
+                invoiceDate: item.invoiceDate,
+                lrNo: item.lrNo,
+                courierName: item.courierName,
                 nameofReceiver: item.nameofReceiver,
                 dateofDelivery: item.dateofDelivery,
-                "Courier Cost": item.cost,
+                courierCost: item.cost,
             }
         }))
         console.log(dispatchRegisterList)
@@ -509,10 +534,10 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                     <br/>
                     <Button type={"primary"} onClick={()=>getDispatchRegisterReportList()} style={{width: "100%"}}>Search</Button>
                 </Col>
-                <Col span={2}>
-                    <br/>
-                    <Button onClick={()=>handleRefresh()} style={{width: "100%"}}>Refresh</Button>
-                </Col>
+                {/*<Col span={2}>*/}
+                {/*    <br/>*/}
+                {/*    <Button onClick={()=>handleRefresh()} style={{width: "100%"}}>Refresh</Button>*/}
+                {/*</Col>*/}
             </Row>
             {/*<Row gutter={[16,16]}>*/}
             {/*    <Col span={6}>*/}

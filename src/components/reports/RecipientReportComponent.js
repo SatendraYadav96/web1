@@ -138,21 +138,23 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             {
                 title: 'Employee Name',
                 key: 'employeeName',
-                dataIndex: 'name',
+                dataIndex: 'employeeName',
                 width: '100px',
-                ...getColumnSearchProps('name'),
+                ...getColumnSearchProps('employeeName'),
             },
             {
                 title: 'Address',
                 key: 'address',
                 dataIndex: 'address',
                 width: '200px',
+                ...getColumnSearchProps('address'),
             },
             {
                 title: 'City',
                 key: 'city',
                 dataIndex: 'city',
                 width: '100px',
+                ...getColumnSearchProps('city'),
             },
             {
                 title: 'Role',
@@ -160,6 +162,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 dataIndex: 'designation',
                 // render: item => Object.values(item)[1],
                 width: '100px',
+                ...getColumnSearchProps('designation'),
             },
             {
                 title: 'State',
@@ -180,50 +183,58 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                 key: 'zone',
                 dataIndex: 'zone',
                 width: '100px',
+                ...getColumnSearchProps('zone'),
             },
             {
                 title: 'Employee WorkId',
                 key: 'workId',
                 dataIndex: 'workId',
                 width: '100px',
+                ...getColumnSearchProps('workId'),
             },
             {
                 title: 'Gender',
                 key: 'gender',
                 dataIndex: 'gender',
                 width: '100px',
+                ...getColumnSearchProps('gender'),
             },
             {
                 title: 'Joining Date',
                 key: 'joiningDate',
                 dataIndex: 'joiningDate',
                 width: '100px',
+                ...getColumnSearchProps('joiningDate'),
             },
             {
                 title: 'Mobile Number',
                 key: 'mobileNumber',
                 dataIndex: 'mobile',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('mobile'),
             },
             {
                 title: 'Email Address',
                 key: 'emailAddress',
                 dataIndex: 'email',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('email'),
             },
             {
                 title: 'Team',
                 key: 'divison',
-                dataIndex: 'divison',
+                dataIndex: 'businessUnit',
                 // render: item => Object.values(item)[1],
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('businessUnit'),
             },
             {
                 title: 'Sub Team',
                 key: 'businessUnit',
-                dataIndex: 'businessUnit',
+                dataIndex: 'team',
                 // render: item => Object.values(item)[1],
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('team'),
             },
             {
                 title: 'AM Email',
@@ -235,15 +246,16 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
             {
                 title: 'RBM Email',
                 key: 'rbmEmail',
-                dataIndex: 'emailRBM',
+                dataIndex: 'emailRM',
                 width: '100px',
-                ...getColumnSearchProps('emailRBM'),
+                ...getColumnSearchProps('emailRM'),
             },
             {
                 title: 'HQ',
                 key: 'hq',
-                dataIndex: 'headQuarter',
-                width: '100px'
+                dataIndex: 'hq',
+                width: '100px',
+                ...getColumnSearchProps('hq'),
             },
         ])
 
@@ -323,29 +335,34 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
     useEffect(() => {
         setData(recipientList.map(item => {
             return {
-                team: item.businessUnit,
+
                 //division: item.division,
                 employeeCode: item.employeeCode,
                 employeeName: item.employeeName,
-                designation: item.designation,
+
                 address: item.address,
+                city : item.city,
+                role: item.designation,
                 state: item.state,
                 zip: item.zip,
                 zone: item.zone,
-                loginId: item.loginId,
+                //loginId: item.loginId,
                 workId: item.workId,
                 gender: item.gender,
                 joiningDate: item.joiningDate,
                 mobile: item.mobile,
                 email: item.email,
+                team: item.businessUnit,
                 SubTeam: item.team,
-                nsmName: item.nsmName,
-                nsmCode: item.nsmCode,
-                rmName: item.rmName,
-                rmCode: item.rmCode,
-                amName: item.amName,
-                amCode: item.amCode,
-                cfa: item.cfa,
+                emailAM:item.emailAM,
+                emailRM:item.emailRM,
+                // nsmName: item.nsmName,
+                // nsmCode: item.nsmCode,
+                // rmName: item.rmName,
+                // rmCode: item.rmCode,
+                // amName: item.amName,
+                // amCode: item.amCode,
+                // cfa: item.cfa,
                 hq: item.hq,
             }
         }))

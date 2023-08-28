@@ -1,9 +1,9 @@
-import React, {useState,useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {getPickinglistStartAction, getPicklistStartAction, getPicklistStatusStartAction, getPicklistVirtualStartAction} from '../../redux/actions/dispatchInvoice/picklistAction'
 import {connect} from "react-redux";
-import {Button, Col, Modal, Row, Table} from "antd";
+import {Button, Col, Input, Modal, Row, Space, Table} from "antd";
 import {DownloadOutlined} from "@ant-design/icons";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
@@ -13,6 +13,8 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {SheetComponent} from "@antv/s2-react";
 import {setLang} from "@antv/s2";
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
 
 const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profileInfo,picklist,picklistloading,handlePickList,picklistVirtual,picklistVirtualloading,handlePickListVirtual,picklistStatus,picklistStatusloading,handlePickListStatus}) => {
@@ -31,6 +33,102 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
     const [dataSource, setDataSource] = useState([])
     const [statusBox, setStatusBox] = useState(false)
     const [statusData, setStatusData] = useState(false)
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+
+
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
     const statusByBrandManager = (row) => {
         setStatusBox(true)
@@ -76,13 +174,15 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
                     title: 'Teams',
                     key: 'teams',
                     dataIndex: 'team',
-                    width: '200px'
+                    width: '200px',
+                    ...getColumnSearchProps('team'),
                 },
                 {
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'status',
                     width: '500px',
+
                     render: (_,row) => {
                         return <Button type="link" onClick={() => statusByBrandManager(row)}>Status By Brand Manager</Button>
                     }
@@ -119,25 +219,29 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
                     title: 'Brand Manager',
                     key: 'brandManager',
                     dataIndex: 'ownerName',
-                    width: '100px'
+                    width: '100px',
+                    ...getColumnSearchProps('ownerName'),
                 },
                 {
                     title: 'Title',
                     key:'title',
                     dataIndex: 'planName',
-                    width:'200px'
+                    width:'200px',
+                    ...getColumnSearchProps('planName'),
                 },
                 {
                     title: 'Invoice Status',
                     key: 'invoiceStatus',
                     dataIndex: 'planInvoiceStatus',
-                    width:'100px'
+                    width:'100px',
+                    ...getColumnSearchProps('planInvoiceStatus'),
                 },
                 {
                     title: 'Approval Date',
                     key: 'approvalDate',
                     dataIndex: 'approvalDate',
-                    width:'100px'
+                    width:'100px',
+                    ...getColumnSearchProps('approvalDate'),
                 },
                 {
                     title: 'Differential',

@@ -143,13 +143,15 @@ const MonthlyDispatchComponent = ({authInfo,monthList,monthlyDispatchLoading,han
                 title: 'Plan Status',
                 key: 'planStatus',
                 dataIndex: 'planStatus',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('planStatus'),
             },
             {
                 title: 'Invoice Status',
                 key: 'invoiceStatus',
                 dataIndex: 'teamStatus',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('teamStatus'),
             },
             {
                 title: '',

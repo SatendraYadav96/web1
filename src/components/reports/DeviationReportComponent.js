@@ -130,50 +130,56 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
                 key:'bu',
                 dataIndex:'bu',
                 width:'100px',
+                ...getColumnSearchProps('bu'),
             },
             {
                 title: 'Quarter',
                 key: 'quarter',
                 dataIndex: 'quarter',
                 width: '100px',
+                ...getColumnSearchProps('quarter'),
             },
             {
                 title: 'Brand Manager',
                 key: 'brandManager',
                 dataIndex: 'brandManager',
                 width: '100px',
-                ...getColumnSearchProps('invoiceNo'),
+                ...getColumnSearchProps('brandManager'),
             },
             {
                 title: 'Brand',
                 key: 'brand',
                 dataIndex: 'brand',
                 width: '100px',
-                ...getColumnSearchProps('invoiceNo'),
+                ...getColumnSearchProps('brand'),
             },
             {
                 title: 'Item Planned in QTR',
                 key: 'itemPlannedInQtr',
                 dataIndex: 'itemPlannedInQtr',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('itemPlannedInQtr'),
             },
             {
                 title: 'Item Dispatched in Allocation',
                 key: 'itemDispatchedInAllocation',
                 dataIndex: 'itemDispatchedInAllocation',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('itemDispatchedInAllocation'),
             },
             {
                 title: 'Dispatch Cycle',
                 key: 'dispatchCycle',
                 dataIndex: 'dispatchCycle',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('dispatchCycle'),
             },
             {
                 title: 'Remarks',
                 key: 'remarks',
                 dataIndex: 'remarks',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('remarks'),
             }
 
         ])

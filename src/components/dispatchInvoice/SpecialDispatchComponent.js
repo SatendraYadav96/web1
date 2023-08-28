@@ -141,18 +141,21 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
                 key: 'nameStatusDip',
                 dataIndex: 'nameStatusDip',
                 width:'100px',
+                ...getColumnSearchProps('nameStatusDip'),
             },
             {
                 title: 'Invoice Status',
                 key: 'invoiceStatus',
                 dataIndex: 'invoiceStatus',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('invoiceStatus'),
             },
             {
                 title: 'Approval Date',
                 key: 'approvalDate',
                 dataIndex: 'approvalDate',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('approvalDate'),
             },
             {
                 title:'',

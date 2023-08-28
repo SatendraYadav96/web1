@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table} from "antd";
+import {Button, Col, DatePicker, Input, Row, Space, Table} from "antd";
 import {Select} from "antd/es";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
@@ -14,6 +14,9 @@ import moment from 'moment'
 import dayjs from "dayjs";
 import {CSVLink} from "react-csv";
 import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
+
 
 const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,destructionReportLoading,handleDestructionReportList,buDropdown,divisionDropdown}) => {
 
@@ -28,6 +31,91 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const searchInput = useRef(null);
+
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+
+
 
     const searchData = () => {
         setFlag(true)
@@ -36,73 +124,85 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 title:'Team',
                 key:'',
                 dataIndex:'businessUnit',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('businessUnit'),
             },
             {
                 title:'SubTeam',
                 key:'',
                 dataIndex:'division',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('division'),
             },
             {
                 title:'Cost Center',
                 key:'',
                 dataIndex:'costCenter',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('costCenter'),
             },
             {
                 title:'Item Name',
                 key:'',
                 dataIndex:'itemName',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('itemName'),
             },
             {
                 title:'Item Code',
                 key:'',
                 dataIndex:'itemCode',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('itemCode'),
             },
             {
                 title:'Type',
                 key:'',
                 dataIndex:'itemType',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('itemType'),
             },
             {
                 title:'Expiry Date',
                 key:'',
                 dataIndex:'expiryDate',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('expiryDate'),
             },
             {
                 title:'Reversal Date',
                 key:'',
                 dataIndex:'reversalDate',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('reversalDate'),
             },
             {
                 title:'Quantity Reversed',
                 key:'',
                 dataIndex:'quantityReversed',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('quantityReversed'),
             },
             {
                 title:'Rate',
                 key:'',
                 dataIndex:'rate',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('rate'),
             },
             {
                 title:'Value',
                 key:'',
                 dataIndex:'value',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('value'),
             },
             {
                 title:'Remarks',
                 key:'',
                 dataIndex:'remarks',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('remarks'),
             }
         ])
         setDataSource([])
@@ -239,13 +339,13 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                         >
                             <Button>CSV</Button>
                         </CSVLink>)}
-                    &nbsp;<Button>PDF</Button>
+                    &nbsp;<Button>Excel</Button>
                 </Col>
-                <Col span={18}>
-                    <div align="right">
-                        <Input.Search style={{ width: 300 }}/>
-                    </div>
-                </Col>
+                {/*<Col span={18}>*/}
+                {/*    <div align="right">*/}
+                {/*        <Input.Search style={{ width: 300 }}/>*/}
+                {/*    </div>*/}
+                {/*</Col>*/}
             </Row>
             <br/>
             <span>Total Rows: <b>{destructionList?.length}</b></span>

@@ -133,19 +133,22 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 title:'Team',
                 key:'businessUnit',
                 dataIndex:'businessUnit',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('businessUnit'),
             },
             {
                 title:'SubTeam',
                 key:'division',
                 dataIndex:'divison',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('divison'),
             },
             {
                 title: 'GRN Date',
                 key: 'grnDate',
                 dataIndex: 'grnDate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('grnDate'),
             },
             {
                 title: 'Vendor Name',
@@ -172,55 +175,64 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 title: 'Input Name',
                 key: 'productName',
                 dataIndex: 'productName',
-                width: '150px'
+                width: '150px',
+                ...getColumnSearchProps('productName'),
             },
             {
                 title: 'Product Code',
                 key: '',
                 dataIndex: 'productCode',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('productCode'),
             },
             {
                 title: 'Cost Center',
                 key: 'costCenter',
                 dataIndex: 'costCenter',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('costCenter'),
             },
             {
                 title: 'Quantity',
                 key: '',
                 dataIndex: 'quantity',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('quantity'),
             },
             {
                 title: 'Rate',
                 key: '',
                 dataIndex: 'rate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('rate'),
             },
             {
                 title: 'Value',
                 key: 'value',
                 dataIndex: 'value',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('value'),
             },
             {
                 title: 'Batch No',
                 key: 'batchNo',
                 dataIndex: 'batchNo',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('batchNo'),
             },
             {
                 title: 'Medical Code',
                 key: 'batchNo',
                 dataIndex: 'batchNo',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('batchNo'),
             },
             {
                 title: 'No of Boxes',
                 key: 'noBoxes',
                 dataIndex: 'noBoxes',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('noBoxes'),
             }
         ])
 

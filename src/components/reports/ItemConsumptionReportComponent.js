@@ -173,31 +173,36 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
                 title: 'Expiry Date',
                 key: '',
                 dataIndex: 'expiryDate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('expiryDate'),
             },
             {
                 title: 'Quantity',
                 key: '',
                 dataIndex: 'quantity',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('quantity'),
             },
             {
                 title: 'Rate',
                 key: '',
                 dataIndex: 'rate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('rate'),
             },
             {
                 title: 'Value',
                 key: '',
                 dataIndex: 'value',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('value'),
             },
             {
                 title: 'Type of Transaction',
                 key: '',
                 dataIndex: 'typeOfTransaction',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('typeOfTransaction'),
             }
         ])
 
