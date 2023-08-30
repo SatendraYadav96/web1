@@ -274,12 +274,14 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     key: 'groupNo',
                     dataIndex: 'groupInvoiceNumber',
                     width: '150px',
+                    ...getColumnSearchProps('groupInvoiceNumber'),
                 },
                 {
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
-                    width: '150px'
+                    width: '150px',
+                    ...getColumnSearchProps('invoiceStatus'),
                 },
                 // {
                 //     title: 'Boxes',
@@ -347,6 +349,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     key: 'team',
                     dataIndex: 'teamName',
                     width:'300px',
+                     ...getColumnSearchProps('teamName'),
                  },
 
                 {
@@ -354,12 +357,14 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     key: 'city',
                     dataIndex: 'city',
                     width:'150px',
+                    ...getColumnSearchProps('city'),
                 },
                 {
                     title: 'State',
                     key: 'state',
                     dataIndex: 'state',
                     width:'150px',
+                    ...getColumnSearchProps('state'),
                 },
                 {
                     title: 'Employee',
@@ -391,18 +396,21 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     key: 'groupNo',
                     dataIndex: 'groupInvoiceNumber',
                     width: '150px',
+                    ...getColumnSearchProps('groupInvoiceNumber'),
                 },
                 {
                     title: 'Redirected From',
                     key:'redirectedFrom',
                     dataIndex: 'redirectedFrom',
-                    width:'150px'
+                    width:'150px',
+                    ...getColumnSearchProps('redirectedFrom'),
                 },
                 {
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
-                    width: '150px'
+                    width: '150px',
+                    ...getColumnSearchProps('invoiceStatus'),
                 },
                 {
                     title: 'Boxes',

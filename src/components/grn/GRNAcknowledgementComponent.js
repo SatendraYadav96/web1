@@ -209,6 +209,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             key:'category',
             dataIndex: 'category',
             width:'100px',
+            ...getColumnSearchProps('category'),
             render:(_,{category})=> (data.categoryList[category.id] )
         },
         {
@@ -406,7 +407,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 acknowledge(rowData);
                 setShowModal(false)
             }} onCancel={() => setShowModal(false)} open={showModal}>
-                Are you sure you want to approve?
+                Are you sure you want to acknowledge this product?
             </Modal>
         </div>
     )

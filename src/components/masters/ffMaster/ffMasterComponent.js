@@ -145,13 +145,15 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                 title: 'Address',
                 key: 'address',
                 dataIndex: 'address',
-                width: '200px'
+                width: '200px',
+                ...getColumnSearchProps('address'),
             },
             {
                 title: 'City',
                 key: 'city',
                 dataIndex: 'city',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('city'),
             },
             {
                 title: 'Role',
@@ -164,99 +166,112 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                 title: 'State',
                 key: 'state',
                 dataIndex: 'state',
-                width: '120px'
+                width: '120px',
+                ...getColumnSearchProps('state'),
             },
             {
                 title: 'Zip',
                 key: 'zip',
                 dataIndex: 'zip',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('zip'),
             },
             {
                 title: 'Zone',
                 key: 'zone',
                 dataIndex: 'zone',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('zone'),
             },
             {
                 title: 'Employee WorkId',
                 key: 'workId',
                 dataIndex: 'workId',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('workId'),
             },
             {
                 title: 'Gender',
                 key: 'gender',
                 dataIndex: 'gender',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('gender'),
             },
             {
                 title: 'Joining Date',
                 key: 'joiningDate',
                 dataIndex: 'joiningDate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('joiningDate'),
             },
             {
                 title: 'Mobile Number',
                 key: 'mobileNumber',
                 dataIndex: 'mobile',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('mobile'),
             },
             {
                 title: 'Email Address',
                 key: 'emailAddress',
                 dataIndex: 'email',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('email'),
             },
             {
                 title: 'Team',
                 key: 'team',
-                dataIndex: 'team',
+                dataIndex: 'businessUnit',
                 render: item => Object.values(item)[1],
                 width: '100px'
             },
             {
                 title: 'Sub Team',
                 key: 'subTeam',
-                dataIndex: 'businessUnit',
+                dataIndex: 'team',
                 render: item => Object.values(item)[1],
-                width: '100px'
+                width: '100px',
+
             },
-            {
-                title: 'AM Name',
-                key: 'amName',
-                dataIndex: 'amName',
-                width: '100px'
-            },
-            {
-                title: 'AM Code',
-                key: 'amCode',
-                dataIndex: 'amCode',
-                width: '100px'
-            },
+            // {
+            //     title: 'AM Name',
+            //     key: 'amName',
+            //     dataIndex: 'amName',
+            //     width: '100px'
+            // },
+            // {
+            //     title: 'AM Code',
+            //     key: 'amCode',
+            //     dataIndex: 'amCode',
+            //     width: '100px'
+            // },
             {
                 title: 'AM Email',
                 key: 'amEmail',
                 dataIndex: 'emailAM',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('emailAM'),
             },
             {
                 title: 'RBM Email',
                 key: 'rbmEmail',
                 dataIndex: 'emailRBM',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('emailRBM'),
             },
             {
                 title: 'HQ',
                 key: 'hq',
                 dataIndex: 'headQuarter',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('headQuarter'),
             },
             {
                 title: 'Remark',
                 key: 'remark',
                 dataIndex: 'remark',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('remark'),
             },
             {
                 title: 'IS BLOCKED',
@@ -467,14 +482,14 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                     <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>
             <br/><br/>
             <span>Total Rows: <b>{ffList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={ffList} />
             }
-            <Modal open={ffHistory} title="Recipient Invoices" footer={null} width={"80vw"} onCancel={() => {
+            <Modal open={ffHistory} title="FF History" footer={null} width={"80vw"} onCancel={() => {
                 setFFHistory(false)
             }}>
                 <Table

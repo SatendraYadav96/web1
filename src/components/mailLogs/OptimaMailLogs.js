@@ -253,7 +253,7 @@ const MailLogsComponent = ({authInfo,mailLogList,handleMailLog}) => {
                     fieldValue: "",
                 },
             ])
-        } else if (type === 3) {
+        } else if (type === "2") {
             setDataSource([
                 {
                     key: '1',

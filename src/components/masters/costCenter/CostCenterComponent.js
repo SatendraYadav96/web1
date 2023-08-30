@@ -189,7 +189,7 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
             return {
                 costCenterName: item.name,
                 costCenterCode: item.code,
-                brand: item.brand,
+
             }
         }))
     },[costCenterList])
@@ -223,11 +223,11 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
                     &nbsp;
                     <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
-                <Col span={18}>
-                    <div align="right">
-                        <Input.Search style={{ width: 300}} />
-                    </div>
-                </Col>
+                {/*<Col span={18}>*/}
+                {/*    <div align="right">*/}
+                {/*        <Input.Search style={{ width: 300}} />*/}
+                {/*    </div>*/}
+                {/*</Col>*/}
             </Row>
             <br/><br/>
             <span>Total Rows: <b>{costCenterList?.length}</b></span>

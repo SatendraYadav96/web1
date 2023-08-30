@@ -218,11 +218,11 @@ const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handl
               &nbsp;
               <Button onClick={handleExcel}>EXCEL</Button>
           </Col>
-          <Col span={18}>
-            <div align="right">
-              <Input.Search style={{ width: 300}} />
-            </div>
-          </Col>
+          {/*<Col span={18}>*/}
+          {/*  <div align="right">*/}
+          {/*    <Input.Search style={{ width: 300}} />*/}
+          {/*  </div>*/}
+          {/*</Col>*/}
         </Row>
         <br/><br/>
       <span>Total Rows: <b>{samplesList?.length}</b></span>

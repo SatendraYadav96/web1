@@ -141,31 +141,36 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
                 title: 'Address 1',
                 key: 'address1',
                 dataIndex: 'addressLine1',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('addressLine1'),
             },
             {
                 title: 'Address 2',
                 key: 'address2',
                 dataIndex: 'addressLine2',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('addressLine2'),
             },
             {
                 title: 'City',
                 key: 'city',
                 dataIndex: 'city',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('city'),
             },
             {
                 title: 'State',
                 key: 'state',
                 dataIndex: 'state',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('state'),
             },
             {
                 title: 'Zip',
                 key: 'zip',
                 dataIndex: 'zip',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('zip'),
             },
             {
                 title: '',
@@ -270,11 +275,11 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
                     &nbsp;
                     <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
-                <Col span={18}>
-                    <div align="right">
-                        <Input.Search style={{ width: 300}} />
-                    </div>
-                </Col>
+                {/*<Col span={18}>*/}
+                {/*    <div align="right">*/}
+                {/*        <Input.Search style={{ width: 300}} />*/}
+                {/*    </div>*/}
+                {/*</Col>*/}
                 {/*<Col span={12}></Col>*/}
                 {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>

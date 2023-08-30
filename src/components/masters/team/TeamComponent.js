@@ -10,6 +10,8 @@ import {selectBuisnessUnitListData, selectLoadingBuisnessUnitData, selectLoading
 import {getBuisnessUnitStartAction, getTeamStartAction} from "../../../redux/actions/master/masterActions";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import Highlighter from "react-highlight-words";
+import {CSVLink} from "react-csv";
+import XLSX from "xlsx";
 
 const TeamComponent = ({authInfo,teamList,teamLoading,handleTeamList}) => {
 
@@ -22,6 +24,7 @@ const TeamComponent = ({authInfo,teamList,teamLoading,handleTeamList}) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const [data, setData] = useState([])
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -169,6 +172,25 @@ const TeamComponent = ({authInfo,teamList,teamLoading,handleTeamList}) => {
         searchData()
     }
 
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"Team.xlsx")
+    }
+
+    useEffect(() => {
+        setData(teamList.map(item => {
+            return {
+                name: item.name,
+                code: item.code,
+
+            }
+        }))
+    },[teamList])
+
+
     return(
         <>
             <TitleWidget title={"Master - Team"}/>
@@ -184,6 +206,25 @@ const TeamComponent = ({authInfo,teamList,teamLoading,handleTeamList}) => {
                 </Col>
             </Row>
             <br/>
+
+            <Row>
+                <Col span={6}>
+                    <CSVLink
+                        data={data}
+                        filename={"Team.csv"}
+                        onClick={() => {
+                            console.log("clicked")
+                        }}
+                    >
+                        <Button>CSV</Button>
+                    </CSVLink>
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
+                </Col>
+                <Col span={12}></Col>
+                {/*<Col span={6}><Input.Search/></Col>*/}
+            </Row>
+
             <span>Total Rows: <b>{teamList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={teamList} />

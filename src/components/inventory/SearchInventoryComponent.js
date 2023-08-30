@@ -328,6 +328,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 key: 'postingDate',
                 dataIndex: 'postingDate',
                 width:'100px',
+                ...getColumnSearchProps('postingDate'),
             },
             {
                 title: 'Medical Code',
@@ -354,7 +355,8 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 title: 'Rate',
                 key:'ratePerUnit',
                 dataIndex: 'ratePerUnit',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('ratePerUnit'),
             },
             {
                 title: 'PO No.',
@@ -367,37 +369,43 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 title: 'Base Pack',
                 key:'packSize',
                 dataIndex: 'packSize',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('packSize'),
             },
             {
                 title: 'Unit',
                 key:'unit',
                 dataIndex: 'unit',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('unit'),
             },
             {
                 title: 'Batch No',
                 key:'batchNo',
                 dataIndex: 'batchNo',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('batchNo'),
             },
             {
                 title: 'Expiry Date',
                 key:'expiryDate',
                 dataIndex: 'expiryDate',
                 width: '100px',
+                ...getColumnSearchProps('expiryDate'),
             },
             {
                 title: 'Qty Received',
                 key:'qtyReceived',
                 dataIndex: 'qtyReceived',
                 width: '100px',
+                ...getColumnSearchProps('qtyReceived'),
             },
             {
                 title: 'Qty Balance',
                 key:'qtyBalanced',
                 dataIndex: 'qtyBalanced',
                 width: '100px',
+                ...getColumnSearchProps('qtyBalanced'),
             },
             {
                 title: 'Unit Allocation',
@@ -421,7 +429,8 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 title: 'Comments',
                 key:'comments',
                 dataIndex: 'comments',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('comments'),
             },
             {
                 title: 'Reversal',

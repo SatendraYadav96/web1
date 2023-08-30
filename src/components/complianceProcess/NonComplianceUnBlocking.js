@@ -150,21 +150,14 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
     useEffect(() => {
         {nonComplianceList.length > 0 ? setData(nonComplianceList?.map(item => {
             return {
-                team: item.businessUnit,
-                subTeam: item.divison,
-                grnDate: item.grnDate,
-                vendorName: item.vendorName,
-                vendorCode: item.vendorCode,
-                poNo: item.poNo,
-                inputName: item.productName,
-                inputCode: item.productCode,
-                costCenter: item.costCenter,
-                quantity: item.quantity,
-                rate: item.rate,
-                value: item.value,
-                batchNo: item.batchNo,
-                medicalCode: item.medicalCode,
-                noBoxes: item.noBoxes,
+               employeeCode:item.employeeCode,
+                employeeName:item.employeeName,
+                team:item.team,
+                headquarter:item.headquarter,
+                month:item.month,
+                year:item.year,
+                remark:item.remark,
+                remarkByAdmin:item.remarkByAdmin,
 
             }
         })) : console.log('no data')}

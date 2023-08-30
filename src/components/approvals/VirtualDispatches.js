@@ -124,7 +124,7 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={virtualPlanApprovalList}/>
             }
         </>
     )

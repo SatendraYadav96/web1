@@ -128,12 +128,14 @@ const AgeingReportComponent = ({authInfo,profileInfo,ageingList,handleAgeingRepo
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px',
+                ...getColumnSearchProps('businessUnit'),
             },
             {
                 title:'SubTeam',
                 key:'division',
                 dataIndex:'division',
                 width:'100px',
+                ...getColumnSearchProps('division'),
             },{
                 title:'Cost Center',
                 key:'costCenter',

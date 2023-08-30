@@ -120,7 +120,7 @@ const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockL
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"DispatchesReport.XLSX")
+        XLSX.writeFile(wb,"StockLedgerReport.XLSX")
     }
 
     useEffect(() => {
@@ -144,7 +144,8 @@ const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockL
                 title:'Transaction Date',
                 key:'transactionDate',
                 dataIndex:'transactionDate',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('transactionDate'),
             },
             {
                 title:'Particulars',
@@ -157,25 +158,29 @@ const StockLedgerReportComponent = ({authInfo,profileInfo,stockLedgerList,stockL
                 title:'Receipt',
                 key:'receipt',
                 dataIndex:'receipt',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('receipt'),
             },
             {
                 title:'Issue',
                 key:'issue',
                 dataIndex:'issue',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('issue'),
             },
             {
                 title:'Balance',
                 key:'balance',
                 dataIndex:'balance',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('balance'),
             },
             {
                 title:'Batch No',
                 key:'batchNo',
                 dataIndex:'batchNo',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('batchNo'),
             }
         ])
         setDataSource([])

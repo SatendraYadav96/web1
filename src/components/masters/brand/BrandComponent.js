@@ -222,7 +222,7 @@ const BrandComponent = ({authInfo,brandList,handleBrandList}) => {
                     <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
                 <Col span={12}></Col>
-                <Col span={6}><Input.Search/></Col>
+                {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>
             <br/><br/>
             <span>Total Rows: <b>{brandList?.length}</b></span>

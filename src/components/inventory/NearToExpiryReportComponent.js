@@ -128,17 +128,20 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
                 key:'businessUnit',
                 dataIndex:'businessUnit',
                 width:'100px',
+                ...getColumnSearchProps('businessUnit'),
             },
             {
                 title:'SubTeam',
                 key:'division',
                 dataIndex:'division',
                 width:'100px',
+                ...getColumnSearchProps('division'),
             },{
                 title:'Cost Center',
                 key:'costCenter',
                 dataIndex:'costCenterName',
                 width:'100px',
+                ...getColumnSearchProps('costCenterName'),
             },
             {
                 title:'Item Code',

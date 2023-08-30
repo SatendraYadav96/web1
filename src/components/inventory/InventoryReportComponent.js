@@ -172,18 +172,21 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
                 key:'grnData',
                 dataIndex:'grnDate',
                 width:'100px',
+                ...getColumnSearchProps('grnDate'),
             },
             {
                 title:'Medical Code',
                 key:'medicalCode',
                 dataIndex:'medicalCode',
                 width:'100px',
+                ...getColumnSearchProps('medicalCode'),
             },
             {
                 title:'PO No',
                 key:'poNo',
                 dataIndex:'poNo',
                 width:'100px',
+                ...getColumnSearchProps('poNo'),
             },
             {
                 title:'Batch No',
@@ -205,56 +208,65 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
                 title:'Base Pack',
                 key:'basePack',
                 dataIndex:'basePack',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('basePack'),
             },
             {
                 title:'Rate',
                 key:'rate',
                 dataIndex:'rate',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('rate'),
             },
             {
                 title:'Received Quantity',
                 key:'receivedQuantity',
                 dataIndex:'receivedQuantity',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('receivedQuantity'),
             },
             {
                 title:'Allocated Quantity',
                 key:'allocatedQuantity',
                 dataIndex:'allocatedQuantity',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('allocatedQuantity'),
             },
             {
                 title:'Dispatched Quantity',
                 key:'dispatchedQuantity',
                 dataIndex:'dispatchedQuantity',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('dispatchedQuantity'),
             },
 
             {
                 title:'Allocation Balance',
                 key:'allocationBalance',
                 dataIndex:'allocationBalance',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('allocationBalance'),
             },
             {
                 title:'Physical Balance',
                 key:'physicalBalance',
                 dataIndex:'physicalBalance',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('physicalBalance'),
             },
             {
                 title:'HSN Code',
                 key:'hsn_Code',
                 dataIndex:'hsn_Code',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('hsn_Code'),
             },
             {
                 title:'GST Rate',
                 key:'gst_Rate',
                 dataIndex:'gst_Rate',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('gst_Rate'),
             }
         ])
 
@@ -289,8 +301,8 @@ const InventoryReportComponent = ({authInfo, profileInfo,simpleInventoryList,sim
                 dispatchedQuantity: item.dispatchedQuantity,
                 allocationBalance: item.allocationBalance,
                 physicalBalance: item.physicalBalance,
-                hsnCode: item.hsnCode,
-                gstRate: item.gstRate,
+                hsnCode: item.hsn_Code,
+                gstRate: item.gst_Rate,
             }
         }))
         // console.log(simpleInventoryList)

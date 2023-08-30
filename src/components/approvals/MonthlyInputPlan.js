@@ -392,7 +392,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             certificate: authInfo.token,
             plan: {
                 planId: planId,
-                // apiId: row.userID,
+                 apiId: planId,
                 approvalType: 0,
                 comment: comment,
             },
@@ -404,8 +404,8 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
         handleRejectPlanList({
             certificate: authInfo.token,
             plan: {
-                planId: row.dispatchPlanID,
-                apiId: row.dispatchPlanID,
+                planId: planId,
+                apiId: planId,
                 approvalType: 0,
                 comment: comment,
             },

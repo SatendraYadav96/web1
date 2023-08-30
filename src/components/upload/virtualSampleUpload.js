@@ -48,7 +48,7 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
             {
                 title: 'Records Uploaded',
                 key: 'recordsUploaded',
-                dataIndex: 'recordsUpload',
+                dataIndex: 'recordUpload',
                 width:'100px'
             },
             {

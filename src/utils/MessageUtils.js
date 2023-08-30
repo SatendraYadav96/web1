@@ -2,6 +2,17 @@ import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
 import {ADD_BOX_WEIGHT_START_ACTION, ADD_HSN_FAIL_ACTION, ADD_HSN_START_ACTION, ADD_HSN_SUCCESS_ACTION} from "../redux/actions/hsnInvoice/hsnActionConstants";
 import {UNACKNOWLEDGE_LIST_START} from "../redux/actions/grn/grnActionConstants";
 import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} from "../redux/actions/dropDown/dropDownActionConstants";
+import {
+    APPROVE_PLAN_FAIL,
+    APPROVE_PLAN_START,
+    APPROVE_PLAN_SUCCESS,
+    GET_MONTHLY_APPROVAL_FAIL,
+    GET_MONTHLY_APPROVAL_SUCCESS, GET_SPECIAL_PLAN_APPROVAL_DETAILS_FAIL, GET_SPECIAL_PLAN_APPROVAL_DETAILS_START, GET_SPECIAL_PLAN_APPROVAL_DETAILS_SUCCESS, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_FAIL,
+    GET_VIRTUAL_PLAN_APPROVAL_DETAILS_START, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_SUCCESS,
+    GET_VIRTUAL_PLAN_APPROVAL_FAIL,
+    GET_VIRTUAL_PLAN_APPROVAL_START,
+    GET_VIRTUAL_PLAN_APPROVAL_SUCCESS
+} from "../redux/actions/approval/monthlyApprovalActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -852,7 +863,7 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
-    REJECT_PLAN_START: [{ action: 'showspinner' }],
+    REJECT_PLAN_START: [ { action: 'showspinner' }],
     REJECT_PLAN_SUCCESS: [
         { action: 'hidespinner' },
         {
@@ -869,6 +880,69 @@ import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} fro
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+
+        APPROVE_PLAN_START: [ { action: 'showspinner' }],
+        APPROVE_PLAN_SUCCESS: [
+            { action: 'hidespinner' },
+            {
+                action: 'showsuccess',
+                payload: {
+                    message: { text: 'Plan Approved !', type: 'success' }
+                },
+            },
+        ],
+        APPROVE_PLAN_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        GET_MONTHLY_APPROVAL_START: [{ action: 'showspinner' }],
+        GET_MONTHLY_APPROVAL_SUCCESS: [{ action: 'hidespinner' }],
+        GET_MONTHLY_APPROVAL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        GET_VIRTUAL_PLAN_APPROVAL_START: [{ action: 'showspinner' }],
+        GET_VIRTUAL_PLAN_APPROVAL_SUCCESS: [{ action: 'hidespinner' }],
+        GET_VIRTUAL_PLAN_APPROVAL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        GET_VIRTUAL_PLAN_APPROVAL_DETAILS_START: [{ action: 'showspinner' }],
+        GET_VIRTUAL_PLAN_APPROVAL_DETAILS_SUCCESS: [{ action: 'hidespinner' }],
+        GET_VIRTUAL_PLAN_APPROVAL_DETAILS_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+
+        GET_SPECIAL_PLAN_APPROVAL_DETAILS_START: [{ action: 'showspinner' }],
+        GET_SPECIAL_PLAN_APPROVAL_DETAILS_SUCCESS: [{ action: 'hidespinner' }],
+        GET_SPECIAL_PLAN_APPROVAL_DETAILS_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
 
 

@@ -35,9 +35,10 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
     const [toMonth, setToMonth] = useState()
     const [toYear, setToYear] = useState()
     const [column, setColumn] = useState([])
-    const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    //const [data, setData] = useState([])
+    const [dataM, setDataM] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -211,12 +212,19 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
         setDataSource([])
     }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(dataM);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"ManagementDashboard.xlsx")
+    }
+
     useEffect(() => {
         if (managementDashboardList) {
-            setData(managementDashboardList?.map(item => {
+            setDataM(managementDashboardList?.map(item => {
                 if (type === 1) {
                     return {
-                        "Business Unit": item.businessUnit,
+                        "Business Unit": item.businessunit,
                         "Brand Manager": item.brand_Manager,
                         "Plan type": item.plantype,
                         "Submission Date": item.submitted_On,
@@ -263,12 +271,7 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
 
     })
 
-    const handleExcel = () => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"ManagementReport.XLSX")
-    }
+
 
     const getManagementDashboard = () => {
         handleManagementDashboard({
@@ -320,32 +323,23 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
             <br/>
             <Row>
                 <Col span={6}>
-                    {data &&
-                        (
-                            <>
-                                <CSVLink
-                                    data={data}
-                                    filename={"ManagementReport.csv"}
-                                    onClick={() => {
-                                        console.log("clicked")
-                                    }}
-                                >
-                                    <Button>CSV</Button>
-                                </CSVLink>
-                                &nbsp;
-                                <Button onClick={handleExcel}>EXCEL</Button>
-                            </>
-                        )
-                    }
-
+                    <CSVLink
+                        data={dataM}
+                        filename={"ManagementDashboard.csv"}
+                        onClick={() => {
+                            console.log("clicked")
+                        }}
+                    >
+                        <Button>CSV</Button>
+                    </CSVLink>
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
-                <Col span={18}>
-                    <div align="right">
-                        <Input.Search style={{ width: 300 }}/>
-                    </div>
-                </Col>
+                <Col span={12}></Col>
+                {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>
             <br/>
+            <span>Total Rows: <b>{managementDashboardList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={managementDashboardList}/>
             }

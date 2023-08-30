@@ -202,13 +202,15 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'groupNo',
                     dataIndex: 'groupInvoiceNumber',
                     width: '150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('groupInvoiceNumber'),
                 },
                 {
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
-                    width: '50px'
+                    width: '50px',
+                    ...getColumnSearchProps('invoiceStatus'),
                 },
                 // {
                 //     title: 'Boxes',
@@ -279,7 +281,8 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'team',
                     dataIndex: 'teamName',
                     width:'150px',
-                    fixed:'left'
+                    fixed:'left',
+                     ...getColumnSearchProps('teamName'),
                  },
 
                 {
@@ -287,14 +290,16 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'city',
                     dataIndex: 'city',
                     width:'150px',
-                    fixed:'left'
+                    fixed:'left',
+                    ...getColumnSearchProps('city'),
                 },
                 {
                     title: 'State',
                     key: 'state',
                     dataIndex: 'state',
                     width:'150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('state'),
                 },
                 {
                     title: 'Employee',
@@ -327,19 +332,22 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                     key: 'groupNo',
                     dataIndex: 'groupInvoiceNumber',
                     width: '150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('groupInvoiceNumber'),
                 },
                 {
                     title: 'Redirected From',
                     key:'redirectedFrom',
                     dataIndex: 'redirectedFrom',
-                    width:'150px'
+                    width:'150px',
+                    ...getColumnSearchProps('redirectedFrom'),
                 },
                 {
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
-                    width: '50px'
+                    width: '50px',
+                    ...getColumnSearchProps('invoiceStatus'),
                 },
                 {
                     title: 'Boxes',
@@ -1022,7 +1030,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                 >
                 </Table>
             </Modal>
-            <Modal open={recipientInvoice} title="Recipient Invoices" footer={null} width={"60vw"} onCancel={() => {
+            <Modal open={recipientInvoice} title="Allocation Details" footer={null} width={"60vw"} onCancel={() => {
                 setRecipientInvoice(false)
             }}>
                 <Table

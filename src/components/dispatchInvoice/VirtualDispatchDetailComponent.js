@@ -204,12 +204,14 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     dataIndex: 'groupInvoiceNumber',
                     width: '150px',
                     fixed: 'left',
+                    ...getColumnSearchProps('groupInvoiceNumber'),
                 },
                 {
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'invoiceStatus',
                     width: '50px',
+                    ...getColumnSearchProps('invoiceStatus'),
                 },
                 // {
                 //     title: 'Boxes',
@@ -278,7 +280,8 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     key: 'teamName',
                     dataIndex: 'teamName',
                     width:'150px',
-                    fixed:'left'
+                    fixed:'left',
+                    ...getColumnSearchProps('teamName'),
                 },
 
                 {
@@ -286,14 +289,16 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     key: 'city',
                     dataIndex: 'city',
                     width:'150px',
-                    fixed:'left'
+                    fixed:'left',
+                    ...getColumnSearchProps('city'),
                 },
                 {
                     title: 'State',
                     key: 'state',
                     dataIndex: 'state',
                     width:'150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('state'),
                 },
                 {
                     title: 'Employee',
@@ -326,19 +331,22 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     key: 'groupInvoiceNumber',
                     dataIndex: 'groupInvoiceNumber',
                     width: '150px',
-                    fixed: 'left'
+                    fixed: 'left',
+                    ...getColumnSearchProps('groupInvoiceNumber'),
                 },
                 {
                     title: 'Redirected From',
                     key:'redirectedFrom',
                     dataIndex: 'redirectedFrom',
-                    width:'150px'
+                    width:'150px',
+                    ...getColumnSearchProps('redirectedFrom'),
                 },
                 {
                     title: 'Status',
                     key: 'invoiceStatus',
                     dataIndex: 'invoiceStatus',
-                    width: '50px'
+                    width: '50px',
+                    ...getColumnSearchProps('invoiceStatus'),
                 },
                 {
                     title: 'Boxes',
