@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Space, Table} from "antd";
 import {Option} from "antd/es/mentions";
-import {ArrowRightOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, EditOutlined, ExclamationCircleFilled, FileOutlined, InfoCircleOutlined, RedoOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
+import {ArrowRightOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, EditOutlined, ExclamationCircleFilled, FileOutlined, InfoCircleOutlined, RedoOutlined, SearchOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {selectApprovePlanListData, selectMonthlyApprovalDetailsListData, selectMonthlyApprovalListData, selectMonthlyToSpecialListData, selectRejectPlanListData, selectResetPlanListData, selectUnlockPlanListData} from "../../redux/selectors/monthlyApprovalSelector";
 import {approvePlanStartAction, getMonthlyApprovalDetailsStartAction, getMonthlyApprovalStartAction, monthlyToSpecialStartAction, rejectPlanStartAction, resetPlanStartAction, unlockPlanStartAction} from "../../redux/actions/approval/monthlyApprovalActions";
+import Highlighter from "react-highlight-words";
 
 const AllocationDetails = () => {
     const [column, setColumn] = useState([
@@ -160,22 +161,129 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
     const [comment, setComment] = useState()
     const [planPurpose, setPlanPurpose] = useState()
     const [checked, setChecked] = useState(false);
+    const [active, setActive] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+
+
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
 
     const searchData = () => {
         setFlag(true)
         setColumn([
             {
+                title:'Team',
+                key: 'teamName',
+                dataIndex: 'teamName',
+                width:'200px',
+                ...getColumnSearchProps('teamName'),
+            },
+            {
                 title:'Brand Manager',
                 key: 'userName',
                 dataIndex: 'userName',
                 width:'200px',
+                ...getColumnSearchProps('userName'),
             },
             {
                 title:'Status',
                 key: 'planStatus',
                 dataIndex: 'planStatus',
                 width:'200px',
+                ...getColumnSearchProps('planStatus'),
             },
             {
                 title: 'Details',
@@ -186,15 +294,15 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                     return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
                 },
             },
-            {
-                title: 'Reset',
-                key: '',
-                dataIndex: '',
-                width:'50px',
-                render:(_,row) => {
-                    return <Button icon={<SyncOutlined spin/>} disabled={row.planStatus !== 'REVIEWED'} onClick={() => handleReset(row)}></Button>
-                },
-            },
+            // {
+            //     title: 'Reset',
+            //     key: '',
+            //     dataIndex: '',
+            //     width:'50px',
+            //     render:(_,row) => {
+            //         return <Button icon={<SyncOutlined spin/>} disabled={row.planStatus !== 'REVIEWED'} onClick={() => handleReset(row)}></Button>
+            //     },
+            // },
             {
                 title: 'Unlock',
                 key: '',
@@ -229,7 +337,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 },
             },
             {
-                title: '',
+                title: 'Special Conversion',
                 key: '',
                 dataIndex: '',
                 width:'50px',
@@ -295,24 +403,24 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             }
         ]);
         setPlanColumn([
-            {
-                title: 'Month',
-                key: '',
-                dataIndex: 'month',
-                width:'100px',
-                render:(_,row) => {
-                    return <SelectMonthComponent onChange={(e) => setPlanMonth(e)}/>
-                },
-            },
-            {
-                title: 'Year',
-                key: '',
-                dataIndex: 'year',
-                width:'100px',
-                render:(_,row) => {
-                    return <SelectYearComponent onChange={(e) => setPlanYear(e)}/>
-                },
-            },
+            // {
+            //     title: 'Month',
+            //     key: '',
+            //     dataIndex: 'month',
+            //     width:'100px',
+            //     render:(_,row) => {
+            //         return <SelectMonthComponent onChange={(e) => setPlanMonth(e)}/>
+            //     },
+            // },
+            // {
+            //     title: 'Year',
+            //     key: '',
+            //     dataIndex: 'year',
+            //     width:'100px',
+            //     render:(_,row) => {
+            //         return <SelectYearComponent onChange={(e) => setPlanYear(e)}/>
+            //     },
+            // },
             {
                 title: 'Plan Purpose',
                 key: '',
@@ -368,12 +476,12 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
         setDetails(true)
     }
 
-    const handleReset = (row) => {
-        handleResetPlanList({
-            certificate: authInfo.token,
-            planId: row.dispatchPlanID,
-        })
-    }
+    // const handleReset = (row) => {
+    //     handleResetPlanList({
+    //         certificate: authInfo.token,
+    //         planId: row.dispatchPlanID,
+    //     })
+    // }
 
     const handleUnlock = (row) => {
         handleUnlockPlanList({
@@ -419,8 +527,8 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             plan: {
                 planId: planId,
                 planPurpose: planPurpose,
-                month: planMonth,
-                year: planYear,
+                month: month,
+                year: year,
                 isSpecialChange: true,
             },
         })
@@ -482,7 +590,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             </Modal>
 
             {/*Plan Change*/}
-            <Modal title="Plan Change" open={openMonthlyToSpecial} width='60vw' onCancel={() => setOpenMonthlyToSpecial(false)}  footer={[
+            <Modal title="Convert to Special Plan" open={openMonthlyToSpecial} width='60vw' onCancel={() => setOpenMonthlyToSpecial(false)}  footer={[
                 <Button onClick={() => setOpenMonthlyToSpecial(false)}>Close</Button>,
                 <Button type='primary' onClick={() => {setOpenMonthlyToSpecial(false); handleClick()}}>Save</Button>
             ]}>

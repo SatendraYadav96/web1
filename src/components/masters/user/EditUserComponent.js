@@ -182,7 +182,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
             <TitleWidget title={"Edit User"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Name:<br/><Input placeholder={"Name "} value={name} disabled/>
+                    Employee Name:<br/><Input placeholder={"Name "} value={name} disabled/>
                 </Col>
                 <Col span={8} offset={2}>
                     Login Name:<br/><Input placeholder={"Login Name "} value={loginName} disabled/>

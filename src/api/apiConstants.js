@@ -139,6 +139,8 @@ export const GET_USER_DESIGNATION_DROPDOWN_API = {url: '/v1/master/getUserDesign
 export const GET_RECIPIENT_DESIGNATION_DROPDOWN_API = {url: '/v1/master/getRecipientDesignationDropdown',method:'GET',auth:true}
 export const GET_USER_DROPDOWN_API = {url: '/v1/master/getUserDropdown',method:'GET',auth:true}
 
+export const GET_APPROVER_DROPDOWN_API = {url: '/v1/master/getApproverDropdown',method:'GET',auth:true}
+
 // SAMPLES
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}
 export const EDIT_SAMPLES_API = { url: '/v1/master/editSample', method: 'PUT', auth: true }

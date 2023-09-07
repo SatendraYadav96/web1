@@ -34,6 +34,7 @@ import {
     USER_DROPDOWN_FAIL_ACTION,
     RECIPIENT_DESIGNATION_DROPDOWN_START_ACTION,
     RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION,
+    APPROVER_DROPDOWN_START_ACTION,APPROVER_DROPDOWN_SUCCESS_ACTION,APPROVER_DROPDOWN_FAIL_ACTION
 
 } from './dropDownActionConstants'
 
@@ -312,3 +313,28 @@ export const userDropdownFailAction = (payload) => (dispatch) => {
         payload: payload,
     })
 }
+
+//APPROVER DROPDOWN
+
+export const approverDropdownStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: APPROVER_DROPDOWN_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const approverDropdownSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: APPROVER_DROPDOWN_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const approverDropdownFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: APPROVER_DROPDOWN_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+

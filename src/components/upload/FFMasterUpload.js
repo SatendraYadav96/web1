@@ -23,6 +23,7 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
     const [viewD, setViewD] = useState(false)
     const [expErr, setExpErr] = useState([])
     const [exp, setExp] = useState([])
+    const [data, setData] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -89,6 +90,127 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
         ])
     }
 
+
+    useEffect(() => {
+        console.log(ffExcelUpload)
+        // console.log(`I am Super man${ffExcelUpload}`)
+        if (ffExcelUpload) {
+            console.log("there is data")
+            console.log(ffExcelUpload)
+            // setExpErr(ffExcelUpload?.map(item => item))
+            // setExp(ffExcelUpload?.map(item => item))
+            setExpErr(ffExcelUpload.map(item => {
+                return {
+                    "Name": item.name,
+                    "Code": item.code,
+                    "Address": item.address,
+                    "City": item.city,
+                    "State": item.state,
+                    "Zip": item.zip,
+                    "Email": item.email,
+                    "Mobile": item.mobile,
+                    "Designation": item.designation,
+                    "Zone": item.zone,
+                    "Joining Date": item.joiningDate,
+                    "Team": item.team,
+                    "Status": item.status,
+                    "Remarks": item.remarks,
+                    "Headquarter": item.headquarter,
+                    "Work Id": item.workId,
+                    "Gender": item.gender,
+                    "Email RM": item.emailRM,
+                    "Email AM ": item.emailAM,
+                    "BU": item.bu,
+                    "Error": item.errorText,
+                }
+            }))
+            setExp(ffExcelUpload.map(item => {
+                return {
+                    "Name": item.name,
+                    "Code": item.code,
+                    "Address": item.address,
+                    "City": item.city,
+                    "State": item.state,
+                    "Zip": item.zip,
+                    "Email": item.email,
+                    "Mobile": item.mobile,
+                    "Designation": item.designation,
+                    "Zone": item.zone,
+                    "Joining Date": item.joiningDate,
+                    "Team": item.team,
+                    "Status": item.status,
+                    "Remarks": item.remarks,
+                    "Headquarter": item.headquarter,
+                    "Work Id": item.workId,
+                    "Gender": item.gender,
+                    "Email RM": item.emailRM,
+                    "Email AM ": item.emailAM,
+                    "BU": item.bu,
+                }
+            }))
+        } else {
+            console.log('no data')
+        }
+    },[ffExcelUpload])
+
+
+    useEffect(() => {
+        console.log("expErr: ", expErr)
+        if (viewE) {
+            if (expErr?.length > 0) {
+                handleExcelErr(expErr)
+                setViewE(false)
+            }
+        }
+    },[expErr])
+
+    useEffect(() => {
+        console.log("exp: ", exp)
+        if (viewD) {
+            if (exp.length > 0) {
+                handleExcel(exp)
+                setViewD(false)
+            }
+        }
+    },[exp])
+
+    const handleExcelErr = (ffExcelUpload) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(ffExcelUpload);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"ffMasterErrors.XLSX")
+    }
+
+    const handleExcel = (ffExcelUpload) => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(ffExcelUpload);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"ffMasterDownload.XLSX")
+    }
+
+
+    const handleViewError = (row) => {
+        handleFFExcelUploadLog({
+            uplId: row.uplId,
+            certificate: authInfo.token
+        })
+    }
+
+    useEffect(() => {
+        {Object.keys(ffUploadLog).length === 0 ? console.log('no data') : setData(ffUploadLog) }
+    }, [ffUploadLog])
+
+    useEffect(() => {
+        handleFFUploadLog ({
+            certificate: authInfo.token
+        });
+        searchData()
+    },[authInfo.token])
+
+
+
+
+
     const handleUpload = (info) => {
         setFile(info.fileList)
         console.log(info.file.name)
@@ -105,6 +227,7 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
         }, 0);
     };
 
+
     const props = {
         beforeUpload: (file) => {
             const isCSV = file.type === 'text/csv';
@@ -114,6 +237,7 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
             return isCSV || Upload.LIST_IGNORE;
         },
     };
+
 
     const convertBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -144,114 +268,13 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
         })
     }
 
-    useEffect(() => {
-        searchData()
+    const refresh = () => {
         handleFFUploadLog({
-            certificate: authInfo.token,
-        })
-    },[authInfo])
-
-    const handleViewError = (row) => {
-        handleFFExcelUploadLog({
-            uplId: row.uplId,
             certificate: authInfo.token
         })
+        searchData()
     }
 
-    useEffect(() => {
-        console.log("expErr: ", expErr)
-        if (viewE) {
-            if (expErr?.length > 0) {
-                handleExcelErr(expErr)
-                setViewE(false)
-            }
-        }
-    },[expErr])
-
-    useEffect(() => {
-        console.log("exp: ", exp)
-        if (viewD) {
-            if (exp.length > 0) {
-                handleExcel(exp)
-                setViewD(false)
-            }
-        }
-    },[exp])
-
-    const handleExcelErr = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"virtualSampleErrors.XLSX")
-    }
-
-    const handleExcel = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"virtualSampleDownload.XLSX")
-    }
-
-    useEffect(() => {
-        // console.log(`I am Super man${ffExcelUpload}`)
-        if (ffExcelUpload) {
-            console.log("there is data")
-            console.log(ffExcelUpload)
-            // setExpErr(ffExcelUpload?.map(item => item))
-            // setExp(ffExcelUpload?.map(item => item))
-            setExpErr(ffExcelUpload?.map(item => {
-                return {
-                    "Name": item.name,
-                    "Code": item.code,
-                    "Address": item.address,
-                    "City": item.city,
-                    "State": item.state,
-                    "Zip": item.zip,
-                    "Email": item.email,
-                    "Mobile": item.mobile,
-                    "Designation": item.designation,
-                    "Zone": item.zone,
-                    "Joining Date": item.joiningDate,
-                    "Team": item.team,
-                    "Status": item.status,
-                    "Remarks": item.remarks,
-                    "Headquarter": item.headquarter,
-                    "Work Id": item.workId,
-                    "Gender": item.gender,
-                    "Email RM": item.emailRM,
-                    "Email AM ": item.emailAM,
-                    "BU": item.bu,
-                    "Error": item.errorText,
-                }
-            }))
-            setExp(ffExcelUpload?.map(item => {
-                return {
-                    "Name": item.name,
-                    "Code": item.code,
-                    "Address": item.address,
-                    "City": item.city,
-                    "State": item.state,
-                    "Zip": item.zip,
-                    "Email": item.email,
-                    "Mobile": item.mobile,
-                    "Designation": item.designation,
-                    "Zone": item.zone,
-                    "Joining Date": item.joiningDate,
-                    "Team": item.team,
-                    "Status": item.status,
-                    "Remarks": item.remarks,
-                    "Headquarter": item.headquarter,
-                    "Work Id": item.workId,
-                    "Gender": item.gender,
-                    "Email RM": item.emailRM,
-                    "Email AM ": item.emailAM,
-                    "BU": item.bu,
-                }
-            }))
-        } else {
-            console.log('no data')
-        }
-    },[ffExcelUpload])
 
     return(
         <div>
@@ -262,8 +285,10 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <Button type={'primary'} onClick={upload}>Upload</Button>
+                </Col>
+                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button>
                 </Col>
             </Row>
             <br/>

@@ -14,6 +14,8 @@ import {addBuisnessUnitStartAction, addUserStartAction} from "../../../redux/act
 import SelectUserDesignationComponent from "../../widgets/SelectUserDesignationComponent";
 import SelectLegalEntityComponent from "../../widgets/SelectLegalEntity";
 import SelectUserStatusComponent from "../../widgets/SelectUserStatusComponent";
+import SelectApproverComponent from "../../widgets/SelectBusinessUnitComponent";
+
 
 const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
 
@@ -26,6 +28,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
     const [employeeCode, setEmployeeCode] = useState()
     const [email, setEmail] = useState()
     const [bu, setBU] = useState()
+    const [app, setApp] = useState()
     const [designation, setDesignation] = useState()
     const [userStatus, setUserStatus] = useState()
     const [status, setStatus] = useState()
@@ -50,6 +53,10 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
         setBrand( value)
     }
 
+
+    const handleApprover = (value) => {
+        setApp( value)
+    }
     const handleLegalEntity = (value) => {
         setLegalEntity( value)
     }
@@ -125,7 +132,8 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
                     Status :<br/><SelectUserStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />
+                    {/*Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />*/}
+                    Approver: <br/> <selectApproverComponent value = {app} onChange={(value) => setApp(value)}/>
                 </Col>
             </Row>
             <br/>

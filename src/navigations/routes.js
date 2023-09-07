@@ -3,6 +3,7 @@ import Login from "../components/auth/Login";
 import UploadLogs from "../components/upload/NonComplianceUploadLogs";
 
 const Dashboard = React.lazy(() => import('../components/dashboard/DashboardComponent'))
+const BexDashboardComponent = React.lazy(() => import('../components/dashboard/BexDashboardComponent'))
 const GRNAcknowledgementComponent = React.lazy(() => import('../components/grn/GRNAcknowledgementComponent'))
 const GRNUploadComponent = React.lazy(() => import('../components/grn/GRNUploadComponent'))
 const MonthlyAllocationComponent = React.lazy(() => import('../components/allocation/MonthlyAllocationComponent'))
@@ -86,6 +87,7 @@ const EditSamplesComponent = React.lazy(() => import ('../components/masters/sam
 
 const routes = [
     { path: '/home/dashboard', name: 'Dashboard', element: Dashboard },
+    { path: '/home/bexdashboard', name: 'BexDashboardComponent', element: BexDashboardComponent },
     { path: '/home/grn/acknowledge', name: 'GRNAcknowledgementComponent', element: GRNAcknowledgementComponent },
     { path: '/home/grn/logs', name: 'GRNUploadComponent', element: GRNUploadComponent },
     { path: '/home/allocations/monthly/create', name: 'MonthlyAllocationComponent', element: MonthlyAllocationComponent },
@@ -140,6 +142,7 @@ const routes = [
     { path: '/home/managementDashboard/reconciliation', name: 'Batch Reconciliation', element: BatchReconciliation},
     { path: '/home/managementDashboard', name: 'Management Dashboard', element: ManagementDashboardComponent},
     { path: '/home/master/ffUnBlockList', name: 'Non Compliance UnBlocking', element: NonComplianceUnBlockingomponent},
+    { path: '/home/optimaMi/recommendedListOfBlocking', name: 'Non Compliance UnBlocking', element: NonComplianceUnBlockingomponent},
     { path: '/home/masters/vendor', name: 'Vendor', element: VendorComponent},
     { path: '/home/masters/vendor/create', name: 'CreateVendor', element: CreateVendorComponent},
     { path: '/home/masters/vendor/edit/:id', name: 'EditVendor', element: EditVendorComponent},

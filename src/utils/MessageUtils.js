@@ -932,8 +932,6 @@ import {
             },
         ],
 
-
-
         GET_SPECIAL_PLAN_APPROVAL_DETAILS_START: [{ action: 'showspinner' }],
         GET_SPECIAL_PLAN_APPROVAL_DETAILS_SUCCESS: [{ action: 'hidespinner' }],
         GET_SPECIAL_PLAN_APPROVAL_DETAILS_FAIL: [
@@ -943,6 +941,8 @@ import {
                 payload: { message: { text: 'action failed', type: 'error' } },
             },
         ],
+
+
 
 
 

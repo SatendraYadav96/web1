@@ -20,6 +20,7 @@ import {
     LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
     USER_DESIGNATION_DROPDOWN_FAIL_ACTION,
     USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_FAIL_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION,
+    APPROVER_DROPDOWN_SUCCESS_ACTION,APPROVER_DROPDOWN_FAIL_ACTION
 
 } from '../actions/dropDown/dropDownActionConstants'
 
@@ -47,6 +48,8 @@ const initialState = {
     userDesignationDropdownLoading: false,
     userDropdown: [],
     userDropdownLoading: false,
+    approverDropdown:[],
+    approverDropdownLoading:false,
     error: null,
 }
 
@@ -289,6 +292,33 @@ const userDropdownFailReducer = (state = initialState, payload) => {
     }
 }
 
+
+
+
+//APPROVER DROPDOWN
+
+const approverDropdownSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        approverDropdown: payload.approverDropdown,
+        approverDropdownLoading: false,
+        error: null
+
+    }
+}
+
+const approverUnitDropdownFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        approverDropdown:[],
+        error: payload.error,
+        approverDropdownLoading: false,
+    }
+}
+
+
+
+
 export default createReducer(initialState, {
     [BUSINESS_UNIT_DROPDOWN_SUCCESS_ACTION]: businessUnitDropdownSuccessReducer,
     [BUSINESS_UNIT_DROPDOWN_FAIL_ACTION]: businessUnitDropdownFailReducer,
@@ -314,4 +344,6 @@ export default createReducer(initialState, {
     [RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION]: recipientDesignationDropdownFailReducer,
     [USER_DROPDOWN_SUCCESS_ACTION]: userDropdownSuccessReducer,
     [USER_DROPDOWN_FAIL_ACTION]: userDropdownFailReducer,
+    [APPROVER_DROPDOWN_SUCCESS_ACTION]: approverDropdownSuccessReducer,
+    [APPROVER_DROPDOWN_FAIL_ACTION]: approverUnitDropdownFailReducer,
 })

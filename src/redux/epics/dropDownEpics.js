@@ -9,7 +9,8 @@ import {
     TEAM_DROPDOWN_START_ACTION,
     TRANSPORT_DROPDOWN_START_ACTION,
     USER_DESIGNATION_DROPDOWN_START_ACTION,
-    USER_DROPDOWN_START_ACTION
+    USER_DROPDOWN_START_ACTION,
+    APPROVER_DROPDOWN_START_ACTION
 } from '../actions/dropDown/dropDownActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -35,6 +36,7 @@ import {
     legalEntityDropdownFailAction,
     userDesignationDropdownSuccessAction,
     userDesignationDropdownFailAction, userDropdownSuccessAction, userDropdownFailAction, recipientDesignationDropdownSuccessAction, recipientDesignationDropdownFailAction,
+    approverDropdownSuccessAction,approverDropdownFailAction
 } from '../actions/dropDown/dropDownActions'
 import {
     brandDropDownRequest,
@@ -47,7 +49,8 @@ import {
     teamDropDownRequest,
     transportDropdownRequest,
     userDesignationDropdownRequest,
-    userDropdownRequest
+    userDropdownRequest,
+    approverDropDownRequest
 } from '../../api/dropDownRequests'
 
 
@@ -212,6 +215,21 @@ export const userDropdownStartEpic = (action$) =>
             userDropdownRequest(action.payload).pipe(
                 map((listResponse) => userDropdownSuccessAction({userDropdown: listResponse.response})),
                 catchError((error) => of(userDropdownFailAction({error: error}))),
+            )
+        )
+    )
+
+
+//APPROVER DROPDOWN
+
+export const approverDropdownStartEpic = (action$) =>
+    action$.pipe(
+        ofType(APPROVER_DROPDOWN_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            approverDropDownRequest(action.payload).pipe(
+                map((listResponse) => approverDropdownSuccessAction({approverDropdown: listResponse.response})),
+                catchError((error) => of(approverDropdownFailAction({error: error}))),
             )
         )
     )

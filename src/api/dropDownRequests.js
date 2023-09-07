@@ -1,5 +1,6 @@
 import {createRequest} from './httpUtils';
 import {
+
     GET_BRAND_DROPDOWN_API,
     GET_BUSINESS_UNIT_DROPDOWN_API,
     GET_COST_CENTER_DROPDOWN_API,
@@ -9,7 +10,8 @@ import {
     GET_RECIPIENT_DROPDOWN_API,
     GET_TEAM_DROPDOWN_API,
     GET_TRANSPORT_DROPDOWN_API,
-    GET_USER_DESIGNATION_DROPDOWN_API, GET_USER_DROPDOWN_API
+    GET_USER_DESIGNATION_DROPDOWN_API, GET_USER_DROPDOWN_API,
+    GET_APPROVER_DROPDOWN_API,
 } from "./apiConstants";
 
 //DROPDOWN
@@ -70,5 +72,10 @@ export const recipientDesignationDropdownRequest = payload => {
 
 export const userDropdownRequest = payload => {
     const api = {...GET_USER_DROPDOWN_API, url: `${GET_USER_DROPDOWN_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const approverDropDownRequest = payload => {
+    const api = {...GET_APPROVER_DROPDOWN_API, url: `${GET_APPROVER_DROPDOWN_API.url}`}
     return createRequest(api, payload.certificate, null)
 }

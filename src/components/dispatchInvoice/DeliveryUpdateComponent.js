@@ -272,7 +272,8 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
                 <Col span={2}>
                     <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
-                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button></Col>
+                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button>
+                </Col>
             </Row>
             <br/><br/>
             <span>Total Rows: <b>{deliveryUpdateList?.length}</b></span>
