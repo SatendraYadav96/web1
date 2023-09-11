@@ -30,6 +30,7 @@ const Login = ({ handleLogin, authInfo, loggedIn }) => {
       .catch((errorInfo) => {})
   }
   return loggedIn ? (
+
     <Navigate push to="/home/dashboard" />
   ) : (
     <Layout className={'login-page'}>

@@ -14,7 +14,7 @@ import {addBuisnessUnitStartAction, addUserStartAction} from "../../../redux/act
 import SelectUserDesignationComponent from "../../widgets/SelectUserDesignationComponent";
 import SelectLegalEntityComponent from "../../widgets/SelectLegalEntity";
 import SelectUserStatusComponent from "../../widgets/SelectUserStatusComponent";
-import SelectApproverComponent from "../../widgets/SelectBusinessUnitComponent";
+import SelectApproverComponent from "../../widgets/SelectApproverComponent";
 
 
 const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
@@ -133,7 +133,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
                 </Col>
                 <Col span={8} offset={2}>
                     {/*Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />*/}
-                    Approver: <br/> <selectApproverComponent value = {app} onChange={(value) => setApp(value)}/>
+                    Approver: <br/> <SelectApproverComponent value = {app} onChange={(value) => setApp(value)}/>
                 </Col>
             </Row>
             <br/>

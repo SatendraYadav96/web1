@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 
 const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,brandDropdown,brandDropdownLoading,handleBrandDropDown}) => {
 
+
     useEffect(() => {
         console.log(brandDropdown)
         handleBrandDropDown ({
@@ -19,6 +20,8 @@ const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,bra
     const handleChange = (value) => {
         console.log(`selected ${value}`);
     };
+
+
 
     return (
         // <Select placeholder={"Select Brand"} value={value} onSelect={onChange} style={{width: "100%"}}>
@@ -34,11 +37,21 @@ const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,bra
             }}
             placeholder={"Select Brand"}
             onChange={onChange}
-            value={value}
+            value={(value && value.id) ? value.id : value}
+            options={brandDropdown || []  }
+           filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}
+           filterSort={(optionA, optionB) =>
+
+           (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())}
         >
-            {brandDropdown?.map( item => {
-                return(<Option key={item.id} value={item.id}>{item.name}</Option>)
-            })}
+            {/*{brandDropdown?.map( item => {*/}
+            {/*    return(<Option key={item.id} value={item.id}>{item.name}</Option>)*/}
+            {/*})}*/}
+
+
+
+
+
         </Select>
     )
 }

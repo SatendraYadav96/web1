@@ -80,7 +80,12 @@ const businessUnitDropdownFailReducer = (state = initialState, payload) => {
 const brandDropdownSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        brandDropdown: payload.brandDropdown,
+       brandDropdown: payload.brandDropdown.map(row =>{
+           return {
+               label:row.name,
+               value:row.id
+           }
+       }),
         brandDropdownLoading: false,
         error: null
     }
@@ -137,7 +142,12 @@ const teamDropdownFailReducer = (state = initialState, payload) => {
 const costCenterDropdownSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        costCenterDropdown: payload.costCenterDropdown,
+        costCenterDropdown: payload.costCenterDropdown.map(row =>{
+            return {
+                label:row.name,
+                value:row.id
+            }
+        }),
         costCenterDropdownLoading: false,
         error: null
     }

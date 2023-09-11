@@ -11,7 +11,8 @@ import routes from '../navigations/routes'
 import { connect } from 'react-redux'
 import HeaderComponent from '../components/header/HeaderComponent'
 import ReactRoundedImage from "react-rounded-image"
-import  titleImg  from '../assets/logo.png'
+import  titleImg  from '../assets/SNY.png'
+
 
 const DefaultLayout = ({ authInfo }) => {
     const [collapse, setCollapse]=useState(true)

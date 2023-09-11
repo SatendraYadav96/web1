@@ -1,4 +1,5 @@
 export const AUTH_CERTIFICATE = 'Authorization'
+
 //export const BASE_URL = 'http://promobee-uat:8080'
 export const BASE_URL = 'http://localhost:8080'
 

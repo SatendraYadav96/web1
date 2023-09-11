@@ -78,14 +78,20 @@ const SelectCostCenterComponent = ({value, onChange,authInfo,costCenterDropdown,
             style={{
                 width: '100%',
             }}
-            placeholder={"Select Brand"}
+            placeholder={"Select Cost Center"}
             onChange={onChange}
-            value={value}
+            value={(value && value.id) ? value.id : value}
+            options={costCenterDropdown || []  }
+            filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}
+            filterSort={(optionA, optionB) =>
+
+                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())}
         >
             <Option key="all" value="all">ALL</Option>
-            {costCenterDropdown?.map( item => {
-                return(<Option key={item.id} value={item.id}>{item.name}</Option>)
-            })}
+
+            {/*{costCenterDropdown?.map( item => {*/}
+            {/*    return(<Option key={item.id} value={item.id}>{item.name}</Option>)*/}
+            {/*})}*/}
         </Select>
     )
 }

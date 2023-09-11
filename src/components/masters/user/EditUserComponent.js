@@ -13,6 +13,7 @@ import SelectUserStatusComponent from "../../widgets/SelectUserStatusComponent";
 import {delay} from "rxjs";
 import SelectUserDesignationComponent from "../../widgets/SelectUserDesignationComponent";
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
+import SelectApproverComponent from "../../widgets/SelectApproverComponent";
 
 const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEditUser}) => {
 
@@ -31,6 +32,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
     const [status, setStatus] = useState()
     const [brand, setBrand] = useState([])
     const [legalEntity, setLegalEntity] = useState([])
+    const [app, setApp] = useState()
 
 
     let { id } = useParams();
@@ -39,6 +41,10 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
         console.log('checked = ', e.target.checked);
         setChecked(e.target.checked);
         setCheckedValue(e.target.checked ? 1 : 0)
+    }
+
+    const handleApprover = (value) => {
+        setApp( value)
     }
 
     const handleBack = () => {
@@ -221,7 +227,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
                     Status :<br/><SelectUserStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />
+                    Approver: <br/> <SelectApproverComponent value = {app} onChange={(value) => setApp(value)}/>
                 </Col>
             </Row>
             <br/>
