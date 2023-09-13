@@ -17,12 +17,15 @@ import {selectNonComplianceListData} from "../../redux/selectors/nonComplianceSe
 
 const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonCompliance}) => {
 
-    // let now = new Date()
+   // const date = new Date()
+
+   // const currentYear = date.getFullYear()
+   //const currentMonth = date.getMonth()
 
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [startDate, setStartDate] = useState()
-    const [status, setStatus] = useState()
+    const [status, setStatus] = useState(1)
     const [year, setYear] = useState()
     const [month, setMonth] = useState()
     const [endDate, setEndDate] = useState()
@@ -30,6 +33,8 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
     const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+
+
 
     const searchData = () => {
         setFlag(true)
@@ -156,6 +161,9 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
                 headquarter:item.headquarter,
                 month:item.month,
                 year:item.year,
+                am:item.emailAM,
+                rm:item.emailRM,
+                isBockedFF:item.isBockedFF,
                 remark:item.remark,
                 remarkByAdmin:item.remarkByAdmin,
 

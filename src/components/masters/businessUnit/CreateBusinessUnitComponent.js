@@ -17,8 +17,20 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
     const [checked, setChecked] = useState(true);
     const [active, setActive] = useState(1)
     const [name, setName] = useState();
+   // const [errors, setErrors] = useState([]);
     const [code, setCode] = useState();
     const [ciName, setCiName] = useState();
+
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //
+    //     if (code === "") {
+    //         setErrors(["code is required."]);
+
+    //     } else {
+    //         setErrors([]);
+    //     }
+    // };
 
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
@@ -60,7 +72,9 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
     return(
         <>
             <TitleWidget title={"Create Business Unit"}/>
+
             <Row gutter={[16,16]}>
+
                 <Col span={8} offset={2}>
                     Name: <Input placeholder={"Business Unit Name"} onChange={handleNameChange}/>
                 </Col>

@@ -593,6 +593,7 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
     return (
         <div>
             <TitleWidget title={'Dashboards'}/>
+
             <Row gutter={16}>
                 <Col span={12}>
                     <Card title="Dispatches Month wise" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>

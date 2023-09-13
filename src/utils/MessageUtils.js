@@ -944,6 +944,91 @@ import {
 
 
 
+        MANAGEMENT_DASHBOARD_START_ACTION: [{ action: 'showspinner' }],
+        MANAGEMENT_DASHBOARD_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+        MANAGEMENT_DASHBOARD_FAIL_ACTION: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        GET_BATCH_RECONCILIATION_START: [{ action: 'showspinner' }],
+        GET_BATCH_RECONCILIATION_SUCCESS: [{ action: 'hidespinner' }],
+        GET_BATCH_RECONCILIATION_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        GET_COMPLIANCE_DETAILS_START: [{ action: 'showspinner' }],
+        GET_COMPLIANCE_DETAILS_SUCCESS: [{ action: 'hidespinner' }],
+        GET_COMPLIANCE_DETAILS_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        GET_MAIL_LOG_START: [{ action: 'showspinner' }],
+        GET_MAIL_LOG_SUCCESS: [{ action: 'hidespinner' }],
+        GET_MAIL_LOG_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        GET_NON_COMPLIANCE_START: [{ action: 'showspinner' }],
+        GET_NON_COMPLIANCE_SUCCESS: [{ action: 'hidespinner' }],
+        GET_NON_COMPLIANCE_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        FF_UPLOAD_LOG_START: [{ action: 'showspinner' }],
+        FF_UPLOAD_LOG_SUCCESS: [{ action: 'hidespinner' }],
+        FF_UPLOAD_LOG_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        VIRTUAL_SAMPLE_UPLOAD_LOG_START: [{ action: 'showspinner' }],
+        VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS: [{ action: 'hidespinner' }],
+        VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        GET_MONTHLY_APPROVAL_DETAILS_START: [{ action: 'showspinner' }],
+        GET_MONTHLY_APPROVAL_DETAILS_SUCCESS: [{ action: 'hidespinner' }],
+        GET_MONTHLY_APPROVAL_DETAILS_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
 
 
 

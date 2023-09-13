@@ -10,6 +10,8 @@ import HorizontalBarComponent from "./HorizontalBarComponent";
 import { Button, Space  } from 'antd';
 import {useNavigate} from "react-router-dom";
 import {ShoppingCartOutlined ,UsergroupAddOutlined , FileProtectOutlined ,GiftOutlined  } from '@ant-design/icons';
+import ReactRoundedImage from "react-rounded-image";
+import titleImg from "../../assets/SNY.png";
 
 
 const BexDashboardComponents = ({authInfo,profileInfo}) => {
@@ -23,7 +25,7 @@ const BexDashboardComponents = ({authInfo,profileInfo}) => {
         <TitleWidget title={'Dashboards'}/>
 
             <Row gutter={16}>
-            <Space wrap style={{marginLeft:"550px",marginBottom:"50px"}}>
+            <Space wrap style={{marginLeft:"50px",marginBottom:"50px"}}>
                 <Button type="primary"  onClick={() => navigate("/home/inventory/inventoryReport")}  > <ShoppingCartOutlined  />Inventory</Button>
                 <Button  type="primary" onClick={() => navigate("/home/masters/ffMaster")} style={{backgroundColor:"green"}} ><UsergroupAddOutlined /> FF Master</Button>
                 <Button type="primary" onClick={() => navigate("/home/report/dispatchRegisterReport")} style={{backgroundColor:"navy"}} > <FileProtectOutlined /> Dispatch Register</Button>

@@ -157,7 +157,7 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
     useEffect(() => {
         console.log("expErr: ", expErr)
         if (viewE) {
-            if (expErr?.length > 0) {
+            if (expErr.length > 0) {
                 handleExcelErr(expErr)
                 setViewE(false)
             }
