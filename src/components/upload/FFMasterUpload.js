@@ -101,51 +101,52 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
             // setExp(ffExcelUpload?.map(item => item))
             setExpErr(ffExcelUpload.map(item => {
                 return {
-                    "Name": item.name,
-                    "Code": item.code,
+
+                    "Employee Code": item.code,
+                    "Employee Name": item.name,
                     "Address": item.address,
                     "City": item.city,
+                    "Role": item.designation,
                     "State": item.state,
                     "Zip": item.zip,
-                    "Email": item.email,
-                    "Mobile": item.mobile,
-                    "Designation": item.designation,
                     "Zone": item.zone,
-                    "Joining Date": item.joiningDate,
-                    "Team": item.team,
-                    "Status": item.status,
-                    "Remarks": item.remarks,
-                    "Headquarter": item.headquarter,
-                    "Work Id": item.workId,
+                    "Employee Workday id": item.workId,
                     "Gender": item.gender,
-                    "Email RM": item.emailRM,
-                    "Email AM ": item.emailAM,
-                    "BU": item.bu,
+                    "DOJ (DD/MM/YYYY)": item.joiningDate,
+                    "Mobile Number": item.mobile,
+                    "Email Address": item.email,
+                    "Team": item.bu,
+                    "Sub Team": item.team,
+                    "AM Email": item.emailAM,
+                    "RBM Email": item.emailRM,
+                    "HQ": item.headquarter,
+                    "Status": item.status,
+                    "Remark": item.remarks,
                     "Error": item.errorText,
                 }
             }))
             setExp(ffExcelUpload.map(item => {
                 return {
-                    "Name": item.name,
-                    "Code": item.code,
+                    "Employee Code": item.code,
+                    "Employee Name": item.name,
                     "Address": item.address,
                     "City": item.city,
+                    "Role": item.designation,
                     "State": item.state,
                     "Zip": item.zip,
-                    "Email": item.email,
-                    "Mobile": item.mobile,
-                    "Designation": item.designation,
                     "Zone": item.zone,
-                    "Joining Date": item.joiningDate,
-                    "Team": item.team,
-                    "Status": item.status,
-                    "Remarks": item.remarks,
-                    "Headquarter": item.headquarter,
-                    "Work Id": item.workId,
+                    "Employee Workday id": item.workId,
                     "Gender": item.gender,
-                    "Email RM": item.emailRM,
-                    "Email AM ": item.emailAM,
-                    "BU": item.bu,
+                    "DOJ (DD/MM/YYYY)": item.joiningDate,
+                    "Mobile Number": item.mobile,
+                    "Email Address": item.email,
+                    "Team": item.bu,
+                    "Sub Team": item.team,
+                    "AM Email": item.emailAM,
+                    "RBM Email": item.emailRM,
+                    "HQ": item.headquarter,
+                    "Status": item.status,
+                    "Remark": item.remarks,
                 }
             }))
         } else {
@@ -314,6 +315,7 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const ffUploadLog = selectffUploadLogListData(state)
     const ffExcelUpload = selectffExcelUploadListData(state)
+    console.log(ffExcelUpload)
     return {authInfo,profileInfo,ffUploadLog,ffExcelUpload}
 }
 

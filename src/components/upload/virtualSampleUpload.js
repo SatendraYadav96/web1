@@ -205,13 +205,17 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                     "Created By": item.createdBy,
                     "User Email": item.userEmail,
                     "User Position": item.userPosition,
-                    "Employee Id": item.empId,
+                    "Territory":item.Territory,
+                    "Emp ID": item.empId,
                     "SKU": item.sku,
-                    "LOT": item.lot,
+                    "Lot": item.lot,
                     "External Id": item.externalId,
                     "Customer": item.customer,
-                    "Mobile": item.mobile,
+                    "Mobile Phone": item.mobile,
                     "Quantity": item.quantity,
+                    "Date Created": item.dateCreated,
+                    "Request Completed": item.requestCompleted,
+                    "Request Started": item.requestStarted,
                     "Request Status": item.requestStatus,
                     "Team": item.team,
                     "Sub Team": item.subTeam,
@@ -220,11 +224,8 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                     "Street2": item.street2,
                     "Street3": item.street3,
                     "City": item.city,
-                    "State": item.state,
-                    "Postal Code ": item.postalCode,
-                    "Date Created ": item.dateCreated,
-                    "Request Completed": item.requestCompleted,
-                    "Request Started": item.requestStarted,
+                    "State/Province": item.state,
+                    "Postal Code": item.postalCode,
                     "Error": item.errorText,
                 }
             }))
@@ -233,13 +234,17 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                     "Created By": item.createdBy,
                     "User Email": item.userEmail,
                     "User Position": item.userPosition,
-                    "Employee Id": item.empId,
+                    "Territory":item.Territory,
+                    "Emp ID": item.empId,
                     "SKU": item.sku,
-                    "LOT": item.lot,
+                    "Lot": item.lot,
                     "External Id": item.externalId,
                     "Customer": item.customer,
-                    "Mobile": item.mobile,
+                    "Mobile Phone": item.mobile,
                     "Quantity": item.quantity,
+                    "Date Created": item.dateCreated,
+                    "Request Completed": item.requestCompleted,
+                    "Request Started": item.requestStarted,
                     "Request Status": item.requestStatus,
                     "Team": item.team,
                     "Sub Team": item.subTeam,
@@ -248,11 +253,8 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                     "Street2": item.street2,
                     "Street3": item.street3,
                     "City": item.city,
-                    "State": item.state,
-                    "Postal Code ": item.postalCode,
-                    "Date Created ": item.dateCreated,
-                    "Request Completed": item.requestCompleted,
-                    "Request Started": item.requestStarted,
+                    "State/Province": item.state,
+                    "Postal Code": item.postalCode,
                 }
             }))
         } else {
@@ -295,6 +297,7 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const virtualSampleData = selectVirtualSampleListData(state)
     const virtualSampleLogData = selectVirtualSampleLogListData(state)
+    console.log(virtualSampleData)
     return {authInfo,virtualSampleData,virtualSampleLogData}
 }
 

@@ -2,7 +2,7 @@ import {createReducer} from "./reducerUtils";
 import {GET_BUISNESS_UNIT_FAIL, GET_BUISNESS_UNIT_SUCCESS} from "../actions/master/masterActionConstants";
 import {
     FF_EXCEL_UPLOAD_FAIL,
-    FF_EXCEL_UPLOAD_START,
+    FF_EXCEL_UPLOAD_START, FF_EXCEL_UPLOAD_SUCCESS,
     FF_UPLOAD_FAIL, FF_UPLOAD_LOG_FAIL, FF_UPLOAD_LOG_SUCCESS,
     FF_UPLOAD_SUCCESS,
     GRN_EXCEL_UPLOAD_FAIL,
@@ -350,7 +350,7 @@ export default createReducer(initialState, {
     [INVOICE_UPLOAD_FAIL]: invoiceUploadFailReducer,
     [INVOICE_EXCEL_UPLOAD_SUCCESS]: invoiceExcelUploadSuccessReducer,
     [INVOICE_EXCEL_UPLOAD_FAIL]: invoiceExcelUploadFailReducer,
-    [FF_EXCEL_UPLOAD_START]: ffExcelUploadSuccessReducer,
+    [FF_EXCEL_UPLOAD_SUCCESS]: ffExcelUploadSuccessReducer,
     [FF_EXCEL_UPLOAD_FAIL]: ffExcelUploadFailReducer,
     [FF_UPLOAD_LOG_SUCCESS]: ffUploadLogSuccessReducer,
     [FF_UPLOAD_LOG_FAIL]: ffUploadLogFailReducer,
@@ -358,5 +358,8 @@ export default createReducer(initialState, {
     [RECIPIENT_UPLOAD_LOG_FAIL]: recipientUploadLogFailReducer,
     [NON_COMPLIANCE_UPLOAD_LOG_SUCCESS]: nonComplianceUploadLogSuccessReducer,
     [NON_COMPLIANCE_UPLOAD_LOG_FAIL]: nonComplianceUploadLogFailReducer,
+    [VIRTUAL_SAMPLE_UPLOAD_SUCCESS]:virtualSampleSuccessReducer,
+    [VIRTUAL_SAMPLE_UPLOAD_FAIL]:virtualSampleFailReducer,
+
 
 })

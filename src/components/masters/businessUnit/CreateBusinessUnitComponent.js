@@ -3,12 +3,13 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row} from "antd";
+import {Button, Checkbox, Col, Input, Row ,Form} from "antd";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
 import {selectInsertBuisnessUnitData, selectInsertCostCenterData} from "../../../redux/selectors/masterSelector";
 import {propTypes} from "react-csv/lib/metaProps";
 import {addBuisnessUnitStartAction, addCostCenterStartAction} from "../../../redux/actions/master/masterActions";
+import {UserOutlined} from "@ant-design/icons";
 
 const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisnessUnit}) => {
 
@@ -32,6 +33,10 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
     //     }
     // };
 
+
+
+
+
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
         setChecked(e.target.checked);
@@ -54,7 +59,7 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
         return navigate("/home/masters/businessUnit")
     }
 
-    const handleInsertCostCenter = () => {
+    const handleInsertBuisnessUnit = () => {
 
         const data  = {
             "name":name,
@@ -73,10 +78,13 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
         <>
             <TitleWidget title={"Create Business Unit"}/>
 
+
             <Row gutter={[16,16]}>
 
                 <Col span={8} offset={2}>
-                    Name: <Input placeholder={"Business Unit Name"} onChange={handleNameChange}/>
+
+                    Name: <Input  placeholder={"Business Unit Name"} onChange={handleNameChange} />
+
                 </Col>
                 <Col span={8} offset={2}>
                     Code: <Input placeholder={"Business Unit Code"} onChange={handleCodeChange}/>
@@ -89,9 +97,13 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
                     <Button type={"default"} onClick={()=>handleBack()}>Back</Button>
                 </Col>
                 <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertCostCenter()}>Submit</Button>
+                    <Button type={"primary"} onClick={() => handleInsertBuisnessUnit()}>Submit</Button>
                 </Col>
             </Row>
+
+
+
+
         </>
     )
 }

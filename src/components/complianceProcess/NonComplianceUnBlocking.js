@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table,customFormat} from "antd";
+import {Button, Col, DatePicker, Input, Row, Table, customFormat, Space} from "antd";
 import moment from 'moment'
 import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
@@ -13,6 +13,8 @@ import {getNonComplianceStartAction} from "../../redux/actions/compliance/nonCom
 import SelectUnBlockingStatusComponent from "../widgets/SelectUnBlockingStatus";
 import * as nonComplianceList from "rxjs";
 import {selectNonComplianceListData} from "../../redux/selectors/nonComplianceSelector";
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
 
 const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonCompliance}) => {
@@ -33,6 +35,101 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
     const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+
 
 
 
@@ -43,67 +140,78 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
                 title:'Employee Code',
                 key:'employeeCode',
                 dataIndex:'employeeCode',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('employeeCode'),
             },
             {
                 title:'Employee Name',
                 key:'employeeCode',
-                dataIndex:'employeeCode',
-                width:'100px'
+                dataIndex:'employeeName',
+                width:'100px',
+                ...getColumnSearchProps('employeeName'),
             },
             {
                 title: 'Team',
                 key: 'team',
                 dataIndex: 'team',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('team'),
             },
             {
                 title: 'Headquater',
                 key: 'headquater',
                 dataIndex: 'headquarter',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('headquarter'),
             },
             {
                 title: 'AM',
                 key: 'am',
                 dataIndex: 'emailAM',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('emailAM'),
             },
             {
                 title: 'RBM',
                 key: 'rbm',
                 dataIndex: 'emailRM',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('emailRM'),
             },
             {
                 title: 'Month',
                 key: 'month',
                 dataIndex: 'month',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('month'),
             },
             {
                 title: 'Year',
                 key: 'year',
                 dataIndex: 'year',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('year'),
             },
             {
                 title: 'Is Blocked',
                 key: 'isBlocked',
                 dataIndex: 'isBockedFF',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('isBockedFF'),
             },
             {
                 title: 'Remark',
                 key: 'remark',
                 dataIndex: 'remark',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('remark'),
             },
             {
                 title: 'Admin Remark',
                 key: 'adminRemark',
                 dataIndex: 'remarkByAdmin',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('remarkByAdmin'),
             },
         ])
 
