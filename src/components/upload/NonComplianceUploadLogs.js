@@ -5,14 +5,19 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {connect} from "react-redux";
 import {Button, Col, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
-import {UploadOutlined} from "@ant-design/icons";;
+import {UploadOutlined} from "@ant-design/icons";
+import {nonComplianceUploadLogStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectNonComplianceUploadLogListData} from "../../redux/selectors/uploadSelector";
+
+;
 
 
-const UploadComponent = ({authInfo,profileInfo,}) => {
+const UploadComponent = ({authInfo,profileInfo,handleNonComplianceUploadLog,nonComplianceUploadLog}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(true)
+    const [data, setData] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -70,19 +75,22 @@ const UploadComponent = ({authInfo,profileInfo,}) => {
     }
 
     useEffect(() => {
-        searchData()
-    },[])
+        {Object.keys(nonComplianceUploadLog).length === 0 ? console.log('no data') : setData(nonComplianceUploadLog) }
+    }, [nonComplianceUploadLog])
 
-    // useEffect(() => {
-    //     handleUploadList({
-    //         certificate: authInfo.token
-    //     })
-    //     searchData()
-    // },[authInfo.token])
-    //
-    // useEffect(() => {
-    //     console.log(deliveryUpdateList)
-    // },[deliveryUpdateList])
+    useEffect(() => {
+        handleNonComplianceUploadLog ({
+            certificate: authInfo.token
+        });
+        searchData()
+    },[authInfo.token])
+
+    const refresh = () => {
+        handleNonComplianceUploadLog({
+            certificate: authInfo.token
+        })
+        searchData()
+    }
 
     return(
         <div>
@@ -96,10 +104,13 @@ const UploadComponent = ({authInfo,profileInfo,}) => {
                 <Col span={3}>
                     <Button type={'primary'}>Upload</Button>
                 </Col>
+                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button>
+                </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{nonComplianceUploadLog?.length}</b></span>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={nonComplianceUploadLog}/>
             }
         </div>
     )
@@ -108,15 +119,20 @@ const UploadComponent = ({authInfo,profileInfo,}) => {
 UploadComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    nonComplianceUploadLog:PropTypes.array,
+    handleNonComplianceUploadLog:PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    return {authInfo,profileInfo}
+    const nonComplianceUploadLog = selectNonComplianceUploadLogListData(state)
+    console.log(nonComplianceUploadLog)
+    return {authInfo,profileInfo,nonComplianceUploadLog}
 }
 
 const actions = {
+    handleNonComplianceUploadLog:nonComplianceUploadLogStartAction
 }
 
 export default connect(mapState, actions)(UploadComponent)

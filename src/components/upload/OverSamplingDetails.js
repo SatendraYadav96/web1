@@ -8,15 +8,18 @@ import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
 import SelectQuarterNameComponent from "../widgets/SelectQuarterNameComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
+import {overSamplingDetailsUploadLogStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectOverSamplingDetailsUploadLogListData} from "../../redux/selectors/uploadSelector";
 
 ;
 
 
-const OverSamplingUpload = ({authInfo,profileInfo,}) => {
+const OverSampling = ({authInfo,profileInfo}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(true)
+
 
     const searchData = () => {
         setFlag(true)
@@ -73,20 +76,6 @@ const OverSamplingUpload = ({authInfo,profileInfo,}) => {
         ])
     }
 
-    useEffect(() => {
-        searchData()
-    },[])
-
-    // useEffect(() => {
-    //     handleUploadList({
-    //         certificate: authInfo.token
-    //     })
-    //     searchData()
-    // },[authInfo.token])
-    //
-    // useEffect(() => {
-    //     console.log(deliveryUpdateList)
-    // },[deliveryUpdateList])
 
     return(
         <div>
@@ -101,8 +90,11 @@ const OverSamplingUpload = ({authInfo,profileInfo,}) => {
                 <Col span={3}>
                     <Button type={'primary'}>Upload</Button>
                 </Col>
+                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button>
+                </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{overSamplingDetailsUploadLog?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={dataSource}/>
             }
@@ -113,6 +105,7 @@ const OverSamplingUpload = ({authInfo,profileInfo,}) => {
 OverSamplingUpload.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+
 }
 
 const mapState = (state) => {
@@ -122,6 +115,7 @@ const mapState = (state) => {
 }
 
 const actions = {
+
 }
 
 export default connect(mapState, actions)(OverSamplingUpload)

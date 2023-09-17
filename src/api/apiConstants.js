@@ -198,3 +198,9 @@ export const FF_EXCEL_UPLOAD_API = {url: '/v1/upload/recipientExcelData',method:
 export const FF_UPLOAD_LOG_API = {url: '/v1/upload/getRecipientUploadLog',method:'GET',auth:true}
 export const RECIPIENT_UPLOAD_LOG_API = {url: '/v1/upload/getRecipientUploadLog',method:'GET',auth:true}
 export const NON_COMPLIANCE_UPLOAD_LOG_API = {url: '/v1/upload/getNonComplianceUploadLog',method:'GET',auth:true}
+export const OVER_SAMPLING_UPLOAD_LOG_API = {url: '/v1/upload/getOverSamplingUploadLog',method:'GET',auth:true}
+
+export const OVER_SAMPLING_DETAILS_UPLOAD_LOG_API = {url: '/v1/upload/getOverSamplingDetailsUploadLog',method:'GET',auth:true}
+
+export const MATERIAL_EXPIRY_UPLOAD_LOG_API = {url: '/v1/upload/getMaterialExpiryUploadLog',method:'GET',auth:true}
+

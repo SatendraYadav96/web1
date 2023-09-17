@@ -214,3 +214,48 @@ export const selectLoadingNonComplianceUploadLogData = createSelector(
 );
 
 
+const overSamplingUploadLogList = (state) => state.upload.overSamplingUploadLog;
+const overSamplingUploadLogLoading = (state) => state.upload.overSamplingUploadLogLoading
+
+
+export const selectOverSamplingUploadLogListData = createSelector(
+    overSamplingUploadLogList,
+    overSamplingUploadLogListDataSelection => overSamplingUploadLogListDataSelection
+);
+
+export const selectLoadingOverSamplingUploadLogData = createSelector(
+    overSamplingUploadLogLoading,
+    loadingSelection => loadingSelection
+);
+
+const overSamplingDetailsUploadLogList = (state) => state.upload.overSamplingDetailsUploadLog;
+const overSamplingDetailsUploadLogLoading = (state) => state.upload.overSamplingDetailsUploadLogLoading
+
+
+export const selectOverSamplingDetailsUploadLogListData = createSelector(
+    overSamplingDetailsUploadLogList,
+    overSamplingDetailsUploadLogListDataSelection => overSamplingDetailsUploadLogListDataSelection
+);
+
+export const selectLoadingOverSamplingDetailsUploadLogData = createSelector(
+    overSamplingDetailsUploadLogLoading,
+    loadingSelection => loadingSelection
+);
+
+
+
+const materialExpiryUploadLogList = (state) => state.upload.materialExpiryUploadLog;
+const materialExpiryUploadLogLoading = (state) => state.upload.materialExpiryUploadLogLoading
+
+
+export const selectMaterialExpiryUploadLogListData = createSelector(
+    materialExpiryUploadLogList,
+    materialExpiryUploadLogListDataSelection => materialExpiryUploadLogListDataSelection
+);
+
+export const selectLoadingMaterialExpiryUploadLogData = createSelector(
+    materialExpiryUploadLogLoading,
+    loadingSelection => loadingSelection
+);
+
+

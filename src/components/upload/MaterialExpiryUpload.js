@@ -8,15 +8,18 @@ import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
 import SelectQuarterNameComponent from "../widgets/SelectQuarterNameComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
+import {materialExpiryUploadLogStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectMaterialExpiryUploadLogListData} from "../../redux/selectors/uploadSelector";
 
 ;
 
 
-const MaterialExpiryUpload = ({authInfo,profileInfo,}) => {
+const MaterialExpiryUpload = ({authInfo,profileInfo,materialExpiryUploadLog,handleMaterialExpiryUploadLog}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(true)
+    const [data, setData] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -74,37 +77,44 @@ const MaterialExpiryUpload = ({authInfo,profileInfo,}) => {
     }
 
     useEffect(() => {
-        searchData()
-    },[])
+        {Object.keys(materialExpiryUploadLog).length === 0 ? console.log('no data') : setData(materialExpiryUploadLog) }
+    }, [materialExpiryUploadLog])
 
-    // useEffect(() => {
-    //     handleUploadList({
-    //         certificate: authInfo.token
-    //     })
-    //     searchData()
-    // },[authInfo.token])
-    //
-    // useEffect(() => {
-    //     console.log(deliveryUpdateList)
-    // },[deliveryUpdateList])
+    useEffect(()=>{
+        handleMaterialExpiryUploadLog({
+            certificate:authInfo.token
+        });
+        searchData()
+    },[authInfo.token])
+
+    const refresh = () => {
+        handleMaterialExpiryUploadLog({
+            certificate:authInfo.token
+        })
+        searchData()
+    }
+
+
 
     return(
         <div>
-            <TitleWidget title={'Upload Logs'} />
-            <Row gutter={[16,16]}>
+            <TitleWidget title={'Material Expiry Upload'} />
+            <Row>
                 <Col span={3}>
-                    <SelectQuarterNameComponent />
-                </Col>
-                <Col span={3}>
-                    <SelectYearComponent />
+                    <Upload>
+                        <Button icon={<UploadOutlined />}>Select File</Button>
+                    </Upload>
                 </Col>
                 <Col span={3}>
                     <Button type={'primary'}>Upload</Button>
                 </Col>
+                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button>
+                </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{materialExpiryUploadLog?.length}</b></span>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={materialExpiryUploadLog}/>
             }
         </div>
     )
@@ -113,15 +123,20 @@ const MaterialExpiryUpload = ({authInfo,profileInfo,}) => {
 MaterialExpiryUpload.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    materialExpiryUploadLog:PropTypes.array,
+    handleMaterialExpiryUploadLog:PropTypes.func ,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    return {authInfo,profileInfo}
+    const materialExpiryUploadLog = selectMaterialExpiryUploadLogListData(state)
+    console.log(materialExpiryUploadLog)
+    return {authInfo,profileInfo,materialExpiryUploadLog}
 }
 
 const actions = {
+    handleMaterialExpiryUploadLog:materialExpiryUploadLogStartAction
 
 }
 

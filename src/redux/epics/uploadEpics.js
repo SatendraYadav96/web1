@@ -14,8 +14,8 @@ import {
     invoiceExcelUploadFailAction,
     invoiceExcelUploadSuccessAction,
     invoiceUploadFailAction,
-    invoiceUploadSuccessAction, nonComplianceUploadLogFailAction,
-    nonComplianceUploadLogSuccessAction,
+    invoiceUploadSuccessAction, materialExpiryUploadLogFailAction, materialExpiryUploadLogSuccessAction, nonComplianceUploadLogFailAction,
+    nonComplianceUploadLogSuccessAction, overSamplingDetailsUploadLogFailAction, overSamplingDetailsUploadLogSuccessAction, overSamplingUploadLogFailAction, overSamplingUploadLogSuccessAction,
     recipientUploadLogFailAction,
     recipientUploadLogSuccessAction,
     transportExcelUploadFailAction,
@@ -36,7 +36,7 @@ import {
     FF_UPLOAD_START,
     GRN_EXCEL_UPLOAD_START,
     INVOICE_EXCEL_UPLOAD_START,
-    INVOICE_UPLOAD_START, NON_COMPLIANCE_UPLOAD_LOG_START, RECIPIENT_UPLOAD_LOG_START,
+    INVOICE_UPLOAD_START, MATERIAL_EXPIRY_UPLOAD_LOG_START, NON_COMPLIANCE_UPLOAD_LOG_START, OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_UPLOAD_LOG_START, RECIPIENT_UPLOAD_LOG_START,
     TRANSPORT_EXCEL_UPLOAD_START,
     TRANSPORT_UPLOAD_START,
     VIRTUAL_SAMPLE_UPLOAD_LOG_START,
@@ -55,7 +55,7 @@ import {
     virtualSampleRequest,
     virtualSampleLogRequest,
     ffExcelUploadRequest,
-    ffUploadLogRequest, recipientUploadLogRequest, nonComplianceUploadLogRequest
+    ffUploadLogRequest, recipientUploadLogRequest, nonComplianceUploadLogRequest, overSamplingUploadLogRequest, overSamplingDetailsUploadLogRequest, materialExpiryUploadLogRequest
 } from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
 
@@ -244,6 +244,47 @@ export const nonComplianceUploadLogStartEpic = (action$) =>
             nonComplianceUploadLogRequest(action.payload).pipe(
                 map((listResponse) => nonComplianceUploadLogSuccessAction({nonComplianceUploadLog: listResponse.response})),
                 catchError((error) => of(nonComplianceUploadLogFailAction({error: error}))),
+            )
+        )
+    )
+
+
+
+export const overSamplingUploadLogStartEpic = (action$) =>
+    action$.pipe(
+        ofType(OVER_SAMPLING_UPLOAD_LOG_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            overSamplingUploadLogRequest(action.payload).pipe(
+                map((listResponse) => overSamplingUploadLogSuccessAction({overSamplingUploadLog: listResponse.response})),
+                catchError((error) => of(overSamplingUploadLogFailAction({error: error}))),
+            )
+        )
+    )
+
+
+export const overSamplingDetailsUploadLogStartEpic = (action$) =>
+    action$.pipe(
+        ofType(OVER_SAMPLING_DETAILS_UPLOAD_LOG_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            overSamplingDetailsUploadLogRequest(action.payload).pipe(
+                map((listResponse) => overSamplingDetailsUploadLogSuccessAction({overSamplingDetailsUploadLog: listResponse.response})),
+                catchError((error) => of(overSamplingDetailsUploadLogFailAction({error: error}))),
+            )
+        )
+    )
+
+
+
+export const materialExpiryUploadLogStartEpic = (action$) =>
+    action$.pipe(
+        ofType(MATERIAL_EXPIRY_UPLOAD_LOG_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            materialExpiryUploadLogRequest(action.payload).pipe(
+                map((listResponse) => materialExpiryUploadLogSuccessAction({materialExpiryUploadLog: listResponse.response})),
+                catchError((error) => of(materialExpiryUploadLogFailAction({error: error}))),
             )
         )
     )

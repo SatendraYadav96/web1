@@ -7,7 +7,7 @@ import {
     GRN_EXCEL_UPLOAD_API,
     GRN_UPLOAD_API,
     INVOICE_EXCEL_UPLOAD_API,
-    INVOICE_UPLOAD_API, NON_COMPLIANCE_UPLOAD_LOG_API, RECIPIENT_UPLOAD_LOG_API,
+    INVOICE_UPLOAD_API, MATERIAL_EXPIRY_UPLOAD_LOG_API, NON_COMPLIANCE_UPLOAD_LOG_API, OVER_SAMPLING_DETAILS_UPLOAD_LOG_API, OVER_SAMPLING_UPLOAD_LOG_API, RECIPIENT_UPLOAD_LOG_API,
     TRANSPORT_EXCEL_UPLOAD_API,
     TRANSPORT_UPLOAD_API,
     VIRTUAL_SAMPLE_UPLOAD_API,
@@ -64,6 +64,21 @@ export const recipientUploadLogRequest=  payload => {
 }
 export const nonComplianceUploadLogRequest=  payload => {
     const api = {...NON_COMPLIANCE_UPLOAD_LOG_API, url: `${NON_COMPLIANCE_UPLOAD_LOG_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const overSamplingUploadLogRequest=  payload => {
+    const api = {...OVER_SAMPLING_UPLOAD_LOG_API, url: `${OVER_SAMPLING_UPLOAD_LOG_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const overSamplingDetailsUploadLogRequest=  payload => {
+    const api = {...OVER_SAMPLING_DETAILS_UPLOAD_LOG_API, url: `${OVER_SAMPLING_DETAILS_UPLOAD_LOG_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const materialExpiryUploadLogRequest=  payload => {
+    const api = {...MATERIAL_EXPIRY_UPLOAD_LOG_API, url: `${MATERIAL_EXPIRY_UPLOAD_LOG_API.url}`}
     return createRequest(api, payload.certificate, null)
 }
 

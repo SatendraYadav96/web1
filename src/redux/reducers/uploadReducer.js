@@ -2,20 +2,39 @@ import {createReducer} from "./reducerUtils";
 import {GET_BUISNESS_UNIT_FAIL, GET_BUISNESS_UNIT_SUCCESS} from "../actions/master/masterActionConstants";
 import {
     FF_EXCEL_UPLOAD_FAIL,
-    FF_EXCEL_UPLOAD_START, FF_EXCEL_UPLOAD_SUCCESS,
-    FF_UPLOAD_FAIL, FF_UPLOAD_LOG_FAIL, FF_UPLOAD_LOG_SUCCESS,
+    FF_EXCEL_UPLOAD_START,
+    FF_EXCEL_UPLOAD_SUCCESS,
+    FF_UPLOAD_FAIL,
+    FF_UPLOAD_LOG_FAIL,
+    FF_UPLOAD_LOG_SUCCESS,
     FF_UPLOAD_SUCCESS,
     GRN_EXCEL_UPLOAD_FAIL,
-    GRN_EXCEL_UPLOAD_SUCCESS, INVOICE_EXCEL_UPLOAD_FAIL, INVOICE_EXCEL_UPLOAD_SUCCESS,
+    GRN_EXCEL_UPLOAD_SUCCESS,
+    INVOICE_EXCEL_UPLOAD_FAIL,
+    INVOICE_EXCEL_UPLOAD_SUCCESS,
     INVOICE_UPLOAD_FAIL,
-    INVOICE_UPLOAD_SUCCESS, NON_COMPLIANCE_UPLOAD_LOG_FAIL, NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, RECIPIENT_UPLOAD_LOG_FAIL, RECIPIENT_UPLOAD_LOG_SUCCESS, TRANSPORT_EXCEL_UPLOAD_FAIL,
+    INVOICE_UPLOAD_SUCCESS, MATERIAL_EXPIRY_UPLOAD_LOG_FAIL, MATERIAL_EXPIRY_UPLOAD_LOG_SUCCESS,
+    NON_COMPLIANCE_UPLOAD_LOG_FAIL,
+    NON_COMPLIANCE_UPLOAD_LOG_SUCCESS,
+    OVER_SAMPLING_DETAILS_UPLOAD_LOG_FAIL,
+    OVER_SAMPLING_DETAILS_UPLOAD_LOG_SUCCESS,
+    OVER_SAMPLING_UPLOAD_LOG_FAIL,
+    OVER_SAMPLING_UPLOAD_LOG_SUCCESS,
+    RECIPIENT_UPLOAD_LOG_FAIL,
+    RECIPIENT_UPLOAD_LOG_SUCCESS,
+    TRANSPORT_EXCEL_UPLOAD_FAIL,
     TRANSPORT_EXCEL_UPLOAD_SUCCESS,
     TRANSPORT_UPLOAD_FAIL,
-    TRANSPORT_UPLOAD_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_FAIL, VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL, VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
+    TRANSPORT_UPLOAD_SUCCESS,
+    VIRTUAL_SAMPLE_UPLOAD_FAIL,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS,
+    VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
     VIRTUAL_UPLOAD_FAIL,
     VIRTUAL_UPLOAD_SUCCESS
 } from "../actions/upload/uploadActionConstants";
 import {GRN_UPLOAD_FAIL, GRN_UPLOAD_SUCCESS} from "../actions/upload/uploadActionConstants";
+import {overSamplingUploadLogFailAction} from "../actions/upload/uploadActions";
 
 const initialState = {
     transportUpload: [],
@@ -44,6 +63,12 @@ const initialState = {
     recipientUploadLogLoading: false,
     nonComplianceUploadLog: [],
     nonComplianceUploadLogLoading: false,
+    overSamplingUploadLog: [],
+    overSamplingUploadLogLoading: false,
+    overSamplingDetailsUploadLog:[],
+    overSamplingDetailsUploadLogLoading:false,
+    materialExpiryUploadLog:[],
+    materialExpiryUploadLogLoading:false,
     error: {}
 }
 
@@ -310,7 +335,7 @@ const recipientUploadLogFailReducer = (state = initialState, payload) => {
 }
 
 
-// SAMPLE_UPLOAD_LOG
+// COMPLIANCE_UPLOAD_LOG
 const nonComplianceUploadLogSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
@@ -325,6 +350,70 @@ const nonComplianceUploadLogFailReducer = (state = initialState, payload) => {
         ...state,
         nonComplianceUploadLog:[],
         nonComplianceUploadLogLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+// OVER_SAMPLING_UPLOAD_LOG
+const overSamplingUploadLogSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingUploadLog:payload.overSamplingUploadLog,
+        overSamplingUploadLogLoading: false
+
+    }
+}
+
+const overSamplingUploadLogFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingUploadLog:[],
+        overSamplingUploadLogLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+
+// OVER_SAMPLING_DETAILS_UPLOAD_LOG
+const overSamplingDetailsUploadLogSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingDetailsUploadLog:payload.overSamplingDetailsUploadLog,
+        overSamplingDetailsUploadLogLoading: false
+
+    }
+}
+
+const overSamplingDetailsUploadLogFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingDetailsUploadLog:[],
+        overSamplingDetailsUploadLogLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+// MATERIAL_EXPIRY_UPLOAD_LOG
+const materialExpiryUploadLogSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        materialExpiryUploadLog:payload.materialExpiryUploadLog,
+        materialExpiryUploadLogLoading: false
+
+    }
+}
+
+const materialExpiryUploadLogFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        materialExpiryUploadLog:[],
+        materialExpiryUploadLogLoading: false,
         error: payload.error,
 
     }
@@ -360,6 +449,12 @@ export default createReducer(initialState, {
     [NON_COMPLIANCE_UPLOAD_LOG_FAIL]: nonComplianceUploadLogFailReducer,
     [VIRTUAL_SAMPLE_UPLOAD_SUCCESS]:virtualSampleSuccessReducer,
     [VIRTUAL_SAMPLE_UPLOAD_FAIL]:virtualSampleFailReducer,
+    [OVER_SAMPLING_UPLOAD_LOG_SUCCESS]:overSamplingUploadLogSuccessReducer,
+    [OVER_SAMPLING_UPLOAD_LOG_FAIL]:overSamplingUploadLogFailReducer,
+    [OVER_SAMPLING_DETAILS_UPLOAD_LOG_SUCCESS]:overSamplingDetailsUploadLogSuccessReducer,
+    [OVER_SAMPLING_DETAILS_UPLOAD_LOG_FAIL]:overSamplingDetailsUploadLogFailReducer,
+    [MATERIAL_EXPIRY_UPLOAD_LOG_SUCCESS]:materialExpiryUploadLogSuccessReducer,
+    [MATERIAL_EXPIRY_UPLOAD_LOG_FAIL]:materialExpiryUploadLogFailReducer,
 
 
 })

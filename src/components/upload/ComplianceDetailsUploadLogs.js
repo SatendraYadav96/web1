@@ -5,14 +5,19 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {connect} from "react-redux";
 import {Button, Col, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
-import {UploadOutlined} from "@ant-design/icons";;
+import {UploadOutlined} from "@ant-design/icons";
+import {overSamplingDetailsUploadLogStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectOverSamplingDetailsUploadLogListData} from "../../redux/selectors/uploadSelector";
+
+;
 
 
-const UploadComponent = ({authInfo,profileInfo,}) => {
+const UploadComponent = ({authInfo,profileInfo,overSamplingDetailsUploadLog,handleOverSamplingDetailsUploadLog}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(true)
+    const [data, setData] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -68,21 +73,23 @@ const UploadComponent = ({authInfo,profileInfo,}) => {
             }
         ])
     }
+    useEffect(() => {
+        {Object.keys(overSamplingDetailsUploadLog).length === 0 ? console.log('no data') : setData(overSamplingDetailsUploadLog) }
+    }, [overSamplingDetailsUploadLog])
 
     useEffect(() => {
+        handleOverSamplingDetailsUploadLog ({
+            certificate: authInfo.token
+        });
         searchData()
-    },[])
+    },[authInfo.token])
 
-    // useEffect(() => {
-    //     handleUploadList({
-    //         certificate: authInfo.token
-    //     })
-    //     searchData()
-    // },[authInfo.token])
-    //
-    // useEffect(() => {
-    //     console.log(deliveryUpdateList)
-    // },[deliveryUpdateList])
+    const refresh = () => {
+        handleOverSamplingDetailsUploadLog({
+            certificate: authInfo.token
+        })
+        searchData()
+    }
 
     return(
         <div>
@@ -96,10 +103,13 @@ const UploadComponent = ({authInfo,profileInfo,}) => {
                 <Col span={3}>
                     <Button type={'primary'}>Upload</Button>
                 </Col>
+                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button>
+                </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{overSamplingDetailsUploadLog?.length}</b></span>
             {flag &&
-                <Table columns={column} dataSource={dataSource}/>
+                <Table columns={column} dataSource={overSamplingDetailsUploadLog}/>
             }
         </div>
     )
@@ -108,15 +118,20 @@ const UploadComponent = ({authInfo,profileInfo,}) => {
 UploadComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    overSamplingDetailsUploadLog:PropTypes.array,
+    handleOverSamplingDetailsUploadLog: PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    return {authInfo,profileInfo}
+    const overSamplingDetailsUploadLog = selectOverSamplingDetailsUploadLogListData(state)
+    console.log(overSamplingDetailsUploadLog)
+    return {authInfo,profileInfo,overSamplingDetailsUploadLog}
 }
 
 const actions = {
+    handleOverSamplingDetailsUploadLog:overSamplingDetailsUploadLogStartAction
 }
 
 export default connect(mapState, actions)(UploadComponent)

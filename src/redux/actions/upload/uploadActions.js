@@ -22,7 +22,16 @@ import {
     INVOICE_EXCEL_UPLOAD_SUCCESS,
     INVOICE_UPLOAD_FAIL,
     INVOICE_UPLOAD_START,
-    INVOICE_UPLOAD_SUCCESS, NON_COMPLIANCE_UPLOAD_LOG_FAIL, NON_COMPLIANCE_UPLOAD_LOG_START, NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, RECIPIENT_UPLOAD_LOG_FAIL,
+    INVOICE_UPLOAD_SUCCESS, MATERIAL_EXPIRY_UPLOAD_LOG_FAIL, MATERIAL_EXPIRY_UPLOAD_LOG_START, MATERIAL_EXPIRY_UPLOAD_LOG_SUCCESS,
+    NON_COMPLIANCE_UPLOAD_LOG_FAIL,
+    NON_COMPLIANCE_UPLOAD_LOG_START,
+    NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, OVER_SAMPLING_DETAILS_UPLOAD_LOG_FAIL,
+    OVER_SAMPLING_DETAILS_UPLOAD_LOG_START,
+    OVER_SAMPLING_DETAILS_UPLOAD_LOG_SUCCESS,
+    OVER_SAMPLING_UPLOAD_LOG_FAIL,
+    OVER_SAMPLING_UPLOAD_LOG_START,
+    OVER_SAMPLING_UPLOAD_LOG_SUCCESS,
+    RECIPIENT_UPLOAD_LOG_FAIL,
     RECIPIENT_UPLOAD_LOG_START,
     RECIPIENT_UPLOAD_LOG_SUCCESS,
     TRANSPORT_EXCEL_UPLOAD_FAIL,
@@ -334,6 +343,73 @@ export const nonComplianceUploadLogSuccessAction = (payload) => (dispatch) => {
 export const nonComplianceUploadLogFailAction = (payload) => (dispatch) => {
     dispatch({
         type: NON_COMPLIANCE_UPLOAD_LOG_FAIL,
+        payload: payload,
+    })
+}
+
+
+
+export const overSamplingUploadLogStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: OVER_SAMPLING_UPLOAD_LOG_START,
+        payload: payload,
+    })
+}
+
+export const overSamplingUploadLogSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: OVER_SAMPLING_UPLOAD_LOG_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const overSamplingUploadLogFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: OVER_SAMPLING_UPLOAD_LOG_FAIL,
+        payload: payload,
+    })
+}
+
+
+export const overSamplingDetailsUploadLogStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: OVER_SAMPLING_DETAILS_UPLOAD_LOG_START,
+        payload: payload,
+    })
+}
+
+export const overSamplingDetailsUploadLogSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: OVER_SAMPLING_DETAILS_UPLOAD_LOG_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const overSamplingDetailsUploadLogFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: OVER_SAMPLING_DETAILS_UPLOAD_LOG_FAIL,
+        payload: payload,
+    })
+}
+
+
+export const materialExpiryUploadLogStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MATERIAL_EXPIRY_UPLOAD_LOG_START,
+        payload: payload,
+    })
+}
+
+export const materialExpiryUploadLogSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MATERIAL_EXPIRY_UPLOAD_LOG_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const materialExpiryUploadLogFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MATERIAL_EXPIRY_UPLOAD_LOG_FAIL,
         payload: payload,
     })
 }
