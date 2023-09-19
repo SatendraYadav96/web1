@@ -96,7 +96,13 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
         // console.log(`I am Super man${ffExcelUpload}`)
         if (ffExcelUpload) {
             console.log("there is data")
-            console.log(ffExcelUpload)
+            console.log(ffExcelUpload
+
+
+
+            )**-+
+
+
             // setExpErr(ffExcelUpload?.map(item => item))
             // setExp(ffExcelUpload?.map(item => item))
             setExpErr(ffExcelUpload.map(item => {
@@ -308,6 +314,7 @@ FFMasterUpdateComponent.propTypes = {
     ffExcelUpload: PropTypes.array,
     handleFFUpload: PropTypes.func,
     handleFFUploadLog: PropTypes.func,
+    handleFFExcelUploadLog:PropTypes.func,
 }
 
 const mapState = (state) => {

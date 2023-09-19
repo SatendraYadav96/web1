@@ -94,7 +94,7 @@ const UploadComponent = ({authInfo,profileInfo,handleNonComplianceUploadLog,nonC
 
     return(
         <div>
-            <TitleWidget title={'Upload Logs'} />
+            <TitleWidget title={'Non Compliance Upload'} />
             <Row>
                 <Col span={3}>
                     <Upload>
