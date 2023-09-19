@@ -259,3 +259,67 @@ export const selectLoadingMaterialExpiryUploadLogData = createSelector(
 );
 
 
+//NON_COMPLIANCE_EXCEL
+
+const nonComplianceExcelList = (state) => state.upload.nonComplianceExcel;
+const nonComplianceExcelLoading = (state) => state.upload.nonComplianceExcelLoading
+
+
+export const selectNonComplianceExcelListData = createSelector(
+    nonComplianceExcelList,
+    nonComplianceExcelListDataSelection => nonComplianceExcelListDataSelection
+);
+
+export const selectLoadingNonComplianceExcelData = createSelector(
+    nonComplianceExcelLoading,
+    loadingSelection => loadingSelection
+);
+
+
+
+const overSamplingExcelList = (state) => state.upload.overSamplingExcel;
+const overSamplingExcelLoading = (state) => state.upload.overSamplingExcelLoading
+
+
+export const selectOverSamplingExcelListData = createSelector(
+    overSamplingExcelList,
+    overSamplingExcelListDataSelection => overSamplingExcelListDataSelection
+);
+
+export const selectLoadingOverSamplingExcelData = createSelector(
+    overSamplingExcelLoading,
+    loadingSelection => loadingSelection
+);
+
+
+
+const overSamplingDetailsExcelList = (state) => state.upload.overSamplingDetailsExcel;
+const overSamplingDetailsExcelLoading = (state) => state.upload.overSamplingDetailsExcelLoading
+
+
+export const selectOverSamplingDetailsExcelListData = createSelector(
+    overSamplingDetailsExcelList,
+    overSamplingDetailsExcelListDataSelection => overSamplingDetailsExcelListDataSelection
+);
+
+export const selectLoadingOverSamplingDetailsExcelData = createSelector(
+    overSamplingDetailsExcelLoading,
+    loadingSelection => loadingSelection
+);
+
+
+
+
+const materialExpiryExcelList = (state) => state.upload.materialExpiryExcel;
+const materialExpiryExcelLoading = (state) => state.upload.materialExpiryExcelLoading
+
+
+export const selectMaterialExpiryExcelListData = createSelector(
+    materialExpiryExcelList,
+    materialExpiryExcelListDataSelection => materialExpiryExcelListDataSelection
+);
+
+export const selectLoadingMaterialExpiryExcelData = createSelector(
+    materialExpiryExcelLoading,
+    loadingSelection => loadingSelection
+);

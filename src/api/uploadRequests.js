@@ -7,7 +7,7 @@ import {
     GRN_EXCEL_UPLOAD_API,
     GRN_UPLOAD_API,
     INVOICE_EXCEL_UPLOAD_API,
-    INVOICE_UPLOAD_API, MATERIAL_EXPIRY_UPLOAD_LOG_API, NON_COMPLIANCE_UPLOAD_LOG_API, OVER_SAMPLING_DETAILS_UPLOAD_LOG_API, OVER_SAMPLING_UPLOAD_LOG_API, RECIPIENT_UPLOAD_LOG_API,
+    INVOICE_UPLOAD_API, MATERIAL_EXPIRY_EXCEL_API, MATERIAL_EXPIRY_UPLOAD_LOG_API, NON_COMPLIANCE_EXCEL_API, NON_COMPLIANCE_UPLOAD_LOG_API, OVER_SAMPLING_DETAILS_EXCEL_API, OVER_SAMPLING_DETAILS_UPLOAD_LOG_API, OVER_SAMPLING_EXCEL_API, OVER_SAMPLING_UPLOAD_LOG_API, RECIPIENT_UPLOAD_LOG_API,
     TRANSPORT_EXCEL_UPLOAD_API,
     TRANSPORT_UPLOAD_API,
     VIRTUAL_SAMPLE_UPLOAD_API,
@@ -82,3 +82,23 @@ export const materialExpiryUploadLogRequest=  payload => {
     return createRequest(api, payload.certificate, null)
 }
 
+export const nonComplianceExcelRequest=  payload => {
+    const api = {...NON_COMPLIANCE_EXCEL_API, url: `${NON_COMPLIANCE_EXCEL_API.url}/${payload.uplId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const overSamplingExcelRequest=  payload => {
+    const api = {...OVER_SAMPLING_EXCEL_API, url: `${OVER_SAMPLING_EXCEL_API.url}/${payload.uplId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const overSamplingDetailsExcelRequest=  payload => {
+    const api = {...OVER_SAMPLING_DETAILS_EXCEL_API, url: `${OVER_SAMPLING_DETAILS_EXCEL_API.url}/${payload.uplId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+
+export const materialExpiryExcelRequest=  payload => {
+    const api = {...MATERIAL_EXPIRY_EXCEL_API, url: `${MATERIAL_EXPIRY_EXCEL_API.url}/${payload.uplId}`}
+    return createRequest(api, payload.certificate, null)
+}

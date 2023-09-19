@@ -204,3 +204,10 @@ export const OVER_SAMPLING_DETAILS_UPLOAD_LOG_API = {url: '/v1/upload/getOverSam
 
 export const MATERIAL_EXPIRY_UPLOAD_LOG_API = {url: '/v1/upload/getMaterialExpiryUploadLog',method:'GET',auth:true}
 
+export const NON_COMPLIANCE_EXCEL_API = {url: '/v1/upload/nonComplianceExcelData',method:'GET',auth:true}
+
+export const OVER_SAMPLING_EXCEL_API = {url: '/v1/upload/overSamplingExcelData',method:'GET',auth:true}
+
+export const OVER_SAMPLING_DETAILS_EXCEL_API = {url: '/v1/upload/overSamplingDetailsExcelData',method:'GET',auth:true}
+
+export const MATERIAL_EXPIRY_EXCEL_API = {url: '/v1/upload/materialExpiryExcelData',method:'GET',auth:true}

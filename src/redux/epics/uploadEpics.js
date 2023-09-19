@@ -14,8 +14,21 @@ import {
     invoiceExcelUploadFailAction,
     invoiceExcelUploadSuccessAction,
     invoiceUploadFailAction,
-    invoiceUploadSuccessAction, materialExpiryUploadLogFailAction, materialExpiryUploadLogSuccessAction, nonComplianceUploadLogFailAction,
-    nonComplianceUploadLogSuccessAction, overSamplingDetailsUploadLogFailAction, overSamplingDetailsUploadLogSuccessAction, overSamplingUploadLogFailAction, overSamplingUploadLogSuccessAction,
+    invoiceUploadSuccessAction, materialExpiryExcelFailAction, materialExpiryExcelSuccessAction,
+    materialExpiryUploadLogFailAction,
+    materialExpiryUploadLogSuccessAction,
+    nonComplianceExcelFailAction,
+    nonComplianceExcelSuccessAction,
+    nonComplianceUploadLogFailAction,
+    nonComplianceUploadLogSuccessAction,
+    overSamplingDetailsExcelFailAction,
+    overSamplingDetailsExcelSuccessAction,
+    overSamplingDetailsUploadLogFailAction,
+    overSamplingDetailsUploadLogSuccessAction,
+    overSamplingExcelFailAction,
+    overSamplingExcelSuccessAction,
+    overSamplingUploadLogFailAction,
+    overSamplingUploadLogSuccessAction,
     recipientUploadLogFailAction,
     recipientUploadLogSuccessAction,
     transportExcelUploadFailAction,
@@ -36,7 +49,16 @@ import {
     FF_UPLOAD_START,
     GRN_EXCEL_UPLOAD_START,
     INVOICE_EXCEL_UPLOAD_START,
-    INVOICE_UPLOAD_START, MATERIAL_EXPIRY_UPLOAD_LOG_START, NON_COMPLIANCE_UPLOAD_LOG_START, OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_UPLOAD_LOG_START, RECIPIENT_UPLOAD_LOG_START,
+    INVOICE_UPLOAD_START,
+    MATERIAL_EXPIRY_EXCEL_START,
+    MATERIAL_EXPIRY_UPLOAD_LOG_START,
+    NON_COMPLIANCE_EXCEL_START,
+    NON_COMPLIANCE_UPLOAD_LOG_START,
+    OVER_SAMPLING_DETAILS_EXCEL_START,
+    OVER_SAMPLING_DETAILS_UPLOAD_LOG_START,
+    OVER_SAMPLING_EXCEL_START,
+    OVER_SAMPLING_UPLOAD_LOG_START,
+    RECIPIENT_UPLOAD_LOG_START,
     TRANSPORT_EXCEL_UPLOAD_START,
     TRANSPORT_UPLOAD_START,
     VIRTUAL_SAMPLE_UPLOAD_LOG_START,
@@ -55,7 +77,7 @@ import {
     virtualSampleRequest,
     virtualSampleLogRequest,
     ffExcelUploadRequest,
-    ffUploadLogRequest, recipientUploadLogRequest, nonComplianceUploadLogRequest, overSamplingUploadLogRequest, overSamplingDetailsUploadLogRequest, materialExpiryUploadLogRequest
+    ffUploadLogRequest, recipientUploadLogRequest, nonComplianceUploadLogRequest, overSamplingUploadLogRequest, overSamplingDetailsUploadLogRequest, materialExpiryUploadLogRequest, nonComplianceExcelRequest, overSamplingExcelRequest, overSamplingDetailsExcelRequest, materialExpiryExcelRequest
 } from "../../api/uploadRequests";
 import {GRN_UPLOAD_START} from "../actions/upload/uploadActionConstants";
 
@@ -285,6 +307,61 @@ export const materialExpiryUploadLogStartEpic = (action$) =>
             materialExpiryUploadLogRequest(action.payload).pipe(
                 map((listResponse) => materialExpiryUploadLogSuccessAction({materialExpiryUploadLog: listResponse.response})),
                 catchError((error) => of(materialExpiryUploadLogFailAction({error: error}))),
+            )
+        )
+    )
+
+
+
+export const nonComplianceExcelStartEpic = (action$) =>
+    action$.pipe(
+        ofType(NON_COMPLIANCE_EXCEL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            nonComplianceExcelRequest(action.payload).pipe(
+                map((listResponse) => nonComplianceExcelSuccessAction({nonComplianceExcel: listResponse.response})),
+                catchError((error) => of(nonComplianceExcelFailAction({error: error}))),
+            )
+        )
+    )
+
+
+
+export const overSamplingExcelStartEpic = (action$) =>
+    action$.pipe(
+        ofType(OVER_SAMPLING_EXCEL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            overSamplingExcelRequest(action.payload).pipe(
+                map((listResponse) => overSamplingExcelSuccessAction({overSamplingExcel: listResponse.response})),
+                catchError((error) => of(overSamplingExcelFailAction({error: error}))),
+            )
+        )
+    )
+
+
+
+export const overSamplingDetailsExcelStartEpic = (action$) =>
+    action$.pipe(
+        ofType(OVER_SAMPLING_DETAILS_EXCEL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            overSamplingDetailsExcelRequest(action.payload).pipe(
+                map((listResponse) => overSamplingDetailsExcelSuccessAction({overSamplingDetailsExcel: listResponse.response})),
+                catchError((error) => of(overSamplingDetailsExcelFailAction({error: error}))),
+            )
+        )
+    )
+
+
+export const materialExpiryExcelStartEpic = (action$) =>
+    action$.pipe(
+        ofType(MATERIAL_EXPIRY_EXCEL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            materialExpiryExcelRequest(action.payload).pipe(
+                map((listResponse) => materialExpiryExcelSuccessAction({materialExpiryExcel: listResponse.response})),
+                catchError((error) => of(materialExpiryExcelFailAction({error: error}))),
             )
         )
     )

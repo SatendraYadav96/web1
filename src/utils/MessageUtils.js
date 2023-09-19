@@ -13,7 +13,18 @@ import {
     GET_VIRTUAL_PLAN_APPROVAL_START,
     GET_VIRTUAL_PLAN_APPROVAL_SUCCESS
 } from "../redux/actions/approval/monthlyApprovalActionConstants";
-import {MATERIAL_EXPIRY_UPLOAD_LOG_START, NON_COMPLIANCE_UPLOAD_LOG_FAIL, NON_COMPLIANCE_UPLOAD_LOG_START, NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_UPLOAD_LOG_START} from "../redux/actions/upload/uploadActionConstants";
+import {
+    MATERIAL_EXPIRY_EXCEL_FAIL,
+    MATERIAL_EXPIRY_EXCEL_START, MATERIAL_EXPIRY_EXCEL_SUCCESS,
+    MATERIAL_EXPIRY_UPLOAD_LOG_START, NON_COMPLIANCE_EXCEL_FAIL,
+    NON_COMPLIANCE_EXCEL_START,
+    NON_COMPLIANCE_EXCEL_SUCCESS,
+    NON_COMPLIANCE_UPLOAD_LOG_FAIL,
+    NON_COMPLIANCE_UPLOAD_LOG_START,
+    NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, OVER_SAMPLING_DETAILS_EXCEL_FAIL, OVER_SAMPLING_DETAILS_EXCEL_START, OVER_SAMPLING_DETAILS_EXCEL_SUCCESS,
+    OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_START, OVER_SAMPLING_EXCEL_SUCCESS,
+    OVER_SAMPLING_UPLOAD_LOG_START
+} from "../redux/actions/upload/uploadActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -1067,6 +1078,49 @@ import {MATERIAL_EXPIRY_UPLOAD_LOG_START, NON_COMPLIANCE_UPLOAD_LOG_FAIL, NON_CO
         MATERIAL_EXPIRY_UPLOAD_LOG_START: [{ action: 'showspinner' }],
         MATERIAL_EXPIRY_UPLOAD_LOG_SUCCESS: [{ action: 'hidespinner' }],
         MATERIAL_EXPIRY_UPLOAD_LOG_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        NON_COMPLIANCE_EXCEL_START: [{ action: 'showspinner' }],
+        NON_COMPLIANCE_EXCEL_SUCCESS: [{ action: 'hidespinner' }],
+        NON_COMPLIANCE_EXCEL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        OVER_SAMPLING_EXCEL_START: [{ action: 'showspinner' }],
+        OVER_SAMPLING_EXCEL_SUCCESS: [{ action: 'hidespinner' }],
+        OVER_SAMPLING_EXCEL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        OVER_SAMPLING_DETAILS_EXCEL_START: [{ action: 'showspinner' }],
+        OVER_SAMPLING_DETAILS_EXCEL_SUCCESS: [{ action: 'hidespinner' }],
+        OVER_SAMPLING_DETAILS_EXCEL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        MATERIAL_EXPIRY_EXCEL_START: [{ action: 'showspinner' }],
+        MATERIAL_EXPIRY_EXCEL_SUCCESS: [{ action: 'hidespinner' }],
+        MATERIAL_EXPIRY_EXCEL_FAIL: [
             { action: 'hidespinner' },
             {
                 action: 'showerror',
