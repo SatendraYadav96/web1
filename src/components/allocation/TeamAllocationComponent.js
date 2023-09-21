@@ -1,25 +1,19 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {selectAuthInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
 import {Alert, Button, Col, InputNumber, Modal, Row, Table} from "antd";
-import {allocateToAllTeamsAction, allocateToTeamAction} from "../../redux/actions/allocation/allocationActions";
-import {selectCommonAllocationDone} from "../../redux/selectors/allocationSelectors";
+import {allocateToAllTeamsAction, allocateToTeamAction, monthlyCommonTeamStartAction} from "../../redux/actions/allocation/allocationActions";
+import {selectCommonAllocationDone, selectMonthlyCommonTeamListData} from "../../redux/selectors/allocationSelectors";
 import DifferentialAllocationComponent from "./DifferentialAllocationComponent";
 import LabelComponent from "../../widgets/LabelComponent";
 
-const TeamAllocationComponent = ({
-                                     item,
-                                     teams,
-                                     total,
-                                     commonAllocationDone,
-                                     handleChangeQuantity,
-                                     handleAllocationToAllTeams
-                                 }) => {
+const TeamAllocationComponent = ({item, teams, total, commonAllocationDone, handleChangeQuantity, handleAllocationToAllTeams, monthlyCommonTeam,handleMonthlyCommonTeam,authInfo}) => {
     const [showDifferential, setShowDifferential] = useState(false)
     const [teamForDifferential, setTeamForDifferential] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [column, setColumn] = useState([])
     const onChangeQuantity = (team, quantity) => {
         if (quantity % item.packSize !== 0) {
             setShowErrorMessage(true)
@@ -55,13 +49,18 @@ const TeamAllocationComponent = ({
     }
     const columns = [
         {
-            title: 'Name',
-            dataIndex: 'name',
+            title: 'Team',
+            dataIndex: 'team',
+            key: 'name',
+        },
+        {
+            title: 'Designation',
+            dataIndex: 'designation',
             key: 'name',
         },
         {
             title: '# Members',
-            dataIndex : 'recipient',
+            dataIndex : 'recipientCount',
             key: 'recipient'
         },
         {
@@ -120,6 +119,15 @@ const TeamAllocationComponent = ({
         })
     }
 
+    useEffect(()=>{
+        handleMonthlyCommonTeam({
+            certificate:authInfo.token
+
+        });
+
+
+    },[authInfo.token])
+
     return (
         <>
             {showErrorMessage &&
@@ -161,18 +169,24 @@ TeamAllocationComponent.propTypes = {
     total: PropTypes.number,
     commonAllocationDone: PropTypes.any,
     handleChangeQuantity: PropTypes.func,
-    handleAllocationToAllTeams: PropTypes.func
+    handleAllocationToAllTeams: PropTypes.func,
+    monthlyCommonTeam:PropTypes.array,
+    handleMonthlyCommonTeam:PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const commonAllocationDone = selectCommonAllocationDone(state)
-    return { authInfo, commonAllocationDone }
+    const monthlyCommonTeam = selectMonthlyCommonTeamListData(state)
+    console.log(monthlyCommonTeam)
+
+    return { authInfo, commonAllocationDone,monthlyCommonTeam }
 }
 
 const actions = {
     handleChangeQuantity: allocateToTeamAction,
-    handleAllocationToAllTeams: allocateToAllTeamsAction
+    handleAllocationToAllTeams: allocateToAllTeamsAction,
+    handleMonthlyCommonTeam:monthlyCommonTeamStartAction
 }
 
 export default connect(mapState, actions)(TeamAllocationComponent)

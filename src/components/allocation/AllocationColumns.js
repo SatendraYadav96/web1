@@ -13,6 +13,22 @@ const MonthlyAllocationInventoryColumns = () => {
             key: 'itemName',
         },
         {
+            title: 'Available Stock',
+            dataIndex: 'stock',
+            key: 'itemName',
+        },
+        {
+            title: 'PO NO',
+            dataIndex: 'poNo',
+            key: 'itemName',
+        },
+        {
+            title: 'Expiry Date',
+            dataIndex: 'expiryDate',
+            key: 'itemName',
+        },
+
+        {
             title: 'Pack Size',
             dataIndex: 'packSize',
             key: 'packSize',

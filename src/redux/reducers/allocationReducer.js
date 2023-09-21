@@ -8,7 +8,7 @@ import {
     GET_ALLOCATIONS_FOR_PLAN_SUCCESS,
     MONTHLY_ALLOCATION_FAIL,
     MONTHLY_ALLOCATION_START,
-    MONTHLY_ALLOCATION_SUCCESS, RECIPIENTS_TO_ALLOCATE_LIST_FAIL, RECIPIENTS_TO_ALLOCATE_LIST_START,
+    MONTHLY_ALLOCATION_SUCCESS, MONTHLY_COMMON_TEAM_FAIL, MONTHLY_COMMON_TEAM_SUCCESS, RECIPIENTS_TO_ALLOCATE_LIST_FAIL, RECIPIENTS_TO_ALLOCATE_LIST_START,
 } from "../actions/allocation/allocationActionConstants";
 const initialState = {
     items: [],
@@ -19,6 +19,8 @@ const initialState = {
     allocationsLoading: false,
     commonAllocationDone: new Date(),
     plan: [],
+    monthlyCommonTeam:[],
+    monthlyCommonTeamLoading:false,
     error: null,
 }
 
@@ -32,8 +34,13 @@ const allocationForPlanStartReducer = (state = initialState, payload) => {
     }
 }
 
+
+
 const allocationForPlanSuccessReducer = (state = initialState, payload) => {
     let itemList = payload.selectedItems.map(item => item.itemID)
+
+
+
     const allocatedItems = payload.allocations.allocations
     if (allocatedItems.length !== 0) {
         let items = allocatedItems.filter(item => itemList.indexOf(item.ID_ITM_INV) > -1)
@@ -166,6 +173,28 @@ const allocateToAllTeamsReducer = (state = initialState, payload) => {
 }
 
 
+const monthlyCommonTeamSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        monthlyCommonTeam:payload.monthlyCommonTeam,
+        monthlyCommonTeamLoading: false
+
+    }
+}
+
+const monthlyCommonTeamFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        monthlyCommonTeam:[],
+        monthlyCommonTeamLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+
+
 export default createReducer(initialState, {
     [GET_ALLOCATIONS_FOR_PLAN_START]: allocationForPlanStartReducer,
     [GET_ALLOCATIONS_FOR_PLAN_SUCCESS]: allocationForPlanSuccessReducer,
@@ -177,5 +206,7 @@ export default createReducer(initialState, {
     [RECIPIENTS_TO_ALLOCATE_LIST_START]: recipientAllocationsSuccessReducer,
     [RECIPIENTS_TO_ALLOCATE_LIST_FAIL]: recipientAllocationsFailReducer,
     [ALLOCATE_TO_TEAM]: allocateToTeamReducer,
-    [ALLOCATE_TO_ALL_TEAMS]: allocateToAllTeamsReducer
+    [ALLOCATE_TO_ALL_TEAMS]: allocateToAllTeamsReducer,
+    [MONTHLY_COMMON_TEAM_SUCCESS]:monthlyCommonTeamSuccessReducer,
+    [MONTHLY_COMMON_TEAM_FAIL]:monthlyCommonTeamFailReducer,
 })

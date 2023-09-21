@@ -211,3 +211,11 @@ export const OVER_SAMPLING_EXCEL_API = {url: '/v1/upload/overSamplingExcelData',
 export const OVER_SAMPLING_DETAILS_EXCEL_API = {url: '/v1/upload/overSamplingDetailsExcelData',method:'GET',auth:true}
 
 export const MATERIAL_EXPIRY_EXCEL_API = {url: '/v1/upload/materialExpiryExcelData',method:'GET',auth:true}
+
+
+//ALLOCATIONS
+
+
+export const MONTHLY_COMMON_TEAM_API = {url: '/v1/allocation/getTeamForCommonAllocation',method:'GET',auth:true}
+
+export const MONTHLY_DIFFERENTIAL_TEAM_API = {url: '/v1/allocation/getTeamForDifferentialAllocation',method:'GET',auth:true}

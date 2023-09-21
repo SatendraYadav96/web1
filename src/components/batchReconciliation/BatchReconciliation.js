@@ -168,7 +168,7 @@ const BatchReconciliationComponent = ({authInfo,handleBatchReconciliation,batchR
     useEffect(() => {
         setData(batchReconciliationList?.map(item => {
             return ({
-                'Business Unit': item.bu,
+                'Business Unit': item.businessUnit,
                 'Brand//CC': item.brand,
                 'SKU Details': item.prodcutname,
                 'Batch Number': item.batch_No,

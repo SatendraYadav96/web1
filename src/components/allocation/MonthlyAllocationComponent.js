@@ -83,14 +83,32 @@ const MonthlyAllocationComponent = ({authInfo,
                     <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>
                 </Col>
                 <Col span={2} offset={17}>
-                    <Button type={'secondary'}>Submit</Button>
+                    <Button type={'primary'}>Submit</Button>
                 </Col>
             </Row>
+
+
+
             <Steps current={currentStep} style={{marginBottom: 20}}>
                 {allocationSteps.map((item) =>
                     <Step key={item.title} title={item.title} />
                 )}
             </Steps>
+
+            <Row gutter={[16,16]} style={{marginBottom: 40}}>
+
+                <Col span={4} >
+                    <Button type={'primary'}>Download Allocation</Button>
+                </Col>
+                <Col span={3} style={{marginLeft:-124}}>
+                    <Button type={'primary'}>Blocked FF</Button>
+                </Col>
+                <Col span={3} style={{marginLeft:-114}}>
+                    <Button type={'primary'}>Active Users</Button>
+                </Col>
+                <Col span={14}></Col>
+            </Row>
+
             {currentStep === 0 &&
                 <Table
                     rowSelection={{

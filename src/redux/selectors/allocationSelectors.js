@@ -13,3 +13,17 @@ export const selectAllocationsLoading = createSelector(allocationsLoading, alloc
 export const selectPlan = createSelector(plan, (planSelect) => planSelect)
 export const selectItemsLoading = createSelector(itemsLoading, (itemsLoadingSelect) => itemsLoadingSelect)
 export const selectCommonAllocationDone = createSelector(commonAllocationDone, commonAllocationDoneSelect => commonAllocationDoneSelect)
+
+
+
+const monthlyCommonTeamList = (state) => state.allocations.monthlyCommonTeam;
+const monthlyCommonTeamLoading = (state) => state.allocations.monthlyCommonTeamLoading
+export const selectMonthlyCommonTeamListData = createSelector(
+    monthlyCommonTeamList,
+    monthlyCommonTeamListDataSelection => monthlyCommonTeamListDataSelection
+);
+
+export const selectLoadingMonthlyCommonTeamData = createSelector(
+    monthlyCommonTeamLoading,
+    loadingSelection => loadingSelection
+);
