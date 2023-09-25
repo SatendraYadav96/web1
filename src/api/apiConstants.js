@@ -219,3 +219,12 @@ export const MATERIAL_EXPIRY_EXCEL_API = {url: '/v1/upload/materialExpiryExcelDa
 export const MONTHLY_COMMON_TEAM_API = {url: '/v1/allocation/getTeamForCommonAllocation',method:'GET',auth:true}
 
 export const MONTHLY_DIFFERENTIAL_TEAM_API = {url: '/v1/allocation/getTeamForDifferentialAllocation',method:'GET',auth:true}
+
+
+export const GET_TSE_DROPDOWN_API = {url: '/v1/master/getTseDropdown',method:'GET',auth:true}
+
+export const ASSIGN_TSE_API = {url: '/v1/allocation/assignTse',method:'POST',auth:true}
+
+export const GET_TSE_LIST_API = {url: '/v1/allocation/getTseList',method:'GET',auth:true}
+
+export const UNASSIGN_TSE_API = {url: '/v1/allocation/unAssignTse',method:'POST',auth:true}

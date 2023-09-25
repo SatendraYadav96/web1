@@ -1,88 +1,114 @@
 import React, {useEffect, useState} from "react";
-import {Col, Input, Row, Button, Table} from "antd";
+import {Col, Input, Row, Button, Space, Table, Tag} from "antd";
 import {Option} from "antd/es/mentions";
 import {connect} from "react-redux";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import PropTypes from "prop-types";
 import TitleWidget from "../../widgets/TitleWidget";
+import SelectApproverComponent from "../widgets/SelectApproverComponent";
+import SelectTseComponent from "../widgets/SelectTseComponent";
+import {assignTseStartAction, getTseListStartAction, tseDropdownStartAction, unassignTseStartAction} from "../../redux/actions/dropDown/dropDownActions";
+import {selectAssignTse, selectAssignTseLoading, selectTseDropdown, selectTseDropdownLoading, selectTseList, selectTseListLoading, selectUnAssignTse, selectUnAssignTseLoading} from "../../redux/selectors/dropDownSelector";
+import {EditOutlined,DeleteOutlined } from "@ant-design/icons";
 
 
-const AdminComponent = ({}) => {
+const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTseLoading,tseDropdown,handleTseDropDown,tseDropdownLoading,tseList ,tseListLoading,handleTseList}) => {
 
     const [value, setValue] = React.useState("");
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [tse, setTse] = useState()
+    const [tseId, setTseId] = useState()
 
 
     const searchData = () => {
         setFlag(true)
         setColumn([
             {
-                title:'Team',
-                key:'businessUnit',
-                dataIndex:'',
-                width:'100px',
-
-            },
-            {
-                title:'SubTeam',
-                key:'division',
-                dataIndex:'',
-                width:'100px',
-
-            },
-            {
-                title: 'GRN Date',
-                key: 'grnDate',
-                dataIndex: '',
+                title: 'Name',
+                key: 'name',
+                dataIndex: 'name_USR',
                 width: '100px',
 
             },
             {
-                title: 'Vendor Name',
-                key: 'vendorName',
-                dataIndex: '',
-                width: '150px',
+                title: 'Code',
+                key: 'code',
+                dataIndex: 'employee_CODE_USR',
+                width: '100px',
+
 
             },
             {
-                title: 'Vendor Code',
-                key: 'vendorCode',
+                title: 'Login Id',
+                key: 'code',
+                dataIndex: 'login_NAME_USR',
+                width: '100px',
+
+
+            },
+            {
+                title: '',
+                key: '',
                 dataIndex: '',
-                width: '120px'
-
+                width: '100px',
+                render: (_,row) => {
+                    return <Button icon={<DeleteOutlined  />} onClick={() => editCostCenter(row)}></Button>
+                }
             }
-        ])
-
+        ]);
         setDataSource([
-            {title:'vendor',
-            key:'vendor',
-            dataIndex:'vendor',
-            width:'120px'}
-        ])
+            {
+                key: '',
+                name: '',
+                code: ''
+            }
+        ]);
     }
 
-        const handleChange = (event) => {
-            setValue(event.target.value);
-        };
+    const handleInsertTse = () =>{
+        console.log(tseDropdown)
+        console.log(authInfo)
+        console.log(profileInfo)
+        handleAssignTse({
+            certificate: authInfo.token,
+            id:tseDropdown[1].userId
+
+        })
+
+    }
+
+
+    const getAssignList = () => {
+        console.log(tseList)
+        handleTseList({
+            certificate:authInfo.token,
+            id:profileInfo.id
+        })
+        searchData()
+    }
 
         return ( <>
-            <TitleWidget title={"Mark Tse"}/>
+            <TitleWidget title={"Assign Tse"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                <Input placeholder={"Select TSE"} value={name} onChange={(e) => setName(e.target.value)}/>
+                    <SelectTseComponent value = {tse} onChange={(value) => setTse(value)}/>
                 </Col>
 
                 <Col span={8}>
-                    <Button type="primary" htmlType="submit">Submit</Button>
+                    <Button type="primary" onClick={()=>handleInsertTse()}>Assign</Button>
+                </Col>
+
+                <Col span={2}>
+                    <Button type="primary" onClick={()=>getAssignList()}>Search</Button>
                 </Col>
 
             </Row>
 
-                <span>Total Rows: <b>{dataSource?.length}</b></span>
+                <span>Total Rows: <b>{tseList?.length}</b></span>
                 {flag &&
-                    <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource}/>
+                    <Table columns={column} dataSource={tseList} />
                 }
         </>
         )
@@ -93,16 +119,38 @@ const AdminComponent = ({}) => {
 AdminComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    assignTse: PropTypes.array,
+    assignTseLoading: PropTypes.array,
+    handleAssignTse: PropTypes.func,
+    tseList:PropTypes.array,
+    tseListLoading: PropTypes.array,
+    handleTseList: PropTypes.func,
+    unassignTse:PropTypes.array,
+    unassignTseLoading:PropTypes.func
 
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
+    const assignTse = selectAssignTse(state)
+    const assignTseLoading = selectAssignTseLoading(state)
+    const tseDropdown = selectTseDropdown(state)
+    const tseDropdownLoading = selectTseDropdownLoading(state)
+    const tseList = selectTseList(state)
+    const tseListLoading = selectTseListLoading(state)
+    const unassignTse = selectUnAssignTse(state)
+    const unassignTseLoading = selectUnAssignTseLoading(state)
+    console.log(tseList)
+    return {authInfo, profileInfo,assignTse,assignTseLoading,tseDropdown,tseDropdownLoading,tseList,tseListLoading,unassignTse,unassignTseLoading}
 
 }
 
 const actions = {
+    handleAssignTse:assignTseStartAction,
+    handleTseDropDown : tseDropdownStartAction,
+    handleTseList:getTseListStartAction,
+    handleUnAssignTse:unassignTseStartAction
 
 }
 

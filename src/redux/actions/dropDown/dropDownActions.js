@@ -33,8 +33,19 @@ import {
     USER_DROPDOWN_SUCCESS_ACTION,
     USER_DROPDOWN_FAIL_ACTION,
     RECIPIENT_DESIGNATION_DROPDOWN_START_ACTION,
-    RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION,
-    APPROVER_DROPDOWN_START_ACTION,APPROVER_DROPDOWN_SUCCESS_ACTION,APPROVER_DROPDOWN_FAIL_ACTION
+    RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION,
+    RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION,
+    APPROVER_DROPDOWN_START_ACTION,
+    APPROVER_DROPDOWN_SUCCESS_ACTION,
+    APPROVER_DROPDOWN_FAIL_ACTION,
+    TSE_DROPDOWN_START_ACTION,
+    TSE_DROPDOWN_SUCCESS_ACTION,
+    TSE_DROPDOWN_FAIL_ACTION,
+    ASSIGN_TSE_START_ACTION,
+    ASSIGN_TSE_SUCCESS_ACTION,
+    ASSIGN_TSE_FAIL_ACTION,
+    GET_TSE_LIST_START_ACTION,
+    GET_TSE_LIST_SUCCESS_ACTION, GET_TSE_LIST_FAIL_ACTION
 
 } from './dropDownActionConstants'
 
@@ -333,6 +344,106 @@ export const approverDropdownSuccessAction = (payload) => (dispatch) => {
 export const approverDropdownFailAction = (payload) => (dispatch) => {
     dispatch({
         type: APPROVER_DROPDOWN_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+
+
+
+
+export const tseDropdownStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: TSE_DROPDOWN_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const tseDropdownSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: TSE_DROPDOWN_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const tseDropdownFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: TSE_DROPDOWN_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+
+
+
+export const assignTseStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ASSIGN_TSE_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const assignTseSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ASSIGN_TSE_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const assignTseFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: ASSIGN_TSE_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+
+
+export const getTseListStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_TSE_LIST_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const getTseListSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_TSE_LIST_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const getTseListFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_TSE_LIST_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+
+
+
+export const unassignTseStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: UNASSIGN_TSE_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const unassignTseSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: UNASSIGN_TSE_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const unassignTseFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: UNASSIGN_TSE_FAIL_ACTION,
         payload: payload,
     })
 }

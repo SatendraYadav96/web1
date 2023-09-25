@@ -20,7 +20,7 @@ import {
     LEGAL_ENTITY_DROPDOWN_FAIL_ACTION,
     USER_DESIGNATION_DROPDOWN_FAIL_ACTION,
     USER_DESIGNATION_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_SUCCESS_ACTION, USER_DROPDOWN_FAIL_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_SUCCESS_ACTION, RECIPIENT_DESIGNATION_DROPDOWN_FAIL_ACTION,
-    APPROVER_DROPDOWN_SUCCESS_ACTION,APPROVER_DROPDOWN_FAIL_ACTION
+    APPROVER_DROPDOWN_SUCCESS_ACTION, APPROVER_DROPDOWN_FAIL_ACTION, TSE_DROPDOWN_SUCCESS_ACTION, TSE_DROPDOWN_FAIL_ACTION, ASSIGN_TSE_SUCCESS_ACTION, ASSIGN_TSE_FAIL_ACTION, GET_TSE_LIST_SUCCESS_ACTION, GET_TSE_LIST_FAIL_ACTION, UNASSIGN_TSE_SUCCESS_ACTION, UNASSIGN_TSE_FAIL_ACTION
 
 } from '../actions/dropDown/dropDownActionConstants'
 
@@ -50,6 +50,14 @@ const initialState = {
     userDropdownLoading: false,
     approverDropdown:[],
     approverDropdownLoading:false,
+    tseDropdown:[],
+    tseDropdownLoading:false,
+    assignTse:[],
+    assignTseLoading:false,
+    tseList:[],
+    tseListLoading:false,
+    unassignTse:[],
+    unassignTseLoading:false,
     error: null,
 }
 
@@ -329,6 +337,88 @@ const approverUnitDropdownFailReducer = (state = initialState, payload) => {
 
 
 
+const tseDropdownSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        tseDropdown: payload.tseDropdown,
+        tseDropdownLoading: false,
+        error: null
+
+    }
+}
+
+const tseDropdownFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        tseDropdown:[],
+        error: payload.error,
+        tseDropdownLoading: false,
+    }
+}
+
+
+const assignTseSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        assignTse: payload.assignTse,
+        assignTseLoading: false,
+        error: null
+    }
+}
+
+const assignTseFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        assignTse:[],
+        error: payload.error,
+        assignTseLoading: false,
+    }
+}
+
+
+
+
+const getTseListSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        tseList: payload.tseList,
+        tseListLoading: false,
+        error: null
+    }
+}
+
+const getTseListFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        tseList:[],
+        error: payload.error,
+        tseListLoading: false,
+    }
+}
+
+
+
+const unassignTseSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        unassignTse: payload.unassignTse,
+        unassignTseLoading: false,
+        error: null
+    }
+}
+
+const unassignTseFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        unassignTse:[],
+        error: payload.error,
+        unassignTseLoading: false,
+    }
+}
+
+
+
+
 export default createReducer(initialState, {
     [BUSINESS_UNIT_DROPDOWN_SUCCESS_ACTION]: businessUnitDropdownSuccessReducer,
     [BUSINESS_UNIT_DROPDOWN_FAIL_ACTION]: businessUnitDropdownFailReducer,
@@ -356,4 +446,12 @@ export default createReducer(initialState, {
     [USER_DROPDOWN_FAIL_ACTION]: userDropdownFailReducer,
     [APPROVER_DROPDOWN_SUCCESS_ACTION]: approverDropdownSuccessReducer,
     [APPROVER_DROPDOWN_FAIL_ACTION]: approverUnitDropdownFailReducer,
+    [TSE_DROPDOWN_SUCCESS_ACTION]:tseDropdownSuccessReducer,
+    [TSE_DROPDOWN_FAIL_ACTION]:tseDropdownFailReducer,
+    [ASSIGN_TSE_SUCCESS_ACTION]:assignTseSuccessReducer,
+    [ASSIGN_TSE_FAIL_ACTION]:assignTseFailReducer,
+    [GET_TSE_LIST_SUCCESS_ACTION]:getTseListSuccessReducer,
+    [GET_TSE_LIST_FAIL_ACTION]:getTseListFailReducer,
+    [UNASSIGN_TSE_SUCCESS_ACTION]:unassignTseSuccessReducer,
+    [UNASSIGN_TSE_FAIL_ACTION]:unassignTseFailReducer,
 })
