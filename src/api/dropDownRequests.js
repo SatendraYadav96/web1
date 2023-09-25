@@ -97,5 +97,6 @@ export const getTseListRequest = payload => {
 
 
 export const unassignTseRequest=  payload => {
-    return createRequest(UNASSIGN_TSE_API, payload.certificate, payload.id)
+    const api = {...UNASSIGN_TSE_API, url: `${UNASSIGN_TSE_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, null)
 }

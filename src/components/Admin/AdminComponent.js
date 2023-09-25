@@ -12,7 +12,8 @@ import {selectAssignTse, selectAssignTseLoading, selectTseDropdown, selectTseDro
 import {EditOutlined,DeleteOutlined } from "@ant-design/icons";
 
 
-const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTseLoading,tseDropdown,handleTseDropDown,tseDropdownLoading,tseList ,tseListLoading,handleTseList}) => {
+const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTseLoading,tseDropdown,handleTseDropDown,tseDropdownLoading,tseList ,tseListLoading,handleTseList,
+                            unassignTse,unassignTseLoading,handleUnAssignTse,row}) => {
 
     const [value, setValue] = React.useState("");
     const [column, setColumn] = useState([])
@@ -54,7 +55,7 @@ const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTs
                 dataIndex: '',
                 width: '100px',
                 render: (_,row) => {
-                    return <Button icon={<DeleteOutlined  />} onClick={() => editCostCenter(row)}></Button>
+                    return <Button icon={<DeleteOutlined  />} onClick={() => deleteTse(row.userId)}></Button>
                 }
             }
         ]);
@@ -65,6 +66,15 @@ const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTs
                 code: ''
             }
         ]);
+    }
+
+    const deleteTse = (userId) => {
+        //return navigate(`/home/masters/costCenter/edit/${row.id}`)
+        console.log(userId)
+        handleUnAssignTse({
+            certificate:authInfo.token,
+            id:userId
+        })
     }
 
     const handleInsertTse = () =>{
@@ -126,7 +136,8 @@ AdminComponent.propTypes = {
     tseListLoading: PropTypes.array,
     handleTseList: PropTypes.func,
     unassignTse:PropTypes.array,
-    unassignTseLoading:PropTypes.func
+    unassignTseLoading:PropTypes.array,
+    handleUnAssignTse:PropTypes.func
 
 }
 
