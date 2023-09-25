@@ -83,6 +83,7 @@ const EditCostCenterComponent = React.lazy(() => import ('../components/masters/
 const SamplesComponent = React.lazy(() => import ('../components/masters/samples/SamplesComponent'))
 const CreateSamplesComponent = React.lazy(() => import ('../components/masters/samples/CreateSamples'))
 const EditSamplesComponent = React.lazy(() => import ('../components/masters/samples/EditSamples'))
+const AdminComponent = React.lazy(() => import('../components/Admin/AdminComponent'))
 
 
 const routes = [
@@ -169,7 +170,8 @@ const routes = [
     { path: '/home/masters/samples/edit/:id', name: 'EditSample', element: EditSamplesComponent},
     { path: '/home/massRevalidation', name: 'Mass Revalidation', element: MassRevalidationComponent},
     { path: '/home/report/allocationReport', name: 'Allocation Report', element: AllocationReportComponent},
-    { path: '/home/pickingSlip/monthlyDispatch/details/invoiceUpload', name: 'Invoice Upload', element: InvoiceUploadDetailComponent}
+    { path: '/home/pickingSlip/monthlyDispatch/details/invoiceUpload', name: 'Invoice Upload', element: InvoiceUploadDetailComponent},
+    { path: '/home/admin/assign', name: 'AdminComponent', element: AdminComponent},
 ]
 
 export default routes
