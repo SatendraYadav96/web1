@@ -55,7 +55,7 @@ const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTs
                 dataIndex: '',
                 width: '100px',
                 render: (_,row) => {
-                    return <Button icon={<DeleteOutlined  />} onClick={() => deleteTse(row.userId)}></Button>
+                    return <Button type = {"link"} onClick={() => deleteTse(row)}>Unassign</Button>
                 }
             }
         ]);
@@ -68,22 +68,23 @@ const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTs
         ]);
     }
 
-    const deleteTse = (userId) => {
+    const deleteTse = (row) => {
         //return navigate(`/home/masters/costCenter/edit/${row.id}`)
-        console.log(userId)
+        console.log(row)
         handleUnAssignTse({
             certificate:authInfo.token,
-            id:userId
+            id:row.id_USR
         })
     }
 
     const handleInsertTse = () =>{
-        console.log(tseDropdown)
+
         console.log(authInfo)
         console.log(profileInfo)
+        console.log(tse)
         handleAssignTse({
             certificate: authInfo.token,
-            id:tseDropdown[1].userId
+            id:tse
 
         })
 
@@ -153,6 +154,7 @@ const mapState = (state) => {
     const unassignTse = selectUnAssignTse(state)
     const unassignTseLoading = selectUnAssignTseLoading(state)
     console.log(tseList)
+
     return {authInfo, profileInfo,assignTse,assignTseLoading,tseDropdown,tseDropdownLoading,tseList,tseListLoading,unassignTse,unassignTseLoading}
 
 }

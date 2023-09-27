@@ -33,7 +33,7 @@ const SelectTseComponent = ({value, multiple, onChange,authInfo,profileInfo,tseD
 
     return <Select  placeholder={"Select Tse"} value={value} onChange={onChange} style={{width: "100%"}}>
         {tseDropdown?.map( item => {
-            return(<Option key={item.userId} value={item.userName}>{item.userName}</Option>)
+            return(<Option key={item.userId} value={item.userId}>{item.userName}</Option>)
         })}
     </Select>
 }
@@ -51,6 +51,7 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const tseDropdown = selectTseDropdown(state)
     const tseDropdownLoading = selectTseDropdownLoading(state)
+
     return {authInfo,tseDropdown,tseDropdownLoading,profileInfo}
 }
 
