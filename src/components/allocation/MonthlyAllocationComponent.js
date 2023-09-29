@@ -7,7 +7,7 @@ import {allocateToAllTeamsAction, getAllocationsForPlanStartAction, monthlyAlloc
 import {selectAllocations, selectAllocationsLoading, selectCommonAllocationDone, selectItemsLoading, selectItemsToAllocate, selectPlan} from '../../redux/selectors/allocationSelectors'
 import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography} from 'antd'
 import moment from 'moment'
-import {toYyyyMm} from '../../utils/DateUtils'
+import {toMm, toYyyy, toYyyyMm} from '../../utils/DateUtils'
 import {MonthlyAllocationInventoryColumns} from './AllocationColumns'
 import TeamAllocationComponent from './TeamAllocationComponent'
 const { Step } = Steps
@@ -100,10 +100,10 @@ const MonthlyAllocationComponent = ({authInfo,
                 <Col span={4} >
                     <Button type={'primary'}>Download Allocation</Button>
                 </Col>
-                <Col span={3} style={{marginLeft:-124}}>
+                <Col span={3} >
                     <Button type={'primary'}>Blocked FF</Button>
                 </Col>
-                <Col span={3} style={{marginLeft:-114}}>
+                <Col span={3} >
                     <Button type={'primary'}>Active Users</Button>
                 </Col>
                 <Col span={14}></Col>
@@ -139,7 +139,12 @@ const MonthlyAllocationComponent = ({authInfo,
                                 <TeamAllocationComponent
                                     total={allocation.totalAllocation}
                                     teams={allocation.teams}
-                                    item={allocation.item}/>
+                                    item={allocation.item}
+                                    costCenterId={allocation.costCenter}
+                                    year = {toYyyy(yearMonth)}
+                                    month = {toMm(yearMonth)}
+                                    inventoryId = {allocation.inventoryId}
+                                    />
                             </Panel>)
                         }
                     </Collapse>
@@ -201,6 +206,7 @@ const mapState = (state) => {
     const allocations = selectAllocations(state)
     const commonAllocationDone = selectCommonAllocationDone(state)
     const plan=selectPlan(state)
+    console.log(allocations)
     return { authInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone }
 }
 

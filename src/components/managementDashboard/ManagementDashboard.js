@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table, customFormat, Space} from "antd";
+import {Button, Col, DatePicker, Input, Row, Table,customFormat} from "antd";
 import {Select} from "antd/es";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
@@ -19,8 +19,6 @@ import SelectTypeComponent from "../widgets/SelectTeamComponent";
 import {selectManagementDashboard} from "../../redux/selectors/dashboardSelector";
 import {managementDashboardStartAction} from "../../redux/actions/dashboard/dashboardActions";
 import {Option} from "antd/es/mentions";
-import {SearchOutlined} from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
 
 
 const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleManagementDashboard}) => {
@@ -41,101 +39,6 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
     const [flag, setFlag] = useState(false)
     //const [data, setData] = useState([])
     const [dataM, setDataM] = useState([])
-    // const [searchText, setSearchText] = useState('');
-    // const [searchedColumn, setSearchedColumn] = useState('');
-    // const searchInput = useRef(null);
-    //
-    // const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    //     confirm();
-    //     setSearchText(selectedKeys[0]);
-    //     setSearchedColumn(dataIndex);
-    // };
-    // const handleReset = (clearFilters) => {
-    //     clearFilters();
-    //     setSearchText('');
-    // };
-    // const getColumnSearchProps = (dataIndex) => ({
-    //     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-    //         <div
-    //             style={{
-    //                 padding: 8,
-    //             }}
-    //             onKeyDown={(e) => e.stopPropagation()}
-    //         >
-    //             <Input
-    //                 ref={searchInput}
-    //                 placeholder={`Search ${dataIndex}`}
-    //                 value={selectedKeys[0]}
-    //                 onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-    //                 onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-    //                 style={{
-    //                     marginBottom: 8,
-    //                     display: 'block',
-    //                 }}
-    //             />
-    //             <Space>
-    //                 <Button
-    //                     type="primary"
-    //                     onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-    //                     icon={<SearchOutlined />}
-    //                     size="small"
-    //                     style={{
-    //                         width: 90,
-    //                     }}
-    //                 >
-    //                     Search
-    //                 </Button>
-    //                 <Button
-    //                     onClick={() => clearFilters && handleReset(clearFilters)}
-    //                     size="small"
-    //                     style={{
-    //                         width: 90,
-    //                     }}
-    //                 >
-    //                     Reset
-    //                 </Button>
-    //                 <Button
-    //                     type="link"
-    //                     size="small"
-    //                     onClick={() => {
-    //                         close();
-    //                     }}
-    //                 >
-    //                     close
-    //                 </Button>
-    //             </Space>
-    //         </div>
-    //     ),
-    //     filterIcon: (filtered) => (
-    //         <SearchOutlined
-    //             style={{
-    //                 color: filtered ? '#1677ff' : undefined,
-    //             }}
-    //         />
-    //     ),
-    //     onFilter: (value, record) =>
-    //         record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
-    //     onFilterDropdownOpenChange: (visible) => {
-    //         if (visible) {
-    //             setTimeout(() => searchInput.current?.select(), 100);
-    //         }
-    //     },
-    //     render: (text) =>
-    //         searchedColumn === dataIndex ? (
-    //             <Highlighter
-    //                 highlightStyle={{
-    //                     backgroundColor: '#ffc069',
-    //                     padding: 0,
-    //                 }}
-    //                 searchWords={[searchText]}
-    //                 autoEscape
-    //                 textToHighlight={text ? text.toString() : ''}
-    //             />
-    //         ) : (
-    //             text
-    //         ),
-    // });
-
 
     const searchData = () => {
         setFlag(true)
@@ -145,29 +48,25 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
                     title:'Business Unit',
                     key:'businessunit',
                     dataIndex:'businessunit',
-                    width:'100px',
-                    //...getColumnSearchProps('businessunit'),
+                    width:'100px'
                 },
                 {
                     title:'Brand Manager',
                     key:'brand_Manager',
                     dataIndex:'brand_Manager',
-                    width:'100px',
-                    //...getColumnSearchProps('brand_Manager'),
+                    width:'100px'
                 },
                 {
                     title: 'Plantype',
                     key: 'plantype',
                     dataIndex: 'plantype',
-                    width: '100px',
-                    //...getColumnSearchProps('plantype'),
+                    width: '100px'
                 },
                 {
                     title: 'Submission Date',
                     key: 'submitted_On',
                     dataIndex: 'submitted_On',
-                    width: '100px',
-                    //...getColumnSearchProps('submitted_On'),
+                    width: '100px'
                 },
             ])
         } else if (type === 2) {
@@ -176,36 +75,31 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
                     title:'Business Unit',
                     key:'businessunit',
                     dataIndex:'businessunit',
-                    width:'100px',
-                    //...getColumnSearchProps('businessunit'),
+                    width:'100px'
                 },
                 {
                     title:'Brand Manager',
                     key:'brand_Manager',
                     dataIndex:'brand_Manager',
-                    width:'100px',
-                    //...getColumnSearchProps('brand_Manager'),
+                    width:'100px'
                 },
                 {
                     title: 'Category',
                     key: 'category',
                     dataIndex: 'category',
-                    width: '100px',
-                    //...getColumnSearchProps('category'),
+                    width: '100px'
                 },
                 {
                     title: 'Total FF',
                     key: 'totalFF',
                     dataIndex: 'totalFF',
-                    width: '100px',
-                    //...getColumnSearchProps('totalFF'),
+                    width: '100px'
                 },
                 {
                     title: 'Amount',
                     key: 'cost',
                     dataIndex: 'cost',
-                    width: '100px',
-                    //...getColumnSearchProps('cost'),
+                    width: '100px'
                 },
             ])
         } else if (type === 3) {
@@ -214,36 +108,31 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
                     title:'Month',
                     key:'month',
                     dataIndex:'month',
-                    width:'100px',
-                    //...getColumnSearchProps('month'),
+                    width:'100px'
                 },
                 {
                     title:'Year',
                     key:'year',
                     dataIndex:'year',
-                    width:'100px',
-                    //...getColumnSearchProps('year'),
+                    width:'100px'
                 },
                 {
                     title: 'Team',
                     key: 'team',
                     dataIndex: 'team',
-                    width: '100px',
-                    //...getColumnSearchProps('team'),
+                    width: '100px'
                 },
                 {
                     title: 'Block',
                     key: 'bLOCK',
                     dataIndex: 'bLOCK',
-                    width: '100px',
-                    //...getColumnSearchProps('bLOCK'),
+                    width: '100px'
                 },
                 {
                     title: 'Unblock',
                     key: 'uNBLOCK',
                     dataIndex: 'uNBLOCK',
-                    width: '100px',
-                    //...getColumnSearchProps('uNBLOCK'),
+                    width: '100px'
                 },
             ])
         } else if (type === 4) {
@@ -252,36 +141,31 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
                     title:'Item Name',
                     key:'itemName',
                     dataIndex:'itemName',
-                    width:'100px',
-                    //...getColumnSearchProps('itemName'),
+                    width:'100px'
                 },
                 {
                     title:'Item Code',
                     key:'item_Code',
                     dataIndex:'item_Code',
-                    width:'100px',
-                    //...getColumnSearchProps('item_Code'),
+                    width:'100px'
                 },
                 {
                     title: 'Quantity',
                     key: 'quantity',
                     dataIndex: 'quantity',
-                    width: '100px',
-                    //...getColumnSearchProps('quantity'),
+                    width: '100px'
                 },
                 {
                     title: 'Expiry Date',
                     key: 'expiryDate',
                     dataIndex: 'expiryDate',
-                    width: '100px',
-                    //...getColumnSearchProps('expiryDate'),
+                    width: '100px'
                 },
                 {
                     title: 'Amount',
                     key: 'cost',
                     dataIndex: 'cost',
-                    width: '100px',
-                    //...getColumnSearchProps('cost'),
+                    width: '100px'
                 },
             ])
         } else if (type === 5) {
@@ -290,43 +174,37 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
                     title:'Name',
                     key:'name',
                     dataIndex:'name',
-                    width:'100px',
-                    //...getColumnSearchProps('name'),
+                    width:'100px'
                 },
                 {
                     title:'Item Name',
                     key:'itemName',
                     dataIndex:'itemName',
-                    width:'100px',
-                    //...getColumnSearchProps('itemName'),
+                    width:'100px'
                 },
                 {
                     title: 'Item Code',
                     key: 'itemCode',
                     dataIndex: 'itemCode',
-                    width: '100px',
-                    //...getColumnSearchProps('itemCode'),
+                    width: '100px'
                 },
                 {
                     title: 'Quantity',
                     key: 'quantity',
                     dataIndex: 'quantity',
-                    width: '100px',
-                    //...getColumnSearchProps('quantity'),
+                    width: '100px'
                 },
                 {
                     title: 'Updated On',
                     key: 'created_on',
                     dataIndex: 'created_on',
-                    width: '100px',
-                    //...getColumnSearchProps('created_on'),
+                    width: '100px'
                 },
                 {
                     title: 'Amount',
                     key: 'cost',
                     dataIndex: 'cost',
-                    width: '100px',
-                    //...getColumnSearchProps('cost'),
+                    width: '100px'
                 },
             ])
         }

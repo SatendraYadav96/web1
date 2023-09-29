@@ -157,8 +157,6 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
         ]);
     }
 
-
-
     const createCostCenter = () => {
         return navigate("/home/masters/costCenter/create")
     }

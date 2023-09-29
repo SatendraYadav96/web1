@@ -1,14 +1,23 @@
 import { ofType } from 'redux-observable'
 import {catchError, debounceTime, forkJoin, map, of, switchMap} from 'rxjs'
-import {GET_ALLOCATIONS_FOR_PLAN_START, MONTHLY_ALLOCATION_START, MONTHLY_COMMON_TEAM_START, MONTHLY_DIFFERENTIAL_TEAM_START, RECIPIENTS_TO_ALLOCATE_LIST_START} from '../actions/allocation/allocationActionConstants'
-import {itemsToAllocateListRequest, monthlyPlanCreateViewRequest, allocationsForPlanRequest, monthlyCommonTeamRequest, monthlyDifferentialTeamRequest} from '../../api/allocationRequests'
+import {GET_ALLOCATIONS_FOR_PLAN_START, MONTHLY_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START, MONTHLY_COMMON_TEAM_START, MONTHLY_DIFFERENTIAL_TEAM_START, RECIPIENTS_TO_ALLOCATE_LIST_START} from '../actions/allocation/allocationActionConstants'
+import {itemsToAllocateListRequest, monthlyPlanCreateViewRequest, allocationsForPlanRequest, monthlyCommonTeamRequest, monthlyDifferentialTeamRequest, monthlyQuantityAllocatedOfUserToItemRequest, monthlyCommonAllocationSave, monthlyCommonAllocationSaveRequest} from '../../api/allocationRequests'
 import {
     getAllocationsForPlanFailAction,
     getAllocationsForPlanStartAction,
     getAllocationsForPlanSuccessAction,
     monthlyAllocationFailAction,
-    monthlyAllocationSuccessAction, monthlyCommonTeamFailAction, monthlyCommonTeamStartAction, monthlyCommonTeamSuccessAction, monthlyDifferentialTeamFailAction, monthlyDifferentialTeamStartAction, recipientsToAllocateListFailAction,
-    recipientsToAllocateListStartAction, recipientsToAllocateListSuccessAction,
+    monthlyAllocationSuccessAction, monthlyCommonAllocationFailAction,
+    monthlyCommonAllocationSuccessAction,
+    monthlyCommonTeamFailAction,
+    monthlyCommonTeamStartAction,
+    monthlyCommonTeamSuccessAction,
+    monthlyDifferentialTeamFailAction,
+    monthlyDifferentialTeamStartAction,
+    monthlyDifferentialTeamSuccessAction,
+    recipientsToAllocateListFailAction,
+    recipientsToAllocateListStartAction,
+    recipientsToAllocateListSuccessAction,
     teamsToAllocateListFailAction,
     teamsToAllocateListSuccessAction
 } from '../actions/allocation/allocationActions'
@@ -60,8 +69,10 @@ export const monthlyCommonTeamStartEpic = (action$) =>
         ofType(MONTHLY_COMMON_TEAM_START),
         debounceTime(4000),
         switchMap((action) =>
-            monthlyCommonTeamRequest(action.payload).pipe(
-                map((allocationResponse) => monthlyCommonTeamSuccessAction({monthlyCommonTeam: allocationResponse.response})),
+            forkJoin(
+            monthlyCommonTeamRequest(action.payload),
+                monthlyQuantityAllocatedOfUserToItemRequest(action.payload)).pipe(
+                map((allocationResponse) => monthlyCommonTeamSuccessAction({monthlyCommonTeam: allocationResponse[0].response, quantityAllocated:allocationResponse[1].response})),
                 catchError((error) => of(monthlyCommonTeamFailAction({ error: error }))),
             ),
         ),
@@ -76,6 +87,18 @@ export const monthlyDifferentialTeamStartEpic = (action$) =>
             monthlyDifferentialTeamRequest(action.payload).pipe(
                 map((allocationResponse) => monthlyDifferentialTeamSuccessAction({monthlyDifferentialTeam: allocationResponse.response})),
                 catchError((error) => of(monthlyDifferentialTeamFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const monthlyCommonAllocationStartEpic = (action$) =>
+    action$.pipe(
+        ofType(MONTHLY_COMMON_ALLOCATION_SAVE_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            monthlyCommonAllocationSaveRequest(action.payload).pipe(
+                map((response) => monthlyCommonAllocationSuccessAction({monthlyCommonAllocationSave: response.response})),
+                catchError((error) => of(monthlyCommonAllocationFailAction({ error: error }))),
             ),
         ),
     )

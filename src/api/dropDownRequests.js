@@ -11,7 +11,7 @@ import {
     GET_TEAM_DROPDOWN_API,
     GET_TRANSPORT_DROPDOWN_API,
     GET_USER_DESIGNATION_DROPDOWN_API, GET_USER_DROPDOWN_API,
-    GET_APPROVER_DROPDOWN_API, GET_TSE_DROPDOWN_API, ASSIGN_TSE_API, GET_TSE_LIST_API, INVOICE_UPLOAD_API, UNASSIGN_TSE_API,
+    GET_APPROVER_DROPDOWN_API,
 } from "./apiConstants";
 
 //DROPDOWN
@@ -77,26 +77,5 @@ export const userDropdownRequest = payload => {
 
 export const approverDropDownRequest = payload => {
     const api = {...GET_APPROVER_DROPDOWN_API, url: `${GET_APPROVER_DROPDOWN_API.url}`}
-    return createRequest(api, payload.certificate, null)
-}
-
-export const tseDropDownRequest = payload => {
-    const api = {...GET_TSE_DROPDOWN_API, url: `${GET_TSE_DROPDOWN_API.url}`}
-    return createRequest(api, payload.certificate, null)
-}
-
-export const assignTseRequest = payload => {
-    const api = {...ASSIGN_TSE_API, url: `${ASSIGN_TSE_API.url}/${payload.id}`}
-    return createRequest(api, payload.certificate, null)
-}
-
-export const getTseListRequest = payload => {
-    const api = {...GET_TSE_LIST_API, url: `${GET_TSE_LIST_API.url}/${payload.id}`}
-    return createRequest(api, payload.certificate, null)
-}
-
-
-export const unassignTseRequest=  payload => {
-    const api = {...UNASSIGN_TSE_API, url: `${UNASSIGN_TSE_API.url}/${payload.id}`}
     return createRequest(api, payload.certificate, null)
 }

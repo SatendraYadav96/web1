@@ -8,7 +8,7 @@ import {
     GET_ALLOCATIONS_FOR_PLAN_SUCCESS,
     MONTHLY_ALLOCATION_FAIL,
     MONTHLY_ALLOCATION_START,
-    MONTHLY_ALLOCATION_SUCCESS, MONTHLY_COMMON_TEAM_FAIL, MONTHLY_COMMON_TEAM_SUCCESS, RECIPIENTS_TO_ALLOCATE_LIST_FAIL, RECIPIENTS_TO_ALLOCATE_LIST_START,
+    MONTHLY_ALLOCATION_SUCCESS, MONTHLY_COMMON_ALLOCATION_SAVE_FAIL, MONTHLY_COMMON_ALLOCATION_SAVE_SUCCESS, MONTHLY_COMMON_TEAM_FAIL, MONTHLY_COMMON_TEAM_SUCCESS, RECIPIENTS_TO_ALLOCATE_LIST_FAIL, RECIPIENTS_TO_ALLOCATE_LIST_START,
 } from "../actions/allocation/allocationActionConstants";
 const initialState = {
     items: [],
@@ -19,8 +19,10 @@ const initialState = {
     allocationsLoading: false,
     commonAllocationDone: new Date(),
     plan: [],
-    monthlyCommonTeam:[],
+    monthlyCommonTeam:{},
+    monthlyCommonTeamKeys: [],
     monthlyCommonTeamLoading:false,
+    monthlyCommonAllocationSave: [],
     error: null,
 }
 
@@ -38,16 +40,18 @@ const allocationForPlanStartReducer = (state = initialState, payload) => {
 
 const allocationForPlanSuccessReducer = (state = initialState, payload) => {
     let itemList = payload.selectedItems.map(item => item.itemID)
-
-
-
+    let costCenterList = [];
+    let inventoryList = [];
+    payload.selectedItems.forEach(item => costCenterList[item.itemID] = item.costCenterID);
+    payload.selectedItems.forEach(item => inventoryList[item.itemID] = item.inventoryId);
+    console.log(costCenterList);
     const allocatedItems = payload.allocations.allocations
     if (allocatedItems.length !== 0) {
         let items = allocatedItems.filter(item => itemList.indexOf(item.ID_ITM_INV) > -1)
         itemList = itemList.concat(items)
     }
     const allocations = []
-    state.items.forEach(item => {if(itemList.indexOf(item.itemID) > -1) {allocations.push({item: item, teams: payload.allocations.teams})}})
+    state.items.forEach(item => {if(itemList.indexOf(item.itemID) > -1) {allocations.push({item: item, teams: payload.allocations.teams,costCenter: costCenterList[item.itemID], inventoryId:inventoryList[item.itemID] })}})
     return {
         ...state,
         allocationsLoading: false,
@@ -174,9 +178,33 @@ const allocateToAllTeamsReducer = (state = initialState, payload) => {
 
 
 const monthlyCommonTeamSuccessReducer = (state = initialState, payload) => {
+    console.log(payload.quantityAllocated);
+    let quantityAllocated = [];
+    let data = new Map();
+    let keysArr = [];
+    payload.quantityAllocated.forEach(item => quantityAllocated[item.designationId] = item.allocatedQuantity)
+    payload.monthlyCommonTeam.forEach(item => item["allocatedQuantity"] = quantityAllocated[item.designationId])
+    payload.monthlyCommonTeam.forEach(item => {
+            if(data[item.team]){
+                let arr = []
+                arr = data[item.team]
+                arr[(arr.length-1)+1] = item
+                data[item.team] = arr
+            }else{
+                let arr = [];
+                arr[0] = item
+                keysArr.push(item.team);
+                data[item.team]= arr
+            }
+        }
+    )
+    console.log(payload.monthlyCommonTeam);
+    console.log(data)
+    console.log(keysArr)
     return {
         ...state,
-        monthlyCommonTeam:payload.monthlyCommonTeam,
+        monthlyCommonTeam: data,
+        monthlyCommonTeamKeys: keysArr,
         monthlyCommonTeamLoading: false
 
     }
@@ -187,6 +215,23 @@ const monthlyCommonTeamFailReducer = (state = initialState, payload) => {
         ...state,
         monthlyCommonTeam:[],
         monthlyCommonTeamLoading: false,
+        error: payload.error,
+
+    }
+}
+
+const monthlyCommonAllocationSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        monthlyCommonAllocationSave:payload.monthlyCommonAllocationSave
+
+    }
+}
+
+const monthlyCommonAllocationFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        monthlyCommonAllocationSave:[],
         error: payload.error,
 
     }
@@ -209,4 +254,6 @@ export default createReducer(initialState, {
     [ALLOCATE_TO_ALL_TEAMS]: allocateToAllTeamsReducer,
     [MONTHLY_COMMON_TEAM_SUCCESS]:monthlyCommonTeamSuccessReducer,
     [MONTHLY_COMMON_TEAM_FAIL]:monthlyCommonTeamFailReducer,
+    [MONTHLY_COMMON_ALLOCATION_SAVE_SUCCESS]: monthlyCommonAllocationSuccessReducer,
+    [MONTHLY_COMMON_ALLOCATION_SAVE_FAIL]: monthlyCommonAllocationFailReducer
 })

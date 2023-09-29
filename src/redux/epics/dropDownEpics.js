@@ -10,7 +10,7 @@ import {
     TRANSPORT_DROPDOWN_START_ACTION,
     USER_DESIGNATION_DROPDOWN_START_ACTION,
     USER_DROPDOWN_START_ACTION,
-    APPROVER_DROPDOWN_START_ACTION, TSE_DROPDOWN_START_ACTION, ASSIGN_TSE_START_ACTION, GET_TSE_LIST_START_ACTION, UNASSIGN_TSE_START_ACTION
+    APPROVER_DROPDOWN_START_ACTION
 } from '../actions/dropDown/dropDownActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -36,7 +36,7 @@ import {
     legalEntityDropdownFailAction,
     userDesignationDropdownSuccessAction,
     userDesignationDropdownFailAction, userDropdownSuccessAction, userDropdownFailAction, recipientDesignationDropdownSuccessAction, recipientDesignationDropdownFailAction,
-    approverDropdownSuccessAction, approverDropdownFailAction, tseDropdownStartAction, tseDropdownFailAction, tseDropdownSuccessAction, assignTseSuccessAction, assignTseFailAction, getTseListStartAction, getTseListSuccessAction, getTseListFailAction, unassignTseSuccessAction, unassignTseFailAction
+    approverDropdownSuccessAction,approverDropdownFailAction
 } from '../actions/dropDown/dropDownActions'
 import {
     brandDropDownRequest,
@@ -50,7 +50,7 @@ import {
     transportDropdownRequest,
     userDesignationDropdownRequest,
     userDropdownRequest,
-    approverDropDownRequest, tseDropDownRequest, assignTseRequest, getTseListRequest, unassignTseRequest
+    approverDropDownRequest
 } from '../../api/dropDownRequests'
 
 
@@ -230,62 +230,6 @@ export const approverDropdownStartEpic = (action$) =>
             approverDropDownRequest(action.payload).pipe(
                 map((listResponse) => approverDropdownSuccessAction({approverDropdown: listResponse.response})),
                 catchError((error) => of(approverDropdownFailAction({error: error}))),
-            )
-        )
-    )
-
-
-
-export const tseDropdownStartEpic = (action$) =>
-    action$.pipe(
-        ofType(TSE_DROPDOWN_START_ACTION),
-        debounceTime(4000),
-        switchMap((action) =>
-            tseDropDownRequest(action.payload).pipe(
-                map((listResponse) => tseDropdownSuccessAction({tseDropdown: listResponse.response})),
-                catchError((error) => of(tseDropdownFailAction({error: error}))),
-            )
-        )
-    )
-
-
-
-
-export const assignTseStartEpic = (action$) =>
-    action$.pipe(
-        ofType(ASSIGN_TSE_START_ACTION),
-        debounceTime(4000),
-        switchMap((action) =>
-            assignTseRequest(action.payload).pipe(
-                map((listResponse) => assignTseSuccessAction({assignTse: listResponse.response})),
-                catchError((error) => of(assignTseFailAction({error: error}))),
-            )
-        )
-    )
-
-
-
-export const getTseListStartEpic = (action$) =>
-    action$.pipe(
-        ofType(GET_TSE_LIST_START_ACTION),
-        debounceTime(4000),
-        switchMap((action) =>
-            getTseListRequest(action.payload).pipe(
-                map((listResponse) => getTseListSuccessAction({tseList: listResponse.response})),
-                catchError((error) => of(getTseListFailAction({error: error}))),
-            )
-        )
-    )
-
-
-export const unassignTseStartEpic = (action$) =>
-    action$.pipe(
-        ofType(UNASSIGN_TSE_START_ACTION),
-        debounceTime(4000),
-        switchMap((action) =>
-            unassignTseRequest(action.payload).pipe(
-                map((listResponse) => unassignTseSuccessAction({unassignTse: listResponse.response})),
-                catchError((error) => of(unassignTseFailAction({error: error}))),
             )
         )
     )

@@ -1,17 +1,7 @@
 import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
 import {ADD_BOX_WEIGHT_START_ACTION, ADD_HSN_FAIL_ACTION, ADD_HSN_START_ACTION, ADD_HSN_SUCCESS_ACTION} from "../redux/actions/hsnInvoice/hsnActionConstants";
 import {UNACKNOWLEDGE_LIST_START} from "../redux/actions/grn/grnActionConstants";
-import {
-    ASSIGN_TSE_FAIL_ACTION,
-    ASSIGN_TSE_START_ACTION,
-    ASSIGN_TSE_SUCCESS_ACTION,
-    BUSINESS_UNIT_DROPDOWN_START_ACTION,
-    DIVISION_DROPDOWN_START_ACTION, GET_TSE_LIST_FAIL_ACTION,
-    GET_TSE_LIST_START_ACTION, GET_TSE_LIST_SUCCESS_ACTION,
-    TSE_DROPDOWN_FAIL_ACTION,
-    TSE_DROPDOWN_START_ACTION,
-    TSE_DROPDOWN_SUCCESS_ACTION
-} from "../redux/actions/dropDown/dropDownActionConstants";
+import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} from "../redux/actions/dropDown/dropDownActionConstants";
 import {
     APPROVE_PLAN_FAIL,
     APPROVE_PLAN_START,
@@ -1131,51 +1121,6 @@ import {
         MATERIAL_EXPIRY_EXCEL_START: [{ action: 'showspinner' }],
         MATERIAL_EXPIRY_EXCEL_SUCCESS: [{ action: 'hidespinner' }],
         MATERIAL_EXPIRY_EXCEL_FAIL: [
-            { action: 'hidespinner' },
-            {
-                action: 'showerror',
-                payload: { message: { text: 'action failed', type: 'error' } },
-            },
-        ],
-
-        TSE_DROPDOWN_START_ACTION: [{ action: 'showspinner' }],
-        TSE_DROPDOWN_SUCCESS_ACTION: [{ action: 'hidespinner' }],
-        TSE_DROPDOWN_FAIL_ACTION: [
-            { action: 'hidespinner' },
-            {
-                action: 'showerror',
-                payload: { message: { text: 'action failed', type: 'error' } },
-            },
-        ],
-
-
-
-        ASSIGN_TSE_START_ACTION: [{ action: 'showspinner' }],
-        ASSIGN_TSE_SUCCESS_ACTION: [{ action: 'hidespinner' }],
-        ASSIGN_TSE_FAIL_ACTION: [
-            { action: 'hidespinner' },
-            {
-                action: 'showerror',
-                payload: { message: { text: 'action failed', type: 'error' } },
-            },
-        ],
-
-
-
-        GET_TSE_LIST_START_ACTION: [{ action: 'showspinner' }],
-        GET_TSE_LIST_SUCCESS_ACTION: [{ action: 'hidespinner' }],
-        GET_TSE_LIST_FAIL_ACTION: [
-            { action: 'hidespinner' },
-            {
-                action: 'showerror',
-                payload: { message: { text: 'action failed', type: 'error' } },
-            },
-        ],
-
-
-        UNASSIGN_TSE_START_ACTION: [{ action: 'showspinner' }],
-        UNASSIGN_TSE_SUCCESS_ACTION: [{ action: 'hidespinner' }],
-        UNASSIGN_TSE_FAIL_ACTION: [
             { action: 'hidespinner' },
             {
                 action: 'showerror',

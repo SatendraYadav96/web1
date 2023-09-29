@@ -1,7 +1,7 @@
 export const AUTH_CERTIFICATE = 'Authorization'
 
 //export const BASE_URL = 'http://promobee-uat:8080'
-export const BASE_URL = 'http://localhost:8080'
+export const BASE_URL = 'http://104.237.6.220:8080'
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
 export const MENU_API = { url: '/v1/ui/menus', method: 'GET', auth: true }
@@ -220,11 +220,6 @@ export const MONTHLY_COMMON_TEAM_API = {url: '/v1/allocation/getTeamForCommonAll
 
 export const MONTHLY_DIFFERENTIAL_TEAM_API = {url: '/v1/allocation/getTeamForDifferentialAllocation',method:'GET',auth:true}
 
+export const MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API = {url: '/v1/allocation/getQuantityAllocatedOfUserToItem', method: 'GET', auth: true}
 
-export const GET_TSE_DROPDOWN_API = {url: '/v1/master/getTseDropdown',method:'GET',auth:true}
-
-export const ASSIGN_TSE_API = {url: '/v1/allocation/assignTse',method:'POST',auth:true}
-
-export const GET_TSE_LIST_API = {url: '/v1/allocation/getTseList',method:'GET',auth:true}
-
-export const UNASSIGN_TSE_API = {url: '/v1/allocation/unAssignTse',method:'POST',auth:true}
+export const MONTHLY_COMMON_ALLOCATION_SAVE_API = {url: '/v1/allocation/saveCommonAllocation', method: 'POST', auth: true}

@@ -1,5 +1,5 @@
 import {createRequest} from './httpUtils';
-import {DISTRIBUTION_PLAN_INVENTORY_API, GET_ALLOCATIONS_FOR_PLAN, GET_ITEMS_TO_ALLOCATE_API, MONTHLY_ALLOCATION_START_API, MONTHLY_COMMON_TEAM_API, MONTHLY_DIFFERENTIAL_TEAM_API} from "./apiConstants";
+import {DISTRIBUTION_PLAN_INVENTORY_API, GET_ALLOCATIONS_FOR_PLAN, GET_ITEMS_TO_ALLOCATE_API, MONTHLY_ALLOCATION_START_API, MONTHLY_COMMON_ALLOCATION_SAVE_API, MONTHLY_COMMON_TEAM_API, MONTHLY_DIFFERENTIAL_TEAM_API, MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API} from "./apiConstants";
 
 export const itemsToAllocateListRequest = payload => {
     return createRequest(GET_ITEMS_TO_ALLOCATE_API, payload.certificate, null)
@@ -21,10 +21,20 @@ export const distributionForPlanRequest = payload => {
 
 export const monthlyCommonTeamRequest = payload => {
     const api = {...MONTHLY_COMMON_TEAM_API, url: `${MONTHLY_COMMON_TEAM_API.url}/${payload.ccmId}`}
+    console.log(api)
     return createRequest(api, payload.certificate, null)
 }
 
 export const monthlyDifferentialTeamRequest = payload => {
     const api = {...MONTHLY_DIFFERENTIAL_TEAM_API, url: `${MONTHLY_DIFFERENTIAL_TEAM_API.url}/${payload.planId}/${payload.teamId}/${payload.inventoryId}`}
     return createRequest(api, payload.certificate, null)
+}
+
+export const monthlyQuantityAllocatedOfUserToItemRequest = payload => {
+    const api = {...MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/0`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const monthlyCommonAllocationSaveRequest = payload => {
+    return createRequest(MONTHLY_COMMON_ALLOCATION_SAVE_API, payload.certificate, payload.data)
 }
