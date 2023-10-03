@@ -9,7 +9,8 @@ import {useNavigate} from "react-router-dom";
 import {selectInsertBuisnessUnitData, selectInsertCostCenterData} from "../../../redux/selectors/masterSelector";
 import {propTypes} from "react-csv/lib/metaProps";
 import {addBuisnessUnitStartAction, addCostCenterStartAction} from "../../../redux/actions/master/masterActions";
-import {UserOutlined} from "@ant-design/icons";
+//import {RightCircleOutlined } from "@ant-design/icons";
+
 
 const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisnessUnit}) => {
 
@@ -74,6 +75,11 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
         // MessageWidget.success();
     }
 
+    // const form = Form.create()({
+    //     name: 'my-form',
+    // });
+
+
     return(
         <>
             <TitleWidget title={"Create Business Unit"}/>
@@ -81,11 +87,15 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
 
             <Row gutter={[16,16]}>
 
+
+
+
                 <Col span={8} offset={2}>
 
-                    Name: <Input  placeholder={"Business Unit Name"} onChange={handleNameChange} />
+                        Name: <Input   placeholder={"Business Unit Name"} onChange={handleNameChange} autoComplete />
 
                 </Col>
+
                 <Col span={8} offset={2}>
                     Code: <Input placeholder={"Business Unit Code"} onChange={handleCodeChange}/>
                 </Col>
