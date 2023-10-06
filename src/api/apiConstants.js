@@ -230,6 +230,10 @@ export const ASSIGN_TSE_API = {url: '/v1/allocation/assignTse',method:'POST',aut
 
 export const GET_TSE_LIST_API = {url: '/v1/allocation/getTseList',method:'GET',auth:true}
 
+export const UNASSIGN_TSE_API = {url: '/v1/allocation/unAssignTse',method:'POST',auth:true}
+
+export const MONTHLY_COMMON_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveCommonAllocation', method: 'POST', auth: true}
+
 export const MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveDifferentialAllocation', method: 'POST', auth: true}
 
 export const VIRTUAL_COMMON_ALLOCATION_SAVE_API = {url: '/v1/allocation/saveVirtualCommonAllocation', method: 'POST', auth: true}

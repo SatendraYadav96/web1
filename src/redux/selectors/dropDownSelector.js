@@ -103,3 +103,35 @@ const approverDropdownLoading = (state) => state.dropDown.approverDropdownLoadin
 
 export const selectApproverDropdown = createSelector(approverDropdown, (approverDropdownSelect) => approverDropdownSelect)
 export const selectApproverDropdownLoading = createSelector(approverDropdownLoading, (approverDropdownLoadingSelect) => approverDropdownLoadingSelect)
+
+
+
+const tseDropdown = (state) => state.dropDown.tseDropdown
+const tseDropdownLoading = (state) => state.dropDown.tseDropdownLoading
+
+export const selectTseDropdown = createSelector(tseDropdown, (tseDropdownSelect) => tseDropdownSelect)
+export const selectTseDropdownLoading = createSelector(tseDropdownLoading, (tseDropdownLoadingSelect) => tseDropdownLoadingSelect)
+
+
+const assignTse = (state) => state.dropDown.assignTse
+const assignTseLoading = (state) => state.dropDown.assignTseLoading
+
+export const selectAssignTse = createSelector(assignTse, (assignTseSelect) => assignTseSelect)
+export const selectAssignTseLoading = createSelector(assignTseLoading, (assignTseLoadingSelect) => assignTseLoadingSelect)
+
+
+
+const tseList = (state) => state.dropDown.tseList
+const tseListLoading = (state) => state.dropDown.tseListLoading
+
+export const selectTseList = createSelector(tseList, (tseListSelect) => tseListSelect)
+export const selectTseListLoading = createSelector(tseListLoading, (tseListLoadingSelect) => tseListLoadingSelect)
+
+
+
+
+const unassignTse = (state) => state.dropDown.unassignTse
+const unassignTseLoading = (state) => state.dropDown.unassignTseLoading
+
+export const selectUnAssignTse = createSelector(unassignTse, (unassignTseSelect) => unassignTseSelect)
+export const selectUnAssignTseLoading = createSelector(unassignTseLoading, (unassignTseLoadingSelect) => unassignTseLoadingSelect)

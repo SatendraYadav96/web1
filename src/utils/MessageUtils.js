@@ -1139,6 +1139,52 @@ import {MONTHLY_COMMON_ALLOCATION_SAVE_START} from "../redux/actions/allocation/
             },
         ],
 
+        TSE_DROPDOWN_START_ACTION: [{ action: 'showspinner' }],
+        TSE_DROPDOWN_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+        TSE_DROPDOWN_FAIL_ACTION: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+
+        ASSIGN_TSE_START_ACTION: [{ action: 'showspinner' }],
+        ASSIGN_TSE_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+        ASSIGN_TSE_FAIL_ACTION: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+
+        GET_TSE_LIST_START_ACTION: [{ action: 'showspinner' }],
+        GET_TSE_LIST_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+        GET_TSE_LIST_FAIL_ACTION: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        UNASSIGN_TSE_START_ACTION: [{ action: 'showspinner' }],
+        UNASSIGN_TSE_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+        UNASSIGN_TSE_FAIL_ACTION: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
 
 
 

@@ -84,6 +84,12 @@ const SamplesComponent = React.lazy(() => import ('../components/masters/samples
 const CreateSamplesComponent = React.lazy(() => import ('../components/masters/samples/CreateSamples'))
 const EditSamplesComponent = React.lazy(() => import ('../components/masters/samples/EditSamples'))
 const ChangeAllocationComponent = React.lazy(() => import('../components/allocation/ChangeAllocationComponent'))
+const AdminComponent = React.lazy(() => import('../components/Admin/AdminComponent'))
+const CommonMasterComponent = React.lazy(() => import('../components/masters/CommonMaster/CommonMasterComponent'))
+const EditCommonMasterComponent = React.lazy(() => import('../components/masters/CommonMaster/EditCommonMasterComponent'))
+const CreateCommonMasterComponent = React.lazy(() => import('../components/masters/CommonMaster/CreateCommonMasterComponent'))
+
+
 
 const routes = [
     { path: '/home/dashboard', name: 'Dashboard', element: Dashboard },
@@ -170,7 +176,11 @@ const routes = [
     { path: '/home/massRevalidation', name: 'Mass Revalidation', element: MassRevalidationComponent},
     { path: '/home/report/allocationReport', name: 'Allocation Report', element: AllocationReportComponent},
     { path: '/home/pickingSlip/monthlyDispatch/details/invoiceUpload', name: 'Invoice Upload', element: InvoiceUploadDetailComponent},
-    { path: '/home/changeAllocation', name: 'Change Allocation', element: ChangeAllocationComponent}
+    { path: '/home/changeAllocation', name: 'Change Allocation', element: ChangeAllocationComponent},
+    { path: '/home/admin/assign', name: 'AdminComponent', element: AdminComponent},
+    { path: '/home/masters/commonMaster', name: 'CommonMasterComponent', element: CommonMasterComponent},
+    { path: '/home/masters/commonMaster/edit/:id', name: 'EditCommonMasterComponent', element: EditCommonMasterComponent},
+    { path: '/home/masters/commonMaster/create', name: 'CreateCommonMasterComponent', element: CreateCommonMasterComponent},
 ]
 
 export default routes
