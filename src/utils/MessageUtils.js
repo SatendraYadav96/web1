@@ -25,6 +25,7 @@ import {
     OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_START, OVER_SAMPLING_EXCEL_SUCCESS,
     OVER_SAMPLING_UPLOAD_LOG_START
 } from "../redux/actions/upload/uploadActionConstants";
+import {MONTHLY_COMMON_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -1128,7 +1129,15 @@ import {
             },
         ],
 
-
+        MONTHLY_COMMON_ALLOCATION_SAVE_START: [{ action: 'showspinner' }],
+        MONTHLY_COMMON_ALLOCATION_SAVE_SUCCESS: [{ action: 'hidespinner' }],
+        MONTHLY_COMMON_ALLOCATION_SAVE_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
 
 

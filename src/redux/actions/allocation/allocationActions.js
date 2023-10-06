@@ -1,23 +1,22 @@
 import {
-    ALLOCATE_TO_ALL_TEAMS,
+    ALLOCATE_TO_ALL_TEAMS, ALLOCATE_TO_DIFFERENTIAL,
     ALLOCATE_TO_TEAM,
     GET_ALLOCATIONS_FOR_PLAN_FAIL,
     GET_ALLOCATIONS_FOR_PLAN_START,
     GET_ALLOCATIONS_FOR_PLAN_SUCCESS,
     MONTHLY_ALLOCATION_FAIL,
     MONTHLY_ALLOCATION_START,
-    MONTHLY_ALLOCATION_SUCCESS, MONTHLY_COMMON_ALLOCATION_SAVE_FAIL,
-    MONTHLY_COMMON_ALLOCATION_SAVE_START, MONTHLY_COMMON_ALLOCATION_SAVE_SUCCESS,
+    MONTHLY_ALLOCATION_SUCCESS, MONTHLY_COMMON_ALLOCATION_SAVE_FAIL, MONTHLY_COMMON_ALLOCATION_SAVE_START, MONTHLY_COMMON_ALLOCATION_SAVE_SUCCESS,
     MONTHLY_COMMON_TEAM_FAIL,
     MONTHLY_COMMON_TEAM_START,
-    MONTHLY_COMMON_TEAM_SUCCESS,
+    MONTHLY_COMMON_TEAM_SUCCESS, MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START, MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
     MONTHLY_DIFFERENTIAL_TEAM_FAIL,
     MONTHLY_DIFFERENTIAL_TEAM_START,
     MONTHLY_DIFFERENTIAL_TEAM_SUCCESS,
     RECIPIENTS_TO_ALLOCATE_LIST_FAIL,
     RECIPIENTS_TO_ALLOCATE_LIST_RESET,
     RECIPIENTS_TO_ALLOCATE_LIST_START,
-    RECIPIENTS_TO_ALLOCATE_LIST_SUCCESS,
+    RECIPIENTS_TO_ALLOCATE_LIST_SUCCESS, VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL, VIRTUAL_COMMON_ALLOCATION_SAVE_START, VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS,
 } from "./allocationActionConstants";
 
 export const monthlyAllocationStartAction = (payload) => (dispatch) => {
@@ -65,6 +64,13 @@ export const getAllocationsForPlanFailAction = (payload) => (dispatch) => {
 export const allocateToTeamAction = (payload) => (dispatch)=> {
     dispatch({
         type: ALLOCATE_TO_TEAM,
+        payload: payload,
+    })
+}
+
+export const allocateToDifferentialAction = (payload) => (dispatch)=> {
+    dispatch({
+        type: ALLOCATE_TO_DIFFERENTIAL,
         payload: payload,
     })
 }
@@ -166,6 +172,49 @@ export const monthlyCommonAllocationSuccessAction = (payload) => (dispatch) => {
 export const monthlyCommonAllocationFailAction = (payload) => (dispatch) => {
     dispatch({
         type: MONTHLY_COMMON_ALLOCATION_SAVE_FAIL,
+        payload: payload,
+    })
+}
+
+
+export const monthlyDifferentialAllocationStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
+        payload: payload,
+    })
+}
+
+export const monthlyDifferentialAllocationSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const monthlyDifferentialAllocationFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL,
+        payload: payload,
+    })
+}
+
+export const virtualCommonAllocationStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: VIRTUAL_COMMON_ALLOCATION_SAVE_START,
+        payload: payload,
+    })
+}
+
+export const virtualCommonAllocationSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const virtualCommonAllocationFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL,
         payload: payload,
     })
 }

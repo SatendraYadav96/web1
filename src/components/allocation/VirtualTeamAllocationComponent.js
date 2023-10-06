@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
 import {Alert, Button, Col, Input, InputNumber, Modal, Row, Table} from "antd";
-import {allocateToAllTeamsAction, allocateToTeamAction, monthlyCommonAllocationStartAction, monthlyCommonTeamStartAction, monthlyDifferentialAllocationStartAction} from "../../redux/actions/allocation/allocationActions";
+import {allocateToAllTeamsAction, allocateToTeamAction, monthlyCommonAllocationStartAction, monthlyCommonTeamStartAction, monthlyDifferentialAllocationStartAction, virtualCommonAllocationStartAction} from "../../redux/actions/allocation/allocationActions";
 import {selectCommonAllocationDone, selectMonthlyCommonTeamListData, selectMonthlyCommonTeamListKeys, selectMonthlyDifferentialAllocation} from "../../redux/selectors/allocationSelectors";
 import DifferentialAllocationComponent from "./DifferentialAllocationComponent";
 import LabelComponent from "../../widgets/LabelComponent";
 import TeamAllocationDetailsComponent from "./TeamAllocationDetailsComponent";
 import ChangeAllocationComponent from "./ChangeAllocationComponent";
+import ChangeVirtualAllocationComponent from "./ChangeVirtualAllocationComponent";
 
-const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, inventoryId, commonAllocationDone, teamForDifferentialAllocation, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, monthlyCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys}) => {
+const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month, year, inventoryId, commonAllocationDone, teamForDifferentialAllocation, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, monthlyCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys}) => {
     const [showDifferential, setShowDifferential] = useState(false)
     const [teamForDifferential, setTeamForDifferential] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
@@ -87,8 +88,8 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
             key: 'quantity',
             render: (_, row)=> {
                 return <Input style={{width: '50px'}}
-                    value={row.quantity}
-                     onChange={(value)=> onChangeQuantity(row, value)}
+                              value={row.quantity}
+                              onChange={(value)=> onChangeQuantity(row, value)}
                 />
             }
         },
@@ -155,14 +156,14 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
     }
 
     useEffect(()=>{
-            handleMonthlyCommonTeam({
-                certificate:authInfo.token,
-                ccmId: costCenterId,
-                userId: profileInfo.id,
-                month: month,
-                year: year,
-                inventoryId: inventoryId
-            });
+        handleMonthlyCommonTeam({
+            certificate:authInfo.token,
+            ccmId: costCenterId,
+            userId: profileInfo.id,
+            month: month,
+            year: year,
+            inventoryId: inventoryId
+        });
 
     },[costCenterId])
 
@@ -193,43 +194,43 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
             {
                 teamKeys.map(team  =>
                     // <TeamAllocationDetailsComponent inventoryId={inventoryId} planId={item.planId} teams={teams} total={total} monthlyCommonTeam={monthlyCommonTeam[item]}/>
-                <>
-                    <Table size={'small'} dataSource={monthlyCommonTeam[team]}
-                           columns={columns}
-                           rowKey={'id'} loading={teams.length === 0}
-                    />
-                    <br/>
-                    <Row gutter={[8,8]}>
-                    <Col span={3} offset={18}>
-                        <Button type={'primary'} onClick={() => SaveCommonAllocation(team)}>Allocate & Save</Button>
-                    </Col>
-                    <Col span={3}>
-                        <Button type={'primary'}
-                        onClick={() => openChangeAllocation()}
-                        >Change</Button>
-                    </Col>
-                    </Row>
-                    <Modal
-                        centered
-                        open={open}
-                        okText={"Save"}
-                        onOk={() => SaveDifferentialAllocation(team)}
-                        onCancel={() => setOpen(false)}
-                        cancelText={"Close"}
-                        width={1500}
+                    <>
+                        <Table size={'small'} dataSource={monthlyCommonTeam[team]}
+                               columns={columns}
+                               rowKey={'id'} loading={teams.length === 0}
+                        />
+                        <br/>
+                        <Row gutter={[8,8]}>
+                            <Col span={3} offset={18}>
+                                <Button type={'primary'} onClick={() => SaveCommonAllocation(team)}>Allocate & Save</Button>
+                            </Col>
+                            <Col span={3}>
+                                <Button type={'primary'}
+                                        onClick={() => openChangeAllocation()}
+                                >Change</Button>
+                            </Col>
+                        </Row>
+                        <Modal
+                            centered
+                            open={open}
+                            okText={"Save"}
+                            onOk={() => SaveDifferentialAllocation(team)}
+                            onCancel={() => setOpen(false)}
+                            cancelText={"Close"}
+                            width={1500}
 
-                    >
-                        <ChangeAllocationComponent item={item} planId={item.planId} inventoryId={inventoryId} teamId={monthlyCommonTeam[team]}/>
-                      </Modal>
+                        >
+                            <ChangeVirtualAllocationComponent item={item} planId={item.planId} inventoryId={inventoryId} teamId={monthlyCommonTeam[team]}/>
+                        </Modal>
                     </>
                 )
             }
 
-                                {/*<Table size={'small'} dataSource={monthlyCommonTeam}*/}
-                                {/*       columns={newColumns}*/}
-                                {/*       footer={() => `Total Allocations: ${total || 0}`}*/}
-                                {/*       rowKey={'id'} loading={teams.length === 0}*/}
-                                {/*/>*/}
+            {/*<Table size={'small'} dataSource={monthlyCommonTeam}*/}
+            {/*       columns={newColumns}*/}
+            {/*       footer={() => `Total Allocations: ${total || 0}`}*/}
+            {/*       rowKey={'id'} loading={teams.length === 0}*/}
+            {/*/>*/}
             {/*<label>Total Allocations: {total || 0}</label>*/}
 
             {/*<Modal title="Differential Allocation"*/}
@@ -241,7 +242,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
     )
 }
 
-TeamAllocationComponent.propTypes = {
+VirtualTeamAllocationComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     teams: PropTypes.array,
@@ -274,9 +275,9 @@ const actions = {
     handleChangeQuantity: allocateToTeamAction,
     handleAllocationToAllTeams: allocateToAllTeamsAction,
     handleMonthlyCommonTeam:monthlyCommonTeamStartAction,
-    handleSaveCommonAllocation: monthlyCommonAllocationStartAction,
+    handleSaveCommonAllocation: virtualCommonAllocationStartAction,
     handleMonthlyDifferentialAllocationSave: monthlyDifferentialAllocationStartAction
 }
 
-export default connect(mapState, actions)(TeamAllocationComponent)
+export default connect(mapState, actions)(VirtualTeamAllocationComponent)
 

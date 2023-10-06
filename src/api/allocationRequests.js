@@ -1,5 +1,15 @@
 import {createRequest} from './httpUtils';
-import {DISTRIBUTION_PLAN_INVENTORY_API, GET_ALLOCATIONS_FOR_PLAN, GET_ITEMS_TO_ALLOCATE_API, MONTHLY_ALLOCATION_START_API, MONTHLY_COMMON_ALLOCATION_SAVE_API, MONTHLY_COMMON_TEAM_API, MONTHLY_DIFFERENTIAL_TEAM_API, MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API} from "./apiConstants";
+import {
+    DISTRIBUTION_PLAN_INVENTORY_API,
+    GET_ALLOCATIONS_FOR_PLAN,
+    GET_ITEMS_TO_ALLOCATE_API,
+    MONTHLY_ALLOCATION_START_API,
+    MONTHLY_COMMON_ALLOCATION_SAVE_API,
+    MONTHLY_COMMON_TEAM_API,
+    MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API,
+    MONTHLY_DIFFERENTIAL_TEAM_API, MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API,
+    MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, VIRTUAL_COMMON_ALLOCATION_SAVE_API
+} from "./apiConstants";
 
 export const itemsToAllocateListRequest = payload => {
     return createRequest(GET_ITEMS_TO_ALLOCATE_API, payload.certificate, null)
@@ -35,6 +45,19 @@ export const monthlyQuantityAllocatedOfUserToItemRequest = payload => {
     return createRequest(api, payload.certificate, null)
 }
 
+export const monthlyQuantityAllocatedDifferentialRecipientRequest = payload => {
+    const api = {...MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API.url}/${payload.planId}/${payload.inventoryId}/${payload.recipientId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
 export const monthlyCommonAllocationSaveRequest = payload => {
     return createRequest(MONTHLY_COMMON_ALLOCATION_SAVE_API, payload.certificate, payload.data)
+}
+
+export const virtualCommonAllocationSaveRequest = payload => {
+    return createRequest(VIRTUAL_COMMON_ALLOCATION_SAVE_API, payload.certificate, payload.data)
+}
+
+export const monthlyDifferentialAllocationSaveRequest = payload => {
+    return createRequest(MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API, payload.certificate, payload.data)
 }

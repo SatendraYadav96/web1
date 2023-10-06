@@ -5,8 +5,9 @@ import {connect} from 'react-redux'
 import {Alert, Button, Col, InputNumber, Modal, Row, Table} from "antd";
 import ChangeAllocationComponent from "./ChangeAllocationComponent";
 import { useNavigate } from 'react-router-dom'
+import DifferentialAllocationComponent from "./DifferentialAllocationComponent";
 
-const TeamAllocationDetailsComponent = ({authInfo, total, teams, profileInfo, monthlyCommonTeam}) => {
+const TeamAllocationDetailsComponent = ({inventoryId, planId, authInfo, total, teams, profileInfo, monthlyCommonTeam}) => {
     const navigate = useNavigate()
     console.log(monthlyCommonTeam)
     const [showDifferential, setShowDifferential] = useState(false)
@@ -15,6 +16,7 @@ const TeamAllocationDetailsComponent = ({authInfo, total, teams, profileInfo, mo
     const [errorMessage, setErrorMessage] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [open, setOpen] = useState(false);
+
 
     const onChangeQuantity = (team, quantity) => {
         if (quantity % item.packSize !== 0) {
@@ -139,7 +141,8 @@ const TeamAllocationDetailsComponent = ({authInfo, total, teams, profileInfo, mo
     }
 
     const openChangeAllocation = () => {
-        return navigate("/home/changeAllocation")
+        // return navigate("/home/changeAllocation")
+        setOpen(true)
     }
 
     useEffect(()=>{
@@ -179,16 +182,16 @@ const TeamAllocationDetailsComponent = ({authInfo, total, teams, profileInfo, mo
                 </Col>
             </Row>
             <Modal
-                title="Team Details"
                 centered
                 open={open}
                 onOk={() => setOpen(false)}
                 onCancel={() => setOpen(false)}
                 width={1500}
-                height={3000}
+                height={1500}
             >
-                <ChangeAllocationComponent/>
+                <ChangeAllocationComponent planId={planId} inventoryId={inventoryId} teamId={monthlyCommonTeam.teamId}/>
             </Modal>
+
         </div>
     )
 }
@@ -216,6 +219,7 @@ const actions = {
     // handleChangeQuantity: allocateToTeamAction,
     // handleAllocationToAllTeams: allocateToAllTeamsAction,
     // handleMonthlyCommonTeam:monthlyCommonTeamStartAction
+
 }
 
 export default connect(mapState, actions)(TeamAllocationDetailsComponent)

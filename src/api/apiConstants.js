@@ -220,6 +220,12 @@ export const MONTHLY_COMMON_TEAM_API = {url: '/v1/allocation/getTeamForCommonAll
 
 export const MONTHLY_DIFFERENTIAL_TEAM_API = {url: '/v1/allocation/getTeamForDifferentialAllocation',method:'GET',auth:true}
 
+export const MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API = {url: '/v1/allocation/getQuantityAllocatedDifferentialRecipient', method: 'GET', auth: true}
+
 export const MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API = {url: '/v1/allocation/getQuantityAllocatedOfUserToItem', method: 'GET', auth: true}
 
 export const MONTHLY_COMMON_ALLOCATION_SAVE_API = {url: '/v1/allocation/saveCommonAllocation', method: 'POST', auth: true}
+
+export const MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveDifferentialAllocation', method: 'POST', auth: true}
+
+export const VIRTUAL_COMMON_ALLOCATION_SAVE_API = {url: '/v1/allocation/saveVirtualCommonAllocation', method: 'POST', auth: true}

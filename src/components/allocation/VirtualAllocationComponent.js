@@ -5,11 +5,13 @@ import {connect} from 'react-redux'
 import TitleWidget from '../../widgets/TitleWidget'
 import {allocateToAllTeamsAction, getAllocationsForPlanStartAction, monthlyAllocationStartAction} from '../../redux/actions/allocation/allocationActions'
 import {selectAllocations, selectAllocationsLoading, selectCommonAllocationDone, selectItemsLoading, selectItemsToAllocate, selectPlan} from '../../redux/selectors/allocationSelectors'
-import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography} from 'antd'
+import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography, Upload} from 'antd'
 import moment from 'moment'
-import {toYyyyMm} from '../../utils/DateUtils'
+import {toMm, toYyyy, toYyyyMm} from '../../utils/DateUtils'
 import {MonthlyAllocationInventoryColumns} from './AllocationColumns'
 import TeamAllocationComponent from './TeamAllocationComponent'
+import VirtualTeamAllocationComponent from "./VirtualTeamAllocationComponent";
+import {UploadOutlined} from "@ant-design/icons";
 const { Step } = Steps
 const { Panel } = Collapse
 const allocationSteps = [
@@ -83,7 +85,7 @@ const VirtualAllocationComponent = ({authInfo,
                     <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>
                 </Col>
                 <Col span={2} offset={17}>
-                    <Button type={'secondary'}>Submit</Button>
+                    <Button type={'primary'}>Submit</Button>
                 </Col>
             </Row>
             <Steps current={currentStep} style={{marginBottom: 20}}>
@@ -91,6 +93,31 @@ const VirtualAllocationComponent = ({authInfo,
                     <Step key={item.title} title={item.title} />
                 )}
             </Steps>
+            <Row gutter={[16,16]} style={{marginBottom: 40}}>
+
+                <Col span={4} >
+                    <Button type={'primary'}>Download Allocation</Button>
+                </Col>
+                <Col span={3} >
+                    <Button type={'primary'}>Blocked FF</Button>
+                </Col>
+                <Col span={3} >
+                    <Button type={'primary'}>Active Users</Button>
+                </Col>
+                <Col span={1}></Col>
+                <Col span={3}>
+                    <Button type={'primary'}>Multiple Allocation</Button>
+                </Col>
+                <Col span={3}></Col>
+                <Col span={3}>
+                    <Upload>
+                        <Button icon={<UploadOutlined />}>Select File</Button>
+                    </Upload>
+                </Col>
+                <Col span={2}>
+                    <Button type={'primary'} >Upload</Button>
+                </Col>
+            </Row>
             {currentStep === 0 &&
                 <Table
                     rowSelection={{
@@ -118,10 +145,14 @@ const VirtualAllocationComponent = ({authInfo,
                                 header={<AllocationHeaderComponent item={allocation.item}/>}
                                 key={`${allocation.item.itemID}`}
                             >
-                                <TeamAllocationComponent
+                                <VirtualTeamAllocationComponent
                                     total={allocation.totalAllocation}
                                     teams={allocation.teams}
-                                    item={allocation.item}/>
+                                    item={allocation.item}
+                                    costCenterId={allocation.costCenter}
+                                    year = {toYyyy(yearMonth)}
+                                    month = {toMm(yearMonth)}
+                                    inventoryId = {allocation.inventoryId}/>
                             </Panel>)
                         }
                     </Collapse>

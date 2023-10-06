@@ -8,7 +8,7 @@ import {allocateToDifferentialAction, monthlyDifferentialAllocationStartAction, 
 import {selectMonthlyDifferentialAllocation} from "../../redux/selectors/allocationSelectors";
 import {InputNumber} from "antd/es";
 
-const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, inventoryId, teamId, handleMonthlyDifferentialAllocationSave, handleChangeDifferentialQuantity, handleDifferentialAllocation, teamForDifferentialAllocation}) => {
+const ChangeVirtualAllocationComponent = ({authInfo, profileInfo, item, planId, inventoryId, teamId, handleMonthlyDifferentialAllocationSave, handleChangeDifferentialQuantity, handleDifferentialAllocation, teamForDifferentialAllocation}) => {
 
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -54,13 +54,13 @@ const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, invento
         console.log(planId)
         console.log(inventoryId)
         console.log(teamId)
-            handleDifferentialAllocation({
-                certificate: authInfo.token,
-                planId: planId,
-                inventoryId: inventoryId,
-                teamId: teamId[0].teamId
-            });
-        },[])
+        handleDifferentialAllocation({
+            certificate: authInfo.token,
+            planId: planId,
+            inventoryId: inventoryId,
+            teamId: teamId[0].teamId
+        });
+    },[])
 
     useEffect(() => {
 
@@ -125,8 +125,8 @@ const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, invento
             key: '',
             render: (_, row)=> {
                 return <Input style={{width: '100px'}}
-                       value={row.quantity}
-                       onChange={(value)=> onChangeQuantity(row, value)}
+                              value={row.quantity}
+                              onChange={(value)=> onChangeQuantity(row, value)}
                 />
             }
         }
@@ -138,7 +138,7 @@ const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, invento
             {showErrorMessage &&
                 <Alert message={errorMessage} type="error" />
             }
-                <Table columns={columns} pagination={{pageSize: 6}} scroll={{y: 500}} dataSource={teamForDifferentialAllocation}></Table>
+            <Table columns={columns} pagination={{pageSize: 6}} scroll={{y: 500}} dataSource={teamForDifferentialAllocation}></Table>
             {/*<Row gutter={[8,8]}>*/}
             {/*    <Col span={1} offset={23}><Button type={'primary'} onClick={() => SaveDifferentialAllocation()}>Save</Button></Col>*/}
             {/*</Row>*/}
@@ -146,7 +146,7 @@ const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, invento
     )
 }
 
-ChangeAllocationComponent.propTypes = {
+ChangeVirtualAllocationComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
     handleDifferentialAllocation: PropTypes.func,
@@ -168,5 +168,5 @@ const actions = {
     handleMonthlyDifferentialAllocationSave: monthlyDifferentialAllocationStartAction
 }
 
-export default connect(mapState, actions)(ChangeAllocationComponent)
+export default connect(mapState, actions)(ChangeVirtualAllocationComponent)
 

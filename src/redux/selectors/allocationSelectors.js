@@ -10,6 +10,9 @@ const monthlyCommonTeamList = (state) => state.allocations.monthlyCommonTeam;
 const monthlyCommonTeamKeysList = (state) => state.allocations.monthlyCommonTeamKeys
 const monthlyCommonTeamLoading = (state) => state.allocations.monthlyCommonTeamLoading
 const monthlyCommonAllocationSave = (state) => state.allocations.monthlyCommonAllocationSave
+const monthlyDifferentialAllocation = (state) => state.allocations.monthlyDifferentialTeam
+const monthlyDifferentialAllocationSave = (state) => state.allocations.monthlyDifferentialAllocationSave
+const virtualCommonAllocationSave = (state) => state.allocations.virtualCommonAllocationSave
 
 export const selectItemsToAllocate = createSelector(items, (itemsSelect) => itemsSelect)
 export const selectAllocations = createSelector(allocations, (allocationsSelect) => allocationsSelect)
@@ -37,5 +40,20 @@ export const selectLoadingMonthlyCommonTeamData = createSelector(
 
 export const selectMonthlyCommonAllocationSave = createSelector(
     monthlyCommonAllocationSave,
+    dataSelect => dataSelect
+)
+
+export const selectMonthlyDifferentialAllocation = createSelector(
+    monthlyDifferentialAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectMonthlyDifferentialAllocationSave = createSelector(
+    monthlyDifferentialAllocationSave,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualCommonAllocationSave = createSelector(
+    virtualCommonAllocationSave,
     dataSelect => dataSelect
 )
