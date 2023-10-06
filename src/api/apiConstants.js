@@ -224,7 +224,11 @@ export const MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API = {url: '/v1/
 
 export const MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API = {url: '/v1/allocation/getQuantityAllocatedOfUserToItem', method: 'GET', auth: true}
 
-export const MONTHLY_COMMON_ALLOCATION_SAVE_API = {url: '/v1/allocation/saveCommonAllocation', method: 'POST', auth: true}
+export const GET_TSE_DROPDOWN_API = {url: '/v1/master/getTseDropdown',method:'GET',auth:true}
+
+export const ASSIGN_TSE_API = {url: '/v1/allocation/assignTse',method:'POST',auth:true}
+
+export const GET_TSE_LIST_API = {url: '/v1/allocation/getTseList',method:'GET',auth:true}
 
 export const MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveDifferentialAllocation', method: 'POST', auth: true}
 
