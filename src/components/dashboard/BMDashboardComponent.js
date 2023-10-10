@@ -1,306 +1,297 @@
-import React, {useEffect, useState} from 'react'
-import TitleWidget from '../../widgets/TitleWidget'
-import {Button, Card, Col, Row, Table} from "antd";
-import {Line,G2} from "@ant-design/plots/es/index"
-import { each, findIndex } from '@antv/util';
-import LineChartComponent from "./LineChartComponent";
-import MultiLineChartComponent from "./BarChartComponent";
-import PercentageColumnChartComponent from "./PercentageColumnChartComponent";
-import {Pie} from "@ant-design/plots";
-import PieChartComponent from "./PieChartComponent";
-import GroupChartComponent from "./GroupChartComponent";
-import {EditOutlined} from "@ant-design/icons";
-import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
-import {selectLoadingVendorData, selectVendorListData} from "../../redux/selectors/masterSelector";
+import React, {useEffect, useState} from "react";
+import {Card, Col, Row, Select} from "antd";
 import PropTypes from "prop-types";
-import {getVendorStartAction} from "../../redux/actions/master/masterActions";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {
-    selectHubGrnErrorLog,
-    selectHubGrnErrorLogLoading,
-    selectHubNearExpiry,
-    selectHubNearExpiryLoading,
-    selectHubPendingRevalidation,
-    selectHubPendingRevalidationLoading,
-    selectItemExpiredDetails, selectItemExpiredDetailsLoading,
-    selectPendingDispatch,
-    selectPendingDispatchLoading
-} from "../../redux/selectors/dashboardSelector";
-import {hubGrnErrorLogStartAction, hubNearExpiryStartAction, hubPendingRevalidationStartAction, itemExpiredDetailsStartAction, pendingDispatchStartAction} from "../../redux/actions/dashboard/dashboardActions";
+import BexDashboardComponent from "./BexDashboardComponent";
+import TitleWidget from "../../widgets/TitleWidget";
+import ColumnChartComponent from "./ColumnChartComponent";
+import HorizontalBarComponent from "./HorizontalBarComponent";
+import { Button, Space  } from 'antd';
+import {useNavigate} from "react-router-dom";
+import {ShoppingCartOutlined ,UsergroupAddOutlined , FileProtectOutlined ,GiftOutlined  } from '@ant-design/icons';
+import ReactRoundedImage from "react-rounded-image";
+import warehouse from "../../assets/warehouse.png";
+import user from "../../assets/user.png";
+import dispatchregister from "../../assets/dispatchregister.png";
+import {hover} from "@testing-library/user-event/dist/hover";
+import monthlyallocation from "../../assets/monthlyallocation.png";
+import specialallocation from "../../assets/specialallocation.png";
+import virtualallocation from "../../assets/virtualallocation.png";
 
-const BMDashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,hubNearExpiryList,hubNearExpiryLoading,handleHubNearExpiry,hubPendingRevalidationList,hubPendingRevalidationLoading,handleHubPendingRevalidation,hubGrnErrorLogList,hubGrnErrorLogLoading,handleHubGrnErrorLog,itemExpiredDetailsList,itemExpiredDetailsLoading,handleItemExpiredDetails}) => {
 
-    const [status, setStatus] = useState(1)
-    const [columnPendingDispatch, setColumnPendingDispatch] = useState([])
-    const [columnHubNearExpiry, setColumnHubNearExpiry] = useState([])
-    const [columnHubPendingRevalidation, setColumnHubPendingRevalidation] = useState([])
-    const [columnHubGrnErrorLog, setColumnHubGrnErrorLog] = useState([])
-    const [columnItemExpiredDetails, setColumnItemExpiredDetails] = useState([])
-    const [flag, setFlag] = useState(false)
-    const [dataSource, setDataSource] = useState([])
-    const { InteractionAction, registerInteraction, registerAction } = G2;
 
-    const searchData = () => {
-        setFlag(true)
-        setColumnPendingDispatch([
-            {
-                title: 'Period',
-                key: 'period',
-                dataIndex: 'period',
-                width: '150px'
-            },
-            {
-                title: 'Name',
-                key: 'name',
-                dataIndex: 'name',
-                width: '150px'
-            },
-            {
-                title: 'Status',
-                key: 'currentStatus',
-                dataIndex: 'currentStatus',
-                width: '150px'
-            },
-        ]);
-        setColumnHubNearExpiry([
-            {
-                title: 'Item Name',
-                key: 'itemName',
-                dataIndex: 'itemName',
-                width: '200px'
-            },
-            {
-                title: 'Category',
-                key: 'category',
-                dataIndex: 'category',
-                width: '100px'
-            },
-            {
-                title: 'Expiry Date',
-                key: 'expiryDate',
-                dataIndex: 'expiryDate',
-                width: '100px'
-            },
-            {
-                title: 'Expires In',
-                key: 'expiresIn',
-                dataIndex: 'expiresIn',
-                width: '100px'
-            },
+const BMDashboardComponents = ({authInfo,profileInfo}) => {
+    const [hoverInventory, setHoverInventory] = useState(false);
+    const [hoverUser, setHoverUser] = useState(false);
+    const [hoverDispatchRegister, setHoverDispatchRegister] = useState(false);
+    const [hoverMonthlyAllocation, setHoverMonthlyAllocation] = useState(false);
+    const [hoverSpecialAllocation, setHoverSpecialAllocation] = useState(false);
+    const [hoverVirtualAllocation, setHoverVirtualAllocation] = useState(false);
 
-        ]);
-        setColumnHubPendingRevalidation([
-            {
-                title: 'Item Name',
-                key: 'itemName',
-                dataIndex: 'itemName',
-                width: '200px'
-            },
-            {
-                title: 'Category',
-                key: 'category',
-                dataIndex: 'category',
-                width: '100px'
-            },
-            {
-                title: 'Requested On',
-                key: 'requestedOn',
-                dataIndex: 'requestedOn',
-                width: '100px'
-            },
-            {
-                title: 'Status',
-                key: 'status',
-                dataIndex: 'status',
-                width: '100px'
-            },
 
-        ]);
-        setColumnHubGrnErrorLog([
-            {
-                title: 'Item Name',
-                key: 'itemName',
-                dataIndex: 'itemName',
-                width: '200px'
-            },
-            {
-                title: 'Category',
-                key: 'category',
-                dataIndex: 'category',
-                width: '100px'
-            },
-            {
-                title: 'Requested On',
-                key: 'requestedOn',
-                dataIndex: 'requestedOn',
-                width: '100px'
-            },
-            {
-                title: 'Quantity',
-                key: 'quantity',
-                dataIndex: 'quantity',
-                width: '100px'
-            },
-            {
-                title: 'Status',
-                key: 'status',
-                dataIndex: 'status',
-                width: '100px'
-            },
+    const navigate = useNavigate();
 
-        ]);
-        setColumnItemExpiredDetails([
-            {
-                title: 'Item Name',
-                key: 'itemName',
-                dataIndex: 'itemName',
-                width: '200px'
-            },
-            {
-                title: 'Category',
-                key: 'category',
-                dataIndex: 'category',
-                width: '100px'
-            },
-            {
-                title: 'Expiry Date',
-                key: 'expiryDate',
-                dataIndex: 'expiryDate',
-                width: '100px'
-            },
-            {
-                title: 'Quantity',
-                key: 'quantity',
-                dataIndex: 'quantity',
-                width: '100px'
-            },
-            {
-                title: 'Cost',
-                key: 'cost',
-                dataIndex: 'cost',
-                width: '100px'
-            },
-            {
-                title: 'PoNo',
-                key: 'pono',
-                dataIndex: 'pono',
-                width: '100px'
-            },
 
-        ]);
-        setDataSource([
-            {
-                key: '',
-                vendorName: '',
-                vendorCode: '',
-                address1:'',
-                address2:'',
-                city: '',
-                state: '',
-                zip: ''
-            }
-        ]);
+    const onHoverInventory = (e) =>{
+        e.preventDefault()
+        setHoverInventory(true)
+        console.log("hovered")
+
     }
 
-    useEffect(() => {
-        // handlePendingDispatch ({
-        //     certificate: authInfo.token
-        // });
-        // handleHubNearExpiry({
-        //     certificate: authInfo.token
-        // })
-        // handleHubPendingRevalidation({
-        //     certificate: authInfo.token
-        // })
-        // handleHubGrnErrorLog({
-        //     certificate: authInfo.token
-        // })
-        // handleItemExpiredDetails({
-        //     certificate: authInfo.token
-        // })
-        searchData()
-    },[status])
+    const onHoverOverInventory = (e) => {
+        e.preventDefault()
+        setHoverInventory(false)
+    }
+
+    const HoverDataInventory = "Inventory";
+
+
+
+    const onHoverUser = (e) =>{
+        e.preventDefault()
+        setHoverUser(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverUser = (e) => {
+        e.preventDefault()
+        setHoverUser(false)
+    }
+
+    const HoverDataUser = "FF Master";
+
+
+
+    const onHoverDispatchRegister = (e) =>{
+        e.preventDefault()
+        setHoverDispatchRegister(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverDispatchRegister = (e) => {
+        e.preventDefault()
+        setHoverDispatchRegister(false)
+    }
+
+    const HoverDataDispatchRegister = "Dispatch Register";
+
+
+
+    const onHoverMonthlyAllocation = (e) =>{
+        e.preventDefault()
+        setHoverMonthlyAllocation(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverMonthlyAllocation = (e) => {
+        e.preventDefault()
+        setHoverMonthlyAllocation(false)
+    }
+
+    const HoverDataMonthlyAllocation = "Monthly Approval";
+
+
+
+
+    const onHoverSpecialAllocation = (e) =>{
+        e.preventDefault()
+        setHoverSpecialAllocation(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverSpecialAllocation = (e) => {
+        e.preventDefault()
+        setHoverSpecialAllocation(false)
+    }
+
+    const HoverDataSpecialAllocation = "Special Approval";
+
+
+
+
+
+    const onHoverVirtualAllocation = (e) =>{
+        e.preventDefault()
+        setHoverVirtualAllocation(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverVirtualAllocation = (e) => {
+        e.preventDefault()
+        setHoverVirtualAllocation(false)
+    }
+
+    const HoverDataVirtualAllocation = "Virtual Approval";
+
+
+
+
 
     return (
+
         <div>
+
             <TitleWidget title={'Dashboards'}/>
+
+            <Row gutter={16}>
+                <Space wrap style={{marginLeft:"50px",marginBottom:"50px"}}>
+
+                    {/*<Button  type="primary" onClick={() => navigate("/home/masters/ffMaster")} style={{backgroundColor:"green"}} ><UsergroupAddOutlined /> FF Master</Button>*/}
+                    {/*<Button type="primary" onClick={() => navigate("/home/report/dispatchRegisterReport")} style={{backgroundColor:"navy"}} > <FileProtectOutlined /> Dispatch Register</Button>*/}
+                    {/*<Button type="primary" onClick={() => navigate("/home/approvals/monthlyInputPlan")} style={{backgroundColor:"purple"}} > <GiftOutlined /> Monthly Approval</Button>*/}
+                    {/*<Button type="primary" onClick={() => navigate("/home/approvals/specialDispatches")} style={{backgroundColor:"darkcyan"}}> <GiftOutlined /> Special Approval</Button>*/}
+                    {/*<Button type="danger" onClick={() => navigate("/home/approvals/virtualDispatches")} style={{backgroundColor:"darkorange"}}> <GiftOutlined />Virtual Approval</Button>*/}
+
+                    {/* if hover is true then only show the text */}
+                    {hoverInventory && <p className={hoverInventory}>{HoverDataInventory}</p>}
+
+
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={warehouse} alt="Warehouse"  width="100" height="80" onClick={() => navigate("/home/inventory/inventoryReport")}
+                            // onMouseEnter={(e)=>onHoverInventory(e)}
+                            // onMouseLeave={(e)=>onHoverOverInventory(e)}
+
+
+                        />
+
+                        <h3>Inventory</h3>
+                    </div>
+
+
+                    {hoverUser && <p className={hoverUser}>{HoverDataUser}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img
+                            src={user}
+                            alt="user"
+                            width="100"
+                            height="80"
+                            style={{ marginLeft: "50px" }}
+                            onClick={() => navigate("/home/report/recipientReport")}
+                            // onMouseEnter={(e) => onHoverUser(e)}
+                            // onMouseLeave={(e) => onHoverOverUser(e)}
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >FF Report</h3>
+                    </div>
+
+
+
+
+
+                    {hoverDispatchRegister && <p className={hoverDispatchRegister}  >{HoverDataDispatchRegister}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={dispatchregister} alt="dispatchregister"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/report/dispatchRegisterReport")}
+                            // onMouseEnter={(e)=>onHoverDispatchRegister(e)}
+                            // onMouseLeave={(e)=>onHoverOverDispatchRegister(e)}
+
+
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >Dispatch Register</h3>
+                    </div>
+
+
+
+                    {hoverMonthlyAllocation && <p className={hoverMonthlyAllocation}  >{HoverDataMonthlyAllocation}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={monthlyallocation} alt="monthlyallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/monthly/create")}
+                            // onMouseEnter={(e)=>onHoverMonthlyAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverMonthlyAllocation(e)}
+
+
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >Monthly Allocation</h3>
+                    </div>
+
+
+
+
+
+
+                    {hoverSpecialAllocation && <p className={hoverSpecialAllocation}  >{HoverDataSpecialAllocation}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+                        <img src={specialallocation} alt="specialallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/special/create")}
+                            // onMouseEnter={(e)=>onHoverSpecialAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverSpecialAllocation(e)}
+
+
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >Special Allocation</h3>
+                    </div>
+
+
+
+
+                    {hoverVirtualAllocation && <p className={hoverVirtualAllocation}  >{HoverDataVirtualAllocation}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={virtualallocation} alt="virtualallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/virtual/create")}
+                            // onMouseEnter={(e)=>onHoverVirtualAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverVirtualAllocation(e)}
+
+
+                        />
+
+                        <h3 style={{ marginLeft: "50px" }} >Virtual Allocation</h3>
+                    </div>
+
+
+
+
+
+
+                </Space>
+            </Row>
             <Row gutter={16}>
                 <Col span={12}>
-                    <Card title="Dispatch Plan Status" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
-                        {
-                            flag && <Table columns={columnPendingDispatch} scroll={{y: '100%'}} dataSource={pendingDispatchList} style={{height: "350px"}}/>
-                        }
+                    <Card title="Dispatches Month wise" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
+                        <ColumnChartComponent />
                     </Card>
                 </Col>
                 <Col span={12}>
-                    <Card title="Near To Expiry Item" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
-                        {
-                            flag && <Table columns={columnHubNearExpiry} scroll={{y: '100%'}} dataSource={hubNearExpiryList} style={{height: "350px"}}/>
-                        }
+                    <Card title="Special Courier Cost Month Wises" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
+                        <HorizontalBarComponent />
                     </Card>
                 </Col>
             </Row>
             <br/>
-            <Row gutter={16}>
-                <Col span={12}>
-                    <Card title="Latest Inventory" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px", overflow: "hidden"}}>
-                        {
-                            flag && <Table columns={columnHubGrnErrorLog} scroll={{y: '100%'}} dataSource={hubGrnErrorLogList} style={{height: "350px"}}/>
-                        }
-                    </Card>
-                </Col>
-                <Col span={12}>
-                    <Card title="Item Requisition status" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "450px"}}>
-                        {
-                            flag && <Table columns={columnHubPendingRevalidation} scroll={{y: '100%'}} dataSource={hubPendingRevalidationList} style={{height: "350px"}}/>
-                        }
-                    </Card>
-                </Col>
-            </Row>
+
         </div>
+
     )
 }
 
-BMDashboardComponent.propTypes = {
+
+BMDashboardComponents.propTypes = {
     authInfo: PropTypes.any,
-    pendingDispatchList: PropTypes.array,
-    pendingDispatchLoading: PropTypes.any,
-    handlePendingDispatch: PropTypes.func,
-    hubNearExpiryList: PropTypes.array,
-    hubNearExpiryLoading: PropTypes.any,
-    handleHubNearExpiry: PropTypes.func,
-    hubPendingRevalidationList: PropTypes.array,
-    hubPendingRevalidationLoading: PropTypes.any,
-    handleHubPendingRevalidation: PropTypes.func,
-    hubGrnErrorLogList: PropTypes.array,
-    hubGrnErrorLogLoading: PropTypes.any,
-    handleHubGrnErrorLog: PropTypes.func,
-    itemExpiredDetailsList: PropTypes.array,
-    itemExpiredDetailsLoading: PropTypes.any,
-    handleItemExpiredDetails: PropTypes.func,
+    profileInfo: PropTypes.any,
+
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    const pendingDispatchList = selectPendingDispatch(state)
-    const pendingDispatchLoading = selectPendingDispatchLoading(state)
-    const hubNearExpiryList = selectHubNearExpiry(state)
-    const hubNearExpiryLoading = selectHubNearExpiryLoading(state)
-    const hubPendingRevalidationList = selectHubPendingRevalidation(state)
-    const hubPendingRevalidationLoading = selectHubPendingRevalidationLoading(state)
-    const hubGrnErrorLogList = selectHubGrnErrorLog(state)
-    const hubGrnErrorLogLoading = selectHubGrnErrorLogLoading(state)
-    const itemExpiredDetailsList = selectItemExpiredDetails(state)
-    const itemExpiredDetailsLoading = selectItemExpiredDetailsLoading(state)
-    return {authInfo,pendingDispatchList,pendingDispatchLoading,hubNearExpiryList,hubNearExpiryLoading,hubPendingRevalidationList,hubPendingRevalidationLoading,hubGrnErrorLogList,hubGrnErrorLogLoading,itemExpiredDetailsList,itemExpiredDetailsLoading}
+    const profileInfo = selectProfileInfo(state)
+
+    return {authInfo,profileInfo}
 }
+
 
 const actions = {
-    handlePendingDispatch: pendingDispatchStartAction,
-    handleHubNearExpiry: hubNearExpiryStartAction,
-    handleHubPendingRevalidation: hubPendingRevalidationStartAction,
-    handleHubGrnErrorLog: hubGrnErrorLogStartAction,
-    handleItemExpiredDetails: itemExpiredDetailsStartAction,
+
+
+
 }
 
-export default connect(mapState, actions) (BMDashboardComponent)
+
+export default connect(mapState, actions) (BMDashboardComponents)

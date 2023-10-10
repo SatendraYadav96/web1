@@ -1,7 +1,7 @@
 export const AUTH_CERTIFICATE = 'Authorization'
 
 //export const BASE_URL = 'http://promobee-uat:8080'
-export const BASE_URL = 'http://104.237.6.220:8080'
+export const BASE_URL = 'http://localhost:8080'
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
 export const MENU_API = { url: '/v1/ui/menus', method: 'GET', auth: true }
