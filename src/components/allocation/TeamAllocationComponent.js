@@ -10,7 +10,7 @@ import LabelComponent from "../../widgets/LabelComponent";
 import TeamAllocationDetailsComponent from "./TeamAllocationDetailsComponent";
 import ChangeAllocationComponent from "./ChangeAllocationComponent";
 
-const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, inventoryId, commonAllocationDone, teamForDifferentialAllocation, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, monthlyCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys}) => {
+const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, inventoryId, commonAllocationDone, teamForDifferentialAllocation, handleSaveCommonAllocation, handleChangeQuantity, handleMonthlyDifferentialAllocationSave, handleAllocationToAllTeams, monthlyCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys}) => {
     const [showDifferential, setShowDifferential] = useState(false)
     const [teamForDifferential, setTeamForDifferential] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
@@ -168,6 +168,26 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
 
     const SaveDifferentialAllocation = (team) => {
         console.log(teamForDifferentialAllocation)
+        let data = []
+        teamForDifferentialAllocation.forEach(i => {
+                if(i.quantity == undefined){
+                    i.quantity = 0
+                }
+                const d = {
+                    "dispatchPlanId": item.planId,
+                    "recipientId": i.recipientID,
+                    "inventoryId": inventoryId,
+                    "quantity": i.quantity
+                }
+                data.push(d)
+            }
+        )
+
+        handleMonthlyDifferentialAllocationSave({
+            certificate: authInfo.token,
+            data: data
+        })
+        setOpen(false)
     }
 
     return (
@@ -179,16 +199,18 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                 <Col span={4}>
                     <LabelComponent>Qty Received: {item.qtyReceived}</LabelComponent>
                 </Col>
-                <Col span={4} offset={2}>
+                <Col span={4} offset={1}>
                     <LabelComponent>Qty Dispatched: {item.qtyDispatched}</LabelComponent>
                 </Col>
-                <Col span={4} offset={2}>
+                <Col span={4} offset={1}>
                     <LabelComponent>Pack Size: {item.packSize}</LabelComponent>
                 </Col>
-                {/*<Col span={4} offset={4}>*/}
-                {/*    Quantity:*/}
-                {/*    <InputNumber onChange={(value)=>onCommonAllocation(value)} ></InputNumber>*/}
-                {/*</Col>*/}
+                <Col span={4} offset={1}>
+                    <LabelComponent>Allocated Quantity: {item.quantityAllocated}</LabelComponent>
+                </Col>
+                <Col span={4} offset={1}>
+                    <LabelComponent>Allocation Balance: {item.balance}</LabelComponent>
+                </Col>
             </Row>
             {
                 teamKeys.map(team  =>
@@ -275,7 +297,7 @@ const actions = {
     handleAllocationToAllTeams: allocateToAllTeamsAction,
     handleMonthlyCommonTeam:monthlyCommonTeamStartAction,
     handleSaveCommonAllocation: monthlyCommonAllocationStartAction,
-    handleMonthlyDifferentialAllocationSave: monthlyDifferentialAllocationStartAction
+    handleMonthlyDifferentialAllocationSave: monthlyDifferentialAllocationStartAction,
 }
 
 export default connect(mapState, actions)(TeamAllocationComponent)

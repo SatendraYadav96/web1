@@ -11,10 +11,13 @@ import Highlighter from "react-highlight-words";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectStatusComponent from "../widgets/SelectStatusComponent";
+import {useNavigate} from "react-router-dom";
 
 const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,handlePurchaseReportList}) => {
 
     let now = new Date()
+
+    const navigate = useNavigate()
 
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
@@ -119,6 +122,10 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             ),
     });
 
+    const EditAllocation = () => {
+        return navigate('/home/allocations/special/create')
+    }
+
     const searchData = () => {
         setFlag(true)
         setColumn([
@@ -140,7 +147,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 dataIndex: 'grnDate',
                 width: '100px',
                 render: (_,row) => {
-                    return <Button>Edit</Button>
+                    return <Button onClick={() => navigate("/home/allocations/special")}>Edit</Button>
                 }
             },
             {
@@ -181,6 +188,13 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         <>
             <TitleWidget title="Special Allocation" />
             <Row gutter={[8,8]}>
+                <Col span={10}>
+                    <Button type={"primary"}>New Allocation</Button>
+                </Col>
+            </Row>
+            <br/>
+            <br/>
+            <Row gutter={[8,8]}>
                 <Col span={3}>
                     Month<br/>
                     <SelectMonthComponent onChange={(e) => setMonth(e)}/>
@@ -198,10 +212,6 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 <Col span={2}>
                     <br/>
                     <Button type={"primary"} onClick={searchData} style={{width: '100%'}}>Search</Button>
-                </Col>
-                <Col span={2}>
-                    <br/>
-                    <Button style={{width: '100%'}}>New</Button>
                 </Col>
             </Row>
             <br/>

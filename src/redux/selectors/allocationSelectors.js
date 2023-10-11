@@ -13,6 +13,13 @@ const monthlyCommonAllocationSave = (state) => state.allocations.monthlyCommonAl
 const monthlyDifferentialAllocation = (state) => state.allocations.monthlyDifferentialTeam
 const monthlyDifferentialAllocationSave = (state) => state.allocations.monthlyDifferentialAllocationSave
 const virtualCommonAllocationSave = (state) => state.allocations.virtualCommonAllocationSave
+const getDownloadAllocation = (state) => state.allocations.getDownloadAllocation
+const getBlockedRecipient = (state) => state.allocations.getRecipientBlocked
+const getActiveUsers = (state) => state.allocations.getActiveUsers
+const virtualAllocation = state => state.allocations.virtualAllocation
+const virtualItemLoading = (state) => state.allocations.virtualItemsLoading
+const searchSpecialPlan = (state) => state.allocations.searchSpecialPlan
+
 
 export const selectItemsToAllocate = createSelector(items, (itemsSelect) => itemsSelect)
 export const selectAllocations = createSelector(allocations, (allocationsSelect) => allocationsSelect)
@@ -20,7 +27,6 @@ export const selectAllocationsLoading = createSelector(allocationsLoading, alloc
 export const selectPlan = createSelector(plan, (planSelect) => planSelect)
 export const selectItemsLoading = createSelector(itemsLoading, (itemsLoadingSelect) => itemsLoadingSelect)
 export const selectCommonAllocationDone = createSelector(commonAllocationDone, commonAllocationDoneSelect => commonAllocationDoneSelect)
-
 
 export const selectMonthlyCommonTeamListData = createSelector(
     monthlyCommonTeamList,
@@ -55,5 +61,35 @@ export const selectMonthlyDifferentialAllocationSave = createSelector(
 
 export const selectVirtualCommonAllocationSave = createSelector(
     virtualCommonAllocationSave,
+    dataSelect => dataSelect
+)
+
+export const selectDownloadAllocation = createSelector(
+    getDownloadAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectGetBlockedRecipient = createSelector(
+    getBlockedRecipient,
+    dataSelect => dataSelect
+)
+
+export const selectGetActiveUsers = createSelector(
+    getActiveUsers,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualAllocation = createSelector(
+    virtualAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualItemLoading = createSelector(
+    virtualItemLoading,
+    dataSelect => dataSelect
+)
+
+export const selectSearchSpecialPlan = createSelector(
+    searchSpecialPlan,
     dataSelect => dataSelect
 )

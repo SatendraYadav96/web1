@@ -180,16 +180,18 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
                 <Col span={4}>
                     <LabelComponent>Qty Received: {item.qtyReceived}</LabelComponent>
                 </Col>
-                <Col span={4} offset={2}>
+                <Col span={4} offset={1}>
                     <LabelComponent>Qty Dispatched: {item.qtyDispatched}</LabelComponent>
                 </Col>
-                <Col span={4} offset={2}>
+                <Col span={4} offset={1}>
                     <LabelComponent>Pack Size: {item.packSize}</LabelComponent>
                 </Col>
-                {/*<Col span={4} offset={4}>*/}
-                {/*    Quantity:*/}
-                {/*    <InputNumber onChange={(value)=>onCommonAllocation(value)} ></InputNumber>*/}
-                {/*</Col>*/}
+                <Col span={4} offset={1}>
+                    <LabelComponent>Allocated Quantity: {item.quantityAllocated}</LabelComponent>
+                </Col>
+                <Col span={4} offset={1}>
+                    <LabelComponent>Allocation Balance: {item.balance}</LabelComponent>
+                </Col>
             </Row>
             {
                 teamKeys.map(team  =>
