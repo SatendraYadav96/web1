@@ -19,6 +19,20 @@ const getActiveUsers = (state) => state.allocations.getActiveUsers
 const virtualAllocation = state => state.allocations.virtualAllocation
 const virtualItemLoading = (state) => state.allocations.virtualItemsLoading
 const searchSpecialPlan = (state) => state.allocations.searchSpecialPlan
+const virtualCommonTeamList = (state) => state.allocations.virtualCommonTeam;
+const virtualCommonTeamKeysList = (state) => state.allocations.virtualCommonTeamKeys
+const virtualCommonTeamLoading = (state) => state.allocations.virtualCommonTeamLoading
+const virtualAllocationForPlan = state => state.allocations.virtualAllocationForPlan
+const virtualAllocationsLoading = state => state.allocations.virtualAllocationsLoading
+const virtualDifferentialAllocation = (state) => state.allocations.virtualDifferentialTeam
+const virtualDifferentialAllocationSave = (state) => state.allocations.virtualDifferentialAllocationSave
+const submitMonthlyAllocation = (state) => state.allocations.submitMonthlyAllocation
+const submitVirtualAllocation = (state) => state.allocations.submitVirtualAllocation
+const getAllocationStatusDropdown = (state) => state.allocations.getAllocationStatusDropdown
+const getMultipleAllocationDownload = (state) => state.allocations.getMultipleAllocationDownload
+const editSpecialPlan = (state) => state.allocations.editSpecialPlan
+const specialAllocation = state => state.allocations.specialAllocation
+const specialItemLoading = (state) => state.allocations.specialItemsLoading
 
 
 export const selectItemsToAllocate = createSelector(items, (itemsSelect) => itemsSelect)
@@ -91,5 +105,76 @@ export const selectVirtualItemLoading = createSelector(
 
 export const selectSearchSpecialPlan = createSelector(
     searchSpecialPlan,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualCommonTeamListData = createSelector(
+    virtualCommonTeamList,
+    virtualCommonTeamListDataSelection => virtualCommonTeamListDataSelection
+);
+
+export const selectVirtualCommonTeamListKeys = createSelector(
+    virtualCommonTeamKeysList,
+    virtualCommonTeamListDataSelection => virtualCommonTeamListDataSelection
+);
+
+
+export const selectLoadingVirtualCommonTeamData = createSelector(
+    virtualCommonTeamLoading,
+    loadingSelection => loadingSelection
+);
+
+export const selectVirtualAllocationForPlan = createSelector(
+    virtualAllocationForPlan,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualAllocationLoading = createSelector(
+    virtualAllocationsLoading,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualDifferentialAllocation = createSelector(
+    virtualDifferentialAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualDifferentialAllocationSave = createSelector(
+    virtualDifferentialAllocationSave,
+    dataSelect => dataSelect
+)
+
+export const selectSubmitMonthlyAllocation = createSelector(
+    submitMonthlyAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectSubmitVirtualAllocation = createSelector(
+    submitVirtualAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectGetAllocationStatusDropdown = createSelector(
+    getAllocationStatusDropdown,
+    dataSelect => dataSelect
+)
+
+export const selectMultipleAllocationDownload = createSelector(
+    getMultipleAllocationDownload,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialPlan = createSelector(
+    editSpecialPlan,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialAllocation = createSelector(
+    specialAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialItemLoading = createSelector(
+    specialItemLoading,
     dataSelect => dataSelect
 )

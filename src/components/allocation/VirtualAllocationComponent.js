@@ -3,8 +3,29 @@ import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
 import TitleWidget from '../../widgets/TitleWidget'
-import {allocateToAllTeamsAction, getActiveUsersStartAction, getAllocationsForPlanStartAction, getDownloadAllocationStartAction, monthlyAllocationStartAction, virtualAllocationStartAction} from '../../redux/actions/allocation/allocationActions'
-import {selectAllocations, selectAllocationsLoading, selectCommonAllocationDone, selectDownloadAllocation, selectGetActiveUsers, selectItemsLoading, selectItemsToAllocate, selectPlan, selectVirtualAllocation, selectVirtualItemLoading} from '../../redux/selectors/allocationSelectors'
+import {
+    allocateToAllTeamsAction,
+    getActiveUsersStartAction,
+    getAllocationsForPlanStartAction,
+    getDownloadAllocationStartAction,
+    getVirtualAllocationsForPlanStartAction,
+    monthlyAllocationStartAction,
+    submitMonthlyAllocationStartAction, submitVirtualAllocationStartAction,
+    virtualAllocationStartAction
+} from '../../redux/actions/allocation/allocationActions'
+import {
+    selectAllocations,
+    selectAllocationsLoading,
+    selectCommonAllocationDone,
+    selectDownloadAllocation,
+    selectGetActiveUsers,
+    selectItemsLoading,
+    selectItemsToAllocate,
+    selectPlan,
+    selectVirtualAllocation,
+    selectVirtualAllocationForPlan, selectVirtualAllocationLoading,
+    selectVirtualItemLoading
+} from '../../redux/selectors/allocationSelectors'
 import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography, Upload} from 'antd'
 import moment from 'moment'
 import {toMm, toYyyy, toYyyyMm} from '../../utils/DateUtils'
@@ -39,7 +60,8 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                                         handleCreateViewPlan,
                                         handleGoToAllocations,
                                         downloadAllocation, handleGetDownloadAllocation,
-                                        handleActiveUserDownload, activeUsersDownload
+                                        handleActiveUserDownload, activeUsersDownload,
+                                        handleSubmitVirtualAllocation
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
@@ -96,6 +118,17 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
             planId: selectedItems[0].planId
         })
         setCurrentStep(currentStep + 1)
+    }
+
+    const SubmitVirtualAllocation = () => {
+        let data = {
+            "month": Number(toMm(yearMonth)),
+            "year": Number(toYyyy(yearMonth))
+        }
+        handleSubmitVirtualAllocation({
+            certificate: authInfo.token,
+            data: data
+        })
     }
 
     const prev = () => {
@@ -164,7 +197,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                     <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>
                 </Col>
                 <Col span={2} offset={17}>
-                    <Button type={'primary'}>Submit</Button>
+                    <Button type={'primary'} onClick={() => SubmitVirtualAllocation}>Submit</Button>
                 </Col>
             </Row>
             <Steps current={currentStep} style={{marginBottom: 20}}>
@@ -279,7 +312,8 @@ VirtualAllocationComponent.propTypes = {
     handleGetDownloadAllocation: PropTypes.func,
     downloadAllocation: PropTypes.any,
     activeUsersDownload: PropTypes.any,
-    handleActiveUserDownload: PropTypes.func
+    handleActiveUserDownload: PropTypes.func,
+    handleSubmitVirtualAllocation: PropTypes.func
 }
 
 const mapState = (state) => {
@@ -287,8 +321,8 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     // const items = selectItemsToAllocate(state)
     const virtualItemsLoading = selectVirtualItemLoading(state)
-    const allocationsLoading = selectAllocationsLoading(state)
-    const allocations = selectAllocations(state)
+    const allocationsLoading = selectVirtualAllocationLoading(state)
+    const allocations = selectVirtualAllocationForPlan(state)
     const commonAllocationDone = selectCommonAllocationDone(state)
     // const plan=selectPlan(state)
     const downloadAllocation = selectDownloadAllocation(state)
@@ -300,9 +334,10 @@ const mapState = (state) => {
 
 const actions = {
     handleCreateViewPlan: virtualAllocationStartAction,
-    handleGoToAllocations: getAllocationsForPlanStartAction,
+    handleGoToAllocations: getVirtualAllocationsForPlanStartAction,
     handleGetDownloadAllocation: getDownloadAllocationStartAction,
-    handleActiveUserDownload: getActiveUsersStartAction
+    handleActiveUserDownload: getActiveUsersStartAction,
+    handleSubmitVirtualAllocation: submitVirtualAllocationStartAction
 }
 
 export default connect(mapState, actions)(VirtualAllocationComponent)

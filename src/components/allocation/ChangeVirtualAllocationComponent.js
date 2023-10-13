@@ -4,8 +4,8 @@ import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelec
 import {connect} from 'react-redux'
 import TitleWidget from "../../widgets/TitleWidget";
 import {Alert, Button, Col, Input, Row, Table} from "antd";
-import {allocateToDifferentialAction, monthlyDifferentialAllocationStartAction, monthlyDifferentialTeamStartAction} from "../../redux/actions/allocation/allocationActions";
-import {selectMonthlyDifferentialAllocation} from "../../redux/selectors/allocationSelectors";
+import {allocateToDifferentialAction, monthlyDifferentialAllocationStartAction, monthlyDifferentialTeamStartAction, virtualAllocateToDifferentialAction, virtualDifferentialAllocationStartAction, virtualDifferentialTeamStartAction} from "../../redux/actions/allocation/allocationActions";
+import {selectMonthlyDifferentialAllocation, selectVirtualDifferentialAllocation} from "../../redux/selectors/allocationSelectors";
 import {InputNumber} from "antd/es";
 
 const ChangeVirtualAllocationComponent = ({authInfo, profileInfo, item, planId, inventoryId, teamId, handleMonthlyDifferentialAllocationSave, handleChangeDifferentialQuantity, handleDifferentialAllocation, teamForDifferentialAllocation}) => {
@@ -158,14 +158,14 @@ ChangeVirtualAllocationComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    const teamForDifferentialAllocation = selectMonthlyDifferentialAllocation(state)
+    const teamForDifferentialAllocation = selectVirtualDifferentialAllocation(state)
     return { authInfo,  profileInfo, teamForDifferentialAllocation }
 }
 
 const actions = {
-    handleDifferentialAllocation : monthlyDifferentialTeamStartAction,
-    handleChangeDifferentialQuantity: allocateToDifferentialAction,
-    handleMonthlyDifferentialAllocationSave: monthlyDifferentialAllocationStartAction
+    handleDifferentialAllocation : virtualDifferentialTeamStartAction,
+    handleChangeDifferentialQuantity: virtualAllocateToDifferentialAction,
+    handleMonthlyDifferentialAllocationSave: virtualDifferentialAllocationStartAction
 }
 
 export default connect(mapState, actions)(ChangeVirtualAllocationComponent)

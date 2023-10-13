@@ -1,7 +1,10 @@
 export const AUTH_CERTIFICATE = 'Authorization'
 
 //export const BASE_URL = 'http://promobee-uat:8080'
-export const BASE_URL = 'http://localhost:8080'
+// export const BASE_URL = 'http://localhost:8080'
+
+export const BASE_URL = 'http://104.237.6.220:8080'
+
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
 export const MENU_API = { url: '/v1/ui/menus', method: 'GET', auth: true }
@@ -236,6 +239,8 @@ export const MONTHLY_COMMON_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveComm
 
 export const MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveDifferentialAllocation', method: 'POST', auth: true}
 
+export const VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveVirtualDifferentialAllocation', method: 'POST', auth: true}
+
 export const VIRTUAL_COMMON_ALLOCATION_SAVE_API = {url: '/v1/allocation/saveVirtualCommonAllocation', method: 'POST', auth: true}
 
 export const GET_DOWNLOAD_ALLOCATION_API = {url: '/v1/allocation/getDownloadAllocation', method: 'GET', auth: true}
@@ -247,3 +252,21 @@ export const GET_ACTIVE_USERS_API = {url: '/v1/allocation/getActiveUsers', metho
 export const SEARCH_SPECIAL_PLAN_API = {url: '/v1/allocation/searchSpecialPlan', method: 'GET', auth: true}
 
 export const VIRTUAL_COMMON_TEAM_API = {url: '/v1/allocation/getVirtualTeamForCommonAllocation',method:'GET',auth:true}
+
+export const VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API = {url: '/v1/allocation/getVirtualQuantityAllocatedToUser', method: 'GET', auth: true}
+
+export const VIRTUAL_DIFFERENTIAL_TEAM_API = {url: '/v1/allocation/getVirtualTeamForDifferentialAllocation',method:'GET',auth:true}
+
+export const VIRTUAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API = {url: '/v1/allocation/getVirtualTeamForDifferentialAllocation', method: 'GET', auth: true}
+
+export const SUBMIT_MONTHLY_ALLOCATION_API = {url: '/v1/allocation/submitMonthlyAllocation', method: 'POST', auth: true}
+
+export const SUBMIT_VIRTUAL_ALLOCATION_API = {url: '/v1/allocation/submitVirtualAllocation', method: 'POST', auth: true}
+
+export const GET_ALLOCATION_STATUS_DROPDOWN_API = {url: '/v1/allocation/getAllocationStatusDropdown', method: 'GET', auth: true}
+
+export const GET_MULTIPLE_ALLOCATION_DOWNLOAD_API = {url: '/v1/allocation/getMultipleAllocation', method: 'POST', auth: true}
+
+export const EDIT_SPECIAL_PLAN_API = {url: '/v1/allocation/special/edit', method: 'GET', auth: true}
+
+export const SPECIAL_ALLOCATION_START_API = { url: '/v1/allocation/special/create', method: 'POST', auth: true }

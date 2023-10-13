@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
 import TitleWidget from '../../widgets/TitleWidget'
-import {allocateToAllTeamsAction, getActiveUsersStartAction, getAllocationsForPlanStartAction, getDownloadAllocationStartAction, monthlyAllocationStartAction} from '../../redux/actions/allocation/allocationActions'
-import {selectAllocations, selectAllocationsLoading, selectCommonAllocationDone, selectDownloadAllocation, selectGetActiveUsers, selectItemsLoading, selectItemsToAllocate, selectPlan} from '../../redux/selectors/allocationSelectors'
+import {allocateToAllTeamsAction, getActiveUsersStartAction, getAllocationsForPlanStartAction, getDownloadAllocationStartAction, getMultipleAllocationDownloadStartAction, monthlyAllocationStartAction, submitMonthlyAllocationStartAction} from '../../redux/actions/allocation/allocationActions'
+import {selectAllocations, selectAllocationsLoading, selectCommonAllocationDone, selectDownloadAllocation, selectGetActiveUsers, selectItemsLoading, selectItemsToAllocate, selectMultipleAllocationDownload, selectPlan} from '../../redux/selectors/allocationSelectors'
 import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography, Upload} from 'antd'
 import moment from 'moment'
 import {toMm, toYyyy, toYyyyMm} from '../../utils/DateUtils'
@@ -38,13 +38,15 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                                         handleCreateViewPlan,
                                         handleGoToAllocations,
                                         downloadAllocation, handleGetDownloadAllocation,
-                                        handleActiveUserDownload, activeUsersDownload
+                                        handleActiveUserDownload, activeUsersDownload,
+                                        handleSubmitMonthlyAllocation, multipleAllocationDownload, handleMultipleAllocation
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
     const [selectedItems, setSelectedItems] = useState([])
     const [downloadAllocationFlag, setDownloadAllocationFlag] = useState(false)
     const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
+    const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -62,6 +64,14 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
         {'title': 'Role Name', 'dataIndex': 'roleName', 'key': 'roleName'},
         {'title': 'Total Employee', 'dataIndex': 'totalEmployee', 'key': 'totalEmployee'},
+    ]
+
+    const multipleAllocationDownloadColumn = [
+        {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
+        {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
+        {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
+        {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
+        {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
     ]
 
     const createViewClicked = () => {
@@ -96,6 +106,17 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         setCurrentStep(currentStep - 1)
     }
 
+    const SubmitMonthlyAllocation = () => {
+        let data = {
+            "month": Number(toMm(yearMonth)),
+            "year": Number(toYyyy(yearMonth))
+        }
+        handleSubmitMonthlyAllocation({
+            certificate: authInfo.token,
+            data: data
+        })
+    }
+
     const DownloadAllocation = () => {
         if(plan.length !== 0){
             handleGetDownloadAllocation({
@@ -114,6 +135,19 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         setActiveUserDownloadFlag(true)
     }
 
+    const DownloadMultipleAllocation = () => {
+        let ccmId = []
+        items.map(i =>
+            ccmId.push(i.costCenterID)
+        )
+        handleMultipleAllocation({
+            certificate: authInfo.token,
+            ccmId: ccmId
+
+        })
+        setMultipleAllocationDownloadFlag(true)
+    }
+
     useEffect(() => {
         if(downloadAllocationFlag){
             if(downloadAllocation.length > 0){
@@ -129,6 +163,23 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             setDownloadAllocationFlag(false)
         }
     },[downloadAllocation])
+
+    useEffect(() => {
+        if(multipleAllocationDownloadFlag){
+            if(multipleAllocationDownload.length > 0){
+                const excel = new Excel();
+                excel
+                    .addSheet("Multiple Allocation")
+                    .addColumns(multipleAllocationDownloadColumn)
+                    .addDataSource(multipleAllocationDownload, {
+                        str2Percent: true
+                    })
+                    .saveAs( 'MULTIPLE_ALLOCATION.xlsx');
+            }
+            setMultipleAllocationDownloadFlag(false)
+        }
+    },[multipleAllocationDownload])
+
 
     useEffect(() => {
         if(activeUserDownloadFlag){
@@ -158,7 +209,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                     <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>
                 </Col>
                 <Col span={2} offset={17}>
-                    <Button type={'primary'}>Submit</Button>
+                    <Button type={'primary'} onClick={() => SubmitMonthlyAllocation()}>Submit</Button>
                 </Col>
             </Row>
             <Steps current={currentStep} style={{marginBottom: 20}}>
@@ -177,7 +228,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                 </Col>
                 <Col span={4}></Col>
                 <Col span={3}>
-                    <Button type={'primary'}>Multiple Allocation</Button>
+                    <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
                 </Col>
                 <Col span={3}></Col>
                 <Col span={3}>
@@ -276,7 +327,10 @@ MonthlyAllocationComponent.propTypes = {
     handleGetDownloadAllocation: PropTypes.func,
     downloadAllocation: PropTypes.any,
     activeUsersDownload: PropTypes.any,
-    handleActiveUserDownload: PropTypes.func
+    handleActiveUserDownload: PropTypes.func,
+    handleSubmitMonthlyAllocation: PropTypes.func,
+    multipleAllocationDownload: PropTypes.any,
+    handleMultipleAllocation: PropTypes.func
 }
 
 const mapState = (state) => {
@@ -290,15 +344,19 @@ const mapState = (state) => {
     const plan=selectPlan(state)
     const downloadAllocation = selectDownloadAllocation(state)
     const activeUsersDownload = selectGetActiveUsers(state)
+    const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     console.log(allocations)
-    return { authInfo, profileInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload }
+    return { authInfo, profileInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone,
+        downloadAllocation,activeUsersDownload, multipleAllocationDownload }
 }
 
 const actions = {
     handleCreateViewPlan: monthlyAllocationStartAction,
     handleGoToAllocations: getAllocationsForPlanStartAction,
     handleGetDownloadAllocation: getDownloadAllocationStartAction,
-    handleActiveUserDownload: getActiveUsersStartAction
+    handleActiveUserDownload: getActiveUsersStartAction,
+    handleSubmitMonthlyAllocation: submitMonthlyAllocationStartAction,
+    handleMultipleAllocation: getMultipleAllocationDownloadStartAction
 }
 
 export default connect(mapState, actions)(MonthlyAllocationComponent)

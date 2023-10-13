@@ -1,19 +1,24 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Input, Row, Table, Space} from "antd";
+import {Button, Col, Input, Row, Table, Space, Select} from "antd";
 import { getPurchaseReportStartAction } from '../../redux/actions/reports/purchaseReportActions'
 import XLSX from "xlsx"
-import {SearchOutlined} from "@ant-design/icons";
+import {EditOutlined, SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectStatusComponent from "../widgets/SelectStatusComponent";
 import {useNavigate} from "react-router-dom";
+import {getAllocationStatusDropdownStartAction, searchSpecialPlanStartAction} from "../../redux/actions/allocation/allocationActions";
+import {selectGetAllocationStatusDropdown, selectSearchSpecialPlan} from "../../redux/selectors/allocationSelectors";
+import {toDdMmYYYY} from "../../utils/DateUtils";
 
-const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,handlePurchaseReportList}) => {
+const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,
+                                     handleStatusDropdown, statusDropdown,handlePurchaseReportList,
+                                     handleSearchSpecialPlan, searchSpecialPlan}) => {
 
     let now = new Date()
 
@@ -23,7 +28,8 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
     const [division, setDivision] = useState()
     const [year, setYear] = useState()
     const [month, setMonth] = useState()
-    const [column, setColumn] = useState([])
+    const [statusDD, setStatusDD] = useState()
+    const [remark, setRemark] = useState()
     const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -40,6 +46,53 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         clearFilters();
         setSearchText('');
     };
+
+    useEffect(() => {
+        handleStatusDropdown({
+            certificate: authInfo.token
+        })
+    },[])
+
+    const editPlan = (row) => {
+        console.log(row);
+        // let s = statusDropdown.find(statusDD)
+        return navigate(`/home/allocations/special/${row.id}/${year}/${month}/${row.remarks}`)
+    }
+
+    const column = [
+        {
+            title: 'Purpose',
+            dataIndex: 'remarks',
+            key: 'remarks',
+        },
+        {
+            title: 'Requested On',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (_,row) => {
+                return toDdMmYYYY(row.createdAt)
+            }
+        },
+        {
+                title: '',
+                key: '',
+                dataIndex: '',
+                width: '100px',
+                render: (_,row) => {
+                    return <Button icon={<EditOutlined />}    onClick={ () => editPlan(row)}  ></Button>
+                }
+            },
+            {
+                title: '',
+                key: '',
+                dataIndex: '',
+                width: `100px`,
+                render: (_, row) => {
+                    return <Button disabled={deleteVal}>Delete</Button>
+                }
+            },
+    ]
+
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div
@@ -122,51 +175,59 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             ),
     });
 
-    const EditAllocation = () => {
-        return navigate('/home/allocations/special/create')
+    const createAllocation = () => {
+        return navigate('/home/allocations/special/createNew')
     }
 
     const searchData = () => {
+        console.log(statusDD)
+        handleSearchSpecialPlan({
+            certificate: authInfo.token,
+            month: month,
+            year: year,
+            status: statusDD,
+            remark: remark
+        })
         setFlag(true)
-        setColumn([
-            {
-                title:'Purpose',
-                key:'purpose',
-                dataIndex:'purpose',
-                width:'100px'
-            },
-            {
-                title:'',
-                key:'requestedOn',
-                dataIndex:'requestedOn',
-                width:'100px'
-            },
-            {
-                title: '',
-                key: 'grnDate',
-                dataIndex: 'grnDate',
-                width: '100px',
-                render: (_,row) => {
-                    return <Button onClick={() => navigate("/home/allocations/special")}>Edit</Button>
-                }
-            },
-            {
-                title: '',
-                key: 'grnDate',
-                dataIndex: 'grnDate',
-                width: `100px`,
-                render: (_, row) => {
-                    return <Button disabled={deleteVal}>Delete</Button>
-                }
-            },
-        ])
-        setDataSource([
-            {
-                purpose: 'Aryaan',
-                requestedOn: 'Aryaan',
-            }
-
-        ])
+        // setColumn([
+        //     {
+        //         title:'Purpose',
+        //         key:'purpose',
+        //         dataIndex:'purpose',
+        //         width:'100px'
+        //     },
+        //     {
+        //         title:'',
+        //         key:'requestedOn',
+        //         dataIndex:'requestedOn',
+        //         width:'100px'
+        //     },
+        //     {
+        //         title: '',
+        //         key: 'grnDate',
+        //         dataIndex: 'grnDate',
+        //         width: '100px',
+        //         render: (_,row) => {
+        //             return <Button onClick={() => navigate("/home/allocations/special")}>Edit</Button>
+        //         }
+        //     },
+        //     {
+        //         title: '',
+        //         key: 'grnDate',
+        //         dataIndex: 'grnDate',
+        //         width: `100px`,
+        //         render: (_, row) => {
+        //             return <Button disabled={deleteVal}>Delete</Button>
+        //         }
+        //     },
+        // ])
+        // setDataSource([
+        //     {
+        //         purpose: 'Aryaan',
+        //         requestedOn: 'Aryaan',
+        //     }
+        //
+        // ])
     }
 
     const handleExcel = () => {
@@ -189,7 +250,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             <TitleWidget title="Special Allocation" />
             <Row gutter={[8,8]}>
                 <Col span={10}>
-                    <Button type={"primary"}>New Allocation</Button>
+                    <Button type={"primary"} onClick={()=> createAllocation()}>New Allocation</Button>
                 </Col>
             </Row>
             <br/>
@@ -203,11 +264,11 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                     Year<br/>
                     <SelectYearComponent onChange={(e) => setYear(e)}/>
                 </Col>
-                <Col span={3}>
-                    Status <br/><SelectStatusComponent />
+                <Col span={4}>
+                    Status <br/><Select style={{ width: 140 }} onChange={(e) => setStatusDD(e)} placeholder={"Select Status"} options={statusDropdown} value={statusDD} />
                 </Col>
-                <Col span={3}>
-                    Purpose <br/><Input />
+                <Col span={6}>
+                    Purpose <br/><Input value={remark} onChange={(e) => setRemark(e.target.value)}/>
                 </Col>
                 <Col span={2}>
                     <br/>
@@ -216,7 +277,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             </Row>
             <br/>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource}/>
+                <Table columns={column} scroll={{y: '100%'}} dataSource={searchSpecialPlan}/>
             }
         </>
     )
@@ -225,15 +286,24 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
 
 PurchaseReportComponent.propTypes = {
     authInfo: PropTypes.any,
+    statusDropdown: PropTypes.any,
+    handleStatusDropdown: PropTypes.func,
+    searchSpecialPlan: PropTypes.any,
+    handleSearchSpecialPlan: PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const statusDropdown = selectGetAllocationStatusDropdown(state)
+    const searchSpecialPlan = selectSearchSpecialPlan(state)
+    console.log(searchSpecialPlan)
+    return {authInfo, statusDropdown, searchSpecialPlan}
 }
 
 const actions = {
-    handlePurchaseReportList : getPurchaseReportStartAction
+    handlePurchaseReportList : getPurchaseReportStartAction,
+    handleStatusDropdown: getAllocationStatusDropdownStartAction,
+    handleSearchSpecialPlan: searchSpecialPlanStartAction
 }
 
 export default connect(mapState, actions)(PurchaseReportComponent)

@@ -100,7 +100,7 @@ const routes = [
     { path: '/home/grn/logs', name: 'GRNUploadComponent', element: GRNUploadComponent },
     { path: '/home/allocations/monthly/create', name: 'MonthlyAllocationComponent', element: MonthlyAllocationComponent },
     { path: '/home/allocations/virtual/create', name: 'VirtualAllocationComponent', element: VirtualAllocationComponent},
-    { path: '/home/allocations/special', name: 'SpecialAllocationComponent', element: SpecialAllocationComponent},
+    { path: '/home/allocations/special/:id/:year/:month/:remark', name: 'SpecialAllocationComponent', element: SpecialAllocationComponent},
     { path: '/home/allocations/special/create', name: 'SpecialAllocationMainComponent', element: SpecialAllocationMainComponent},
     { path: '/home/allocations/special/createNew', name: 'CreateSpecialAllocationComponent', element: CreateSpecialAllocationComponent},
     { path: '/login', name: 'Login', element: Login },

@@ -1,14 +1,26 @@
 import {createRequest} from './httpUtils';
 import {
-    DISTRIBUTION_PLAN_INVENTORY_API, GET_ACTIVE_USERS_API,
-    GET_ALLOCATIONS_FOR_PLAN, GET_BLOCKED_RECIPIENTS_API, GET_DOWNLOAD_ALLOCATION_API,
-    GET_ITEMS_TO_ALLOCATE_API,
+    DISTRIBUTION_PLAN_INVENTORY_API, EDIT_SPECIAL_PLAN_API,
+    GET_ACTIVE_USERS_API, GET_ALLOCATION_STATUS_DROPDOWN_API,
+    GET_ALLOCATIONS_FOR_PLAN,
+    GET_BLOCKED_RECIPIENTS_API,
+    GET_DOWNLOAD_ALLOCATION_API,
+    GET_ITEMS_TO_ALLOCATE_API, GET_MULTIPLE_ALLOCATION_DOWNLOAD_API,
     MONTHLY_ALLOCATION_START_API,
     MONTHLY_COMMON_ALLOCATION_SAVE_API,
     MONTHLY_COMMON_TEAM_API,
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API,
-    MONTHLY_DIFFERENTIAL_TEAM_API, MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API,
-    MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, SEARCH_SPECIAL_PLAN_API, VIRTUAL_ALLOCATION_START_API, VIRTUAL_COMMON_ALLOCATION_SAVE_API, VIRTUAL_COMMON_TEAM_API
+    MONTHLY_DIFFERENTIAL_TEAM_API,
+    MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API,
+    MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API,
+    SEARCH_SPECIAL_PLAN_API, SPECIAL_ALLOCATION_START_API, SUBMIT_MONTHLY_ALLOCATION_API, SUBMIT_VIRTUAL_ALLOCATION_API,
+    VIRTUAL_ALLOCATION_START_API,
+    VIRTUAL_COMMON_ALLOCATION_SAVE_API,
+    VIRTUAL_COMMON_TEAM_API,
+    VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_API,
+    VIRTUAL_DIFFERENTIAL_TEAM_API,
+    VIRTUAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API,
+    VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API
 } from "./apiConstants";
 
 export const itemsToAllocateListRequest = payload => {
@@ -41,7 +53,7 @@ export const monthlyCommonTeamRequest = payload => {
     return createRequest(api, payload.certificate, null)
 }
 
-export const VirtualCommonTeamRequest = payload => {
+export const virtualCommonTeamRequest = payload => {
     const api = {...VIRTUAL_COMMON_TEAM_API, url: `${VIRTUAL_COMMON_TEAM_API.url}/${payload.ccmId}`}
     console.log(api)
     return createRequest(api, payload.certificate, null)
@@ -52,13 +64,28 @@ export const monthlyDifferentialTeamRequest = payload => {
     return createRequest(api, payload.certificate, null)
 }
 
+export const virtualDifferentialTeamRequest = payload => {
+    const api = {...VIRTUAL_DIFFERENTIAL_TEAM_API, url: `${VIRTUAL_DIFFERENTIAL_TEAM_API.url}/${payload.planId}/${payload.teamId}/${payload.inventoryId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
 export const monthlyQuantityAllocatedOfUserToItemRequest = payload => {
     const api = {...MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/0`}
     return createRequest(api, payload.certificate, null)
 }
 
+export const virtualQuantityAllocatedOfUserToItemRequest = payload => {
+    const api = {...VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/0/${payload.planId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
 export const monthlyQuantityAllocatedDifferentialRecipientRequest = payload => {
-    const api = {...MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API.url}/${payload.planId}/${payload.inventoryId}/${payload.teamId}`}
+    const api = {...MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API, url: `${MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API.url}/${payload.planId}/${payload.inventoryId}/${payload.teamId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const virtualQuantityAllocatedDifferentialRecipientRequest = payload => {
+    const api = {...VIRTUAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API, url: `${VIRTUAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API.url}/${payload.planId}/${payload.inventoryId}/${payload.teamId}`}
     return createRequest(api, payload.certificate, null)
 }
 
@@ -72,6 +99,10 @@ export const virtualCommonAllocationSaveRequest = payload => {
 
 export const monthlyDifferentialAllocationSaveRequest = payload => {
     return createRequest(MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API, payload.certificate, payload.data)
+}
+
+export const virtualDifferentialAllocationSaveRequest = payload => {
+    return createRequest(VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_API, payload.certificate, payload.data)
 }
 
 export const getDownloadAllocationRequest = payload => {
@@ -92,4 +123,30 @@ export const getActiveUsersRequest = payload => {
 export const searchSpecialPlanRequest = payload => {
     const api = {...SEARCH_SPECIAL_PLAN_API, url: `${SEARCH_SPECIAL_PLAN_API.url}/${payload.month}/${payload.year}/${payload.status}/${payload.remark}`}
     return createRequest(api, payload.certificate, null)
+}
+
+export const submitMonthlyAllocationRequest = payload => {
+    return createRequest(SUBMIT_MONTHLY_ALLOCATION_API, payload.certificate, payload.data)
+}
+
+export const submitVirtualAllocationRequest = payload => {
+    return createRequest(SUBMIT_VIRTUAL_ALLOCATION_API, payload.certificate, payload.data)
+}
+
+export const getAllocationStatusDropDownRequest = payload => {
+    return createRequest(GET_ALLOCATION_STATUS_DROPDOWN_API, payload.certificate, null)
+}
+
+export const getMultipleAllocationDownloadRequest = payload => {
+    console.log(payload.ccmId)
+    return createRequest(GET_MULTIPLE_ALLOCATION_DOWNLOAD_API, payload.certificate, payload.ccmId)
+}
+
+export const editSpecialPlanRequest = payload => {
+    const api = {...EDIT_SPECIAL_PLAN_API, url: `${EDIT_SPECIAL_PLAN_API.url}/${payload.planId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const specialAllocationCreateViewRequest = payload => {
+    return createRequest(SPECIAL_ALLOCATION_START_API, payload.certificate, payload.alloc)
 }
