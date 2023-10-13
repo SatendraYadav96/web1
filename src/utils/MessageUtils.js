@@ -25,7 +25,7 @@ import {
     OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_START, OVER_SAMPLING_EXCEL_SUCCESS,
     OVER_SAMPLING_UPLOAD_LOG_START
 } from "../redux/actions/upload/uploadActionConstants";
-import {MONTHLY_COMMON_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
+import {GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -1185,7 +1185,25 @@ import {MONTHLY_COMMON_ALLOCATION_SAVE_START} from "../redux/actions/allocation/
         ],
 
 
+        GET_DOWNLOAD_ALLOCATION_START: [{ action: 'showspinner' }],
+        GET_DOWNLOAD_ALLOCATION_SUCCESS: [{ action: 'hidespinner' }],
+        GET_DOWNLOAD_ALLOCATION_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
+        GET_ACTIVE_USERS_START: [{ action: 'showspinner' }],
+        GET_ACTIVE_USERS_SUCCESS: [{ action: 'hidespinner' }],
+        GET_ACTIVE_USERS_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
 
 

@@ -1,13 +1,14 @@
 import { ofType } from 'redux-observable'
 import {catchError, debounceTime, forkJoin, map, of, switchMap} from 'rxjs'
 import {
-    GET_ALLOCATIONS_FOR_PLAN_START,
+    GET_ACTIVE_USERS_START,
+    GET_ALLOCATIONS_FOR_PLAN_START, GET_BLOCKED_RECIPIENT_START, GET_DOWNLOAD_ALLOCATION_START,
     MONTHLY_ALLOCATION_START,
     MONTHLY_COMMON_ALLOCATION_SAVE_START,
     MONTHLY_COMMON_TEAM_START,
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
     MONTHLY_DIFFERENTIAL_TEAM_START,
-    RECIPIENTS_TO_ALLOCATE_LIST_START,
+    RECIPIENTS_TO_ALLOCATE_LIST_START, SEARCH_SPECIAL_PLAN_START, VIRTUAL_ALLOCATION_START,
     VIRTUAL_COMMON_ALLOCATION_SAVE_START
 } from '../actions/allocation/allocationActionConstants'
 import {
@@ -19,12 +20,14 @@ import {
     monthlyQuantityAllocatedOfUserToItemRequest,
     monthlyCommonAllocationSave,
     monthlyCommonAllocationSaveRequest,
-    monthlyDifferentialAllocationSaveRequest, monthlyQuantityAllocatedDifferentialRecipientRequest, virtualCommonAllocationSaveRequest
+    monthlyDifferentialAllocationSaveRequest, monthlyQuantityAllocatedDifferentialRecipientRequest, virtualCommonAllocationSaveRequest, getDownloadAllocationRequest, getBlockedRecipientRequest, getActiveUsersRequest, virtualPlanCreateViewRequest, searchSpecialPlanRequest
 } from '../../api/allocationRequests'
 import {
+    getActiveUsersFailAction,
+    getActiveUsersStartAction, getActiveUsersSuccessAction,
     getAllocationsForPlanFailAction,
     getAllocationsForPlanStartAction,
-    getAllocationsForPlanSuccessAction,
+    getAllocationsForPlanSuccessAction, getBlockedRecipientFailAction, getBlockedRecipientSuccessAction, getDownloadAllocationFailAction, getDownloadAllocationSuccessAction,
     monthlyAllocationFailAction,
     monthlyAllocationSuccessAction, monthlyCommonAllocationFailAction,
     monthlyCommonAllocationSuccessAction,
@@ -36,9 +39,9 @@ import {
     monthlyDifferentialTeamSuccessAction,
     recipientsToAllocateListFailAction,
     recipientsToAllocateListStartAction,
-    recipientsToAllocateListSuccessAction,
+    recipientsToAllocateListSuccessAction, searchSpecialPlanFailAction, searchSpecialPlanSuccessAction,
     teamsToAllocateListFailAction,
-    teamsToAllocateListSuccessAction, virtualCommonAllocationFailAction, virtualCommonAllocationSuccessAction
+    teamsToAllocateListSuccessAction, virtualAllocationFailAction, virtualAllocationSuccessAction, virtualCommonAllocationFailAction, virtualCommonAllocationSuccessAction
 } from '../actions/allocation/allocationActions'
 
 export const allocationsForPlanStartEpic = (action$) =>
@@ -145,6 +148,69 @@ export const virtualCommonAllocationSaveStartEpic = (action$) =>
             virtualCommonAllocationSaveRequest(action.payload).pipe(
                 map((response) => virtualCommonAllocationSuccessAction({virtualCommonAllocationSave: response.response})),
                 catchError((error) => of(virtualCommonAllocationFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const getDownloadAllocationStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_DOWNLOAD_ALLOCATION_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            getDownloadAllocationRequest(action.payload).pipe(
+                map((response) => getDownloadAllocationSuccessAction({getDownloadAllocation: response.response})),
+                catchError((error) => of(getDownloadAllocationFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const getBlockedRecipientStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_BLOCKED_RECIPIENT_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            getBlockedRecipientRequest(action.payload).pipe(
+                map((response) => getBlockedRecipientSuccessAction({getRecipientBlocked: response.response})),
+                catchError((error) => of(getBlockedRecipientFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+
+export const getActiveUsersStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_ACTIVE_USERS_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            getActiveUsersRequest(action.payload).pipe(
+                map((response) => getActiveUsersSuccessAction({getActiveUsers: response.response})),
+                catchError((error) => of(getActiveUsersFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const virtualPlanStartEpic = (action$) =>
+    action$.pipe(
+        ofType(VIRTUAL_ALLOCATION_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            virtualPlanCreateViewRequest(action.payload).pipe(
+                map((planResponse) =>
+                    virtualAllocationSuccessAction({ virtualAllocation: planResponse.response })),
+                catchError((error) => of(virtualAllocationFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const searchSpecialPlan = (action$) =>
+    action$.pipe(
+        ofType(SEARCH_SPECIAL_PLAN_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            searchSpecialPlanRequest(action.payload).pipe(
+                map((response) =>
+                    searchSpecialPlanSuccessAction({ searchSpecialPlan: response.response })),
+                catchError((error) => of(searchSpecialPlanFailAction({ error: error }))),
             ),
         ),
     )

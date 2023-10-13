@@ -29,10 +29,10 @@ const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, invento
             if (t.recipientID == team.recipientID) {
                 recipientID = team.recipientID
                 total = total + qty
-            } else {
-                if (t.quantity !== undefined) {
-                    total = total + t.quantity
-                }
+            // } else {
+            //     if (t.quantity !== undefined) {
+            //         total = total + t.quantity
+            //     }
             }
         })
         if (total > item.stock) {
@@ -111,7 +111,7 @@ const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, invento
         },
         {
             title: 'Code',
-            dataIndex: 'roleCode',
+            dataIndex: 'recipientCode',
             key: ''
         },
         {
@@ -124,8 +124,7 @@ const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, invento
             dataIndex: '',
             key: '',
             render: (_, row)=> {
-                return <Input style={{width: '100px'}}
-                       value={row.quantity}
+                return <Input style={{width: '100px'}} value={row.quantity}
                        onChange={(value)=> onChangeQuantity(row, value)}
                 />
             }

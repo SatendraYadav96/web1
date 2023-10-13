@@ -18,9 +18,9 @@ export const GRN_API = { url: '/v1/upload/getGrnUploadLog', method: 'GET', auth:
 //ALLOCATIONS
 export const GET_ITEMS_TO_ALLOCATE_API = { url: '/v1/allocations/itemsToAllocate', method: 'GET', auth: true }
 export const GET_ALLOCATIONS_FOR_PLAN = { url: '/v1/allocations/allocationForPlan', method: 'GET', auth: true }
-export const MONTHLY_ALLOCATION_START_API = { url: '/v1/allocations/monthly/createview', method: 'POST', auth: true }
+export const MONTHLY_ALLOCATION_START_API = { url: '/v1/allocations/monthly/createview', method: 'GET', auth: true }
 export const DISTRIBUTION_PLAN_INVENTORY_API = { url: '/v1/allocations/monthly/distribution', method: 'GET', auth: true }
-
+export const VIRTUAL_ALLOCATION_START_API = { url: '/v1/allocation/virtual/create', method: 'GET', auth: true }
 //Recipients
 export const GET_RECIPIENTS_API = { url: '/v1/recipient/forteam', method: 'GET', auth: true }
 
@@ -237,3 +237,13 @@ export const MONTHLY_COMMON_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveComm
 export const MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveDifferentialAllocation', method: 'POST', auth: true}
 
 export const VIRTUAL_COMMON_ALLOCATION_SAVE_API = {url: '/v1/allocation/saveVirtualCommonAllocation', method: 'POST', auth: true}
+
+export const GET_DOWNLOAD_ALLOCATION_API = {url: '/v1/allocation/getDownloadAllocation', method: 'GET', auth: true}
+
+export const GET_BLOCKED_RECIPIENTS_API = {url: '/v1/allocation/getBlockedRecipients', method: 'GET', auth: true}
+
+export const GET_ACTIVE_USERS_API = {url: '/v1/allocation/getActiveUsers', method: 'GET', auth: true}
+
+export const SEARCH_SPECIAL_PLAN_API = {url: '/v1/allocation/searchSpecialPlan', method: 'GET', auth: true}
+
+export const VIRTUAL_COMMON_TEAM_API = {url: '/v1/allocation/getVirtualTeamForCommonAllocation',method:'GET',auth:true}

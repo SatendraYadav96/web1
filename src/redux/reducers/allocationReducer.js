@@ -2,10 +2,10 @@ import { createReducer } from './reducerUtils'
 import {
     ALLOCATE_TO_ALL_TEAMS, ALLOCATE_TO_DIFFERENTIAL,
     ALLOCATE_TO_TEAM,
-    ALLOCATION_PAGE_RESET,
+    ALLOCATION_PAGE_RESET, GET_ACTIVE_USERS_FAIL, GET_ACTIVE_USERS_SUCCESS,
     GET_ALLOCATIONS_FOR_PLAN_FAIL,
     GET_ALLOCATIONS_FOR_PLAN_START,
-    GET_ALLOCATIONS_FOR_PLAN_SUCCESS,
+    GET_ALLOCATIONS_FOR_PLAN_SUCCESS, GET_BLOCKED_RECIPIENT_FAIL, GET_BLOCKED_RECIPIENT_SUCCESS, GET_DOWNLOAD_ALLOCATION_FAIL, GET_DOWNLOAD_ALLOCATION_SUCCESS,
     MONTHLY_ALLOCATION_FAIL,
     MONTHLY_ALLOCATION_START,
     MONTHLY_ALLOCATION_SUCCESS,
@@ -17,7 +17,7 @@ import {
     MONTHLY_DIFFERENTIAL_TEAM_FAIL,
     MONTHLY_DIFFERENTIAL_TEAM_SUCCESS,
     RECIPIENTS_TO_ALLOCATE_LIST_FAIL,
-    RECIPIENTS_TO_ALLOCATE_LIST_START, VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL, VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS,
+    RECIPIENTS_TO_ALLOCATE_LIST_START, SEARCH_SPECIAL_PLAN_FAIL, SEARCH_SPECIAL_PLAN_SUCCESS, VIRTUAL_ALLOCATION_FAIL, VIRTUAL_ALLOCATION_START, VIRTUAL_ALLOCATION_SUCCESS, VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL, VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS,
 } from "../actions/allocation/allocationActionConstants";
 const initialState = {
     items: [],
@@ -35,7 +35,13 @@ const initialState = {
     monthlyDifferentialTeam:[],
     monthlyDifferentialAllocationSave:[],
     error: null,
-    virtualCommonAllocationSave: []
+    virtualCommonAllocationSave: [],
+    getDownloadAllocation: [],
+    getRecipientBlocked: [],
+    getActiveUsers: [],
+    virtualAllocation: [],
+    virtualItemLoading: false,
+    searchSpecialPlan: []
 }
 
 const allocationForPlanStartReducer = (state = initialState, payload) => {
@@ -63,6 +69,7 @@ const allocationForPlanSuccessReducer = (state = initialState, payload) => {
         itemList = itemList.concat(items)
     }
     const allocations = []
+    state.items.forEach(item => item["balance"] =  (item.qtyReceived- item.qtyDispatched - item.quantityAllocated))
     state.items.forEach(item => {if(itemList.indexOf(item.itemID) > -1) {allocations.push({item: item, teams: payload.allocations.teams,costCenter: costCenterList[item.itemID], inventoryId:inventoryList[item.itemID] })}})
     console.log(allocations)
     return {
@@ -292,7 +299,7 @@ const monthlyDifferentialAllocationSuccessReducer = (state = initialState, paylo
     let data = new Map();
     let keysArr = [];
     payload.monthlyDifferentialQuantityAllocated.forEach(item => quantityAllocated[item.recipientId] = item.allocatedQuantity)
-    payload.monthlyDifferentialTeam.forEach(item => item["quantity"] = quantityAllocated[item.recipientId])
+    payload.monthlyDifferentialTeam.forEach(item => item["quantity"] = quantityAllocated[item.recipientID])
     console.log(payload.monthlyDifferentialTeam)
     return {
         ...state,
@@ -344,6 +351,93 @@ const virtualCommonAllocationFailReducer = (state = initialState, payload) => {
     }
 }
 
+const getDownloadAllocationSuccessReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        getDownloadAllocation: payload.getDownloadAllocation
+    }
+}
+
+const getDownloadAllocationFailReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        getDownloadAllocation: [],
+        error: payload.error
+    }
+}
+
+const getRecipientBlockedSuccessReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        getRecipientBlocked: payload.getRecipientBlocked
+    }
+}
+
+const getRecipientBlockedFailReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        getRecipientBlocked: [],
+        error: payload.error
+    }
+}
+
+const getActiveUsersSuccessReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        getActiveUsers: payload.getActiveUsers
+    }
+}
+
+const getActiveUsersFailReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        getActiveUsers: [],
+        error: payload.error
+    }
+}
+
+const virtualAllocationStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualAllocation: [],
+        virtualItemsLoading: true,
+        error: null,
+    }
+}
+
+const virtualAllocationSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualAllocation: payload.virtualAllocation,
+        virtualItemsLoading: false,
+        error: null,
+    }
+}
+
+const virtualAllocationFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        error: payload.error,
+        virtualItemsLoading: false,
+    }
+}
+
+const searchSpecialPlanSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        searchSpecialPlan: payload.searchSpecialPlan,
+        error: null
+    }
+}
+
+
+const searchSpecialPlanFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        error: payload.error
+    }
+}
+
 
 export default createReducer(initialState, {
     [GET_ALLOCATIONS_FOR_PLAN_START]: allocationForPlanStartReducer,
@@ -367,5 +461,16 @@ export default createReducer(initialState, {
     [MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS]: monthlyDifferentialAllocationSaveSuccessReducer,
     [MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL]: monthlyDifferentialAllocationSaveFailReducer,
     [VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS]: virtualCommonAllocationSuccessReducer,
-    [VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL]: virtualCommonAllocationFailReducer
+    [VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL]: virtualCommonAllocationFailReducer,
+    [GET_DOWNLOAD_ALLOCATION_SUCCESS]: getDownloadAllocationSuccessReducer,
+    [GET_DOWNLOAD_ALLOCATION_FAIL]: getDownloadAllocationFailReducer,
+    [GET_BLOCKED_RECIPIENT_SUCCESS]: getRecipientBlockedSuccessReducer,
+    [GET_BLOCKED_RECIPIENT_FAIL]: getRecipientBlockedFailReducer,
+    [GET_ACTIVE_USERS_SUCCESS]: getActiveUsersSuccessReducer,
+    [GET_ACTIVE_USERS_FAIL]: getActiveUsersFailReducer,
+    [VIRTUAL_ALLOCATION_START]: virtualAllocationStartReducer,
+    [VIRTUAL_ALLOCATION_SUCCESS]: virtualAllocationSuccessReducer,
+    [VIRTUAL_ALLOCATION_FAIL]: virtualAllocationFailReducer,
+    [SEARCH_SPECIAL_PLAN_SUCCESS]: searchSpecialPlanSuccessReducer,
+    [SEARCH_SPECIAL_PLAN_FAIL]: searchSpecialPlanFailReducer
 })
