@@ -3,7 +3,7 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Collapse, Input, Row, Select, Spin, Table, Typography} from "antd";
+import {Button, Col, Collapse, Input, message, Row, Select, Spin, Steps, Table, Typography, Upload} from "antd";
 import moment from "moment";
 import {toMm, toYyyy} from "../../utils/DateUtils";
 import {Excel} from "antd-table-saveas-excel";
@@ -12,9 +12,9 @@ import {
     getAllocationsForPlanStartAction,
     getAllocationStatusDropdownStartAction,
     getDownloadAllocationStartAction,
-    getMultipleAllocationDownloadStartAction,
-    monthlyAllocationStartAction,
-    submitMonthlyAllocationStartAction
+    getMultipleAllocationDownloadStartAction, getSpecialAllocationsForPlanStartAction,
+    monthlyAllocationStartAction, specialAllocationStartAction,
+    submitMonthlyAllocationStartAction, submitSpecialAllocationStartAction
 } from "../../redux/actions/allocation/allocationActions";
 import {
     selectAllocations,
@@ -26,13 +26,16 @@ import {
     selectItemsLoading,
     selectItemsToAllocate,
     selectMultipleAllocationDownload,
-    selectPlan
+    selectPlan, selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading
 } from "../../redux/selectors/allocationSelectors";
 import {MonthlyAllocationInventoryColumns} from "./AllocationColumns";
 import TeamAllocationComponent from "./TeamAllocationComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
-
+import {UploadOutlined} from "@ant-design/icons";
+import SpecialTeamAllocationComponent from "./SpecialTeamAllocationComponent";
+const { Step } = Steps
+const { Panel } = Collapse
 const allocationSteps = [
     {
         title: 'Select Items',
@@ -46,18 +49,15 @@ const allocationSteps = [
 
 const { Title } = Typography
 
-const CreateSpecialAllocationComponent = ({authInfo, profileInfo, handleStatusDropdown, statusDropdown,
-                                              itemsLoading,
-                                              items,
-                                              plan,
+const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
+                                              specialItemsLoading, specialAllocation,
                                               allocations,
                                               allocationsLoading,
                                               selectCommonAllocationDone,
                                               handleCreateViewPlan,
-                                              handleGoToAllocations,
+                                              handleGoToAllocations,handleSubmitSpecialAllocation,
                                               downloadAllocation, handleGetDownloadAllocation,
-                                              handleActiveUserDownload, activeUsersDownload,
-                                              handleSubmitMonthlyAllocation, multipleAllocationDownload, handleMultipleAllocation}) => {
+                                              handleActiveUserDownload, activeUsersDownload}) => {
 
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [year, setYear] = useState()
@@ -97,10 +97,15 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo, handleStatusDr
     ]
 
     const createViewClicked = () => {
+        let data ={
+            "month": month,
+            "year": year,
+            "name": remark
+        }
         handleCreateViewPlan({
             certificate: authInfo.token,
-            month: Number(toMm(yearMonth)),
-            year: Number(toYyyy(yearMonth))
+            // yearMonth: toYyyyMm(yearMonth)
+            alloc: data
         })
     }
 
@@ -119,13 +124,25 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo, handleStatusDr
         handleGoToAllocations({
             certificate: authInfo.token,
             selectedItems: selectedItems,
-            planId: plan.id
+            planId: selectedItems[0].planId
         })
         setCurrentStep(currentStep + 1)
     }
 
     const prev = () => {
         setCurrentStep(currentStep - 1)
+    }
+
+    const SubmitSpecialAllocation = () => {
+        let data = {
+            "month": month,
+            "year": year,
+            "name" : remark
+        }
+        handleSubmitSpecialAllocation({
+            certificate: authInfo.token,
+            data: data
+        })
     }
 
     const SubmitMonthlyAllocation = () => {
@@ -304,15 +321,18 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo, handleStatusDr
                     Year<br/>
                     <SelectYearComponent onChange={(e) => setYear(e)}/>
                 </Col>
-                <Col span={4}>
-                    Status <br/><Select style={{ width: 140 }} onChange={(e) => setStatusDD(e)} placeholder={"Select Status"} options={statusDropdown} value={statusDD} />
-                </Col>
+                {/*<Col span={4}>*/}
+                {/*    Status <br/><Select style={{ width: 140 }} onChange={(e) => setStatusDD(e)} placeholder={"Select Status"} options={statusDropdown} value={statusDD} />*/}
+                {/*</Col>*/}
                 <Col span={6}>
                     Purpose <br/><Input value={remark} onChange={(e) => setRemark(e.target.value)}/>
                 </Col>
                 <Col span={2}>
                     <br/>
                     <Button type={"primary"} onClick={createViewClicked}>Create/View</Button>
+                </Col>
+                <Col span={2} offset={8}>
+                    <Button type={'primary'} onClick={() => SubmitSpecialAllocation()}>Submit</Button>
                 </Col>
                 {/*<Col span={2}>*/}
                 {/*    <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>*/}
@@ -327,9 +347,33 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo, handleStatusDr
                 <br/>
                 <b>Allocation Invoice Status</b>: Not initiated
             </p>
-            <Row>
-                <Col span={5} offset={19}><Input.Search/></Col>
+            <Row gutter={[16,16]} style={{marginBottom: 40}}>
+
+                <Col span={4} >
+                    <Button type={'primary'} onClick={() => DownloadAllocation()}>Download Allocation</Button>
+                </Col>
+                <Col span={3} >
+                    <Button type={'primary'} onClick={() => DownloadActiveUsers()}>Active Users</Button>
+                </Col>
+                <Col span={4}></Col>
+                <Col span={3}>
+                    <Button type={'primary'}>Multiple Allocation</Button>
+                </Col>
+                <Col span={3}></Col>
+                <Col span={3}>
+                    <Upload>
+                        <Button icon={<UploadOutlined />}>Select File</Button>
+                    </Upload>
+                </Col>
+                <Col span={2}>
+                    <Button type={'primary'} >Upload</Button>
+                </Col>
             </Row>
+            <Steps current={currentStep} style={{marginBottom: 20}}>
+                {allocationSteps.map((item) =>
+                    <Step key={item.title} title={item.title} />
+                )}
+            </Steps>
             {currentStep === 0 &&
                 <Table
                     rowSelection={{
@@ -338,11 +382,11 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo, handleStatusDr
                     }}
                     scroll={{y: '100%'}}
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                    dataSource={items}
+                    dataSource={specialAllocation}
                     columns={MonthlyAllocationInventoryColumns()}
                     size={'small'}
                     rowKey={'itemID'}
-                    loading={itemsLoading}
+                    loading={specialItemsLoading}
                 />
             }
             {currentStep === 1 && allocations !== undefined &&
@@ -357,15 +401,14 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo, handleStatusDr
                                 header={<AllocationHeaderComponent item={allocation.item}/>}
                                 key={`${allocation.item.itemID}`}
                             >
-                                <TeamAllocationComponent
+                                <SpecialTeamAllocationComponent
                                     total={allocation.totalAllocation}
                                     teams={allocation.teams}
                                     item={allocation.item}
                                     costCenterId={allocation.costCenter}
                                     year = {toYyyy(yearMonth)}
                                     month = {toMm(yearMonth)}
-                                    inventoryId = {allocation.inventoryId}
-                                />
+                                    inventoryId = {allocation.inventoryId}/>
                             </Panel>)
                         }
                     </Collapse>
@@ -404,10 +447,9 @@ const AllocationHeaderComponent = ({item}) => {
 
 CreateSpecialAllocationComponent.propTypes = {
     authInfo: PropTypes.any,
+    specialItemsLoading: PropTypes.bool,
     profileInfo: PropTypes.any,
-    itemsLoading: PropTypes.bool,
-    items: PropTypes.array,
-    plan: PropTypes.any,
+    specialAllocation: PropTypes.array,
     allocationsLoading: PropTypes.bool,
     allocations: PropTypes.any,
     selectCommonAllocationDone: PropTypes.any,
@@ -417,39 +459,31 @@ CreateSpecialAllocationComponent.propTypes = {
     downloadAllocation: PropTypes.any,
     activeUsersDownload: PropTypes.any,
     handleActiveUserDownload: PropTypes.func,
-    handleSubmitMonthlyAllocation: PropTypes.func,
-    multipleAllocationDownload: PropTypes.any,
-    handleMultipleAllocation: PropTypes.func,
-    statusDropdown: PropTypes.any,
-    handleStatusDropdown: PropTypes.func,
+    handleSubmitSpecialAllocation: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    const items = selectItemsToAllocate(state)
-    const itemsLoading = selectItemsLoading(state)
-    const allocationsLoading = selectAllocationsLoading(state)
-    const allocations = selectAllocations(state)
+    const allocationsLoading = selectSpecialAllocationLoading(state)
+    const allocations = selectSpecialAllocationForPlan(state)
     const commonAllocationDone = selectCommonAllocationDone(state)
-    const plan=selectPlan(state)
     const downloadAllocation = selectDownloadAllocation(state)
     const activeUsersDownload = selectGetActiveUsers(state)
-    const multipleAllocationDownload = selectMultipleAllocationDownload(state)
-    console.log(allocations)
-    const statusDropdown = selectGetAllocationStatusDropdown(state)
-    return { authInfo, profileInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone,
-        downloadAllocation,activeUsersDownload, multipleAllocationDownload, statusDropdown }
+    const specialAllocation = selectSpecialAllocation(state)
+    const specialItemsLoading = selectSpecialItemLoading(state)
+    return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload }
 }
 
 const actions = {
-    handleCreateViewPlan: monthlyAllocationStartAction,
-    handleGoToAllocations: getAllocationsForPlanStartAction,
+    handleGoToAllocations: getSpecialAllocationsForPlanStartAction,
     handleGetDownloadAllocation: getDownloadAllocationStartAction,
     handleActiveUserDownload: getActiveUsersStartAction,
+    handleCreateViewPlan: specialAllocationStartAction,
     handleStatusDropdown: getAllocationStatusDropdownStartAction,
     handleSubmitMonthlyAllocation: submitMonthlyAllocationStartAction,
-    handleMultipleAllocation: getMultipleAllocationDownloadStartAction
+    handleMultipleAllocation: getMultipleAllocationDownloadStartAction,
+    handleSubmitSpecialAllocation: submitSpecialAllocationStartAction,
 
 }
 

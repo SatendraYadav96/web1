@@ -8,10 +8,33 @@ import {useNavigate, useParams} from "react-router-dom";
 import {MonthlyAllocationInventoryColumns} from "./AllocationColumns";
 import TeamAllocationComponent from "./TeamAllocationComponent";
 import moment from "moment/moment";
-import {toYyyyMm} from "../../utils/DateUtils";
-import {selectAllocations, selectAllocationsLoading, selectCommonAllocationDone, selectDownloadAllocation, selectGetActiveUsers, selectItemsLoading, selectItemsToAllocate, selectPlan} from "../../redux/selectors/allocationSelectors";
-import {getActiveUsersStartAction, getAllocationsForPlanStartAction, getDownloadAllocationStartAction, monthlyAllocationStartAction, specialAllocationStartAction} from "../../redux/actions/allocation/allocationActions";
+import {toMm, toYyyy, toYyyyMm} from "../../utils/DateUtils";
+import {
+    selectAllocations,
+    selectAllocationsLoading,
+    selectCommonAllocationDone,
+    selectDownloadAllocation,
+    selectGetActiveUsers,
+    selectItemsLoading,
+    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload,
+    selectPlan,
+    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading,
+    selectVirtualAllocation,
+    selectVirtualItemLoading
+} from "../../redux/selectors/allocationSelectors";
+import {
+    getActiveUsersStartAction,
+    getAllocationsForPlanStartAction,
+    getDownloadAllocationStartAction, getMultipleAllocationDownloadStartAction,
+    getSpecialAllocationsForPlanStartAction,
+    monthlyAllocationStartAction,
+    specialAllocationStartAction,
+    submitSpecialAllocationStartAction,
+    submitVirtualAllocationStartAction
+} from "../../redux/actions/allocation/allocationActions";
 import {UploadOutlined} from "@ant-design/icons";
+import SpecialTeamAllocationComponent from "./SpecialTeamAllocationComponent";
+import {Excel} from "antd-table-saveas-excel";
 const { Step } = Steps
 const { Panel } = Collapse
 const allocationSteps = [
@@ -26,16 +49,17 @@ const allocationSteps = [
 ]
 const { Title } = Typography
 
-const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
-                                        items,
-                                        plan,
+const SpecialAllocationComponent = ({authInfo, profileInfo,
+                                        specialItemsLoading, specialAllocation,
                                         allocations,
                                         allocationsLoading,
                                         selectCommonAllocationDone,
                                         handleCreateViewPlan,
-                                        handleGoToAllocations,
+                                        handleGoToAllocations, handleSubmitSpecialAllocation,
                                         downloadAllocation, handleGetDownloadAllocation,
-                                        handleActiveUserDownload, activeUsersDownload,}) => {
+                                        handleActiveUserDownload, activeUsersDownload,
+                                        multipleAllocationDownload,  multipleAllocationExcel,
+                                        handleMultipleAllocation}) => {
 
     const navigate = useNavigate()
     let param = useParams()
@@ -48,6 +72,7 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
     const [selectedItems, setSelectedItems] = useState([])
     const [downloadAllocationFlag, setDownloadAllocationFlag] = useState(false)
     const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
+    const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -65,6 +90,14 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
         {'title': 'Role Name', 'dataIndex': 'roleName', 'key': 'roleName'},
         {'title': 'Total Employee', 'dataIndex': 'totalEmployee', 'key': 'totalEmployee'},
+    ]
+
+    const multipleAllocationDownloadColumn = [
+        {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
+        {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
+        {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
+        {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
+        {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
     ]
 
     useEffect(() => {
@@ -93,7 +126,7 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
         handleGoToAllocations({
             certificate: authInfo.token,
             selectedItems: selectedItems,
-            planId: plan.id
+            planId: selectedItems[0].planId
         })
         setCurrentStep(currentStep + 1)
     }
@@ -120,6 +153,26 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
         setActiveUserDownloadFlag(true)
     }
 
+    const DownloadMultipleAllocation = () => {
+        let ccmId = []
+        selectedItems.map(i => {
+                const list = {
+                    "ccmId": i.costCenterID,
+                    "inventoryId": i.inventoryId
+                }
+                ccmId.push(list)
+            }
+        )
+        if(ccmId.length > 0){
+            handleMultipleAllocation({
+                certificate: authInfo.token,
+                mulAlloc: ccmId
+
+            })
+            setMultipleAllocationDownloadFlag(true)
+        }
+    }
+
     useEffect(() => {
         if(downloadAllocationFlag){
             if(downloadAllocation.length > 0){
@@ -137,6 +190,32 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
     },[downloadAllocation])
 
     useEffect(() => {
+        if(multipleAllocationDownloadFlag){
+            if(multipleAllocationDownload.length > 0){
+                const extraColumn = []
+                if(multipleAllocationExcel.length > 0) {
+                    multipleAllocationExcel.map(i => {
+                            const list = {
+                                'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                            }
+                        multipleAllocationDownloadColumn.push(list)
+                        }
+                    )
+                }
+                const excel = new Excel();
+                excel
+                    .addSheet("Multiple Allocation")
+                    .addColumns(multipleAllocationDownloadColumn)
+                    .addDataSource(multipleAllocationDownload, {
+                        str2Percent: true
+                    })
+                    .saveAs( 'MULTIPLE_ALLOCATION.xlsx');
+            }
+            setMultipleAllocationDownloadFlag(false)
+        }
+    },[multipleAllocationDownload])
+
+    useEffect(() => {
         if(activeUserDownloadFlag){
             if(activeUsersDownload.length > 0){
                 const excel = new Excel();
@@ -151,6 +230,18 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
             setDownloadAllocationFlag(false)
         }
     },[activeUsersDownload])
+
+    const SubmitSpecialAllocation = () => {
+        let data = {
+            "month": Number(param.month),
+            "year": Number(param.year),
+            "name" : param.remark
+        }
+        handleSubmitSpecialAllocation({
+            certificate: authInfo.token,
+            data: data
+        })
+    }
 
 
 
@@ -213,7 +304,7 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
                     Purpose: {param.remark}
                 </Col>
                 <Col span={2} offset={13}>
-                    <Button type={'secondary'}>Submit</Button>
+                    <Button type={'primary'} onClick={() => SubmitSpecialAllocation()}>Submit</Button>
                 </Col>
             </Row>
             <Row gutter={[16,16]} style={{marginBottom: 40}}>
@@ -226,7 +317,7 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
                 </Col>
                 <Col span={4}></Col>
                 <Col span={3}>
-                    <Button type={'primary'}>Multiple Allocation</Button>
+                    <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
                 </Col>
                 <Col span={3}></Col>
                 <Col span={3}>
@@ -251,11 +342,11 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
                     }}
                     scroll={{y: '100%'}}
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
-                    dataSource={items}
+                    dataSource={specialAllocation}
                     columns={MonthlyAllocationInventoryColumns()}
                     size={'small'}
                     rowKey={'itemID'}
-                    loading={itemsLoading}
+                    loading={specialItemsLoading}
                 />
             }
             {currentStep === 1 && allocations !== undefined &&
@@ -270,10 +361,14 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
                                 header={<AllocationHeaderComponent item={allocation.item}/>}
                                 key={`${allocation.item.itemID}`}
                             >
-                                <TeamAllocationComponent
+                                <SpecialTeamAllocationComponent
                                     total={allocation.totalAllocation}
                                     teams={allocation.teams}
-                                    item={allocation.item}/>
+                                    item={allocation.item}
+                                    costCenterId={allocation.costCenter}
+                                    year = {toYyyy(yearMonth)}
+                                    month = {toMm(yearMonth)}
+                                    inventoryId = {allocation.inventoryId}/>
                             </Panel>)
                         }
                     </Collapse>
@@ -283,11 +378,6 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
                 {currentStep < allocationSteps.length - 1 && (
                     <Button type='primary' onClick={goToAllocation}>
                         Start Allocation
-                    </Button>
-                )}
-                {currentStep === allocationSteps.length - 1 && (
-                    <Button type='primary' onClick={() => message.success('Processing complete!')}>
-                        Save
                     </Button>
                 )}
                 {currentStep > 0 && (
@@ -305,12 +395,21 @@ const SpecialAllocationComponent = ({authInfo,itemsLoading, profileInfo,
     )
 }
 
+const AllocationHeaderComponent = ({item}) => {
+    return (
+        <Row gutter={[16,16]}>
+            <Col span={24}>
+                <Title level={5}>{item.itemName}</Title>
+            </Col>
+        </Row>
+    )
+}
+
 SpecialAllocationComponent.propTypes = {
     authInfo: PropTypes.any,
-    itemsLoading: PropTypes.bool,
+    specialItemsLoading: PropTypes.bool,
     profileInfo: PropTypes.any,
-    items: PropTypes.array,
-    plan: PropTypes.any,
+    specialAllocation: PropTypes.array,
     allocationsLoading: PropTypes.bool,
     allocations: PropTypes.any,
     selectCommonAllocationDone: PropTypes.any,
@@ -320,27 +419,35 @@ SpecialAllocationComponent.propTypes = {
     downloadAllocation: PropTypes.any,
     activeUsersDownload: PropTypes.any,
     handleActiveUserDownload: PropTypes.func,
+    handleSubmitSpecialAllocation: PropTypes.func,
+    multipleAllocationExcel: PropTypes.any,
+    multipleAllocationDownload: PropTypes.any,
+    handleMultipleAllocation: PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    const items = selectItemsToAllocate(state)
-    const itemsLoading = selectItemsLoading(state)
-    const allocationsLoading = selectAllocationsLoading(state)
-    const allocations = selectAllocations(state)
+    const allocationsLoading = selectSpecialAllocationLoading(state)
+    const allocations = selectSpecialAllocationForPlan(state)
     const commonAllocationDone = selectCommonAllocationDone(state)
-    const plan=selectPlan(state)
     const downloadAllocation = selectDownloadAllocation(state)
     const activeUsersDownload = selectGetActiveUsers(state)
-    return { authInfo, profileInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload }
+    const specialAllocation = selectSpecialAllocation(state)
+    const specialItemsLoading = selectSpecialItemLoading(state)
+    const multipleAllocationDownload = selectMultipleAllocationDownload(state)
+    const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
+    return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone,
+        downloadAllocation,activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel}
 }
 
 const actions = {
     handleCreateViewPlan: specialAllocationStartAction,
-    handleGoToAllocations: getAllocationsForPlanStartAction,
+    handleGoToAllocations: getSpecialAllocationsForPlanStartAction,
     handleGetDownloadAllocation: getDownloadAllocationStartAction,
     handleActiveUserDownload: getActiveUsersStartAction,
+    handleSubmitSpecialAllocation: submitSpecialAllocationStartAction,
+    handleMultipleAllocation: getMultipleAllocationDownloadStartAction
 }
 
 export default connect(mapState, actions) (SpecialAllocationComponent)

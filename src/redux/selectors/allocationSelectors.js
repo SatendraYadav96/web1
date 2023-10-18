@@ -28,12 +28,18 @@ const virtualDifferentialAllocation = (state) => state.allocations.virtualDiffer
 const virtualDifferentialAllocationSave = (state) => state.allocations.virtualDifferentialAllocationSave
 const submitMonthlyAllocation = (state) => state.allocations.submitMonthlyAllocation
 const submitVirtualAllocation = (state) => state.allocations.submitVirtualAllocation
+const submitSpecialAllocation = (state) => state.allocations.submitSpecialAllocation
 const getAllocationStatusDropdown = (state) => state.allocations.getAllocationStatusDropdown
 const getMultipleAllocationDownload = (state) => state.allocations.getMultipleAllocationDownload
+const getMultipleAllocationExcelDownload = (state) => state.allocations.getMultipleAllocationExcelDownload
 const editSpecialPlan = (state) => state.allocations.editSpecialPlan
 const specialAllocation = state => state.allocations.specialAllocation
 const specialItemLoading = (state) => state.allocations.specialItemsLoading
-
+const specialAllocationForPlan = state => state.allocations.specialAllocationForPlan
+const specialAllocationsLoading = state => state.allocations.specialAllocationsLoading
+const specialDifferentialAllocation = (state) => state.allocations.specialDifferentialTeam
+const specialDifferentialAllocationSave = (state) => state.allocations.specialDifferentialAllocationSave
+const deleteSpecialAllocation = (state) => state.allocations.deleteSpecialAllocation
 
 export const selectItemsToAllocate = createSelector(items, (itemsSelect) => itemsSelect)
 export const selectAllocations = createSelector(allocations, (allocationsSelect) => allocationsSelect)
@@ -154,6 +160,11 @@ export const selectSubmitVirtualAllocation = createSelector(
     dataSelect => dataSelect
 )
 
+export const selectSubmitSpecialAllocation = createSelector(
+    submitSpecialAllocation,
+    dataSelect => dataSelect
+)
+
 export const selectGetAllocationStatusDropdown = createSelector(
     getAllocationStatusDropdown,
     dataSelect => dataSelect
@@ -163,6 +174,12 @@ export const selectMultipleAllocationDownload = createSelector(
     getMultipleAllocationDownload,
     dataSelect => dataSelect
 )
+
+export const selectMultipleAllocationExcelDownload = createSelector(
+    getMultipleAllocationExcelDownload,
+    dataSelect => dataSelect
+)
+
 
 export const selectSpecialPlan = createSelector(
     editSpecialPlan,
@@ -176,5 +193,30 @@ export const selectSpecialAllocation = createSelector(
 
 export const selectSpecialItemLoading = createSelector(
     specialItemLoading,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialAllocationForPlan = createSelector(
+    specialAllocationForPlan,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialAllocationLoading = createSelector(
+    specialAllocationsLoading,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialDifferentialAllocation = createSelector(
+    specialDifferentialAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialDifferentialAllocationSave = createSelector(
+    specialDifferentialAllocationSave,
+    dataSelect => dataSelect
+)
+
+export const selectDeleteSpecialAllocation = createSelector(
+    deleteSpecialAllocation,
     dataSelect => dataSelect
 )

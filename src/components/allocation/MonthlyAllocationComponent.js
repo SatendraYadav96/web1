@@ -4,7 +4,18 @@ import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelec
 import {connect} from 'react-redux'
 import TitleWidget from '../../widgets/TitleWidget'
 import {allocateToAllTeamsAction, getActiveUsersStartAction, getAllocationsForPlanStartAction, getDownloadAllocationStartAction, getMultipleAllocationDownloadStartAction, monthlyAllocationStartAction, submitMonthlyAllocationStartAction} from '../../redux/actions/allocation/allocationActions'
-import {selectAllocations, selectAllocationsLoading, selectCommonAllocationDone, selectDownloadAllocation, selectGetActiveUsers, selectItemsLoading, selectItemsToAllocate, selectMultipleAllocationDownload, selectPlan} from '../../redux/selectors/allocationSelectors'
+import {
+    selectAllocations,
+    selectAllocationsLoading,
+    selectCommonAllocationDone,
+    selectDownloadAllocation,
+    selectGetActiveUsers,
+    selectItemsLoading,
+    selectItemsToAllocate,
+    selectMultipleAllocationDownload,
+    selectMultipleAllocationExcelDownload,
+    selectPlan
+} from '../../redux/selectors/allocationSelectors'
 import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography, Upload} from 'antd'
 import moment from 'moment'
 import {toMm, toYyyy, toYyyyMm} from '../../utils/DateUtils'
@@ -38,7 +49,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                                         handleCreateViewPlan,
                                         handleGoToAllocations,
                                         downloadAllocation, handleGetDownloadAllocation,
-                                        handleActiveUserDownload, activeUsersDownload,
+                                        handleActiveUserDownload, activeUsersDownload, multipleAllocationExcel,
                                         handleSubmitMonthlyAllocation, multipleAllocationDownload, handleMultipleAllocation
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
@@ -137,15 +148,22 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
 
     const DownloadMultipleAllocation = () => {
         let ccmId = []
-        items.map(i =>
-            ccmId.push(i.costCenterID)
+        selectedItems.map(i => {
+                const list = {
+                    "ccmId": i.costCenterID,
+                    "inventoryId": i.inventoryId
+                }
+            ccmId.push(list)
+            }
         )
-        handleMultipleAllocation({
-            certificate: authInfo.token,
-            ccmId: ccmId
+        if(ccmId.length > 0){
+            handleMultipleAllocation({
+                certificate: authInfo.token,
+                mulAlloc: ccmId
 
-        })
-        setMultipleAllocationDownloadFlag(true)
+            })
+            setMultipleAllocationDownloadFlag(true)
+        }
     }
 
     useEffect(() => {
@@ -330,7 +348,8 @@ MonthlyAllocationComponent.propTypes = {
     handleActiveUserDownload: PropTypes.func,
     handleSubmitMonthlyAllocation: PropTypes.func,
     multipleAllocationDownload: PropTypes.any,
-    handleMultipleAllocation: PropTypes.func
+    handleMultipleAllocation: PropTypes.func,
+    multipleAllocationExcel: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -345,9 +364,11 @@ const mapState = (state) => {
     const downloadAllocation = selectDownloadAllocation(state)
     const activeUsersDownload = selectGetActiveUsers(state)
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
+    const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
     console.log(allocations)
+    console.log(multipleAllocationDownload, multipleAllocationExcel)
     return { authInfo, profileInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone,
-        downloadAllocation,activeUsersDownload, multipleAllocationDownload }
+        downloadAllocation,activeUsersDownload, multipleAllocationDownload, multipleAllocationExcel }
 }
 
 const actions = {

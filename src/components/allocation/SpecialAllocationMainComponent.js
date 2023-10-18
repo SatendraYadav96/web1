@@ -6,19 +6,19 @@ import {connect} from "react-redux";
 import {Button, Col, Input, Row, Table, Space, Select} from "antd";
 import { getPurchaseReportStartAction } from '../../redux/actions/reports/purchaseReportActions'
 import XLSX from "xlsx"
-import {EditOutlined, SearchOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectStatusComponent from "../widgets/SelectStatusComponent";
 import {useNavigate} from "react-router-dom";
-import {getAllocationStatusDropdownStartAction, searchSpecialPlanStartAction} from "../../redux/actions/allocation/allocationActions";
+import {deleteSpecialAllocationStartAction, getAllocationStatusDropdownStartAction, searchSpecialPlanStartAction} from "../../redux/actions/allocation/allocationActions";
 import {selectGetAllocationStatusDropdown, selectSearchSpecialPlan} from "../../redux/selectors/allocationSelectors";
 import {toDdMmYYYY} from "../../utils/DateUtils";
 
 const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,
                                      handleStatusDropdown, statusDropdown,handlePurchaseReportList,
-                                     handleSearchSpecialPlan, searchSpecialPlan}) => {
+                                     handleSearchSpecialPlan, searchSpecialPlan, handleDeleteSpecialAllocation}) => {
 
     let now = new Date()
 
@@ -59,6 +59,14 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         return navigate(`/home/allocations/special/${row.id}/${year}/${month}/${row.remarks}`)
     }
 
+    const deletePlan = (row) => {
+        handleDeleteSpecialAllocation({
+            certificate: authInfo.token,
+            dipId: row.id
+        })
+        return navigate(`/home/allocations/special/create`)
+    }
+
     const column = [
         {
             title: 'Purpose',
@@ -79,7 +87,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 dataIndex: '',
                 width: '100px',
                 render: (_,row) => {
-                    return <Button icon={<EditOutlined />}    onClick={ () => editPlan(row)}  ></Button>
+                    return <Button icon={<EditOutlined />}  onClick={ () => editPlan(row)}  ></Button>
                 }
             },
             {
@@ -88,7 +96,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 dataIndex: '',
                 width: `100px`,
                 render: (_, row) => {
-                    return <Button disabled={deleteVal}>Delete</Button>
+                    return <Button icon={<DeleteOutlined />} onClick={ () => deletePlan(row)}></Button>
                 }
             },
     ]
@@ -289,7 +297,8 @@ PurchaseReportComponent.propTypes = {
     statusDropdown: PropTypes.any,
     handleStatusDropdown: PropTypes.func,
     searchSpecialPlan: PropTypes.any,
-    handleSearchSpecialPlan: PropTypes.func
+    handleSearchSpecialPlan: PropTypes.func,
+    handleDeleteSpecialAllocation: PropTypes.func
 }
 
 const mapState = (state) => {
@@ -303,7 +312,8 @@ const mapState = (state) => {
 const actions = {
     handlePurchaseReportList : getPurchaseReportStartAction,
     handleStatusDropdown: getAllocationStatusDropdownStartAction,
-    handleSearchSpecialPlan: searchSpecialPlanStartAction
+    handleSearchSpecialPlan: searchSpecialPlanStartAction,
+    handleDeleteSpecialAllocation: deleteSpecialAllocationStartAction
 }
 
 export default connect(mapState, actions)(PurchaseReportComponent)

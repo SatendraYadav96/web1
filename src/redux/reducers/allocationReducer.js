@@ -3,7 +3,7 @@ import {
     ALLOCATE_TO_ALL_TEAMS,
     ALLOCATE_TO_DIFFERENTIAL,
     ALLOCATE_TO_TEAM,
-    ALLOCATION_PAGE_RESET,
+    ALLOCATION_PAGE_RESET, DELETE_SPECIAL_ALLOCATION_FAIL, DELETE_SPECIAL_ALLOCATION_SUCCESS,
     EDIT_SPECIAL_PLAN_FAIL,
     EDIT_SPECIAL_PLAN_SUCCESS,
     GET_ACTIVE_USERS_FAIL,
@@ -18,7 +18,7 @@ import {
     GET_DOWNLOAD_ALLOCATION_FAIL,
     GET_DOWNLOAD_ALLOCATION_SUCCESS,
     GET_MULTIPLE_ALLOCATION_DOWNLOAD_FAIL,
-    GET_MULTIPLE_ALLOCATION_DOWNLOAD_SUCCESS,
+    GET_MULTIPLE_ALLOCATION_DOWNLOAD_SUCCESS, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_FAIL, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_START, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_SUCCESS,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_FAIL,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_START,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_SUCCESS,
@@ -36,12 +36,12 @@ import {
     RECIPIENTS_TO_ALLOCATE_LIST_FAIL,
     RECIPIENTS_TO_ALLOCATE_LIST_START,
     SEARCH_SPECIAL_PLAN_FAIL,
-    SEARCH_SPECIAL_PLAN_SUCCESS,
+    SEARCH_SPECIAL_PLAN_SUCCESS, SPECIAL_ALLOCATE_TO_DIFFERENTIAL,
     SPECIAL_ALLOCATION_FAIL,
     SPECIAL_ALLOCATION_START,
-    SPECIAL_ALLOCATION_SUCCESS,
+    SPECIAL_ALLOCATION_SUCCESS, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS, SPECIAL_DIFFERENTIAL_TEAM_FAIL, SPECIAL_DIFFERENTIAL_TEAM_SUCCESS,
     SUBMIT_MONTHLY_ALLOCATION_FAIL,
-    SUBMIT_MONTHLY_ALLOCATION_SUCCESS,
+    SUBMIT_MONTHLY_ALLOCATION_SUCCESS, SUBMIT_SPECIAL_ALLOCATION_FAIL, SUBMIT_SPECIAL_ALLOCATION_SUCCESS,
     SUBMIT_VIRTUAL_ALLOCATION_FAIL,
     SUBMIT_VIRTUAL_ALLOCATION_SUCCESS,
     VIRTUAL_ALLOCATE_TO_DIFFERENTIAL,
@@ -91,11 +91,18 @@ const initialState = {
     virtualDifferentialAllocationSave:[],
     submitMonthlyAllocation: [],
     submitVirtualAllocation: [],
+    submitSpecialAllocation: [],
     getAllocationStatusDropdown: [],
     getMultipleAllocationDownload: [],
+    getMultipleAllocationExcelDownload: [],
     editSpecialPlan: [],
     specialAllocation: [],
     specialItemLoading: false,
+    specialAllocationForPlan:[],
+    specialAllocationLoading: false,
+    specialDifferentialTeam:[],
+    specialDifferentialAllocationSave:[],
+    deleteSpecialAllocation:[]
 }
 
 const allocationForPlanStartReducer = (state = initialState, payload) => {
@@ -303,6 +310,28 @@ const virtualAllocateToDifferentialReducer = (state = initialState, payload) => 
         ...state,
         virtualDifferentialTeam: teamForDifferential,
         virtualCommonAllocationDone: new Date(),
+        error: null
+    }
+}
+
+
+const specialAllocateToDifferentialReducer = (state = initialState, payload) => {
+    const item = payload.recipientID
+    const quantity = Number(payload.qty)
+    console.log(state)
+    let teamForDifferential = state.specialDifferentialTeam
+    let totalAllocation = 0
+    teamForDifferential.forEach( t => {
+            if (t.id === item) {
+                totalAllocation = totalAllocation +  quantity
+                t.quantity = quantity
+            }
+        }
+    )
+
+    return {
+        ...state,
+        specialDifferentialTeam: teamForDifferential,
         error: null
     }
 }
@@ -705,6 +734,24 @@ const submitVirtualAllocationFailReducer = (state = initialState, payload) => {
     }
 }
 
+const submitSpecialAllocationSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        submitSpecialAllocation:payload.submitSpecialAllocation
+
+    }
+}
+
+const submitSpecialAllocationFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        submitSpecialAllocation:[],
+        error: payload.error,
+
+    }
+}
+
+
 const getAllocationStatusDropdownSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
@@ -728,7 +775,8 @@ const getAllocationStatusDropdownFailReducer = (state = initialState, payload) =
 const getMultipleAllocationDownloadSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        getMultipleAllocationDownload: payload.getMultipleAllocationDownload
+        getMultipleAllocationDownload: payload.getMultipleAllocationCostCenterDownload,
+        // getMultipleAllocationExcelDownload: payload.getMultipleAllocationExcelDownload
     }
 }
 
@@ -781,6 +829,110 @@ const specialAllocationFailReducer = (state = initialState, payload) => {
     }
 }
 
+const specialAllocationForPlanStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        specialAllocationForPlan: [],
+        specialAllocationsLoading: true,
+//        distribution: Object.assign({}, ...payload.distribution.map(s => ({[s.ID_TEM_RCT]: s.QUANTITY}))),
+        error: null,
+    }
+}
+
+
+
+const specialAllocationForPlanSuccessReducer = (state = initialState, payload) => {
+    let itemList = payload.specialSelectedItems.map(item => item.itemID)
+    let costCenterList = [];
+    let inventoryList = [];
+    payload.specialSelectedItems.forEach(item => costCenterList[item.itemID] = item.costCenterID);
+    payload.specialSelectedItems.forEach(item => inventoryList[item.itemID] = item.inventoryId);
+    console.log(costCenterList);
+    const allocatedItems = payload.specialAllocations.allocations
+    if (allocatedItems.length !== 0) {
+        let items = allocatedItems.filter(item => itemList.indexOf(item.itemID) > -1)
+        itemList = itemList.concat(items)
+    }
+    const allocations = []
+    state.specialAllocation.forEach(item => item["balance"] =  (item.qtyReceived- item.qtyDispatched - item.quantityAllocated))
+    state.specialAllocation.forEach(item => {if(itemList.indexOf(item.itemID) > -1) {allocations.push({item: item, teams: payload.specialAllocations.teams,costCenter: costCenterList[item.itemID], inventoryId:inventoryList[item.itemID] })}})
+    console.log(allocations)
+    console.log(state.specialAllocation)
+    console.log(payload.specialSelectedItems)
+    return {
+        ...state,
+        specialAllocationsLoading: false,
+        specialAllocationForPlan: allocations,
+//        distribution: Object.assign({}, ...payload.distribution.map(s => ({[s.ID_TEM_RCT]: s.QUANTITY}))),
+        error: null,
+    }
+}
+
+const specialAllocationForPlanFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        specialAllocationsLoading: false,
+        error: payload.error,
+    }
+}
+
+const specialDifferentialAllocationSuccessReducer = (state = initialState, payload) => {
+    let quantityAllocated = [];
+    let data = new Map();
+    let keysArr = [];
+    payload.specialDifferentialQuantityAllocated.forEach(item => quantityAllocated[item.recipientId] = item.allocatedQuantity)
+    payload.specialDifferentialTeam.forEach(item => item["quantity"] = quantityAllocated[item.id])
+    console.log(payload.specialDifferentialTeam)
+    return {
+        ...state,
+        specialDifferentialTeam:payload.specialDifferentialTeam
+
+    }
+}
+
+const specialDifferentialAllocationFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        specialDifferentialTeam:[],
+        error: payload.error,
+
+    }
+}
+
+const specialDifferentialAllocationSaveSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        specialDifferentialAllocationSave:payload.specialDifferentialAllocationSave
+
+    }
+}
+
+const specialDifferentialAllocationSaveFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        specialDifferentialAllocationSave:[],
+        error: payload.error,
+
+    }
+}
+
+const deleteSpecialAllocationSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        deleteSpecialAllocation:payload.deleteSpecialAllocation
+
+    }
+}
+
+const deleteSpecialAllocationFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        deleteSpecialAllocation:[],
+        error: payload.error,
+
+    }
+}
+
 
 export default createReducer(initialState, {
     [GET_ALLOCATIONS_FOR_PLAN_START]: allocationForPlanStartReducer,
@@ -796,6 +948,7 @@ export default createReducer(initialState, {
     [VIRTUAL_ALLOCATE_TO_TEAM]: virtualAllocateToTeamReducer,
     [ALLOCATE_TO_DIFFERENTIAL]: allocateToDifferentialReducer,
     [VIRTUAL_ALLOCATE_TO_DIFFERENTIAL]: virtualAllocateToDifferentialReducer,
+    [SPECIAL_ALLOCATE_TO_DIFFERENTIAL]: specialAllocateToDifferentialReducer,
     [ALLOCATE_TO_ALL_TEAMS]: allocateToAllTeamsReducer,
     [MONTHLY_COMMON_TEAM_SUCCESS]:monthlyCommonTeamSuccessReducer,
     [MONTHLY_COMMON_TEAM_FAIL]:monthlyCommonTeamFailReducer,
@@ -831,6 +984,8 @@ export default createReducer(initialState, {
     [SUBMIT_MONTHLY_ALLOCATION_FAIL]: submitMonthlyAllocationFailReducer,
     [SUBMIT_VIRTUAL_ALLOCATION_SUCCESS]: submitVirtualAllocationSuccessReducer,
     [SUBMIT_VIRTUAL_ALLOCATION_FAIL]: submitVirtualAllocationFailReducer,
+    [SUBMIT_SPECIAL_ALLOCATION_SUCCESS]: submitSpecialAllocationSuccessReducer,
+    [SUBMIT_SPECIAL_ALLOCATION_FAIL]: submitSpecialAllocationFailReducer,
     [GET_ALLOCATION_STATUS_DROPDOWN_SUCCESS]: getAllocationStatusDropdownSuccessReducer,
     [GET_ALLOCATION_STATUS_DROPDOWN_FAIL]: getAllocationStatusDropdownFailReducer,
     [GET_MULTIPLE_ALLOCATION_DOWNLOAD_SUCCESS]: getMultipleAllocationDownloadSuccessReducer,
@@ -840,4 +995,13 @@ export default createReducer(initialState, {
     [SPECIAL_ALLOCATION_START]: specialAllocationStartReducer,
     [SPECIAL_ALLOCATION_SUCCESS]: specialAllocationSuccessReducer,
     [SPECIAL_ALLOCATION_FAIL]: specialAllocationFailReducer,
+    [GET_SPECIAL_ALLOCATIONS_FOR_PLAN_START]: specialAllocationForPlanStartReducer,
+    [GET_SPECIAL_ALLOCATIONS_FOR_PLAN_SUCCESS]: specialAllocationForPlanSuccessReducer,
+    [GET_SPECIAL_ALLOCATIONS_FOR_PLAN_FAIL]: specialAllocationForPlanFailReducer,
+    [SPECIAL_DIFFERENTIAL_TEAM_SUCCESS]: specialDifferentialAllocationSuccessReducer,
+    [SPECIAL_DIFFERENTIAL_TEAM_FAIL]: specialDifferentialAllocationFailReducer,
+    [SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS]: specialDifferentialAllocationSaveSuccessReducer,
+    [SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL]: specialDifferentialAllocationSaveFailReducer,
+    [DELETE_SPECIAL_ALLOCATION_SUCCESS]: deleteSpecialAllocationSuccessReducer,
+    [DELETE_SPECIAL_ALLOCATION_FAIL]: deleteSpecialAllocationFailReducer
 })

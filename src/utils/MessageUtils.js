@@ -25,7 +25,7 @@ import {
     OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_START, OVER_SAMPLING_EXCEL_SUCCESS,
     OVER_SAMPLING_UPLOAD_LOG_START
 } from "../redux/actions/upload/uploadActionConstants";
-import {GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
+import {DELETE_SPECIAL_ALLOCATION_START, GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -1205,10 +1205,78 @@ import {GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_AL
             },
         ],
 
+            SEARCH_SPECIAL_PLAN_START: [{ action: 'showspinner' }],
+            SEARCH_SPECIAL_PLAN_SUCCESS: [{ action: 'hidespinner' }],
+            SEARCH_SPECIAL_PLAN_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        SPECIAL_ALLOCATION_START:[{ action: 'showspinner' }],
+        SPECIAL_ALLOCATION_SUCCESS: [{ action: 'hidespinner' }],
+        SPECIAL_ALLOCATION_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START:[{ action: 'showspinner' }],
+        SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS: [{ action: 'hidespinner' }],
+        SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        SUBMIT_MONTHLY_ALLOCATION_START:[{ action: 'showspinner' }],
+        SUBMIT_MONTHLY_ALLOCATION_SUCCESS: [{ action: 'hidespinner' }],
+        SUBMIT_MONTHLY_ALLOCATION_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        SUBMIT_VIRTUAL_ALLOCATION_START:[{ action: 'showspinner' }],
+        SUBMIT_VIRTUAL_ALLOCATION_SUCCESS: [{ action: 'hidespinner' }],
+        SUBMIT_VIRTUAL_ALLOCATION_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        SUBMIT_SPECIAL_ALLOCATION_START:[{ action: 'showspinner' }],
+        SUBMIT_SPECIAL_ALLOCATION_SUCCESS: [{ action: 'hidespinner' }],
+        SUBMIT_SPECIAL_ALLOCATION_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
-
-
-
-
+        GET_MULTIPLE_ALLOCATION_DOWNLOAD_START:[{ action: 'showspinner' }],
+        GET_MULTIPLE_ALLOCATION_DOWNLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        GET_MULTIPLE_ALLOCATION_DOWNLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        DELETE_SPECIAL_ALLOCATION_START:[{ action: 'showspinner' }],
+        DELETE_SPECIAL_ALLOCATION_SUCCESS: [{ action: 'hidespinner' }],
+        DELETE_SPECIAL_ALLOCATION_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
 }

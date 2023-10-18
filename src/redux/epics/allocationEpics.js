@@ -1,15 +1,16 @@
 import { ofType } from 'redux-observable'
 import {catchError, debounceTime, forkJoin, map, of, switchMap} from 'rxjs'
 import {
+    DELETE_SPECIAL_ALLOCATION_START,
     EDIT_SPECIAL_PLAN_START,
     GET_ACTIVE_USERS_START, GET_ALLOCATION_STATUS_DROPDOWN_START,
-    GET_ALLOCATIONS_FOR_PLAN_START, GET_BLOCKED_RECIPIENT_START, GET_DOWNLOAD_ALLOCATION_START, GET_MULTIPLE_ALLOCATION_DOWNLOAD_START, GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_START,
+    GET_ALLOCATIONS_FOR_PLAN_START, GET_BLOCKED_RECIPIENT_START, GET_DOWNLOAD_ALLOCATION_START, GET_MULTIPLE_ALLOCATION_DOWNLOAD_START, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_START, GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_START,
     MONTHLY_ALLOCATION_START,
     MONTHLY_COMMON_ALLOCATION_SAVE_START,
     MONTHLY_COMMON_TEAM_START,
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
     MONTHLY_DIFFERENTIAL_TEAM_START,
-    RECIPIENTS_TO_ALLOCATE_LIST_START, SEARCH_SPECIAL_PLAN_START, SPECIAL_ALLOCATION_START, SUBMIT_MONTHLY_ALLOCATION_START, SUBMIT_VIRTUAL_ALLOCATION_START, VIRTUAL_ALLOCATION_START,
+    RECIPIENTS_TO_ALLOCATE_LIST_START, SEARCH_SPECIAL_PLAN_START, SPECIAL_ALLOCATION_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_TEAM_START, SUBMIT_MONTHLY_ALLOCATION_START, SUBMIT_SPECIAL_ALLOCATION_START, SUBMIT_VIRTUAL_ALLOCATION_START, VIRTUAL_ALLOCATION_START,
     VIRTUAL_COMMON_ALLOCATION_SAVE_START, VIRTUAL_COMMON_TEAM_START, VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_START, VIRTUAL_DIFFERENTIAL_TEAM_START
 } from '../actions/allocation/allocationActionConstants'
 import {
@@ -37,9 +38,18 @@ import {
     submitMonthlyAllocationRequest,
     submitVirtualAllocationRequest,
     getAllocationStatusDropDownRequest,
-    getMultipleAllocationDownloadRequest, editSpecialPlanRequest, specialAllocationCreateViewRequest
+    getMultipleAllocationDownloadRequest,
+    editSpecialPlanRequest,
+    specialAllocationCreateViewRequest,
+    specialDifferentialTeamRequest,
+    specialQuantityAllocatedDifferentialRecipientRequest,
+    specialDifferentialAllocationSaveRequest,
+    submitSpecialAllocationRequest,
+    getMultipleAllocationCostCenterDownloadRequest, getMultipleAllocationExcelDownloadRequest, deleteSpecialAllocationRequest, getMultipleAllocationAllDownloadRequest
 } from '../../api/allocationRequests'
 import {
+    deleteSpecialAllocationFailAction,
+    deleteSpecialAllocationSuccessAction,
     editSpecialPlanFailAction,
     editSpecialPlanSuccessAction,
     getActiveUsersFailAction,
@@ -47,11 +57,17 @@ import {
     getActiveUsersSuccessAction,
     getAllocationsForPlanFailAction,
     getAllocationsForPlanStartAction,
-    getAllocationsForPlanSuccessAction, getAllocationStatusDropdownFailAction, getAllocationStatusDropdownSuccessAction,
+    getAllocationsForPlanSuccessAction,
+    getAllocationStatusDropdownFailAction,
+    getAllocationStatusDropdownSuccessAction,
     getBlockedRecipientFailAction,
     getBlockedRecipientSuccessAction,
     getDownloadAllocationFailAction,
-    getDownloadAllocationSuccessAction, getMultipleAllocationDownloadFailAction, getMultipleAllocationDownloadSuccessAction,
+    getDownloadAllocationSuccessAction,
+    getMultipleAllocationDownloadFailAction,
+    getMultipleAllocationDownloadSuccessAction,
+    getSpecialAllocationsForPlanFailAction,
+    getSpecialAllocationsForPlanSuccessAction,
     getVirtualAllocationsForPlanFailAction,
     getVirtualAllocationsForPlanSuccessAction,
     monthlyAllocationFailAction,
@@ -70,7 +86,15 @@ import {
     recipientsToAllocateListStartAction,
     recipientsToAllocateListSuccessAction,
     searchSpecialPlanFailAction,
-    searchSpecialPlanSuccessAction, specialAllocationFailAction, specialAllocationSuccessAction, submitMonthlyAllocationFailAction, submitMonthlyAllocationSuccessAction, submitVirtualAllocationFailAction, submitVirtualAllocationSuccessAction,
+    searchSpecialPlanSuccessAction,
+    specialAllocationFailAction,
+    specialAllocationSuccessAction, specialDifferentialAllocationFailAction, specialDifferentialAllocationSaveFailAction, specialDifferentialAllocationSaveStartAction, specialDifferentialAllocationSaveSuccessAction, specialDifferentialAllocationSuccessAction,
+    specialDifferentialTeamFailAction,
+    specialDifferentialTeamSuccessAction,
+    submitMonthlyAllocationFailAction,
+    submitMonthlyAllocationSuccessAction, submitSpecialAllocationFailAction, submitSpecialAllocationSuccessAction,
+    submitVirtualAllocationFailAction,
+    submitVirtualAllocationSuccessAction,
     teamsToAllocateListFailAction,
     teamsToAllocateListSuccessAction,
     virtualAllocationFailAction,
@@ -78,10 +102,13 @@ import {
     virtualCommonAllocationFailAction,
     virtualCommonAllocationSuccessAction,
     virtualCommonTeamFailAction,
-    virtualCommonTeamSuccessAction, virtualDifferentialAllocationFailAction, virtualDifferentialAllocationSuccessAction,
+    virtualCommonTeamSuccessAction,
+    virtualDifferentialAllocationFailAction,
+    virtualDifferentialAllocationSuccessAction,
     virtualDifferentialTeamFailAction,
     virtualDifferentialTeamSuccessAction
 } from '../actions/allocation/allocationActions'
+import {DELETE_SPECIAL_ALLOCATION_API} from "../../api/apiConstants";
 
 export const allocationsForPlanStartEpic = (action$) =>
     action$.pipe(
@@ -333,6 +360,18 @@ export const submitVirtualAllocationStartEpic = (action$) =>
         ),
     )
 
+export const submitSpecialAllocationStartEpic = (action$) =>
+    action$.pipe(
+        ofType(SUBMIT_SPECIAL_ALLOCATION_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            submitSpecialAllocationRequest(action.payload).pipe(
+                map((response) => submitSpecialAllocationSuccessAction({submitSpecialAllocation: response.response})),
+                catchError((error) => of(submitSpecialAllocationFailAction({ error: error }))),
+            ),
+        ),
+    )
+
 export const getAllocationStatusDropdownStartEpic = (action$) =>
     action$.pipe(
         ofType(GET_ALLOCATION_STATUS_DROPDOWN_START),
@@ -350,8 +389,8 @@ export const getMultipleAllocationDownloadStartEpic = (action$) =>
         ofType(GET_MULTIPLE_ALLOCATION_DOWNLOAD_START),
         debounceTime(4000),
         switchMap((action) =>
-            getMultipleAllocationDownloadRequest(action.payload).pipe(
-                map((response) => getMultipleAllocationDownloadSuccessAction({getMultipleAllocationDownload: response.response})),
+            getMultipleAllocationAllDownloadRequest(action.payload).pipe(
+                map((response) => getMultipleAllocationDownloadSuccessAction({getMultipleAllocationCostCenterDownload: response.response})),
                 catchError((error) => of(getMultipleAllocationDownloadFailAction({ error: error }))),
             ),
         ),
@@ -378,6 +417,59 @@ export const specialPlanStartEpic = (action$) =>
                 map((planResponse) =>
                     specialAllocationSuccessAction({ specialAllocation: planResponse.response })),
                 catchError((error) => of(specialAllocationFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const specialAllocationsForPlanStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_SPECIAL_ALLOCATIONS_FOR_PLAN_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            allocationsForPlanRequest(action.payload).pipe(
+                map((allocationResponse) =>
+                    getSpecialAllocationsForPlanSuccessAction({
+                        specialAllocations: allocationResponse.response,
+                        specialSelectedItems: action.payload.selectedItems})),
+                catchError((error) => of(getSpecialAllocationsForPlanFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const specialDifferentialTeamStartEpic = (action$) =>
+    action$.pipe(
+        ofType(SPECIAL_DIFFERENTIAL_TEAM_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            forkJoin(
+                specialDifferentialTeamRequest(action.payload),
+                specialQuantityAllocatedDifferentialRecipientRequest(action.payload)).pipe(
+                map((allocationResponse) => specialDifferentialTeamSuccessAction({specialDifferentialTeam: allocationResponse[0].response, specialDifferentialQuantityAllocated:allocationResponse[1].response})),
+                catchError((error) => of(specialDifferentialTeamFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const specialDifferentialAllocationSaveStartEpic = (action$) =>
+    action$.pipe(
+        ofType(SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            specialDifferentialAllocationSaveRequest(action.payload).pipe(
+                map((response) => specialDifferentialAllocationSaveSuccessAction({specialDifferentialAllocationSave: response.response})),
+                catchError((error) => of(specialDifferentialAllocationSaveFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const deleteSpecialAllocationStartEpic = (action$) =>
+    action$.pipe(
+        ofType(DELETE_SPECIAL_ALLOCATION_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            deleteSpecialAllocationRequest(action.payload).pipe(
+                map((response) => deleteSpecialAllocationSuccessAction({deleteSpecialAllocation: response.response})),
+                catchError((error) => of(deleteSpecialAllocationFailAction({ error: error }))),
             ),
         ),
     )

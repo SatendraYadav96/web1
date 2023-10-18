@@ -263,10 +263,24 @@ export const SUBMIT_MONTHLY_ALLOCATION_API = {url: '/v1/allocation/submitMonthly
 
 export const SUBMIT_VIRTUAL_ALLOCATION_API = {url: '/v1/allocation/submitVirtualAllocation', method: 'POST', auth: true}
 
+export const SUBMIT_SPECIAL_ALLOCATION_API = {url: '/v1/allocation/submitSpecialAllocation', method: 'POST', auth: true}
+
 export const GET_ALLOCATION_STATUS_DROPDOWN_API = {url: '/v1/allocation/getAllocationStatusDropdown', method: 'GET', auth: true}
 
-export const GET_MULTIPLE_ALLOCATION_DOWNLOAD_API = {url: '/v1/allocation/getMultipleAllocation', method: 'POST', auth: true}
+export const GET_MULTIPLE_ALLOCATION_COST_CENTER_API = {url: '/v1/allocation/getMultipleAllocationCostCenter', method: 'POST', auth: true}
+
+export const GET_MULTIPLE_ALLOCATION_EXCEL_DOWNLOAD_API = {url: '/v1/allocation/getMultipleAllocationExcel', method: 'POST', auth: true}
+
+export const GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API = {url:'/v1/allocation/getMultipleAllocationAll', method: 'POST', auth: true}
 
 export const EDIT_SPECIAL_PLAN_API = {url: '/v1/allocation/special/edit', method: 'GET', auth: true}
 
 export const SPECIAL_ALLOCATION_START_API = { url: '/v1/allocation/special/create', method: 'POST', auth: true }
+
+export const SPECIAL_DIFFERENTIAL_TEAM_API = { url: '/v1/allocation/getRecipientForSpecialAllocation', method: 'GET', auth: true}
+
+export const SPECIAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API = { url: '/v1/allocation/getSpecialQuantityAllocatedDifferentialRecipient', method: 'GET', auth: true}
+
+export const SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveSpecialAllocation', method: 'POST', auth: true}
+
+export const DELETE_SPECIAL_ALLOCATION_API = { url:'/v1/allocation/deleteSpecialAllocation', method: 'POST', auth: true}

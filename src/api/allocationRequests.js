@@ -1,11 +1,12 @@
 import {createRequest} from './httpUtils';
 import {
+    DELETE_SPECIAL_ALLOCATION_API,
     DISTRIBUTION_PLAN_INVENTORY_API, EDIT_SPECIAL_PLAN_API,
     GET_ACTIVE_USERS_API, GET_ALLOCATION_STATUS_DROPDOWN_API,
     GET_ALLOCATIONS_FOR_PLAN,
     GET_BLOCKED_RECIPIENTS_API,
     GET_DOWNLOAD_ALLOCATION_API,
-    GET_ITEMS_TO_ALLOCATE_API, GET_MULTIPLE_ALLOCATION_DOWNLOAD_API,
+    GET_ITEMS_TO_ALLOCATE_API, GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API, GET_MULTIPLE_ALLOCATION_COST_CENTER_API, GET_MULTIPLE_ALLOCATION_EXCEL_DOWNLOAD_API,
     MONTHLY_ALLOCATION_START_API,
     MONTHLY_COMMON_ALLOCATION_SAVE_API,
     MONTHLY_COMMON_TEAM_API,
@@ -13,7 +14,7 @@ import {
     MONTHLY_DIFFERENTIAL_TEAM_API,
     MONTHLY_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API,
     MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API,
-    SEARCH_SPECIAL_PLAN_API, SPECIAL_ALLOCATION_START_API, SUBMIT_MONTHLY_ALLOCATION_API, SUBMIT_VIRTUAL_ALLOCATION_API,
+    SEARCH_SPECIAL_PLAN_API, SPECIAL_ALLOCATION_START_API, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_API, SPECIAL_DIFFERENTIAL_TEAM_API, SPECIAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API, SUBMIT_MONTHLY_ALLOCATION_API, SUBMIT_SPECIAL_ALLOCATION_API, SUBMIT_VIRTUAL_ALLOCATION_API,
     VIRTUAL_ALLOCATION_START_API,
     VIRTUAL_COMMON_ALLOCATION_SAVE_API,
     VIRTUAL_COMMON_TEAM_API,
@@ -105,6 +106,10 @@ export const virtualDifferentialAllocationSaveRequest = payload => {
     return createRequest(VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_API, payload.certificate, payload.data)
 }
 
+export const specialDifferentialAllocationSaveRequest = payload => {
+    return createRequest(SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_API, payload.certificate, payload.data)
+}
+
 export const getDownloadAllocationRequest = payload => {
     const api = {...GET_DOWNLOAD_ALLOCATION_API, url: `${GET_DOWNLOAD_ALLOCATION_API.url}/${payload.planId}`}
     return createRequest(api, payload.certificate, null)
@@ -133,13 +138,24 @@ export const submitVirtualAllocationRequest = payload => {
     return createRequest(SUBMIT_VIRTUAL_ALLOCATION_API, payload.certificate, payload.data)
 }
 
+export const submitSpecialAllocationRequest = payload => {
+    return createRequest(SUBMIT_SPECIAL_ALLOCATION_API, payload.certificate, payload.data)
+}
+
 export const getAllocationStatusDropDownRequest = payload => {
     return createRequest(GET_ALLOCATION_STATUS_DROPDOWN_API, payload.certificate, null)
 }
 
-export const getMultipleAllocationDownloadRequest = payload => {
-    console.log(payload.ccmId)
-    return createRequest(GET_MULTIPLE_ALLOCATION_DOWNLOAD_API, payload.certificate, payload.ccmId)
+export const getMultipleAllocationCostCenterDownloadRequest = payload => {
+    return createRequest(GET_MULTIPLE_ALLOCATION_COST_CENTER_API, payload.certificate, payload.mulAlloc)
+}
+
+export const getMultipleAllocationExcelDownloadRequest = payload => {
+    return createRequest(GET_MULTIPLE_ALLOCATION_EXCEL_DOWNLOAD_API, payload.certificate, payload.mulAlloc)
+}
+
+export const getMultipleAllocationAllDownloadRequest = payload => {
+    return createRequest(GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API, payload.certificate, payload.mulAlloc)
 }
 
 export const editSpecialPlanRequest = payload => {
@@ -149,4 +165,19 @@ export const editSpecialPlanRequest = payload => {
 
 export const specialAllocationCreateViewRequest = payload => {
     return createRequest(SPECIAL_ALLOCATION_START_API, payload.certificate, payload.alloc)
+}
+
+export const specialDifferentialTeamRequest = payload => {
+    const api = {...SPECIAL_DIFFERENTIAL_TEAM_API, url: `${SPECIAL_DIFFERENTIAL_TEAM_API.url}/${payload.ccmId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const specialQuantityAllocatedDifferentialRecipientRequest = payload => {
+    const api = {...SPECIAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API, url: `${SPECIAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API.url}/${payload.planId}/${payload.inventoryId}/${payload.teamId}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const deleteSpecialAllocationRequest = payload => {
+    const api = {...DELETE_SPECIAL_ALLOCATION_API, url: `${DELETE_SPECIAL_ALLOCATION_API.url}/${payload.dipId}`}
+    return createRequest(api, payload.certificate, null)
 }

@@ -1,7 +1,7 @@
 import {
     ALLOCATE_TO_ALL_TEAMS,
     ALLOCATE_TO_DIFFERENTIAL,
-    ALLOCATE_TO_TEAM,
+    ALLOCATE_TO_TEAM, DELETE_SPECIAL_ALLOCATION_FAIL, DELETE_SPECIAL_ALLOCATION_START, DELETE_SPECIAL_ALLOCATION_SUCCESS,
     EDIT_SPECIAL_PLAN_FAIL,
     EDIT_SPECIAL_PLAN_START,
     EDIT_SPECIAL_PLAN_SUCCESS,
@@ -22,7 +22,7 @@ import {
     GET_DOWNLOAD_ALLOCATION_SUCCESS,
     GET_MULTIPLE_ALLOCATION_DOWNLOAD_FAIL,
     GET_MULTIPLE_ALLOCATION_DOWNLOAD_START,
-    GET_MULTIPLE_ALLOCATION_DOWNLOAD_SUCCESS,
+    GET_MULTIPLE_ALLOCATION_DOWNLOAD_SUCCESS, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_FAIL, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_START, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_SUCCESS,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_FAIL,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_START,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_SUCCESS,
@@ -47,13 +47,13 @@ import {
     RECIPIENTS_TO_ALLOCATE_LIST_SUCCESS,
     SEARCH_SPECIAL_PLAN_FAIL,
     SEARCH_SPECIAL_PLAN_START,
-    SEARCH_SPECIAL_PLAN_SUCCESS,
+    SEARCH_SPECIAL_PLAN_SUCCESS, SPECIAL_ALLOCATE_TO_DIFFERENTIAL,
     SPECIAL_ALLOCATION_FAIL,
     SPECIAL_ALLOCATION_START,
-    SPECIAL_ALLOCATION_SUCCESS,
+    SPECIAL_ALLOCATION_SUCCESS, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS, SPECIAL_DIFFERENTIAL_TEAM_FAIL, SPECIAL_DIFFERENTIAL_TEAM_START, SPECIAL_DIFFERENTIAL_TEAM_SUCCESS,
     SUBMIT_MONTHLY_ALLOCATION_FAIL,
     SUBMIT_MONTHLY_ALLOCATION_START,
-    SUBMIT_MONTHLY_ALLOCATION_SUCCESS,
+    SUBMIT_MONTHLY_ALLOCATION_SUCCESS, SUBMIT_SPECIAL_ALLOCATION_FAIL, SUBMIT_SPECIAL_ALLOCATION_START, SUBMIT_SPECIAL_ALLOCATION_SUCCESS,
     SUBMIT_VIRTUAL_ALLOCATION_FAIL,
     SUBMIT_VIRTUAL_ALLOCATION_START,
     SUBMIT_VIRTUAL_ALLOCATION_SUCCESS,
@@ -142,6 +142,13 @@ export const allocateToDifferentialAction = (payload) => (dispatch)=> {
 export const virtualAllocateToDifferentialAction = (payload) => (dispatch)=> {
     dispatch({
         type: VIRTUAL_ALLOCATE_TO_DIFFERENTIAL,
+        payload: payload,
+    })
+}
+
+export const specialAllocateToDifferentialAction = (payload) => (dispatch)=> {
+    dispatch({
+        type: SPECIAL_ALLOCATE_TO_DIFFERENTIAL,
         payload: payload,
     })
 }
@@ -519,6 +526,25 @@ export const submitVirtualAllocationFailAction = (payload) => (dispatch) => {
     })
 }
 
+export const submitSpecialAllocationStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SUBMIT_SPECIAL_ALLOCATION_START,
+        payload: payload
+    })
+}
+
+export const submitSpecialAllocationSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SUBMIT_SPECIAL_ALLOCATION_SUCCESS,
+        payload: payload
+    })
+}
+export const submitSpecialAllocationFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SUBMIT_SPECIAL_ALLOCATION_FAIL,
+        payload: payload
+    })
+}
 
 export const getAllocationStatusDropdownStartAction = (payload) => (dispatch) => {
     dispatch({
@@ -601,5 +627,89 @@ export const specialAllocationFailAction = (payload) => (dispatch) => {
     dispatch({
         type: SPECIAL_ALLOCATION_FAIL,
         payload: payload,
+    })
+}
+
+export const getSpecialAllocationsForPlanStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_SPECIAL_ALLOCATIONS_FOR_PLAN_START,
+        payload: payload,
+    })
+}
+
+export const getSpecialAllocationsForPlanSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_SPECIAL_ALLOCATIONS_FOR_PLAN_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const getSpecialAllocationsForPlanFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: GET_SPECIAL_ALLOCATIONS_FOR_PLAN_FAIL,
+        payload: payload,
+    })
+}
+
+export const specialDifferentialTeamStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_DIFFERENTIAL_TEAM_START,
+        payload: payload,
+    })
+}
+
+export const specialDifferentialTeamSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_DIFFERENTIAL_TEAM_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const specialDifferentialTeamFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_DIFFERENTIAL_TEAM_FAIL,
+        payload: payload,
+    })
+}
+
+export const specialDifferentialAllocationSaveStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START,
+        payload: payload,
+    })
+}
+
+export const specialDifferentialAllocationSaveSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const specialDifferentialAllocationSaveFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL,
+        payload: payload,
+    })
+}
+
+export const deleteSpecialAllocationStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: DELETE_SPECIAL_ALLOCATION_START,
+        payload: payload
+    })
+}
+
+export const deleteSpecialAllocationSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: DELETE_SPECIAL_ALLOCATION_SUCCESS,
+        payload: payload
+    })
+}
+
+export const deleteSpecialAllocationFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: DELETE_SPECIAL_ALLOCATION_FAIL,
+        payload: payload
     })
 }
