@@ -136,10 +136,10 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
     }
 
     const DownloadAllocation = () => {
-        if(plan.length !== 0){
+        if(specialAllocation.length !== 0){
             handleGetDownloadAllocation({
                 certificate: authInfo.token,
-                planId: plan.id
+                planId: specialAllocation[0].planId
             })
             setDownloadAllocationFlag(true)
         }

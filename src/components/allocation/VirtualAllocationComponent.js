@@ -7,7 +7,7 @@ import {
     allocateToAllTeamsAction,
     getActiveUsersStartAction,
     getAllocationsForPlanStartAction,
-    getDownloadAllocationStartAction,
+    getDownloadAllocationStartAction, getMultipleAllocationDownloadStartAction,
     getVirtualAllocationsForPlanStartAction,
     monthlyAllocationStartAction,
     submitMonthlyAllocationStartAction, submitVirtualAllocationStartAction,
@@ -20,7 +20,7 @@ import {
     selectDownloadAllocation,
     selectGetActiveUsers,
     selectItemsLoading,
-    selectItemsToAllocate,
+    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload,
     selectPlan,
     selectVirtualAllocation,
     selectVirtualAllocationForPlan, selectVirtualAllocationLoading,
@@ -61,13 +61,15 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                                         handleGoToAllocations,
                                         downloadAllocation, handleGetDownloadAllocation,
                                         handleActiveUserDownload, activeUsersDownload,
-                                        handleSubmitVirtualAllocation
+                                        handleSubmitVirtualAllocation,multipleAllocationDownload,  multipleAllocationExcel,
+                                        handleMultipleAllocation
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
     const [selectedItems, setSelectedItems] = useState([])
     const [downloadAllocationFlag, setDownloadAllocationFlag] = useState(false)
     const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
+    const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -85,6 +87,14 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
         {'title': 'Role Name', 'dataIndex': 'roleName', 'key': 'roleName'},
         {'title': 'Total Employee', 'dataIndex': 'totalEmployee', 'key': 'totalEmployee'},
+    ]
+
+    const multipleAllocationDownloadColumn = [
+        {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
+        {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
+        {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
+        {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
+        {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
     ]
 
 
@@ -136,10 +146,10 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
     }
 
     const DownloadAllocation = () => {
-        if(plan.length !== 0){
+        if(virtualAllocation.length !== 0){
             handleGetDownloadAllocation({
                 certificate: authInfo.token,
-                planId: plan.id
+                planId: virtualAllocation[0].planId
             })
             setDownloadAllocationFlag(true)
         }
@@ -152,6 +162,27 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
         })
         setActiveUserDownloadFlag(true)
     }
+
+    const DownloadMultipleAllocation = () => {
+        let ccmId = []
+        selectedItems.map(i => {
+                const list = {
+                    "ccmId": i.costCenterID,
+                    "inventoryId": i.inventoryId
+                }
+                ccmId.push(list)
+            }
+        )
+        if(ccmId.length > 0){
+            handleMultipleAllocation({
+                certificate: authInfo.token,
+                mulAlloc: ccmId
+
+            })
+            setMultipleAllocationDownloadFlag(true)
+        }
+    }
+
 
     useEffect(() => {
         if(downloadAllocationFlag){
@@ -185,6 +216,33 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
         }
     },[activeUsersDownload])
 
+    useEffect(() => {
+        if(multipleAllocationDownloadFlag){
+            if(multipleAllocationDownload.length > 0){
+                const extraColumn = []
+                if(multipleAllocationExcel.length > 0) {
+                    multipleAllocationExcel.map(i => {
+                            const list = {
+                                'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                            }
+                            multipleAllocationDownloadColumn.push(list)
+                        }
+                    )
+                }
+                const excel = new Excel();
+                excel
+                    .addSheet("Multiple Allocation")
+                    .addColumns(multipleAllocationDownloadColumn)
+                    .addDataSource(multipleAllocationDownload, {
+                        str2Percent: true
+                    })
+                    .saveAs( 'MULTIPLE_ALLOCATION.xlsx');
+            }
+            setMultipleAllocationDownloadFlag(false)
+        }
+    },[multipleAllocationDownload])
+
+
 
     return(
         <>
@@ -215,7 +273,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                 </Col>
                 <Col span={4}></Col>
                 <Col span={3}>
-                    <Button type={'primary'}>Multiple Allocation</Button>
+                    <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
                 </Col>
                 <Col span={3}></Col>
                 <Col span={3}>
@@ -313,7 +371,10 @@ VirtualAllocationComponent.propTypes = {
     downloadAllocation: PropTypes.any,
     activeUsersDownload: PropTypes.any,
     handleActiveUserDownload: PropTypes.func,
-    handleSubmitVirtualAllocation: PropTypes.func
+    handleSubmitVirtualAllocation: PropTypes.func,
+    multipleAllocationExcel: PropTypes.any,
+    multipleAllocationDownload: PropTypes.any,
+    handleMultipleAllocation: PropTypes.func
 }
 
 const mapState = (state) => {
@@ -329,7 +390,10 @@ const mapState = (state) => {
     const activeUsersDownload = selectGetActiveUsers(state)
     const virtualAllocation = selectVirtualAllocation(state)
     console.log(allocations)
-    return { authInfo, profileInfo, virtualItemsLoading, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload, virtualAllocation }
+    const multipleAllocationDownload = selectMultipleAllocationDownload(state)
+    const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
+    return { authInfo, profileInfo, virtualItemsLoading, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload, virtualAllocation,
+        multipleAllocationDownload,  multipleAllocationExcel}
 }
 
 const actions = {
@@ -337,7 +401,8 @@ const actions = {
     handleGoToAllocations: getVirtualAllocationsForPlanStartAction,
     handleGetDownloadAllocation: getDownloadAllocationStartAction,
     handleActiveUserDownload: getActiveUsersStartAction,
-    handleSubmitVirtualAllocation: submitVirtualAllocationStartAction
+    handleSubmitVirtualAllocation: submitVirtualAllocationStartAction,
+    handleMultipleAllocation: getMultipleAllocationDownloadStartAction
 }
 
 export default connect(mapState, actions)(VirtualAllocationComponent)

@@ -25,7 +25,7 @@ import {
     selectGetAllocationStatusDropdown,
     selectItemsLoading,
     selectItemsToAllocate,
-    selectMultipleAllocationDownload,
+    selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload,
     selectPlan, selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading
 } from "../../redux/selectors/allocationSelectors";
 import {MonthlyAllocationInventoryColumns} from "./AllocationColumns";
@@ -57,7 +57,8 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                                               handleCreateViewPlan,
                                               handleGoToAllocations,handleSubmitSpecialAllocation,
                                               downloadAllocation, handleGetDownloadAllocation,
-                                              handleActiveUserDownload, activeUsersDownload}) => {
+                                              handleActiveUserDownload, activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel,
+                                              handleMultipleAllocation}) => {
 
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [year, setYear] = useState()
@@ -150,17 +151,17 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
             "month": Number(toMm(yearMonth)),
             "year": Number(toYyyy(yearMonth))
         }
-        handleSubmitMonthlyAllocation({
+        handleSubmitSpecialAllocation({
             certificate: authInfo.token,
             data: data
         })
     }
 
     const DownloadAllocation = () => {
-        if(plan.length !== 0){
+        if(specialAllocation.length !== 0){
             handleGetDownloadAllocation({
                 certificate: authInfo.token,
-                planId: plan.id
+                planId: specialAllocation[0].planId
             })
             setDownloadAllocationFlag(true)
         }
@@ -176,15 +177,22 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
 
     const DownloadMultipleAllocation = () => {
         let ccmId = []
-        items.map(i =>
-            ccmId.push(i.costCenterID)
+        selectedItems.map(i => {
+                const list = {
+                    "ccmId": i.costCenterID,
+                    "inventoryId": i.inventoryId
+                }
+                ccmId.push(list)
+            }
         )
-        handleMultipleAllocation({
-            certificate: authInfo.token,
-            ccmId: ccmId
+        if(ccmId.length > 0){
+            handleMultipleAllocation({
+                certificate: authInfo.token,
+                mulAlloc: ccmId
 
-        })
-        setMultipleAllocationDownloadFlag(true)
+            })
+            setMultipleAllocationDownloadFlag(true)
+        }
     }
 
     useEffect(() => {
@@ -206,6 +214,16 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
     useEffect(() => {
         if(multipleAllocationDownloadFlag){
             if(multipleAllocationDownload.length > 0){
+                const extraColumn = []
+                if(multipleAllocationExcel.length > 0) {
+                    multipleAllocationExcel.map(i => {
+                            const list = {
+                                'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                            }
+                            multipleAllocationDownloadColumn.push(list)
+                        }
+                    )
+                }
                 const excel = new Excel();
                 excel
                     .addSheet("Multiple Allocation")
@@ -215,10 +233,9 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                     })
                     .saveAs( 'MULTIPLE_ALLOCATION.xlsx');
             }
-            setDownloadAllocationFlag(false)
+            setMultipleAllocationDownloadFlag(false)
         }
-    },[downloadAllocation])
-
+    },[multipleAllocationDownload])
 
     useEffect(() => {
         if(activeUserDownloadFlag){
@@ -235,7 +252,6 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
             setDownloadAllocationFlag(false)
         }
     },[activeUsersDownload])
-
 
     //
         // const column = [
@@ -357,7 +373,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                 </Col>
                 <Col span={4}></Col>
                 <Col span={3}>
-                    <Button type={'primary'}>Multiple Allocation</Button>
+                    <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
                 </Col>
                 <Col span={3}></Col>
                 <Col span={3}>
@@ -460,6 +476,9 @@ CreateSpecialAllocationComponent.propTypes = {
     activeUsersDownload: PropTypes.any,
     handleActiveUserDownload: PropTypes.func,
     handleSubmitSpecialAllocation: PropTypes.func,
+    multipleAllocationExcel: PropTypes.any,
+    multipleAllocationDownload: PropTypes.any,
+    handleMultipleAllocation: PropTypes.func
 }
 
 const mapState = (state) => {
@@ -472,7 +491,10 @@ const mapState = (state) => {
     const activeUsersDownload = selectGetActiveUsers(state)
     const specialAllocation = selectSpecialAllocation(state)
     const specialItemsLoading = selectSpecialItemLoading(state)
-    return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload }
+    const multipleAllocationDownload = selectMultipleAllocationDownload(state)
+    const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
+    return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload,
+        multipleAllocationDownload,  multipleAllocationExcel}
 }
 
 const actions = {

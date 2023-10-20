@@ -776,7 +776,7 @@ const getMultipleAllocationDownloadSuccessReducer = (state = initialState, paylo
     return {
         ...state,
         getMultipleAllocationDownload: payload.getMultipleAllocationCostCenterDownload,
-        // getMultipleAllocationExcelDownload: payload.getMultipleAllocationExcelDownload
+        getMultipleAllocationExcelDownload: payload.getMultipleAllocationExcelDownload
     }
 }
 
