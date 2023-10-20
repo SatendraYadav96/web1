@@ -82,7 +82,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
         {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
         {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
-        {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
+        // {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
     ]
 
     const createViewClicked = () => {
@@ -185,6 +185,16 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     useEffect(() => {
         if(multipleAllocationDownloadFlag){
             if(multipleAllocationDownload.length > 0){
+                const extraColumn = []
+                if(multipleAllocationExcel.length > 0) {
+                    multipleAllocationExcel.map(i => {
+                            const list = {
+                                'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                            }
+                            multipleAllocationDownloadColumn.push(list)
+                        }
+                    )
+                }
                 const excel = new Excel();
                 excel
                     .addSheet("Multiple Allocation")

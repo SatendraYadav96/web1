@@ -97,7 +97,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
         {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
         {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
-        {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
+        // {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
     ]
 
     useEffect(() => {

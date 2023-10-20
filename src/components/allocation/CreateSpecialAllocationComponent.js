@@ -94,7 +94,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
         {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
         {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
-        {'title': 'ProductName/ProductCode','dataIndex':'', 'key': ''},
+        // {'title': 'ProductName/ProductCode','dataIndex':'', 'key': ''},
     ]
 
     const createViewClicked = () => {
