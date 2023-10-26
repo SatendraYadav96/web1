@@ -169,7 +169,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             // if id equals to the changes row's id, update qty property
             if (obj.invId === row.invId) {
                 console.log(obj)
-                return {...obj, quantity: value};
+                obj.quantity = value;
             }
             return obj;
         }))
@@ -181,7 +181,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         setRevQty(revQty.map(obj => {
             // if id equals to the changes row's id, update qty property
             if (obj.invId === row.invId) {
-                return {...obj, remarks: value};
+                obj.remarks = value;
             }
             return obj;
         }))
@@ -193,6 +193,13 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
     }
 
     const handleRemark = (value) => {
+        setRevQty(revQty.map(obj => {
+            // if id equals to the changes row's id, update qty property
+            if (obj.invId === row.invId) {
+                return {...obj, remarks: value};
+            }
+            return obj;
+        }))
         setRemark (value)
     };
 
@@ -438,7 +445,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 dataIndex: 'invId',
                 width: '100px',
                 render: (_,row) => {
-                    return <Checkbox value={reversal} onChange={(event) => handleReversal(event,row)}/>
+                    return <Checkbox value={reversal} onChange={(event) => handleReversal(event,row)} disabled={(row.qtyBalanced === "0")? true : false }/>
                 }
             },
             {
@@ -450,7 +457,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                         <>
                             <Row gutter={[16,16]} style={{marginBottom: '5px'}}>
                                 <Col span={14}>
-                                    <Button onClick={() => handleReverseInventoryClick(row)}>
+                                    <Button onClick={() => handleReverseInventoryClick(row)} disabled={(row.qtyBalanced === "0")? true : false }>
                                         Reverse
                                     </Button>
                                 </Col>
@@ -674,6 +681,14 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         setActive(e.target.checked ? 1 : 0)
     }
 
+    const reverseInventoryFunc = () => {
+        console.log(revQty)
+        handleReverseInventory({
+            certificate: authInfo.token,
+            inv: revQty
+        })
+    }
+
     return(
         <div>
             <TitleWidget title={"Search Inventory"}/>
@@ -805,7 +820,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 </Row>
             </Modal>
             <Modal open={reversalModal} title="Multiple Reversal" footer={[
-                <Button type={"primary"} onClick={() => console.log(revQty)} >Reverse</Button>
+                <Button type={"primary"} onClick={() => reverseInventoryFunc()} >Reverse</Button>
             ]} width={"70vw"} onCancel={() => {
                 setReversalModal(false)
             }}>

@@ -26,6 +26,7 @@ import {
     OVER_SAMPLING_UPLOAD_LOG_START
 } from "../redux/actions/upload/uploadActionConstants";
 import {DELETE_SPECIAL_ALLOCATION_START, GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
+import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryReportActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -911,7 +912,15 @@ import {DELETE_SPECIAL_ALLOCATION_START, GET_ACTIVE_USERS_START, GET_DOWNLOAD_AL
                 payload: { message: { text: 'action failed', type: 'error' } },
             },
         ],
-
+        REVERSE_INVENTORY_START: [{ action: 'showspinner' }],
+        REVERSE_INVENTORY_SUCCESS: [{ action: 'hidespinner' }],
+        REVERSE_INVENTORY_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
         GET_MONTHLY_APPROVAL_START: [{ action: 'showspinner' }],
         GET_MONTHLY_APPROVAL_SUCCESS: [{ action: 'hidespinner' }],

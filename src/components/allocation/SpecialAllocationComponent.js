@@ -35,6 +35,7 @@ import {
 import {UploadOutlined} from "@ant-design/icons";
 import SpecialTeamAllocationComponent from "./SpecialTeamAllocationComponent";
 import {Excel} from "antd-table-saveas-excel";
+import {AUTH_CERTIFICATE, BASE_URL, GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API} from "../../api/apiConstants";
 const { Step } = Steps
 const { Panel } = Collapse
 const allocationSteps = [
@@ -151,6 +152,43 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             userId: profileInfo.id
         })
         setActiveUserDownloadFlag(true)
+    }
+
+    const downloadInvoice = () => {
+        let ccmId = []
+        selectedItems.map(i => {
+                const list = {
+                    "ccmId": i.costCenterID,
+                    "inventoryId": i.inventoryId
+                }
+                ccmId.push(list)
+            }
+        )
+        console.log(ccmId)
+        if(ccmId.length > 0) {
+            const url = `${BASE_URL}${GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API.url}`;
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(ccmId),
+                headers :new Headers({
+                'Authorization': authInfo.token,
+                'Content-Type': 'application/json'
+            }),
+
+        })
+        .then(response => {
+                console.log(response);
+                response.blob().then(blob => {
+                    // let url = window.URL.createObjectURL(blob);
+                    // let a = document.createElement('a');
+                    // a.href = url;
+                    // a.download = 'Multiple_Allocation.csv';
+                    // a.click();
+                    console.log(blob)
+                });
+                //window.location.href = response.url;
+            });
+        }
     }
 
     const DownloadMultipleAllocation = () => {
@@ -317,7 +355,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 </Col>
                 <Col span={4}></Col>
                 <Col span={3}>
-                    <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
+                    <Button type={'primary'} onClick={()=> downloadInvoice()}>Multiple Allocation</Button>
                 </Col>
                 <Col span={3}></Col>
                 <Col span={3}>
