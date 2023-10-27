@@ -137,7 +137,7 @@ const EditVendorComponent = ({
           Code:
           <Input
             placeholder={"Vendor Code"}
-            disabled={true}
+           // disabled={true}
             value={code}
             onChange={handleCodeChange}
           />

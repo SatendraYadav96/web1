@@ -367,6 +367,18 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         setFlag(true)
         setColumnPendingDispatch([
             {
+                title: 'Team',
+                key: 'month',
+                dataIndex: 'Team',
+                width: '100px'
+            },
+            {
+                title: 'Brand Manager',
+                key: 'month',
+                dataIndex: 'Brand Manager',
+                width: '100px'
+            },
+            {
                 title: 'Month',
                 key: 'month',
                 dataIndex: 'month',
