@@ -40,7 +40,7 @@ import {
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
     MONTHLY_DIFFERENTIAL_TEAM_FAIL,
     MONTHLY_DIFFERENTIAL_TEAM_START,
-    MONTHLY_DIFFERENTIAL_TEAM_SUCCESS,
+    MONTHLY_DIFFERENTIAL_TEAM_SUCCESS, MULTIPLE_ALLOCATION_UPLOAD_FAIL, MULTIPLE_ALLOCATION_UPLOAD_START, MULTIPLE_ALLOCATION_UPLOAD_SUCCESS,
     RECIPIENTS_TO_ALLOCATE_LIST_FAIL,
     RECIPIENTS_TO_ALLOCATE_LIST_RESET,
     RECIPIENTS_TO_ALLOCATE_LIST_START,
@@ -710,6 +710,27 @@ export const deleteSpecialAllocationSuccessAction = (payload) => (dispatch) => {
 export const deleteSpecialAllocationFailAction = (payload) => (dispatch) => {
     dispatch({
         type: DELETE_SPECIAL_ALLOCATION_FAIL,
+        payload: payload
+    })
+}
+
+export const multipleAllocationUploadStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MULTIPLE_ALLOCATION_UPLOAD_START,
+        payload: payload
+    })
+}
+
+export const multipleAllocationUploadSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MULTIPLE_ALLOCATION_UPLOAD_SUCCESS,
+        payload: payload
+    })
+}
+
+export const multipleAllocationUploadFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: MULTIPLE_ALLOCATION_UPLOAD_FAIL,
         payload: payload
     })
 }

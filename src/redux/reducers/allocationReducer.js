@@ -32,7 +32,7 @@ import {
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL,
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
     MONTHLY_DIFFERENTIAL_TEAM_FAIL,
-    MONTHLY_DIFFERENTIAL_TEAM_SUCCESS,
+    MONTHLY_DIFFERENTIAL_TEAM_SUCCESS, MULTIPLE_ALLOCATION_UPLOAD_FAIL, MULTIPLE_ALLOCATION_UPLOAD_SUCCESS,
     RECIPIENTS_TO_ALLOCATE_LIST_FAIL,
     RECIPIENTS_TO_ALLOCATE_LIST_START,
     SEARCH_SPECIAL_PLAN_FAIL,
@@ -93,7 +93,7 @@ const initialState = {
     submitVirtualAllocation: [],
     submitSpecialAllocation: [],
     getAllocationStatusDropdown: [],
-    getMultipleAllocationDownload: [],
+    getMultipleAllocationDownload: Uint8Array,
     getMultipleAllocationExcelDownload: [],
     editSpecialPlan: [],
     specialAllocation: [],
@@ -102,7 +102,8 @@ const initialState = {
     specialAllocationLoading: false,
     specialDifferentialTeam:[],
     specialDifferentialAllocationSave:[],
-    deleteSpecialAllocation:[]
+    deleteSpecialAllocation:[],
+    multipleAllocationUpload: [],
 }
 
 const allocationForPlanStartReducer = (state = initialState, payload) => {
@@ -776,7 +777,7 @@ const getMultipleAllocationDownloadSuccessReducer = (state = initialState, paylo
     return {
         ...state,
         getMultipleAllocationDownload: payload.getMultipleAllocationCostCenterDownload,
-        getMultipleAllocationExcelDownload: payload.getMultipleAllocationExcelDownload
+         getMultipleAllocationExcelDownload: payload.getMultipleAllocationExcelDownload
     }
 }
 
@@ -933,6 +934,19 @@ const deleteSpecialAllocationFailReducer = (state = initialState, payload) => {
     }
 }
 
+const multipleAllocationUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        multipleAllocationUpload: [],
+    }
+}
+
+const multipleAllocationUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        error: payload.error,
+    }
+}
 
 export default createReducer(initialState, {
     [GET_ALLOCATIONS_FOR_PLAN_START]: allocationForPlanStartReducer,
@@ -1003,5 +1017,7 @@ export default createReducer(initialState, {
     [SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS]: specialDifferentialAllocationSaveSuccessReducer,
     [SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL]: specialDifferentialAllocationSaveFailReducer,
     [DELETE_SPECIAL_ALLOCATION_SUCCESS]: deleteSpecialAllocationSuccessReducer,
-    [DELETE_SPECIAL_ALLOCATION_FAIL]: deleteSpecialAllocationFailReducer
+    [DELETE_SPECIAL_ALLOCATION_FAIL]: deleteSpecialAllocationFailReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_SUCCESS]: multipleAllocationUploadSuccessReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_FAIL]: multipleAllocationUploadFailReducer
 })

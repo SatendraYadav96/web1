@@ -40,6 +40,7 @@ const specialAllocationsLoading = state => state.allocations.specialAllocationsL
 const specialDifferentialAllocation = (state) => state.allocations.specialDifferentialTeam
 const specialDifferentialAllocationSave = (state) => state.allocations.specialDifferentialAllocationSave
 const deleteSpecialAllocation = (state) => state.allocations.deleteSpecialAllocation
+const multipleAllocationUpload = (state) => state.allocations.multipleAllocationUpload
 
 export const selectItemsToAllocate = createSelector(items, (itemsSelect) => itemsSelect)
 export const selectAllocations = createSelector(allocations, (allocationsSelect) => allocationsSelect)
@@ -219,4 +220,9 @@ export const selectSpecialDifferentialAllocationSave = createSelector(
 export const selectDeleteSpecialAllocation = createSelector(
     deleteSpecialAllocation,
     dataSelect => dataSelect
+)
+
+export const selectMultipleAllocationUpload = createSelector(
+    multipleAllocationUpload,
+    dataSelect =>  dataSelect
 )

@@ -191,6 +191,7 @@ export const TRANSPORT_EXCEL_UPLOAD_API = {url: '/v1/upload/transportExcelData',
 export const GRN_UPLOAD_API = {url: '/v1/upload/grnUpload',method:'POST',auth:true}
 export const GRN_EXCEL_UPLOAD_API = {url: '/v1/upload/grnExcelData',method:'GET',auth:true}
 export const FF_UPLOAD_API = {url: '/v1/upload/recipientUpload',method:'POST',auth:true}
+export const MULTIPLE_ALLOCATION_UPLOAD_API = {url: '/v1/upload/multipleAllocationUpload',method:'POST',auth:true}
 export const VIRTUAL_UPLOAD_API = {url: '/v1/upload/virtualUpload',method:'POST',auth:true}
 export const INVOICE_UPLOAD_API = {url: '/v1/upload/invoiceUpload',method:'POST',auth:true}
 export const INVOICE_EXCEL_UPLOAD_API = {url: '/v1/upload/invoiceExcelData',method:'GET',auth:true}

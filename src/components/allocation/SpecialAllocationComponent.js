@@ -27,7 +27,7 @@ import {
     getAllocationsForPlanStartAction,
     getDownloadAllocationStartAction, getMultipleAllocationDownloadStartAction,
     getSpecialAllocationsForPlanStartAction,
-    monthlyAllocationStartAction,
+    monthlyAllocationStartAction, multipleAllocationUploadStartAction,
     specialAllocationStartAction,
     submitSpecialAllocationStartAction,
     submitVirtualAllocationStartAction
@@ -35,6 +35,7 @@ import {
 import {UploadOutlined} from "@ant-design/icons";
 import SpecialTeamAllocationComponent from "./SpecialTeamAllocationComponent";
 import {Excel} from "antd-table-saveas-excel";
+import {AUTH_CERTIFICATE, BASE_URL, GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API} from "../../api/apiConstants";
 const { Step } = Steps
 const { Panel } = Collapse
 const allocationSteps = [
@@ -59,7 +60,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                                         downloadAllocation, handleGetDownloadAllocation,
                                         handleActiveUserDownload, activeUsersDownload,
                                         multipleAllocationDownload,  multipleAllocationExcel,
-                                        handleMultipleAllocation}) => {
+                                        handleMultipleAllocation, handleMultipleAllocationUpload}) => {
 
     const navigate = useNavigate()
     let param = useParams()
@@ -73,6 +74,8 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
     const [downloadAllocationFlag, setDownloadAllocationFlag] = useState(false)
     const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
+    const [count, setCount] = useState(1)
+    const [file, setFile] = useState([])
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -153,6 +156,43 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         setActiveUserDownloadFlag(true)
     }
 
+    const downloadInvoice = () => {
+        let ccmId = []
+        selectedItems.map(i => {
+                const list = {
+                    "ccmId": i.costCenterID,
+                    "inventoryId": i.inventoryId
+                }
+                ccmId.push(list)
+            }
+        )
+        console.log(ccmId)
+        if(ccmId.length > 0) {
+            const url = `${BASE_URL}${GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API.url}`;
+            fetch(url, {
+                method: "POST",
+                body: JSON.stringify(ccmId),
+                headers :new Headers({
+                'Authorization': authInfo.token,
+                'Content-Type': "application/json"
+            }),
+
+        })
+        .then(response => {
+                console.log(response);
+                response.blob().then(blob => {
+                    // let url = window.URL.createObjectURL(blob);
+                    // let a = document.createElement('a');
+                    // a.href = url;
+                    // a.download = 'Multiple_Allocation.csv';
+                    // a.click();
+                    console.log(blob)
+                });
+                //window.location.href = response.url;
+            });
+        }
+    }
+
     const DownloadMultipleAllocation = () => {
         let ccmId = []
         selectedItems.map(i => {
@@ -188,6 +228,17 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             setDownloadAllocationFlag(false)
         }
     },[downloadAllocation])
+
+    const downloadCSV = (csv, filename) => {
+        const linkSource = `data:application/csv;base64,${csv}`;
+        const downloadLink = document.createElement("a");
+        const fileName = `${filename}.csv`;
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        console.log("printed")
+    }
+
 
     useEffect(() => {
         if(multipleAllocationDownloadFlag){
@@ -284,6 +335,63 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         return navigate('/home/allocations/special/createNew')
     }
 
+    const dummyRequest = ({ file, onSuccess }) => {
+        setTimeout(() => {
+            onSuccess("ok");
+        }, 0);
+    };
+
+    const props = {
+        beforeUpload: (file) => {
+            const isCSV = file.type === 'text/csv';
+            if (!isCSV) {
+                message?.error(`${file.name} is not a csv file`);
+            }
+            return isCSV || Upload.LIST_IGNORE;
+        },
+    };
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const upload = async () => {
+        console.log(file)
+        const newFile = file[0].originFileObj
+        const base64 = await convertBase64(newFile)
+        const bytecode = base64.split(",")[1];
+        console.log(newFile)
+        console.log(bytecode)
+        handleMultipleAllocationUpload({
+            certificate: authInfo.token,
+            dto: {
+                byteCode: bytecode,
+                fileName: newFile.name,
+                planId: specialAllocation[0].planId
+            }
+        })
+    }
+
+    const handleUpload = (info) => {
+        setFile(info.fileList)
+        console.log(info.file.name)
+        console.log(info)
+        // const file = info.file.originFileObj
+        // const base64 = await convertBase64(file)
+        // console.log(base64)
+        // console.log(file.name)
+    }
+
+
     return(
         <>
             <TitleWidget title={'Special Allocation'} subTitle={'Create'}/>
@@ -321,12 +429,12 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 </Col>
                 <Col span={3}></Col>
                 <Col span={3}>
-                    <Upload>
+                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file} {...props}>
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
                 <Col span={2}>
-                    <Button type={'primary'} >Upload</Button>
+                    <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
             </Row>
             <Steps current={currentStep} style={{marginBottom: 20}}>
@@ -422,7 +530,8 @@ SpecialAllocationComponent.propTypes = {
     handleSubmitSpecialAllocation: PropTypes.func,
     multipleAllocationExcel: PropTypes.any,
     multipleAllocationDownload: PropTypes.any,
-    handleMultipleAllocation: PropTypes.func
+    handleMultipleAllocation: PropTypes.func,
+    handleMultipleAllocationUpload: PropTypes.func
 }
 
 const mapState = (state) => {
@@ -447,7 +556,8 @@ const actions = {
     handleGetDownloadAllocation: getDownloadAllocationStartAction,
     handleActiveUserDownload: getActiveUsersStartAction,
     handleSubmitSpecialAllocation: submitSpecialAllocationStartAction,
-    handleMultipleAllocation: getMultipleAllocationDownloadStartAction
+    handleMultipleAllocation: getMultipleAllocationDownloadStartAction,
+    handleMultipleAllocationUpload: multipleAllocationUploadStartAction
 }
 
 export default connect(mapState, actions) (SpecialAllocationComponent)
