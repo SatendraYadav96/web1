@@ -276,7 +276,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             dto: {
                 byteCode: bytecode,
                 fileName: newFile.name,
-                planId: specialAllocation[0].planId
+                planId: plan.id
             }
         })
     }
