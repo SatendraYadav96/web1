@@ -67,6 +67,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     const [downloadAllocationFlag, setDownloadAllocationFlag] = useState(false)
     const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
+    const [file, setFile] = useState([])
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -233,6 +234,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             setDownloadAllocationFlag(false)
         }
     },[activeUsersDownload])
+
     const dummyRequest = ({ file, onSuccess }) => {
         setTimeout(() => {
             onSuccess("ok");
