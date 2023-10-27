@@ -1288,4 +1288,17 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
             },
         ],
 
+
+        MULTIPLE_ALLOCATION_UPLOAD_START:[{ action: 'showspinner' }],
+        MULTIPLE_ALLOCATION_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        MULTIPLE_ALLOCATION_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+
 }
