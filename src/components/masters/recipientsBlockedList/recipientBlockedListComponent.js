@@ -182,14 +182,14 @@ const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedLi
             {
                 title: 'Blocked On',
                 key: 'blockedOn',
-                dataIndex: 'blockedOn',
+                dataIndex: 'blocked_On',
                 width: '100px',
                 ...getColumnSearchProps('blockedOn'),
             },
             {
                 title: 'Is Blocked',
                 key: 'isBlocked',
-                dataIndex: 'isBlocked',
+                dataIndex: 'isBockedFF',
                 width: '100px',
                 ...getColumnSearchProps('isBlocked'),
             },
