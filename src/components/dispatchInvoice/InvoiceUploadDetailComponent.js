@@ -5,7 +5,7 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {connect} from "react-redux";
 import {Button, Col, message, Row, Table, Upload} from "antd";
 import {UploadOutlined} from "@ant-design/icons";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {selectInvoiceUploadListData} from "../../redux/selectors/invoiceUploadSelector";
 import {invoiceUploadCsvStartAction, invoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/invoiceUploadAction";
 import XLSX from "xlsx";
@@ -22,6 +22,8 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
     const [viewD, setViewD] = useState(false)
     const [expErr, setExpErr] = useState([])
     const [exp, setExp] = useState([])
+
+    // const navigate = useNavigate()
 
 
     const searchData = () => {
@@ -231,6 +233,8 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
         })
     }
 
+
+
     const upload = async () => {
         console.log(file)
         const newFile = file[0].originFileObj
@@ -260,6 +264,9 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
                     <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
                 <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button></Col>
+
+
+
                 <Col span={15}></Col>
             </Row>
             <br/><br/>

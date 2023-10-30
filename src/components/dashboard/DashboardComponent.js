@@ -369,13 +369,13 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             {
                 title: 'Team',
                 key: 'month',
-                dataIndex: 'Team',
+                dataIndex: 'team',
                 width: '100px'
             },
             {
                 title: 'Brand Manager',
                 key: 'month',
-                dataIndex: 'Brand Manager',
+                dataIndex: 'brandManager',
                 width: '100px'
             },
             {

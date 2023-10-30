@@ -1300,5 +1300,16 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
         ],
 
 
+        EXPORT_ALLOCATION_START:[{ action: 'showspinner' }],
+        EXPORT_ALLOCATION_SUCCESS: [{ action: 'hidespinner' }],
+        EXPORT_ALLOCATION_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
 
 }
