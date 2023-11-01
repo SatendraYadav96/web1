@@ -1,7 +1,18 @@
 import { createReducer } from './reducerUtils'
 import {
-    GET_MONTHLYDISPATCH_SUCCESS, GET_MONTHLYDISPATCH_FAIL,
-    GET_EMPLOYEEINVOICEDETAILS_SUCCESS, GET_EMPLOYEEINVOICEDETAILS_FAIL, GET_PRINT_INVOICE_SUCCESS, GET_PRINT_INVOICE_FAIL, GET_GENERATE_INVOICE_SUCCESS, GET_GENERATE_INVOICE_FAIL, GET_GENERATE_LABEL_SUCCESS, GET_GENERATE_LABEL_FAIL, GET_GEN_INVOICE_SUCCESS, GET_GEN_INVOICE_FAIL
+    GET_MONTHLYDISPATCH_SUCCESS,
+    GET_MONTHLYDISPATCH_FAIL,
+    GET_EMPLOYEEINVOICEDETAILS_SUCCESS,
+    GET_EMPLOYEEINVOICEDETAILS_FAIL,
+    GET_PRINT_INVOICE_SUCCESS,
+    GET_PRINT_INVOICE_FAIL,
+    GET_GENERATE_INVOICE_SUCCESS,
+    GET_GENERATE_INVOICE_FAIL,
+    GET_GENERATE_LABEL_SUCCESS,
+    GET_GENERATE_LABEL_FAIL,
+    GET_GEN_INVOICE_SUCCESS,
+    GET_GEN_INVOICE_FAIL,
+    GET_GENERATE_INVOICE_START, GET_GEN_INVOICE_START
 } from "../actions/dispatchInvoice/monthlyDispatchActionConstant";
 
 
@@ -22,6 +33,7 @@ const initialState = {
     genInvoiceLoading: false,
     generateLabelList: [],
     generateLabelLoading: false,
+    getInvoiceSuccess: false,
     error: {}
 }
 
@@ -103,7 +115,6 @@ const getPrintInvoiceFailReducer = (state = initialState, payload) => {
 }
 
 
-
 const getGenerateInvoiceSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
@@ -125,11 +136,20 @@ const getGenerateInvoiceFailReducer = (state = initialState, payload) => {
     }
 }
 
+const getGenInvoiceStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        genInvoiceList:[],
+        getInvoiceSuccess: false,
+
+    }
+}
+
 const getGenInvoiceSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-
         genInvoiceList:payload.genInvoiceList,
+        getInvoiceSuccess: true,
         genInvoiceLoading: false
 
     }
@@ -140,6 +160,7 @@ const getGenInvoiceFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         genInvoiceList:[],
+        getInvoiceSuccess: false,
         genInvoiceLoading: false,
         error: payload.error,
 
@@ -182,4 +203,5 @@ export default createReducer(initialState, {
     [GET_GEN_INVOICE_FAIL]: getGenInvoiceFailReducer,
     [GET_GENERATE_LABEL_SUCCESS]: getGenerateLabelSuccessReducer,
     [GET_GENERATE_LABEL_FAIL]: getGenerateLabelFailReducer,
+    [GET_GEN_INVOICE_START]:getGenInvoiceStartReducer
 })

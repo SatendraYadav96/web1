@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import {GET_GEN_INVOICE_SUCCESS} from "../actions/dispatchInvoice/monthlyDispatchActionConstant";
 
 
 //Monthly Dispatch
@@ -65,10 +66,11 @@ export const selectLoadingGenerateInvoiceData = createSelector(
     loadingSelection => loadingSelection
 );
 
+
 //Monthly Dispatch
 const genInvoiceList = (state) => state.monthlyDispatch.genInvoiceList;
 const genInvoiceLoading = (state) => state.monthlyDispatch.genInvoiceLoading
-
+const getInvoiceSuccess = (state) => state.monthlyDispatch.getInvoiceSuccess
 
 export const selectGenInvoiceListData = createSelector(
     genInvoiceList,
@@ -80,6 +82,10 @@ export const selectLoadingGenInvoiceData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectGetInvoiceSuccess = createSelector(
+    getInvoiceSuccess,
+    dataSelect => dataSelect
+)
 
 //Monthly Dispatch Generate Label
 const generateLabelList = (state) => state.monthlyDispatch.generateLabelList;

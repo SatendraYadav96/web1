@@ -5,7 +5,7 @@ import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {approveAcknowledgeStartAction, rejectAcknowledgeStartAction, unacknowledgeListStartAction} from "../../redux/actions/grn/grnActions";
 import {Button, Checkbox, Col, DatePicker, Input, Modal, Row, Space, Table} from "antd";
-import {selectApproveAcknowledge, selectUnacknowledged} from "../../redux/selectors/grnSelectors";
+import {selectApproveAcknowledge, selectRefreshAcknowledge, selectUnacknowledged} from "../../redux/selectors/grnSelectors";
 import {CheckOutlined, CloseOutlined, SearchOutlined} from "@ant-design/icons";
 import {toDdMmYYYY} from "../../utils/DateUtils";
 import moment from "moment";
@@ -13,7 +13,7 @@ import {isArray} from "@craco/craco/lib/utils";
 import Highlighter from "react-highlight-words";
 
 
-const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAcknowledge, handleRejectAcknowledge, approveAcknowledge, handleApproveAcknowledge}) => {
+const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAcknowledge, handleRejectAcknowledge, approveAcknowledge, handleApproveAcknowledge, refresh}) => {
     const ackData = []
     const [arr, setArr] = useState([])
     const [reasonModal, setReasonModal] = useState(false)
@@ -172,6 +172,23 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         }
     }
 
+    const SetItemCodeOfRow = (value, id) => {
+        console.log(data.grn)
+        data.grn.forEach(a => {
+            if(a.id == id){
+                a.itemCode = value;
+            }
+        })
+        // arr[id]['itemCode'] = value;
+        setArr(data.grn)
+    }
+
+    useEffect(() => {
+        handleLoadList({
+            certificate: authInfo.token
+        })
+    },[refresh])
+
 
     const column=[
         {
@@ -326,8 +343,8 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 console.log(i)
                 console.log(itemCode)
                 console.log(data)
-                setItemCode(i)
-                return (<Input.Search value={i} onSearch={e =>changeGrnData(id, 'itemCode', i)} />)
+                // setItemCode(i)
+                return (<Input defaultValue={i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
             }
         },
         {
@@ -361,7 +378,8 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     const acknowledge = (row) => {
         console.log(row)
         console.log(arr[row.id])
-        const r = arr[row.id]
+        const r = arr.find(a=> a.id == row.id)
+        console.log(r)
         let grnData = {
             "category":  r.category.id ,
             "costCenterCode": r.costCenterCode,
@@ -420,7 +438,8 @@ GRNAcknowledgementComponent.propTypes = {
     rejectAcknowledge: PropTypes.any,
     handleRejectAcknowledge: PropTypes.func,
     approveAcknowledge: PropTypes.any,
-    handleApproveAcknowledge: PropTypes.func
+    handleApproveAcknowledge: PropTypes.func,
+    refresh: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -428,7 +447,8 @@ const mapState = (state) => {
     const data = selectUnacknowledged(state)
     const rejectAcknowledge = selectUnacknowledged(state)
     const approveAcknowledge = selectApproveAcknowledge(state)
-    return { authInfo, data, rejectAcknowledge, approveAcknowledge }
+    const refresh = selectRefreshAcknowledge(state)
+    return { authInfo, data, rejectAcknowledge, approveAcknowledge, refresh }
 }
 
 const actions = {

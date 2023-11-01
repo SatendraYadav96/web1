@@ -9,13 +9,13 @@ import {grnStartAction} from "../../redux/actions/grn/grnActions";
 import {selectGrnUpload} from "../../redux/selectors/grnSelectors";
 import {UploadOutlined} from "@ant-design/icons";
 import {grnExcelUploadStartAction, grnUploadStartAction} from "../../redux/actions/upload/uploadActions";
-import {selectGrnExcelUploadListData} from "../../redux/selectors/uploadSelector";
+import {selectGrnExcelUploadListData, selectGrnUploadSuccess} from "../../redux/selectors/uploadSelector";
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx";
 
 
 
-const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handleGrnExcelUpload,grnExcelData}) => {
+const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handleGrnExcelUpload,grnExcelData, grnUploadSuccess}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -69,13 +69,23 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
                 render: (_,row) => {
                     return (
                         <>
-                            <Link onClick={() => {
+                            <CSVLink
+                                data={expErr}
+                                filename={"grnviewerrors.csv"}
+                                onClick={() => {
+                                    handleViewError(row)
+                                }}
+                            >
+                                <Button type="link">View Errors</Button>
+                            </CSVLink>
+                            |<CSVLink
+                            data={exp}
+                            filename={"grnviewDownload.csv"}
+                            onClick={() => {
                                 handleViewError(row)
-                                setViewE(true)
-                            }} to="">View Errors </Link>|<Link onClick={() => {
-                            handleViewError(row)
-                            setViewD(true)
-                        }} to=""> Download Details</Link>
+                            }}
+                        ><Button type="link">Download Details</Button>
+                        </CSVLink>
                         </>
                     )
                 }
@@ -264,6 +274,14 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
         })
     }
 
+    useEffect(() => {
+        if(grnUploadSuccess){
+            handleGrn ({
+                certificate: authInfo.token
+            });
+        }
+    }, [grnUploadSuccess])
+
     const handleRefresh = () => {
         handleGrn ({
             certificate: authInfo.token
@@ -299,13 +317,16 @@ GRNUploadComponent.propTypes = {
     grnUpload:PropTypes.any,
     grnExcelData:PropTypes.array,
     handleGrnUpload:PropTypes.func,
+    grnUploadSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const grnUpload = selectGrnUpload(state)
     const grnExcelData = selectGrnExcelUploadListData(state)
-    return {authInfo,grnUpload,grnExcelData}
+    const grnUploadSuccess = selectGrnUploadSuccess(state)
+    console.log(grnUploadSuccess)
+    return {authInfo,grnUpload,grnExcelData, grnUploadSuccess}
 }
 
 const actions = {

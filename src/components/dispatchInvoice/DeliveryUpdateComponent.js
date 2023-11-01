@@ -9,12 +9,13 @@ import {UploadOutlined} from "@ant-design/icons";
 import {selectDeliveryUpdateListData} from "../../redux/selectors/deliveryUpdateSelector";
 import {deliveryUpdateStartAction} from "../../redux/actions/dispatchInvoice/deliveryUpdateAction";
 import {deliveryUpdateRequest} from "../../api/invoiceRequests";
-import {selectGrnExcelUploadListData, selectTransportExcelUploadListData, selectTransportUploadListData} from "../../redux/selectors/uploadSelector";
+import {selectGrnExcelUploadListData, selectTransportExcelUploadListData, selectTransportUploadListData, selectTransportUploadSuccess} from "../../redux/selectors/uploadSelector";
 import {grnExcelUploadStartAction, transportExcelUploadStartAction, transportUploadStartAction} from "../../redux/actions/upload/uploadActions";
 import XLSX from "xlsx";
+import {CSVLink} from "react-csv";
 
 
-const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handleDeliveryUpdateList,handleTransportUploadList,transportExcelData,handleGrnExcelUpload}) => {
+const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handleDeliveryUpdateList,handleTransportUploadList,transportExcelData,handleGrnExcelUpload, transportUploadSuccess}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -64,13 +65,23 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
                 dataIndex: '',
                 width: '130px',
                 render: (_,row) => {
-                    return (<><Link onClick={() => {
-                        handleViewError(row)
-                        setViewE(true)
-                    }} to="">View Errors </Link>|<Link onClick={() => {
-                        handleViewError(row)
-                        setViewD(true)
-                    }} to=""> Download Details</Link></>)
+                    return (<><CSVLink
+                        data={expErr}
+                        filename={"deliveryupdateerror.csv"}
+                        onClick={() => {
+                            handleViewError(row)
+                        }}
+                    >
+                        <Button type="link">View Errors</Button>
+                    </CSVLink>
+                        |<CSVLink
+                            data={exp}
+                            filename={"deliveryupdate.csv"}
+                            onClick={() => {
+                                handleViewError(row)
+                            }}
+                        ><Button type="link">Download Details</Button>
+                        </CSVLink></>)
                 }
             }
         ]);
@@ -124,6 +135,8 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
         } else {
             console.log('no data')
         }
+        console.log(expErr)
+        console.log(exp)
     },[transportExcelData])
 
     useEffect(() => {
@@ -244,6 +257,15 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
         })
     }
 
+    useEffect(() => {
+        if(transportUploadSuccess){
+            handleDeliveryUpdateList ({
+                certificate: authInfo.token
+            });
+            searchData()
+        }
+    }, [transportUploadSuccess])
+
     const dummyRequest = ({ file, onSuccess }) => {
         setTimeout(() => {
             onSuccess("ok");
@@ -289,6 +311,7 @@ DeliveryUpdateComponent.propTypes = {
     profileInfo: PropTypes.any,
     deliveryUpdateList:PropTypes.array,
     transportExcelData:PropTypes.array,
+    transportUploadSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -297,8 +320,8 @@ const mapState = (state) => {
     const deliveryUpdateList = selectDeliveryUpdateListData(state)
     const transportUploadList = selectTransportUploadListData(state)
     const transportExcelData = selectTransportExcelUploadListData(state)
-
-    return {authInfo,profileInfo,deliveryUpdateList,transportUploadList,transportExcelData}
+    const transportUploadSuccess = selectTransportUploadSuccess(state)
+    return {authInfo,profileInfo,deliveryUpdateList,transportUploadList,transportExcelData, transportUploadSuccess}
 }
 
 const actions = {

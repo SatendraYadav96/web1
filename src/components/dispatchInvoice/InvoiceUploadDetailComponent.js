@@ -5,14 +5,14 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {connect} from "react-redux";
 import {Button, Col, message, Row, Table, Upload} from "antd";
 import {UploadOutlined} from "@ant-design/icons";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {selectInvoiceUploadListData} from "../../redux/selectors/invoiceUploadSelector";
 import {invoiceUploadCsvStartAction, invoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/invoiceUploadAction";
 import XLSX from "xlsx";
 import {grnExcelUploadStartAction, invoiceExcelUploadStartAction} from "../../redux/actions/upload/uploadActions";
-import {selectGrnExcelUploadListData, selectInvoiceExcelUploadListData} from "../../redux/selectors/uploadSelector";
+import {selectGrnExcelUploadListData, selectInvoiceExcelUploadListData, selectInvoiceUploadSuccess} from "../../redux/selectors/uploadSelector";
 
-const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload,handleInvoiceExcelUpload,invoiceExcelData}) => {
+const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload,handleInvoiceExcelUpload,invoiceExcelData, success}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -22,6 +22,8 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
     const [viewD, setViewD] = useState(false)
     const [expErr, setExpErr] = useState([])
     const [exp, setExp] = useState([])
+    const location = useLocation()
+    const history = useNavigate()
 
     // const navigate = useNavigate()
 
@@ -192,6 +194,13 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
             certificate: authInfo.token
         })
         searchData()
+    },[success])
+
+    useEffect(() => {
+        handleInvoiceUploadList({
+            certificate: authInfo.token
+        })
+        searchData()
     },[authInfo.token])
 
     const handleUpload = (info) => {
@@ -251,6 +260,37 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
         })
     }
 
+    const handleBack = () => {
+        if(location.state.type == "monthly"){
+            history("/home/dispatchInvoicing/monthlyDispatch/details", {state:
+                    {
+                        year: location.state.year,
+                        month: location.state.month,
+                        team: location.state.all.team,
+                        status: location.state.all.status,
+                        planId: location.state.all.planId,
+                    }});
+        }else if(location.state.type == "special"){
+            history("/home/dispatchInvoicing/specialDispatch/details", {state:
+                    {
+                        year: location.state.year,
+                        month: location.state.month,
+                        team: location.state.all.team,
+                        status: location.state.all.status,
+                        planId: location.state.all.planId,
+                    }});
+        }else if(location.state.type == "virtual"){
+            history("/home/dispatchInvoicing/virtualDispatch/details", {state:
+                    {
+                        year: location.state.year,
+                        month: location.state.month,
+                        team: location.state.all.team,
+                        status: location.state.all.status,
+                        planId: location.state.all.planId,
+                    }});
+        }
+    }
+
     return(
         <div>
             <TitleWidget title={'Upload Invoice Details'} />
@@ -264,7 +304,9 @@ const InvoiceUploadDetailComponent = ({authInfo,profileInfo,invoiceUploadList,ha
                     <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
                 <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button></Col>
-
+                <Col span={2}>
+                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
+                </Col>
 
 
                 <Col span={15}></Col>
@@ -283,7 +325,7 @@ InvoiceUploadDetailComponent.propTypes = {
     invoiceExcelData:PropTypes.array,
     handleInvoiceUpload:PropTypes.func,
     handleInvoiceExcelUpload:PropTypes.func,
-
+    success: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -291,7 +333,8 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const invoiceUploadList = selectInvoiceUploadListData(state)
     const invoiceExcelData = selectInvoiceExcelUploadListData(state)
-    return {authInfo,profileInfo,invoiceUploadList,invoiceExcelData}
+    const success = selectInvoiceUploadSuccess(state)
+    return {authInfo,profileInfo,invoiceUploadList,invoiceExcelData, success}
 }
 
 const actions = {

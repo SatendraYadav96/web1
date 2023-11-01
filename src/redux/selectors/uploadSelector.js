@@ -4,6 +4,7 @@ import {createSelector} from "reselect";
 //TRANSPORT UPLOAD
 const transportUploadList = (state) => state.upload.transportUpload;
 const transportUploadLoading = (state) => state.upload.transportUploadLoading
+const transportUploadSuccess = (state) => state.upload.transportUploadSuccess
 
 
 export const selectTransportUploadListData = createSelector(
@@ -14,6 +15,11 @@ export const selectTransportUploadListData = createSelector(
 export const selectLoadingTransportUploadData = createSelector(
     transportUploadLoading,
     loadingSelection => loadingSelection
+);
+
+export const selectTransportUploadSuccess = createSelector(
+    transportUploadSuccess,
+    transportUploadSuccessSelection => transportUploadSuccessSelection
 );
 
 
@@ -35,7 +41,7 @@ export const selectLoadingTransportExcelUploadData = createSelector(
 
 const grnUploadList = (state) => state.upload.grnUpload;
 const grnUploadLoading = (state) => state.upload.grnUploadLoading
-
+const grnUploadSuccess = (state) => state.upload.grnUploadSuccess
 
 export const selectGrnUploadListData = createSelector(
     grnUploadList,
@@ -46,6 +52,8 @@ export const selectLoadingGrnUploadData = createSelector(
     grnUploadLoading,
     loadingSelection => loadingSelection
 );
+
+export const selectGrnUploadSuccess = createSelector(grnUploadSuccess, (grnSelect) => grnSelect)
 
 
 const grnExcelUploadList = (state) => state.upload.grnExcelUpload;
@@ -95,6 +103,7 @@ export const selectLoadingVirtualUploadData = createSelector(
 
 const invoiceUploadList = (state) => state.upload.invoiceUpload;
 const invoiceUploadLoading = (state) => state.upload.invoiceUploadLoading
+const invoiceUploadSuccess = (state) => state.upload.invoiceUploadSuccess
 
 
 export const selectInvoiceUploadListData = createSelector(
@@ -107,6 +116,10 @@ export const selectLoadingInvoiceUploadData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectInvoiceUploadSuccess = createSelector(
+    invoiceUploadSuccess,
+    dataSelect => dataSelect
+)
 
 const invoiceExcelUploadList = (state) => state.upload.invoiceExcelUpload;
 const invoiceExcelUploadLoading = (state) => state.upload.invoiceExcelUploadLoading

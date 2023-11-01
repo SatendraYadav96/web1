@@ -39,10 +39,12 @@ import {overSamplingUploadLogFailAction} from "../actions/upload/uploadActions";
 const initialState = {
     transportUpload: [],
     transportUploadLoading: false,
+    transportUploadSuccess: false,
     transportExcelUpload: [],
     transportExcelUploadLoading: false,
     grnUpload: [],
     grnUploadLoading: false,
+    grnUploadSuccess: false,
     grnExcelUpload: [],
     grnExcelUploadLoading: false,
     virtualUpload: [],
@@ -85,6 +87,7 @@ const transportUploadSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
         transportUpload:payload.transportUpload,
+        transportUploadSuccess: true,
         transportUploadLoading: false
 
     }
@@ -94,6 +97,7 @@ const transportUploadFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         transportUpload:[],
+        transportUploadSuccess: false,
         transportUploadLoading: false,
         error: payload.error,
 
@@ -125,6 +129,7 @@ const grnUploadSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
         grnUpload:payload.grnUpload,
+        grnUploadSuccess: true,
         grnUploadLoading: false
 
     }
@@ -134,6 +139,7 @@ const grnUploadFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         grnUpload:[],
+        grnUploadSuccess: false,
         grnUploadLoading: false,
         error: payload.error,
 

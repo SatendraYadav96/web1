@@ -23,7 +23,7 @@ import {
     NON_COMPLIANCE_UPLOAD_LOG_START,
     NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, OVER_SAMPLING_DETAILS_EXCEL_FAIL, OVER_SAMPLING_DETAILS_EXCEL_START, OVER_SAMPLING_DETAILS_EXCEL_SUCCESS,
     OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_START, OVER_SAMPLING_EXCEL_SUCCESS,
-    OVER_SAMPLING_UPLOAD_LOG_START
+    OVER_SAMPLING_UPLOAD_LOG_START, TRANSPORT_UPLOAD_START
 } from "../redux/actions/upload/uploadActionConstants";
 import {DELETE_SPECIAL_ALLOCATION_START, GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
 import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryReportActionConstants";
@@ -1310,6 +1310,14 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
             },
         ],
 
-
+        TRANSPORT_UPLOAD_START:[{ action: 'showspinner' }],
+        TRANSPORT_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        TRANSPORT_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
 }

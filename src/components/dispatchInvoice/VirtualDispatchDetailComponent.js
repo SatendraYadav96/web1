@@ -12,7 +12,7 @@ import {InfoOutlined, SaveOutlined, SearchOutlined, UploadOutlined, ZoomInOutlin
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
-import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData} from "../../redux/selectors/monthlyDispatchSelector";
+import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectGetInvoiceSuccess, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData} from "../../redux/selectors/monthlyDispatchSelector";
 import {getGenerateInvoiceStartAction, getGenerateLabelStartAction, getGenInvoiceStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 import Highlighter from "react-highlight-words";
 import {getGenVirtualInvoiceStartAction, getVirtualDispatchDetailsStartAction} from "../../redux/actions/dispatchInvoice/virtualDispatchAction";
@@ -23,11 +23,12 @@ import {CSVLink} from "react-csv";
 import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
 import {Option} from "antd/es/mentions";
 import TitleWidget from "../../widgets/TitleWidget";
-import {selectVirtualDispatchListData} from "../../redux/selectors/virtualDispatchSelector";
-const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleInvoiceUpload,handleGenInvoice,handleGenVirtualInvoice,virtualDispatchDetails}) => {
+import {selectVirtualDispatchListData, selectVirtualLoadingDispatchDetailsData} from "../../redux/selectors/virtualDispatchSelector";
+const VirtualDispatchDetails = ({authInfo,virtualInvoiceDetailsLoading,handleVirtualDispatchDetailsList,profileInfo,employeePopup,employeePopupLoading,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleInvoiceUpload,handleGenInvoice,handleGenVirtualInvoice,virtualDispatchDetails, getInvoiceSuccess}) => {
 
     const navigate = useNavigate()
 
+    const [displayMonth, setDisplayMonth] = useState()
     const [year, setYear] = useState()
     const [month, setMonth] = useState()
     const [column, setColumn] = useState([])
@@ -60,7 +61,46 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     const [transport, setTransport] = useState()
     const location = useLocation();
 
-
+    useEffect(() => {
+        switch (location.state.month){
+            case 1:
+                setDisplayMonth("January");
+                break;
+            case 2:
+                setDisplayMonth("February");
+                break;
+            case 3:
+                setDisplayMonth("March");
+                break;
+            case 4:
+                setDisplayMonth("April");
+                break;
+            case 5:
+                setDisplayMonth("May");
+                break;
+            case 6:
+                setDisplayMonth("June");
+                break;
+            case 7:
+                setDisplayMonth("July");
+                break;
+            case 8:
+                setDisplayMonth("August");
+                break;
+            case 9:
+                setDisplayMonth("September");
+                break;
+            case 10:
+                setDisplayMonth("October");
+                break;
+            case 11:
+                setDisplayMonth("November");
+                break;
+            case 12:
+                setDisplayMonth("December");
+                break;
+        }
+    },[location])
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -153,6 +193,16 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
             ),
     });
 
+    useEffect(() => {
+        if(getInvoiceSuccess){
+            handleVirtualDispatchDetailsList  ({
+                planId:location.state.planId,
+                status:status,
+                certificate: authInfo.token
+            });
+            // searchData()
+        }
+    }, [getInvoiceSuccess])
 
     const searchData = () => {
         setFlag(true)
@@ -368,11 +418,11 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                 },
                 {
                     title: 'Transporter',
-                    key: 'transportransporterIDter',
+                    key: 'transporterID',
                     dataIndex: 'transporterID',
                     width: '170px'  ,
-                    render: () =>{
-                        return <SelectTransportComponent onChange={(e) => setTransport(e)} disabled={true}/>
+                    render: (_,row) =>{
+                        return <SelectTransportComponent onChange={(e) => setTransport(e)} value={row.transporterID} onChange={(e) => setTransport(e)} disabled={true}/>
                     }
                 },
                 {
@@ -381,7 +431,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     dataIndex: 'lrNumber',
                     width: '170px',
                     render: (_,row) => {
-                        return <Input defaulValue={row.lrNumber} style={{width: "100px"}} disabled/>
+                        return <Input defaultValue={row.lrNumber} style={{width: "100px"}} disabled/>
                     }
                 },
                 {
@@ -599,7 +649,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
     }
 
     const getSpecialEmployeeInvoiceDetailsList = () => {
-        console.log(specialInvoiceDetails);
+        console.log(virtualDispatchDetails);
         console.log(planId);
         console.log(status);
 
@@ -679,8 +729,8 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
 
     const handlePrint = () => {
         setPrintAction(true)
-        setPrintInvoice(matchInvoice(specialInvoiceDetails, checkedArr))
-        console.log(specialInvoiceDetails)
+        setPrintInvoice(matchInvoice(virtualDispatchDetails, checkedArr))
+        console.log(virtualDispatchDetails)
         printData()
     }
 
@@ -695,14 +745,14 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
 
     const handleAllPrintInvoice = () => {
         setPrintAllAction(true)
-        setPrintAllInvoice(specialInvoiceDetails)
+        setPrintAllInvoice(virtualDispatchDetails)
         printData()
         setCount(0)
     }
 
     const handleAllInvoicePrint = () => {
         handleGenerateInvoice({
-            inh: specialInvoiceDetails.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            inh: virtualDispatchDetails.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
             certificate: authInfo.token
         })
         setCount(0)
@@ -880,6 +930,17 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
         setDraftModal(false)
     }
 
+    const generateInvoice= () =>{
+        return navigate("/home/pickingSlip/monthlyDispatch/details/invoiceUpload", {state:
+                {
+                    year: location.state.year,
+                    month: location.state.month,
+                    type: "virtual",
+                    all: location.state
+                }});
+
+    }
+
     return(
         <>
             <TitleWidget title={'Virtual Dispatch'} />
@@ -888,7 +949,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     <Input value={location.state.year} disabled/>
                 </Col>
                 <Col span={2}>
-                    <Input value={location.state.month} disabled/>
+                    <Input value={displayMonth} disabled/>
                 </Col>
                 {/*<Col span={3}>*/}
                 {/*    <SelectTeamComponent value={location.state.team} disabled />*/}
@@ -908,7 +969,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                 <>
                     <Row gutter={[8,8]}>
                         <Col span={3}>
-                            <Button type={'primary'} style={{ width: '100%'}} onClick={() => navigate(`/home/dispatchInvoicing/invoiceupload`)} >Generate Invoices</Button>
+                            <Button type={'primary'} style={{ width: '100%'}} onClick={() => generateInvoice()} >Generate Invoices</Button>
                         </Col>
                         <Col span={2}>
                             <CSVLink
@@ -1020,11 +1081,11 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                 <Row gutter={[16,16]}>
                     <Col span={3}>
                         Boxes:<br/>
-                        <InputNumber value={box} onChange={(e) => setBox(e)} style={{width: "100%"}}/>
+                        <InputNumber value={box} min={0} onChange={(e) => setBox(e)} style={{width: "100%"}}/>
                     </Col>
                     <Col span={3}>
                         Weight:<br/>
-                        <InputNumber value={weight} onChange={(e) => setWeight(e)} style={{width: "100%"}}/>
+                        <InputNumber value={weight} min={0} onChange={(e) => setWeight(e)} style={{width: "100%"}}/>
                     </Col>
                     <Col span={4}>
                         Transport:<br/>
@@ -1032,7 +1093,7 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
                     </Col>
                     <Col span={4}>
                         LR No.:<br/>
-                        <InputNumber value={lrNo} onChange={(e) => setLrNo(e)} style={{width: "100%"}}/>
+                        <InputNumber value={lrNo} min={0} onChange={(e) => setLrNo(e)} style={{width: "100%"}}/>
                     </Col>
                     <Col span={4}>
                         Dimension:<br/>
@@ -1065,8 +1126,8 @@ const VirtualDispatchDetails = ({authInfo,specialInvoiceDetails,specialInvoiceDe
 VirtualDispatchDetails.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
-    specialInvoiceDetails:PropTypes.array,
-    specialInvoiceDetailsLoading:PropTypes.any,
+    // specialInvoiceDetails:PropTypes.array,
+    virtualInvoiceDetailsLoading:PropTypes.any,
     handleVirtualDispatchDetailsList:PropTypes.func,
     employeePopup:PropTypes.array,
     employeePopupLoading:PropTypes.any,
@@ -1082,13 +1143,14 @@ VirtualDispatchDetails.propTypes = {
     handleExport:PropTypes.func,
     handleGenInvoice:PropTypes.func,
     handleGenVirtualInvoice:PropTypes.func,
+    getInvoiceSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-    const specialInvoiceDetails = selectSpecialInvoiceListData(state)
-    const specialInvoiceDetailsLoading = selectSpecialLoadingInvoiceDetailsData(state)
+    // const specialInvoiceDetails = virtualDispatchDetails(state)
+    const virtualInvoiceDetailsLoading = selectVirtualLoadingDispatchDetailsData(state)
     const employeePopup = selectEmployeePopupData(state)
     const employeePopupLoading = selectEmployeePopupLoadingData(state)
     const generateInvoiceList = selectGenerateInvoiceListData(state)
@@ -1097,7 +1159,8 @@ const mapState = (state) => {
     const generateLabelLoading = selectLoadingGenerateLabelData(state)
     const exportAllocation = selectExportAllocationData(state)
     const virtualDispatchDetails = selectVirtualDispatchListData(state)
-    return {authInfo,specialInvoiceDetails, virtualDispatchDetails, specialInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading,exportAllocation}
+    const getInvoiceSuccess = selectGetInvoiceSuccess(state)
+    return {authInfo, virtualDispatchDetails, virtualInvoiceDetailsLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading,exportAllocation, getInvoiceSuccess}
 }
 
 const actions = {

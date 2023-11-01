@@ -14,6 +14,7 @@ const initialState = {
   rejectAcknowledge: {},
   approveAcknowledge : {},
   grnUpload:{},
+  refreshAcknowledge: false,
   error: null,
 }
 
@@ -21,6 +22,7 @@ const unacknowledgeListSuccessReducer = (state = initialState, payload) => {
   return {
     ...state,
     unacknowledged: payload.unacknowledges,
+    refreshAcknowledge: false,
     error: null,
   }
 }
@@ -44,6 +46,7 @@ const rejectAcknowledgeSuccessReducer = (state = initialState, payload) =>{
     return{
         ...state,
         rejectAcknowledge: payload.rejectAcknowledge,
+        refreshAcknowledge: true,
         error: null
     }
 }
@@ -51,7 +54,8 @@ const rejectAcknowledgeSuccessReducer = (state = initialState, payload) =>{
 const rejectAcknowledgeFailReducer = (state = initialState, payload) => {
     return{
         ...state,
-        error: payload.error
+        error: payload.error,
+        refreshAcknowledge: false
     }
 }
 
@@ -59,6 +63,7 @@ const approveAcknowledgeSuccessReducer = (state = initialState, payload) => {
     return{
         ...state,
         approveAcknowledge: payload.approveAcknowledge,
+        refreshAcknowledge: true,
         error: null
     }
 }
@@ -66,7 +71,8 @@ const approveAcknowledgeSuccessReducer = (state = initialState, payload) => {
 const approveAcknowledgeFailReducer = (state = initialState, payload) => {
     return{
         ...state,
-        error: payload.error
+        error: payload.error,
+        refreshAcknowledge: false
     }
 }
 

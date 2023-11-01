@@ -12,7 +12,17 @@ import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectTeamComponent from "../widgets/SelectTeamComponent";
 import SelectInvoiceTypeComponent from "../widgets/SelectInvoiceTypeComponent";
 import {getEmployeeInvoiceDetailStartAction, getGenerateInvoiceStartAction, getGenerateLabelStartAction, getGenInvoiceStartAction, getPrintInvoiceStartAction} from '../../redux/actions/dispatchInvoice/monthlyDispatchAction'
-import {selectGenerateInvoiceListData, selectGenerateLabelListData, selectInvoiceListData, selectLoadingGenerateInvoiceData, selectLoadingGenerateLabelData, selectLoadingInvoiceDetailsData, selectLoadingPrintInvoiceData, selectPrintListData} from "../../redux/selectors/monthlyDispatchSelector"
+import {
+    selectGenerateInvoiceListData,
+    selectGenerateLabelListData,
+    selectGetInvoiceSuccess,
+    selectInvoiceListData,
+    selectLoadingGenerateInvoiceData,
+    selectLoadingGenerateLabelData,
+    selectLoadingInvoiceDetailsData,
+    selectLoadingPrintInvoiceData,
+    selectPrintListData
+} from "../../redux/selectors/monthlyDispatchSelector"
 import {selectEmployeePopupData, selectEmployeePopupLoadingData} from "../../redux/selectors/picklistSelector";
 import {employeePopupStartAction} from "../../redux/actions/dispatchInvoice/picklistAction";
 import SelectTransportComponent from "../widgets/SelectTransportComponent";
@@ -24,11 +34,14 @@ import {CSVLink} from "react-csv";
 import {delay} from "rxjs";
 import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
 import {Option} from "antd/es/mentions";
+import InvoiceUploadDetailComponent from "./InvoiceUploadDetailComponent";
 
 
-const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleGenInvoice,handleInvoiceUpload}) => {
+const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList, getInvoiceSuccess,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleGenInvoice,handleInvoiceUpload}) => {
 
     const navigate = useNavigate()
+    const history = useNavigate()
+    const [displayMonth, setDisplayMonth] = useState()
     const [team, setTeam] = useState()
     const [dispatchType, setDispatchType] = useState('0')
     const [printAction, setPrintAction] = useState(false)
@@ -73,6 +86,48 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         clearFilters();
         setSearchText('');
     };
+
+    useEffect(() => {
+        switch (location.state.month){
+            case 1:
+                setDisplayMonth("January");
+                break;
+            case 2:
+                setDisplayMonth("February");
+                break;
+            case 3:
+                setDisplayMonth("March");
+                break;
+            case 4:
+                setDisplayMonth("April");
+                break;
+            case 5:
+                setDisplayMonth("May");
+                break;
+            case 6:
+                setDisplayMonth("June");
+                break;
+            case 7:
+                setDisplayMonth("July");
+                break;
+            case 8:
+                setDisplayMonth("August");
+                break;
+            case 9:
+                setDisplayMonth("September");
+                break;
+            case 10:
+                setDisplayMonth("October");
+                break;
+            case 11:
+                setDisplayMonth("November");
+                break;
+            case 12:
+                setDisplayMonth("December");
+                break;
+        }
+    },[location])
+
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div
@@ -436,7 +491,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     dataIndex: 'transporter',
                     width: '170px'  ,
                     render: (_,row) =>{
-                        return <SelectTransportComponent value={row.transporterID} disabled={true} />
+                        return <SelectTransportComponent onChange={(e) => setTransport(e)} value={row.transporterID} disabled={true} />
                     }
                 },
                 {
@@ -445,7 +500,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     dataIndex: 'lrNumber',
                     width: '170px',
                     render: (_,row) => {
-                        return <Input value={row.lrNumber} style={{width: "100px"}} disabled/>
+                        return <Input defaultValue={row.lrNumber} style={{width: "100px"}} disabled/>
                     }
                 },
                 {
@@ -686,8 +741,27 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         return navigate("/home/dispatchInvoicing/monthlyDispatch")
     }
 
+    useEffect(() => {
+        if(getInvoiceSuccess){
+            handleInvoiceDetailsList ({
+                planId:location.state.planId,
+                status:status,
+                certificate: authInfo.token
+            });
+            // searchData()
+        }
+    }, [getInvoiceSuccess])
+
     const generateInvoice= () =>{
-        return navigate('/home/pickingSlip/monthlyDispatch/details/invoiceUpload')
+        return navigate("/home/pickingSlip/monthlyDispatch/details/invoiceUpload", {state:
+                {
+                    year: location.state.year,
+                    month: location.state.month,
+                    type: "monthly",
+                    all: location.state
+                }});
+        // return (<><InvoiceUploadDetailComponent data={location.state} type={"monthly"}/></>)
+        // return navigate('/home/pickingSlip/monthlyDispatch/details/invoiceUpload')
     }
 
     const matchInvoice = (invoiceList,checkedArr) => invoiceList.filter(data => checkedArr.includes(data.invoiceNumber)).map(data => data);
@@ -948,7 +1022,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     <Input value={location.state.year} disabled/>
                 </Col>
                 <Col span={3}>
-                    <Input value={location.state.month} disabled/>
+                    <Input value={displayMonth} disabled/>
                 </Col>
                 <Col span={3}>
                     <SelectTeamComponent value={location.state.team} disabled/>
@@ -967,7 +1041,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
             {status === "00000000-0000-0000-0000-000000000024" &&
                 <Row gutter={[8,8]}>
                     <Col span={3}>
-                        <Button type={'primary'} style={{ width: '100%'}} onClick={() => navigate(`/home/dispatchInvoicing/invoiceupload`)} >Generate Invoices</Button>
+                        <Button type={'primary'} style={{ width: '100%'}} onClick={() => generateInvoice()} >Generate Invoices</Button>
                     </Col>
                     <Col span={2}>
                         <CSVLink
@@ -1072,11 +1146,11 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                 <Row gutter={[16,16]}>
                     <Col span={3}>
                         Boxes:<br/>
-                        <InputNumber value={box} onChange={(e) => setBox(e)} style={{width: "100%"}}/>
+                        <InputNumber value={box} min={0} onChange={(e) => setBox(e)} style={{width: "100%"}}/>
                     </Col>
                     <Col span={3}>
                         Weight:<br/>
-                        <InputNumber value={weight} onChange={(e) => setWeight(e)} style={{width: "100%"}}/>
+                        <InputNumber value={weight} min={0} onChange={(e) => setWeight(e)} style={{width: "100%"}}/>
                     </Col>
                     <Col span={4}>
                         Transport:<br/>
@@ -1084,7 +1158,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     </Col>
                     <Col span={4}>
                         LR No.:<br/>
-                        <InputNumber value={lrNo} onChange={(e) => setLrNo(e)} style={{width: "100%"}}/>
+                        <InputNumber value={lrNo} min={0} onChange={(e) => setLrNo(e)} style={{width: "100%"}}/>
                     </Col>
                     <Col span={4}>
                         Dimension:<br/>
@@ -1125,6 +1199,7 @@ MonthlyDispatchDetailComponent.propTypes = {
     handleGenerateLabel:PropTypes.func,
     exportAllocation:PropTypes.any,
     handleExport:PropTypes.func,
+    getInvoiceSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -1141,7 +1216,8 @@ const mapState = (state) => {
     const employeePopup = selectEmployeePopupData(state)
     const employeePopupLoading = selectEmployeePopupLoadingData(state)
     const exportAllocation = selectExportAllocationData(state)
-    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading,exportAllocation}
+    const getInvoiceSuccess = selectGetInvoiceSuccess(state)
+    return {authInfo,invoiceList,invoiceDetailsLoading,printList,printInvoiceLoading, getInvoiceSuccess,profileInfo,employeePopup,employeePopupLoading,generateInvoiceList,generateInvoiceLoading,generateLabelList,generateLabelLoading,exportAllocation}
 }
 
 const actions = {
