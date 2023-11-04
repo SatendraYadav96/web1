@@ -3,9 +3,9 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row} from "antd";
+import {Button, Checkbox, Col, Input, message, Row} from "antd";
 import {editVendorStartAction, getVendorByIdStartAction,} from "../../../redux/actions/master/masterActions";
-import {selectEditVendorData, selectEditVendorLoadingData, selectLoadingVendorByIdData, selectVendorByIdData,} from "../../../redux/selectors/masterSelector";
+import {selectEditVendorData, selectEditVendorFailError, selectEditVendorLoadingData, selectLoadingVendorByIdData, selectVendorByIdData,} from "../../../redux/selectors/masterSelector";
 import {useNavigate, useParams} from "react-router-dom";
 
 const EditVendorComponent = ({
@@ -16,7 +16,7 @@ const EditVendorComponent = ({
   handleEditVendor,
   vendorById,
   vendorByIdLoading,
-  handleVendorById,
+  handleVendorById, editVendorFailError
 }) => {
     const navigate = useNavigate();
 
@@ -121,6 +121,13 @@ const EditVendorComponent = ({
     // searchData();
   };
 
+    useEffect(()=>{
+        console.log(editVendorFailError!== undefined && Object.keys(editVendorFailError).length !== 0)
+        if( editVendorFailError!== undefined && Object.keys(editVendorFailError).length !== 0){
+            message.error(editVendorFailError.message);
+        }
+    },[editVendorFailError])
+
   return (
     <>
       <TitleWidget title={"Edit Vendor"} />
@@ -218,6 +225,7 @@ EditVendorComponent.propTypes = {
   vendorByIdLoading: PropTypes.any,
   handleVendorById: PropTypes.func,
   vendorById: PropTypes.array,
+    editVendorFailError: PropTypes.any
 };
 
 const mapState = (state) => {
@@ -227,7 +235,7 @@ const mapState = (state) => {
   const profileInfo = selectProfileInfo(state);
   const vendorById = selectVendorByIdData(state);
   const vendorByIdLoading = selectLoadingVendorByIdData(state);
-
+  const editVendorFailError = selectEditVendorFailError(state);
   return {
     authInfo,
     editVendor,
@@ -235,6 +243,7 @@ const mapState = (state) => {
     profileInfo,
     vendorById,
     vendorByIdLoading,
+      editVendorFailError
   };
 };
 

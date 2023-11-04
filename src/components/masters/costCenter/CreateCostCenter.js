@@ -3,13 +3,13 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row} from "antd";
+import {Button, Checkbox, Col, Input, message, Row} from "antd";
 import {useNavigate} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
-import {selectInsertCostCenterData, selectInsertCostCenterLoadingData} from "../../../redux/selectors/masterSelector";
+import {selectInsertCostCenterData, selectInsertCostCenterFailError, selectInsertCostCenterLoadingData} from "../../../redux/selectors/masterSelector";
 import {addCostCenterStartAction} from "../../../redux/actions/master/masterActions";
 
-const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insertCostCenterLoading,handleAddCostCenter}) => {
+const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insertCostCenterLoading,handleAddCostCenter, insertCostCenterFailError}) => {
 
     const navigate = useNavigate()
 
@@ -61,6 +61,12 @@ const CreateCostCenterComponent = ({authInfo,profileInfo,insertCostCenter,insert
         // MessageWidget.success();
     }
 
+    useEffect(()=>{
+        if(insertCostCenterFailError!== undefined && Object.keys(insertCostCenterFailError).length !== 0){
+            message.error(insertCostCenterFailError.message);
+        }
+    },[insertCostCenterFailError])
+
     return(
         <>
             <TitleWidget title={"Create Cost Center"}/>
@@ -99,6 +105,7 @@ CreateCostCenterComponent.propTypes = {
     insertCostCenter: PropTypes.array,
     insertCostCenterLoading: PropTypes.any,
     handleAddCostCenter: PropTypes.func,
+    insertCostCenterFailError: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -106,7 +113,8 @@ const mapState = (state) => {
     const insertCostCenter = selectInsertCostCenterData(state)
     const insertCostCenterLoading = selectInsertCostCenterLoadingData(state)
     const profileInfo = selectProfileInfo(state)
-    return {authInfo,insertCostCenter,insertCostCenterLoading,profileInfo}
+    const insertCostCenterFailError = selectInsertCostCenterFailError(state)
+    return {authInfo,insertCostCenter,insertCostCenterLoading,profileInfo, insertCostCenterFailError}
 }
 
 const actions = {

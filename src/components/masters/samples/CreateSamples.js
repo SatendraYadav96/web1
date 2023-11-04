@@ -4,20 +4,21 @@ const { TextArea } = Input;
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, InputNumber, Row} from "antd";
+import {Button, Checkbox, Col, Input, InputNumber, message, Row} from "antd";
 import {Select} from "antd/es";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
-import {selectInsertSamplesData, selectInsertSamplesLoadingData} from "../../../redux/selectors/masterSelector";
+import {selectInsertSamplesData, selectInsertSamplesFailError, selectInsertSamplesLoadingData} from "../../../redux/selectors/masterSelector";
 import {addSamplesStartAction} from "../../../redux/actions/master/masterActions";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
+import {useEffect} from "@types/react";
 
 const CreateSamplesComponent = ({
     authInfo,
     profileInfo,
     insertSamples,
     insertSamplesLoading,
-    handleAddSamples,
+    handleAddSamples, insertSamplesFailError
 }) => {
 
     const navigate = useNavigate()
@@ -92,6 +93,13 @@ const CreateSamplesComponent = ({
         // MessageWidget.success();
     }
 
+    useEffect(()=>{
+        console.log(Object.keys(insertSamplesFailError).length !== 0)
+        if(insertSamplesFailError!== undefined && Object.keys(insertSamplesFailError).length !== 0){
+            message.error(insertSamplesFailError.message);
+        }
+    },[insertSamplesFailError])
+
     return(
         <>
             <TitleWidget title={"Create Samples"}/>
@@ -141,6 +149,7 @@ CreateSamplesComponent.propTypes = {
     insertSamples:PropTypes.array,
     insertSamplesLoading:PropTypes.any,
     handleAddSamples:PropTypes.func,
+    insertSamplesFailError: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -148,7 +157,8 @@ const mapState = (state) => {
     const insertSamples = selectInsertSamplesData(state)
     const insertSamplesLoading = selectInsertSamplesLoadingData(state)
     const profileInfo = selectProfileInfo(state)
-    return {authInfo,insertSamples,insertSamplesLoading,profileInfo}
+    const insertSamplesFailError = selectInsertSamplesFailError(state)
+    return {authInfo,insertSamples,insertSamplesLoading,profileInfo, insertSamplesFailError}
 }
 
 const actions = {
