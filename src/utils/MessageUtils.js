@@ -1344,4 +1344,7 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
                 payload: { message: { text: 'action failed', type: 'error' } },
             },
         ],
+
+
+
 }
