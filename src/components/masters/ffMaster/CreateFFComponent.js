@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
@@ -15,7 +15,6 @@ import SelectTeamComponent from "../../widgets/SelectTeamComponent";
 import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusComponent";
 import {selectInsertFFData, selectInsertFFFailError} from "../../../redux/selectors/masterSelector";
 import {addFFStartAction, getFFByIdStartAction} from "../../../redux/actions/master/masterActions";
-import {useEffect} from "@types/react";
 
 const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) => {
 
