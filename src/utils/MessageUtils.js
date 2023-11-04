@@ -14,6 +14,7 @@ import {
     GET_VIRTUAL_PLAN_APPROVAL_SUCCESS
 } from "../redux/actions/approval/monthlyApprovalActionConstants";
 import {
+    GRN_EXCEL_UPLOAD_START, INVOICE_EXCEL_UPLOAD_START,
     MATERIAL_EXPIRY_EXCEL_FAIL,
     MATERIAL_EXPIRY_EXCEL_START, MATERIAL_EXPIRY_EXCEL_SUCCESS,
     MATERIAL_EXPIRY_UPLOAD_LOG_START, NON_COMPLIANCE_EXCEL_FAIL,
@@ -23,7 +24,7 @@ import {
     NON_COMPLIANCE_UPLOAD_LOG_START,
     NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, OVER_SAMPLING_DETAILS_EXCEL_FAIL, OVER_SAMPLING_DETAILS_EXCEL_START, OVER_SAMPLING_DETAILS_EXCEL_SUCCESS,
     OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_START, OVER_SAMPLING_EXCEL_SUCCESS,
-    OVER_SAMPLING_UPLOAD_LOG_START, TRANSPORT_UPLOAD_START
+    OVER_SAMPLING_UPLOAD_LOG_START, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START
 } from "../redux/actions/upload/uploadActionConstants";
 import {DELETE_SPECIAL_ALLOCATION_START, GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
 import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryReportActionConstants";
@@ -1319,5 +1320,31 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
                 payload: { message: { text: 'action failed', type: 'error' } },
             },
         ],
-
+        GRN_EXCEL_UPLOAD_START:[{ action: 'showspinner' }],
+        GRN_EXCEL_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        GRN_EXCEL_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        TRANSPORT_EXCEL_UPLOAD_START:[{ action: 'showspinner' }],
+        TRANSPORT_EXCEL_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        TRANSPORT_EXCEL_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        INVOICE_EXCEL_UPLOAD_START:[{ action: 'showspinner' }],
+        INVOICE_EXCEL_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        INVOICE_EXCEL_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -12,6 +12,7 @@ import {grnExcelUploadStartAction, grnUploadStartAction} from "../../redux/actio
 import {selectGrnExcelUploadListData, selectGrnUploadSuccess} from "../../redux/selectors/uploadSelector";
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx";
+import CSVDownload from "react-csv/src/components/Download";
 
 
 
@@ -26,6 +27,8 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
     const [exp, setExp] = useState([])
     const [flag, setFlag] = useState(false)
     const [file, setFile] = useState([])
+    const csvLinkError = React.createRef()
+    const csvLink = React.createRef()
 
 
     const searchData = () => {
@@ -69,24 +72,11 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
                 render: (_,row) => {
                     return (
                         <>
-                            <CSVLink
-                                data={expErr}
-                                filename={"grnviewerrors.csv"}
-                                onClick={() => {
-                                    handleViewError(row)
-                                }}
-                            >
-                                <Button type="link">View Errors</Button>
-                            </CSVLink>
-                            |<CSVLink
-                            data={exp}
-                            filename={"grnviewDownload.csv"}
-                            onClick={() => {
-                                handleViewError(row)
-                            }}
-                        ><Button type="link">Download Details</Button>
-                        </CSVLink>
-                        </>
+                            <Button type="link" onClick={()=>{handleViewError(row)
+                                setViewE(true)}}>View Errors</Button>
+                            |<Button type="link" onClick={()=>{handleViewError(row)
+                            setViewD(true)}}>Download Details</Button>
+                            </>
                     )
                 }
             }
@@ -102,6 +92,7 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
             }
         ])
     }
+
 
     useEffect(() => {
         console.log(grnExcelData)
@@ -151,52 +142,70 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
         } else {
             console.log('no data')
         }
-    },[grnExcelData])
-
-    useEffect(() => {
-        console.log("expErr: ", expErr)
         if (viewE) {
             if (expErr.length > 0) {
-                handleExcelErr(expErr)
+                 // csvLinkError.current.link.click()
                 setViewE(false)
             }
         }
-    },[expErr])
-
-    useEffect(() => {
-        console.log("exp: ", exp)
         if (viewD) {
             if (exp.length > 0) {
-                handleExcel(exp)
+                // csvLink.current.link.Click()
                 setViewD(false)
             }
         }
-    },[exp])
+    },[grnExcelData])
+
+    // useEffect(() => {
+    //     console.log("expErr: ", expErr)
+    //     if (viewE) {
+    //         if (expErr.length > 0) {
+    //             // csvLinkError.current.link.click()
+    //             setViewE(false)
+    //         }
+    //     }
+    // },[expErr])
+    //
+    // useEffect(() => {
+    //     console.log("exp: ", exp)
+    //     if (viewD) {
+    //         if (exp.length > 0) {
+    //             // csvLink.current.link.click()
+    //             setViewD(false)
+    //         }
+    //     }
+    // },[exp])
 
     // useEffect(() => {
     //     console.log("expErr: ", expErr)
     //     if (expErr.length > 0) {
-    //         handleExcel(expErr)
+    //         handleExcelErr(expErr)
     //         setViewE(false)
     //     }
     // },[expErr])
 
-    const handleExcelErr = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"grnviewerrors.XLSX")
-    }
+    // const handleExcelErr = (data) => {
+    //    return ( <CSVLink
+    //         data={expErr}
+    //         filename={"grnviewerrors.csv"}
+    //         asyncOnClick={true}
+    //         >
+    //     </CSVLink>)
+    //     // const wb = XLSX.utils.book_new(),
+    //     //     ws = XLSX.utils.json_to_sheet(data);
+    //     // XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     // XLSX.writeFile(wb,"grnviewerrors.XLSX")
+    // }
 
-    const handleExcel = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"grnviewDownload.XLSX")
-    }
+    // const handleExcel = (data) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(data);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"grnviewDownload.XLSX")
+    // }
 
-    const handleViewError = (row) => {
-        handleGrnExcelUpload({
+    const handleViewError = async (row) => {
+        await handleGrnExcelUpload({
             uplId: row.uplId,
             certificate: authInfo.token
         })
@@ -288,6 +297,7 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
         });
     }
 
+
     return(
         <div>
             <TitleWidget title={'GRN Upload Log'} />
@@ -307,6 +317,16 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
             <br/><br/>
             {flag &&
                 <Table columns={column} dataSource={data}/>
+            }
+            {expErr.length > 0 && <CSVDownload
+                data={expErr}
+                 filename={"grnviewErr.csv"}/>
+                // target="_blank"></CSVDownload>
+            }
+            {exp.length > 0 && <CSVDownload
+                data={exp}
+                filename={"grnviewDownload.csv"}/>
+                // target="_blank"></CSVDownload>
             }
         </div>
     )

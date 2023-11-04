@@ -13,6 +13,7 @@ import {selectGrnExcelUploadListData, selectTransportExcelUploadListData, select
 import {grnExcelUploadStartAction, transportExcelUploadStartAction, transportUploadStartAction} from "../../redux/actions/upload/uploadActions";
 import XLSX from "xlsx";
 import {CSVLink} from "react-csv";
+import CSVDownload from "react-csv/src/components/Download";
 
 
 const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handleDeliveryUpdateList,handleTransportUploadList,transportExcelData,handleGrnExcelUpload, transportUploadSuccess}) => {
@@ -65,23 +66,12 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
                 dataIndex: '',
                 width: '130px',
                 render: (_,row) => {
-                    return (<><CSVLink
-                        data={expErr}
-                        filename={"deliveryupdateerror.csv"}
-                        onClick={() => {
-                            handleViewError(row)
-                        }}
-                    >
-                        <Button type="link">View Errors</Button>
-                    </CSVLink>
-                        |<CSVLink
-                            data={exp}
-                            filename={"deliveryupdate.csv"}
-                            onClick={() => {
-                                handleViewError(row)
-                            }}
-                        ><Button type="link">Download Details</Button>
-                        </CSVLink></>)
+                    return (<>
+                        <Button type="link" onClick={()=>{handleViewError(row)
+                            setViewE(true)}}>View Errors</Button>
+                        |<Button type="link" onClick={()=>{handleViewError(row)
+                        setViewD(true)}}>Download Details</Button>
+                    </>)
                 }
             }
         ]);
@@ -135,43 +125,53 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
         } else {
             console.log('no data')
         }
-        console.log(expErr)
-        console.log(exp)
-    },[transportExcelData])
-
-    useEffect(() => {
-        console.log("expErr: ", expErr)
         if (viewE) {
             if (expErr.length > 0) {
-                handleExcelErr(expErr)
+                // csvLinkError.current.link.click()
                 setViewE(false)
             }
         }
-    },[expErr])
-
-    useEffect(() => {
-        console.log("exp: ", exp)
         if (viewD) {
             if (exp.length > 0) {
-                handleExcel(exp)
+                // csvLink.current.link.Click()
                 setViewD(false)
             }
         }
-    },[exp])
+    },[transportExcelData])
 
-    const handleExcelErr = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"deliveryupdateerror.XLSX")
-    }
+    // useEffect(() => {
+    //     console.log("expErr: ", expErr)
+    //     if (viewE) {
+    //         if (expErr.length > 0) {
+    //             handleExcelErr(expErr)
+    //             setViewE(false)
+    //         }
+    //     }
+    // },[expErr])
+    //
+    // useEffect(() => {
+    //     console.log("exp: ", exp)
+    //     if (viewD) {
+    //         if (exp.length > 0) {
+    //             handleExcel(exp)
+    //             setViewD(false)
+    //         }
+    //     }
+    // },[exp])
 
-    const handleExcel = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"deliveryupdate.XLSX")
-    }
+    // const handleExcelErr = (data) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(data);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"deliveryupdateerror.XLSX")
+    // }
+    //
+    // const handleExcel = (data) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(data);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"deliveryupdate.XLSX")
+    // }
 
     const handleViewError = (row) => {
         handleGrnExcelUpload({
@@ -301,6 +301,16 @@ const DeliveryUpdateComponent = ({authInfo,profileInfo,deliveryUpdateList,handle
             <span>Total Rows: <b>{deliveryUpdateList?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={deliveryUpdateList}/>
+            }
+            {expErr.length > 0 && <CSVDownload
+                data={expErr}
+                filename={"grnviewErr.csv"}/>
+                // target="_blank"></CSVDownload>
+            }
+            {exp.length > 0 && <CSVDownload
+                data={exp}
+                filename={"grnviewDownload.csv"}/>
+                // target="_blank"></CSVDownload>
             }
         </div>
     )

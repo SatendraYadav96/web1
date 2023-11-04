@@ -11,6 +11,8 @@ import {invoiceUploadCsvStartAction, invoiceUploadStartAction} from "../../redux
 import XLSX from "xlsx";
 import {grnExcelUploadStartAction, invoiceExcelUploadStartAction} from "../../redux/actions/upload/uploadActions";
 import {selectGrnExcelUploadListData, selectInvoiceExcelUploadListData, selectInvoiceUploadSuccess} from "../../redux/selectors/uploadSelector";
+import {CSVLink} from "react-csv";
+import CSVDownload from "react-csv/src/components/Download";
 
 const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload,handleInvoiceExcelUpload,invoiceExcelData, success}) => {
 
@@ -68,15 +70,10 @@ const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUp
                 width: '150px',
                 render: (_,row) => {
                     return (
-                        <>
-                            <Link onClick={() => {
-                                handleViewError(row)
-                                setViewE(true)
-                            }} to="">View Errors </Link>|<Link onClick={() => {
-                            handleViewError(row)
-                            setViewD(true)
-                        }} to=""> Download Details</Link>
-                        </>
+                        <><Button type="link" onClick={()=>{handleViewError(row)
+                            setViewE(true)}}>View Errors</Button>
+                            |<Button type="link" onClick={()=>{handleViewError(row)
+                                setViewD(true)}}>Download Details</Button></>
                     )
                 }
             }
@@ -139,6 +136,18 @@ const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUp
         } else {
             console.log('no data')
         }
+        if (viewE) {
+            if (expErr.length > 0) {
+                // csvLinkError.current.link.click()
+                setViewE(false)
+            }
+        }
+        if (viewD) {
+            if (exp.length > 0) {
+                // csvLink.current.link.Click()
+                setViewD(false)
+            }
+        }
     },[invoiceExcelData])
 
     const handleViewError = (row) => {
@@ -148,39 +157,39 @@ const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUp
         })
     }
 
-    useEffect(() => {
-        console.log("expErr: ", expErr)
-        if (viewE) {
-            if (expErr.length > 0) {
-                handleExcelErr(expErr)
-                setViewE(false)
-            }
-        }
-    },[expErr])
-
-    useEffect(() => {
-        console.log("exp: ", exp)
-        if (viewD) {
-            if (exp.length > 0) {
-                handleExcel(exp)
-                setViewD(false)
-            }
-        }
-    },[exp])
-
-    const handleExcelErr = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"invoiceerrors.XLSX")
-    }
-
-    const handleExcel = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"invoiceDownload.XLSX")
-    }
+    // useEffect(() => {
+    //     console.log("expErr: ", expErr)
+    //     if (viewE) {
+    //         if (expErr.length > 0) {
+    //             handleExcelErr(expErr)
+    //             setViewE(false)
+    //         }
+    //     }
+    // },[expErr])
+    //
+    // useEffect(() => {
+    //     console.log("exp: ", exp)
+    //     if (viewD) {
+    //         if (exp.length > 0) {
+    //             handleExcel(exp)
+    //             setViewD(false)
+    //         }
+    //     }
+    // },[exp])
+    //
+    // const handleExcelErr = (data) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(data);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"invoiceerrors.XLSX")
+    // }
+    //
+    // const handleExcel = (data) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(data);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"invoiceDownload.XLSX")
+    // }
 
     const refresh = () => {
         handleInvoiceUploadList({
@@ -314,6 +323,16 @@ const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUp
             <br/><br/>
             <span>Total Rows: <b>{invoiceUploadList?.length}</b></span>
                 <Table columns={column} dataSource={invoiceUploadList}/>
+            {expErr.length > 0 && <CSVDownload
+                data={expErr}
+                filename={"grnviewErr.csv"}/>
+                // target="_blank"></CSVDownload>
+            }
+            {exp.length > 0 && <CSVDownload
+                data={exp}
+                filename={"grnviewDownload.csv"}/>
+                // target="_blank"></CSVDownload>
+            }
         </div>
     )
 }

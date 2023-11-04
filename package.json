@@ -16,6 +16,7 @@
     "antd": "^4.21.0",
     "antd-table-saveas-excel": "^2.2.1",
     "antv": "^0.2.2",
+    "axios": "^1.6.0",
     "craco-less": "^2.0.0",
     "moment": "^2.29.4",
     "npm": "^9.6.3",
