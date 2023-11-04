@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 const { TextArea } = Input;
 import PropTypes from "prop-types";
@@ -11,7 +11,6 @@ import {useNavigate} from "react-router-dom";
 import {selectInsertSamplesData, selectInsertSamplesFailError, selectInsertSamplesLoadingData} from "../../../redux/selectors/masterSelector";
 import {addSamplesStartAction} from "../../../redux/actions/master/masterActions";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
-import {useEffect} from "@types/react";
 
 const CreateSamplesComponent = ({
     authInfo,
