@@ -24,7 +24,11 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
     const [flag, setFlag] = useState(false)
     const [status, setStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [recipientCode, setRecipientCode] = useState("")
+<<<<<<< HEAD
     const [recipientName, setRecipientName] = useState("")
+=======
+    const [name, setName] = useState("")
+>>>>>>> 7ce0bddd6c515dac2b199957f0d540a66b85fbe1
     const [ffHistory, setFFHistory] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -398,7 +402,7 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
             ff: {
                 status: status,
                 ffCode: recipientCode,
-                ffName: "",
+                ffName: name,
             },
             certificate: authInfo.token,
         })
@@ -456,9 +460,19 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                 <Col span={3}>
                     <SelectRecipientStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                 </Col>
+<<<<<<< HEAD
                 <Col span={6}>
                     <SelectRecipientCodeComponent onChange={(value) => setRecipientCode(value)}/>
 
+=======
+                <Col span={3}>
+                    {/*<SelectRecipientCodeComponent onChange={(value) => setRecipientCode(value)}/>*/}
+                    <Input value={recipientCode} onChange={(e) => setRecipientCode(e.target.value)} placeholder={"Enter Code"}></Input>
+                </Col>
+                <Col span={3}>
+                    {/*<SelectRecipientCodeComponent onChange={(value) => setRecipientCode(value)}/>*/}
+                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={"Enter Name"}></Input>
+>>>>>>> 7ce0bddd6c515dac2b199957f0d540a66b85fbe1
                 </Col>
                 <Col span={2}>
                     <Button type={"primary"} onClick={() => handleFF()} style={{width: '100%'}}>Search</Button>
