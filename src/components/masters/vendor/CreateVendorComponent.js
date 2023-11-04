@@ -8,12 +8,14 @@ import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Row, message, InputNumber} from "antd";
 import SelectStatusComponent from "../../widgets/SelectStatusComponent";
 import { addVendorStartAction } from '../../../redux/actions/master/masterActions';
-import {selectInsertVendorData,selectInsertVendorLoadingData} from "../../../redux/selectors/masterSelector";
+import {selectInsertVendorData, selectInsertVendorFailError, selectInsertVendorLoadingData} from "../../../redux/selectors/masterSelector";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
+import {showMessageAction} from "../../../redux/actions/global/GlobalActions";
+import {isEmpty} from "rxjs";
 
 
-const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLoading,handleAddVendor}) => {
+const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLoading,handleAddVendor, insertVendorFailError}) => {
 
     const navigate = useNavigate()
 
@@ -107,6 +109,13 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
         return navigate("/home/masters/vendor")
     }
 
+    useEffect(()=>{
+        console.log(Object.keys(insertVendorFailError).length !== 0)
+        if(insertVendorFailError!== undefined && Object.keys(insertVendorFailError).length !== 0){
+                message.error(insertVendorFailError.message);
+        }
+    },[insertVendorFailError])
+
     return(
         <>
             <TitleWidget title={"Create Vendor"}/>
@@ -159,6 +168,7 @@ CreateVendorComponent.propTypes = {
     insertVendor:PropTypes.array,
     insertVendorLoading:PropTypes.any,
     handleAddVendor:PropTypes.func,
+    insertVendorFailError: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -166,7 +176,8 @@ const mapState = (state) => {
     const insertVendor = selectInsertVendorData(state)
     const insertVendorLoading = selectInsertVendorLoadingData(state)
     const profileInfo = selectProfileInfo(state)
-    return {authInfo,insertVendor,insertVendorLoading,profileInfo}
+    const insertVendorFailError = selectInsertVendorFailError(state)
+    return {authInfo,insertVendor,insertVendorLoading,profileInfo, insertVendorFailError}
 
 
 

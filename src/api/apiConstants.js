@@ -116,8 +116,8 @@ export const FF_HISTORY_BY_ID_API = { url: '/v1/master/getFieldForceHistory', me
 
 //VENDOR
 export const GET_VENDOR_API = {url: '/v1/master/getVendor',method:'GET',auth:true}
-export const ADD_VENDOR_API = { url: '/v1/master/addVendor', method: 'POST', auth: true }
-export const EDIT_VENDOR_API = { url: '/v1/master/editVendor', method: 'PUT', auth: true }
+export const ADD_VENDOR_API = { url: '/v1/master/addVendors', method: 'POST', auth: true }
+export const EDIT_VENDOR_API = { url: '/v1/master/editVendors', method: 'PUT', auth: true }
 export const VENDOR_BY_ID_API = { url: '/v1/master/getVendorById', method: 'GET', auth: true }
 
 // COST CENTER

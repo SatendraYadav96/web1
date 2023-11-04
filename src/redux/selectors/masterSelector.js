@@ -361,6 +361,7 @@ vendorLoading,
 //ADD VENDOR
 const insertVendor = (state) => state.master.insertVendor;
 const insertVendorLoading = (state) => state.master.insertVendorLoading
+const insertVendorFailError = (state) => state.master.insertVendorFailError
 
 
 export const selectInsertVendorData = createSelector(
@@ -373,12 +374,16 @@ insertVendorLoading,
               loadingSelection => loadingSelection
 );
 
+export const selectInsertVendorFailError = createSelector(
+    insertVendorFailError,
+    dataSelect => dataSelect
+)
 
 //EDIT VENDOR
 
 const editVendor = (state) => state.master.editVendor;
 const editVendorLoading = (state) => state.master.editVendorLoading
-
+const editVendorFailError = (state) => state.master.editVendorFailError
 
 export const selectEditVendorData = createSelector(
 editVendor,
@@ -389,6 +394,11 @@ export const selectEditVendorLoadingData = createSelector(
 editVendorLoading,
               loadingSelection => loadingSelection
 );
+
+export const selectEditVendorFailError = createSelector(
+    editVendorFailError,
+    dataSelect => dataSelect
+)
 
 //VENDOR BY ID
 
@@ -428,7 +438,7 @@ export const selectLoadingCostCenterData = createSelector(
 
 const editCostCenter = (state) => state.master.editCostCenter;
 const editCostCenterLoading = (state) => state.master.editCostCenterLoading
-
+const editCostCenterFailError = (state) => state.master.editCostCenterFailError
 
 export const selectEditCostCenterData = createSelector(
     editCostCenter,
@@ -439,6 +449,11 @@ export const selectEditCostCenterLoadingData = createSelector(
     editCostCenterLoading,
     loadingSelection => loadingSelection
 );
+
+export const selectEditCostCenterFailError = createSelector(
+    editCostCenterFailError,
+    dataSelect => dataSelect
+)
 
 //COST CENTER BY ID
 
@@ -459,7 +474,7 @@ export const selectLoadingCostCenterByIdData = createSelector(
 //ADD COST CENTER
 const insertCostCenter = (state) => state.master.insertCostCenter;
 const insertCostCenterLoading = (state) => state.master.insertCostCenterLoading
-
+const insertCostCenterFailError = (state) => state.master.insertCostCenterFailError
 
 export const selectInsertCostCenterData = createSelector(
     insertCostCenter,
@@ -470,6 +485,11 @@ export const selectInsertCostCenterLoadingData = createSelector(
     insertCostCenterLoading,
     loadingSelection => loadingSelection
 );
+
+export const selectInsertCostCenterFailError = createSelector(
+    insertCostCenterFailError,
+    dataSelect => dataSelect
+)
 
 
 //SAMPLES
@@ -492,7 +512,7 @@ export const selectLoadingSamplesData = createSelector(
 
 const editSamples = (state) => state.master.editSamples;
 const editSamplesLoading = (state) => state.master.editSamplesLoading
-
+const editSamplesFailError = (state) => state.master.editSamplesFailError
 
 export const selectEditSamplesData = createSelector(
   editSamples,
@@ -503,6 +523,11 @@ export const selectEditSamplesLoadingData = createSelector(
   editSamplesLoading,
   loadingSelection => loadingSelection
 );
+
+export const selectEditSamplesFailError = createSelector(
+    editSamplesFailError,
+    dataSelect => dataSelect
+)
 
 //SAMPLES BY ID
 
@@ -523,7 +548,7 @@ export const selectLoadingSamplesByIdData = createSelector(
 //ADD SAMPLES
 const insertSamples = (state) => state.master.insertSamples;
 const insertSamplesLoading = (state) => state.master.insertSamplesLoading
-
+const insertSamplesFailError = (state) => state.master.insertSamplesFailError
 
 export const selectInsertSamplesData = createSelector(
     insertSamples,
@@ -534,6 +559,11 @@ export const selectInsertSamplesLoadingData = createSelector(
     insertSamplesLoading,
     loadingSelection => loadingSelection
 );
+
+export const selectInsertSamplesFailError = createSelector(
+    insertSamplesFailError,
+    dataSelect => dataSelect
+)
 
 const masterBlockedList = (state) => state.master.masterBlockedList;
 const masterBlockedLoading = (state) => state.master.masterBlockedListLoading

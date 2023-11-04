@@ -3,11 +3,11 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row} from "antd";
+import {Button, Checkbox, Col, Input, message, Row} from "antd";
 import {Select} from "antd/es";
 import TextArea from "antd/es/input/TextArea";
 import {useNavigate, useParams} from "react-router-dom";
-import {selectSamplesByIdData, selectEditSamplesData, selectEditSamplesLoadingData, selectLoadingSamplesByIdData} from "../../../redux/selectors/masterSelector";
+import {selectSamplesByIdData, selectEditSamplesData, selectEditSamplesLoadingData, selectLoadingSamplesByIdData, selectEditSamplesFailError} from "../../../redux/selectors/masterSelector";
 import {editSamplesStartAction, getSamplesByIdStartAction} from "../../../redux/actions/master/masterActions";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 
@@ -20,6 +20,7 @@ const EditSamplesComponent = ({
   samplesById,
   samplesByIdLoading,
   handleSamplesById,
+  editSamplesFailError
 }) => {
 
   const navigate = useNavigate()
@@ -108,6 +109,13 @@ const EditSamplesComponent = ({
     });
   }
 
+    useEffect(()=>{
+        console.log(Object.keys(editSamplesFailError).length !== 0)
+        if(editSamplesFailError!== undefined && Object.keys(editSamplesFailError).length !== 0){
+            message.error(editSamplesFailError.message);
+        }
+    },[editSamplesFailError])
+
   return(
     <>
       <TitleWidget title={"Edit Samples"}/>
@@ -171,6 +179,7 @@ EditSamplesComponent.propTypes = {
   samplesByIdLoading: PropTypes.any,
   handleSamplesById: PropTypes.func,
   samplesById: PropTypes.array,
+    editSamplesFailError: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -180,6 +189,7 @@ const mapState = (state) => {
   const profileInfo = selectProfileInfo(state);
   const samplesById = selectSamplesByIdData(state);
   const samplesByIdLoading = selectLoadingSamplesByIdData(state);
+  const editSamplesFailError = selectEditSamplesFailError(state)
   return {
     authInfo,
     editSamples,
@@ -187,6 +197,7 @@ const mapState = (state) => {
     profileInfo,
     samplesById,
     samplesByIdLoading,
+      editSamplesFailError
   }
 }
 

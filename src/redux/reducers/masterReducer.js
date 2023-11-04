@@ -119,20 +119,30 @@ const initialState = {
     vendorLoading: false,
     insertVendor: [],
     insertVendorLoading: false,
+    insertVendorFailError: {},
     editVendor: [],
     editVendorLoading: false,
+    editVendorFailError:{},
     vendorById: [],
     vendorByIdLoading:false,
     costCenterList: [],
     costCenterLoading: false,
+    insertCostCenter:[],
+    insertCostCenterLoading: false,
+    insertCostCenterFailError:{},
     editCostCenterList: [],
     editCostCenterLoading: false,
+    editCostCenterFailError: {},
     costCenterById: [],
     costCenterByIdLoading:false,
     samplesList: [],
     samplesLoading: false,
+    insertSamples:[],
+    insertSamplesLoading: false,
+    insertSamplesFailError: {},
     editSamplesList: [],
     editSamplesLoading: false,
+    editSamplesFailError: {},
     samplesById: [],
     samplesByIdLoading:false,
     masterBlockedList: [],
@@ -367,6 +377,7 @@ const addUserSuccessReducer = (state = initialState, payload) => {
 
 
 const addUserFailReducer = (state = initialState, payload) => {
+    console.log(payload.error)
     return {
         ...state,
         insertUser:[],
@@ -644,6 +655,7 @@ const getVendorSuccessReducer = (state = initialState, payload) => {
 
 
 const getVendorFailReducer = (state = initialState, payload) => {
+
   return {
     ...state,
     vendorList:[],
@@ -671,10 +683,12 @@ const addVendorSuccessReducer = (state = initialState, payload) => {
 
 
 const addVendorFailReducer = (state = initialState, payload) => {
+    console.log(payload.error)
   return {
     ...state,
     insertVendor:[],
     insertVendorLoading: false,
+    insertVendorFailError: payload.error.response,
     error: payload.error,
 
   }
@@ -700,6 +714,7 @@ const editVendorFailReducer = (state = initialState, payload) => {
     ...state,
     editVendor:[],
     editVendorLoading: false,
+    editVendorFailError:payload.error.response,
     error: payload.error,
 
   }
@@ -730,7 +745,6 @@ const getVendorByIdFailReducer = (state = initialState, payload) => {
 const getCostCenterSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-
         costCenterList:payload.costCenterList,
         costCenterLoading: false
 
@@ -751,7 +765,6 @@ const getCostCenterFailReducer = (state = initialState, payload) => {
 const addCostCenterSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-
         insertCostCenter:payload.insertCostCenter,
         insertCostCenterLoading: false
 
@@ -766,7 +779,7 @@ const addCostCenterFailReducer = (state = initialState, payload) => {
         insertCostCenter:[],
         insertCostCenterLoading: false,
         error: payload.error,
-
+        insertCostCenterFailError: payload.error.response
     }
 }
 
@@ -790,7 +803,7 @@ const editCostCenterFailReducer = (state = initialState, payload) => {
         editCostCenter:[],
         editCostCenterLoading: false,
         error: payload.error,
-
+        editCostCenterFailError: payload.error.response
     }
 }
 
@@ -855,7 +868,7 @@ const editSamplesFailReducer = (state = initialState, payload) => {
     editSamples:[],
     editSamplesLoading: false,
     error: payload.error,
-
+    editSamplesFailError: payload.error.response
   }
 }
 
@@ -899,7 +912,7 @@ const addSamplesFailReducer = (state = initialState, payload) => {
         insertSamples:[],
         insertSamplesLoading: false,
         error: payload.error,
-
+        insertSamplesFailError: payload.error.response
     }
 }
 

@@ -3,10 +3,20 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row} from "antd";
+import {Button, Checkbox, Col, Input, message, Row} from "antd";
 import {Select} from "antd/es";
 import {useNavigate, useParams} from "react-router-dom";
-import {selectCostCenterByIdData, selectEditCostCenterData, selectEditCostCenterLoadingData, selectEditVendorData, selectEditVendorLoadingData, selectLoadingCostCenterByIdData, selectLoadingVendorByIdData, selectVendorByIdData} from "../../../redux/selectors/masterSelector";
+import {
+    selectCostCenterByIdData,
+    selectEditCostCenterData,
+    selectEditCostCenterFailError,
+    selectEditCostCenterLoadingData,
+    selectEditVendorData,
+    selectEditVendorLoadingData,
+    selectLoadingCostCenterByIdData,
+    selectLoadingVendorByIdData,
+    selectVendorByIdData
+} from "../../../redux/selectors/masterSelector";
 import {editCostCenterStartAction, editVendorStartAction, getCostCenterByIdStartAction, getVendorByIdStartAction} from "../../../redux/actions/master/masterActions";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 
@@ -20,6 +30,7 @@ const EditCostCenterComponent = ({
      costCenterById,
      costCenterByIdLoading,
      handleCostCenterById,
+     editCostCenterFailError
 }) => {
     const navigate = useNavigate()
 
@@ -117,6 +128,13 @@ const EditCostCenterComponent = ({
         });
     }
 
+    useEffect(()=>{
+        console.log(Object.keys(editCostCenterFailError).length !== 0)
+        if(editCostCenterFailError!== undefined && Object.keys(editCostCenterFailError).length !== 0){
+            message.error(editCostCenterFailError.message);
+        }
+    },[editCostCenterFailError])
+
     return(
         <>
             <TitleWidget title={"Edit Cost Center"}/>
@@ -161,6 +179,7 @@ EditCostCenterComponent.propTypes = {
     costCenterByIdLoading: PropTypes.any,
     handleCostCenterById: PropTypes.func,
     costCenterById: PropTypes.array,
+    editCostCenterFailError: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -170,6 +189,7 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state);
     const costCenterById = selectCostCenterByIdData(state);
     const costCenterByIdLoading = selectLoadingCostCenterByIdData(state);
+    const editCostCenterFailError = selectEditCostCenterFailError(state);
     return {
         authInfo,
         editCostCenter,
@@ -177,6 +197,7 @@ const mapState = (state) => {
         profileInfo,
         costCenterById,
         costCenterByIdLoading,
+        editCostCenterFailError
     }
 }
 

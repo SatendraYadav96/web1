@@ -377,10 +377,7 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     ADD_VENDOR_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+
     ],
     EDIT_VENDOR_START: [{ action: 'showspinner' }],
     EDIT_VENDOR_SUCCESS: [{ action: 'hidespinner' },
@@ -391,10 +388,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     EDIT_VENDOR_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     EDIT_COST_CENTER_START: [{ action: 'showspinner' }],
     EDIT_COST_CENTER_SUCCESS: [{ action: 'hidespinner' },
@@ -405,10 +402,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     EDIT_COST_CENTER_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     ADD_COST_CENTER_START: [{ action: 'showspinner' }],
     ADD_COST_CENTER_SUCCESS: [{ action: 'hidespinner' },
@@ -419,10 +416,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     ADD_COST_CENTER_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     ADD_SAMPLES_START: [{ action: 'showspinner' }],
     ADD_SAMPLES_SUCCESS: [{ action: 'hidespinner' },
@@ -433,10 +430,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     ADD_SAMPLES_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     EDIT_SAMPLES_START: [{ action: 'showspinner' }],
     EDIT_SAMPLES_SUCCESS: [
@@ -448,10 +445,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     EDIT_SAMPLES_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
 
         // hsn add message
