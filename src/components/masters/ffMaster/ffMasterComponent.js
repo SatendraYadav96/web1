@@ -24,6 +24,7 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
     const [flag, setFlag] = useState(false)
     const [status, setStatus] = useState("80BC3490-9F53-4C92-8DBA-3D5C7755FD73")
     const [recipientCode, setRecipientCode] = useState("")
+    const [recipientName, setRecipientName] = useState("")
     const [ffHistory, setFFHistory] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -457,6 +458,7 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
                 </Col>
                 <Col span={6}>
                     <SelectRecipientCodeComponent onChange={(value) => setRecipientCode(value)}/>
+
                 </Col>
                 <Col span={2}>
                     <Button type={"primary"} onClick={() => handleFF()} style={{width: '100%'}}>Search</Button>

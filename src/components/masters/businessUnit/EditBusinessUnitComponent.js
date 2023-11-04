@@ -40,6 +40,7 @@ const EditBusinessUnitComponent = ({authInfo,editBuisnessUnit,buisnessUnitById,h
 
     const handleInsertBusinessUnit = () => {
         const data = {
+            id: id,
             name: name,
             code: code,
             active: active,

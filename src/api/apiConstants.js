@@ -85,32 +85,32 @@ export const GET_MANAGEMENT_DASHBOARD_API = {url: '/v1/dashboard/bexManagementDa
 
 //BUISNESS UNIT
 export const GET_BUISNESS_UNIT_API = {url: '/v1/master/getBusinessUnit',method:'GET',auth:true}
-export const ADD_BUISNESS_UNIT_API = { url: '/v1/master/addBusinessUnit', method: 'POST', auth: true }
-export const EDIT_BUISNESS_UNIT_API = { url: '/v1/master/editBusinessUnit', method: 'PUT', auth: true }
+export const ADD_BUISNESS_UNIT_API = { url: '/v1/master/addBusinessUnits', method: 'POST', auth: true }
+export const EDIT_BUISNESS_UNIT_API = { url: '/v1/master/editBusinessUnits', method: 'PUT', auth: true }
 export const BUISNESS_UNIT_BY_ID_API = { url: '/v1/master/getBusinessUnitById', method: 'GET', auth: true }
 
 //TEAM
 export const GET_TEAM_API = {url: '/v1/master/getTeam',method:'GET',auth:true}
-export const ADD_TEAM_API = { url: '/v1/master/addTeam', method: 'POST', auth: true }
-export const EDIT_TEAM_API = { url: '/v1/master/editTeam', method: 'PUT', auth: true }
+export const ADD_TEAM_API = { url: '/v1/master/addTeams', method: 'POST', auth: true }
+export const EDIT_TEAM_API = { url: '/v1/master/editTeams', method: 'PUT', auth: true }
 export const TEAM_BY_ID_API = { url: '/v1/master/getTeamById', method: 'GET', auth: true }
 
 //USER
 export const GET_USER_API = {url: '/v1/master/getUser',method:'GET',auth:true}
-export const ADD_USER_API = { url: '/v1/master/addUser', method: 'POST', auth: true }
-export const EDIT_USER_API = { url: '/v1/master/editUser', method: 'PUT', auth: true }
+export const ADD_USER_API = { url: '/v1/master/addUsers', method: 'POST', auth: true }
+export const EDIT_USER_API = { url: '/v1/master/editUsers', method: 'PUT', auth: true }
 export const USER_BY_ID_API = { url: '/v1/master/getUserById', method: 'GET', auth: true }
 
 //BRAND
 export const GET_BRAND_API = {url: '/v1/master/getBrand',method:'GET',auth:true}
-export const ADD_BRAND_API = { url: '/v1/master/addBrand', method: 'POST', auth: true }
-export const EDIT_BRAND_API = { url: '/v1/master/editBrand', method: 'PUT', auth: true }
+export const ADD_BRAND_API = { url: '/v1/master/addBrands', method: 'POST', auth: true }
+export const EDIT_BRAND_API = { url: '/v1/master/editBrands', method: 'PUT', auth: true }
 export const BRAND_BY_ID_API = { url: '/v1/master/getBrandById', method: 'GET', auth: true }
 
 //FF
 export const GET_FF_API = {url: '/v1/master/getFieldForce',method:'POST',auth:true}
-export const ADD_FF_API = { url: '/v1/master/addFieldForce', method: 'POST', auth: true }
-export const EDIT_FF_API = { url: '/v1/master/editFieldForce', method: 'PUT', auth: true }
+export const ADD_FF_API = { url: '/v1/master/addFieldForces', method: 'POST', auth: true }
+export const EDIT_FF_API = { url: '/v1/master/editFieldForces', method: 'PUT', auth: true }
 export const FF_BY_ID_API = { url: '/v1/master/getFieldForceById', method: 'GET', auth: true }
 export const FF_HISTORY_BY_ID_API = { url: '/v1/master/getFieldForceHistory', method: 'GET', auth: true }
 
@@ -122,9 +122,9 @@ export const VENDOR_BY_ID_API = { url: '/v1/master/getVendorById', method: 'GET'
 
 // COST CENTER
 export const GET_COST_CENTER_API = {url: '/v1/master/getCostCenter',method:'GET',auth:true}
-export const EDIT_COST_CENTER_API = { url: '/v1/master/editCostCenter', method: 'PUT', auth: true }
+export const EDIT_COST_CENTER_API = { url: '/v1/master/editCostCenters', method: 'PUT', auth: true }
 export const COST_CENTER_BY_ID_API = { url: '/v1/master/getCostCenterById', method: 'GET', auth: true }
-export const ADD_COST_CENTER_API = { url: '/v1/master/addCostCenter', method: 'POST', auth: true }
+export const ADD_COST_CENTER_API = { url: '/v1/master/addCostCenters', method: 'POST', auth: true }
 
 export const GET_MASTER_BLOCKED_LIST_API = {url: '/v1/compliance/masterBlockedList',method:'GET',auth:true}
 
@@ -146,9 +146,9 @@ export const GET_APPROVER_DROPDOWN_API = {url: '/v1/master/getApproverDropdown',
 
 // SAMPLES
 export const GET_SAMPLES_API = {url: '/v1/master/getSample',method:'GET',auth:true}
-export const EDIT_SAMPLES_API = { url: '/v1/master/editSample', method: 'PUT', auth: true }
+export const EDIT_SAMPLES_API = { url: '/v1/master/editSamples', method: 'PUT', auth: true }
 export const SAMPLES_BY_ID_API = { url: '/v1/master/getSampleById', method: 'GET', auth: true }
-export const ADD_SAMPLES_API = { url: '/v1/master/addSample', method: 'POST', auth: true }
+export const ADD_SAMPLES_API = { url: '/v1/master/addSamples', method: 'POST', auth: true }
 
 // INVENTORY
 export const GET_INVENTORY_REPORT_API = {url: '/v1/inventory/searchInventory',method:'GET',auth:true}
