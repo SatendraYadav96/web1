@@ -509,10 +509,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     EDIT_BUISNESS_UNIT_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     ADD_BUISNESS_UNIT_START: [{ action: 'showspinner' }],
     ADD_BUISNESS_UNIT_SUCCESS: [{ action: 'hidespinner' },
@@ -523,10 +523,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     ADD_BUISNESS_UNIT_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     GET_TEAM_START: [{ action: 'showspinner' }],
     GET_TEAM_SUCCESS: [{ action: 'hidespinner' }],
@@ -555,10 +555,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     EDIT_TEAM_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     ADD_TEAM_START: [{ action: 'showspinner' }],
     ADD_TEAM_SUCCESS: [{ action: 'hidespinner' },
@@ -569,10 +569,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     ADD_TEAM_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     GET_USER_START: [{ action: 'showspinner' }],
     GET_USER_SUCCESS: [{ action: 'hidespinner' }],
@@ -601,10 +601,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     EDIT_USER_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     ADD_USER_START: [{ action: 'showspinner' }],
     ADD_USER_SUCCESS: [{ action: 'hidespinner' },
@@ -615,10 +615,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     ADD_USER_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     GET_BRAND_START: [{ action: 'showspinner' }],
     GET_BRAND_SUCCESS: [{ action: 'hidespinner' }],
@@ -647,10 +647,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     EDIT_BRAND_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     ADD_BRAND_START: [{ action: 'showspinner' }],
     ADD_BRAND_SUCCESS: [{ action: 'hidespinner' },
@@ -661,10 +661,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     ADD_BRAND_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     GET_FF_START: [{ action: 'showspinner' }],
     GET_FF_SUCCESS: [{ action: 'hidespinner' }],
@@ -702,10 +702,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     EDIT_FF_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     ADD_FF_START: [{ action: 'showspinner' }],
     ADD_FF_SUCCESS: [{ action: 'hidespinner' },
@@ -716,10 +716,10 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
     ],
     ADD_FF_FAIL: [
         { action: 'hidespinner' },
-        {
-            action: 'showerror',
-            payload: { message: { text: 'action failed', type: 'error' } },
-        },
+        // {
+        //     action: 'showerror',
+        //     payload: { message: { text: 'action failed', type: 'error' } },
+        // },
     ],
     GET_SPECIALDISPATCH_START: [{ action: 'showspinner' }],
     GET_SPECIALDISPATCH_SUCCESS: [{ action: 'hidespinner' },

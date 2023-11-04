@@ -3,17 +3,17 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row, Select} from "antd";
+import {Button, Checkbox, Col, Input, message, Row, Select} from "antd";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 import TextArea from "antd/es/input/TextArea";
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
-import {selectInsertTeamData} from "../../../redux/selectors/masterSelector";
+import {selectInsertTeamData, selectInsertTeamFailError} from "../../../redux/selectors/masterSelector";
 import {addTeamStartAction} from "../../../redux/actions/master/masterActions";
 import SelectLegalEntityComponent from "../../widgets/SelectLegalEntity";
 
-const CreateTeamComponent = ({authInfo,insertTeam,handleAddTeam}) => {
+const CreateTeamComponent = ({authInfo,insertTeam,handleAddTeam, insertTeamFailError}) => {
 
     const navigate = useNavigate()
 
@@ -74,6 +74,13 @@ const CreateTeamComponent = ({authInfo,insertTeam,handleAddTeam}) => {
         console.log(active)
     },[active])
 
+    useEffect(()=>{
+        console.log(Object.keys(insertTeamFailError).length !== 0)
+        if(insertTeamFailError!== undefined && Object.keys(insertTeamFailError).length !== 0){
+            message.error(insertTeamFailError.message);
+        }
+    },[insertTeamFailError])
+
     return(
         <>
             <TitleWidget title={"Create Team"}/>
@@ -120,12 +127,14 @@ CreateTeamComponent.propTypes = {
     authInfo: PropTypes.any,
     insertTeam: PropTypes.any,
     handleAddTeam: PropTypes.func,
+    insertTeamFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const insertTeam = selectInsertTeamData(state)
-    return {authInfo,insertTeam}
+    const insertTeamFailError = selectInsertTeamFailError(state)
+    return {authInfo,insertTeam, insertTeamFailError}
 }
 
 const actions = {

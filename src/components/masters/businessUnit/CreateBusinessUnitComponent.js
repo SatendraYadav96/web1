@@ -3,16 +3,16 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row ,Form} from "antd";
+import {Button, Checkbox, Col, Input, Row, Form, message} from "antd";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
-import {selectInsertBuisnessUnitData, selectInsertCostCenterData} from "../../../redux/selectors/masterSelector";
+import {selectInsertBuisnessUnitData, selectInsertBusinessUnitFailError, selectInsertCostCenterData} from "../../../redux/selectors/masterSelector";
 import {propTypes} from "react-csv/lib/metaProps";
 import {addBuisnessUnitStartAction, addCostCenterStartAction} from "../../../redux/actions/master/masterActions";
 //import {RightCircleOutlined } from "@ant-design/icons";
 
 
-const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisnessUnit}) => {
+const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisnessUnit, insertBusinessUnitFailError}) => {
 
     const navigate = useNavigate()
 
@@ -80,6 +80,13 @@ const CreateBusinessUnitComponent = ({authInfo,insertBuisnessUnit,handleAddBuisn
     // });
 
 
+    useEffect(()=>{
+        console.log(Object.keys(insertBusinessUnitFailError).length !== 0)
+        if(insertBusinessUnitFailError!== undefined && Object.keys(insertBusinessUnitFailError).length !== 0){
+            message.error(insertBusinessUnitFailError.message);
+        }
+    },[insertBusinessUnitFailError])
+
     return(
         <>
             <TitleWidget title={"Create Business Unit"}/>
@@ -122,12 +129,14 @@ CreateBusinessUnitComponent.propTypes = {
     authInfo: PropTypes.any,
     insertBuisnessUnit: PropTypes.any,
     handleAddBuisnessUnit: PropTypes.func,
+    insertBusinessUnitFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const insertBuisnessUnit = selectInsertBuisnessUnitData(state)
-    return {authInfo,insertBuisnessUnit}
+    const insertBusinessUnitFailError = selectInsertBusinessUnitFailError(state)
+    return {authInfo,insertBuisnessUnit, insertBusinessUnitFailError}
 }
 
 const actions = {

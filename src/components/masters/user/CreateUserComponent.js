@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row, Select} from "antd";
+import {Button, Checkbox, Col, Input, message, Row, Select} from "antd";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 import TextArea from "antd/es/input/TextArea";
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
-import {selectInsertUserData} from "../../../redux/selectors/masterSelector";
+import {selectInsertUserData, selectInsertUserFailError} from "../../../redux/selectors/masterSelector";
 import {addBuisnessUnitStartAction, addUserStartAction} from "../../../redux/actions/master/masterActions";
 import SelectUserDesignationComponent from "../../widgets/SelectUserDesignationComponent";
 import SelectLegalEntityComponent from "../../widgets/SelectLegalEntity";
@@ -17,7 +17,7 @@ import SelectUserStatusComponent from "../../widgets/SelectUserStatusComponent";
 import SelectApproverComponent from "../../widgets/SelectApproverComponent";
 
 
-const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
+const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailError}) => {
 
     const navigate = useNavigate()
 
@@ -88,6 +88,13 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
         })
     }
 
+    useEffect(()=>{
+        console.log(Object.keys(insertUserFailError).length !== 0)
+        if(insertUserFailError!== undefined && Object.keys(insertUserFailError).length !== 0){
+            message.error(insertUserFailError.message);
+        }
+    },[insertUserFailError])
+
     return(
         <>
             <TitleWidget title={"Create User"}/>
@@ -153,12 +160,14 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser}) => {
 
 CreateUserComponent.propTypes = {
     authInfo: PropTypes.any,
+    insertUserFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const insertUser = selectInsertUserData(state)
-    return {authInfo}
+    const insertUserFailError = selectInsertUserFailError(state)
+    return {authInfo, insertUserFailError, insertUser}
 }
 
 const actions = {

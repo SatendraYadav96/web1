@@ -21,7 +21,7 @@ export const selectLoadingBuisnessUnitData = createSelector(
 //ADD BUISNESS UNIT
 const insertBuisnessUnit = (state) => state.master.insertBuisnessUnit;
 const insertBuisnessUnitLoading = (state) => state.master.insertBuisnessUnitLoading
-
+const insertBusinessUnitFailError = (state) => state.master.insertBusinessUnitFailError
 
 export const selectInsertBuisnessUnitData = createSelector(
     insertBuisnessUnit,
@@ -33,12 +33,16 @@ export const selectInsertBuisnessUnitLoadingData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectInsertBusinessUnitFailError = createSelector(
+    insertBusinessUnitFailError,
+    dataSelect => dataSelect
+)
 
 //EDIT BUSINESS UNIT
 
 const editBuisnessUnit = (state) => state.master.editBuisnessUnit;
 const editBuisnessUnitLoading = (state) => state.master.editBuisnessUnitLoading
-
+const editBusinessUnitFailError = (state) => state.master.editBusinessUnitFailError
 
 export const selectEditBuisnessUnitData = createSelector(
     editBuisnessUnit,
@@ -50,6 +54,10 @@ export const selectEditBuisnessUnitLoadingData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectEditBusinessUnitFailError = createSelector(
+    editBusinessUnitFailError,
+    dataSelect => dataSelect
+)
 
 //BUSINESS UNIT BY ID
 
@@ -88,7 +96,7 @@ export const selectLoadingTeamData = createSelector(
 //ADD TEAM
 const insertTeam = (state) => state.master.insertTeam;
 const insertTeamLoading = (state) => state.master.insertTeamLoading
-
+const insertTeamFailError = (state) => state.master.insertTeamFailError
 
 export const selectInsertTeamData = createSelector(
     insertTeam,
@@ -100,11 +108,16 @@ export const selectInsertTeamLoadingData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectInsertTeamFailError = createSelector(
+    insertTeamFailError,
+    dataSelect => dataSelect
+)
+
 
 //EDIT TEAM
 const editTeam = (state) => state.master.editTeam;
 const editTeamLoading = (state) => state.master.editTeamLoading
-
+const editTeamFailError = (state) => state.master.editTeamFailError
 
 export const selectEditTeamData = createSelector(
     editTeam,
@@ -116,6 +129,10 @@ export const selectEditTeamLoadingData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectEditTeamFailError = createSelector(
+    editTeamFailError,
+    dataSelect => dataSelect
+)
 
 //TEAM BY ID
 
@@ -153,7 +170,7 @@ export const selectLoadingUserData = createSelector(
 //ADD USER
 const insertUser = (state) => state.master.insertUser;
 const insertUserLoading = (state) => state.master.insertUserLoading
-
+const insertUserFailError = (state) => state.master.insertUserFailError
 
 export const selectInsertUserData = createSelector(
     insertUser,
@@ -165,11 +182,15 @@ export const selectInsertUserLoadingData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectInsertUserFailError = createSelector(
+    insertUserFailError,
+    dataSelect => dataSelect
+)
 
 //EDIT USER
 const editUser = (state) => state.master.editUser;
 const editUserLoading = (state) => state.master.editUserLoading
-
+const editUserFailError = (state)=> state.master.editUserFailError
 
 export const selectEditUserData = createSelector(
     editUser,
@@ -180,6 +201,11 @@ export const selectEditUserLoadingData = createSelector(
     editUserLoading,
     loadingSelection => loadingSelection
 );
+
+export const selectEditUserFailError = createSelector(
+    editUserFailError,
+    dataSelect => dataSelect
+)
 
 
 //USER BY ID
@@ -217,7 +243,7 @@ export const selectLoadingBrandData = createSelector(
 //ADD BRAND
 const insertBrand = (state) => state.master.insertBrand;
 const insertBrandLoading = (state) => state.master.insertBrandLoading
-
+const insertBrandFailError = (state) => state.master.insertBrandFailError
 
 export const selectInsertBrandData = createSelector(
     insertBrand,
@@ -229,11 +255,16 @@ export const selectInsertBrandLoadingData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectInsertBrandFailError = createSelector(
+    insertBrandFailError,
+    dataSelect => dataSelect
+)
+
 
 //EDIT BRAND
 const editBrand = (state) => state.master.editBrand;
 const editBrandLoading = (state) => state.master.editBrandLoading
-
+const editBrandFailError = (state) => state.master.editBrandFailError
 
 export const selectEditBrandData = createSelector(
     editBrand,
@@ -244,6 +275,11 @@ export const selectEditBrandLoadingData = createSelector(
     editBrandLoading,
     loadingSelection => loadingSelection
 );
+
+export const selectEditBrandFailError = createSelector(
+    editBrandFailError,
+    dataSelect => dataSelect
+)
 
 
 //BRAND BY ID
@@ -281,7 +317,7 @@ export const selectLoadingFFData = createSelector(
 //ADD FF
 const insertFF = (state) => state.master.insertFF;
 const insertFFLoading = (state) => state.master.insertFFLoading
-
+const insertFFFailError = (state) => state.master.insertFFFailError
 
 export const selectInsertFFData = createSelector(
     insertFF,
@@ -293,11 +329,15 @@ export const selectInsertFFLoadingData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectInsertFFFailError = createSelector(
+    insertFFFailError,
+    dataSelect => dataSelect
+)
 
 //EDIT FF
 const editFF = (state) => state.master.editFF;
 const editFFLoading = (state) => state.master.editFFLoading
-
+const editFFFailError = (state) => state.master.editFFFailError
 
 export const selectEditFFData = createSelector(
     editFF,
@@ -308,6 +348,11 @@ export const selectEditFFLoadingData = createSelector(
     editFFLoading,
     loadingSelection => loadingSelection
 );
+
+export const selectEditFFFailError = createSelector(
+    editFFFailError,
+    dataSelect => dataSelect
+)
 
 
 //FF BY ID

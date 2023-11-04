@@ -3,18 +3,18 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row, Select} from "antd";
+import {Button, Checkbox, Col, Input, message, Row, Select} from "antd";
 import {useNavigate, useParams} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
-import {selectBrandByIdData, selectEditBrandData, selectEditUserData, selectUserByIdData} from "../../../redux/selectors/masterSelector";
+import {selectBrandByIdData, selectEditBrandData, selectEditBrandFailError, selectEditUserData, selectUserByIdData} from "../../../redux/selectors/masterSelector";
 import {editBrandStartAction, editUserStartAction, getBrandByIdStartAction, getUserByIdStartAction} from "../../../redux/actions/master/masterActions";
 import SelectUserComponent from "../../widgets/SelectUserComponent";
 import SelectCostCenterComponent from "../../widgets/SelectCostCenterComponent";
 import SelectDivisionComponent from "../../widgets/SelectDivisionComponent";
 import SelectMultipleCostCenterComponent from "../../widgets/SelectMultipleCostCenterComponent";
 
-const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handleEditBrand}) => {
+const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handleEditBrand, editBrandFailError}) => {
 
     let { id } = useParams();
     const navigate = useNavigate()
@@ -138,6 +138,13 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
         });
     }
 
+    useEffect(()=>{
+        console.log(Object.keys(editBrandFailError).length !== 0)
+        if(editBrandFailError!== undefined && Object.keys(editBrandFailError).length !== 0){
+            message.error(editBrandFailError.message);
+        }
+    },[editBrandFailError])
+
     return(
         <>
             <TitleWidget title={"Edit Brand"}/>
@@ -191,13 +198,15 @@ EditBrandComponent.propTypes = {
     editBrand: PropTypes.array,
     handleBrandById: PropTypes.func,
     handleEditBrand: PropTypes.func,
+    editBrandFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const brandById = selectBrandByIdData(state)
     const editBrand = selectEditBrandData(state)
-    return {authInfo,brandById,editBrand}
+    const editBrandFailError = selectEditBrandFailError(state)
+    return {authInfo,brandById,editBrand, editBrandFailError}
 }
 
 const actions = {

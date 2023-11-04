@@ -3,19 +3,19 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row, Select} from "antd";
+import {Button, Checkbox, Col, Input, message, Row, Select} from "antd";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate, useParams} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 import TextArea from "antd/es/input/TextArea";
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
 import {editTeamStartAction, getBuisnessUnitByIdStartAction, getTeamByIdStartAction} from "../../../redux/actions/master/masterActions";
-import {selectBusinessUnitByIdData, selectEditTeamData, selectTeamByIdData} from "../../../redux/selectors/masterSelector";
+import {selectBusinessUnitByIdData, selectEditTeamData, selectEditTeamFailError, selectTeamByIdData} from "../../../redux/selectors/masterSelector";
 import {propTypes} from "react-csv/lib/metaProps";
 import SelectDivisionComponent from "../../widgets/SelectDivisionComponent";
 import SelectLegalEntityComponent from "../../widgets/SelectLegalEntity";
 
-const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEditTeam}) => {
+const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEditTeam, editTeamFailError}) => {
 
     const navigate = useNavigate()
 
@@ -137,6 +137,13 @@ const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEdit
         console.log(active)
     },[active])
 
+    useEffect(()=>{
+        console.log(Object.keys(editTeamFailError).length !== 0)
+        if(editTeamFailError!== undefined && Object.keys(editTeamFailError).length !== 0){
+            message.error(editTeamFailError.message);
+        }
+    },[editTeamFailError])
+
     return(
         <>
             <TitleWidget title={"Edit Team"}/>
@@ -193,14 +200,16 @@ EditTeamComponent.propTypes = {
     teamById: PropTypes.any,
     handleTeamById: PropTypes.func,
     editTeam: PropTypes.any,
-    handleEditTeam: PropTypes.func
+    handleEditTeam: PropTypes.func,
+    editTeamFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const teamById = selectTeamByIdData(state)
     const editTeam = selectEditTeamData(state)
-    return {authInfo,teamById,editTeam}
+    const editTeamFailError = selectEditTeamFailError(state)
+    return {authInfo,teamById,editTeam, editTeamFailError}
 }
 
 const actions = {

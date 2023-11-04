@@ -66,7 +66,7 @@ import {
     ADD_FF_SUCCESS,
     FF_HISTORY_BY_ID_SUCCESS,
     FF_HISTORY_BY_ID_FAIL,
-    GET_MASTER_BLOCKED_LIST_SUCCESS, GET_MASTER_BLOCKED_LIST_FAIL
+    GET_MASTER_BLOCKED_LIST_SUCCESS, GET_MASTER_BLOCKED_LIST_FAIL, EDIT_BUISNESS_UNIT_START
 } from "../actions/master/masterActionConstants";
 
 
@@ -77,40 +77,50 @@ const initialState = {
     buisnessUnitLoading: false,
     insertBuisnessUnit: [],
     insertBuisnessUnitLoading: false,
+    insertBusinessUnitFailError: {},
     editBuisnessUnit: [],
     editBuisnessUnitLoading: false,
+    editBusinessUnitFailError:{},
     buisnessUnitById: [],
     buisnessUnitByIdLoading:false,
     teamList: [],
     teamLoading: false,
     insertTeam: [],
     insertTeamLoading: false,
+    insertTeamFailError:{},
     editTeam: [],
     editTeamLoading: false,
+    editTeamFailError:{},
     teamById: [],
     teamByIdLoading:false,
     userList: [],
     userLoading: false,
     insertUser: [],
     insertUserLoading: false,
+    insertUserFailError: {},
     editUser: [],
     editUserLoading: false,
+    editUserFailError:{},
     userById: [],
     userByIdLoading:false,
     brandList: [],
     brandLoading: false,
     insertBrand: [],
     insertBrandLoading: false,
+    insertBrandFailError: {},
     editBrand: [],
     editBrandLoading: false,
+    editBrandFailError: {},
     brandById: [],
     brandByIdLoading:false,
     ffList: [],
     ffLoading: false,
     insertFF: [],
     insertFFLoading: false,
+    insertFFFailError: {},
     editFF: [],
     editFFLoading: false,
+    editFFFailError: {},
     ffById: [],
     ffByIdLoading:false,
     ffHistoryById: [],
@@ -195,7 +205,7 @@ const addBuisnessUnitFailReducer = (state = initialState, payload) => {
         insertBuisnessUnit:[],
         insertBuisnessUnitLoading: false,
         error: payload.error,
-
+        insertBusinessUnitFailError: payload.error.response
     }
 }
 
@@ -218,7 +228,7 @@ const editBuisnessUnitFailReducer = (state = initialState, payload) => {
         editBuisnessUnit:[],
         editBuisnessUnitLoading: false,
         error: payload.error,
-
+        editBusinessUnitFailError: payload.error.response
     }
 }
 
@@ -288,7 +298,7 @@ const addTeamFailReducer = (state = initialState, payload) => {
         insertTeam:[],
         insertTeamLoading: false,
         error: payload.error,
-
+        insertTeamFailError: payload.error.response
     }
 }
 
@@ -312,7 +322,7 @@ const editTeamFailReducer = (state = initialState, payload) => {
         editTeam:[],
         editTeamLoading: false,
         error: payload.error,
-
+        editTeamFailError: payload.error.response
     }
 }
 
@@ -383,7 +393,7 @@ const addUserFailReducer = (state = initialState, payload) => {
         insertUser:[],
         insertUserLoading: false,
         error: payload.error,
-
+        insertUserFailError: payload.error.response
     }
 }
 
@@ -407,7 +417,7 @@ const editUserFailReducer = (state = initialState, payload) => {
         editUser:[],
         editUserLoading: false,
         error: payload.error,
-
+        editUserFailError: payload.error.response
     }
 }
 
@@ -477,7 +487,7 @@ const addBrandFailReducer = (state = initialState, payload) => {
         insertBrand:[],
         insertBrandLoading: false,
         error: payload.error,
-
+        insertBrandFailError: payload.error.response
     }
 }
 
@@ -501,7 +511,7 @@ const editBrandFailReducer = (state = initialState, payload) => {
         editBrand:[],
         editBrandLoading: false,
         error: payload.error,
-
+        editBrandFailError: payload.error.response
     }
 }
 
@@ -570,7 +580,7 @@ const addFFFailReducer = (state = initialState, payload) => {
         insertFF:[],
         insertFFLoading: false,
         error: payload.error,
-
+        insertFFFailError: payload.error.response
     }
 }
 
@@ -594,7 +604,7 @@ const editFFFailReducer = (state = initialState, payload) => {
         editFF:[],
         editFFLoading: false,
         error: payload.error,
-
+        editFFFailError: payload.error.response
     }
 }
 

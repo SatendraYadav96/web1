@@ -3,9 +3,9 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row, Select} from "antd";
+import {Button, Checkbox, Col, Input, message, Row, Select} from "antd";
 import {useNavigate, useParams} from "react-router-dom";
-import {selectEditUserData, selectUserByIdData} from "../../../redux/selectors/masterSelector";
+import {selectEditUserData, selectEditUserFailError, selectUserByIdData} from "../../../redux/selectors/masterSelector";
 import {editUserStartAction, getUserByIdStartAction} from "../../../redux/actions/master/masterActions";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
 import SelectLegalEntityComponent from "../../widgets/SelectLegalEntity";
@@ -15,7 +15,7 @@ import SelectUserDesignationComponent from "../../widgets/SelectUserDesignationC
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
 import SelectApproverComponent from "../../widgets/SelectApproverComponent";
 
-const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEditUser}) => {
+const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEditUser, editUserFailError}) => {
 
     const navigate = useNavigate()
 
@@ -183,6 +183,13 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
         })
     }
 
+    useEffect(()=>{
+        console.log(Object.keys(editUserFailError).length !== 0)
+        if(editUserFailError!== undefined && Object.keys(editUserFailError).length !== 0){
+            message.error(editUserFailError.message);
+        }
+    },[editUserFailError])
+
     return(
         <>
             <TitleWidget title={"Edit User"}/>
@@ -250,14 +257,16 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
 }
 
 EditUserComponent.propTypes = {
-    authInfo: PropTypes.any
+    authInfo: PropTypes.any,
+    editUserFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const userById = selectUserByIdData(state)
     const editUser = selectEditUserData(state)
-    return {authInfo,userById,editUser}
+    const editUserFailError = selectEditUserFailError(state)
+    return {authInfo,userById,editUser, editUserFailError}
 }
 
 const actions = {

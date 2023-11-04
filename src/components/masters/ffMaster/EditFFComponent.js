@@ -3,18 +3,18 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Select} from "antd";
+import {Button, Col, DatePicker, Input, message, Row, Select} from "antd";
 import {useNavigate, useParams} from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
 import SelectBusinessUnitComponent from "../../widgets/SelectBusinessUnitComponent";
-import {selectEditFFData, selectFFByIdData} from "../../../redux/selectors/masterSelector";
+import {selectEditFFData, selectEditFFFailError, selectFFByIdData} from "../../../redux/selectors/masterSelector";
 import {editFFStartAction, getFFByIdStartAction, getFFStartAction} from "../../../redux/actions/master/masterActions";
 import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusComponent";
 import SelectTeamComponent from "../../widgets/SelectTeamComponent";
 import moment from "moment";
 import SelectRecipientDesignationComponent from "../../widgets/SelectRecipientDesignationComponent";
 
-const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF}) => {
+const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, editFFFailError}) => {
 
     const navigate = useNavigate()
 
@@ -136,6 +136,13 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF})
     //     const formatedDateString = jDate.format('yyyy-MM-DD').toString();
     // }
 
+    useEffect(()=>{
+        console.log(Object.keys(editFFFailError).length !== 0)
+        if(editFFFailError!== undefined && Object.keys(editFFFailError).length !== 0){
+            message.error(editFFFailError.message);
+        }
+    },[editFFFailError])
+
     return(
         <>
             <TitleWidget title={"Edit FF"}/>
@@ -254,13 +261,15 @@ EditFFComponent.propTypes = {
     editFF: PropTypes.array,
     handleFFByIdList: PropTypes.func,
     handleEditFF: PropTypes.func,
+    editFFFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const ffById = selectFFByIdData(state)
     const editFF = selectEditFFData(state)
-    return {authInfo,ffById,editFF}
+    const editFFFailError = selectEditFFFailError(state)
+    return {authInfo,ffById,editFF, editFFFailError}
 }
 
 const actions = {

@@ -3,7 +3,7 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, Row, Select} from "antd";
+import {Button, Checkbox, Col, DatePicker, Form, Input, InputNumber, message, Row, Select} from "antd";
 import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
@@ -13,10 +13,11 @@ import SelectRecipientDesignationComponent from "../../widgets/SelectRecipientDe
 import moment from "moment/moment";
 import SelectTeamComponent from "../../widgets/SelectTeamComponent";
 import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusComponent";
-import {selectInsertFFData} from "../../../redux/selectors/masterSelector";
+import {selectInsertFFData, selectInsertFFFailError} from "../../../redux/selectors/masterSelector";
 import {addFFStartAction, getFFByIdStartAction} from "../../../redux/actions/master/masterActions";
+import {useEffect} from "@types/react";
 
-const CreateFFComponent = ({authInfo,insertFF,handleAddFF}) => {
+const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) => {
 
     const navigate = useNavigate()
 
@@ -95,6 +96,13 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF}) => {
             ff: data
         })
     }
+
+    useEffect(()=>{
+        console.log(Object.keys(insertFFFailError).length !== 0)
+        if(insertFFFailError!== undefined && Object.keys(insertFFFailError).length !== 0){
+            message.error(insertFFFailError.message);
+        }
+    },[insertFFFailError])
 
     return(
         <>
@@ -325,13 +333,15 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF}) => {
 }
 
 CreateFFComponent.propTypes = {
-    authInfo: PropTypes.any
+    authInfo: PropTypes.any,
+    insertFFFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const insertFF = selectInsertFFData(state)
-    return {authInfo,insertFF}
+    const insertFFFailError = selectInsertFFFailError(state)
+    return {authInfo,insertFF, insertFFFailError}
 }
 
 const actions = {

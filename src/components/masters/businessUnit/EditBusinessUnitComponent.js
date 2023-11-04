@@ -3,12 +3,12 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row} from "antd";
+import {Button, Checkbox, Col, Input, message, Row} from "antd";
 import {useNavigate, useParams} from "react-router-dom";
-import {selectBusinessUnitByIdData, selectCostCenterByIdData, selectEditBuisnessUnitData, selectEditCostCenterData} from "../../../redux/selectors/masterSelector";
+import {selectBusinessUnitByIdData, selectCostCenterByIdData, selectEditBuisnessUnitData, selectEditBusinessUnitFailError, selectEditCostCenterData} from "../../../redux/selectors/masterSelector";
 import {editBuisnessUnitStartAction, editCostCenterStartAction, getBuisnessUnitByIdStartAction, getCostCenterByIdStartAction} from "../../../redux/actions/master/masterActions";
 
-const EditBusinessUnitComponent = ({authInfo,editBuisnessUnit,buisnessUnitById,handleBusinessUnitById,handleEditBusinessUnit}) => {
+const EditBusinessUnitComponent = ({authInfo,editBuisnessUnit,buisnessUnitById,handleBusinessUnitById,handleEditBusinessUnit, editBusinessUnitFailError}) => {
 
     const navigate = useNavigate();
     const [name, setName] = useState();
@@ -51,6 +51,13 @@ const EditBusinessUnitComponent = ({authInfo,editBuisnessUnit,buisnessUnitById,h
         });
     }
 
+    useEffect(()=>{
+        console.log(Object.keys(editBusinessUnitFailError).length !== 0)
+        if(editBusinessUnitFailError!== undefined && Object.keys(editBusinessUnitFailError).length !== 0){
+            message.error(editBusinessUnitFailError.message);
+        }
+    },[editBusinessUnitFailError])
+
     return(
         <>
             <TitleWidget title={"Edit Business Unit"}/>
@@ -84,13 +91,15 @@ EditBusinessUnitComponent.propTypes = {
     handleEditBusinessUnit: PropTypes.func,
     buisnessUnitById: PropTypes.any,
     handleBusinessUnitById: PropTypes.func,
+    editBusinessUnitFailError: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const editBuisnessUnit = selectEditBuisnessUnitData(state);
     const buisnessUnitById = selectBusinessUnitByIdData(state);
-    return {authInfo,editBuisnessUnit,buisnessUnitById}
+    const editBusinessUnitFailError = selectEditBusinessUnitFailError(state);
+    return {authInfo,editBuisnessUnit,buisnessUnitById, editBusinessUnitFailError}
 }
 
 const actions = {

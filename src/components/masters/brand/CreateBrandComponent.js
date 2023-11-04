@@ -3,16 +3,16 @@ import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row, Select} from "antd";
+import {Button, Checkbox, Col, Input, message, Row, Select} from "antd";
 import {useNavigate} from "react-router-dom";
 import SelectDivisionComponent from "../../widgets/SelectDivisionComponent";
 import SelectUserComponent from "../../widgets/SelectUserComponent";
 import SelectMultipleCostCenterComponent from "../../widgets/SelectMultipleCostCenterComponent";
-import {selectEditBrandData, selectInsertBrandData} from "../../../redux/selectors/masterSelector";
+import {selectEditBrandData, selectInsertBrandData, selectInsertBrandFailError} from "../../../redux/selectors/masterSelector";
 import {addBrandStartAction, editBrandStartAction} from "../../../redux/actions/master/masterActions";
 import {selectCostCenterDropdown, selectUserDropdown} from "../../../redux/selectors/dropDownSelector";
 
-const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown,userDropdown}) => {
+const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown,userDropdown, insertBrandFailError}) => {
 
     const navigate = useNavigate()
 
@@ -111,6 +111,13 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
         })
     }
 
+    useEffect(()=>{
+        console.log(Object.keys(insertBrandFailError).length !== 0)
+        if(insertBrandFailError!== undefined && Object.keys(insertBrandFailError).length !== 0){
+            message.error(insertBrandFailError.message);
+        }
+    },[insertBrandFailError])
+
     return(
         <>
             <TitleWidget title={"Brand Team"}/>
@@ -160,6 +167,7 @@ BrandTeamComponent.propTypes = {
     addBrand: PropTypes.array,
     costCenterDropdown: PropTypes.array,
     handleAddBrand: PropTypes.func,
+    insertBrandFailError: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -167,7 +175,8 @@ const mapState = (state) => {
     const addBrand = selectInsertBrandData(state)
     const costCenterDropdown = selectCostCenterDropdown(state)
     const userDropdown = selectUserDropdown(state)
-    return {authInfo,addBrand,costCenterDropdown,userDropdown}
+    const insertBrandFailError = selectInsertBrandFailError(state)
+    return {authInfo,addBrand,costCenterDropdown,userDropdown, insertBrandFailError}
 }
 
 const actions = {
