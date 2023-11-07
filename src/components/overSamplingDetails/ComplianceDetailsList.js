@@ -15,13 +15,16 @@ import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
-import {getComplianceDetailsStartAction} from "../../redux/actions/compliance/nonComplianceActions";
-import {selectComplianceDetailsListData} from "../../redux/selectors/nonComplianceSelector";
+import {getComplianceDetailsStartAction, overSamplingDetailsDataStartAction, saveOverSamplingStartAction} from "../../redux/actions/compliance/nonComplianceActions";
+import {selectComplianceDetailsListData, selectOverSamplingDetailData, selectSaveOverSamplingSuccess} from "../../redux/selectors/nonComplianceSelector";
 import MonthlyInputPlan from "../approvals/MonthlyInputPlan";
 import {InfoCircleOutlined} from "@ant-design/icons";
+import SelectReasonComponent from "../widgets/SelectReasonComponent";
+import {Option} from "antd/es/mentions";
 
 
-const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleComplianceDetailsList}) => {
+const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleComplianceDetailsList, handleSaveOverSampling,
+                                            saveOverSamplingSuccess, handleOverSamplingDetailData, overSamplingDetailData}) => {
 
     // let now = new Date()
 
@@ -37,25 +40,91 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     const [flag, setFlag] = useState(false)
     const [details, setDetails] = useState(false)
 
+    const setReason = (row, value) => {
+        complianceDetailsList.forEach(i => {
+            if(i.id == row.id){
+                i.reason = value
+            }
+        })
+        console.log(complianceDetailsList)
+    }
+
+    const detailColumn = [
+        {
+            title:'Month',
+            key:'month',
+            dataIndex:'month',
+            width:'100px'
+        },
+        {
+            title:'Territory Name',
+            key:'territoryName',
+            dataIndex:'territoryName',
+            width:'100px'
+        },
+        {
+            title:'Person ID',
+            key:'personId',
+            dataIndex:'personId',
+            width:'100px'
+        },
+        {
+            title:'Person Name',
+            key:'personName',
+            dataIndex:'personName',
+            width:'100px'
+        },
+        {
+            title:'Item Category',
+            key:'itemCategory',
+            dataIndex:'itemCategory',
+            width:'100px'
+        },
+        {
+            title:'Item Id',
+            key:'itemId',
+            dataIndex:'itemId',
+            width:'100px'
+        },
+        {
+            title:'Item Name',
+            key:'itemName',
+            dataIndex:'itemName',
+            width:'100px'
+        },
+        {
+            title:'Batch No',
+            key:'batchNo',
+            dataIndex:'batchNo',
+            width:'100px'
+        },
+        {
+            title:'Quantity Distributed',
+            key:'quantity',
+            dataIndex:'quantity',
+            width:'100px'
+        },
+    ]
+
     const searchData = () => {
         setFlag(true)
         setColumn([
             {
                 title:'FF Code',
-                key:'ffCode',
-                dataIndex:'ffCode',
+                key:'ffcode',
+                dataIndex:'ffcode',
                 width:'100px'
             },
             {
                 title:'Team',
-                key:'teamName',
-                dataIndex:'teamName',
+                key:'team_Name',
+                dataIndex:'team_Name',
                 width:'100px'
             },
             {
                 title: 'DR Name',
-                key: 'doctorName',
-                dataIndex: 'doctorName',
+                key: 'drname',
+                dataIndex: 'drname',
                 width: '100px'
             },
             {
@@ -78,8 +147,8 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             },
             {
                 title: 'Total Samples Given',
-                key: 'totalSampleGiven',
-                dataIndex: 'totalSampleGiven',
+                key: 'totalsamplegiven',
+                dataIndex: 'totalsamplegiven',
                 width: '100px'
             },
             {
@@ -95,7 +164,17 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                 title: 'Reason',
                 key: 'reason',
                 dataIndex: 'reason',
-                width: '100px'
+                width: '250px',
+                render: (_,row) => {
+                    console.log(row.reason)
+                    return (<Select placeholder={"Select Reason"} value={row.reason} onSelect={(e) => setReason(row, e)} style={{width: "100%"}}>
+                        <Option value={"AC6813C2-EEAA-4E69-B70D-4B3A360481FD"}>Samples Given to doctor for Medical/Patient Camp</Option>
+                        <Option value={"A539E53D-FDEC-41E3-A73C-90C8561933ED"}>Samples Given for Doctor Conference/CME</Option>
+                        <Option value={"2BD908FA-C79A-4F85-9E3F-9E26CC985A39"}>Samples Given as starter packs to new Patients</Option>
+                        <Option value={"A2FED5CE-4A72-479B-89C5-EC8CBE641DB7"}>Samples Given for OPD Camp</Option>
+                        <Option value={"946ECBFE-07EB-4378-951C-D7E34F7A0DEE"}>Samples reporting error</Option>
+                    </Select>)
+                }
             },
         ])
 
@@ -115,13 +194,13 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     useEffect(() => {
         setData(complianceDetailsList?.map(item => {
             return {
-                'FF Code': item.ffCode,
-                'Team': item.teamName,
-                'DR Name': item.doctorName,
+                'FF Code': item.ffcode,
+                'Team': item.team_Name,
+                'DR Name': item.drname,
                 'BU': item.bu,
                 'AM': item.am,
                 'RBM': item.rbm,
-                'Total Sample Given': item.totalSampleGiven,
+                'Total Sample Given': item.totalsamplegiven,
                 'Reason': item.reason,
             }
         }))
@@ -146,12 +225,41 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     }
 
     const handleDetails = (row) => {
-        // handleSpecialPlanDetails({
-        //     certificate: authInfo.token,
-        //     planId: row.dispatchPlanID,
-        // })
-        // setDetails(true)
+        handleOverSamplingDetailData({
+            certificate: authInfo.token,
+            month: month,
+            year: year,
+            ffTerritory: row.ffcode,
+            personCode: row.dr_ID
+        })
+        setDetails(true)
     }
+
+    const saveOverSampling = () => {
+        let data = []
+        complianceDetailsList.forEach(i=> {
+            let d = {
+                "id" :i.id,
+                "reason" :i.reason,
+                "remark" :i.remarks
+            }
+            data.push(d)
+        })
+        handleSaveOverSampling({
+            certificate: authInfo.token,
+            data: data
+        })
+    }
+
+    useEffect(()=>{
+        searchData()
+        handleComplianceDetailsList({
+            certificate: authInfo.token,
+            month: month,
+            year: year,
+        })
+    },[saveOverSamplingSuccess])
+
 
     return(
         <>
@@ -172,7 +280,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                 <Col span={16}>
                     <div align='right'>
                         <br/>
-                        <Button type={"primary"} >Save</Button>
+                        <Button type={"primary"} onClick={()=> saveOverSampling()}>Save</Button>
                     </div>
                 </Col>
             </Row>
@@ -208,6 +316,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             <Modal open={details} title="Compliance Details" footer={null} width={"80vw"} onCancel={() => {
                 setDetails(false)
             }}>
+                <Table columns={detailColumn} dataSource={overSamplingDetailData} />
             </Modal>
         </>
     )
@@ -215,16 +324,26 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
 
 ComplianceDetailsListComponent.propTypes = {
     authInfo: PropTypes.any,
+    complianceDetailsList: PropTypes.any,
+    handleComplianceDetailsList: PropTypes.func,
+    handleSaveOverSampling: PropTypes.func,
+    saveOverSamplingSuccess: PropTypes.any,
+    handleOverSamplingDetailData: PropTypes.func,
+    overSamplingDetailData: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const complianceDetailsList= selectComplianceDetailsListData(state)
-    return {authInfo,complianceDetailsList}
+    const saveOverSamplingSuccess = selectSaveOverSamplingSuccess(state)
+    const overSamplingDetailData = selectOverSamplingDetailData(state)
+    return {authInfo,complianceDetailsList, saveOverSamplingSuccess, overSamplingDetailData}
 }
 
 const actions = {
-    handleComplianceDetailsList : getComplianceDetailsStartAction
+    handleComplianceDetailsList : getComplianceDetailsStartAction,
+    handleSaveOverSampling :saveOverSamplingStartAction,
+    handleOverSamplingDetailData: overSamplingDetailsDataStartAction
 }
 
 export default connect(mapState, actions)(ComplianceDetailsListComponent)

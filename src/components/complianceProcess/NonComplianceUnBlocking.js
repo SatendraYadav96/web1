@@ -9,15 +9,15 @@ import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
-import {getNonComplianceStartAction} from "../../redux/actions/compliance/nonComplianceActions";
+import {getNonComplianceStartAction, saveNonComplianceStartAction} from "../../redux/actions/compliance/nonComplianceActions";
 import SelectUnBlockingStatusComponent from "../widgets/SelectUnBlockingStatus";
 import * as nonComplianceList from "rxjs";
-import {selectNonComplianceListData} from "../../redux/selectors/nonComplianceSelector";
+import {selectNonComplianceListData, selectSaveNonComplianceAdminRemarkSuccess} from "../../redux/selectors/nonComplianceSelector";
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 
 
-const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceList,handleNonCompliance}) => {
+const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceList,handleNonCompliance, handleSaveNonComplianceAdminRemark, saveNonComplianceAdminRemarkSuccess}) => {
 
    // const date = new Date()
 
@@ -38,7 +38,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [nsmFlag, setNsmFlag] = useState(false)
-    
+
     const searchInput = useRef(null);
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -132,106 +132,219 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             ),
     });
 
+    const setColumnData = (id, field, value) => {
+        nonComplianceList.forEach(i => {
+                if(i.idRlf === id){
+                    if(field === "isBlockedFF"){
+                        i[field] = (value===1)?0:1
+                    }else if(field === "isRejected"){
+                        i[field] = (value===1)?0:1
+                    }else{
+                        i[field] = value
+                    }
+                }
+            }
+        )
+    }
+
 
 
 
     const searchData = () => {
         setFlag(true)
-        setColumn([
-            {
-                title:'Employee Code',
-                key:'employeeCode',
-                dataIndex:'employeeCode',
-                width:'100px',
-                // ...getColumnSearchProps('employeeCode'),
-            },
-            {
-                title:'Employee Name',
-                key:'employeeCode',
-                dataIndex:'employeeName',
-                width:'100px',
-                // ...getColumnSearchProps('employeeName'),
-            },
-            {
-                title: 'Team',
-                key: 'team',
-                dataIndex: 'team',
-                width: '100px',
-                // ...getColumnSearchProps('team'),
-            },
-            {
-                title: 'Headquater',
-                key: 'headquater',
-                dataIndex: 'headquarter',
-                width: '100px',
-                // ...getColumnSearchProps('headquarter'),
-            },
-            {
-                title: 'AM',
-                key: 'am',
-                dataIndex: 'emailAM',
-                width: '100px',
-                // ...getColumnSearchProps('emailAM'),
-            },
-            {
-                title: 'RBM',
-                key: 'rbm',
-                dataIndex: 'emailRM',
-                width: '100px',
-                // ...getColumnSearchProps('emailRM'),
-            },
-            {
-                title: 'Month',
-                key: 'month',
-                dataIndex: 'month',
-                width: '100px',
-                // ...getColumnSearchProps('month'),
-            },
-            {
-                title: 'Year',
-                key: 'year',
-                dataIndex: 'year',
-                width: '100px',
-                // ...getColumnSearchProps('year'),
-            },
-            {
-                title: 'Is Blocked',
-                key: '',
-                dataIndex: '',
-                width: '100px',
-                render:  (_,row) => {
-                    return <Checkbox />
+        if(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711"){
+            setColumn([
+                {
+                    title:'Employee Code',
+                    key:'employeeCode',
+                    dataIndex:'employeeCode',
+                    width:'100px',
+                    // ...getColumnSearchProps('employeeCode'),
                 },
-                // ...getColumnSearchProps('isBockedFF'),
-            },
-            {
-                title: 'Remark',
-                key: 'remark',
-                dataIndex: 'remark',
-                width: '100px',
-                // ...getColumnSearchProps('remark'),
-            },
-            {
-                title: 'Admin Remark',
-                key: 'adminRemark',
-                dataIndex: 'remarkByAdmin',
-                width: '200px',
-                render: (_,row) => {
-                    return <Input placeholder={"Enter Admin Remark"}/>
-                }
-                // ...getColumnSearchProps('remarkByAdmin'),
-            },
-            {
-                title: '',
-                key: '',
-                dataIndex: '',
-                width: '100px',
-                render: (_,row) => {
-                    return <Checkbox/>
-                }
-                // ...getColumnSearchProps('remarkByAdmin'),
-            },
-        ])
+                {
+                    title:'Employee Name',
+                    key:'employeeCode',
+                    dataIndex:'employeeName',
+                    width:'100px',
+                    // ...getColumnSearchProps('employeeName'),
+                },
+                {
+                    title: 'Team',
+                    key: 'team',
+                    dataIndex: 'team',
+                    width: '100px',
+                    // ...getColumnSearchProps('team'),
+                },
+                {
+                    title: 'Headquater',
+                    key: 'headquater',
+                    dataIndex: 'headquarter',
+                    width: '100px',
+                    // ...getColumnSearchProps('headquarter'),
+                },
+                {
+                    title: 'AM',
+                    key: 'am',
+                    dataIndex: 'emailAM',
+                    width: '100px',
+                    // ...getColumnSearchProps('emailAM'),
+                },
+                {
+                    title: 'RBM',
+                    key: 'rbm',
+                    dataIndex: 'emailRM',
+                    width: '100px',
+                    // ...getColumnSearchProps('emailRM'),
+                },
+                {
+                    title: 'Month',
+                    key: 'month',
+                    dataIndex: 'month',
+                    width: '100px',
+                    // ...getColumnSearchProps('month'),
+                },
+                {
+                    title: 'Year',
+                    key: 'year',
+                    dataIndex: 'year',
+                    width: '100px',
+                    // ...getColumnSearchProps('year'),
+                },
+                {
+                    title: 'Is Blocked',
+                    key: 'IsBlockedFF',
+                    dataIndex: 'IsBlockedFF',
+                    width: '100px',
+                    render:  (_,row) => {
+                        return <Checkbox defaultChecked={(row.isBlockedFF==1)?true:false} onChange={()=> setColumnData(row.idRlf, "isBlockedFF", row.isBlockedFF)}/>
+                    },
+                    // ...getColumnSearchProps('isBockedFF'),
+                },
+                {
+                    title: 'Remark',
+                    key: 'remark',
+                    dataIndex: 'remark',
+                    width: '100px',
+                    // ...getColumnSearchProps('remark'),
+                },
+                {
+                    title: 'Admin Remark',
+                    key: 'remarkByAdmin',
+                    dataIndex: 'remarkByAdmin',
+                    width: '200px',
+                    render: (_,row) => {
+                        return <Input placeholder={"Enter Admin Remark"} defaultValue={row.remarkByAdmin} value={row.remarkByAdmin} onChange={(e)=> setColumnData(row.idRlf, "remarkByAdmin",e.target.value)}/>
+                    }
+                    // ...getColumnSearchProps('remarkByAdmin'),
+                },
+                {
+                    title: 'Rejected',
+                    key: 'isRejected',
+                    dataIndex: 'isRejected',
+                    width: '100px',
+                    render: (_,row) => {
+                        return <Checkbox defaultChecked={(row.isRejected==1)?true:false} onChange={()=> setColumnData(row.idRlf, "IsRejected", row.isRejected)}/>
+                    }
+                    // ...getColumnSearchProps('remarkByAdmin'),
+                },
+            ])
+        } else if(profileInfo.userDesignation.id === "24720986-A3EE-4DCA-9538-36F52625EB70"){
+            setColumn([
+                {
+                    title:'Employee Code',
+                    key:'employeeCode',
+                    dataIndex:'employeeCode',
+                    width:'100px',
+                    // ...getColumnSearchProps('employeeCode'),
+                },
+                {
+                    title:'Employee Name',
+                    key:'employeeCode',
+                    dataIndex:'employeeName',
+                    width:'100px',
+                    // ...getColumnSearchProps('employeeName'),
+                },
+                {
+                    title: 'Team',
+                    key: 'team',
+                    dataIndex: 'team',
+                    width: '100px',
+                    // ...getColumnSearchProps('team'),
+                },
+                {
+                    title: 'Headquater',
+                    key: 'headquater',
+                    dataIndex: 'headquarter',
+                    width: '100px',
+                    // ...getColumnSearchProps('headquarter'),
+                },
+                {
+                    title: 'AM',
+                    key: 'am',
+                    dataIndex: 'emailAM',
+                    width: '100px',
+                    // ...getColumnSearchProps('emailAM'),
+                },
+                {
+                    title: 'RBM',
+                    key: 'rbm',
+                    dataIndex: 'emailRM',
+                    width: '100px',
+                    // ...getColumnSearchProps('emailRM'),
+                },
+                {
+                    title: 'Month',
+                    key: 'month',
+                    dataIndex: 'month',
+                    width: '100px',
+                    // ...getColumnSearchProps('month'),
+                },
+                {
+                    title: 'Year',
+                    key: 'year',
+                    dataIndex: 'year',
+                    width: '100px',
+                    // ...getColumnSearchProps('year'),
+                },
+                {
+                    title: 'Is Blocked',
+                    key: 'isBlockedFF',
+                    dataIndex: 'isBlockedFF',
+                    width: '100px',
+                    render:  (_,row) => {
+                        return <Checkbox defaultChecked={(row.isBlockedFF==1)?true:false} disabled={true}/>
+                    },
+                    // ...getColumnSearchProps('isBockedFF'),
+                },
+                {
+                    title: 'Remark',
+                    key: 'remark',
+                    dataIndex: 'remark',
+                    width: '100px',
+                    render: (_,row) => {
+                        return <Input placeholder={"Enter Remark"} defaultValue={row.remark} value={row.remark} onChange={(e) => setColumnData(row.idRlf,"remark", e.target.value)}/>
+                    }
+                    // ...getColumnSearchProps('remark'),
+                },
+                {
+                    title: 'Admin Remark',
+                    key: 'remarkByAdmin',
+                    dataIndex: 'remarkByAdmin',
+                    width: '200px',
+                    // ...getColumnSearchProps('remarkByAdmin'),
+                },
+                {
+                    title: '',
+                    key: '',
+                    dataIndex: '',
+                    width: '100px',
+                    render: (_,row) => {
+                        return <Checkbox defaultChecked={(row.isRejected==1)?true:false} disabled={true}/>
+                    }
+                    // ...getColumnSearchProps('remarkByAdmin'),
+                },
+            ])
+        }
 
         setDataSource([])
     }
@@ -239,6 +352,38 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
     const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
 
+    const saveAdminRemark = () => {
+        let nonComp = []
+        if(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711"){
+            nonComplianceList.forEach(i => {
+                let data = {
+                    "id":i.idRlf,
+                    "adminRemark":i.remarkByAdmin,
+                    "isBlocked":i.isBlocked,
+                    "isRejected":i.isRejected
+                }
+                nonComp.push(data)
+            })
+
+        }else if(profileInfo.userDesignation.id === "24720986-A3EE-4DCA-9538-36F52625EB70"){
+            nonComplianceList.forEach(i => {
+                let data = {
+                    "id":i.idRlf,
+                    "adminRemark":i.remarkByAdmin,
+                }
+                nonComp.push(data)
+            })
+        }
+
+        handleSaveNonComplianceAdminRemark({
+            certificate: authInfo.token,
+            nonComp: nonComp
+        })
+    }
+
+    useEffect(() => {
+        handleNonComplianceData()
+    },[saveNonComplianceAdminRemarkSuccess])
 
     const getPurchaseReportList = () => {
         // console.log(businessUnit);
@@ -292,7 +437,8 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                 isBockedFF:item.isBockedFF,
                 remark:item.remark,
                 remarkByAdmin:item.remarkByAdmin,
-
+                isRejected: item.isRejected,
+                idRlf: item.idRlf
             }
         })) : console.log('no data')}
 
@@ -336,7 +482,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                 </Col>
                 <Col span={3} offset={9}>
                     <br/>
-                    <Button type={"primary"} >Save</Button>
+                    <Button type={"primary"} onClick={() => saveAdminRemark()}>Save</Button>
                 </Col>
             </Row>
             <br/>
@@ -369,17 +515,21 @@ NonComplianceUnBlockingComponent.propTypes = {
     authInfo: PropTypes.any,
      profileInfo: PropTypes.any,
     nonComplianceList: PropTypes.array,
+    handleSaveNonComplianceAdminRemark: PropTypes.func,
+    saveNonComplianceAdminRemarkSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
      const profileInfo = selectProfileInfo(state)
     const nonComplianceList = selectNonComplianceListData(state)
-    return {authInfo,nonComplianceList}
+    const saveNonComplianceAdminRemarkSuccess = selectSaveNonComplianceAdminRemarkSuccess(state)
+    return {authInfo, profileInfo,nonComplianceList, saveNonComplianceAdminRemarkSuccess}
 }
 
 const actions = {
-    handleNonCompliance: getNonComplianceStartAction
+    handleNonCompliance: getNonComplianceStartAction,
+    handleSaveNonComplianceAdminRemark : saveNonComplianceStartAction
 }
 
 export default connect(mapState, actions)(NonComplianceUnBlockingComponent)

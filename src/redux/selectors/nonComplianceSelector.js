@@ -50,3 +50,42 @@ export const selectLoadingMailLogData = createSelector(
     loadingSelection => loadingSelection
 );
 
+
+//SAVE ADMIN REMARK
+
+const saveNonComplianceAdminRemark = (state) => state.compliance.saveNonComplianceAdminRemark
+const saveNonComplianceAdminRemarkSuccess = (state) => state.compliance.saveNonComplianceAdminRemarkSuccess
+
+export const selectSaveNonComplianceAdminRemark = createSelector(
+    saveNonComplianceAdminRemark,
+    dataSelect => dataSelect
+)
+
+export const selectSaveNonComplianceAdminRemarkSuccess = createSelector(
+    saveNonComplianceAdminRemarkSuccess,
+    dataSelect => dataSelect
+)
+
+//SAVE OVER SAMPLING
+
+const saveOverSampling = (state) => state.compliance.saveOverSampling
+const saveOverSamplingSuccess = (state) => state.compliance.saveOverSamplingSuccess
+
+export const selectSaveOverSampling = createSelector(
+    saveOverSampling,
+    dataSelect => dataSelect
+)
+
+export const selectSaveOverSamplingSuccess = createSelector(
+    saveOverSamplingSuccess,
+    dataSelect => dataSelect
+)
+
+//OVER SAMPLING DETAIL
+
+const overSamplingDetailData = (state) => state.compliance.overSamplingDetailData
+
+export const selectOverSamplingDetailData = createSelector(
+    overSamplingDetailData,
+    dataSelect => dataSelect
+)

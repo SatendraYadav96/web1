@@ -75,6 +75,9 @@ export const GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API = {url: '/v1/approval
 
 //COMPLIANCE GRN
 export const GET_NON_COMPLIANCE_API = {url: '/v1/compliance/recipientUnblockingPartial',method:'GET',auth:true}
+export const SAVE_NON_COMPLIANCE_ADMIN_REMARK_API = {url: '/v1/compliance/saveNonComplianceAdminRemark', method: 'POST', auth: true}
+export const SAVE_OVER_SAMPLING_API = {url: '/v1/compliance/saveOverSampling', method: 'POST', auth: true}
+export const OVER_SAMPLING_DETAILS_DATA_API = {url: '/v1/compliance/overSamplingDetailsData', method: 'GET', auth: true}
 
 //OVER SAMPLING
 export const GET_COMPLIANCE_DETAILS_API = {url: '/v1/compliance/overSamplingDetails',method:'GET',auth:true}
