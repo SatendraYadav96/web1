@@ -392,15 +392,15 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: 'quantityAllocated',
                 width:'200px',
             },
-            {
-                title: '',
-                key: '',
-                dataIndex: '',
-                width: '100px',
-                render: (_,row) => {
-                    return <Button onClick={() => setAllocationDetails(true)}>View Details</Button>
-                }
-            }
+            // {
+            //     title: '',
+            //     key: '',
+            //     dataIndex: '',
+            //     width: '100px',
+            //     render: (_,row) => {
+            //         return <Button onClick={() => setAllocationDetails(true)}>View Details</Button>
+            //     }
+            // }
         ]);
         setPlanColumn([
             // {

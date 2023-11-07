@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table, customFormat, Modal} from "antd";
+import {Button, Col, DatePicker, Input, Row, Table, customFormat, Modal, Space} from "antd";
 import {Select} from "antd/es";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
@@ -18,9 +18,10 @@ import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import {getComplianceDetailsStartAction, overSamplingDetailsDataStartAction, saveOverSamplingStartAction} from "../../redux/actions/compliance/nonComplianceActions";
 import {selectComplianceDetailsListData, selectOverSamplingDetailData, selectSaveOverSamplingSuccess} from "../../redux/selectors/nonComplianceSelector";
 import MonthlyInputPlan from "../approvals/MonthlyInputPlan";
-import {InfoCircleOutlined} from "@ant-design/icons";
+import {InfoCircleOutlined, SearchOutlined} from "@ant-design/icons";
 import SelectReasonComponent from "../widgets/SelectReasonComponent";
 import {Option} from "antd/es/mentions";
+import Highlighter from "react-highlight-words";
 
 
 const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleComplianceDetailsList, handleSaveOverSampling,
@@ -34,11 +35,106 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
+    const [dataDetail, setDataDetail] = useState()
     const [month, setMonth] = useState()
     const [year, setYear] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [details, setDetails] = useState(false)
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
     const setReason = (row, value) => {
         complianceDetailsList.forEach(i => {
@@ -113,43 +209,50 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                 title:'FF Code',
                 key:'ffcode',
                 dataIndex:'ffcode',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('ffcode'),
             },
             {
                 title:'Team',
                 key:'team_Name',
                 dataIndex:'team_Name',
-                width:'100px'
+                width:'100px',
+                ...getColumnSearchProps('team_Name'),
             },
             {
                 title: 'DR Name',
                 key: 'drname',
                 dataIndex: 'drname',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('drname'),
             },
             {
                 title: 'BU',
                 key: 'bu',
                 dataIndex: 'bu',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('bu'),
             },
             {
                 title: 'AM',
                 key: 'am',
                 dataIndex: 'am',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('am'),
             },
             {
                 title: 'RBM',
                 key: 'rbm',
                 dataIndex: 'rbm',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('rbm'),
             },
             {
                 title: 'Total Samples Given',
                 key: 'totalsamplegiven',
                 dataIndex: 'totalsamplegiven',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('totalsamplegiven'),
             },
             {
                 title: 'Details',
@@ -206,6 +309,31 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
         }))
         console.log(complianceDetailsList)
     },[complianceDetailsList])
+
+
+    const handleDetailExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(dataDetail);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"overSamplingDetailData.XLSX")
+    }
+
+    useEffect(() => {
+        setDataDetail(overSamplingDetailData?.map(item => {
+            return {
+                'month': item.month,
+                'territoryName': item.territoryName,
+                'personId': item.personId,
+                'personName': item.personName,
+                'itemCategory': item.itemCategory,
+                'itemId': item.itemId,
+                'itemName': item.itemName,
+                'batchNo': item.batchNo,
+                'quantity':item.quantity
+            }
+        }))
+        console.log(overSamplingDetailData)
+    },[overSamplingDetailData])
 
     const handleBusinessUnit = (value) =>  {
         setBusinessUnit(value)
@@ -302,7 +430,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                                 &nbsp;
                                 <Button onClick={handleExcel}>EXCEL</Button>
                                 &nbsp;
-                                <Button onClick={handleExcel} disabled>Details</Button>
+                                <Button onClick={handleDetailExcel} >Details</Button>
                             </>
                         )
                     }

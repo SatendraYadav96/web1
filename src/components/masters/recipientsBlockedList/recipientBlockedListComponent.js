@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
@@ -13,12 +13,15 @@ import SelectYearComponent from "../../widgets/SelectYearComponent";
 import {selectMonthlyApprovalListData} from "../../../redux/selectors/monthlyApprovalSelector";
 import {resetPlanStartAction} from "../../../redux/actions/approval/monthlyApprovalActions";
 import Highlighter from "react-highlight-words";
+import {CSVLink} from "react-csv";
+import XLSX from "xlsx";
 
 const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedList}) => {
 
     const navigate = useNavigate()
     const date = new Date();
     const currentYear = date.getFullYear();
+    const [data, setData] = useState()
     const [status, setStatus] = useState(1)
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -245,6 +248,35 @@ const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedLi
         searchData()
     }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"masterBlockedList.XLSX")
+    }
+
+    useEffect(() => {
+        setData(masterBlockedList?.map(item => {
+            return {
+                'employeeCode': item.employeeCode,
+                'employeeName': item.employeeName,
+                'team': item.team,
+                'headquarter': item.headquarter,
+                'am': item.am,
+                'rbm': item.rbm,
+                'month': item.month,
+                'year': item.year,
+                'blocked_On': item.blocked_On,
+                'isBockedFF': item.isBockedFF,
+                'remark': item.remark,
+                'blocked_type': item.blocked_type,
+
+            }
+        }))
+        console.log(masterBlockedList)
+    },[masterBlockedList])
+
+
     return(
         <>
             <TitleWidget title={"Master - Business Units"}/>
@@ -262,17 +294,18 @@ const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedLi
             <br/><br/>
             <Row>
                 <Col span={6}>
-                    {/*<CSVLink*/}
-                    {/*    data={data}*/}
-                    {/*    filename={"costcenter.csv"}*/}
-                    {/*    onClick={() => {*/}
-                    {/*        console.log("clicked")*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <Button>CSV</Button>*/}
-                    {/*</CSVLink>*/}
-                    {/*&nbsp;*/}
-                    {/*<Button onClick={handleExcel}>EXCEL</Button>*/}
+                    {data &&
+                        (<CSVLink
+                            data={data}
+                            filename={"masterBlockedList.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>)}
+                    &nbsp;
+                    <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
             </Row>
             <br/><br/>

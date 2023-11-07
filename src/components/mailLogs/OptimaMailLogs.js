@@ -323,9 +323,9 @@ const MailLogsComponent = ({authInfo,mailLogList,handleMailLog}) => {
                     {/*    >*/}
                     {/*        <Button>CSV</Button>*/}
                     {/*    </CSVLink>)}*/}
-                    <Button>CSV</Button>
-                    &nbsp;
-                    <Button onClick={handleExcel}>EXCEL</Button>
+                    {/*<Button>CSV</Button>*/}
+                    {/*&nbsp;*/}
+                    {/*<Button onClick={handleExcel}>EXCEL</Button>*/}
                 </Col>
                 <Col span={18}>
                     {/*<div align="right">*/}
