@@ -7,13 +7,14 @@ import {Button, Col, message, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
 import {ffUploadStartAction, virtualSampleLogStartAction, virtualSampleStartAction, virtualUploadStartAction} from "../../redux/actions/upload/uploadActions";
-import {selectVirtualSampleListData, selectVirtualSampleLogListData} from "../../redux/selectors/uploadSelector";
+import {selectVirtualSampleListData, selectVirtualSampleLogListData, selectVirtualSampleSuccess} from "../../redux/selectors/uploadSelector";
 import XLSX from "xlsx";
+import CSVDownload from "react-csv/src/components/Download";
 
 ;
 
 
-const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampleUpload,virtualSampleData,handleVirtualSampleLogUpload,virtualSampleLogData}) => {
+const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampleUpload,virtualSampleData,handleVirtualSampleLogUpload,virtualSampleLogData, virtualSampleSuccess}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -65,13 +66,10 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                 render: (_,row) => {
                     return (
                         <>
-                            <Link onClick={() => {
-                                handleViewError(row)
-                                setViewE(true)
-                            }} to="">View Errors </Link>|<Link onClick={() => {
-                            handleViewError(row)
-                            setViewD(true)
-                        }} to=""> Download Details</Link>
+                            <Button type="link" onClick={()=>{handleViewError(row)
+                                setViewE(true)}}>View Errors</Button>
+                            |<Button type="link" onClick={()=>{handleViewError(row)
+                            setViewD(true)}}>Download Details</Button>
                         </>
                     )
                 }
@@ -155,6 +153,13 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
         })
     },[authInfo])
 
+    useEffect(() => {
+        handleVirtualSampleLogUpload({
+            certificate: authInfo.token,
+        })
+        searchData()
+    }, [virtualSampleSuccess])
+
     const handleViewError = (row) => {
         handleVirtualSampleUpload({
             uplId: row.uplId,
@@ -162,39 +167,39 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
         })
     }
 
-    useEffect(() => {
-        console.log("expErr: ", expErr)
-        if (viewE) {
-            if (expErr.length > 0) {
-                handleExcelErr(expErr)
-                setViewE(false)
-            }
-        }
-    },[expErr])
+    // useEffect(() => {
+    //     console.log("expErr: ", expErr)
+    //     if (viewE) {
+    //         if (expErr.length > 0) {
+    //             handleExcelErr(expErr)
+    //             setViewE(false)
+    //         }
+    //     }
+    // },[expErr])
+    //
+    // useEffect(() => {
+    //     console.log("exp: ", exp)
+    //     if (viewD) {
+    //         if (exp.length > 0) {
+    //             handleExcel(exp)
+    //             setViewD(false)
+    //         }
+    //     }
+    // },[exp])
 
-    useEffect(() => {
-        console.log("exp: ", exp)
-        if (viewD) {
-            if (exp.length > 0) {
-                handleExcel(exp)
-                setViewD(false)
-            }
-        }
-    },[exp])
-
-    const handleExcelErr = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"virtualSampleErrors.XLSX")
-    }
-
-    const handleExcel = (data) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"virtualSampleDownload.XLSX")
-    }
+    // const handleExcelErr = (data) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(data);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"virtualSampleErrors.XLSX")
+    // }
+    //
+    // const handleExcel = (data) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(data);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"virtualSampleDownload.XLSX")
+    // }
 
     useEffect(() => {
         console.log(virtualSampleData)
@@ -260,6 +265,18 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
         } else {
             console.log('no data')
         }
+        if (viewE) {
+            if (expErr.length > 0) {
+                // csvLinkError.current.link.click()
+                setViewE(false)
+            }
+        }
+        if (viewD) {
+            if (exp.length > 0) {
+                // csvLink.current.link.Click()
+                setViewD(false)
+            }
+        }
     },[virtualSampleData])
 
     return(
@@ -280,6 +297,14 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
             {flag &&
                 <Table columns={column} dataSource={virtualSampleLogData}/>
             }
+            {expErr.length > 0 && <CSVDownload
+                data={expErr}
+                filename={"grnviewErr.csv"}/>
+            }
+            {exp.length > 0 && <CSVDownload
+                data={exp}
+                filename={"grnviewDownload.csv"}/>
+            }
         </div>
     )
 }
@@ -291,14 +316,16 @@ VirtualSampleComponent.propTypes = {
     handleVirtualUpload: PropTypes.func,
     handleVirtualSampleUpload: PropTypes.func,
     handleVirtualSampleLogUpload: PropTypes.func,
+    virtualSampleSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const virtualSampleData = selectVirtualSampleListData(state)
     const virtualSampleLogData = selectVirtualSampleLogListData(state)
+    const virtualSampleSuccess = selectVirtualSampleSuccess(state)
     console.log(virtualSampleData)
-    return {authInfo,virtualSampleData,virtualSampleLogData}
+    return {authInfo,virtualSampleData,virtualSampleLogData, virtualSampleSuccess}
 }
 
 const actions = {

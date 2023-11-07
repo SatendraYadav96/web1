@@ -7,13 +7,13 @@ import {Button, Col, message, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
 import {ffExcelUploadStartAction, ffUploadLogStartAction, ffUploadStartAction, grnUploadStartAction} from "../../redux/actions/upload/uploadActions";
-import {selectffExcelUploadListData, selectffUploadLogListData} from "../../redux/selectors/uploadSelector";
+import {selectffExcelUploadListData, selectFFExcelUploadSuccess, selectffUploadLogListData} from "../../redux/selectors/uploadSelector";
 import XLSX from "xlsx";
+import CSVDownload from "react-csv/src/components/Download";
 
-;
 
 
-const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUploadLog,ffUploadLog,ffExcelUpload,handleFFExcelUploadLog}) => {
+const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUploadLog,ffUploadLog,ffExcelUpload, fFExcelUploadSuccess,handleFFExcelUploadLog}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -66,13 +66,10 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
                 render: (_,row) => {
                     return (
                         <>
-                            <Link onClick={() => {
-                                handleViewError(row)
-                                setViewE(true)
-                            }} to="">View Errors </Link>|<Link onClick={() => {
-                            handleViewError(row)
-                            setViewD(true)
-                        }} to=""> Download Details</Link>
+                            <Button type="link" onClick={()=>{handleViewError(row)
+                                setViewE(true)}}>View Errors</Button>
+                            |<Button type="link" onClick={()=>{handleViewError(row)
+                            setViewD(true)}}>Download Details</Button>
                         </>
                     )
                 }
@@ -96,12 +93,6 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
         // console.log(`I am Super man${ffExcelUpload}`)
         if (ffExcelUpload) {
             console.log("there is data")
-            console.log(ffExcelUpload
-
-
-
-            )**-+
-
 
             // setExpErr(ffExcelUpload?.map(item => item))
             // setExp(ffExcelUpload?.map(item => item))
@@ -158,43 +149,55 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
         } else {
             console.log('no data')
         }
-    },[ffExcelUpload])
-
-
-    useEffect(() => {
-        console.log("expErr: ", expErr)
         if (viewE) {
             if (expErr.length > 0) {
-                handleExcelErr(expErr)
+                // csvLinkError.current.link.click()
                 setViewE(false)
             }
         }
-    },[expErr])
-
-    useEffect(() => {
-        console.log("exp: ", exp)
         if (viewD) {
             if (exp.length > 0) {
-                handleExcel(exp)
+                // csvLink.current.link.Click()
                 setViewD(false)
             }
         }
-    },[exp])
+    },[ffExcelUpload])
 
-    const handleExcelErr = (ffExcelUpload) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(ffExcelUpload);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"ffMasterErrors.XLSX")
-    }
 
-    const handleExcel = (ffExcelUpload) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(ffExcelUpload);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"ffMasterDownload.XLSX")
-    }
-
+    // useEffect(() => {
+    //     console.log("expErr: ", expErr)
+    //     if (viewE) {
+    //         if (expErr.length > 0) {
+    //             handleExcelErr(expErr)
+    //             setViewE(false)
+    //         }
+    //     }
+    // },[expErr])
+    //
+    // useEffect(() => {
+    //     console.log("exp: ", exp)
+    //     if (viewD) {
+    //         if (exp.length > 0) {
+    //             handleExcel(exp)
+    //             setViewD(false)
+    //         }
+    //     }
+    // },[exp])
+    //
+    // const handleExcelErr = (ffExcelUpload) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(ffExcelUpload);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"ffMasterErrors.XLSX")
+    // }
+    //
+    // const handleExcel = (ffExcelUpload) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(ffExcelUpload);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"ffMasterDownload.XLSX")
+    // }
+    //
 
     const handleViewError = (row) => {
         handleFFExcelUploadLog({
@@ -214,6 +217,12 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
         searchData()
     },[authInfo.token])
 
+    useEffect(() => {
+        handleFFUploadLog ({
+            certificate: authInfo.token
+        });
+        searchData()
+    },[fFExcelUploadSuccess])
 
 
 
@@ -303,6 +312,16 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
             {flag &&
                 <Table columns={column} dataSource={ffUploadLog}/>
             }
+            {expErr.length > 0 && <CSVDownload
+                data={expErr}
+                filename={"ffMasterError.csv"}/>
+                // target="_blank"></CSVDownload>
+            }
+            {exp.length > 0 && <CSVDownload
+                data={exp}
+                filename={"ffMaster.csv"}/>
+                // target="_blank"></CSVDownload>
+            }
         </div>
     )
 }
@@ -315,6 +334,7 @@ FFMasterUpdateComponent.propTypes = {
     handleFFUpload: PropTypes.func,
     handleFFUploadLog: PropTypes.func,
     handleFFExcelUploadLog:PropTypes.func,
+    fFExcelUploadSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -322,8 +342,9 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const ffUploadLog = selectffUploadLogListData(state)
     const ffExcelUpload = selectffExcelUploadListData(state)
+    const fFExcelUploadSuccess = selectFFExcelUploadSuccess(state)
     console.log(ffExcelUpload)
-    return {authInfo,profileInfo,ffUploadLog,ffExcelUpload}
+    return {authInfo,profileInfo,ffUploadLog,ffExcelUpload, fFExcelUploadSuccess}
 }
 
 const actions = {

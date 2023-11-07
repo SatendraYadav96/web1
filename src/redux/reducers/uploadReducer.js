@@ -28,7 +28,7 @@ import {
     TRANSPORT_UPLOAD_SUCCESS,
     VIRTUAL_SAMPLE_UPLOAD_FAIL,
     VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL,
-    VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_START,
     VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
     VIRTUAL_UPLOAD_FAIL,
     VIRTUAL_UPLOAD_SUCCESS
@@ -55,10 +55,12 @@ const initialState = {
     invoiceExcelUploadLoading: false,
     virtualSample: [],
     virtualSampleLoading: false,
+    virtualSampleSuccess: false,
     virtualSampleLog: [],
     virtualSampleLogLoading: false,
     ffExcelUpload: [],
     ffExcelUploadLoading: false,
+    ffExcelUploadSuccess: false,
     ffUploadLog: [],
     ffUploadLogLoading: false,
     recipientUploadLog: [],
@@ -277,11 +279,21 @@ const invoiceExcelUploadFailReducer = (state = initialState, payload) => {
 }
 
 // INVOICE_EXCEL_UPLOAD
+const virtualSampleStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualSample: [],
+        virtualSampleLoading: false,
+        virtualSampleSuccess: false
+    }
+}
+
 const virtualSampleSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
         virtualSample:payload.virtualSample,
-        virtualSampleLoading: false
+        virtualSampleLoading: false,
+        virtualSampleSuccess: true
 
     }
 }
@@ -292,7 +304,7 @@ const virtualSampleFailReducer = (state = initialState, payload) => {
         virtualSample:[],
         virtualSampleLoading: false,
         error: payload.error,
-
+        virtualSampleSuccess: false
     }
 }
 
@@ -317,12 +329,22 @@ const virtualSampleLogFailReducer = (state = initialState, payload) => {
 }
 
 // INVOICE_EXCEL_UPLOAD
+
+const ffExcelUploadStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        ffExcelUpload:[],
+        ffExcelUploadLoading: false,
+        ffExcelUploadSuccess: false
+    }
+}
+
 const ffExcelUploadSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
         ffExcelUpload:payload.ffExcelUpload,
-        ffExcelUploadLoading: false
-
+        ffExcelUploadLoading: false,
+        ffExcelUploadSuccess: true
     }
 }
 
@@ -332,7 +354,7 @@ const ffExcelUploadFailReducer = (state = initialState, payload) => {
         ffExcelUpload:[],
         ffExcelUploadLoading: false,
         error: payload.error,
-
+        ffExcelUploadSuccess: false
     }
 }
 
@@ -569,6 +591,7 @@ export default createReducer(initialState, {
     [INVOICE_EXCEL_UPLOAD_SUCCESS]: invoiceExcelUploadSuccessReducer,
     [INVOICE_EXCEL_UPLOAD_START]: invoiceExcelUploadStartReducer,
     [INVOICE_EXCEL_UPLOAD_FAIL]: invoiceExcelUploadFailReducer,
+    [FF_EXCEL_UPLOAD_START]: ffExcelUploadStartReducer,
     [FF_EXCEL_UPLOAD_SUCCESS]: ffExcelUploadSuccessReducer,
     [FF_EXCEL_UPLOAD_FAIL]: ffExcelUploadFailReducer,
     [FF_UPLOAD_LOG_SUCCESS]: ffUploadLogSuccessReducer,
@@ -577,6 +600,7 @@ export default createReducer(initialState, {
     [RECIPIENT_UPLOAD_LOG_FAIL]: recipientUploadLogFailReducer,
     [NON_COMPLIANCE_UPLOAD_LOG_SUCCESS]: nonComplianceUploadLogSuccessReducer,
     [NON_COMPLIANCE_UPLOAD_LOG_FAIL]: nonComplianceUploadLogFailReducer,
+    [VIRTUAL_SAMPLE_UPLOAD_START]:virtualSampleStartReducer,
     [VIRTUAL_SAMPLE_UPLOAD_SUCCESS]:virtualSampleSuccessReducer,
     [VIRTUAL_SAMPLE_UPLOAD_FAIL]:virtualSampleFailReducer,
     [OVER_SAMPLING_UPLOAD_LOG_SUCCESS]:overSamplingUploadLogSuccessReducer,

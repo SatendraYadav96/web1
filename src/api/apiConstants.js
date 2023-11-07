@@ -1,8 +1,8 @@
 export const AUTH_CERTIFICATE = 'Authorization'
 //export const BASE_URL = 'http://promobee-uat:8080'
-   export const BASE_URL = 'http://localhost:8080'
+//    export const BASE_URL = 'http://localhost:8080'
 
-// export const BASE_URL = 'http://104.237.6.220:8080'
+ export const BASE_URL = 'http://104.237.6.220:8080'
 
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
@@ -53,6 +53,8 @@ export const GET_DEVIATION_REPORT_API = {url: '/v1/report/getReportDeviation',me
 export const GET_ITEM_CONSUMPTION_REPORT_API = {url: '/v1/report/getReportItemConsumption',method:'POST',auth:true}
 export const GET_DESTRUCTION_REPORT_API = {url: '/v1/report/getReportDestruction',method:'POST',auth:true}
 export const GET_BATCH_RECONCILIATION_REPORT_API = {url: '/v1/report/getBatchReconciliation',method:'GET',auth:true}
+export const GET_VIRTUAL_RECONCILIATION_REPORT_API = {url: '/v1/report/getVirtualReconciliationReport', method:'GET', auth: true}
+export const GET_SHIP_ROCKET_REPORT_API = {url: '/v1/report/getShiprocketReport', method: 'GET', auth: true}
 
 //  HSN & INVOICE
 export const ADD_HSN_API = { url: '/v1/hsn/addHsn', method: 'POST', auth: true }

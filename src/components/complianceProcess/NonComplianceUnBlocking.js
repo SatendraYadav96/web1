@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, DatePicker, Input, Row, Table, customFormat, Space} from "antd";
+import {Button, Col, DatePicker, Input, Row, Table, customFormat, Space, Checkbox} from "antd";
 import moment from 'moment'
 import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
@@ -17,7 +17,7 @@ import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 
 
-const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonCompliance}) => {
+const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceList,handleNonCompliance}) => {
 
    // const date = new Date()
 
@@ -37,6 +37,8 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
     const [flag, setFlag] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [nsmFlag, setNsmFlag] = useState(false)
+    
     const searchInput = useRef(null);
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -141,77 +143,93 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
                 key:'employeeCode',
                 dataIndex:'employeeCode',
                 width:'100px',
-                ...getColumnSearchProps('employeeCode'),
+                // ...getColumnSearchProps('employeeCode'),
             },
             {
                 title:'Employee Name',
                 key:'employeeCode',
                 dataIndex:'employeeName',
                 width:'100px',
-                ...getColumnSearchProps('employeeName'),
+                // ...getColumnSearchProps('employeeName'),
             },
             {
                 title: 'Team',
                 key: 'team',
                 dataIndex: 'team',
                 width: '100px',
-                ...getColumnSearchProps('team'),
+                // ...getColumnSearchProps('team'),
             },
             {
                 title: 'Headquater',
                 key: 'headquater',
                 dataIndex: 'headquarter',
                 width: '100px',
-                ...getColumnSearchProps('headquarter'),
+                // ...getColumnSearchProps('headquarter'),
             },
             {
                 title: 'AM',
                 key: 'am',
                 dataIndex: 'emailAM',
                 width: '100px',
-                ...getColumnSearchProps('emailAM'),
+                // ...getColumnSearchProps('emailAM'),
             },
             {
                 title: 'RBM',
                 key: 'rbm',
                 dataIndex: 'emailRM',
                 width: '100px',
-                ...getColumnSearchProps('emailRM'),
+                // ...getColumnSearchProps('emailRM'),
             },
             {
                 title: 'Month',
                 key: 'month',
                 dataIndex: 'month',
                 width: '100px',
-                ...getColumnSearchProps('month'),
+                // ...getColumnSearchProps('month'),
             },
             {
                 title: 'Year',
                 key: 'year',
                 dataIndex: 'year',
                 width: '100px',
-                ...getColumnSearchProps('year'),
+                // ...getColumnSearchProps('year'),
             },
             {
                 title: 'Is Blocked',
-                key: 'isBlocked',
-                dataIndex: 'isBockedFF',
+                key: '',
+                dataIndex: '',
                 width: '100px',
-                ...getColumnSearchProps('isBockedFF'),
+                render:  (_,row) => {
+                    return <Checkbox />
+                },
+                // ...getColumnSearchProps('isBockedFF'),
             },
             {
                 title: 'Remark',
                 key: 'remark',
                 dataIndex: 'remark',
                 width: '100px',
-                ...getColumnSearchProps('remark'),
+                // ...getColumnSearchProps('remark'),
             },
             {
                 title: 'Admin Remark',
                 key: 'adminRemark',
                 dataIndex: 'remarkByAdmin',
+                width: '200px',
+                render: (_,row) => {
+                    return <Input placeholder={"Enter Admin Remark"}/>
+                }
+                // ...getColumnSearchProps('remarkByAdmin'),
+            },
+            {
+                title: '',
+                key: '',
+                dataIndex: '',
                 width: '100px',
-                ...getColumnSearchProps('remarkByAdmin'),
+                render: (_,row) => {
+                    return <Checkbox/>
+                }
+                // ...getColumnSearchProps('remarkByAdmin'),
             },
         ])
 
@@ -316,6 +334,10 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
                     <br/>
                     <Button type={"primary"} onClick={()=>handleNonComplianceData()}>Search</Button>
                 </Col>
+                <Col span={3} offset={9}>
+                    <br/>
+                    <Button type={"primary"} >Save</Button>
+                </Col>
             </Row>
             <br/>
             <Row>
@@ -345,13 +367,13 @@ const NonComplianceUnBlockingComponent = ({authInfo,nonComplianceList,handleNonC
 
 NonComplianceUnBlockingComponent.propTypes = {
     authInfo: PropTypes.any,
-    // profileInfo: PropTypes.any,
+     profileInfo: PropTypes.any,
     nonComplianceList: PropTypes.array,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    // const profileInfo = selectProfileInfo(state)
+     const profileInfo = selectProfileInfo(state)
     const nonComplianceList = selectNonComplianceListData(state)
     return {authInfo,nonComplianceList}
 }

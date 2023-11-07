@@ -10,12 +10,18 @@ import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent"
 import SelectQuarterNameComponent from "../widgets/SelectQuarterNameComponent";
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import SelectYearComponent from "../widgets/SelectYearComponent";
+import {getVirtualReconciliationReportStartAction} from "../../redux/actions/reports/batchReconciliationReportActions";
+import {selectVirtualReconciliationReport} from "../../redux/selectors/batchReconciliationReportSelector";
+import XLSX from "xlsx";
+import {CSVLink} from "react-csv";
 
-const VirtualReconciliationComponent = ({authInfo}) => {
+const VirtualReconciliationComponent = ({authInfo, virtualReconciliationReport, handleVirtualReconciliationReport}) => {
 
     const [column, setColumn] = useState([])
     const [businessUnit, setBusinessUnit] = useState()
     const [quater, setQuarter] = useState()
+    const [year, setYear] = useState()
     const [division, setDivision] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -303,8 +309,20 @@ const VirtualReconciliationComponent = ({authInfo}) => {
     }
 
     const getVirtualRecon = () => {
-
+        handleVirtualReconciliationReport({
+            certificate: authInfo.token,
+            quarter: quater,
+            year: year,
+            businessUnit: businessUnit
+        })
         searchData()
+    }
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(virtualReconciliationReport);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"VirtualReconciliationReport.xlsx")
     }
 
     return(
@@ -312,17 +330,22 @@ const VirtualReconciliationComponent = ({authInfo}) => {
             <TitleWidget title="Virtual Reconciliation" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Team <br/>
-                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
-                </Col>
-                <Col span={3}>
-                    Subteam<br/>
-                    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />
-                </Col>
-                <Col span={3}>
                     Quater<br/>
                     <SelectQuarterNameComponent value={quater} style={{width: "100%"}} onChange={(e) => setQuarter(e)} />
                 </Col>
+                <Col span={3}>
+                    Year <br/>
+                    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
+                </Col>
+                <Col span={3}>
+                    Team <br/>
+                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
+                </Col>
+                {/*<Col span={3}>*/}
+                {/*    Subteam<br/>*/}
+                {/*    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />*/}
+                {/*</Col>*/}
+
                 <Col span={3}>
                     <br/>
                     <Button type={"primary"} onClick={()=>getVirtualRecon()}>Search</Button>
@@ -331,7 +354,19 @@ const VirtualReconciliationComponent = ({authInfo}) => {
             <br/><br/>
             <Row>
                 <Col span={6}>
-                    <Button>Excel</Button> &nbsp;&nbsp; <Button>CSV</Button>
+                    <Button onClick={handleExcel}>Excel</Button> &nbsp;&nbsp;
+                    {virtualReconciliationReport &&
+                    (<CSVLink
+                            data={virtualReconciliationReport}
+                            filename={"VirtualReconciliationReport.csv"}
+                            onClick={() => {
+                                console.log("clicked")
+                            }}
+                        >
+                            <Button>CSV</Button>
+                        </CSVLink>
+                    )
+                }
                 </Col>
             </Row>
             <br/>
@@ -346,15 +381,18 @@ const VirtualReconciliationComponent = ({authInfo}) => {
 
 VirtualReconciliationComponent.propTypes = {
     authInfo: PropTypes.any,
+    handleVirtualReconciliationReport: PropTypes.func,
+    virtualReconciliationReport: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const virtualReconciliationReport = selectVirtualReconciliationReport(state)
+    return {authInfo, virtualReconciliationReport}
 }
 
 const actions = {
-
+    handleVirtualReconciliationReport : getVirtualReconciliationReportStartAction
 }
 
 export default connect(mapState, actions)(VirtualReconciliationComponent)

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -6,8 +6,11 @@ import {connect} from "react-redux";
 import {Button, Col, DatePicker, Input, Row} from "antd";
 import dayjs from "dayjs";
 import moment from "moment/moment";
+import {selectShipRocketReport} from "../../redux/selectors/batchReconciliationReportSelector";
+import {getShipRocketReportStartAction} from "../../redux/actions/reports/batchReconciliationReportActions";
+import XLSX from "xlsx";
 
-const ShipRocketReportComponent = ({authInfo,handleShipRocketReport}) => {
+const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketReport }) => {
 
     let now = dayjs()
     const [fromDate, setFromDate] = useState()
@@ -21,14 +24,20 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport}) => {
       console.log(formatedStartDateString);
       console.log(formatedEndDateString);
 
-      // handleShipRocketReport ({
-      //   fromDate:formatedStartDateString,
-      //   toDate:formatedEndDateString,
-      //   statusId:"EDC4D827-6C08-46CA-BF60-B41FFFC4EABE",
-      //   certificate: authInfo.token
-      // });
+      handleShipRocketReport ({
+        fromDate:formatedStartDateString,
+        toDate:formatedEndDateString,
+        certificate: authInfo.token
+      });
 
     }
+
+    useEffect(()=> {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(shipRocketReport);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"ShipRocketReport.xlsx")
+    },[handleShipRocketReport])
 
     return(
         <>
@@ -54,15 +63,18 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport}) => {
 
 ShipRocketReportComponent.propTypes = {
     authInfo: PropTypes.any,
+    shipRocketReport: PropTypes.any,
+    handleShipRocketReport: PropTypes.func
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    return {authInfo}
+    const shipRocketReport = selectShipRocketReport(state)
+    return {authInfo, shipRocketReport}
 }
 
 const actions = {
-
+    handleShipRocketReport : getShipRocketReportStartAction
 }
 
 export default connect(mapState, actions)(ShipRocketReportComponent)

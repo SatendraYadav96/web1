@@ -1,5 +1,15 @@
 import {createRequest} from './httpUtils';
-import {GET_AGEING_REPORT_API, GET_BATCH_RECONCILIATION_REPORT_API, GET_ITEM_WISE_REPORT_API, GET_NEAR_TO_EXPIRY_INPUT_REPORT_API, GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API, GET_RECIPIENT_REPORT_API, GET_SIMPLE_INVENTORY_REPORT_API, GET_STOCK_LEDGER_REPORT_API} from "./apiConstants";
+import {
+    GET_AGEING_REPORT_API,
+    GET_BATCH_RECONCILIATION_REPORT_API,
+    GET_ITEM_WISE_REPORT_API,
+    GET_NEAR_TO_EXPIRY_INPUT_REPORT_API,
+    GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API,
+    GET_RECIPIENT_REPORT_API, GET_SHIP_ROCKET_REPORT_API,
+    GET_SIMPLE_INVENTORY_REPORT_API,
+    GET_STOCK_LEDGER_REPORT_API,
+    GET_VIRTUAL_RECONCILIATION_REPORT_API
+} from "./apiConstants";
 import {GET_PURCHASE_REPORT_API} from "./apiConstants";
 import {GET_DISPATCHES_REPORT_API} from "./apiConstants";
 import {GET_DISPATCH_REGISTER_REPORT_API} from "./apiConstants";
@@ -97,3 +107,12 @@ export const batchReconciliationReportRequest = payload => {
     return createRequest(GET_BATCH_RECONCILIATION_REPORT_API, payload.certificate, null)
 }
 
+export const getVirtualReconciliationReportRequest = payload => {
+    const api = {...GET_VIRTUAL_RECONCILIATION_REPORT_API, url: `${GET_VIRTUAL_RECONCILIATION_REPORT_API.url}/${payload.quarter}/${payload.year}/${payload.businessUnit}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const getShipRocketReportRequest = payload => {
+    const api = {...GET_SHIP_ROCKET_REPORT_API, url: `${GET_SHIP_ROCKET_REPORT_API.url}/${payload.fromDate}/${payload.toDate}`}
+    return createRequest(api, payload.certificate, null)
+}

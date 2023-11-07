@@ -1,8 +1,8 @@
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
-import {batchReconciliationReportRequest, recipientReportRequest} from '../../api/reportRequests'
-import {GET_BATCH_RECONCILIATION_START} from "../actions/reports/batchReconciliationReportActionConstants";
-import {getBatchReconciliationFailAction, getBatchReconciliationSuccessAction} from "../actions/reports/batchReconciliationReportActions";
+import {batchReconciliationReportRequest, getShipRocketReportRequest, getVirtualReconciliationReportRequest, recipientReportRequest} from '../../api/reportRequests'
+import {GET_BATCH_RECONCILIATION_START, GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START} from "../actions/reports/batchReconciliationReportActionConstants";
+import {getBatchReconciliationFailAction, getBatchReconciliationSuccessAction, getShipRocketReportFailAction, getShipRocketReportSuccessAction, getVirtualReconciliationReportFailAction, getVirtualReconciliationReportSuccessAction} from "../actions/reports/batchReconciliationReportActions";
 
 
 
@@ -19,3 +19,28 @@ export const getBatchReconciliationReportStartEpic = (action$) =>
             )
         )
     )
+
+export const getVirtualReconciliationReportStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_VIRTUAL_RECONCILIATION_REPORT_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            getVirtualReconciliationReportRequest(action.payload).pipe(
+                map((response) => getVirtualReconciliationReportSuccessAction({getVirtualReconciliationList: response.response})),
+                catchError((error) => of(getVirtualReconciliationReportFailAction({error: error}))),
+            )
+        )
+    )
+
+export const getShipRocketReportStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_SHIP_ROCKET_REPORT_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            getShipRocketReportRequest(action.payload).pipe(
+                map((response) => getShipRocketReportSuccessAction({getShipRocketReport: response.response})),
+                catchError((error) => of(getShipRocketReportFailAction({error: error}))),
+            )
+        )
+    )
+

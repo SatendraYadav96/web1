@@ -28,6 +28,7 @@ import {
 } from "../redux/actions/upload/uploadActionConstants";
 import {DELETE_SPECIAL_ALLOCATION_START, GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
 import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryReportActionConstants";
+import {GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START} from "../redux/actions/reports/batchReconciliationReportActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -1344,7 +1345,23 @@ import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryRepor
                 payload: { message: { text: 'action failed', type: 'error' } },
             },
         ],
-
-
+        GET_VIRTUAL_RECONCILIATION_REPORT_START:[{ action: 'showspinner' }],
+        GET_VIRTUAL_RECONCILIATION_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+        GET_VIRTUAL_RECONCILIATION_REPORT_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        GET_SHIP_ROCKET_REPORT_START: [{ action: 'showspinner' }],
+        GET_SHIP_ROCKET_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+        GET_SHIP_ROCKET_REPORT_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 
 }

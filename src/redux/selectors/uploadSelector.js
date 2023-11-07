@@ -138,7 +138,7 @@ export const selectLoadingInvoiceExcelUploadData = createSelector(
 
 const virtualSampleList = (state) => state.upload.virtualSample;
 const virtualSampleLoading = (state) => state.upload.virtualSampleLoading
-
+const virtualSampleSuccess = (state) => state.upload.virtualSampleSuccess
 
 export const selectVirtualSampleListData = createSelector(
     virtualSampleList,
@@ -150,6 +150,10 @@ export const selectLoadingVirtualSampleData = createSelector(
     loadingSelection => loadingSelection
 );
 
+export const selectVirtualSampleSuccess = createSelector(
+    virtualSampleSuccess,
+    dataSelect => dataSelect
+)
 
 const virtualSampleLogList = (state) => state.upload.virtualSampleLog;
 const virtualSampleLogLoading = (state) => state.upload.virtualSampleLogLoading
@@ -169,7 +173,7 @@ export const selectLoadingVirtualSampleLogData = createSelector(
 
 const ffExcelUploadList = (state) => state.upload.ffExcelUpload;
 const ffExcelUploadLoading = (state) => state.upload.ffExcelUploadLoading
-
+const ffExcelUploadSuccess = (state) => state.upload.ffExcelUploadSuccess
 
 export const selectffExcelUploadListData = createSelector(
     ffExcelUploadList,
@@ -180,6 +184,11 @@ export const selectLoadingffExcelUploadData = createSelector(
     ffExcelUploadLoading,
     loadingSelection => loadingSelection
 );
+
+export const selectFFExcelUploadSuccess = createSelector(
+    ffExcelUploadSuccess,
+    dataSelect => dataSelect
+)
 
 
 const ffUploadLogList = (state) => state.upload.ffUploadLog;
