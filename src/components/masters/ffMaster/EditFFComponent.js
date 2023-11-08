@@ -26,7 +26,7 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
     const [city, setCity] = useState()
     const [role, setRole] = useState()
     const [state, setState] = useState()
-    const [zip, setZip] = useState()
+
     const [zone, setZone] = useState()
     const [workId, setWorkId] = useState()
     const [gender, setGender] = useState()
@@ -143,6 +143,29 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
         }
     },[editFFFailError])
 
+
+    const pinCodeRegex = /^[0-9]{6}$/;
+
+
+    const [zip, setZip] = useState()
+        const [error, setError] = React.useState('');
+
+        const handlePinCodeChange = (event) => {
+            const newPinCode = event.target.value;
+            setZip(newPinCode);
+
+            if (!pinCodeRegex.test(newPinCode)) {
+                setError('Invalid pin code format. Pin code must be 6 digits long.' +
+                    '' +
+                    '');
+            } else {
+                setError('');
+            }
+        };
+
+
+
+
     return(
         <>
             <TitleWidget title={"Edit FF"}/>
@@ -175,21 +198,25 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
                 </Col>
             </Row>
             <br/>
+
+
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Zip :<br/><Input placeholder={"Contact "} value={zip} onChange={(e) => setZip(e.target.value)}/>
+                    Zip :<br/><Input placeholder={"pinCode"} value={zip}  onChange={handlePinCodeChange}/>
+                    {error && <div style={{ color: 'red' }}>{error}</div>}
                 </Col>
                 <Col span={8} offset={2}>
-                    Zone :<br/><Input placeholder={"Contact "} value={zone} onChange={(e) => setZone(e.target.value)}/>
+                    Zone :<br/><Input placeholder={"zone "} value={zone} onChange={(e) => setZone(e.target.value)}/>
+
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Employee Workday id :<br/><Input placeholder={"Contact "} value={workId} onChange={(e) => setWorkId(e.target.value)}/>
+                    Employee Workday id :<br/><Input placeholder={"employee workId "} value={workId} onChange={(e) => setWorkId(e.target.value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Gender :<br/><Input placeholder={"Contact "} value={gender} onChange={(e) => setGender(e.target.value)}/>
+                    Gender :<br/><Input placeholder={"Gender "} value={gender} onChange={(e) => setGender(e.target.value)}/>
                 </Col>
             </Row>
             <br/>
@@ -204,7 +231,7 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Email Address :<br/><Input placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    Email Address :<br/><Input placeholder={"Email Address"} value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </Col>
                 <Col span={8} offset={2}>
                     Team :<br/>
@@ -218,7 +245,7 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
                     <SelectTeamComponent value={subTeam} onChange={(value) => setSubTeam(value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    RBM Email :<br/><Input style={{width: "100%"}} placeholder="RM Email" value={rbmEmail} onChange={(e) => setRBMEmail(e.target.value)}/>
+                    RBM Email :<br/><Input style={{width: "100%"}} placeholder={"RM Email"} value={rbmEmail} onChange={(e) => setRBMEmail(e.target.value)}/>
                 </Col>
             </Row>
             <br/>
