@@ -25,7 +25,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
     const [name, setName] = useState()
     const [loginName, setLoginName] = useState()
     const [employeeCode, setEmployeeCode] = useState()
-    const [email, setEmail] = useState()
+   // const [email, setEmail] = useState()
     const [bu, setBU] = useState()
     const [designation, setDesignation] = useState()
     const [userStatus, setUserStatus] = useState()
@@ -190,6 +190,25 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
         }
     },[editUserFailError])
 
+
+    //EMAIL ADDRESS VALIDATION
+
+    const [email, setEmail] = useState('');
+    const [isValidEmail, setIsValidEmail] = useState(true);
+
+    const handleEmailChange = (event) => {
+        const enteredEmail = event.target.value;
+        setEmail(enteredEmail);
+
+        const regex = /.*@unsc.co\.in$/i;
+        const isSanofiEmail = regex.test(enteredEmail);
+        setIsValidEmail(isSanofiEmail);
+
+        // const regexs = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // const isEmailValid = regexs.test(enteredEmail);
+        // setIsValidEmail(isEmailValid);
+    };
+
     return(
         <>
             <TitleWidget title={"Edit User"}/>
@@ -207,7 +226,10 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
                     Employee Code:<br/><Input placeholder={"Employee Code"} value={employeeCode} disabled/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Email Address:<br/><Input placeholder={"Email Address"} value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    Email Address:<br/><Input placeholder={"Email Address"} value={email} onChange={handleEmailChange}/>
+                    {isValidEmail ? null : (
+                        <span style={{ color: 'red' }}>Invalid email address</span>
+                    )}
                 </Col>
             </Row>
             <br/>

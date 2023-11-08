@@ -26,7 +26,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
     const [name, setName] = useState()
     const [loginName, setLoginName] = useState()
     const [employeeCode, setEmployeeCode] = useState()
-    const [email, setEmail] = useState()
+   // const [email, setEmail] = useState()
     const [bu, setBU] = useState()
     const [app, setApp] = useState()
     const [designation, setDesignation] = useState()
@@ -95,6 +95,25 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
         }
     },[insertUserFailError])
 
+    //EMAIL ADDRESS VALIDATION
+
+    const [email, setEmail] = useState('');
+    const [isValidEmail, setIsValidEmail] = useState(true);
+
+    const handleEmailChange = (event) => {
+        const enteredEmail = event.target.value;
+        setEmail(enteredEmail);
+
+        const regex = /.*@unsc.co\.in$/i;
+        const isSanofiEmail = regex.test(enteredEmail);
+        setIsValidEmail(isSanofiEmail);
+
+        // const regexs = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // const isEmailValid = regexs.test(enteredEmail);
+        // setIsValidEmail(isEmailValid);
+    };
+
+
     return(
         <>
             <TitleWidget title={"Create User"}/>
@@ -112,7 +131,10 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
                     Employee Code:<br/><Input placeholder={"Employee Code"} value={employeeCode} onChange={(e) => setEmployeeCode(e.target.value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Email Address:<br/><Input placeholder={"Email Address"} value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    Email Address:<br/><Input placeholder={"Email Address"} value={email} onChange={handleEmailChange}/>
+                    {isValidEmail ? null : (
+                        <span style={{ color: 'red' }}>Invalid email address</span>
+                    )}
                 </Col>
             </Row>
             <br/>

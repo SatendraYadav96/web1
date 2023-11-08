@@ -33,17 +33,17 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
     const [city, setCity] = useState()
     const [role, setRole] = useState()
     const [state, setState] = useState()
-    const [zip, setZip] = useState()
+    // const [zip, setZip] = useState()
     const [zone, setZone] = useState()
     const [workId, setWorkId] = useState()
     const [gender, setGender] = useState()
     const [jDate, setJDate] = useState()
-    const [number, setNumber] = useState()
-    const [email, setEmail] = useState()
+    // const [number, setNumber] = useState()
+    // const [email, setEmail] = useState()
     const [team, setTeam] = useState()
     const [subTeam, setSubTeam] = useState()
-    const [rbmEmail, setRBMEmail] = useState()
-    const [amEmail, setAMEmail] = useState()
+    // const [rbmEmail, setRBMEmail] = useState()
+    // const [amEmail, setAMEmail] = useState()
     const [headquater, setHeadquater] = useState()
     const [status, setStatus] = useState()
     const [date, setDate] = useState()
@@ -108,10 +108,111 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
         }
     },[insertFFFailError])
 
+
+    // PIN CODE VALIDATION
+
+    const pinCodeRegex = /^[0-9]{6}$/;
+
+
+    const [zip, setZip] = useState()
+    const [error, setError] = React.useState('');
+
+    const handlePinCodeChange = (event) => {
+        const newPinCode = event.target.value;
+        setZip(newPinCode);
+
+        if (!pinCodeRegex.test(newPinCode)) {
+            setError('Invalid pin code format. Pin code must be 6 digits long.' +
+                '' +
+                '');
+        } else {
+            setError('');
+        }
+    };
+
+
+    //MOBILE NUMBER VALIDATION
+    const mobileNumberRegex = /^[0-9]{10}$/;
+
+
+    const [number, setNumber] = useState()
+    const [errorMobile, setErrorMobile] = React.useState('');
+
+    const handleMobileNumberChange = (event) => {
+        const newContact = event.target.value;
+        setNumber(newContact);
+
+        if (!mobileNumberRegex.test(newContact)) {
+            setErrorMobile('Mobile number must be 10 digits long.' +
+                '' +
+                '');
+        } else {
+            setErrorMobile('');
+        }
+    };
+
+
+    //EMAIL ADDRESS VALIDATION
+
+    const [email, setEmail] = useState('');
+    const [isValidEmail, setIsValidEmail] = useState(true);
+
+    const handleEmailChange = (event) => {
+        const enteredEmail = event.target.value;
+        setEmail(enteredEmail);
+
+        const regex = /.*@unsc.co\.in$/i;
+        const isSanofiEmail = regex.test(enteredEmail);
+        setIsValidEmail(isSanofiEmail);
+
+        // const regexs = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // const isEmailValid = regexs.test(enteredEmail);
+        // setIsValidEmail(isEmailValid);
+    };
+
+
+
+    //AM EMAIL ADDRESS VALIDATION
+
+
+    const [amEmail, setAMEmail] = useState()
+    const [isValidEmailAm, setIsValidEmailAm] = useState(true);
+
+    const handleEmailAmChange = (event) => {
+        const enteredEmailAm = event.target.value;
+        setAMEmail(enteredEmailAm);
+
+        const regex = /.*@unsc.co\.in$/i;
+        const isSanofiEmailAm = regex.test(enteredEmailAm);
+        setIsValidEmailAm(isSanofiEmailAm);
+
+    };
+
+    //RM EMAIL ADDRESS VALIDATION
+
+
+    const [rbmEmail, setRBMEmail] = useState()
+
+    const [isValidEmailRm, setIsValidEmailRm] = useState(true);
+
+    const handleEmailRmChange = (event) => {
+        const enteredEmailRm = event.target.value;
+        setRBMEmail(enteredEmailRm);
+
+        const regex = /.*@unsc.co\.in$/i;
+        const isSanofiEmailRm = regex.test(enteredEmailRm);
+        setIsValidEmailRm(isSanofiEmailRm);
+
+    };
+
+
+
+
+
     return(
         <>
             <TitleWidget title={"Create FF"}/>
-            <Form onFinish={() => handleInsertFF()} form={form}>
+
                 <Row gutter={[16,16]}>
                     <Col span={8} offset={2}>
                         Employee Code:
@@ -157,18 +258,9 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
                 <Row gutter={[16,16]}>
                     <Col span={8} offset={2}>
                         Role :
-                        <Form.Item
-                            name="role"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your role!',
-                                },
-                            ]}
-                            style={{marginBottom: 0}}
-                        >
+
                             <SelectRecipientDesignationComponent value={role} onChange={(value) => setRole(value)}/>
-                        </Form.Item>
+
                         {/*<Select style={{width: "100%"}} placeholder="Select Designation"></Select>*/}
                     </Col>
                     <Col span={8} offset={2}>
@@ -178,8 +270,8 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
                 <br/>
                 <Row gutter={[16,16]}>
                     <Col span={8} offset={2}>
-                        Zip :
-                            <InputNumber  placeholder={"Zip"} value={zip} onChange={(e) => setZip(e)} style={{width: '100%'}} maxLength={6}/>
+                        Zip :<br/><Input placeholder={"pinCode"} value={zip}  onChange={handlePinCodeChange}/>
+                        {error && <div style={{ color: 'red' }}>{error}</div>}
                     </Col>
                     <Col span={8} offset={2}>
                         Zone :<br/><Input placeholder={"Zone "} value={zone} onChange={(e) => setZone(e.target.value)}/>
@@ -200,108 +292,51 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
                         Joining Date :<br/><DatePicker value={moment(jDate)} onChange={(e) => setJDate(e)} format={"DD/MM/YYYY"} style={{width: "100%"}}/>
                     </Col>
                     <Col span={8} offset={2}>
-                        Mobile Number :<br/><Input placeholder={"Contact "} value={number} onChange={(e) => setNumber(e.target.value)}/>
+                        Mobile Number :<br/><Input placeholder={"Contact "} value={number}   onChange={handleMobileNumberChange}/>
+                        {errorMobile && <div style={{ color: 'red' }}>{errorMobile}</div>}
                     </Col>
                 </Row>
                 <br/>
                 <Row gutter={[16,16]}>
                     <Col span={8} offset={2}>
                         Email Address :
-                        <Form.Item
-                            name="email"
-                            // label="E-mail"
-                            rules={[
-                                {
-                                    pattern: /^[^\s@]+@sanofi\.com$/,
-                                    message: 'The input is not valid E-mail!',
-                                },
-                                {
-                                    required: true,
-                                    message: 'Please input your E-mail!',
-                                },
-                            ]}
-                            style={{marginBottom: 0}}
-                        >
-                            <Input placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        </Form.Item>
+
+                            <Input placeholder="Email Address" value={email} onChange={handleEmailChange}/>
+                        {isValidEmail ? null : (
+                            <span style={{ color: 'red' }}>Invalid email address</span>
+                        )}
+
                     </Col>
                     <Col span={8} offset={2}>
                         Team :
-                        <Form.Item
-                            name="team"
-                            // label="E-mail"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your team!',
-                                },
-                            ]}
-                            style={{marginBottom: 0}}
-                        >
                             <SelectBusinessUnitComponent value={team} onChange={(value) => setTeam(value)}/>
-                        </Form.Item>
+
                     </Col>
                 </Row>
                 <br/>
                 <Row gutter={[16,16]}>
                     <Col span={8} offset={2}>
                         Sub Team :
-                        <Form.Item
-                            name="subteam"
-                            // label="E-mail"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your team!',
-                                },
-                            ]}
-                            style={{marginBottom: 0}}
-                        >
                             <SelectTeamComponent value={subTeam} onChange={(value) => setSubTeam(value)}/>
-                        </Form.Item>
+
                     </Col>
                     <Col span={8} offset={2}>
                         RBM Email :
-                        <Form.Item
-                            name="rbmEmail"
-                            // label="E-mail"
-                            rules={[
-                                {
-                                    pattern: /^[^\s@]+@sanofi\.com$/,
-                                    message: 'The input is not valid E-mail!',
-                                },
-                                {
-                                    required: true,
-                                    message: 'Please input your E-mail!',
-                                },
-                            ]}
-                            style={{marginBottom: 0}}
-                        >
-                            <Input style={{width: "100%"}} placeholder="RM Email" value={rbmEmail} onChange={(e) => setRBMEmail(e.target.value)}/>
-                        </Form.Item>
+                            <Input style={{width: "100%"}} placeholder="RM Email" value={rbmEmail} onChange={handleEmailRmChange}/>
+                        {isValidEmailRm ? null : (
+                            <span style={{ color: 'red' }}>Invalid LM-2 email address</span>
+                        )}
+
                     </Col>
                 </Row>
                 <br/>
                 <Row gutter={[16,16]}>
                     <Col span={8} offset={2}>
                         AM Email :
-                        <Form.Item
-                            name="amEmail"
-                            // label="E-mail"
-                            rules={[
-                                {
-                                    pattern: /^[^\s@]+@sanofi\.com$/,
-                                    message: 'The input is not valid E-mail!',
-                                },
-                                {
-                                    required: true,
-                                    message: 'Please input your E-mail!',
-                                },
-                            ]}
-                            style={{marginBottom: 0}}
-                        >
-                            <Input style={{width: "100%"}} placeholder="AM Email" value={amEmail} onChange={(e) => setAMEmail(e.target.value)}></Input>
-                        </Form.Item>
+                            <Input style={{width: "100%"}} placeholder="AM Email" value={amEmail}  onChange={handleEmailAmChange}></Input>
+                        {isValidEmailAm ? null : (
+                            <span style={{ color: 'red' }}>Invalid LM-1 email address</span>
+                        )}
                     </Col>
                     <Col span={8} offset={2}>
                         Headquater :<br/><Input style={{width: "100%"}} placeholder="Headquater" value={headquater} onChange={(e) => setHeadquater(e.target.value)}/>
@@ -324,13 +359,12 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
                         <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
                     </Col>
                     <Col span={2}>
-                        <Form.Item>
-                            {/*<Button type={"primary"} onClick={() => handleInsertFF()} style={{width: "100%"}} htmlType="submit">Submit</Button>*/}
-                            <Button type={"primary"} style={{width: "100%"}} htmlType="submit">Submit</Button>
-                        </Form.Item>
+
+                            <Button type={"primary"} style={{width: "100%"}} htmlType="submit" onClick={() => handleInsertFF()} >Submit</Button>
+
                     </Col>
                 </Row>
-            </Form>
+
         </>
     )
 

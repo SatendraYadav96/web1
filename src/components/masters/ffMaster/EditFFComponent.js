@@ -31,12 +31,11 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
     const [workId, setWorkId] = useState()
     const [gender, setGender] = useState()
     const [jDate, setJDate] = useState()
-    const [number, setNumber] = useState()
-    const [email, setEmail] = useState()
+
+
     const [team, setTeam] = useState()
     const [subTeam, setSubTeam] = useState()
-    const [rbmEmail, setRBMEmail] = useState()
-    const [amEmail, setAMEmail] = useState()
+
     const [headquater, setHeadquater] = useState()
     const [status, setStatus] = useState()
     const [date, setDate] = useState()
@@ -144,6 +143,9 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
     },[editFFFailError])
 
 
+
+    // PIN CODE VALIDATION
+
     const pinCodeRegex = /^[0-9]{6}$/;
 
 
@@ -164,6 +166,81 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
         };
 
 
+        //MOBILE NUMBER VALIDATION
+    const mobileNumberRegex = /^[0-9]{10}$/;
+
+
+    const [number, setNumber] = useState()
+    const [errorMobile, setErrorMobile] = React.useState('');
+
+    const handleMobileNumberChange = (event) => {
+        const newContact = event.target.value;
+        setNumber(newContact);
+
+        if (!mobileNumberRegex.test(newContact)) {
+            setErrorMobile('Mobile number must be 10 digits long.' +
+                '' +
+                '');
+        } else {
+            setErrorMobile('');
+        }
+    };
+
+
+    //EMAIL ADDRESS VALIDATION
+
+    const [email, setEmail] = useState('');
+    const [isValidEmail, setIsValidEmail] = useState(true);
+
+    const handleEmailChange = (event) => {
+        const enteredEmail = event.target.value;
+        setEmail(enteredEmail);
+
+        const regex = /.*@unsc.co\.in$/i;
+        const isSanofiEmail = regex.test(enteredEmail);
+        setIsValidEmail(isSanofiEmail);
+
+        // const regexs = /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        // const isEmailValid = regexs.test(enteredEmail);
+        // setIsValidEmail(isEmailValid);
+    };
+
+
+
+    //AM EMAIL ADDRESS VALIDATION
+
+
+    const [amEmail, setAMEmail] = useState()
+    const [isValidEmailAm, setIsValidEmailAm] = useState(true);
+
+    const handleEmailAmChange = (event) => {
+        const enteredEmailAm = event.target.value;
+        setAMEmail(enteredEmailAm);
+
+        const regex = /.*@unsc.co\.in$/i;
+        const isSanofiEmailAm = regex.test(enteredEmailAm);
+        setIsValidEmailAm(isSanofiEmailAm);
+
+    };
+
+    //RM EMAIL ADDRESS VALIDATION
+
+
+    const [rbmEmail, setRBMEmail] = useState()
+
+    const [isValidEmailRm, setIsValidEmailRm] = useState(true);
+
+    const handleEmailRmChange = (event) => {
+        const enteredEmailRm = event.target.value;
+        setRBMEmail(enteredEmailRm);
+
+        const regex = /.*@unsc.co\.in$/i;
+        const isSanofiEmailRm = regex.test(enteredEmailRm);
+        setIsValidEmailRm(isSanofiEmailRm);
+
+    };
+
+
 
 
     return(
@@ -171,10 +248,10 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
             <TitleWidget title={"Edit FF"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Employee Code:<br/><Input placeholder={"Recipient Code"} value={code} onChange={(e) => setCode(e.target.value)}/>
+                    Employee Code:<br/><Input placeholder={"Recipient Code"} value={code} onChange={(e) => setCode(e.target.value)} required/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Employee Name:<br/><Input placeholder={"Recipient Name "} value={name} onChange={(e) => setName(e.target.value)}/>
+                    Employee Name:<br/><Input placeholder={"Recipient Name "} value={name} onChange={(e) => setName(e.target.value)} required/>
                 </Col>
             </Row>
             <br/>
@@ -190,7 +267,7 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
                     Role :<br/>
-                    <SelectRecipientDesignationComponent value={role} onChange={(value) => setRole(value)}/>
+                    <SelectRecipientDesignationComponent value={role} onChange={(value) => setRole(value)} required/>
                     {/*<Select style={{width: "100%"}} placeholder="Select Designation"></Select>*/}
                 </Col>
                 <Col span={8} offset={2}>
@@ -222,16 +299,20 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Joining Date :<br/><DatePicker value={moment(jDate)} onChange={(e) => setJDate(e)} format={"DD/MM/YYYY"} style={{width: "100%"}}/>
+                    Joining Date :<br/><DatePicker value={moment(jDate)} onChange={(e) => setJDate(e)} format={"DD/MM/YYYY"} style={{width: "100%"}} required/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Mobile Number :<br/><Input placeholder={"Contact "} value={number} onChange={(e) => setNumber(e.target.value)}/>
+                    Mobile Number :<br/><Input placeholder={"Contact "} value={number}  onChange={handleMobileNumberChange}/>
+                    {errorMobile && <div style={{ color: 'red' }}>{errorMobile}</div>}
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Email Address :<br/><Input placeholder={"Email Address"} value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    Email Address :<br/><Input placeholder={"Email Address"} value={email}  onChange={handleEmailChange}/>
+                    {isValidEmail ? null : (
+                        <span style={{ color: 'red' }}>Invalid email address</span>
+                    )}
                 </Col>
                 <Col span={8} offset={2}>
                     Team :<br/>
@@ -245,13 +326,19 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
                     <SelectTeamComponent value={subTeam} onChange={(value) => setSubTeam(value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    RBM Email :<br/><Input style={{width: "100%"}} placeholder={"RM Email"} value={rbmEmail} onChange={(e) => setRBMEmail(e.target.value)}/>
+                    RBM Email :<br/><Input style={{width: "100%"}} placeholder={"RM Email"} value={rbmEmail} onChange={handleEmailRmChange}/>
+                    {isValidEmailRm ? null : (
+                        <span style={{ color: 'red' }}>Invalid LM-2 email address</span>
+                    )}
                 </Col>
             </Row>
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    AM Email :<br/><Input style={{width: "100%"}} placeholder="AM Email" value={amEmail} onChange={(e) => setAMEmail(e.target.value)}></Input>
+                    AM Email :<br/><Input style={{width: "100%"}} placeholder="AM Email" value={amEmail} onChange={handleEmailAmChange}></Input>
+                    {isValidEmailAm ? null : (
+                        <span style={{ color: 'red' }}>Invalid LM-1 email address</span>
+                    )}
                 </Col>
                 <Col span={8} offset={2}>
                     Headquater :<br/><Input style={{width: "100%"}} placeholder="Headquater" value={headquater} onChange={(e) => setHeadquater(e.target.value)}/>
