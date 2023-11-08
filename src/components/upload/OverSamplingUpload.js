@@ -3,17 +3,19 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Row, Table, Upload} from "antd";
+import {Button, Col, message, Row, Table, Upload} from "antd";
 import {Link} from "react-router-dom";
 import {UploadOutlined} from "@ant-design/icons";
-import {overSamplingExcelStartAction, overSamplingUploadLogStartAction} from "../../redux/actions/upload/uploadActions";
-import {selectOverSamplingExcelListData, selectOverSamplingUploadLogListData} from "../../redux/selectors/uploadSelector";
+import {overSamplingExcelStartAction, overSamplingUploadLogStartAction, overSamplingUploadStartAction} from "../../redux/actions/upload/uploadActions";
+import {selectOverSamplingExcelListData, selectOverSamplingUpload, selectOverSamplingUploadLogListData, selectOverSamplingUploadSuccess} from "../../redux/selectors/uploadSelector";
 import XLSX from "xlsx";
+import CSVDownload from "react-csv/src/components/Download";
 
 ;
 
 
-const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,overSamplingUploadLog,overSamplingExcel,handleOverSamplingExcel}) => {
+const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,overSamplingUploadLog,overSamplingExcel,
+                                handleOverSamplingExcel, handleOverSamplingUpload, overSamplingUpload, overSamplingUploadSuccess}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -23,6 +25,7 @@ const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,ov
     const [viewD, setViewD] = useState(false)
     const [expErr, setExpErr] = useState([])
     const [exp, setExp] = useState([])
+    const [file, setFile] = useState([])
 
     const searchData = () => {
         setFlag(true)
@@ -65,13 +68,10 @@ const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,ov
                 render: (_,row) => {
                     return (
                         <>
-                            <Link onClick={() => {
-                                handleViewError(row)
-                                setViewE(true)
-                            }} to="">View Errors </Link>|<Link onClick={() => {
-                            handleViewError(row)
-                            setViewD(true)
-                        }} to=""> Download Details</Link>
+                            <Button type="link" onClick={()=>{handleViewError(row)
+                                setViewE(true)}}>View Errors</Button>
+                            |<Button type="link" onClick={()=>{handleViewError(row)
+                            setViewD(true)}}>Download Details</Button>
                         </>
                     )
                 }
@@ -97,37 +97,40 @@ const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,ov
         if (overSamplingExcel) {
             console.log("there is data")
             console.log(overSamplingExcel)
+            if(viewE) {
+                setExpErr(overSamplingExcel.map(item => {
+                    return {
 
-            setExpErr(overSamplingExcel.map(item => {
-                return {
-
-                    "FF": item.ffCmp,
-                    "FF_CODE": item.ffCode,
-                    "TEAM": item.teamName,
-                    "DR-ID": item.drCode,
-                    "DR-NAME": item.drName,
-                    "TOTSAMPLESGIVEN": item.totalSampleGiven,
-                    "BU": item.bu,
-                    "AM": item.am,
-                    "RBM": item.rbm,
-                    "REMARKS": item.remarks,
-                    "Error": item.errorText,
-                }
-            }))
-            setExp(overSamplingExcel.map(item => {
-                return {
-                    "FF": item.ffCmp,
-                    "FF_CODE": item.ffCode,
-                    "TEAM": item.teamName,
-                    "DR-ID": item.drCode,
-                    "DR-NAME": item.drName,
-                    "TOTSAMPLESGIVEN": item.totalSampleGiven,
-                    "BU": item.bu,
-                    "AM": item.am,
-                    "RBM": item.rbm,
-                    "REMARKS": item.remarks,
-                }
-            }))
+                        "FF": item.ffCmp,
+                        "FF_CODE": item.ffCode,
+                        "TEAM": item.teamName,
+                        "DR-ID": item.drCode,
+                        "DR-NAME": item.drName,
+                        "TOTSAMPLESGIVEN": item.totalSampleGiven,
+                        "BU": item.bu,
+                        "AM": item.am,
+                        "RBM": item.rbm,
+                        "REMARKS": item.remarks,
+                        "Error": item.errorText,
+                    }
+                }))
+            }
+            if(viewD) {
+                setExp(overSamplingExcel.map(item => {
+                    return {
+                        "FF": item.ffCmp,
+                        "FF_CODE": item.ffCode,
+                        "TEAM": item.teamName,
+                        "DR-ID": item.drCode,
+                        "DR-NAME": item.drName,
+                        "TOTSAMPLESGIVEN": item.totalSampleGiven,
+                        "BU": item.bu,
+                        "AM": item.am,
+                        "RBM": item.rbm,
+                        "REMARKS": item.remarks,
+                    }
+                }))
+            }
         } else {
             console.log('no data')
         }
@@ -136,40 +139,40 @@ const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,ov
 
 
 
-    useEffect(() => {
-        console.log("expErr: ", expErr)
-        if (viewE) {
-            if (expErr.length > 0) {
-                handleExcelErr(expErr)
-                setViewE(false)
-            }
-        }
-    },[expErr])
-
-    useEffect(() => {
-        console.log("exp: ", exp)
-        if (viewD) {
-            if (exp.length > 0) {
-                handleExcel(exp)
-                setViewD(false)
-            }
-        }
-    },[exp])
-
-
-    const handleExcelErr = (overSamplingExcel) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(overSamplingExcel);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"OverSamplingErrors.XLSX")
-    }
-
-    const handleExcel = (overSamplingExcel) => {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(overSamplingExcel);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"OverSamplingDownload.XLSX")
-    }
+    // useEffect(() => {
+    //     console.log("expErr: ", expErr)
+    //     if (viewE) {
+    //         if (expErr.length > 0) {
+    //             handleExcelErr(expErr)
+    //             setViewE(false)
+    //         }
+    //     }
+    // },[expErr])
+    //
+    // useEffect(() => {
+    //     console.log("exp: ", exp)
+    //     if (viewD) {
+    //         if (exp.length > 0) {
+    //             handleExcel(exp)
+    //             setViewD(false)
+    //         }
+    //     }
+    // },[exp])
+    //
+    //
+    // const handleExcelErr = (overSamplingExcel) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(overSamplingExcel);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"OverSamplingErrors.XLSX")
+    // }
+    //
+    // const handleExcel = (overSamplingExcel) => {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet(overSamplingExcel);
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"OverSamplingDownload.XLSX")
+    // }
 
 
     const handleViewError = (row) => {
@@ -179,6 +182,68 @@ const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,ov
         })
     }
 
+    const handleUpload = (info) => {
+        setFile(info.fileList)
+        console.log(info.file.name)
+        console.log(info)
+        // const file = info.file.originFileObj
+        // const base64 = await convertBase64(file)
+        // console.log(base64)
+        // console.log(file.name)
+    }
+
+    const dummyRequest = ({ file, onSuccess }) => {
+        setTimeout(() => {
+            onSuccess("ok");
+        }, 0);
+    };
+
+    const props = {
+        beforeUpload: (file) => {
+            const isCSV = file.type === 'text/csv';
+            if (!isCSV) {
+                message.error(`${file.name} is not a csv file`);
+            }
+            return isCSV || Upload.LIST_IGNORE;
+        },
+    };
+
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file)
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            }
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
+    }
+
+    const upload = async () => {
+        console.log(file)
+        const newFile = file[0].originFileObj
+        const base64 = await convertBase64(newFile)
+        const bytecode = base64.split(",")[1];
+        console.log(newFile)
+        console.log(bytecode)
+        handleOverSamplingUpload({
+            certificate: authInfo.token,
+            dto: {
+                byteCode: bytecode,
+                fileName: newFile.name,
+            }
+        })
+    }
+
+    useEffect(() => {
+        if(overSamplingUploadSuccess){
+            handleOverSamplingUploadLog ({
+                certificate: authInfo.token
+            });
+        }
+    }, [overSamplingUploadSuccess])
 
 
 
@@ -205,12 +270,12 @@ const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,ov
             <TitleWidget title={'Over Sampling Upload'} />
             <Row>
                 <Col span={3}>
-                    <Upload>
+                    <Upload onChange={(info) => handleUpload(info)} customRequest={dummyRequest} fileList={file} {...props}>
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
                 <Col span={3}>
-                    <Button type={'primary'}>Upload</Button>
+                    <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
                 <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button>
                 </Col>
@@ -219,6 +284,16 @@ const OverSamplingUpload = ({authInfo,profileInfo,handleOverSamplingUploadLog,ov
             <span>Total Rows: <b>{overSamplingUploadLog?.length}</b></span>
             {flag &&
                 <Table columns={column} dataSource={overSamplingUploadLog}/>
+            }
+            {expErr.length > 0 && <CSVDownload
+                data={expErr}
+                filename={"overSamplingErr.csv"}/>
+                // target="_blank"></CSVDownload>
+            }
+            {exp.length > 0 && <CSVDownload
+                data={exp}
+                filename={"overSamplingDownload.csv"}/>
+                // target="_blank"></CSVDownload>
             }
         </div>
     )
@@ -231,6 +306,9 @@ OverSamplingUpload.propTypes = {
     handleOverSamplingUploadLog:PropTypes.func,
     overSamplingExcel: PropTypes.array,
     handleOverSamplingExcel:PropTypes.func,
+    handleOverSamplingUpload: PropTypes.func,
+    overSamplingUploadSuccess: PropTypes.any,
+    overSamplingUpload: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -238,13 +316,16 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const overSamplingUploadLog = selectOverSamplingUploadLogListData(state)
     const overSamplingExcel = selectOverSamplingExcelListData(state)
+    const overSamplingUpload = selectOverSamplingUpload(state)
+    const overSamplingUploadSuccess = selectOverSamplingUploadSuccess(state)
     console.log(overSamplingUploadLog)
-    return {authInfo,profileInfo,overSamplingUploadLog,overSamplingExcel}
+    return {authInfo,profileInfo,overSamplingUploadLog,overSamplingExcel, overSamplingUpload, overSamplingUploadSuccess}
 }
 
 const actions = {
     handleOverSamplingUploadLog:overSamplingUploadLogStartAction,
-    handleOverSamplingExcel:overSamplingExcelStartAction
+    handleOverSamplingExcel:overSamplingExcelStartAction,
+    handleOverSamplingUpload: overSamplingUploadStartAction,
 }
 
 export default connect(mapState, actions)(OverSamplingUpload)

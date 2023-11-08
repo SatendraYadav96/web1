@@ -1,17 +1,30 @@
 import {createRequest} from "./httpUtils";
 
 import {
-    ADD_BUISNESS_UNIT_API, FF_EXCEL_UPLOAD_API,
-    FF_UPLOAD_API, FF_UPLOAD_LOG_API,
+    ADD_BUISNESS_UNIT_API,
+    FF_EXCEL_UPLOAD_API,
+    FF_UPLOAD_API,
+    FF_UPLOAD_LOG_API,
     GET_HUB_NEAR_EXPIRY_API,
     GRN_EXCEL_UPLOAD_API,
     GRN_UPLOAD_API,
     INVOICE_EXCEL_UPLOAD_API,
-    INVOICE_UPLOAD_API, MATERIAL_EXPIRY_EXCEL_API, MATERIAL_EXPIRY_UPLOAD_LOG_API, NON_COMPLIANCE_EXCEL_API, NON_COMPLIANCE_UPLOAD_LOG_API, OVER_SAMPLING_DETAILS_EXCEL_API, OVER_SAMPLING_DETAILS_UPLOAD_LOG_API, OVER_SAMPLING_EXCEL_API, OVER_SAMPLING_UPLOAD_LOG_API, RECIPIENT_UPLOAD_LOG_API,
+    INVOICE_UPLOAD_API,
+    MATERIAL_EXPIRY_EXCEL_API, MATERIAL_EXPIRY_UPLOAD_API,
+    MATERIAL_EXPIRY_UPLOAD_LOG_API,
+    NON_COMPLIANCE_EXCEL_API,
+    NON_COMPLIANCE_UPLOAD_API,
+    NON_COMPLIANCE_UPLOAD_LOG_API,
+    OVER_SAMPLING_DETAILS_EXCEL_API, OVER_SAMPLING_DETAILS_UPLOAD_API,
+    OVER_SAMPLING_DETAILS_UPLOAD_LOG_API,
+    OVER_SAMPLING_EXCEL_API, OVER_SAMPLING_UPLOAD_API,
+    OVER_SAMPLING_UPLOAD_LOG_API,
+    RECIPIENT_UPLOAD_LOG_API,
     TRANSPORT_EXCEL_UPLOAD_API,
     TRANSPORT_UPLOAD_API,
     VIRTUAL_SAMPLE_UPLOAD_API,
-    VIRTUAL_SAMPLE_UPLOAD_EXCEL_API, VIRTUAL_SAMPLE_UPLOAD_LOG_API,
+    VIRTUAL_SAMPLE_UPLOAD_EXCEL_API,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_API,
     VIRTUAL_UPLOAD_API
 } from "./apiConstants";
 
@@ -97,8 +110,23 @@ export const overSamplingDetailsExcelRequest=  payload => {
     return createRequest(api, payload.certificate, null)
 }
 
-
 export const materialExpiryExcelRequest=  payload => {
     const api = {...MATERIAL_EXPIRY_EXCEL_API, url: `${MATERIAL_EXPIRY_EXCEL_API.url}/${payload.uplId}`}
     return createRequest(api, payload.certificate, null)
+}
+
+export const nonComplianceUploadRequest = payload => {
+    return createRequest(NON_COMPLIANCE_UPLOAD_API, payload.certificate, payload.dto)
+}
+
+export const overSamplingUploadRequest = payload => {
+    return createRequest(OVER_SAMPLING_UPLOAD_API, payload.certificate, payload.dto)
+}
+
+export const overSamplingDetailsUploadRequest = payload => {
+    return createRequest(OVER_SAMPLING_DETAILS_UPLOAD_API, payload.certificate, payload.dto)
+}
+
+export const materialExpiryUploadRequest = payload => {
+    return createRequest(MATERIAL_EXPIRY_UPLOAD_API, payload.certificate, payload.dto)
 }

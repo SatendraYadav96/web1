@@ -78,6 +78,7 @@ export const GET_NON_COMPLIANCE_API = {url: '/v1/compliance/recipientUnblockingP
 export const SAVE_NON_COMPLIANCE_ADMIN_REMARK_API = {url: '/v1/compliance/saveNonComplianceAdminRemark', method: 'POST', auth: true}
 export const SAVE_OVER_SAMPLING_API = {url: '/v1/compliance/saveOverSampling', method: 'POST', auth: true}
 export const OVER_SAMPLING_DETAILS_DATA_API = {url: '/v1/compliance/overSamplingDetailsData', method: 'GET', auth: true}
+export const SAVE_MASTER_BLOCKED_RECIPIENT = {url:'/v1/compliance/SaveMasterBlockedRecipient', method: 'POST', auth: true}
 
 //OVER SAMPLING
 export const GET_COMPLIANCE_DETAILS_API = {url: '/v1/compliance/overSamplingDetails',method:'GET',auth:true}
@@ -219,8 +220,10 @@ export const OVER_SAMPLING_EXCEL_API = {url: '/v1/upload/overSamplingExcelData',
 export const OVER_SAMPLING_DETAILS_EXCEL_API = {url: '/v1/upload/overSamplingDetailsExcelData',method:'GET',auth:true}
 
 export const MATERIAL_EXPIRY_EXCEL_API = {url: '/v1/upload/materialExpiryExcelData',method:'GET',auth:true}
-
-
+export const NON_COMPLIANCE_UPLOAD_API = {url: '/v1/upload/nonComplianceUpload', method: 'POST', auth: true}
+export const OVER_SAMPLING_UPLOAD_API = {url: '/v1/upload/overSamplingUpload', method: 'POST', auth: true}
+export const OVER_SAMPLING_DETAILS_UPLOAD_API = {url: '/v1/upload/overSamplingDetailsUpload', method: 'POST', auth: true}
+export const MATERIAL_EXPIRY_UPLOAD_API = {url: '/v1/upload/materialExpiryUpload', method: 'POST', auth: true}
 //ALLOCATIONS
 
 

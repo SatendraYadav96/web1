@@ -8,7 +8,7 @@ import {
     GET_MAIL_LOG_SUCCESS,
     GET_NON_COMPLIANCE_FAIL,
     GET_NON_COMPLIANCE_START,
-    GET_NON_COMPLIANCE_SUCCESS, OVER_SAMPLING_DETAILS_DATA_FAIL, OVER_SAMPLING_DETAILS_DATA_SUCCESS, SAVE_NON_COMPLIANCE_ADMIN_REMARK_FAIL,
+    GET_NON_COMPLIANCE_SUCCESS, OVER_SAMPLING_DETAILS_DATA_FAIL, OVER_SAMPLING_DETAILS_DATA_SUCCESS, SAVE_MASTER_BLOCKED_RECIPIENT_FAIL, SAVE_MASTER_BLOCKED_RECIPIENT_START, SAVE_MASTER_BLOCKED_RECIPIENT_SUCCESS, SAVE_NON_COMPLIANCE_ADMIN_REMARK_FAIL,
     SAVE_NON_COMPLIANCE_ADMIN_REMARK_START, SAVE_NON_COMPLIANCE_ADMIN_REMARK_SUCCESS, SAVE_OVER_SAMPLING_FAIL, SAVE_OVER_SAMPLING_START, SAVE_OVER_SAMPLING_SUCCESS
 } from "../actions/compliance/nonComplianceActionConstants";
 
@@ -25,6 +25,8 @@ const initialState = {
     saveOverSampling:{},
     saveOverSamplingSuccess: false,
     overSamplingDetailData: [],
+    saveMasterBlockedRecipient: [],
+    saveMasterBlockedRecipientSuccess: false,
     error: {}
 }
 
@@ -153,6 +155,30 @@ const overSamplingDetailDataFailReducer = (state = initialState, payload) => {
     }
 }
 
+const saveMasterRecipientBlockedStartReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        saveMasterBlockedRecipientSuccess: false,
+    }
+}
+
+const saveMasterRecipientBlockedSuccessReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        saveMasterBlockedRecipient: payload.saveMasterBlockedRecipient,
+        saveMasterBlockedRecipientSuccess: true,
+    }
+}
+
+const saveMasterRecipientBlockedFailReducer = (state = initialState, payload) => {
+    return{
+        ...state,
+        saveMasterBlockedRecipient: [],
+        saveMasterBlockedRecipientSuccess: false,
+        error: payload.error
+    }
+}
+
 export default createReducer(initialState, {
     [GET_NON_COMPLIANCE_SUCCESS]: getNonComplianceSuccessReducer,
     [GET_NON_COMPLIANCE_FAIL]: getNonComplianceFailReducer,
@@ -167,5 +193,8 @@ export default createReducer(initialState, {
     [SAVE_OVER_SAMPLING_SUCCESS]: saveOverSamplingSuccessReducer,
     [SAVE_OVER_SAMPLING_FAIL]: saveOverSamplingFailReducer,
     [OVER_SAMPLING_DETAILS_DATA_SUCCESS]: overSamplingDetailDataSuccessReducer,
-    [OVER_SAMPLING_DETAILS_DATA_FAIL]: overSamplingDetailDataFailReducer
+    [OVER_SAMPLING_DETAILS_DATA_FAIL]: overSamplingDetailDataFailReducer,
+    [SAVE_MASTER_BLOCKED_RECIPIENT_START]: saveMasterRecipientBlockedStartReducer,
+    [SAVE_MASTER_BLOCKED_RECIPIENT_SUCCESS]: saveMasterRecipientBlockedSuccessReducer,
+    [SAVE_MASTER_BLOCKED_RECIPIENT_FAIL]: saveMasterRecipientBlockedFailReducer
 })

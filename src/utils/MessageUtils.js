@@ -30,6 +30,7 @@ import {DELETE_SPECIAL_ALLOCATION_START, GET_ACTIVE_USERS_START, GET_DOWNLOAD_AL
 import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryReportActionConstants";
 import {GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START} from "../redux/actions/reports/batchReconciliationReportActionConstants";
 import {SAVE_NON_COMPLIANCE_ADMIN_REMARK_START, SAVE_OVER_SAMPLING_START} from "../redux/actions/compliance/nonComplianceActionConstants";
+import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -1376,6 +1377,15 @@ import {SAVE_NON_COMPLIANCE_ADMIN_REMARK_START, SAVE_OVER_SAMPLING_START} from "
         SAVE_OVER_SAMPLING_START:[{ action: 'showspinner' }],
         SAVE_OVER_SAMPLING_SUCCESS: [{ action: 'hidespinner' }],
         SAVE_OVER_SAMPLING_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        GET_MASTER_BLOCKED_LIST_START:[{ action: 'showspinner' }],
+        GET_MASTER_BLOCKED_LIST_SUCCESS: [{ action: 'hidespinner' }],
+        GET_MASTER_BLOCKED_LIST_FAIL: [
             { action: 'hidespinner' },
             {
                 action: 'showerror',

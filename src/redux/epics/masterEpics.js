@@ -596,7 +596,7 @@ export const getMasterBlockedListStartEpic = (action$) =>
         debounceTime(4000),
         switchMap((action) =>
             masterBlockedListRequest(action.payload).pipe(
-                map((listResponse) => getMasterBlockedListSuccessAction({masterBlockedListList: listResponse.response})),
+                map((listResponse) => getMasterBlockedListSuccessAction({masterBlockedList: listResponse.response})),
                 catchError((error) => of(getMasterBlockedListFailAction({error: error}))),
             )
         )

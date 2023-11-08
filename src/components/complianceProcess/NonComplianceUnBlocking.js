@@ -74,6 +74,22 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                 setArr(ackData)
             }
             console.log(arr)
+            setData(nonComplianceList?.map(item => {
+                    return {
+                        employeeCode: item.employeeCode,
+                        employeeName: item.employeeName,
+                        team: item.team,
+                        headquarter: item.headquarter,
+                        month: item.month,
+                        year: item.year,
+                        am: item.emailAM,
+                        rm: item.emailRM,
+                        isBockedFF: item.isBockedFF,
+                        remark: item.remark,
+                        remarkByAdmin: item.remarkByAdmin,
+
+                    }
+                }))
             // searchData()
         }
         console.log(arr)

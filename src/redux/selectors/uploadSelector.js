@@ -345,3 +345,79 @@ export const selectLoadingMaterialExpiryExcelData = createSelector(
     materialExpiryExcelLoading,
     loadingSelection => loadingSelection
 );
+
+const nonComplianceUpload = (state) => state.upload.nonComplianceUpload;
+const nonComplianceUploadLoading = (state) => state.upload.nonComplianceUploadLoading
+const nonComplianceUploadSuccess = (state) => state.upload.nonComplianceUploadSuccess
+
+export const selectNonComplianceUpload = createSelector(
+    nonComplianceUpload,
+    dataSelect => dataSelect
+);
+
+export const selectNonComplianceUploadLoading = createSelector(
+    nonComplianceUploadLoading,
+    dataSelect => dataSelect
+);
+
+export const selectNonComplianceUploadSuccess = createSelector(
+    nonComplianceUploadSuccess,
+    dataSelect => dataSelect
+)
+
+const overSamplingUpload = (state) => state.upload.overSamplingUpload
+const overSamplingUploadLoading = (state) => state.upload.overSamplingUploadLoading
+const overSamplingUploadSuccess = (state) => state.upload.overSamplingUploadSuccess
+
+export const selectOverSamplingUpload = createSelector(
+    overSamplingUpload,
+    dataSelect => dataSelect
+)
+
+export const selectOverSamplingUploadLoading = createSelector(
+    overSamplingUploadLoading,
+    dataSelect => dataSelect
+)
+
+export const selectOverSamplingUploadSuccess = createSelector(
+    overSamplingUploadSuccess,
+    dataSelect => dataSelect
+)
+
+const overSamplingDetailsUpload = (state) => state.upload.overSamplingDetailsUpload
+const overSamplingDetailsUploadLoading = (state) => state.upload.overSamplingDetailsUploadLoading
+const overSamplingDetailsUploadSuccess = (state) => state.upload.overSamplingDetailsUploadSuccess
+
+export const selectOverSamplingDetailsUpload = createSelector(
+    overSamplingDetailsUpload,
+    dataSelect => dataSelect
+)
+
+export const selectOverSamplingDetailsUploadLoading = createSelector(
+    overSamplingDetailsUploadLoading,
+    dataSelect => dataSelect
+)
+
+export const selectOverSamplingDetailsUploadSuccess = createSelector(
+    overSamplingDetailsUploadSuccess,
+    dataSelect => dataSelect
+)
+
+const materialExpiryUpload = (state) => state.upload.materialExpiryUpload;
+const materialExpiryUploadLoading = (state) => state.upload.materialExpiryUploadLoading
+const materialExpiryUploadSuccess = (state) => state.upload.materialExpiryUploadSuccess
+
+export const selectMaterialExpiryUpload = createSelector(
+    materialExpiryUpload,
+    dataSelect => dataSelect
+);
+
+export const selectMaterialExpiryUploadLoading = createSelector(
+    materialExpiryUploadLoading,
+    dataSelect => dataSelect
+);
+
+export const selectMaterialExpiryUploadSuccess = createSelector(
+    materialExpiryUploadSuccess,
+    dataSelect => dataSelect
+);
