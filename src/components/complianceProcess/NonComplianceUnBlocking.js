@@ -15,6 +15,7 @@ import * as nonComplianceList from "rxjs";
 import {selectNonComplianceListData, selectSaveNonComplianceAdminRemarkSuccess} from "../../redux/selectors/nonComplianceSelector";
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import {isArray} from "@craco/craco/lib/utils";
 
 
 const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceList,handleNonCompliance, handleSaveNonComplianceAdminRemark, saveNonComplianceAdminRemarkSuccess}) => {
@@ -23,9 +24,11 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
 
    // const currentYear = date.getFullYear()
    //const currentMonth = date.getMonth()
-
+    const ackData = []
+    const [arr, setArr] = useState([])
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
+    const [dataFlag, setDataFlag] = useState(true)
     const [startDate, setStartDate] = useState()
     const [status, setStatus] = useState(1)
     const [year, setYear] = useState()
@@ -49,6 +52,34 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
         clearFilters();
         setSearchText('');
     };
+
+    const handleNonComplianceData = () => {
+        handleNonCompliance({
+            certificate: authInfo.token,
+            statusType: status,
+            month: month,
+            year: year,
+        })
+        // searchData()
+    }
+
+    useEffect(() => {
+        if(nonComplianceList.length > 0) {
+            if (dataFlag){
+                nonComplianceList.forEach((it) => {
+                    ackData[it.idRlf] = it
+                })
+                setDataFlag(false)
+                setFlag(true)
+                setArr(ackData)
+            }
+            console.log(arr)
+            // searchData()
+        }
+        console.log(arr)
+        console.log(isArray(arr))
+    },[nonComplianceList])
+
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div
@@ -131,221 +162,233 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             ),
     });
 
-    const setColumnData = (id, field, value) => {
-        nonComplianceList.forEach(i => {
-                if(i.idRlf === id){
-                    if(field === "isBlockedFF"){
-                        i[field] = (value===1)?0:1
-                    }else if(field === "isRejected"){
-                        i[field] = (value===1)?0:1
-                    }else{
-                        i[field] = value
-                    }
+    const adminColumn = [
+        {
+            title: 'Employee Code',
+            key: 'employeeCode',
+            dataIndex: 'employeeCode',
+            width: '100px',
+            ...getColumnSearchProps('employeeCode'),
+        },
+        {
+            title: 'Employee Name',
+            key: 'employeeCode',
+            dataIndex: 'employeeName',
+            width: '100px',
+            ...getColumnSearchProps('employeeName'),
+        },
+        {
+            title: 'Team',
+            key: 'team',
+            dataIndex: 'team',
+            width: '100px',
+            ...getColumnSearchProps('team'),
+        },
+        {
+            title: 'Headquater',
+            key: 'headquater',
+            dataIndex: 'headquarter',
+            width: '100px',
+            ...getColumnSearchProps('headquarter'),
+        },
+        {
+            title: 'AM',
+            key: 'am',
+            dataIndex: 'emailAM',
+            width: '100px',
+            ...getColumnSearchProps('emailAM'),
+        },
+        {
+            title: 'RBM',
+            key: 'rbm',
+            dataIndex: 'emailRM',
+            width: '100px',
+            ...getColumnSearchProps('emailRM'),
+        },
+        {
+            title: 'Month',
+            key: 'month',
+            dataIndex: 'month',
+            width: '100px',
+            ...getColumnSearchProps('month'),
+        },
+        {
+            title: 'Year',
+            key: 'year',
+            dataIndex: 'year',
+            width: '100px',
+            ...getColumnSearchProps('year'),
+        },
+        {
+            title: 'Is Blocked',
+            key: 'blockedFF',
+            dataIndex: 'blockedFF',
+            width: '100px',
+            render: (_, {idRlf, blockedFF}) => {
+                const row = arr[idRlf];
+                let blockedFFVal = false;
+                if (row !== undefined) {
+                    blockedFFVal = row.blockedFF;
                 }
+                return <Checkbox checked={blockedFF != null ? (blockedFF == 1 ? true : false) : blockedFFVal} onChange={(e) => setColumnData(idRlf, 'blockedFF', e.target.checked)}/>
+            },
+            // ...getColumnSearchProps('isBockedFF'),
+        },
+        {
+            title: 'Remark',
+            key: 'remark',
+            dataIndex: 'remark',
+            width: '100px',
+            ...getColumnSearchProps('remark'),
+        },
+        {
+            title: 'Admin Remark',
+            key: 'remarkByAdmin',
+            dataIndex: 'remarkByAdmin',
+            width: '200px',
+            render: (_, {idRlf, remarkByAdmin}) => {
+                const row = arr[idRlf];
+                let adminRemark = '';
+                if (row !== undefined) {
+                    adminRemark = row.remarkByAdmin;
+                }
+                return <Input placeholder={"Enter Admin Remark"} value={remarkByAdmin != null ? remarkByAdmin : adminRemark} onChange={(e) => setColumnData(idRlf, 'remarkByAdmin', e.target.value)}/>
             }
-        )
-    }
+            // ...getColumnSearchProps('remarkByAdmin'),
+        },
+        {
+            title: 'Rejected',
+            key: 'isRejected',
+            dataIndex: 'isRejected',
+            width: '100px',
+            render: (_, {idRlf, rejected}) => {
+                const row = arr[idRlf];
+                let rejectedVal = false;
+                if (row !== undefined) {
+                    rejectedVal = row.rejected;
+                }
+                return <Checkbox checked={rejected != null ? (rejected == 1 ? true : false) : rejectedVal} onChange={(e) => setColumnData(idRlf, 'rejected', e.target.checked)}/>
+            },
+            // ...getColumnSearchProps('remarkByAdmin'),
+        },
+    ]
 
+    const nsmColumn = [
+        {
+            title: 'Employee Code',
+            key: 'employeeCode',
+            dataIndex: 'employeeCode',
+            width: '100px',
+            ...getColumnSearchProps('employeeCode'),
+        },
+        {
+            title: 'Employee Name',
+            key: 'employeeCode',
+            dataIndex: 'employeeName',
+            width: '100px',
+            ...getColumnSearchProps('employeeName'),
+        },
+        {
+            title: 'Team',
+            key: 'team',
+            dataIndex: 'team',
+            width: '100px',
+            ...getColumnSearchProps('team'),
+        },
+        {
+            title: 'Headquater',
+            key: 'headquater',
+            dataIndex: 'headquarter',
+            width: '100px',
+            ...getColumnSearchProps('headquarter'),
+        },
+        {
+            title: 'AM',
+            key: 'am',
+            dataIndex: 'emailAM',
+            width: '100px',
+            ...getColumnSearchProps('emailAM'),
+        },
+        {
+            title: 'RBM',
+            key: 'rbm',
+            dataIndex: 'emailRM',
+            width: '100px',
+            ...getColumnSearchProps('emailRM'),
+        },
+        {
+            title: 'Month',
+            key: 'month',
+            dataIndex: 'month',
+            width: '100px',
+            ...getColumnSearchProps('month'),
+        },
+        {
+            title: 'Year',
+            key: 'year',
+            dataIndex: 'year',
+            width: '100px',
+            ...getColumnSearchProps('year'),
+        },
+        {
+            title: 'Is Blocked',
+            key: 'isBlockedFF',
+            dataIndex: 'isBlockedFF',
+            width: '100px',
+            render: (_, row) => {
+                return <Checkbox defaultChecked={(row.isBlockedFF == 1) ? true : false} disabled={true}/>
+            },
+            // ...getColumnSearchProps('isBockedFF'),
+        },
+        {
+            title: 'Remark',
+            key: 'remark',
+            dataIndex: 'remark',
+            width: '100px',
+            render: (_, {idRlf, remark}) => {
+                const row = arr[idRlf];
+                let remarkVal = '';
+                if (row !== undefined) {
+                    remarkVal = row.remark;
+                }
+                return <Input placeholder={"Enter Remark"} value={remarkVal} onChange={(e) => setColumnData(row.idRlf, "remark", e.target.value)}/>
+            }
+            // ...getColumnSearchProps('remark'),
+        },
+        {
+            title: 'Admin Remark',
+            key: 'remarkByAdmin',
+            dataIndex: 'remarkByAdmin',
+            width: '200px',
+            ...getColumnSearchProps('remarkByAdmin'),
+        },
+        {
+            title: '',
+            key: '',
+            dataIndex: '',
+            width: '100px',
+            render: (_, row) => {
+                return <Checkbox defaultChecked={(row.isRejected == 1) ? true : false} disabled={true}/>
+            }
+            // ...getColumnSearchProps('remarkByAdmin'),
+        },
+    ]
 
-
-
-    const searchData = () => {
-        setFlag(true)
-        if(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711"){
-            setColumn([
-                {
-                    title:'Employee Code',
-                    key:'employeeCode',
-                    dataIndex:'employeeCode',
-                    width:'100px',
-                     ...getColumnSearchProps('employeeCode'),
-                },
-                {
-                    title:'Employee Name',
-                    key:'employeeCode',
-                    dataIndex:'employeeName',
-                    width:'100px',
-                     ...getColumnSearchProps('employeeName'),
-                },
-                {
-                    title: 'Team',
-                    key: 'team',
-                    dataIndex: 'team',
-                    width: '100px',
-                     ...getColumnSearchProps('team'),
-                },
-                {
-                    title: 'Headquater',
-                    key: 'headquater',
-                    dataIndex: 'headquarter',
-                    width: '100px',
-                     ...getColumnSearchProps('headquarter'),
-                },
-                {
-                    title: 'AM',
-                    key: 'am',
-                    dataIndex: 'emailAM',
-                    width: '100px',
-                     ...getColumnSearchProps('emailAM'),
-                },
-                {
-                    title: 'RBM',
-                    key: 'rbm',
-                    dataIndex: 'emailRM',
-                    width: '100px',
-                    ...getColumnSearchProps('emailRM'),
-                },
-                {
-                    title: 'Month',
-                    key: 'month',
-                    dataIndex: 'month',
-                    width: '100px',
-                     ...getColumnSearchProps('month'),
-                },
-                {
-                    title: 'Year',
-                    key: 'year',
-                    dataIndex: 'year',
-                    width: '100px',
-                    ...getColumnSearchProps('year'),
-                },
-                {
-                    title: 'Is Blocked',
-                    key: 'IsBlockedFF',
-                    dataIndex: 'IsBlockedFF',
-                    width: '100px',
-                    render:  (_,row) => {
-                        return <Checkbox defaultChecked={(row.isBlockedFF==1)?true:false} onChange={()=> setColumnData(row.idRlf, "isBlockedFF", row.isBlockedFF)}/>
-                    },
-                    // ...getColumnSearchProps('isBockedFF'),
-                },
-                {
-                    title: 'Remark',
-                    key: 'remark',
-                    dataIndex: 'remark',
-                    width: '100px',
-                     ...getColumnSearchProps('remark'),
-                },
-                {
-                    title: 'Admin Remark',
-                    key: 'remarkByAdmin',
-                    dataIndex: 'remarkByAdmin',
-                    width: '200px',
-                    render: (_,row) => {
-                        return <Input placeholder={"Enter Admin Remark"} defaultValue={row.remarkByAdmin} value={row.remarkByAdmin} onChange={(e)=> setColumnData(row.idRlf, "remarkByAdmin",e.target.value)}/>
-                    }
-                    // ...getColumnSearchProps('remarkByAdmin'),
-                },
-                {
-                    title: 'Rejected',
-                    key: 'isRejected',
-                    dataIndex: 'isRejected',
-                    width: '100px',
-                    render: (_,row) => {
-                        return <Checkbox defaultChecked={(row.isRejected==1)?true:false} onChange={()=> setColumnData(row.idRlf, "IsRejected", row.isRejected)}/>
-                    }
-                    // ...getColumnSearchProps('remarkByAdmin'),
-                },
-            ])
-        } else if(profileInfo.userDesignation.id === "24720986-A3EE-4DCA-9538-36F52625EB70"){
-            setColumn([
-                {
-                    title:'Employee Code',
-                    key:'employeeCode',
-                    dataIndex:'employeeCode',
-                    width:'100px',
-                     ...getColumnSearchProps('employeeCode'),
-                },
-                {
-                    title:'Employee Name',
-                    key:'employeeCode',
-                    dataIndex:'employeeName',
-                    width:'100px',
-                     ...getColumnSearchProps('employeeName'),
-                },
-                {
-                    title: 'Team',
-                    key: 'team',
-                    dataIndex: 'team',
-                    width: '100px',
-                    ...getColumnSearchProps('team'),
-                },
-                {
-                    title: 'Headquater',
-                    key: 'headquater',
-                    dataIndex: 'headquarter',
-                    width: '100px',
-                     ...getColumnSearchProps('headquarter'),
-                },
-                {
-                    title: 'AM',
-                    key: 'am',
-                    dataIndex: 'emailAM',
-                    width: '100px',
-                    ...getColumnSearchProps('emailAM'),
-                },
-                {
-                    title: 'RBM',
-                    key: 'rbm',
-                    dataIndex: 'emailRM',
-                    width: '100px',
-                    ...getColumnSearchProps('emailRM'),
-                },
-                {
-                    title: 'Month',
-                    key: 'month',
-                    dataIndex: 'month',
-                    width: '100px',
-                    ...getColumnSearchProps('month'),
-                },
-                {
-                    title: 'Year',
-                    key: 'year',
-                    dataIndex: 'year',
-                    width: '100px',
-                     ...getColumnSearchProps('year'),
-                },
-                {
-                    title: 'Is Blocked',
-                    key: 'isBlockedFF',
-                    dataIndex: 'isBlockedFF',
-                    width: '100px',
-                    render:  (_,row) => {
-                        return <Checkbox defaultChecked={(row.isBlockedFF==1)?true:false} disabled={true}/>
-                    },
-                    // ...getColumnSearchProps('isBockedFF'),
-                },
-                {
-                    title: 'Remark',
-                    key: 'remark',
-                    dataIndex: 'remark',
-                    width: '100px',
-                    render: (_,row) => {
-                        return <Input placeholder={"Enter Remark"} defaultValue={row.remark} value={row.remark} onChange={(e) => setColumnData(row.idRlf,"remark", e.target.value)}/>
-                    }
-                    // ...getColumnSearchProps('remark'),
-                },
-                {
-                    title: 'Admin Remark',
-                    key: 'remarkByAdmin',
-                    dataIndex: 'remarkByAdmin',
-                    width: '200px',
-                     ...getColumnSearchProps('remarkByAdmin'),
-                },
-                {
-                    title: '',
-                    key: '',
-                    dataIndex: '',
-                    width: '100px',
-                    render: (_,row) => {
-                        return <Checkbox defaultChecked={(row.isRejected==1)?true:false} disabled={true}/>
-                    }
-                    // ...getColumnSearchProps('remarkByAdmin'),
-                },
-            ])
+    const setColumnData = (id, field, value) => {
+        console.log(arr)
+        if (field === "blockedFF") {
+            arr[id][field] = (value == true) ? 1 : 0
+            setArr(arr)
+        }else if (field === "rejected") {
+            arr[id][field] = (value == true) ? 1 : 0
+            setArr(arr)
+        }else{
+            console.log(arr[id][field])
+            arr[id][field] = value
+            setArr(arr)
         }
+        console.log(arr)
 
-        setDataSource([])
     }
 
     const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
@@ -354,7 +397,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
     const saveAdminRemark = () => {
         let nonComp = []
         if(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711"){
-            nonComplianceList.forEach(i => {
+            arr.forEach(i => {
                 let data = {
                     "id":i.idRlf,
                     "adminRemark":i.remarkByAdmin,
@@ -365,7 +408,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             })
 
         }else if(profileInfo.userDesignation.id === "24720986-A3EE-4DCA-9538-36F52625EB70"){
-            nonComplianceList.forEach(i => {
+            arr.forEach(i => {
                 let data = {
                     "id":i.idRlf,
                     "adminRemark":i.remarkByAdmin,
@@ -412,37 +455,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
 
     }
 
-    const handleNonComplianceData = () => {
-        handleNonCompliance({
-            certificate: authInfo.token,
-            statusType: status,
-            month: month,
-            year: year,
-        })
-        searchData()
-    }
 
-    useEffect(() => {
-        {nonComplianceList.length > 0 ? setData(nonComplianceList?.map(item => {
-            return {
-               employeeCode:item.employeeCode,
-                employeeName:item.employeeName,
-                team:item.team,
-                headquarter:item.headquarter,
-                month:item.month,
-                year:item.year,
-                am:item.emailAM,
-                rm:item.emailRM,
-                isBockedFF:item.isBockedFF,
-                remark:item.remark,
-                remarkByAdmin:item.remarkByAdmin,
-                isRejected: item.isRejected,
-                idRlf: item.idRlf
-            }
-        })) : console.log('no data')}
-
-        console.log(nonComplianceList)
-    },[nonComplianceList])
 
     const handleBusinessUnit = (value) =>  {
         setBusinessUnit(value)
@@ -502,9 +515,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                 </Col>
             </Row>
             <br/>
-            {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={nonComplianceList}/>
-            }
+                <Table columns={(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711") ? adminColumn : nsmColumn} scroll={{y: '100%'}} dataSource={nonComplianceList ? nonComplianceList : ackData}/>
         </>
     )
 
