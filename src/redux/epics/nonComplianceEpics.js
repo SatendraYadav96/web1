@@ -1,7 +1,7 @@
 import {ofType} from "redux-observable";
 import {catchError, debounceTime, map, of, switchMap} from "rxjs";
-import {GET_COMPLIANCE_DETAILS_START, GET_MAIL_LOG_START, GET_NON_COMPLIANCE_START, OVER_SAMPLING_DETAILS_DATA_START, SAVE_NON_COMPLIANCE_ADMIN_REMARK_START, SAVE_OVER_SAMPLING_START} from "../actions/compliance/nonComplianceActionConstants";
-import {complianceDetailsRequest, nonComplianceRequest, optimalMailLogRequest, optimalMailRequest, overSamplingDetailsDataRequest, saveNonComplianceAdminRemarkRequest, saveOverSamplingRequest} from "../../api/complianceRequests";
+import {GET_COMPLIANCE_DETAILS_START, GET_MAIL_LOG_START, GET_NON_COMPLIANCE_START, OVER_SAMPLING_DETAILS_DATA_START, SAVE_MASTER_BLOCKED_RECIPIENT_START, SAVE_NON_COMPLIANCE_ADMIN_REMARK_START, SAVE_OVER_SAMPLING_START} from "../actions/compliance/nonComplianceActionConstants";
+import {complianceDetailsRequest, nonComplianceRequest, optimalMailLogRequest, optimalMailRequest, overSamplingDetailsDataRequest, saveMasterBlockedRecipientRequest, saveNonComplianceAdminRemarkRequest, saveOverSamplingRequest} from "../../api/complianceRequests";
 import {
     getComplianceDetailsFailAction,
     getComplianceDetailsSuccessAction,
@@ -9,7 +9,7 @@ import {
     getMailLogStartAction,
     getMailLogSuccessAction,
     getNonComplianceFailAction,
-    getNonComplianceSuccessAction, overSamplingDetailsDataFailAction, overSamplingDetailsDataSuccessAction,
+    getNonComplianceSuccessAction, overSamplingDetailsDataFailAction, overSamplingDetailsDataSuccessAction, saveMasterRecipientBlockedFailAction, saveMasterRecipientBlockedSuccessAction,
     saveNonComplianceFailAction,
     saveNonComplianceSuccessAction, saveOverSamplingFailAction, saveOverSamplingSuccessAction
 } from "../actions/compliance/nonComplianceActions";
@@ -88,6 +88,18 @@ export const overSamplingDetailsDataStartEpic = (action$) =>
             overSamplingDetailsDataRequest(action.payload).pipe(
                 map((listResponse) => overSamplingDetailsDataSuccessAction({overSamplingDetailData: listResponse.response})),
                 catchError((error) => of(overSamplingDetailsDataFailAction({error: error}))),
+            )
+        )
+    )
+
+export const saveMasterBlockedRecipientStartEpic = (action$) =>
+    action$.pipe(
+        ofType(SAVE_MASTER_BLOCKED_RECIPIENT_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            saveMasterBlockedRecipientRequest(action.payload).pipe(
+                map((listResponse) => saveMasterRecipientBlockedSuccessAction({saveMasterBlockedRecipient: listResponse.response})),
+                catchError((error) => of(saveMasterRecipientBlockedFailAction({error: error}))),
             )
         )
     )

@@ -15,8 +15,10 @@ import {resetPlanStartAction} from "../../../redux/actions/approval/monthlyAppro
 import Highlighter from "react-highlight-words";
 import {CSVLink} from "react-csv";
 import XLSX from "xlsx";
+import {selectSaveMasterBlockedRecipient, selectSaveMasterBlockedRecipientSuccess} from "../../../redux/selectors/nonComplianceSelector";
+import {saveMasterRecipientBlockedStartAction} from "../../../redux/actions/compliance/nonComplianceActions";
 
-const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedList}) => {
+const RecipientBlockedListComponent = ({authInfo,handleMasterBlockedList,masterBlockedList, handleSaveMasterBlockedRecipient, saveMasterBlockedRecipient, saveMasterBlockedRecipientSuccess}) => {
 
     const navigate = useNavigate()
     const date = new Date();
@@ -128,110 +130,108 @@ const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedLi
         setColumn([
             {
                 title: 'Employee Code',
-                key: 'name',
+                key: 'employeeCode',
                 dataIndex: 'employeeCode',
                 width: '100px',
-                ...getColumnSearchProps('employeeCode'),
+                // ...getColumnSearchProps('employeeCode'),
             },
             {
                 title: 'Employee Name',
                 key: 'employeeName',
                 dataIndex: 'employeeName',
                 width: '100px',
-                ...getColumnSearchProps('employeeName'),
+                // ...getColumnSearchProps('employeeName'),
             },
             {
                 title: 'Team',
                 key: 'team',
                 dataIndex: 'team',
                 width: '100px',
-                ...getColumnSearchProps('team'),
+                // ...getColumnSearchProps('team'),
             },
             {
                 title: 'Headquarter',
                 key: 'headquarter',
                 dataIndex: 'headquarter',
                 width: '100px',
-                ...getColumnSearchProps('headquarter'),
+                // ...getColumnSearchProps('headquarter'),
             },
             {
                 title: 'AM',
                 key: 'am',
                 dataIndex: 'am',
                 width: '100px',
-                ...getColumnSearchProps('am'),
+                // ...getColumnSearchProps('am'),
             },
             {
                 title: 'RBM',
                 key: 'rbm',
                 dataIndex: 'rbm',
                 width: '100px',
-                ...getColumnSearchProps('rbm'),
+                // ...getColumnSearchProps('rbm'),
             },
             {
                 title: 'Month',
                 key: 'month',
                 dataIndex: 'month',
                 width: '100px',
-                ...getColumnSearchProps('month'),
+                // ...getColumnSearchProps('month'),
             },
             {
                 title: 'Year',
                 key: 'year',
                 dataIndex: 'year',
                 width: '100px',
-                ...getColumnSearchProps('year'),
+                // ...getColumnSearchProps('year'),
             },
             {
                 title: 'Blocked On',
-                key: 'blockedOn',
+                key: 'blocked_On',
                 dataIndex: 'blocked_On',
                 width: '100px',
-                ...getColumnSearchProps('blockedOn'),
+                // ...getColumnSearchProps('blocked_On'),
             },
             {
                 title: 'Is Blocked',
-                key: 'isBlocked',
+                key: 'isBockedFF',
                 dataIndex: 'isBockedFF',
                 width: '100px',
-                ...getColumnSearchProps('isBlocked'),
+                // ...getColumnSearchProps('isBockedFF'),
             },
             {
                 title: 'Remark',
                 key: 'remark',
                 dataIndex: 'remark',
                 width: '100px',
-                ...getColumnSearchProps('remark'),
+                // ...getColumnSearchProps('remark'),
             },
             {
                 title: 'Blocked_Type',
-                key: 'blockedType',
-                dataIndex: 'blockedType',
+                key: 'blocked_type',
+                dataIndex: 'blocked_type',
                 width: '100px',
-                ...getColumnSearchProps('blockedType'),
+                // ...getColumnSearchProps('blocked_type'),
             },
-            {
-                title: '',
-                key: '',
-                dataIndex: '',
-                width: '100px',
-                render: (_,row) => {
-                    return <Button icon={<EditOutlined />} onClick={() => editBusinessUnit(row)}></Button>
-                }
-            }
+
         ]);
 
-        setDataSource([
-            {
-                key: '1',
-                name: 'ABC',
-                code: ''
-            }
-        ])
     }
 
-    const createBusinessUnit = () => {
-        return navigate("/home/masters/businessUnit/create")
+    const createBusinessUnit = () =>{
+        let data = []
+        masterBlockedList.forEach(i=>{
+            let d = {
+                "id":i.id,
+                "isBlocked":i.isBockedFF,
+                "remark":i.remark,
+                "Blocked_type":i.blocked_type
+            }
+            data.push(d)
+        })
+        handleSaveMasterBlockedRecipient({
+            certificate: authInfo.token,
+            data: data
+        })
     }
 
     const editBusinessUnit = (row) => {
@@ -276,10 +276,17 @@ const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedLi
         console.log(masterBlockedList)
     },[masterBlockedList])
 
+    useEffect(() => {
+        handleMasterBlockedList ({
+            certificate: authInfo.token,
+            year:year,
+        });
+        searchData()
+    },[saveMasterBlockedRecipientSuccess])
 
     return(
         <>
-            <TitleWidget title={"Master - Business Units"}/>
+            <TitleWidget title={"Master - Blocked FF"}/>
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
@@ -316,19 +323,27 @@ const BusinessUnitComponent = ({authInfo,handleMasterBlockedList,masterBlockedLi
     )
 }
 
-BusinessUnitComponent.propTypes = {
+RecipientBlockedListComponent.propTypes = {
     authInfo: PropTypes.any,
+    masterBlockedList: PropTypes.any,
+    handleSaveMasterBlockedRecipient: PropTypes.func,
+    saveMasterBlockedRecipient: PropTypes.any,
+    saveMasterBlockedRecipientSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const masterBlockedList = selectMasterBlockedListData(state)
-    return {authInfo,masterBlockedList}
+    const saveMasterBlockedRecipient = selectSaveMasterBlockedRecipient(state)
+    const saveMasterBlockedRecipientSuccess = selectSaveMasterBlockedRecipientSuccess(state)
+    console.log(masterBlockedList)
+    return {authInfo,masterBlockedList, saveMasterBlockedRecipient, saveMasterBlockedRecipientSuccess}
 }
 
 const actions = {
     handleResetPlanList: resetPlanStartAction,
     handleMasterBlockedList: getMasterBlockedListStartAction,
+    handleSaveMasterBlockedRecipient : saveMasterRecipientBlockedStartAction
 }
 
-export default connect(mapState, actions) (BusinessUnitComponent)
+export default connect(mapState, actions) (RecipientBlockedListComponent)

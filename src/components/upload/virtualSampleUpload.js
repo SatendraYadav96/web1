@@ -205,63 +205,67 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
         console.log(virtualSampleData)
         if (virtualSampleData) {
             console.log("there is data")
-            setExpErr(virtualSampleData?.map(item => {
-                return {
-                    "Created By": item.createdBy,
-                    "User Email": item.userEmail,
-                    "User Position": item.userPosition,
-                    "Territory":item.Territory,
-                    "Emp ID": item.empId,
-                    "SKU": item.sku,
-                    "Lot": item.lot,
-                    "External Id": item.externalId,
-                    "Customer": item.customer,
-                    "Mobile Phone": item.mobile,
-                    "Quantity": item.quantity,
-                    "Date Created": item.dateCreated,
-                    "Request Completed": item.requestCompleted,
-                    "Request Started": item.requestStarted,
-                    "Request Status": item.requestStatus,
-                    "Team": item.team,
-                    "Sub Team": item.subTeam,
-                    "Address": item.address,
-                    "Street1": item.street1,
-                    "Street2": item.street2,
-                    "Street3": item.street3,
-                    "City": item.city,
-                    "State/Province": item.state,
-                    "Postal Code": item.postalCode,
-                    "Error": item.errorText,
-                }
-            }))
-            setExp(virtualSampleData?.map(item => {
-                return {
-                    "Created By": item.createdBy,
-                    "User Email": item.userEmail,
-                    "User Position": item.userPosition,
-                    "Territory":item.Territory,
-                    "Emp ID": item.empId,
-                    "SKU": item.sku,
-                    "Lot": item.lot,
-                    "External Id": item.externalId,
-                    "Customer": item.customer,
-                    "Mobile Phone": item.mobile,
-                    "Quantity": item.quantity,
-                    "Date Created": item.dateCreated,
-                    "Request Completed": item.requestCompleted,
-                    "Request Started": item.requestStarted,
-                    "Request Status": item.requestStatus,
-                    "Team": item.team,
-                    "Sub Team": item.subTeam,
-                    "Address": item.address,
-                    "Street1": item.street1,
-                    "Street2": item.street2,
-                    "Street3": item.street3,
-                    "City": item.city,
-                    "State/Province": item.state,
-                    "Postal Code": item.postalCode,
-                }
-            }))
+            if(viewE) {
+                setExpErr(virtualSampleData?.map(item => {
+                    return {
+                        "Created By": item.createdBy,
+                        "User Email": item.userEmail,
+                        "User Position": item.userPosition,
+                        "Territory": item.Territory,
+                        "Emp ID": item.empId,
+                        "SKU": item.sku,
+                        "Lot": item.lot,
+                        "External Id": item.externalId,
+                        "Customer": item.customer,
+                        "Mobile Phone": item.mobile,
+                        "Quantity": item.quantity,
+                        "Date Created": item.dateCreated,
+                        "Request Completed": item.requestCompleted,
+                        "Request Started": item.requestStarted,
+                        "Request Status": item.requestStatus,
+                        "Team": item.team,
+                        "Sub Team": item.subTeam,
+                        "Address": item.address,
+                        "Street1": item.street1,
+                        "Street2": item.street2,
+                        "Street3": item.street3,
+                        "City": item.city,
+                        "State/Province": item.state,
+                        "Postal Code": item.postalCode,
+                        "Error": item.errorText,
+                    }
+                }))
+            }
+            if(viewD) {
+                setExp(virtualSampleData?.map(item => {
+                    return {
+                        "Created By": item.createdBy,
+                        "User Email": item.userEmail,
+                        "User Position": item.userPosition,
+                        "Territory": item.Territory,
+                        "Emp ID": item.empId,
+                        "SKU": item.sku,
+                        "Lot": item.lot,
+                        "External Id": item.externalId,
+                        "Customer": item.customer,
+                        "Mobile Phone": item.mobile,
+                        "Quantity": item.quantity,
+                        "Date Created": item.dateCreated,
+                        "Request Completed": item.requestCompleted,
+                        "Request Started": item.requestStarted,
+                        "Request Status": item.requestStatus,
+                        "Team": item.team,
+                        "Sub Team": item.subTeam,
+                        "Address": item.address,
+                        "Street1": item.street1,
+                        "Street2": item.street2,
+                        "Street3": item.street3,
+                        "City": item.city,
+                        "State/Province": item.state,
+                        "Postal Code": item.postalCode,
+                    }
+                }))
+            }
         } else {
             console.log('no data')
         }

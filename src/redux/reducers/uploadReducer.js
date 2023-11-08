@@ -8,27 +8,52 @@ import {
     FF_UPLOAD_LOG_FAIL,
     FF_UPLOAD_LOG_SUCCESS,
     FF_UPLOAD_SUCCESS,
-    GRN_EXCEL_UPLOAD_FAIL, GRN_EXCEL_UPLOAD_START,
+    GRN_EXCEL_UPLOAD_FAIL,
+    GRN_EXCEL_UPLOAD_START,
     GRN_EXCEL_UPLOAD_SUCCESS,
-    INVOICE_EXCEL_UPLOAD_FAIL, INVOICE_EXCEL_UPLOAD_START,
+    INVOICE_EXCEL_UPLOAD_FAIL,
+    INVOICE_EXCEL_UPLOAD_START,
     INVOICE_EXCEL_UPLOAD_SUCCESS,
     INVOICE_UPLOAD_FAIL,
-    INVOICE_UPLOAD_SUCCESS, MATERIAL_EXPIRY_EXCEL_FAIL, MATERIAL_EXPIRY_EXCEL_SUCCESS, MATERIAL_EXPIRY_UPLOAD_LOG_FAIL, MATERIAL_EXPIRY_UPLOAD_LOG_SUCCESS, NON_COMPLIANCE_EXCEL_FAIL, NON_COMPLIANCE_EXCEL_SUCCESS,
+    INVOICE_UPLOAD_SUCCESS,
+    MATERIAL_EXPIRY_EXCEL_FAIL, MATERIAL_EXPIRY_EXCEL_START,
+    MATERIAL_EXPIRY_EXCEL_SUCCESS, MATERIAL_EXPIRY_UPLOAD_FAIL,
+    MATERIAL_EXPIRY_UPLOAD_LOG_FAIL,
+    MATERIAL_EXPIRY_UPLOAD_LOG_SUCCESS,
+    MATERIAL_EXPIRY_UPLOAD_START,
+    MATERIAL_EXPIRY_UPLOAD_SUCCESS,
+    NON_COMPLIANCE_EXCEL_FAIL, NON_COMPLIANCE_EXCEL_START,
+    NON_COMPLIANCE_EXCEL_SUCCESS,
+    NON_COMPLIANCE_UPLOAD_FAIL,
     NON_COMPLIANCE_UPLOAD_LOG_FAIL,
-    NON_COMPLIANCE_UPLOAD_LOG_SUCCESS, OVER_SAMPLING_DETAILS_EXCEL_FAIL, OVER_SAMPLING_DETAILS_EXCEL_SUCCESS,
+    NON_COMPLIANCE_UPLOAD_LOG_SUCCESS,
+    NON_COMPLIANCE_UPLOAD_START,
+    NON_COMPLIANCE_UPLOAD_SUCCESS,
+    OVER_SAMPLING_DETAILS_EXCEL_FAIL, OVER_SAMPLING_DETAILS_EXCEL_START,
+    OVER_SAMPLING_DETAILS_EXCEL_SUCCESS,
+    OVER_SAMPLING_DETAILS_UPLOAD_FAIL,
     OVER_SAMPLING_DETAILS_UPLOAD_LOG_FAIL,
-    OVER_SAMPLING_DETAILS_UPLOAD_LOG_SUCCESS, OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_SUCCESS,
+    OVER_SAMPLING_DETAILS_UPLOAD_LOG_SUCCESS,
+    OVER_SAMPLING_DETAILS_UPLOAD_START,
+    OVER_SAMPLING_DETAILS_UPLOAD_SUCCESS,
+    OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_START,
+    OVER_SAMPLING_EXCEL_SUCCESS,
+    OVER_SAMPLING_UPLOAD_FAIL,
     OVER_SAMPLING_UPLOAD_LOG_FAIL,
     OVER_SAMPLING_UPLOAD_LOG_SUCCESS,
+    OVER_SAMPLING_UPLOAD_START,
+    OVER_SAMPLING_UPLOAD_SUCCESS,
     RECIPIENT_UPLOAD_LOG_FAIL,
     RECIPIENT_UPLOAD_LOG_SUCCESS,
-    TRANSPORT_EXCEL_UPLOAD_FAIL, TRANSPORT_EXCEL_UPLOAD_START,
+    TRANSPORT_EXCEL_UPLOAD_FAIL,
+    TRANSPORT_EXCEL_UPLOAD_START,
     TRANSPORT_EXCEL_UPLOAD_SUCCESS,
     TRANSPORT_UPLOAD_FAIL,
     TRANSPORT_UPLOAD_SUCCESS,
     VIRTUAL_SAMPLE_UPLOAD_FAIL,
     VIRTUAL_SAMPLE_UPLOAD_LOG_FAIL,
-    VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS, VIRTUAL_SAMPLE_UPLOAD_START,
+    VIRTUAL_SAMPLE_UPLOAD_LOG_SUCCESS,
+    VIRTUAL_SAMPLE_UPLOAD_START,
     VIRTUAL_SAMPLE_UPLOAD_SUCCESS,
     VIRTUAL_UPLOAD_FAIL,
     VIRTUAL_UPLOAD_SUCCESS
@@ -81,6 +106,18 @@ const initialState = {
     overSamplingDetailsExcelLoading:false,
     materialExpiryExcel:[],
     materialExpiryExcelLoading:false,
+    nonComplianceUpload: [],
+    nonComplianceUploadLoading: false,
+    nonComplianceUploadSuccess: false,
+    overSamplingUpload: [],
+    overSamplingUploadLoading: false,
+    overSamplingUploadSuccess: false,
+    overSamplingDetailsUpload:[],
+    overSamplingDetailsUploadLoading:false,
+    overSamplingDetailsUploadSuccess:false,
+    materialExpiryUpload:[],
+    materialExpiryUploadLoading:false,
+    materialExpiryUploadSuccess:false,
     error: {}
 }
 
@@ -486,6 +523,16 @@ const materialExpiryUploadLogFailReducer = (state = initialState, payload) => {
 
 
 // NON_COMPLIANCE_EXCEL
+
+const nonComplianceExcelStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        nonComplianceExcel:[],
+        nonComplianceExcelLoading: false
+
+    }
+}
+
 const nonComplianceExcelSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
@@ -506,6 +553,14 @@ const nonComplianceExcelFailReducer = (state = initialState, payload) => {
 }
 
 
+const overSamplingExcelStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingExcel:[],
+        overSamplingExcelLoading: false
+
+    }
+}
 
 const overSamplingExcelSuccessReducer = (state = initialState, payload) => {
     return {
@@ -526,8 +581,14 @@ const overSamplingExcelFailReducer = (state = initialState, payload) => {
     }
 }
 
+const overSamplingDetailsExcelStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingDetailsExcel:[],
+        overSamplingDetailsExcelLoading: false
 
-
+    }
+}
 
 const overSamplingDetailsExcelSuccessReducer = (state = initialState, payload) => {
     return {
@@ -548,6 +609,14 @@ const overSamplingDetailsExcelFailReducer = (state = initialState, payload) => {
     }
 }
 
+const materialExpiryExcelStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        materialExpiryExcel:[],
+        materialExpiryExcelLoading: false
+
+    }
+}
 
 const materialExpiryExcelSuccessReducer = (state = initialState, payload) => {
     return {
@@ -568,6 +637,128 @@ const materialExpiryExcelFailReducer = (state = initialState, payload) => {
     }
 }
 
+// COMPLIANCE_UPLOAD
+
+const nonComplianceUploadStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        nonComplianceUpload:[],
+        nonComplianceUploadLoading: false,
+        nonComplianceUploadSuccess: false
+    }
+}
+
+const nonComplianceUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        nonComplianceUpload:payload.nonComplianceUpload,
+        nonComplianceUploadLoading: false,
+        nonComplianceUploadSuccess: true
+    }
+}
+
+const nonComplianceUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        nonComplianceUploadLog:[],
+        nonComplianceUploadLogLoading: false,
+        nonComplianceUploadSuccess: false,
+        error: payload.error,
+
+    }
+}
+
+// OVER_SAMPLING_UPLOAD
+const overSamplingUploadStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingUpload:[],
+        overSamplingUploadLoading: false,
+        overSamplingUploadSuccess: false
+
+    }
+}
+
+const overSamplingUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingUpload:payload.overSamplingUpload,
+        overSamplingUploadLoading: false,
+        overSamplingUploadSuccess: true
+    }
+}
+
+const overSamplingUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingUpload:[],
+        overSamplingUploadLoading: false,
+        overSamplingUploadSuccess: false,
+        error: payload.error,
+
+    }
+}
+
+// OVER_SAMPLING_DETAILS_UPLOAD
+
+const overSamplingDetailsUploadStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingDetailsUpload:[],
+        overSamplingDetailsUploadLoading: false,
+        overSamplingDetailsUploadSuccess: false
+    }
+}
+
+const overSamplingDetailsUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingDetailsUpload:payload.overSamplingDetailsUpload,
+        overSamplingDetailsUploadLoading: false,
+        overSamplingDetailsUploadSuccess: true
+    }
+}
+
+const overSamplingDetailsUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingDetailsUpload:[],
+        overSamplingDetailsUploadLoading: false,
+        overSamplingDetailsUploadSuccess: false,
+        error: payload.error,
+
+    }
+}
+
+// MATERIAL_EXPIRY_UPLOAD
+const materialExpiryUploadStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        materialExpiryUpload:[],
+        materialExpiryUploadLoading: false,
+        materialExpiryUploadSuccess: false
+    }
+}
+
+const materialExpiryUploadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        materialExpiryUpload:payload.materialExpiryUpload,
+        materialExpiryUploadLoading: false,
+        materialExpiryUploadSuccess: true
+    }
+}
+
+const materialExpiryUploadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        materialExpiryUpload:[],
+        materialExpiryUploadLoading: false,
+        materialExpiryUploadSuccess: false,
+        error: payload.error,
+
+    }
+}
 
 export default createReducer(initialState, {
     [TRANSPORT_UPLOAD_SUCCESS]: transportUploadSuccessReducer,
@@ -609,15 +800,28 @@ export default createReducer(initialState, {
     [OVER_SAMPLING_DETAILS_UPLOAD_LOG_FAIL]:overSamplingDetailsUploadLogFailReducer,
     [MATERIAL_EXPIRY_UPLOAD_LOG_SUCCESS]:materialExpiryUploadLogSuccessReducer,
     [MATERIAL_EXPIRY_UPLOAD_LOG_FAIL]:materialExpiryUploadLogFailReducer,
+    [NON_COMPLIANCE_EXCEL_START]:nonComplianceExcelStartReducer,
     [NON_COMPLIANCE_EXCEL_SUCCESS]:nonComplianceExcelSuccessReducer,
     [NON_COMPLIANCE_EXCEL_FAIL]:nonComplianceExcelFailReducer,
+    [OVER_SAMPLING_EXCEL_START]:overSamplingExcelStartReducer,
     [OVER_SAMPLING_EXCEL_SUCCESS]:overSamplingExcelSuccessReducer,
     [OVER_SAMPLING_EXCEL_FAIL]:overSamplingExcelFailReducer,
     [OVER_SAMPLING_DETAILS_EXCEL_SUCCESS]:overSamplingDetailsExcelSuccessReducer,
+    [OVER_SAMPLING_DETAILS_EXCEL_START]:overSamplingDetailsExcelStartReducer,
     [OVER_SAMPLING_DETAILS_EXCEL_FAIL]:overSamplingDetailsExcelFailReducer,
+    [MATERIAL_EXPIRY_EXCEL_START]:materialExpiryExcelStartReducer,
     [MATERIAL_EXPIRY_EXCEL_SUCCESS]:materialExpiryExcelSuccessReducer,
     [MATERIAL_EXPIRY_EXCEL_FAIL]:materialExpiryExcelFailReducer,
-
-
-
+    [NON_COMPLIANCE_UPLOAD_START]: nonComplianceUploadStartReducer,
+    [NON_COMPLIANCE_UPLOAD_SUCCESS]: nonComplianceUploadSuccessReducer,
+    [NON_COMPLIANCE_UPLOAD_FAIL]: nonComplianceUploadFailReducer,
+    [OVER_SAMPLING_UPLOAD_START]: overSamplingUploadStartReducer,
+    [OVER_SAMPLING_UPLOAD_SUCCESS]: overSamplingUploadSuccessReducer,
+    [OVER_SAMPLING_UPLOAD_FAIL]: overSamplingUploadFailReducer,
+    [OVER_SAMPLING_DETAILS_UPLOAD_START]: overSamplingDetailsUploadStartReducer,
+    [OVER_SAMPLING_DETAILS_UPLOAD_SUCCESS]: overSamplingDetailsUploadSuccessReducer,
+    [OVER_SAMPLING_DETAILS_UPLOAD_FAIL]: overSamplingDetailsUploadFailReducer,
+    [MATERIAL_EXPIRY_UPLOAD_START]: materialExpiryUploadStartReducer,
+    [MATERIAL_EXPIRY_UPLOAD_SUCCESS]: materialExpiryUploadSuccessReducer,
+    [MATERIAL_EXPIRY_UPLOAD_FAIL]: materialExpiryUploadFailReducer
 })

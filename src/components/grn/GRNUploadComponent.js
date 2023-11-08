@@ -98,47 +98,51 @@ const GRNUploadComponent = ({authInfo,grnUpload,handleGrn,handleGrnUpload,handle
         console.log(grnExcelData)
         if (grnExcelData) {
             console.log("there is data")
-            setExpErr(grnExcelData.map(item => {
-                return {
-                    "PO": item.poNo,
-                    "Cost Ctr": item.costCenter,
-                    "Material": item.material,
-                    "Batch": item.batchNo,
-                    "Material Description": item.materialDescription,
-                    "Pstng Date": item.postingDate,
-                    "Qty in UnE": item.quantity,
-                    "Amount in LC": item.amount,
-                    "Vendor Code": item.vendorCode,
-                    "Vendor Name": item.vendorName,
-                    "Rate": item.ratePerUnit,
-                    "Medical Code": item.medicalCode,
-                    "Mat.Doc.": item.materialDoc,
-                    "Item": item.itemNo,
-                    "Sample Expiry": item.sampleExpiry,
-                    "Expiry Date": item.expiryDate,
-                    "Error ": item.errorText,
-                }
-            }))
-            setExp(grnExcelData.map(item => {
-                return {
-                    "PO": item.poNo,
-                    "Cost Ctr": item.costCenter,
-                    "Material": item.material,
-                    "Batch": item.batchNo,
-                    "Material Description": item.materialDescription,
-                    "Pstng Date": item.postingDate,
-                    "Qty in UnE": item.quantity,
-                    "Amount in LC": item.amount,
-                    "Vendor Code": item.vendorCode,
-                    "Vendor Name": item.vendorName,
-                    "Rate": item.ratePerUnit,
-                    "Medical Code": item.medicalCode,
-                    "Mat.Doc.": item.materialDoc,
-                    "Item": item.itemNo,
-                    "Sample Expiry": item.sampleExpiry,
-                    "Expiry Date": item.expiryDate,
-                }
-            }))
+            if(viewE) {
+                setExpErr(grnExcelData.map(item => {
+                    return {
+                        "PO": item.poNo,
+                        "Cost Ctr": item.costCenter,
+                        "Material": item.material,
+                        "Batch": item.batchNo,
+                        "Material Description": item.materialDescription,
+                        "Pstng Date": item.postingDate,
+                        "Qty in UnE": item.quantity,
+                        "Amount in LC": item.amount,
+                        "Vendor Code": item.vendorCode,
+                        "Vendor Name": item.vendorName,
+                        "Rate": item.ratePerUnit,
+                        "Medical Code": item.medicalCode,
+                        "Mat.Doc.": item.materialDoc,
+                        "Item": item.itemNo,
+                        "Sample Expiry": item.sampleExpiry,
+                        "Expiry Date": item.expiryDate,
+                        "Error ": item.errorText,
+                    }
+                }))
+            }
+            if(viewD) {
+                setExp(grnExcelData.map(item => {
+                    return {
+                        "PO": item.poNo,
+                        "Cost Ctr": item.costCenter,
+                        "Material": item.material,
+                        "Batch": item.batchNo,
+                        "Material Description": item.materialDescription,
+                        "Pstng Date": item.postingDate,
+                        "Qty in UnE": item.quantity,
+                        "Amount in LC": item.amount,
+                        "Vendor Code": item.vendorCode,
+                        "Vendor Name": item.vendorName,
+                        "Rate": item.ratePerUnit,
+                        "Medical Code": item.medicalCode,
+                        "Mat.Doc.": item.materialDoc,
+                        "Item": item.itemNo,
+                        "Sample Expiry": item.sampleExpiry,
+                        "Expiry Date": item.expiryDate,
+                    }
+                }))
+            }
         } else {
             console.log('no data')
         }

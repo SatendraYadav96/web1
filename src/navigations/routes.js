@@ -41,7 +41,7 @@ const ItemRevalidationComponent = React.lazy(() => import('../components/revalid
 const MonthlyInputPlan = React.lazy(() => import('../components/approvals/MonthlyInputPlan'))
 const SpecialDispatches = React.lazy(() => import('../components/approvals/SpecialDispatches'))
 const VirtualDispatches = React.lazy(() => import('../components/approvals/VirtualDispatches'))
-const RecipientsBlockedListComponent = React.lazy(() => import('../components/masters/recipientsBlockedList/recipientBlockedListComponent'))
+const RecipientsBlockedListComponent = React.lazy(() => import('../components/masters/recipientsBlockedList/RecipientBlockedListComponent'))
 const VendorComponent = React.lazy(() => import('../components/masters/vendor/VendorComponent'))
 const CreateVendorComponent = React.lazy(() => import('../components/masters/vendor/CreateVendorComponent'))
 const EditVendorComponent = React.lazy(() => import('../components/masters/vendor/EditVendorComponent'))

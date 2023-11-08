@@ -89,3 +89,18 @@ export const selectOverSamplingDetailData = createSelector(
     overSamplingDetailData,
     dataSelect => dataSelect
 )
+
+//MASTER BLOCKED RECIPIENT
+
+const saveMasterBlockedRecipient = (state) => state.compliance.saveMasterBlockedRecipient
+const saveMasterBlockedRecipientSuccess = (state) => state.compliance.saveMasterBlockedRecipientSuccess
+
+export const selectSaveMasterBlockedRecipient = createSelector(
+    saveMasterBlockedRecipient,
+    dataSelect => dataSelect
+)
+
+export const selectSaveMasterBlockedRecipientSuccess = createSelector(
+    saveMasterBlockedRecipientSuccess,
+    dataSelect => dataSelect
+)

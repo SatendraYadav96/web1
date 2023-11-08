@@ -96,56 +96,60 @@ const FFMasterUpdateComponent = ({authInfo,profileInfo,handleFFUpload,handleFFUp
 
             // setExpErr(ffExcelUpload?.map(item => item))
             // setExp(ffExcelUpload?.map(item => item))
-            setExpErr(ffExcelUpload.map(item => {
-                return {
+            if(viewE) {
+                setExpErr(ffExcelUpload.map(item => {
+                    return {
 
-                    "Employee Code": item.code,
-                    "Employee Name": item.name,
-                    "Address": item.address,
-                    "City": item.city,
-                    "Role": item.designation,
-                    "State": item.state,
-                    "Zip": item.zip,
-                    "Zone": item.zone,
-                    "Employee Workday id": item.workId,
-                    "Gender": item.gender,
-                    "DOJ (DD/MM/YYYY)": item.joiningDate,
-                    "Mobile Number": item.mobile,
-                    "Email Address": item.email,
-                    "Team": item.bu,
-                    "Sub Team": item.team,
-                    "AM Email": item.emailAM,
-                    "RBM Email": item.emailRM,
-                    "HQ": item.headquarter,
-                    "Status": item.status,
-                    "Remark": item.remarks,
-                    "Error": item.errorText,
-                }
-            }))
-            setExp(ffExcelUpload.map(item => {
-                return {
-                    "Employee Code": item.code,
-                    "Employee Name": item.name,
-                    "Address": item.address,
-                    "City": item.city,
-                    "Role": item.designation,
-                    "State": item.state,
-                    "Zip": item.zip,
-                    "Zone": item.zone,
-                    "Employee Workday id": item.workId,
-                    "Gender": item.gender,
-                    "DOJ (DD/MM/YYYY)": item.joiningDate,
-                    "Mobile Number": item.mobile,
-                    "Email Address": item.email,
-                    "Team": item.bu,
-                    "Sub Team": item.team,
-                    "AM Email": item.emailAM,
-                    "RBM Email": item.emailRM,
-                    "HQ": item.headquarter,
-                    "Status": item.status,
-                    "Remark": item.remarks,
-                }
-            }))
+                        "Employee Code": item.code,
+                        "Employee Name": item.name,
+                        "Address": item.address,
+                        "City": item.city,
+                        "Role": item.designation,
+                        "State": item.state,
+                        "Zip": item.zip,
+                        "Zone": item.zone,
+                        "Employee Workday id": item.workId,
+                        "Gender": item.gender,
+                        "DOJ (DD/MM/YYYY)": item.joiningDate,
+                        "Mobile Number": item.mobile,
+                        "Email Address": item.email,
+                        "Team": item.bu,
+                        "Sub Team": item.team,
+                        "AM Email": item.emailAM,
+                        "RBM Email": item.emailRM,
+                        "HQ": item.headquarter,
+                        "Status": item.status,
+                        "Remark": item.remarks,
+                        "Error": item.errorText,
+                    }
+                }))
+            }
+            if(viewD) {
+                setExp(ffExcelUpload.map(item => {
+                    return {
+                        "Employee Code": item.code,
+                        "Employee Name": item.name,
+                        "Address": item.address,
+                        "City": item.city,
+                        "Role": item.designation,
+                        "State": item.state,
+                        "Zip": item.zip,
+                        "Zone": item.zone,
+                        "Employee Workday id": item.workId,
+                        "Gender": item.gender,
+                        "DOJ (DD/MM/YYYY)": item.joiningDate,
+                        "Mobile Number": item.mobile,
+                        "Email Address": item.email,
+                        "Team": item.bu,
+                        "Sub Team": item.team,
+                        "AM Email": item.emailAM,
+                        "RBM Email": item.emailRM,
+                        "HQ": item.headquarter,
+                        "Status": item.status,
+                        "Remark": item.remarks,
+                    }
+                }))
+            }
         } else {
             console.log('no data')
         }
