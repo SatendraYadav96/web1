@@ -1,8 +1,8 @@
 export const AUTH_CERTIFICATE = 'Authorization'
 //export const BASE_URL = 'http://promobee-uat:8080'
-//    export const BASE_URL = 'http://localhost:8080'
+    export const BASE_URL = 'http://localhost:8080'
 
- export const BASE_URL = 'http://104.237.6.220:8080'
+ //export const BASE_URL = 'http://104.237.6.220:8080'
 
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
@@ -289,3 +289,5 @@ export const SPECIAL_QUANTITY_ALLOCATED_DIFFERENTIAL_RECIPIENT_API = { url: '/v1
 export const SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveSpecialAllocation', method: 'POST', auth: true}
 
 export const DELETE_SPECIAL_ALLOCATION_API = { url:'/v1/allocation/deleteSpecialAllocation', method: 'POST', auth: true}
+
+
