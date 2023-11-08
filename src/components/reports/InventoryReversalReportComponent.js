@@ -16,6 +16,7 @@ import {CSVLink} from "react-csv";
 import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import XLSX from "xlsx";
 
 
 const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,destructionReportLoading,handleDestructionReportList,buDropdown,divisionDropdown}) => {
@@ -28,10 +29,13 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
     const [data, setData] = useState()
+    const [dataExcel, setDataExcel] = useState()
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const searchInput = useRef(null);
+    const [searchedColumn, setSearchedColumn] = useState('');
+
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -241,7 +245,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
         setData(destructionList.map(item => {
             return {
                 team: item.businessUnit,
-                SubTeam: item.divison,
+                SubTeam: item.division,
                 costCenter: item.costCenter,
                 itemName: item.itemName,
                 itemCode: item.itemCode,
@@ -301,6 +305,33 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
         setDivision(value)
     }
 
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(dataExcel);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"inventoryreversalreport.xlsx")
+    }
+
+    useEffect(() => {
+        setDataExcel(destructionList.map(item => {
+            return {
+                team: item.businessUnit,
+                SubTeam: item.division,
+                costCenter: item.costCenter,
+                itemName: item.itemName,
+                itemCode: item.itemCode,
+                itemType: item.itemType,
+                expiryDate: item.expiryDate,
+                reversalDate: item.reversalDate,
+                quantityReversed: item.quantityReversed,
+                rate: item.rate,
+                value: item.value,
+                remarks: item.remarks,
+            }
+        }))
+    },[destructionList])
+
+
     return(
         <>
             <TitleWidget title="Inventory Reversal Report" />
@@ -339,7 +370,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                         >
                             <Button>CSV</Button>
                         </CSVLink>)}
-                    &nbsp;<Button>Excel</Button>
+                    &nbsp;<Button onClick={handleExcel}>Excel</Button>
                 </Col>
                 {/*<Col span={18}>*/}
                 {/*    <div align="right">*/}
