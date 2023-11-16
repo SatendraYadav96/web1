@@ -104,7 +104,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
         const enteredEmail = event.target.value;
         setEmail(enteredEmail);
 
-        const regex = /.*@unsc.co\.in$/i;
+        const regex = /.*@sanofi\.com$/i;
         const isSanofiEmail = regex.test(enteredEmail);
         setIsValidEmail(isSanofiEmail);
 

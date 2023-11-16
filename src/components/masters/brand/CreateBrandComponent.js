@@ -120,7 +120,7 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
 
     return(
         <>
-            <TitleWidget title={"Brand Team"}/>
+            <TitleWidget title={"Create Brand"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
                     Team:<br/><SelectDivisionComponent value={subTeam} onChange={handleSubTeam}/>
@@ -143,9 +143,9 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
                 <Col span={8} offset={2}>
                     Cost Center :<br/><SelectMultipleCostCenterComponent value={costCenter} onChange={handleCostCenter}/>
                 </Col>
-                <Col span={8} offset={2}>
-                    Owner :<br/><Select placeholder="Select Owner" style={{width: "100%"}}></Select>
-                </Col>
+                {/*<Col span={8} offset={2}>*/}
+                {/*    Owner :<br/><Select placeholder="Select Owner" style={{width: "100%"}}></Select>*/}
+                {/*</Col>*/}
             </Row>
             <br/>
             <Row gutter={[16,16]}>

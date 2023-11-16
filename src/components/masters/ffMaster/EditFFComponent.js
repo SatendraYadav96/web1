@@ -43,6 +43,11 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
 
     let { id } = useParams();
 
+    const genders = [
+        { value: 'male', label: 'Male' },
+        { value: 'female', label: 'Female' }
+    ]
+
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
         setChecked(e.target.checked);
@@ -196,7 +201,7 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
         const enteredEmail = event.target.value;
         setEmail(enteredEmail);
 
-        const regex = /.*@unsc.co\.in$/i;
+        const regex = /.*@sanofi\.com$/i;
         const isSanofiEmail = regex.test(enteredEmail);
         setIsValidEmail(isSanofiEmail);
 
@@ -217,7 +222,7 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
         const enteredEmailAm = event.target.value;
         setAMEmail(enteredEmailAm);
 
-        const regex = /.*@unsc.co\.in$/i;
+        const regex = /.*@sanofi\.com$/i;
         const isSanofiEmailAm = regex.test(enteredEmailAm);
         setIsValidEmailAm(isSanofiEmailAm);
 
@@ -234,10 +239,14 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
         const enteredEmailRm = event.target.value;
         setRBMEmail(enteredEmailRm);
 
-        const regex = /.*@unsc.co\.in$/i;
+        const regex = /.*@sanofi\.com$/i;
         const isSanofiEmailRm = regex.test(enteredEmailRm);
         setIsValidEmailRm(isSanofiEmailRm);
 
+    };
+
+    const handleGenderChange = (value) => {
+        setGender(value);
     };
 
 
@@ -293,7 +302,18 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
                     Employee Workday id :<br/><Input placeholder={"employee workId "} value={workId} onChange={(e) => setWorkId(e.target.value)}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Gender :<br/><Input placeholder={"Gender "} value={gender} onChange={(e) => setGender(e.target.value)}/>
+                    Gender :<br/><Select
+                    placeholder="Select Gender"
+                    value={gender}
+                    onChange={handleGenderChange}
+                    style={{ width: 200 }}
+                >
+                    {genders.map((gender) => (
+                        <Select.Option key={gender.value} value={gender.value}>
+                            {gender.label}
+                        </Select.Option>
+                    ))}
+                </Select>
                 </Col>
             </Row>
             <br/>

@@ -49,6 +49,12 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
     const [date, setDate] = useState()
     const [remarks, setRemarks] = useState("")
     const [form] = Form.useForm();
+    //const [selectedGender, setSelectedGender] = React.useState('');
+
+    const genders = [
+        { value: 'male', label: 'Male' },
+        { value: 'female', label: 'Female' }
+]
 
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
@@ -161,7 +167,7 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
         const enteredEmail = event.target.value;
         setEmail(enteredEmail);
 
-        const regex = /.*@unsc.co\.in$/i;
+        const regex = /.*@sanofi\.com$/i;
         const isSanofiEmail = regex.test(enteredEmail);
         setIsValidEmail(isSanofiEmail);
 
@@ -182,7 +188,7 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
         const enteredEmailAm = event.target.value;
         setAMEmail(enteredEmailAm);
 
-        const regex = /.*@unsc.co\.in$/i;
+        const regex = /.*@sanofi\.com$/i;
         const isSanofiEmailAm = regex.test(enteredEmailAm);
         setIsValidEmailAm(isSanofiEmailAm);
 
@@ -199,10 +205,14 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
         const enteredEmailRm = event.target.value;
         setRBMEmail(enteredEmailRm);
 
-        const regex = /.*@unsc.co\.in$/i;
+        const regex = /.*@sanofi\.com$/i;
         const isSanofiEmailRm = regex.test(enteredEmailRm);
         setIsValidEmailRm(isSanofiEmailRm);
 
+    };
+
+    const handleGenderChange = (value) => {
+        setGender(value);
     };
 
 
@@ -283,7 +293,18 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
                         Employee Workday id :<br/><Input placeholder={"Contact "} value={workId} onChange={(e) => setWorkId(e.target.value)}/>
                     </Col>
                     <Col span={8} offset={2}>
-                        Gender :<br/><Input placeholder={"Contact "} value={gender} onChange={(e) => setGender(e.target.value)}/>
+                        Gender :<br/><Select
+                        placeholder="Select Gender"
+                        value={gender}
+                        onChange={handleGenderChange}
+                        style={{ width: 200 }}
+                    >
+                        {genders.map((gender) => (
+                            <Select.Option key={gender.value} value={gender.value}>
+                                {gender.label}
+                            </Select.Option>
+                        ))}
+                    </Select>
                     </Col>
                 </Row>
                 <br/>

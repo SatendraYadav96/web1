@@ -9,6 +9,10 @@ import {connect} from "react-redux";
 
 const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,brandDropdown,brandDropdownLoading,handleBrandDropDown}) => {
 
+    // const [brandId, setBrandId] = useState()
+    // const [brandName, setBrandName] = useState()
+    // const data  = {"id":brandId, "name":brandName}
+
 
     useEffect(() => {
         console.log(brandDropdown)
@@ -24,11 +28,7 @@ const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,bra
 
 
     return (
-        // <Select placeholder={"Select Brand"} value={value} onSelect={onChange} style={{width: "100%"}}>
-        //     {brandDropdown?.map( item => {
-        //         return(<Option key={item.id} value={item.id}>{item.name}</Option>)
-        //     })}
-        // </Select>
+
         <Select
             mode={multiple}
             allowClear
@@ -37,6 +37,7 @@ const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,bra
             }}
             placeholder={"Select Brand"}
             onChange={onChange}
+
             value={(value && value.id) ? value.id : value}
             options={brandDropdown || []  }
            filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}
@@ -44,15 +45,22 @@ const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,bra
 
            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())}
         >
-            {/*{brandDropdown?.map( item => {*/}
-            {/*    return(<Option key={item.id} value={item.id}>{item.name}</Option>)*/}
-            {/*})}*/}
-
-
-
-
-
         </Select>
+
+        // <Select
+        //     mode="multiple"
+        //     allowClear
+        //     placeholder={"Select Brand"}
+        //     value={value}
+        //     onChange={onChange}
+        //     style={{width: "100%"}}>
+        //     <Option key="all" value="all">ALL</Option>
+        //     {brandDropdown?.map( item => {
+        //         return(<Option key={item.brandId} value={item.brandId}>{item.brandName}</Option>)
+        //     })}
+        // </Select>
+
+
     )
 }
 

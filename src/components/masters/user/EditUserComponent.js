@@ -200,7 +200,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
         const enteredEmail = event.target.value;
         setEmail(enteredEmail);
 
-        const regex = /.*@unsc.co\.in$/i;
+        const regex = /.*@sanofi\.com$/i;
         const isSanofiEmail = regex.test(enteredEmail);
         setIsValidEmail(isSanofiEmail);
 
@@ -262,9 +262,9 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={2}></Col>
-                <Col span={3}>
-                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>
-                </Col>
+                {/*<Col span={3}>*/}
+                {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>*/}
+                {/*</Col>*/}
                 <Col span={11}></Col>
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>

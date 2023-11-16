@@ -177,9 +177,9 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={2}></Col>
-                <Col span={3}>
-                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>
-                </Col>
+                {/*<Col span={3}>*/}
+                {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>*/}
+                {/*</Col>*/}
                 <Col span={11}></Col>
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
