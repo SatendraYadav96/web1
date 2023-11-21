@@ -7,7 +7,7 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {selectBuDropdown, selectBuDropdownLoading} from "../../redux/selectors/dropDownSelector";
 import PropTypes from "prop-types";
 
-const SelectBusinessUnitComponent = ({value, multiple, onChange,authInfo,profileInfo,buDropdown,buDropdownLoading,handleBusinessUnitDropDown}) => {
+const SelectBusinessUnitComponent = ({value, multiple, disabled, onChange,authInfo,profileInfo,buDropdown,buDropdownLoading,handleBusinessUnitDropDown}) => {
 
     const [buId, setBuId] = useState()
     const [buName, setBuName] = useState()
@@ -26,7 +26,7 @@ const SelectBusinessUnitComponent = ({value, multiple, onChange,authInfo,profile
     }, [authInfo.token])
 
 
-    return <Select mode={multiple} allowClear placeholder={"Select Team"} value={value} onChange={onChange} style={{width: "100%"}}>
+    return <Select mode={multiple} allowClear placeholder={"Select Team"} value={value} disabled={disabled} onChange={onChange} style={{width: "100%"}}>
         {buDropdown?.map( item => {
             return(<Option key={item.id} value={item.id}>{item.name}</Option>)
         })}

@@ -8,7 +8,7 @@ import {selectApproverDropdown, selectApproverDropdownLoading} from "../../redux
 import PropTypes from "prop-types";
 
 
-const SelectApproverComponent = ({value, multiple, onChange,authInfo,profileInfo,approverDropdown,approverDropdownLoading,handleApproverDropDown}) => {
+const SelectApproverComponent = ({value, multiple, disabled, onChange,authInfo,profileInfo,approverDropdown,approverDropdownLoading,handleApproverDropDown}) => {
 
     const [appId, setAppId] = useState()
     const [appName, setAppName] = useState()
@@ -27,7 +27,7 @@ const SelectApproverComponent = ({value, multiple, onChange,authInfo,profileInfo
     }, [authInfo.token])
 
 
-    return <Select mode={multiple} allowClear placeholder={"Select Approver"} value={value} onChange={onChange} style={{width: "100%"}}>
+    return <Select mode={multiple} allowClear placeholder={"Select Approver"} value={value} onChange={onChange} disabled={disabled} style={{width: "100%"}}>
         {approverDropdown?.map( item => {
             return(<Option key={item.userId} value={item.userEmail}>{item.userEmail}</Option>)
         })}

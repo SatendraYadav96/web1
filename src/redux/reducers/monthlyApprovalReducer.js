@@ -19,7 +19,7 @@ import {
     GET_SPECIAL_PLAN_APPROVAL_DETAILS_FAIL,
     GET_SPECIAL_PLAN_APPROVAL_DETAILS_SUCCESS,
     GET_VIRTUAL_PLAN_APPROVAL_SUCCESS,
-    GET_VIRTUAL_PLAN_APPROVAL_FAIL, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_SUCCESS, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_FAIL
+    GET_VIRTUAL_PLAN_APPROVAL_FAIL, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_SUCCESS, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_FAIL, GET_VIRTUAL_APPROVAL_DOWNLOAD_SUCCESS, GET_VIRTUAL_APPROVAL_DOWNLOAD_FAIL
 } from "../actions/approval/monthlyApprovalActionConstants";
 
 
@@ -36,6 +36,7 @@ const initialState = {
     approvePlanList: [],
     approvePlanLoading: false,
     rejectPlanList: [],
+    rejectPlanSuccess: false,
     rejectPlanLoading: false,
     monthlyToSpecialList: [],
     monthlyToSpecialLoading: false,
@@ -47,6 +48,7 @@ const initialState = {
     virtualPlanApprovalLoading: false,
     virtualPlanApprovalDetailsList: [],
     virtualPlanApprovalDetailsLoading: false,
+    virtualApprovalDownload: [],
     error: {}
 }
 
@@ -152,11 +154,18 @@ const approvePlanFailReducer = (state = initialState, payload) => {
     }
 }
 
+const rejectPlanStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        rejectPlanSuccess: false,
+        rejectPlanList:[],
+    }
+}
 
 const rejectPlanSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-
+        rejectPlanSuccess: true,
         rejectPlanList:payload.rejectPlanList,
         rejectPlanLoading: false
 
@@ -167,6 +176,7 @@ const rejectPlanFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         rejectPlanList:[],
+        rejectPlanSuccess: false,
         rejectPlanLoading: false,
         error: payload.error,
 
@@ -276,8 +286,20 @@ const getVirtualPlanApprovalDetailsSuccessReducer = (state = initialState, paylo
     }
 }
 
+const virtualApprovalDownloadSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualApprovalDownload: payload.virtualApprovalDownload
+    }
+}
 
-
+const virtualApprovalDownloadFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualApprovalDownload: [],
+        error: payload.error
+    }
+}
 
 export default createReducer(initialState, {
     [GET_MONTHLY_APPROVAL_SUCCESS]: getMonthlyApprovalSuccessReducer,
@@ -302,4 +324,6 @@ export default createReducer(initialState, {
     [GET_VIRTUAL_PLAN_APPROVAL_FAIL]: getVirtualPlanApprovalFailReducer,
     [GET_VIRTUAL_PLAN_APPROVAL_DETAILS_SUCCESS]: getVirtualPlanApprovalDetailsSuccessReducer,
     [GET_VIRTUAL_PLAN_APPROVAL_DETAILS_FAIL]: getVirtualPlanApprovalDetailsFailReducer,
+    [GET_VIRTUAL_APPROVAL_DOWNLOAD_SUCCESS]: virtualApprovalDownloadSuccessReducer,
+    [GET_VIRTUAL_APPROVAL_DOWNLOAD_FAIL]: virtualApprovalDownloadFailReducer
 })

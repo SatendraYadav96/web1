@@ -36,6 +36,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
+    const [displayData, setDisplayData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [searchText, setSearchText] = useState('');
@@ -63,17 +64,50 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
         // searchData()
     }
 
+    const setColumnData = (id, field, value) => {
+        // console.log(arr)
+        // if (field === "blockedFF") {
+        //     arr[id][field] = (value == true) ? 1 : 0
+        //     setArr(arr)
+        // }else if (field === "rejected") {
+        //     arr[id][field] = (value == true) ? 1 : 0
+        //     setArr(arr)
+        // }else{
+        //     console.log(arr[id][field])
+        //     arr[id][field] = value
+        //     setArr(arr)
+        // }
+        // console.log(arr)
+
+        displayData.forEach(i => {
+            if(i.idRlf == id){
+                if (field === "blockedFF") {
+                    i[field] = (value == true) ? 1 : 0
+                }else if (field === "rejected") {
+                    i[field] = (value == true) ? 1 : 0
+                }else{
+                    i[field] = value
+                }
+            }
+        })
+        console.log(displayData)
+        setDisplayData(displayData)
+        console.log(displayData)
+    }
+
     useEffect(() => {
         if(nonComplianceList.length > 0) {
             if (dataFlag){
-                nonComplianceList.forEach((it) => {
-                    ackData[it.idRlf] = it
-                })
-                setDataFlag(false)
-                setFlag(true)
-                setArr(ackData)
+                // nonComplianceList.forEach((it) => {
+                //     ackData[it.idRlf] = it
+                // })
+                // setDataFlag(false)
+                // setFlag(true)
+                // setArr(ackData)
+                setDisplayData(nonComplianceList)
             }
             console.log(arr)
+            console.log(displayData)
             setData(nonComplianceList?.map(item => {
                     return {
                         employeeCode: item.employeeCode,
@@ -262,13 +296,13 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             key: 'remarkByAdmin',
             dataIndex: 'remarkByAdmin',
             width: '200px',
-            render: (_, {idRlf, remarkByAdmin}) => {
-                const row = arr[idRlf];
-                let adminRemark = '';
-                if (row !== undefined) {
-                    adminRemark = row.remarkByAdmin;
-                }
-                return <Input placeholder={"Enter Admin Remark"} value={remarkByAdmin != null ? remarkByAdmin : adminRemark} onChange={(e) => setColumnData(idRlf, 'remarkByAdmin', e.target.value)}/>
+            render: (_, row) => {
+                // const row = arr[idRlf];
+                // let adminRemark = '';
+                // if (row !== undefined) {
+                //     adminRemark = row.remarkByAdmin;
+                // }
+                return <Input placeholder={"Enter Admin Remark"} defaultValue={(row.remarkByAdmin!= undefined)? row.remarkByAdmin : ''} value={row.remarkByAdmin} onChange={(e) => setColumnData(row.idRlf, 'remarkByAdmin', e.target.value)}/>
             }
             // ...getColumnSearchProps('remarkByAdmin'),
         },
@@ -390,22 +424,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
         },
     ]
 
-    const setColumnData = (id, field, value) => {
-        console.log(arr)
-        if (field === "blockedFF") {
-            arr[id][field] = (value == true) ? 1 : 0
-            setArr(arr)
-        }else if (field === "rejected") {
-            arr[id][field] = (value == true) ? 1 : 0
-            setArr(arr)
-        }else{
-            console.log(arr[id][field])
-            arr[id][field] = value
-            setArr(arr)
-        }
-        console.log(arr)
 
-    }
 
     const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
@@ -531,7 +550,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                 </Col>
             </Row>
             <br/>
-                <Table columns={(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711") ? adminColumn : nsmColumn} scroll={{y: '100%'}} dataSource={nonComplianceList ? nonComplianceList : ackData}/>
+                <Table columns={(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711") ? adminColumn : nsmColumn} scroll={{y: '100%'}} dataSource={displayData}/>
         </>
     )
 

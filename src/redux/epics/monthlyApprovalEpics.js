@@ -5,14 +5,14 @@ import {
     GET_MONTHLY_APPROVAL_DETAILS_START,
     GET_MONTHLY_APPROVAL_START,
     GET_SPECIAL_PLAN_APPROVAL_DETAILS_START,
-    GET_SPECIAL_PLAN_APPROVAL_START, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_START, GET_VIRTUAL_PLAN_APPROVAL_START,
+    GET_SPECIAL_PLAN_APPROVAL_START, GET_VIRTUAL_APPROVAL_DOWNLOAD_START, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_START, GET_VIRTUAL_PLAN_APPROVAL_START,
     MONTHLY_TO_SPECIAL_START,
     REJECT_PLAN_START,
     RESET_PLAN_START,
     UNLOCK_PLAN_START
 } from "../actions/approval/monthlyApprovalActionConstants";
 import {
-    approvePlanRequest,
+    approvePlanRequest, getVirtualApprovalDownload,
     monthlyApprovalDetailsRequest,
     monthlyApprovalRequest,
     monthlyToSpecialRequest,
@@ -34,7 +34,7 @@ import {
     resetPlanFailAction,
     resetPlanSuccessAction, specialPlanApprovalDetailsFailAction, specialPlanApprovalDetailsSuccessAction, specialPlanApprovalFailAction, specialPlanApprovalSuccessAction,
     unlockPlanFailAction,
-    unlockPlanSuccessAction, virtualPlanApprovalDetailsFailAction, virtualPlanApprovalDetailsSuccessAction, virtualPlanApprovalFailAction, virtualPlanApprovalSuccessAction
+    unlockPlanSuccessAction, virtualApprovalDownloadFailAction, virtualApprovalDownloadSuccessAction, virtualPlanApprovalDetailsFailAction, virtualPlanApprovalDetailsSuccessAction, virtualPlanApprovalFailAction, virtualPlanApprovalSuccessAction
 } from "../actions/approval/monthlyApprovalActions";
 
 //MONTHLY APPROVAL
@@ -185,3 +185,15 @@ export const virtualPlanApprovalDetailsStartEpic = (action$) =>
         )
     )
 
+//VIRTUAL APPROVAL DOWNLOAD
+export const virtualApprovalDownloadStartEpic = (action$) =>
+    action$.pipe(
+        ofType(GET_VIRTUAL_APPROVAL_DOWNLOAD_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            getVirtualApprovalDownload(action.payload).pipe(
+                map((listResponse) => virtualApprovalDownloadSuccessAction({virtualApprovalDownload: listResponse.response})),
+                catchError((error) => of(virtualApprovalDownloadFailAction({error: error}))),
+            )
+        )
+    )

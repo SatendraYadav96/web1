@@ -3,24 +3,35 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Row, Space, Table} from "antd";
+import {Button, Checkbox, Col, Input, Modal, Row, Space, Table} from "antd";
 import {ArrowRightOutlined, CheckOutlined, CloseCircleOutlined, CloseOutlined, InfoCircleOutlined, SearchOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
-import {selectApprovePlanListData, selectRejectPlanListData, selectSpecialPlanApprovalDetailsListData, selectSpecialPlanApprovalListData, selectVirtualPlanApprovalDetailsListData, selectVirtualPlanApprovalListData} from "../../redux/selectors/monthlyApprovalSelector";
+import {
+    selectApprovePlanListData,
+    selectRejectPlanListData,
+    selectRejectPlanSuccess,
+    selectSpecialPlanApprovalDetailsListData,
+    selectSpecialPlanApprovalListData,
+    selectVirtualApprovalDownload,
+    selectVirtualPlanApprovalDetailsListData,
+    selectVirtualPlanApprovalListData
+} from "../../redux/selectors/monthlyApprovalSelector";
 import {
     approvePlanStartAction,
     getMonthlyApprovalDetailsStartAction,
     getMonthlyApprovalStartAction,
     rejectPlanStartAction,
     specialPlanApprovalDetailsStartAction,
-    specialPlanApprovalStartAction,
+    specialPlanApprovalStartAction, virtualApprovalDownloadStartAction,
     virtualPlanApprovalDetailsStartAction,
     virtualPlanApprovalStartAction
 } from "../../redux/actions/approval/monthlyApprovalActions";
 import Highlighter from "react-highlight-words";
+import CSVDownload from "react-csv/src/components/Download";
 
-const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,rejectPlanList,virtualPlanApprovalList,virtualPlanApprovalDetailsList,handleVirtualPlan}) => {
+const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,rejectPlanList,virtualPlanApprovalList,virtualPlanApprovalDetailsList, handleRejectPlanList,
+                                        rejectPlanSuccess,handleVirtualPlan, handleVirtualPlanDetails, virtualApprovalDownload, handleVirtualApprovalDownload}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -32,7 +43,17 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
     const [flag, setFlag] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [details, setDetails] = useState(false)
     const searchInput = useRef(null);
+    const [detailsColumn, setDetailsColumn] = useState([])
+    const [openReject, setOpenReject] = useState(false)
+    const [commentRejectModal, setCommentRejectModal] = useState(false)
+    const [comment, setComment] = useState()
+    const [planId, setPlanId] = useState()
+    const [selectedItems, setSelectedItems] = useState([])
+    const [view, setView] = useState(false)
+    const [downloadData, setDownloadData] = useState([])
+
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -44,6 +65,16 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
         clearFilters();
         setSearchText('');
     };
+
+    const handleDetails = (row) => {
+        console.log(row)
+        handleVirtualPlanDetails({
+            certificate: authInfo.token,
+            planId: row.dispatchPlanID
+        })
+        setDetails(true)
+    }
+
 
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -172,7 +203,7 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<InfoCircleOutlined/>}></Button>
+                    return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
                 },
             },{
                 title: 'Reject',
@@ -180,18 +211,80 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<CloseCircleOutlined />}></Button>
+                    return <Button icon={<CloseOutlined />} disabled={row.planStatus === 'REVIEWED'} onClick={() => {
+                        setOpenReject(true);
+                        setPlanId(row.dispatchPlanID);
+                    }}></Button>
                 },
+            },
+            // {
+            //     title: 'Download',
+            //     key: '',
+            //     dataIndex: '',
+            //     width:'25px',
+            //     render:(_,row) => {
+            //         return <Checkbox/>
+            //     },
+            // },
+        ]);
+        setDetailsColumn([
+            {
+                title:'Plan Purpose',
+                key: 'planPurpose',
+                dataIndex: 'planPurpose',
+                width:'200px',
             },
             {
-                title: 'Download',
-                key: '',
-                dataIndex: '',
-                width:'25px',
-                render:(_,row) => {
-                    return <Checkbox/>
-                },
+                title:'Recipient Name',
+                key: 'recipientName',
+                dataIndex: 'recipientName',
+                width:'200px',
             },
+            {
+                title: 'Recipient Code',
+                key: 'recipientCode',
+                dataIndex: 'recipientCode',
+                width:'200px',
+            },
+            {
+                title: 'Team',
+                key: 'team',
+                dataIndex: 'team',
+                width:'200px',
+            },
+            {
+                title: 'Cost Center',
+                key: 'costCenter',
+                dataIndex: 'costCenter',
+                width:'200px',
+            },
+            {
+                title: 'Item Name',
+                key: 'itemName',
+                dataIndex: 'itemName',
+                width:'200px',
+            },
+            {
+                title: 'Item Code',
+                key: 'itemCode',
+                dataIndex: 'itemCode',
+                width:'200px',
+            },
+            {
+                title: 'Quantity Allocated',
+                key: 'quantity',
+                dataIndex: 'quantity',
+                width:'200px',
+            },
+            // {
+            //     title: '',
+            //     key: '',
+            //     dataIndex: '',
+            //     width: '100px',
+            //     render: (_,row) => {
+            //         return <Button onClick={() => setAllocationDetails(true)}>View Details</Button>
+            //     }
+            // }
         ]);
         setDataSource([
             {
@@ -206,6 +299,21 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
 
     }
 
+    const handleReject = (row) => {
+        handleRejectPlanList({
+            certificate: authInfo.token,
+            plan: {
+                // planId: row.dispatchPlanID,
+                // apiId: row.dispatchPlanID,
+                planId: planId,
+                apiId: planId,
+                approvalType: 1,
+                comment: comment,
+            },
+        })
+    }
+
+
     const searchInv = () => {
         handleVirtualPlan({
             certificate: authInfo.token,
@@ -216,6 +324,78 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
         })
         searchData()
     }
+
+    useEffect(() => {
+        if(rejectPlanSuccess){
+            searchInv()
+        }
+    },[rejectPlanSuccess])
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            setSelectedItems(selectedRows)
+        },
+        getCheckboxProps: (row) => ({
+            disabled: (row.stock) == 0
+        }),
+    }
+
+    const handleDownload = () => {
+        let data= [];
+        selectedItems.forEach(i => {
+            console.log(i)
+                let d = {
+                    'month':month,
+                    'year':year,
+                    'planId':i.dispatchPlanID
+                }
+                console.log(d)
+                data.push(d)
+            })
+        console.log(data)
+        handleVirtualApprovalDownload({
+            certificate: authInfo.token,
+            data: data
+        })
+    }
+
+    useEffect(() => {
+        console.log(virtualApprovalDownload)
+        if (virtualApprovalDownload) {
+            console.log("there is data")
+            setDownloadData(virtualApprovalDownload.map(item => {
+                return {
+                    "recipientCode": item.recipientCode,
+                    "recipientName": item.recipientName,
+                    "designation": item.designation,
+                    "address": item.address,
+                    "zip": item.zip,
+                    "state": item.state,
+                    "city": item.city,
+                    "invoiceNo": item.invoiceNo,
+                    "invoiceDate": item.invoiceDate,
+                    "productCode": item.productCode,
+                    "productName": item.productName,
+                    "brandName": item.brandName,
+                    "brandCode": item.brandCode,
+                    "category":item.category,
+                    "batchNo":item.batchNo,
+                    "dispatchedQuantity":item.dispatchedQuantity,
+                    "expiryDate":item.expiryDate,
+                    "subTeam":item.subTeam
+                }
+            }))
+        } else {
+            console.log('no data')
+        }
+        if (view) {
+            if (downloadData.length > 0) {
+                // csvLinkError.current.link.click()
+                setView(false)
+            }
+        }
+
+    },[virtualApprovalDownload])
 
     return(
         <>
@@ -232,13 +412,40 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                 </Col>
             </Row>
             <Row gutter={16}>
-                <Space wrap style={{marginLeft:"1635px",marginBottom:"-25px"}}>
-                    <Button type="primary"  >Download</Button>
+                <Space wrap style={{marginLeft:"1300px",marginBottom:"-25px"}}>
+                    <Button type="primary" onClick={()=>{handleDownload()
+                        setView(true)}} >Download</Button>
                 </Space>
             </Row>
             <br/><br/>
             {flag &&
-                <Table columns={column} dataSource={virtualPlanApprovalList}/>
+                <Table columns={column} rowSelection={{
+                    type: 'checkbox',
+                    ...rowSelection,
+                }} dataSource={virtualPlanApprovalList}/>
+            }
+            <Modal open={details} title="Allocation For Approval" footer={null} width={"80vw"} onCancel={() => {
+                setDetails(false)
+            }}>
+                <Table
+                    columns={detailsColumn}
+                    dataSource={virtualPlanApprovalDetailsList}
+                    scroll={{
+                        x: 100,
+                    }}
+                >
+                </Table>
+            </Modal>
+            {/*Plan Reject*/}
+            <Modal title="Plan Reject!" open={openReject} onOk={() => {setOpenReject(false); setCommentRejectModal(true)}} onCancel={() => setOpenReject(false)}>
+                <p>Are you sure, you want to reject the selected plan?</p>
+            </Modal>
+            <Modal title="Plan Reject!" open={commentRejectModal} onOk={handleReject} onCancel={() => setCommentRejectModal(false)}>
+                <Input value={comment} onChange={(e) => setComment(e.target.value)}/>
+            </Modal>
+            {downloadData.length > 0 && <CSVDownload
+                data={downloadData}/>
+                // target="_blank"></CSVDownload>
             }
         </>
     )
@@ -256,6 +463,9 @@ VirtualDispatchesComponent.propTypes = {
     handleApprovePlanList: PropTypes.func,
     handleVirtualPlanDetails: PropTypes.func,
     handleRejectPlanList: PropTypes.func,
+    rejectPlanSuccess: PropTypes.any,
+    virtualApprovalDownload: PropTypes.any,
+    handleVirtualApprovalDownload: PropTypes.func
 }
 
 const mapState = (state) => {
@@ -265,7 +475,9 @@ const mapState = (state) => {
     const rejectPlanList = selectRejectPlanListData(state)
     const virtualPlanApprovalList = selectVirtualPlanApprovalListData(state)
     const virtualPlanApprovalDetailsList = selectVirtualPlanApprovalDetailsListData(state)
-    return {authInfo,profileInfo,approvePlanList,rejectPlanList,virtualPlanApprovalList,virtualPlanApprovalDetailsList}
+    const rejectPlanSuccess = selectRejectPlanSuccess(state)
+    const virtualApprovalDownload = selectVirtualApprovalDownload(state)
+    return {authInfo,profileInfo,approvePlanList,rejectPlanList,virtualPlanApprovalList,virtualPlanApprovalDetailsList, rejectPlanSuccess, virtualApprovalDownload}
 }
 
 const actions = {
@@ -275,6 +487,7 @@ const actions = {
     handleRejectPlanList: rejectPlanStartAction,
     handleVirtualPlan: virtualPlanApprovalStartAction,
     handleVirtualPlanDetails: virtualPlanApprovalDetailsStartAction,
+    handleVirtualApprovalDownload: virtualApprovalDownloadStartAction
 }
 
 export default connect(mapState, actions)(VirtualDispatchesComponent)

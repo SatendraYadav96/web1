@@ -34,6 +34,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
     const [status, setStatus] = useState()
     const [brand, setBrand] = useState([])
     const [legalEntity, setLegalEntity] = useState([])
+    const [flag, setFlag] = useState(true)
 
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
@@ -47,6 +48,11 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
 
     const handleDesignation = (value) => {
         setDesignation(value)
+        if(value === '2B264AFB-E2FD-483C-BD4C-C36A4E352FC5'){
+            setFlag(false)
+        }else{
+            setFlag(true)
+        }
     }
 
     const handleBrand = (value) => {
@@ -147,23 +153,27 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
                 </Col>
             </Row>
             <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} disabled/>
-                </Col>
-            </Row>
+            {flag &&
+                <Row gutter={[16, 16]}>
+                    <Col span={8} offset={2}>
+                        Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} disabled/>
+                    </Col>
+                </Row>
+            }
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
                     Status :<br/><SelectUserStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                 </Col>
-                <Col span={8} offset={2}>
-                    {/*Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />*/}
-                    Approver: <br/> <SelectApproverComponent value = {app} onChange={(value) => setApp(value)}/>
-                </Col>
+                {flag &&
+                    <Col span={8} offset={2}>
+                        {/*Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />*/}
+                        Approver: <br/> <SelectApproverComponent value={app} onChange={(value) => setApp(value)}/>
+                    </Col>
+                }
             </Row>
             <br/>
             <Row gutter={[16,16]}>
