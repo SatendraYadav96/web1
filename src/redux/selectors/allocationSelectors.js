@@ -10,8 +10,10 @@ const monthlyCommonTeamList = (state) => state.allocations.monthlyCommonTeam;
 const monthlyCommonTeamKeysList = (state) => state.allocations.monthlyCommonTeamKeys
 const monthlyCommonTeamLoading = (state) => state.allocations.monthlyCommonTeamLoading
 const monthlyCommonAllocationSave = (state) => state.allocations.monthlyCommonAllocationSave
+const monthlyCommonAllocationSaveSuccess = (state) => state.allocations.monthlyCommonAllocationSaveSuccess
 const monthlyDifferentialAllocation = (state) => state.allocations.monthlyDifferentialTeam
 const monthlyDifferentialAllocationSave = (state) => state.allocations.monthlyDifferentialAllocationSave
+const monthlyDifferentialAllocationSaveSuccess = (state) => state.allocations.monthlyDifferentialAllocationSaveSuccess
 const virtualCommonAllocationSave = (state) => state.allocations.virtualCommonAllocationSave
 const getDownloadAllocation = (state) => state.allocations.getDownloadAllocation
 const getBlockedRecipient = (state) => state.allocations.getRecipientBlocked
@@ -70,6 +72,11 @@ export const selectMonthlyCommonAllocationSave = createSelector(
     dataSelect => dataSelect
 )
 
+export const selectMonthlyCommonAllocationSaveSuccess = createSelector(
+    monthlyCommonAllocationSaveSuccess,
+    dataSelect => dataSelect
+)
+
 export const selectMonthlyDifferentialAllocation = createSelector(
     monthlyDifferentialAllocation,
     dataSelect => dataSelect
@@ -77,6 +84,11 @@ export const selectMonthlyDifferentialAllocation = createSelector(
 
 export const selectMonthlyDifferentialAllocationSave = createSelector(
     monthlyDifferentialAllocationSave,
+    dataSelect => dataSelect
+)
+
+export const selectMonthlyDifferentialAllocationSaveSuccess = createSelector(
+    monthlyDifferentialAllocationSaveSuccess,
     dataSelect => dataSelect
 )
 

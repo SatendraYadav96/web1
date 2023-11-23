@@ -33,6 +33,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
     const [brand, setBrand] = useState([])
     const [legalEntity, setLegalEntity] = useState([])
     const [app, setApp] = useState()
+    const [flag, setFlag] = useState(false)
 
 
     let { id } = useParams();
@@ -73,7 +74,10 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
         setEmployeeCode(user.employeeCode)
         setDesignation(user.userDesignation.id)
         setStatus(user.userStatus.id)
-        setBU(user.appBu.id)
+        if(user.userDesignation.id === '2B264AFB-E2FD-483C-BD4C-C36A4E352FC5'){
+            setBU(user.appBu.id)
+            setFlag(true)
+        }
         setLegalEntity(user.legalEntity)
         let brandArray = []
         for (var i of user.brand) {
@@ -242,22 +246,26 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
                 </Col>
             </Row>
             <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} disabled/>
-                </Col>
-            </Row>
+            {flag &&
+                <Row gutter={[16, 16]}>
+                    <Col span={8} offset={2}>
+                        Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple' />
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} />
+                    </Col>
+                </Row>
+            }
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
                     Status :<br/><SelectUserStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                 </Col>
-                <Col span={8} offset={2}>
-                    Approver: <br/> <SelectApproverComponent value = {app} onChange={(value) => setApp(value)}/>
-                </Col>
+                {flag &&
+                    <Col span={8} offset={2}>
+                        Approver: <br/> <SelectApproverComponent value={app} onChange={(value) => setApp(value)} />
+                    </Col>
+                }
             </Row>
             <br/>
             <Row gutter={[16,16]}>

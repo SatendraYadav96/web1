@@ -7,7 +7,7 @@ import {
     APPROVE_PLAN_START,
     APPROVE_PLAN_SUCCESS,
     GET_MONTHLY_APPROVAL_FAIL,
-    GET_MONTHLY_APPROVAL_SUCCESS, GET_SPECIAL_PLAN_APPROVAL_DETAILS_FAIL, GET_SPECIAL_PLAN_APPROVAL_DETAILS_START, GET_SPECIAL_PLAN_APPROVAL_DETAILS_SUCCESS, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_FAIL,
+    GET_MONTHLY_APPROVAL_SUCCESS, GET_SPECIAL_PLAN_APPROVAL_DETAILS_FAIL, GET_SPECIAL_PLAN_APPROVAL_DETAILS_START, GET_SPECIAL_PLAN_APPROVAL_DETAILS_SUCCESS, GET_VIRTUAL_APPROVAL_DOWNLOAD_START, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_FAIL,
     GET_VIRTUAL_PLAN_APPROVAL_DETAILS_START, GET_VIRTUAL_PLAN_APPROVAL_DETAILS_SUCCESS,
     GET_VIRTUAL_PLAN_APPROVAL_FAIL,
     GET_VIRTUAL_PLAN_APPROVAL_START,
@@ -26,7 +26,15 @@ import {
     OVER_SAMPLING_DETAILS_UPLOAD_LOG_START, OVER_SAMPLING_EXCEL_FAIL, OVER_SAMPLING_EXCEL_START, OVER_SAMPLING_EXCEL_SUCCESS,
     OVER_SAMPLING_UPLOAD_LOG_START, TRANSPORT_EXCEL_UPLOAD_START, TRANSPORT_UPLOAD_START
 } from "../redux/actions/upload/uploadActionConstants";
-import {DELETE_SPECIAL_ALLOCATION_START, GET_ACTIVE_USERS_START, GET_DOWNLOAD_ALLOCATION_START, MONTHLY_COMMON_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START} from "../redux/actions/allocation/allocationActionConstants";
+import {
+    DELETE_SPECIAL_ALLOCATION_START,
+    GET_ACTIVE_USERS_START,
+    GET_DOWNLOAD_ALLOCATION_START,
+    MONTHLY_COMMON_ALLOCATION_SAVE_START,
+    MONTHLY_COMMON_TEAM_START,
+    MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
+    SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START
+} from "../redux/actions/allocation/allocationActionConstants";
 import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryReportActionConstants";
 import {GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START} from "../redux/actions/reports/batchReconciliationReportActionConstants";
 import {SAVE_NON_COMPLIANCE_ADMIN_REMARK_START, SAVE_OVER_SAMPLING_START} from "../redux/actions/compliance/nonComplianceActionConstants";
@@ -1386,6 +1394,33 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
         GET_MASTER_BLOCKED_LIST_START:[{ action: 'showspinner' }],
         GET_MASTER_BLOCKED_LIST_SUCCESS: [{ action: 'hidespinner' }],
         GET_MASTER_BLOCKED_LIST_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        MONTHLY_COMMON_TEAM_START: [{ action: 'showspinner' }],
+        MONTHLY_COMMON_TEAM_SUCCESS: [{ action: 'hidespinner' }],
+        MONTHLY_COMMON_TEAM_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START:[{ action: 'showspinner' }],
+        MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS: [{ action: 'hidespinner' }],
+        MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        GET_VIRTUAL_APPROVAL_DOWNLOAD_START:[{ action: 'showspinner' }],
+        GET_VIRTUAL_APPROVAL_DOWNLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        GET_VIRTUAL_APPROVAL_DOWNLOAD_FAIL: [
             { action: 'hidespinner' },
             {
                 action: 'showerror',

@@ -5,7 +5,7 @@ import {
     GET_MONTHLY_APPROVAL_API,
     GET_MONTHLY_APPROVAL_DETAILS_API,
     GET_SPECIAL_PLAN_APPROVAL_API,
-    GET_SPECIAL_PLAN_DETAILS_APPROVAL_DETAILS_API,
+    GET_SPECIAL_PLAN_DETAILS_APPROVAL_DETAILS_API, GET_VIRTUAL_APPROVAL_DOWNLOAD_API,
     GET_VIRTUAL_PLAN_APPROVAL_API,
     GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API,
     MONTHLY_TO_SPECIAL_API,
@@ -39,6 +39,9 @@ export const rejectPlanRequest = payload => {
     const api = {...REJECT_PLAN_API, url: `${REJECT_PLAN_API.url}`}
     return createRequest(api, payload.certificate, payload.plan)
 }
+export const getVirtualApprovalDownload = payload => {
+    return createRequest(GET_VIRTUAL_APPROVAL_DOWNLOAD_API, payload.certificate, payload.data)
+}
 export const monthlyToSpecialRequest = payload => {
     const api = {...MONTHLY_TO_SPECIAL_API, url: `${MONTHLY_TO_SPECIAL_API.url}`}
     return createRequest(api, payload.certificate, payload.plan)
@@ -56,6 +59,6 @@ export const virtualPlanApprovalRequest = payload => {
     return createRequest(api, payload.certificate, null)
 }
 export const virtualPlanApprovalDetailsRequest = payload => {
-    const api = {...GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API, url: `${GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API.url}/${payload.planId}/${payload.teamId}`}
+    const api = {...GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API, url: `${GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API.url}/${payload.planId}`}
     return createRequest(api, payload.certificate, null)
 }

@@ -1,8 +1,10 @@
 export const AUTH_CERTIFICATE = 'Authorization'
 //export const BASE_URL = 'http://promobee-uat:8080'
-  export const BASE_URL = 'http://localhost:8080'
 
- //export const BASE_URL = 'http://104.237.6.220:8080'
+//     export const BASE_URL = 'http://localhost:8080'
+
+
+ export const BASE_URL = 'http://104.237.6.220:8080'
 
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
@@ -72,6 +74,7 @@ export const GET_SPECIAL_PLAN_APPROVAL_API = {url: '/v1/approval/getSpecialPlanF
 export const GET_SPECIAL_PLAN_DETAILS_APPROVAL_DETAILS_API = {url: '/v1/approval/getSpecialPlanApprovalDetails',method:'GET',auth:true}
 export const GET_VIRTUAL_PLAN_APPROVAL_API = {url: '/v1/approval/getVirtualPlanForApproval',method:'GET',auth:true}
 export const GET_VIRTUAL_PLAN_DETAILS_APPROVAL_DETAILS_API = {url: '/v1/approval/getVirtualPlanApprovalDetails',method:'GET',auth:true}
+export const GET_VIRTUAL_APPROVAL_DOWNLOAD_API = {url: '/v1/approval/virtualAllocationDownload', method: 'POST', auth: true}
 
 //COMPLIANCE GRN
 export const GET_NON_COMPLIANCE_API = {url: '/v1/compliance/recipientUnblockingPartial',method:'GET',auth:true}

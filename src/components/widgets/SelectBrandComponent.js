@@ -7,7 +7,7 @@ import {selectBrandDropdown, selectBrandDropdownLoading} from "../../redux/selec
 import {brandDropdownStartAction} from "../../redux/actions/dropDown/dropDownActions";
 import {connect} from "react-redux";
 
-const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,brandDropdown,brandDropdownLoading,handleBrandDropDown}) => {
+const SelectBrandComponent = ({value,multiple, disabled, onChange,authInfo,profileInfo,brandDropdown,brandDropdownLoading,handleBrandDropDown}) => {
 
     // const [brandId, setBrandId] = useState()
     // const [brandName, setBrandName] = useState()
@@ -37,7 +37,7 @@ const SelectBrandComponent = ({value,multiple, onChange,authInfo,profileInfo,bra
             }}
             placeholder={"Select Brand"}
             onChange={onChange}
-
+            disabled={disabled}
             value={(value && value.id) ? value.id : value}
             options={brandDropdown || []  }
            filterOption={(input, option) => (option?.label.toLowerCase() ?? '').includes(input.toLowerCase())}

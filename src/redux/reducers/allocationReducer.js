@@ -25,11 +25,11 @@ import {
     MONTHLY_ALLOCATION_FAIL,
     MONTHLY_ALLOCATION_START,
     MONTHLY_ALLOCATION_SUCCESS,
-    MONTHLY_COMMON_ALLOCATION_SAVE_FAIL,
+    MONTHLY_COMMON_ALLOCATION_SAVE_FAIL, MONTHLY_COMMON_ALLOCATION_SAVE_START,
     MONTHLY_COMMON_ALLOCATION_SAVE_SUCCESS,
     MONTHLY_COMMON_TEAM_FAIL,
     MONTHLY_COMMON_TEAM_SUCCESS,
-    MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL,
+    MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
     MONTHLY_DIFFERENTIAL_TEAM_FAIL,
     MONTHLY_DIFFERENTIAL_TEAM_SUCCESS, MULTIPLE_ALLOCATION_UPLOAD_FAIL, MULTIPLE_ALLOCATION_UPLOAD_SUCCESS,
@@ -71,8 +71,10 @@ const initialState = {
     monthlyCommonTeamKeys: [],
     monthlyCommonTeamLoading:false,
     monthlyCommonAllocationSave: [],
+    monthlyCommonAllocationSaveSuccess: false,
     monthlyDifferentialTeam:[],
     monthlyDifferentialAllocationSave:[],
+    monthlyDifferentialAllocationSaveSuccess:false,
     error: null,
     virtualCommonAllocationSave: [],
     getDownloadAllocation: [],
@@ -409,11 +411,19 @@ const monthlyCommonTeamFailReducer = (state = initialState, payload) => {
     }
 }
 
+const monthlyCommonAllocationStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        monthlyCommonAllocationSave:[],
+        monthlyCommonAllocationSaveSuccess:false
+    }
+}
+
 const monthlyCommonAllocationSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        monthlyCommonAllocationSave:payload.monthlyCommonAllocationSave
-
+        monthlyCommonAllocationSave:payload.monthlyCommonAllocationSave,
+        monthlyCommonAllocationSaveSuccess:true
     }
 }
 
@@ -421,8 +431,8 @@ const monthlyCommonAllocationFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         monthlyCommonAllocationSave:[],
+        monthlyCommonAllocationSaveSuccess:false,
         error: payload.error,
-
     }
 }
 
@@ -450,11 +460,19 @@ const monthlyDifferentialAllocationFailReducer = (state = initialState, payload)
     }
 }
 
+const monthlyDifferentialAllocationSaveStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        monthlyDifferentialAllocationSave:[],
+        monthlyDifferentialAllocationSaveSuccess: false
+    }
+}
+
 const monthlyDifferentialAllocationSaveSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        monthlyDifferentialAllocationSave:payload.monthlyDifferentialAllocationSave
-
+        monthlyDifferentialAllocationSave:payload.monthlyDifferentialAllocationSave,
+        monthlyDifferentialAllocationSaveSuccess: true
     }
 }
 
@@ -462,6 +480,7 @@ const monthlyDifferentialAllocationSaveFailReducer = (state = initialState, payl
     return {
         ...state,
         monthlyDifferentialAllocationSave:[],
+        monthlyDifferentialAllocationSaveSuccess: false,
         error: payload.error,
 
     }
@@ -966,11 +985,13 @@ export default createReducer(initialState, {
     [ALLOCATE_TO_ALL_TEAMS]: allocateToAllTeamsReducer,
     [MONTHLY_COMMON_TEAM_SUCCESS]:monthlyCommonTeamSuccessReducer,
     [MONTHLY_COMMON_TEAM_FAIL]:monthlyCommonTeamFailReducer,
+    [MONTHLY_COMMON_ALLOCATION_SAVE_START]: monthlyCommonAllocationStartReducer,
     [MONTHLY_COMMON_ALLOCATION_SAVE_SUCCESS]: monthlyCommonAllocationSuccessReducer,
     [MONTHLY_COMMON_ALLOCATION_SAVE_FAIL]: monthlyCommonAllocationFailReducer,
     [MONTHLY_DIFFERENTIAL_TEAM_SUCCESS]: monthlyDifferentialAllocationSuccessReducer,
     [MONTHLY_DIFFERENTIAL_TEAM_FAIL]: monthlyDifferentialAllocationFailReducer,
     [MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS]: monthlyDifferentialAllocationSaveSuccessReducer,
+    [MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START]: monthlyDifferentialAllocationSaveStartReducer,
     [MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL]: monthlyDifferentialAllocationSaveFailReducer,
     [VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS]: virtualCommonAllocationSuccessReducer,
     [VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL]: virtualCommonAllocationFailReducer,

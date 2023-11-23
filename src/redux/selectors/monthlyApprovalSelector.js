@@ -89,7 +89,7 @@ export const selectLoadingApprovePlanData = createSelector(
 
 const rejectPlanList = (state) => state.monthlyApproval.rejectPlanList;
 const rejectPlanLoading = (state) => state.monthlyApproval.rejectPlanLoading
-
+const rejectPlanSuccess = (state) => state.monthlyApproval.rejectPlanSuccess
 
 export const selectRejectPlanListData = createSelector(
     rejectPlanList,
@@ -99,6 +99,11 @@ export const selectRejectPlanListData = createSelector(
 export const selectLoadingRejectPlanData = createSelector(
     rejectPlanLoading,
     loadingSelection => loadingSelection
+);
+
+export const selectRejectPlanSuccess = createSelector(
+    rejectPlanSuccess,
+    rejectPlanListDataSelection => rejectPlanListDataSelection
 );
 
 //MONTHLY_TO_SPECIAL
@@ -183,3 +188,10 @@ export const virtualLoadingVirtualPlanApprovalDetailsData = createSelector(
     loadingSelection => loadingSelection
 );
 
+//VIRTUAL APPROVAL DOWNLOAD
+const virtualApprovalDownload = (state) => state.monthlyApproval.virtualApprovalDownload
+
+export const selectVirtualApprovalDownload = createSelector(
+    virtualApprovalDownload,
+    dataSelect => dataSelect
+)
