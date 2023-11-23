@@ -171,41 +171,11 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             }
         )
         if(ccmId.length > 0){
-            // handleMultipleAllocation({
-            //     certificate: authInfo.token,
-            //     mulAlloc: ccmId
-            //
-            // })
-            const url = `${BASE_URL}/${GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API.url}`;
-            fetch(url ,{
-                method: 'GET',
-                headers: new Headers({
-                    'Authorization': authInfo.token,
-                    'Content-Type': 'application/json'
-                }),
+            handleMultipleAllocation({
+                certificate: authInfo.token,
+                mulAlloc: ccmId
+
             })
-                .then(response => {
-                    console.log(response)
-                    const blob = new Blob([response], { type: 'text/csv' });
-
-                    // Create a link element
-                    const link = document.createElement('a');
-
-                    // Set the link's href to the Blob URL
-                    link.href = window.URL.createObjectURL(blob);
-
-                    // Set the filename for the download
-                    link.download = 'data.csv';
-
-                    // Append the link to the body
-                    document.body.appendChild(link);
-
-                    // Trigger a click event on the link to start the download
-                    link.click();
-
-                    // Remove the link from the DOM
-                    document.body.removeChild(link);
-                })
             setMultipleAllocationDownloadFlag(true)
         }
     }
@@ -227,32 +197,29 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     },[downloadAllocation])
 
     useEffect(() => {
-        if(multipleAllocationDownloadFlag){
-            console.log(multipleAllocationDownload)
-            // if(multipleAllocationDownload.length > 0){
-            const blob = new Blob([multipleAllocationDownload], { type: 'text/csv' });
-
-            // Create a link element
-            const link = document.createElement('a');
-
-            // Set the link's href to the Blob URL
-            link.href = window.URL.createObjectURL(blob);
-
-            // Set the filename for the download
-            link.download = 'data.csv';
-
-            // Append the link to the body
-            document.body.appendChild(link);
-
-            // Trigger a click event on the link to start the download
-            link.click();
-
-            // Remove the link from the DOM
-            document.body.removeChild(link);
-                    setMultipleAllocationDownloadFlag(false)
-            // }
-
-        }
+            if(multipleAllocationDownloadFlag){
+                if(multipleAllocationDownload.length > 0){
+                    const extraColumn = []
+                    if(multipleAllocationExcel.length > 0) {
+                        multipleAllocationExcel.map(i => {
+                                const list = {
+                                    'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                                }
+                                multipleAllocationDownloadColumn.push(list)
+                            }
+                        )
+                    }
+                    const excel = new Excel();
+                    excel
+                        .addSheet("Multiple Allocation")
+                        .addColumns(multipleAllocationDownloadColumn)
+                        .addDataSource(multipleAllocationDownload, {
+                            str2Percent: true
+                        })
+                        .saveAs( 'MULTIPLE_ALLOCATION.xlsx');
+                }
+                setMultipleAllocationDownloadFlag(false)
+            }
     },[multipleAllocationDownload])
 
 

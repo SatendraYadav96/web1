@@ -282,7 +282,7 @@ export const GET_MULTIPLE_ALLOCATION_COST_CENTER_API = {url: '/v1/allocation/get
 
 export const GET_MULTIPLE_ALLOCATION_EXCEL_DOWNLOAD_API = {url: '/v1/allocation/getMultipleAllocationExcel', method: 'POST', auth: true}
 
-export const GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API = {url:'/v1/allocation/getMultipleAllocationAll', method: 'POST', auth: true}
+export const GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API = {url:'/v1/allocation/getMultipleAllocationAll', method: 'GET', auth: true}
 
 export const EDIT_SPECIAL_PLAN_API = {url: '/v1/allocation/special/edit', method: 'GET', auth: true}
 
