@@ -15,6 +15,7 @@ const monthlyDifferentialAllocation = (state) => state.allocations.monthlyDiffer
 const monthlyDifferentialAllocationSave = (state) => state.allocations.monthlyDifferentialAllocationSave
 const monthlyDifferentialAllocationSaveSuccess = (state) => state.allocations.monthlyDifferentialAllocationSaveSuccess
 const virtualCommonAllocationSave = (state) => state.allocations.virtualCommonAllocationSave
+const virtualCommonAllocationSaveSuccess = (state) => state.allocations.virtualCommonAllocationSaveSuccess
 const getDownloadAllocation = (state) => state.allocations.getDownloadAllocation
 const getBlockedRecipient = (state) => state.allocations.getRecipientBlocked
 const getActiveUsers = (state) => state.allocations.getActiveUsers
@@ -28,6 +29,7 @@ const virtualAllocationForPlan = state => state.allocations.virtualAllocationFor
 const virtualAllocationsLoading = state => state.allocations.virtualAllocationsLoading
 const virtualDifferentialAllocation = (state) => state.allocations.virtualDifferentialTeam
 const virtualDifferentialAllocationSave = (state) => state.allocations.virtualDifferentialAllocationSave
+const virtualDifferentialAllocationSaveSuccess = (state) => state.allocations.virtualDifferentialAllocationSaveSuccess
 const submitMonthlyAllocation = (state) => state.allocations.submitMonthlyAllocation
 const submitVirtualAllocation = (state) => state.allocations.submitVirtualAllocation
 const submitSpecialAllocation = (state) => state.allocations.submitSpecialAllocation
@@ -41,6 +43,7 @@ const specialAllocationForPlan = state => state.allocations.specialAllocationFor
 const specialAllocationsLoading = state => state.allocations.specialAllocationsLoading
 const specialDifferentialAllocation = (state) => state.allocations.specialDifferentialTeam
 const specialDifferentialAllocationSave = (state) => state.allocations.specialDifferentialAllocationSave
+const specialDifferentialAllocationSaveSuccess = (state) => state.allocations.specialDifferentialAllocationSaveSuccess
 const deleteSpecialAllocation = (state) => state.allocations.deleteSpecialAllocation
 const multipleAllocationUpload = (state) => state.allocations.multipleAllocationUpload
 
@@ -94,6 +97,11 @@ export const selectMonthlyDifferentialAllocationSaveSuccess = createSelector(
 
 export const selectVirtualCommonAllocationSave = createSelector(
     virtualCommonAllocationSave,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualCommonAllocationSaveSuccess = createSelector(
+    virtualCommonAllocationSaveSuccess,
     dataSelect => dataSelect
 )
 
@@ -163,6 +171,11 @@ export const selectVirtualDifferentialAllocationSave = createSelector(
     dataSelect => dataSelect
 )
 
+export const selectVirtualDifferentialAllocationSaveSuccess = createSelector(
+    virtualDifferentialAllocationSaveSuccess,
+    dataSelect => dataSelect
+)
+
 export const selectSubmitMonthlyAllocation = createSelector(
     submitMonthlyAllocation,
     dataSelect => dataSelect
@@ -226,6 +239,11 @@ export const selectSpecialDifferentialAllocation = createSelector(
 
 export const selectSpecialDifferentialAllocationSave = createSelector(
     specialDifferentialAllocationSave,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialDifferentialAllocationSaveSuccess = createSelector(
+    specialDifferentialAllocationSaveSuccess,
     dataSelect => dataSelect
 )
 

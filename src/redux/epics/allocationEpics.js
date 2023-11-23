@@ -389,9 +389,8 @@ export const getMultipleAllocationDownloadStartEpic = (action$) =>
         ofType(GET_MULTIPLE_ALLOCATION_DOWNLOAD_START),
         debounceTime(4000),
         switchMap((action) =>
-            forkJoin(getMultipleAllocationCostCenterDownloadRequest(action.payload),
-                getMultipleAllocationExcelDownloadRequest(action.payload)).pipe(
-                map((response) => getMultipleAllocationDownloadSuccessAction({getMultipleAllocationCostCenterDownload: response[0].response, getMultipleAllocationExcelDownload: response[1].response})),
+            getMultipleAllocationAllDownloadRequest(action.payload).pipe(
+                map((response) => getMultipleAllocationDownloadSuccessAction({getMultipleAllocationCostCenterDownload: response.response})),
                 catchError((error) => of(getMultipleAllocationDownloadFailAction({ error: error }))),
             ),
         ),

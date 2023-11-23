@@ -33,7 +33,7 @@ import {
     MONTHLY_COMMON_ALLOCATION_SAVE_START,
     MONTHLY_COMMON_TEAM_START,
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
-    SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START
+    SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START, VIRTUAL_COMMON_ALLOCATION_SAVE_START, VIRTUAL_COMMON_TEAM_START
 } from "../redux/actions/allocation/allocationActionConstants";
 import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryReportActionConstants";
 import {GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START} from "../redux/actions/reports/batchReconciliationReportActionConstants";
@@ -1421,6 +1421,24 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
         GET_VIRTUAL_APPROVAL_DOWNLOAD_START:[{ action: 'showspinner' }],
         GET_VIRTUAL_APPROVAL_DOWNLOAD_SUCCESS: [{ action: 'hidespinner' }],
         GET_VIRTUAL_APPROVAL_DOWNLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        VIRTUAL_COMMON_ALLOCATION_SAVE_START:[{ action: 'showspinner' }],
+        VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS: [{ action: 'hidespinner' }],
+        VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+        VIRTUAL_COMMON_TEAM_START:[{ action: 'showspinner' }],
+        VIRTUAL_COMMON_TEAM_SUCCESS: [{ action: 'hidespinner' }],
+        VIRTUAL_COMMON_TEAM_FAIL: [
             { action: 'hidespinner' },
             {
                 action: 'showerror',

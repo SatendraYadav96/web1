@@ -39,7 +39,7 @@ import {
     SEARCH_SPECIAL_PLAN_SUCCESS, SPECIAL_ALLOCATE_TO_DIFFERENTIAL,
     SPECIAL_ALLOCATION_FAIL,
     SPECIAL_ALLOCATION_START,
-    SPECIAL_ALLOCATION_SUCCESS, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS, SPECIAL_DIFFERENTIAL_TEAM_FAIL, SPECIAL_DIFFERENTIAL_TEAM_SUCCESS,
+    SPECIAL_ALLOCATION_SUCCESS, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS, SPECIAL_DIFFERENTIAL_TEAM_FAIL, SPECIAL_DIFFERENTIAL_TEAM_SUCCESS,
     SUBMIT_MONTHLY_ALLOCATION_FAIL,
     SUBMIT_MONTHLY_ALLOCATION_SUCCESS, SUBMIT_SPECIAL_ALLOCATION_FAIL, SUBMIT_SPECIAL_ALLOCATION_SUCCESS,
     SUBMIT_VIRTUAL_ALLOCATION_FAIL,
@@ -49,11 +49,11 @@ import {
     VIRTUAL_ALLOCATION_FAIL,
     VIRTUAL_ALLOCATION_START,
     VIRTUAL_ALLOCATION_SUCCESS,
-    VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL,
+    VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL, VIRTUAL_COMMON_ALLOCATION_SAVE_START,
     VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS,
     VIRTUAL_COMMON_TEAM_FAIL,
     VIRTUAL_COMMON_TEAM_SUCCESS,
-    VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL,
+    VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_START,
     VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
     VIRTUAL_DIFFERENTIAL_TEAM_FAIL,
     VIRTUAL_DIFFERENTIAL_TEAM_SUCCESS,
@@ -77,6 +77,7 @@ const initialState = {
     monthlyDifferentialAllocationSaveSuccess:false,
     error: null,
     virtualCommonAllocationSave: [],
+    virtualCommonAllocationSaveSuccess: false,
     getDownloadAllocation: [],
     getRecipientBlocked: [],
     getActiveUsers: [],
@@ -91,11 +92,12 @@ const initialState = {
     virtualCommonAllocationDone: new Date(),
     virtualDifferentialTeam:[],
     virtualDifferentialAllocationSave:[],
+    virtualDifferentialAllocationSaveSuccess:false,
     submitMonthlyAllocation: [],
     submitVirtualAllocation: [],
     submitSpecialAllocation: [],
     getAllocationStatusDropdown: [],
-    getMultipleAllocationDownload: Uint8Array,
+    // getMultipleAllocationDownload: null,
     getMultipleAllocationExcelDownload: [],
     editSpecialPlan: [],
     specialAllocation: [],
@@ -104,6 +106,7 @@ const initialState = {
     specialAllocationLoading: false,
     specialDifferentialTeam:[],
     specialDifferentialAllocationSave:[],
+    specialDifferentialAllocationSaveSuccess: false,
     deleteSpecialAllocation:[],
     multipleAllocationUpload: [],
 }
@@ -486,11 +489,20 @@ const monthlyDifferentialAllocationSaveFailReducer = (state = initialState, payl
     }
 }
 
+const virtualCommonAllocationStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualCommonAllocationSaveSuccess: false,
+        virtualCommonAllocationSave:[]
+
+    }
+}
+
 const virtualCommonAllocationSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        virtualCommonAllocationSave:payload.virtualCommonAllocationSave
-
+        virtualCommonAllocationSave:payload.virtualCommonAllocationSave,
+        virtualCommonAllocationSaveSuccess: true
     }
 }
 
@@ -498,6 +510,7 @@ const virtualCommonAllocationFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         virtualCommonAllocationSave:[],
+        virtualCommonAllocationSaveSuccess: false,
         error: payload.error,
 
     }
@@ -703,11 +716,20 @@ const virtualDifferentialAllocationFailReducer = (state = initialState, payload)
     }
 }
 
+const virtualDifferentialAllocationSaveStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        virtualDifferentialAllocationSave:[],
+        virtualDifferentialAllocationSaveSuccess:false
+    }
+}
+
+
 const virtualDifferentialAllocationSaveSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        virtualDifferentialAllocationSave:payload.virtualDifferentialAllocationSave
-
+        virtualDifferentialAllocationSave:payload.virtualDifferentialAllocationSave,
+        virtualDifferentialAllocationSaveSuccess:true
     }
 }
 
@@ -715,8 +737,8 @@ const virtualDifferentialAllocationSaveFailReducer = (state = initialState, payl
     return {
         ...state,
         virtualDifferentialAllocationSave:[],
+        virtualDifferentialAllocationSaveSuccess:false,
         error: payload.error,
-
     }
 }
 
@@ -793,10 +815,11 @@ const getAllocationStatusDropdownFailReducer = (state = initialState, payload) =
 }
 
 const getMultipleAllocationDownloadSuccessReducer = (state = initialState, payload) => {
+    console.log(payload)
     return {
         ...state,
         getMultipleAllocationDownload: payload.getMultipleAllocationCostCenterDownload,
-         getMultipleAllocationExcelDownload: payload.getMultipleAllocationExcelDownload
+         // getMultipleAllocationExcelDownload: payload.getMultipleAllocationExcelDownload
     }
 }
 
@@ -919,11 +942,19 @@ const specialDifferentialAllocationFailReducer = (state = initialState, payload)
     }
 }
 
+const specialDifferentialAllocationSaveStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        specialDifferentialAllocationSave:[],
+        specialDifferentialAllocationSaveSuccess: false
+    }
+}
+
 const specialDifferentialAllocationSaveSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        specialDifferentialAllocationSave:payload.specialDifferentialAllocationSave
-
+        specialDifferentialAllocationSave:payload.specialDifferentialAllocationSave,
+        specialDifferentialAllocationSaveSuccess: true
     }
 }
 
@@ -931,6 +962,7 @@ const specialDifferentialAllocationSaveFailReducer = (state = initialState, payl
     return {
         ...state,
         specialDifferentialAllocationSave:[],
+        specialDifferentialAllocationSaveSuccess: false,
         error: payload.error,
 
     }
@@ -993,6 +1025,7 @@ export default createReducer(initialState, {
     [MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS]: monthlyDifferentialAllocationSaveSuccessReducer,
     [MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START]: monthlyDifferentialAllocationSaveStartReducer,
     [MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL]: monthlyDifferentialAllocationSaveFailReducer,
+    [VIRTUAL_COMMON_ALLOCATION_SAVE_START]: virtualCommonAllocationStartReducer,
     [VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS]: virtualCommonAllocationSuccessReducer,
     [VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL]: virtualCommonAllocationFailReducer,
     [GET_DOWNLOAD_ALLOCATION_SUCCESS]: getDownloadAllocationSuccessReducer,
@@ -1013,6 +1046,7 @@ export default createReducer(initialState, {
     [GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_FAIL]: virtualAllocationForPlanFailReducer,
     [VIRTUAL_DIFFERENTIAL_TEAM_SUCCESS]: virtualDifferentialAllocationSuccessReducer,
     [VIRTUAL_DIFFERENTIAL_TEAM_FAIL]: virtualDifferentialAllocationFailReducer,
+    [VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_START]: virtualDifferentialAllocationSaveStartReducer,
     [VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS]: virtualDifferentialAllocationSaveSuccessReducer,
     [VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL]: virtualDifferentialAllocationSaveFailReducer,
     [SUBMIT_MONTHLY_ALLOCATION_SUCCESS]: submitMonthlyAllocationSuccessReducer,
@@ -1035,6 +1069,7 @@ export default createReducer(initialState, {
     [GET_SPECIAL_ALLOCATIONS_FOR_PLAN_FAIL]: specialAllocationForPlanFailReducer,
     [SPECIAL_DIFFERENTIAL_TEAM_SUCCESS]: specialDifferentialAllocationSuccessReducer,
     [SPECIAL_DIFFERENTIAL_TEAM_FAIL]: specialDifferentialAllocationFailReducer,
+    [SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START]: specialDifferentialAllocationSaveStartReducer,
     [SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS]: specialDifferentialAllocationSaveSuccessReducer,
     [SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL]: specialDifferentialAllocationSaveFailReducer,
     [DELETE_SPECIAL_ALLOCATION_SUCCESS]: deleteSpecialAllocationSuccessReducer,
