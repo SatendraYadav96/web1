@@ -74,6 +74,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
         setEmployeeCode(user.employeeCode)
         setDesignation(user.userDesignation.id)
         setStatus(user.userStatus.id)
+        setApp(user.approver)
         if(user.userDesignation.id === '2B264AFB-E2FD-483C-BD4C-C36A4E352FC5'){
             setBU(user.appBu.id)
             setFlag(true)
@@ -178,7 +179,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
             userStatus: {
                 id: status
             },
-            approver: email,
+            approver: app,
             brand: brand,
         }
         handleEditUser({
