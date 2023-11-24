@@ -18,7 +18,7 @@ import {
     selectMonthlyCommonTeamListData,
     selectMonthlyCommonTeamListKeys,
     selectMonthlyDifferentialAllocation,
-    selectSpecialDifferentialAllocation,
+    selectSpecialDifferentialAllocation, selectSpecialDifferentialAllocationSaveSuccess,
     selectVirtualCommonTeamListData,
     selectVirtualCommonTeamListKeys,
     selectVirtualDifferentialAllocation
@@ -29,7 +29,7 @@ import TeamAllocationDetailsComponent from "./TeamAllocationDetailsComponent";
 import ChangeAllocationComponent from "./ChangeAllocationComponent";
 import ChangeVirtualAllocationComponent from "./ChangeVirtualAllocationComponent";
 
-const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, handleChangeDifferentialQuantity, handleSpecialDifferentialAllocationSave, inventoryId, commonAllocationDone, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, specialDifferentialTeam,handleSpecialDifferentialTeam,authInfo, profileInfo, teamKeys}) => {
+const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, handleChangeDifferentialQuantity, handleSpecialDifferentialAllocationSave, inventoryId, commonAllocationDone, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, specialDifferentialTeam,handleSpecialDifferentialTeam,authInfo, profileInfo, teamKeys, specialDifferentialAllocationSaveSuccess}) => {
     const [showDifferential, setShowDifferential] = useState(false)
     const [teamForDifferential, setTeamForDifferential] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
@@ -158,6 +158,22 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
 
     }
 
+    useEffect(() => {
+        if(specialDifferentialAllocationSaveSuccess){
+            handleSpecialDifferentialTeam({
+                certificate:authInfo.token,
+                ccmId: costCenterId,
+                userId: profileInfo.id,
+                month: month,
+                year: year,
+                inventoryId: inventoryId,
+                planId: item.planId,
+                teamId: teams[0].id
+            });
+        }
+    },[specialDifferentialAllocationSaveSuccess])
+
+
 
     useEffect(()=>{
         console.log(teams)
@@ -244,7 +260,8 @@ SpecialTeamAllocationComponent.propTypes = {
     teamKeys: PropTypes.any,
     handleSaveCommonAllocation: PropTypes.any,
     handleSpecialDifferentialAllocationSave: PropTypes.func,
-    handleChangeDifferentialQuantity: PropTypes.func
+    handleChangeDifferentialQuantity: PropTypes.func,
+    specialDifferentialAllocationSaveSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -255,7 +272,8 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     console.log(specialDifferentialTeam)
     console.log(teamKeys)
-    return { authInfo, commonAllocationDone,specialDifferentialTeam, profileInfo, teamKeys }
+    const specialDifferentialAllocationSaveSuccess = selectSpecialDifferentialAllocationSaveSuccess(state)
+    return { authInfo, commonAllocationDone,specialDifferentialTeam, profileInfo, teamKeys, specialDifferentialAllocationSaveSuccess }
 }
 
 const actions = {

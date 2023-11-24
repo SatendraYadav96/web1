@@ -13,14 +13,25 @@ import {
     virtualCommonAllocationStartAction,
     virtualCommonTeamStartAction, virtualDifferentialAllocationStartAction
 } from "../../redux/actions/allocation/allocationActions";
-import {selectCommonAllocationDone, selectMonthlyCommonTeamListData, selectMonthlyCommonTeamListKeys, selectMonthlyDifferentialAllocation, selectVirtualCommonTeamListData, selectVirtualCommonTeamListKeys, selectVirtualDifferentialAllocation} from "../../redux/selectors/allocationSelectors";
+import {
+    selectCommonAllocationDone,
+    selectMonthlyCommonTeamListData,
+    selectMonthlyCommonTeamListKeys,
+    selectMonthlyDifferentialAllocation, selectVirtualCommonAllocationSaveSuccess,
+    selectVirtualCommonTeamListData,
+    selectVirtualCommonTeamListKeys,
+    selectVirtualDifferentialAllocation,
+    selectVirtualDifferentialAllocationSaveSuccess
+} from "../../redux/selectors/allocationSelectors";
 import DifferentialAllocationComponent from "./DifferentialAllocationComponent";
 import LabelComponent from "../../widgets/LabelComponent";
 import TeamAllocationDetailsComponent from "./TeamAllocationDetailsComponent";
 import ChangeAllocationComponent from "./ChangeAllocationComponent";
 import ChangeVirtualAllocationComponent from "./ChangeVirtualAllocationComponent";
 
-const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month, year, handleMonthlyDifferentialAllocationSave, inventoryId, commonAllocationDone, teamForDifferentialAllocation, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, virtualCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys}) => {
+const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month, year, handleMonthlyDifferentialAllocationSave, inventoryId, commonAllocationDone, teamForDifferentialAllocation,
+                                            handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, virtualCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys,
+                                            virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess}) => {
     const [showDifferential, setShowDifferential] = useState(false)
     const [teamForDifferential, setTeamForDifferential] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
@@ -164,6 +175,32 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
         })
     }
 
+    useEffect(() => {
+        if(virtualDifferentialAllocationSaveSuccess){
+            handleMonthlyCommonTeam({
+                certificate:authInfo.token,
+                ccmId: costCenterId,
+                userId: profileInfo.id,
+                month: month,
+                year: year,
+                inventoryId: inventoryId,
+                planId: item.planId
+            });
+        }
+        if(virtualCommonAllocationSaveSuccess){
+            handleMonthlyCommonTeam({
+                certificate:authInfo.token,
+                ccmId: costCenterId,
+                userId: profileInfo.id,
+                month: month,
+                year: year,
+                inventoryId: inventoryId,
+                planId: item.planId
+            });
+        }
+    },[virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess])
+
+
     useEffect(()=>{
         handleMonthlyCommonTeam({
             certificate:authInfo.token,
@@ -288,7 +325,9 @@ VirtualTeamAllocationComponent.propTypes = {
     teamKeys: PropTypes.any,
     handleSaveCommonAllocation: PropTypes.any,
     handleMonthlyDifferentialAllocationSave: PropTypes.func,
-    teamForDifferentialAllocation: PropTypes.any
+    teamForDifferentialAllocation: PropTypes.any,
+    virtualDifferentialAllocationSaveSuccess: PropTypes.any,
+    virtualCommonAllocationSaveSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -300,7 +339,9 @@ const mapState = (state) => {
     console.log(virtualCommonTeam)
     console.log(teamKeys)
     const teamForDifferentialAllocation = selectVirtualDifferentialAllocation(state)
-    return { authInfo, commonAllocationDone,virtualCommonTeam, profileInfo, teamKeys, teamForDifferentialAllocation }
+    const virtualDifferentialAllocationSaveSuccess = selectVirtualDifferentialAllocationSaveSuccess
+    const virtualCommonAllocationSaveSuccess = selectVirtualCommonAllocationSaveSuccess
+    return { authInfo, commonAllocationDone,virtualCommonTeam, profileInfo, teamKeys, teamForDifferentialAllocation, virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess }
 }
 
 const actions = {

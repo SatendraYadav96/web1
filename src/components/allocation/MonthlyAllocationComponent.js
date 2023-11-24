@@ -34,6 +34,9 @@ import {UploadOutlined} from "@ant-design/icons";
 const { Step } = Steps
 const { Panel } = Collapse
 import {Excel} from "antd-table-saveas-excel";
+import CSVDownload from "react-csv/src/components/Download";
+import axios from "axios";
+import {BASE_URL, GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API} from "../../api/apiConstants";
 
 const allocationSteps = [
     {
@@ -67,6 +70,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     const [downloadAllocationFlag, setDownloadAllocationFlag] = useState(false)
     const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
+    const [downloadData, setDownloadData] = useState([])
     const [file, setFile] = useState([])
 
     const downloadAllocationColumn = [
@@ -193,29 +197,29 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     },[downloadAllocation])
 
     useEffect(() => {
-        if(multipleAllocationDownloadFlag){
-            if(multipleAllocationDownload.length > 0){
-                const extraColumn = []
-                if(multipleAllocationExcel.length > 0) {
-                    multipleAllocationExcel.map(i => {
-                            const list = {
-                                'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+            if(multipleAllocationDownloadFlag){
+                if(multipleAllocationDownload.length > 0){
+                    const extraColumn = []
+                    if(multipleAllocationExcel.length > 0) {
+                        multipleAllocationExcel.map(i => {
+                                const list = {
+                                    'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                                }
+                                multipleAllocationDownloadColumn.push(list)
                             }
-                            multipleAllocationDownloadColumn.push(list)
-                        }
-                    )
+                        )
+                    }
+                    const excel = new Excel();
+                    excel
+                        .addSheet("Multiple Allocation")
+                        .addColumns(multipleAllocationDownloadColumn)
+                        .addDataSource(multipleAllocationDownload, {
+                            str2Percent: true
+                        })
+                        .saveAs( 'MULTIPLE_ALLOCATION.xlsx');
                 }
-                const excel = new Excel();
-                excel
-                    .addSheet("Multiple Allocation")
-                    .addColumns(multipleAllocationDownloadColumn)
-                    .addDataSource(multipleAllocationDownload, {
-                        str2Percent: true
-                    })
-                    .saveAs( 'MULTIPLE_ALLOCATION.xlsx');
+                setMultipleAllocationDownloadFlag(false)
             }
-            setMultipleAllocationDownloadFlag(false)
-        }
     },[multipleAllocationDownload])
 
 
@@ -291,7 +295,69 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         // console.log(file.name)
     }
 
+    const convertToCSV = (data) =>{
+        const csvRows = [];
 
+        // Headers
+        const headers = Object.keys(data[0]);
+        csvRows.push(headers.join(','));
+
+        // Values
+        for (const row of data) {
+            const values = headers.map(header => {
+                const escaped = ('' + row[header]).replace(/"/g, '\\"');
+                return `"${escaped}"`;
+            });
+            csvRows.push(values.join(','));
+        }
+
+        return csvRows.join('\n');
+    }
+
+    // Function to trigger CSV download
+    // const downloadCSV = (data) => {
+    //     const csvContent = this.convertToCSV(data);
+    //     const blob = new Blob([csvContent], { type: 'text/csv' });
+    //     const url = window.URL.createObjectURL(blob);
+    //
+    //     const link = document.createElement('a');
+    //     link.href = url;
+    //     link.setAttribute('download', 'data.csv');
+    //     document.body.appendChild(link);
+    //     link.click();
+    //
+    //     // Cleanup
+    //     document.body.removeChild(link);
+    //     window.URL.revokeObjectURL(url);
+    // }
+
+    // const downloadCsv = async () => {
+    //     try {
+    //         // Replace 'http://your-backend-url/api/csv/download' with your actual backend URL
+    //         const response = await axios.post('http://104.237.6.220:8080/v1/allocation/getMultipleAllocationAll', {
+    //             // responseType: 'arraybuffer',
+    //         },{
+    //             headers: {
+    //                 'Content-Type': 'text/csv',
+    //                 'Authorization': authInfo.token
+    //             }
+    //         });
+    //
+    //         const csvByteArray = new Uint8Array(response.data);
+    //         const csvString = new TextDecoder('utf-8').decode(csvByteArray);
+    //
+    //         // Trigger download
+    //         const blob = new Blob([csvString], { type: 'text/csv' });
+    //         const link = document.createElement('a');
+    //         link.href = window.URL.createObjectURL(blob);
+    //         link.download = 'data.csv';
+    //         document.body.appendChild(link);
+    //         link.click();
+    //         document.body.removeChild(link);
+    //     } catch (error) {
+    //         console.error('Error downloading CSV:', error);
+    //     }
+    // };
 
 
     return(
@@ -395,6 +461,10 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                     </Button>
                 )}
             </div>
+            {downloadData.length > 0 && <CSVDownload
+                data={downloadData}/>
+                // target="_blank"></CSVDownload>
+            }
         </>
     )
 }

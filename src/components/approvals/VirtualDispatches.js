@@ -411,8 +411,9 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                     <Button type={'primary'} onClick={() => searchInv()}>Submit</Button>
                 </Col>
             </Row>
+            <br/>
             <Row gutter={16}>
-                <Space wrap style={{marginLeft:"1300px",marginBottom:"-25px"}}>
+                <Space wrap style={{marginBottom:"-25px"}}>
                     <Button type="primary" onClick={()=>{handleDownload()
                         setView(true)}} >Download</Button>
                 </Space>

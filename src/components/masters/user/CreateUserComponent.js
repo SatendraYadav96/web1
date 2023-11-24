@@ -49,9 +49,9 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
     const handleDesignation = (value) => {
         setDesignation(value)
         if(value === '2B264AFB-E2FD-483C-BD4C-C36A4E352FC5'){
-            setFlag(false)
-        }else{
             setFlag(true)
+        }else{
+            setFlag(false)
         }
     }
 
@@ -159,7 +159,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
                         Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
                     </Col>
                     <Col span={8} offset={2}>
-                        Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} disabled/>
+                        Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} />
                     </Col>
                 </Row>
             }
