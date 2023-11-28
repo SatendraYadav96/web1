@@ -35,7 +35,7 @@ export const getVirtualReconciliationReportStartEpic = (action$) =>
         debounceTime(4000),
         switchMap((action) =>
             getVirtualReconciliationReportRequest(action.payload).pipe(
-                map((response) => getVirtualReconciliationReportSuccessAction({getVirtualReconciliationList: response.response})),
+                map((response) => getVirtualReconciliationReportSuccessAction({virtualReconciliationList: response.response})),
                 catchError((error) => of(getVirtualReconciliationReportFailAction({error: error}))),
             )
         )
@@ -47,7 +47,7 @@ export const getShipRocketReportStartEpic = (action$) =>
         debounceTime(4000),
         switchMap((action) =>
             getShipRocketReportRequest(action.payload).pipe(
-                map((response) => getShipRocketReportSuccessAction({getShipRocketReport: response.response})),
+                map((response) => getShipRocketReportSuccessAction({shipRocketReport: response.response})),
                 catchError((error) => of(getShipRocketReportFailAction({error: error}))),
             )
         )

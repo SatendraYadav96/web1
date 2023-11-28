@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -16,12 +16,13 @@ import {selectVirtualReconciliationReport} from "../../redux/selectors/batchReco
 import XLSX from "xlsx";
 import {CSVLink} from "react-csv";
 
-const VirtualReconciliationComponent = ({authInfo, virtualReconciliationReport, handleVirtualReconciliationReport}) => {
+const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, handleVirtualReconciliationReport}) => {
 
     const [column, setColumn] = useState([])
     const [businessUnit, setBusinessUnit] = useState()
-    const [quater, setQuarter] = useState()
+    const [quarter, setQuarter] = useState()
     const [year, setYear] = useState()
+    const [data, setData] = useState()
     const [division, setDivision] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -83,7 +84,8 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationReport, 
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -117,191 +119,213 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationReport, 
             {
                 title:'Invoice No.',
                 key:'',
-                dataIndex:'',
+                dataIndex:'invoiceNo',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('invoiceNo'),
             },
             {
                 title:'Doctor Name',
                 key:'',
-                dataIndex:'',
+                dataIndex:'recipientName',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('recipientName'),
             },
             {
                 title:'Doctor Code',
                 key:'',
-                dataIndex:'',
+                dataIndex:'recipientCode',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('recipientCode'),
             },
             {
                 title:'Item Name',
                 key:'',
-                dataIndex:'',
+                dataIndex:'itemName',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('itemName'),
             },
             {
                 title:'Upload Item Name',
                 key:'',
-                dataIndex:'',
+                dataIndex:'uploadItemName',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('uploadItemName'),
             },
             {
                 title:'Item Code',
                 key:'',
-                dataIndex:'',
+                dataIndex:'itemCode',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('itemCode'),
             },
             {
                 title:'Batch No',
                 key:'',
-                dataIndex:'',
+                dataIndex:'batchNo',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('batchNo'),
             },
             {
                 title:'Upload Batch',
                 key:'',
-                dataIndex:'',
+                dataIndex:'uploadBatchNo',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('uploadBatchNo'),
             },
             {
                 title:'Quantity Allocated',
                 key:'',
-                dataIndex:'',
+                dataIndex:'allocatedQuantity',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('allocatedQuantity'),
             },
             {
                 title:'Upload Quantity',
                 key:'',
-                dataIndex:'',
+                dataIndex:'uploadedQuantity',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('uploadedQuantity'),
+            },
+
+            {
+                title:'RatePerItem',
+                key:'',
+                dataIndex:'ratePerItem',
+                width:'100px',
+                ...getColumnSearchProps('ratePerItem'),
+            },
+            {
+                title:'GSTRate',
+                key:'',
+                dataIndex:'gstRate',
+                width:'100px',
+                ...getColumnSearchProps('gstRate'),
+            },
+            {
+                title:'Amount',
+                key:'',
+                dataIndex:'amount',
+                width:'100px',
+                ...getColumnSearchProps('amount'),
             },
             {
                 title:'Address',
                 key:'',
-                dataIndex:'',
+                dataIndex:'address',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('address'),
             },
             {
                 title:'Upload Address',
                 key:'',
-                dataIndex:'',
+                dataIndex:'uploadAddress',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('uploadAddress'),
             },
             {
                 title:'City',
                 key:'',
-                dataIndex:'',
+                dataIndex:'city',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('city'),
             },
             {
                 title:'State',
                 key:'',
-                dataIndex:'',
+                dataIndex:'state',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('state'),
             },
             {
                 title:'Postal Code',
                 key:'',
-                dataIndex:'',
+                dataIndex:'postalCode',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('postalCode'),
             },
             {
                 title:'Mobile',
                 key:'',
-                dataIndex:'',
+                dataIndex:'mobile',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('mobile'),
             },
             {
                 title:'FF Code',
                 key:'',
-                dataIndex:'',
+                dataIndex:'ffCode',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('ffCode'),
             },
             {
                 title:'FF Name',
                 key:'',
-                dataIndex:'',
+                dataIndex:'ffName',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('ffName'),
             },
             {
                 title:'FF Allocation Date',
                 key:'',
-                dataIndex:'',
+                dataIndex:'ffAllocationDate',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('ffAllocationDate'),
             },
             {
                 title:'VRL Uploaded Date',
                 key:'',
-                dataIndex:'',
+                dataIndex:'vrlUploadDate',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('vrlUploadDate'),
             },
             {
                 title:'Invoice Created On',
                 key:'',
-                dataIndex:'',
+                dataIndex:'createdOn',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('createdOn'),
             },
             {
                 title:'Business Unit',
                 key:'',
-                dataIndex:'',
+                dataIndex:'businessUnit',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('businessUnit'),
             },
             {
                 title:'Status',
                 key:'',
-                dataIndex:'',
+                dataIndex:'status',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('status'),
             },
             {
                 title:'Dispatch Date',
                 key:'',
-                dataIndex:'',
+                dataIndex:'dispatchDate',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('dispatchDate'),
             },
             {
                 title:'Delivery Date',
                 key:'',
-                dataIndex:'',
+                dataIndex:'deliveryDate',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('deliveryDate'),
             },
             {
                 title:'LR No.',
                 key:'',
-                dataIndex:'',
+                dataIndex:'lrNo',
                 width:'100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('lrNo'),
             },
             {
-                title: 'TRN Name',
+                title: 'Courier',
                 key: '',
-                dataIndex: '',
+                dataIndex: 'courierName',
                 width: '100px',
-                ...getColumnSearchProps(''),
+                ...getColumnSearchProps('courierName'),
             }
         ])
 
@@ -311,7 +335,7 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationReport, 
     const getVirtualRecon = () => {
         handleVirtualReconciliationReport({
             certificate: authInfo.token,
-            quarter: quater,
+            quarter: quarter,
             year: year,
             businessUnit: businessUnit
         })
@@ -320,18 +344,60 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationReport, 
 
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(virtualReconciliationReport);
+            ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
         XLSX.writeFile(wb,"VirtualReconciliationReport.xlsx")
     }
+
+
+
+    useEffect(() => {
+        setData(virtualReconciliationList.map(item => {
+            return {
+
+                invoiceNo: item.invoiceNo,
+                recipientCode: item.recipientCode,
+                recipientName: item.recipientName,
+                itemName: item.itemName,
+                uploadItemName : item.uploadItemName,
+                itemCode: item.itemCode,
+                batchNo: item.batchNo,
+                uploadBatchNo: item.uploadBatchNo,
+                allocatedQuantity: item.allocatedQuantity,
+                uploadedQuantity: item.uploadedQuantity,
+                ratePerItem: item.ratePerItem,
+                gstRate: item.gstRate,
+                amount: item.amount,
+                address: item.address,
+                uploadAddress: item.uploadAddress,
+                city: item.city,
+                state: item.state,
+                postalCode:item.postalCode,
+                mobile:item.mobile,
+                ffCode: item.ffCode,
+                ffName: item.ffName,
+                ffAllocationDate: item.ffAllocationDate,
+                vrlUploadDate: item.vrlUploadDate,
+                createdOn: item.createdOn,
+                businessUnit: item.businessUnit,
+                status: item.status,
+                dispatchDate: item.dispatchDate,
+                deliveryDate: item.deliveryDate,
+                lrNo: item.lrNo,
+                courierName: item.courierName,
+            }
+        }))
+    },[virtualReconciliationList])
+
+
 
     return(
         <>
             <TitleWidget title="Virtual Reconciliation" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
-                    Quater<br/>
-                    <SelectQuarterNameComponent value={quater} style={{width: "100%"}} onChange={(e) => setQuarter(e)} />
+                    Quarter<br/>
+                    <SelectQuarterNameComponent value={quarter} style={{width: "100%"}} onChange={(e) => setQuarter(e)} />
                 </Col>
                 <Col span={3}>
                     Year <br/>
@@ -353,26 +419,44 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationReport, 
             </Row>
             <br/><br/>
             <Row>
+                {/*<Col span={6}>*/}
+                {/*    <Button onClick={handleExcel}>Excel</Button> &nbsp;&nbsp;*/}
+                {/*/!*    {virtualReconciliationReport &&*!/*/}
+                {/*/!*    (<CSVLink*!/*/}
+                {/*/!*            data={virtualReconciliationReport}*!/*/}
+                {/*/!*            filename={"VirtualReconciliationReport.csv"}*!/*/}
+                {/*/!*            onClick={() => {*!/*/}
+                {/*/!*                console.log("clicked")*!/*/}
+                {/*/!*            }}*!/*/}
+                {/*/!*        >*!/*/}
+                {/*/!*            <Button>CSV</Button>*!/*/}
+                {/*/!*        </CSVLink>*!/*/}
+                {/*/!*    )*!/*/}
+                {/*/!*}*!/*/}
+                {/*</Col>*/}
+
                 <Col span={6}>
-                    <Button onClick={handleExcel}>Excel</Button> &nbsp;&nbsp;
-                    {virtualReconciliationReport &&
-                    (<CSVLink
-                            data={virtualReconciliationReport}
-                            filename={"VirtualReconciliationReport.csv"}
-                            onClick={() => {
-                                console.log("clicked")
-                            }}
-                        >
-                            <Button>CSV</Button>
-                        </CSVLink>
-                    )
-                }
+                    {data &&
+                        (<><CSVLink
+                                data={data}
+                                filename={"virtualReconciliationReport.csv"}
+                                onClick={() => {
+                                    console.log("clicked")
+                                }}
+                            >
+                                <Button>CSV</Button>
+                            </CSVLink>
+                                &nbsp;
+                                <Button onClick={handleExcel}>EXCEL</Button></>
+                        )
+                    }
+
                 </Col>
             </Row>
             <br/>
-            <span>Total Rows: <b>{dataSource?.length}</b></span>
+            <span>Total Rows: <b>{virtualReconciliationList?.length}</b></span>
             {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={dataSource}/>
+                <Table columns={column} scroll={{y: '100%'}} dataSource={virtualReconciliationList}/>
             }
         </>
     )
@@ -382,13 +466,14 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationReport, 
 VirtualReconciliationComponent.propTypes = {
     authInfo: PropTypes.any,
     handleVirtualReconciliationReport: PropTypes.func,
-    virtualReconciliationReport: PropTypes.any
+    virtualReconciliationList: PropTypes.any
 }
+
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-    const virtualReconciliationReport = selectVirtualReconciliationReport(state)
-    return {authInfo, virtualReconciliationReport}
+    const virtualReconciliationList = selectVirtualReconciliationReport(state)
+    return {authInfo, virtualReconciliationList}
 }
 
 const actions = {

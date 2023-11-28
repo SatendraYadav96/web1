@@ -8,8 +8,11 @@ const batchReconciliationReportLoading = (state) => state.batchReconciliation.ba
 
 const overSamplingMail = (state) => state.batchReconciliation.overSamplingMail;
 const overSamplingMailLoading = (state) => state.batchReconciliation.overSamplingMailLoading;
-const virtualReconciliation = (state) => state.batchReconciliation.virtualReconciliation
+const virtualReconciliationList = (state) => state.batchReconciliation.virtualReconciliationList
+
+const virtualReconciliationListLoading = (state) => state.batchReconciliation.virtualReconciliationListLoading;
 const shipRocketReport = (state) => state.batchReconciliation.shipRocketReport
+const shipRocketReportLoading = (state) => state.batchReconciliation.shipRocketReportLoading;
 
 
 
@@ -24,14 +27,25 @@ export const selectLoadingBatchReconciliationReportData = createSelector(
 );
 
 export const selectVirtualReconciliationReport = createSelector(
-    virtualReconciliation,
-    dataSelect => dataSelect
+    virtualReconciliationList,
+    virtualReconciliationListDataSelection => virtualReconciliationListDataSelection
 )
+
+
+export const selectLoadingVirtualReconciliationListData = createSelector(
+    virtualReconciliationListLoading,
+    loadingSelection => loadingSelection
+);
 
 export const selectShipRocketReport = createSelector(
     shipRocketReport,
-    dataSelect => dataSelect
+    shipRocketReportDataSelection => shipRocketReportDataSelection
 )
+
+export const selectShipRocketReportLoadingListData = createSelector(
+    shipRocketReportLoading,
+    loadingSelection => loadingSelection
+);
 
 
 export const selectOverSamplingMailData = createSelector(

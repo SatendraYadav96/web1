@@ -34,7 +34,7 @@ const DispatchReportComponent = React.lazy(() => import('../components/reports/D
 const DispatchRegisterReportComponent = React.lazy(() => import('../components/reports/DispatchRegisterReportComponent'))
 const ItemConsumptionReportComponent = React.lazy(() => import('../components/reports/ItemConsumptionReportComponent'))
 const DeviationReportComponent = React.lazy(() => import('../components/reports/DeviationReportComponent'))
-    const VirtualReconciliationComponent = React.lazy(() => import('../components/reports/VirtualReconciliationComponent'))
+const VirtualReconciliationComponent = React.lazy(() => import('../components/reports/VirtualReconciliationComponent'))
 const InventoryReversalReportComponent = React.lazy(() => import('../components/reports/InventoryReversalReportComponent'))
 const ShipRocketReportComponent = React.lazy(() => import('../components/reports/ShipRocketReportComponent'))
 const ItemRevalidationComponent = React.lazy(() => import('../components/revalidation/ItemRevalidationComponent'))
