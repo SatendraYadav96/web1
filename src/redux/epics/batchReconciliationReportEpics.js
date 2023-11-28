@@ -1,8 +1,17 @@
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
-import {batchReconciliationReportRequest, getShipRocketReportRequest, getVirtualReconciliationReportRequest, recipientReportRequest} from '../../api/reportRequests'
-import {GET_BATCH_RECONCILIATION_START, GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START} from "../actions/reports/batchReconciliationReportActionConstants";
-import {getBatchReconciliationFailAction, getBatchReconciliationSuccessAction, getShipRocketReportFailAction, getShipRocketReportSuccessAction, getVirtualReconciliationReportFailAction, getVirtualReconciliationReportSuccessAction} from "../actions/reports/batchReconciliationReportActions";
+import {batchReconciliationReportRequest, getShipRocketReportRequest, getVirtualReconciliationReportRequest, overSamplingMailRequest, recipientReportRequest} from '../../api/reportRequests'
+import {GET_BATCH_RECONCILIATION_START, GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START, OVER_SAMPLING_MAIL_START} from "../actions/reports/batchReconciliationReportActionConstants";
+import {
+    getBatchReconciliationFailAction,
+    getBatchReconciliationSuccessAction,
+    getShipRocketReportFailAction,
+    getShipRocketReportSuccessAction,
+    getVirtualReconciliationReportFailAction,
+    getVirtualReconciliationReportSuccessAction, overSamplingMailFailAction,
+    overSamplingMailSuccessAction
+} from "../actions/reports/batchReconciliationReportActions";
+import {SEND_OVERSAMPLING_MAIL_API} from "../../api/apiConstants";
 
 
 
@@ -44,3 +53,15 @@ export const getShipRocketReportStartEpic = (action$) =>
         )
     )
 
+
+export const overSamplingMailStartEpic = (action$) =>
+    action$.pipe(
+        ofType(OVER_SAMPLING_MAIL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            overSamplingMailRequest(action.payload).pipe(
+                map((listResponse) => overSamplingMailSuccessAction({overSamplingMail: listResponse.response})),
+                catchError((error) => of(overSamplingMailFailAction({error: error}))),
+            )
+        )
+    )

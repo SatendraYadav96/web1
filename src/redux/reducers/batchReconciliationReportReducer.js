@@ -1,5 +1,13 @@
 import { createReducer } from './reducerUtils'
-import {GET_BATCH_RECONCILIATION_FAIL, GET_BATCH_RECONCILIATION_SUCCESS, GET_SHIP_ROCKET_REPORT_FAIL, GET_SHIP_ROCKET_REPORT_SUCCESS, GET_VIRTUAL_RECONCILIATION_REPORT_FAIL, GET_VIRTUAL_RECONCILIATION_REPORT_SUCCESS} from "../actions/reports/batchReconciliationReportActionConstants";
+import {
+    GET_BATCH_RECONCILIATION_FAIL,
+    GET_BATCH_RECONCILIATION_SUCCESS,
+    GET_SHIP_ROCKET_REPORT_FAIL,
+    GET_SHIP_ROCKET_REPORT_SUCCESS,
+    GET_VIRTUAL_RECONCILIATION_REPORT_FAIL,
+    GET_VIRTUAL_RECONCILIATION_REPORT_SUCCESS, OVER_SAMPLING_MAIL_FAIL,
+    OVER_SAMPLING_MAIL_SUCCESS
+} from "../actions/reports/batchReconciliationReportActionConstants";
 
 
 
@@ -8,6 +16,8 @@ import {GET_BATCH_RECONCILIATION_FAIL, GET_BATCH_RECONCILIATION_SUCCESS, GET_SHI
 
 const initialState = {
     batchReconciliationList: [],
+    overSamplingMail:[],
+    overSamplingMailLoading:false,
     batchReconciliationLoading: false,
     virtualReconciliation:{},
     shipRocketReport: {},
@@ -66,13 +76,41 @@ export const getShipRocketReportFailReducer = (state = initialState, payload) =>
     }
 }
 
+
+const overSamplingMailSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+
+        overSamplingMail:payload.overSamplingMail,
+        overSamplingMailLoading: false
+
+    }
+}
+
+
+
+const overSamplingMailFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        overSamplingMail:[],
+        overSamplingMailLoading: false,
+        error: payload.error,
+
+    }
+}
+
+
+
+
 export default createReducer(initialState, {
     [GET_BATCH_RECONCILIATION_SUCCESS]: getBatchReconciliationSuccessReducer,
     [GET_BATCH_RECONCILIATION_FAIL]: getBatchReconciliationFailReducer,
     [GET_VIRTUAL_RECONCILIATION_REPORT_SUCCESS]: getBatchReconciliationSuccessReducer,
     [GET_VIRTUAL_RECONCILIATION_REPORT_FAIL]: getVirtualReconciliationFailReducer,
     [GET_SHIP_ROCKET_REPORT_SUCCESS]: getShipRocketSuccessReducer,
-    [GET_SHIP_ROCKET_REPORT_FAIL]: getShipRocketReportFailReducer
+    [GET_SHIP_ROCKET_REPORT_FAIL]: getShipRocketReportFailReducer,
+    [OVER_SAMPLING_MAIL_SUCCESS]:overSamplingMailSuccessReducer,
+    [OVER_SAMPLING_MAIL_FAIL]:overSamplingMailFailReducer
 
 })
 

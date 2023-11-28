@@ -27,7 +27,10 @@ import Highlighter from "react-highlight-words";
 const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleComplianceDetailsList, handleSaveOverSampling,
                                             saveOverSamplingSuccess, handleOverSamplingDetailData, overSamplingDetailData}) => {
 
-    // let now = new Date()
+    const date = new Date()
+
+    const currentYear = date.getFullYear()
+    const currentMonth = date.getMonth()+1
 
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
@@ -36,8 +39,8 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
     const [dataDetail, setDataDetail] = useState()
-    const [month, setMonth] = useState()
-    const [year, setYear] = useState()
+    const [month, setMonth] = useState(currentMonth)
+    const [year, setYear] = useState(currentYear)
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [details, setDetails] = useState(false)
@@ -59,6 +62,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             <div
                 style={{
                     padding: 8,
+
                 }}
                 onKeyDown={(e) => e.stopPropagation()}
             >
@@ -78,7 +82,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                         type="primary"
                         onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
                         icon={<SearchOutlined />}
-                        size="small"
+                        size="large"
                         style={{
                             width: 90,
                         }}
@@ -87,7 +91,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
-                        size="small"
+                        size="large"
                         style={{
                             width: 90,
                         }}
@@ -96,7 +100,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                     </Button>
                     <Button
                         type="link"
-                        size="small"
+                        size="large"
                         onClick={() => {
                             close();
                         }}
@@ -109,7 +113,8 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -395,11 +400,11 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Month<br/>
-                    <SelectMonthComponent onChange={(value) => setMonth(value)}/>
+                    <SelectMonthComponent value={month} onChange={(value) => setMonth(value)}/>
                 </Col>
                 <Col span={3}>
                     Year<br/>
-                    <SelectYearComponent onChange={(value) => setYear(value)}/>
+                    <SelectYearComponent value={year} onChange={(value) => setYear(value)}/>
                 </Col>
                 <Col span={2}>
                     <br/>
@@ -430,7 +435,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                                 &nbsp;
                                 <Button onClick={handleExcel}>EXCEL</Button>
                                 &nbsp;
-                                <Button onClick={handleDetailExcel} >Details</Button>
+                                {/*<Button onClick={handleDetailExcel} >Details</Button>*/}
                             </>
                         )
                     }

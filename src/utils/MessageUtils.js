@@ -36,7 +36,7 @@ import {
     SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START, VIRTUAL_COMMON_ALLOCATION_SAVE_START, VIRTUAL_COMMON_TEAM_START
 } from "../redux/actions/allocation/allocationActionConstants";
 import {REVERSE_INVENTORY_START} from "../redux/actions/inventory/inventoryReportActionConstants";
-import {GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START} from "../redux/actions/reports/batchReconciliationReportActionConstants";
+import {GET_SHIP_ROCKET_REPORT_START, GET_VIRTUAL_RECONCILIATION_REPORT_START, OVER_SAMPLING_MAIL_FAIL, OVER_SAMPLING_MAIL_START, OVER_SAMPLING_MAIL_SUCCESS} from "../redux/actions/reports/batchReconciliationReportActionConstants";
 import {SAVE_NON_COMPLIANCE_ADMIN_REMARK_START, SAVE_OVER_SAMPLING_START} from "../redux/actions/compliance/nonComplianceActionConstants";
 import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActionConstants";
 
@@ -1439,6 +1439,17 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
         VIRTUAL_COMMON_TEAM_START:[{ action: 'showspinner' }],
         VIRTUAL_COMMON_TEAM_SUCCESS: [{ action: 'hidespinner' }],
         VIRTUAL_COMMON_TEAM_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        OVER_SAMPLING_MAIL_START:[{ action: 'showspinner' }],
+        OVER_SAMPLING_MAIL_SUCCESS: [{ action: 'hidespinner' }],
+        OVER_SAMPLING_MAIL_FAIL: [
             { action: 'hidespinner' },
             {
                 action: 'showerror',

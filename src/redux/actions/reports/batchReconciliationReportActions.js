@@ -5,7 +5,7 @@ import {
     GET_SHIP_ROCKET_REPORT_START, GET_SHIP_ROCKET_REPORT_SUCCESS,
     GET_VIRTUAL_RECONCILIATION_REPORT_FAIL,
     GET_VIRTUAL_RECONCILIATION_REPORT_START,
-    GET_VIRTUAL_RECONCILIATION_REPORT_SUCCESS
+    GET_VIRTUAL_RECONCILIATION_REPORT_SUCCESS, OVER_SAMPLING_MAIL_FAIL, OVER_SAMPLING_MAIL_START, OVER_SAMPLING_MAIL_SUCCESS
 } from "./batchReconciliationReportActionConstants";
 import {GET_SHIP_ROCKET_REPORT_API} from "../../../api/apiConstants";
 
@@ -71,5 +71,28 @@ export const getShipRocketReportFailAction = (payload) => (dispatch) => {
     dispatch({
         type: GET_SHIP_ROCKET_REPORT_FAIL,
         payload: payload
+    })
+}
+
+
+
+export const overSamplingMailStartAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: OVER_SAMPLING_MAIL_START,
+        payload: payload,
+    })
+}
+
+export const overSamplingMailSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: OVER_SAMPLING_MAIL_SUCCESS,
+        payload: payload,
+    })
+}
+
+export const overSamplingMailFailAction = (payload) => (dispatch) =>{
+    dispatch({
+        type: OVER_SAMPLING_MAIL_FAIL,
+        payload: payload,
     })
 }

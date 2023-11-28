@@ -8,7 +8,7 @@ import {
     GET_RECIPIENT_REPORT_API, GET_SHIP_ROCKET_REPORT_API,
     GET_SIMPLE_INVENTORY_REPORT_API,
     GET_STOCK_LEDGER_REPORT_API,
-    GET_VIRTUAL_RECONCILIATION_REPORT_API
+    GET_VIRTUAL_RECONCILIATION_REPORT_API, SEND_OVERSAMPLING_MAIL_API
 } from "./apiConstants";
 import {GET_PURCHASE_REPORT_API} from "./apiConstants";
 import {GET_DISPATCHES_REPORT_API} from "./apiConstants";
@@ -115,4 +115,9 @@ export const getVirtualReconciliationReportRequest = payload => {
 export const getShipRocketReportRequest = payload => {
     const api = {...GET_SHIP_ROCKET_REPORT_API, url: `${GET_SHIP_ROCKET_REPORT_API.url}/${payload.fromDate}/${payload.toDate}`}
     return createRequest(api, payload.certificate, null)
+}
+
+
+export const overSamplingMailRequest = payload => {
+    return createRequest(SEND_OVERSAMPLING_MAIL_API, payload.certificate, null)
 }

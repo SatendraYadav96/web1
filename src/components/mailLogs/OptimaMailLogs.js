@@ -22,16 +22,18 @@ import {getMailLogStartAction} from "../../redux/actions/compliance/nonComplianc
 
 const MailLogsComponent = ({authInfo,mailLogList,handleMailLog}) => {
 
-    // let now = new Date()
+    const date = new Date()
 
+    const currentYear = date.getFullYear()
+    const currentMonth = date.getMonth()+1
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [startDate, setStartDate] = useState()
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
-    const [month, setMonth] = useState()
-    const [year, setYear] = useState()
+    const [month, setMonth] = useState(currentMonth)
+    const [year, setYear] = useState(currentYear)
     const [type, setType] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
@@ -290,11 +292,11 @@ const MailLogsComponent = ({authInfo,mailLogList,handleMailLog}) => {
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Year<br/>
-                    <SelectYearComponent onChange={(value) => setYear(value)}/>
+                    <SelectYearComponent value={year} onChange={(value) => setYear(value)}/>
                 </Col>
                 <Col span={3}>
                     Month <br/>
-                    <SelectMonthComponent onChange={(value) => setMonth(value)}/>
+                    <SelectMonthComponent value={month} onChange={(value) => setMonth(value)}/>
                 </Col>
                 <Col span={3}>
                     Type<br/>

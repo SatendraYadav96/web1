@@ -20,10 +20,10 @@ import {isArray} from "@craco/craco/lib/utils";
 
 const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceList,handleNonCompliance, handleSaveNonComplianceAdminRemark, saveNonComplianceAdminRemarkSuccess}) => {
 
-   // const date = new Date()
+   const date = new Date()
 
-   // const currentYear = date.getFullYear()
-   //const currentMonth = date.getMonth()
+   const currentYear = date.getFullYear()
+   const currentMonth = date.getMonth()+1
     const ackData = []
     const [arr, setArr] = useState([])
     const [businessUnit, setBusinessUnit] = useState()
@@ -31,8 +31,8 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
     const [dataFlag, setDataFlag] = useState(true)
     const [startDate, setStartDate] = useState()
     const [status, setStatus] = useState(1)
-    const [year, setYear] = useState()
-    const [month, setMonth] = useState()
+    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(currentMonth)
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
@@ -114,13 +114,15 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                         employeeName: item.employeeName,
                         team: item.team,
                         headquarter: item.headquarter,
-                        month: item.month,
-                        year: item.year,
                         am: item.emailAM,
                         rm: item.emailRM,
-                        isBockedFF: item.isBockedFF,
+                        month: item.month,
+                        year: item.year,
+                        reason:item.reason,
+                        blocked: item.isBockedFF,
                         remark: item.remark,
                         remarkByAdmin: item.remarkByAdmin,
+                        rejected:item.isRejected,
 
                     }
                 }))
@@ -185,7 +187,8 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -270,7 +273,14 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             ...getColumnSearchProps('year'),
         },
         {
-            title: 'Is Blocked',
+            title: 'Reason',
+            key: 'remark',
+            dataIndex: 'reason',
+            width: '100px',
+            ...getColumnSearchProps('reason'),
+        },
+        {
+            title: 'Blocked',
             key: 'blockedFF',
             dataIndex: 'blockedFF',
             width: '100px',
@@ -381,15 +391,22 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             ...getColumnSearchProps('year'),
         },
         {
-            title: 'Is Blocked',
-            key: 'isBlockedFF',
-            dataIndex: 'isBlockedFF',
+            title: 'Reason',
+            key: 'remark',
+            dataIndex: 'reason',
             width: '100px',
-            render: (_, row) => {
-                return <Checkbox defaultChecked={(row.isBlockedFF == 1) ? true : false} disabled={true}/>
-            },
-            // ...getColumnSearchProps('isBockedFF'),
+            ...getColumnSearchProps('reason'),
         },
+        // {
+        //     title: 'Is Blocked',
+        //     key: 'isBlockedFF',
+        //     dataIndex: 'isBlockedFF',
+        //     width: '100px',
+        //     render: (_, row) => {
+        //         return <Checkbox defaultChecked={(row.isBlockedFF == 1) ? true : false} disabled={true}/>
+        //     },
+        //     // ...getColumnSearchProps('isBockedFF'),
+        // },
         {
             title: 'Remark',
             key: 'remark',
@@ -413,12 +430,12 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             ...getColumnSearchProps('remarkByAdmin'),
         },
         {
-            title: '',
+            title: 'Rejected',
             key: '',
-            dataIndex: '',
+            dataIndex: 'rejected',
             width: '100px',
             render: (_, row) => {
-                return <Checkbox defaultChecked={(row.isRejected == 1) ? true : false} disabled={true}/>
+                return <Checkbox defaultChecked={(row.rejected == 1) ? true : false} disabled={true}/>
             }
             // ...getColumnSearchProps('remarkByAdmin'),
         },
@@ -517,11 +534,11 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                 </Col>
                 <Col span={3}>
                     Year<br/>
-                    <SelectYearComponent onChange={(e) => setYear(e)}/>
+                    <SelectYearComponent value={year}  onChange={(e) => setYear(e)}/>
                 </Col>
                 <Col span={3}>
                     Month <br/>
-                    <SelectMonthComponent onChange={(e) => setMonth(e)}/>
+                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={3}>
                     <br/>

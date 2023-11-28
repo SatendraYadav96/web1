@@ -15,13 +15,13 @@ import {CSVLink} from "react-csv"
 import XLSX from "xlsx"
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
-import {getBatchReconciliationStartAction} from "../../redux/actions/reports/batchReconciliationReportActions";
-import {selectBatchReconciliationListData} from "../../redux/selectors/batchReconciliationReportSelector";
+import {getBatchReconciliationStartAction, overSamplingMailStartAction} from "../../redux/actions/reports/batchReconciliationReportActions";
+import {selectBatchReconciliationListData, selectOverSamplingMailData} from "../../redux/selectors/batchReconciliationReportSelector";
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 
 
-const BatchReconciliationComponent = ({authInfo,handleBatchReconciliation,batchReconciliationList}) => {
+const BatchReconciliationComponent = ({authInfo,handleBatchReconciliation,batchReconciliationList, handleOverSamplingMailTrigger,overSamplingMail}) => {
 
     // let now = new Date()
 
@@ -239,6 +239,16 @@ const BatchReconciliationComponent = ({authInfo,handleBatchReconciliation,batchR
     },[])
 
 
+    const overSamplingMailTriggerClick = () => {
+
+        handleOverSamplingMailTrigger ({
+
+            certificate: authInfo.token
+        });
+
+    }
+
+
     const getPurchaseReportList = () => {
         // console.log(businessUnit);
         // console.log(division);
@@ -338,6 +348,11 @@ const BatchReconciliationComponent = ({authInfo,handleBatchReconciliation,batchR
                     <br/>
                     <Button type={"primary"} onClick={handleExcel}>Download</Button>
                 </Col>
+
+                {/*<Col span={3}>*/}
+                {/*    <br/>*/}
+                {/*    <Button type={"primary"} onClick={overSamplingMailTriggerClick}>OverSampling</Button>*/}
+                {/*</Col>*/}
             </Row>
             <br/>
             <span>Total Rows: <b>{batchReconciliationList?.length}</b></span>
@@ -360,12 +375,14 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     // const profileInfo = selectProfileInfo(state)
     const batchReconciliationList = selectBatchReconciliationListData(state)
+    const overSamplingMail = selectOverSamplingMailData(state)
     // const purchaseReportLoading = selectLoadingPurchaseReportData(state)
-    return {authInfo,batchReconciliationList}
+    return {authInfo,batchReconciliationList,overSamplingMail}
 }
 
 const actions = {
-    handleBatchReconciliation : getBatchReconciliationStartAction
+    handleBatchReconciliation : getBatchReconciliationStartAction,
+    handleOverSamplingMailTrigger:overSamplingMailStartAction
 }
 
 export default connect(mapState, actions)(BatchReconciliationComponent)
