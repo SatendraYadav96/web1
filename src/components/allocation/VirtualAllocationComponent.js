@@ -299,19 +299,38 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
         // console.log(file.name)
     }
 
+    const disabledDate = (current) => {
+        const currentMonth = moment().month();
+        const nextMonth = currentMonth + 1;
+        const currentYear = moment().year();
+        return current.month() < currentMonth && current.year() == currentYear || current.month() > nextMonth && current.year() == currentYear;
+    };
+
+
+    // const disabledSubmitButton = (current) => {
+    //     const currentMonth = moment().month();
+    //     const nextMonth = currentMonth + 1;
+    //     return nextMonth > current.month()
+    // }
+
 
     return(
         <>
             <TitleWidget title={'Virtual Plan'} subTitle={'Create'}/>
             <Row style={{marginBottom: 40}}>
                 <Col span={3}>
-                    <DatePicker onChange={(date) => setYearMonth(date)} picker='month' />
+                    <DatePicker onChange={(date) => setYearMonth(date)} picker='month'
+                               // disabledDate={(current) => current.isBefore(moment().subtract(0,"month"))}
+                    //disabledDate={(current) => current.isAfter(moment().add(1,"month"))}
+                                disabledDate={disabledDate}
+                    />
                 </Col>
                 <Col span={2}>
                     <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>
                 </Col>
                 <Col span={2} offset={17}>
-                    <Button type={'primary'} onClick={() => SubmitVirtualAllocation}>Submit</Button>
+                    <Button type={'primary'} onClick={() => SubmitVirtualAllocation}   //disabledDate={disabledSubmitButton}
+                    >Submit</Button>
                 </Col>
             </Row>
             <Steps current={currentStep} style={{marginBottom: 20}}>

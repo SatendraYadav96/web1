@@ -24,10 +24,14 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
 
     const navigate = useNavigate()
 
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const currentMonth = date.getMonth()+1;
+
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
-    const [year, setYear] = useState()
-    const [month, setMonth] = useState()
+    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(currentMonth)
     const [statusDD, setStatusDD] = useState()
     const [remark, setRemark] = useState()
     const [data, setData] = useState()
@@ -266,11 +270,11 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Month<br/>
-                    <SelectMonthComponent onChange={(e) => setMonth(e)}/>
+                    <SelectMonthComponent value={month} onChange={(e) => setMonth(e)}/>
                 </Col>
                 <Col span={3}>
                     Year<br/>
-                    <SelectYearComponent onChange={(e) => setYear(e)}/>
+                    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
                 </Col>
                 <Col span={4}>
                     Status <br/><Select style={{ width: 140 }} onChange={(e) => setStatusDD(e)} placeholder={"Select Status"} options={statusDropdown} value={statusDD} />
