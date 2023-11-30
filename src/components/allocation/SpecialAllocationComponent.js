@@ -247,7 +247,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 if(multipleAllocationExcel.length > 0) {
                     multipleAllocationExcel.map(i => {
                             const list = {
-                                'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                                'title': (i.productName + "/" + i.productCode + "/" + i.basepack + "/" + i.poNo + "/" + i.batchNo) ,
                             }
                         multipleAllocationDownloadColumn.push(list)
                         }
