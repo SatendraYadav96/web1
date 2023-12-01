@@ -73,6 +73,13 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [downloadData, setDownloadData] = useState([])
     const [file, setFile] = useState([])
+    // const [selectedMonth, setSelectedMonth] = useState(null);
+    // const currentMonth = new Date().getMonth();
+    // const currentYear = new Date().getFullYear();
+    //
+    // const [selectedMonth, setSelectedMonth] = useState(null);
+    // const currentDate = new Date();
+    // const currentMonth = currentDate.getMonth();
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -227,7 +234,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                     if(multipleAllocationExcel.length > 0) {
                         multipleAllocationExcel.map(i => {
                                 const list = {
-                                    'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                                    'title': (i.productName + "/" + i.productCode + "/" + i.basepack + "/" + i.poNo + "/" + i.batchNo) ,
                                 }
                                 multipleAllocationDownloadColumn.push(list)
                             }
@@ -384,18 +391,39 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     // };
 
 
+    const disabledDate = (current) => {
+        const currentMonth = moment().month();
+        const nextMonth = currentMonth + 1;
+        const currentYear = moment().year();
+        return current.month() < currentMonth && current.year() == currentYear || current.month() > nextMonth && current.year() == currentYear;
+    };
+
+    // const disabledSubmitButton = (current) => {
+    //     const selectedMonth = setYearMonth(date)
+    //     return current.month() > selectedMonth
+    // }
+
+
+
+
     return(
         <>
             <TitleWidget title={'Monthly Plan'} subTitle={'Create'}/>
             <Row style={{marginBottom: 40}}>
                 <Col span={3}>
-                    <DatePicker onChange={(date) => setYearMonth(date)} picker='month' />
+                    <DatePicker onChange={(date) => setYearMonth(date)} picker='month'
+                    //             disabledDate={(current) => current.isBefore(moment().subtract(0,"month"))
+
+                                //disabledDate={(current) => current.isAfter(moment().add(1,"month"))}
+                                disabledDate={disabledDate}
+                    />
+
                 </Col>
                 <Col span={2}>
                     <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>
                 </Col>
                 <Col span={2} offset={17}>
-                    <Button type={'primary'} onClick={() => SubmitMonthlyAllocation()}>Submit</Button>
+                    <Button type={'primary'} onClick={() => SubmitMonthlyAllocation()}   >Submit</Button>
                 </Col>
             </Row>
             <Steps current={currentStep} style={{marginBottom: 20}}>
@@ -427,7 +455,15 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                 </Col>
             </Row>
 
+
+                {/*<span>Total Rows: <b>{items?.length}</b></span>*/}
+
+
+
             {currentStep === 0 &&
+
+
+
                 <Table
                     rowSelection={{
                         type: 'checkbox',
@@ -440,6 +476,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                     size={'small'}
                     rowKey={'itemID'}
                     loading={itemsLoading}
+
                 />
             }
             {currentStep === 1 && allocations !== undefined &&

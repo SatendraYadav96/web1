@@ -29,6 +29,7 @@ import {
 } from "../../redux/actions/approval/monthlyApprovalActions";
 import Highlighter from "react-highlight-words";
 import CSVDownload from "react-csv/src/components/Download";
+import XLSX from "xlsx";
 
 const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,rejectPlanList,virtualPlanApprovalList,virtualPlanApprovalDetailsList, handleRejectPlanList,
                                         rejectPlanSuccess,handleVirtualPlan, handleVirtualPlanDetails, virtualApprovalDownload, handleVirtualApprovalDownload}) => {
@@ -397,6 +398,14 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
 
     },[virtualApprovalDownload])
 
+
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(downloadData);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"VirtualAllocation.xlsx")
+    }
+
     return(
         <>
             <TitleWidget title={'Virtual Allocation Review'} />
@@ -415,9 +424,19 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
             <Row gutter={16}>
                 <Space wrap style={{marginBottom:"-25px"}}>
                     <Button type="primary" onClick={()=>{handleDownload()
-                        setView(true)}} >Download</Button>
+                        setView(true)}} >CSV</Button>
+
+
+                </Space>
+
+                <Space wrap style={{marginBottom:"-25px" , marginLeft:"50px"}}>
+                    <Col span={3}>
+                        <Button type={'primary'} onClick={handleExcel}>Excel</Button>
+                    </Col>
                 </Space>
             </Row>
+
+
             <br/><br/>
             {flag &&
                 <Table columns={column} rowSelection={{

@@ -15,6 +15,7 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketRe
     let now = dayjs()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
+   // const [data, setData] = useState()
 
     const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
@@ -32,12 +33,55 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketRe
 
     }
 
-    useEffect(()=> {
-        const wb = XLSX.utils.book_new(),
-            ws = XLSX.utils.json_to_sheet(shipRocketReport);
-        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-        XLSX.writeFile(wb,"ShipRocketReport.xlsx")
-    },[handleShipRocketReport])
+    // useEffect(()=> {
+    //     const wb = XLSX.utils.book_new(),
+    //         ws = XLSX.utils.json_to_sheet();
+    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+    //     XLSX.writeFile(wb,"ShiprocketReport.xlsx")
+    // },[handleShipRocketReport])
+
+
+    // useEffect(() => {
+    //     (shipRocketReport.map(item => {
+    //         return {
+    //
+    //             invoiceNo: item.invoiceNo,
+    //             invoiceDate: item.invoiceDate,
+    //             recipientName: item.recipientName,
+    //             recipientCode: item.recipientCode,
+    //             designation : item.designation,
+    //             itemName: item.itemName,
+    //             itemCode: item.itemCode,
+    //             batchNo: item.batchNo,
+    //             expiry: item.expiry,
+    //             dispatchedQuantity: item.dispatchedQuantity,
+    //             brandName: item.brandName,
+    //             brandCode: item.brandCode,
+    //             itemCategory: item.itemCategory,
+    //             address1: item.address1,
+    //             city: item.city,
+    //             state: item.state,
+    //             postalCode: item.postalCode,
+    //             team:item.team,
+    //             billingAddress1:"Sanofi India Limited  S K Logistics",
+    //             billingAddress2:"City Link warehousing Complex Building",
+    //             billingAddress3:"No B3 Mumbai Nasik Highway  Vadape Bhiwandi",
+    //             billingAddressCity:"Thane",
+    //             billingAddressState:"Maharastra",
+    //             billingAddressPostalCode:"321302",
+    //            length:"90mm",
+    //             height: "140mm",
+    //             width: "140mm",
+    //             company:"SANOFI INDIA PVT LTD",
+    //             ffCodeLog: item.ffCodeLog,
+    //             territory: item.territory,
+    //             totalValue: item.totalValue,
+    //             tax: item.tax,
+    //
+    //         }
+    //     }))
+    // },[shipRocketReport])
+
 
     return(
         <>

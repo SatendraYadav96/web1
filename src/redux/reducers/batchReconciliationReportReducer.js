@@ -19,8 +19,10 @@ const initialState = {
     overSamplingMail:[],
     overSamplingMailLoading:false,
     batchReconciliationLoading: false,
-    virtualReconciliation:{},
-    shipRocketReport: {},
+    virtualReconciliationList:[],
+    virtualReconciliationListLoading:false,
+    shipRocketReport: [],
+    shipRocketReportLoading:false,
     error: {}
 }
 
@@ -49,14 +51,16 @@ const getBatchReconciliationFailReducer = (state = initialState, payload) => {
 const getVirtualReconciliationSuccessReducer = (state = initialState, payload) => {
     return{
         ...state,
-        virtualReconciliation: payload.getVirtualReconciliationList,
+        virtualReconciliationList: payload.virtualReconciliationList,
+        virtualReconciliationListLoading: false
     }
 }
 
 export const getVirtualReconciliationFailReducer = (state = initialState, payload) => {
     return{
         ...state,
-        virtualReconciliation: {},
+        virtualReconciliationList: [],
+        virtualReconciliationListLoading: false,
         error: payload.error
     }
 }
@@ -65,13 +69,16 @@ const getShipRocketSuccessReducer = (state = initialState, payload) => {
     return{
         ...state,
         shipRocketReport: payload.shipRocketReport,
+        shipRocketReportLoading: false
     }
 }
 
 export const getShipRocketReportFailReducer = (state = initialState, payload) => {
     return{
         ...state,
-        shipRocketReport: {},
+        shipRocketReport: [],
+        shipRocketReportLoading: false,
+
         error: payload.error
     }
 }

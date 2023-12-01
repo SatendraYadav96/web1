@@ -44,7 +44,7 @@ const Login = ({ handleLogin, authInfo, loggedIn }) => {
             className={'login-form'}
             autoComplete="off"
           >
-            <Title level={3}>Login</Title>
+            <Title level={3}>Promobee 2.0</Title>
             <Form.Item
               label={'Username'}
               name="username"

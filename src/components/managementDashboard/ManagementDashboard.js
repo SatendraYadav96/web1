@@ -355,53 +355,51 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
             setDataM(managementDashboardList?.map(item => {
                 if (type === 1) {
                     return {
-                        "Business Unit": item.businessunit,
-                        "Brand Manager": item.brand_Manager,
-                        "Plan type": item.plantype,
-                        "Submission Date": item.submitted_On,
+                        businessunit: item.businessunit,
+                        brand_Manager: item.brand_Manager,
+                        plantype: item.plantype,
+                        submitted_On: item.submitted_On,
                     }
                 } else if (type === 2) {
                     return {
-                        "Business Unit": item.businessunit,
-                        "Brand Manager": item.brand_Manager,
-                        "Category": item.category,
-                        "Total FF": item.totalFF,
-                        "Amount": item.cost,
+                        businessunit: item.businessunit,
+                        brand_Manager: item.brand_Manager,
+                        category: item.category,
+                        totalFF: item.totalFF,
+                        cost: item.cost,
                     }
                 } else if (type === 3) {
                     return {
-                        "Month": item.month,
-                        "Year": item.year,
-                        "Team": item.team,
-                        "Block": item.bLOCK,
-                        "Unblock": item.uNBLOCK,
+                        month: item.month,
+                        year: item.year,
+                        team: item.team,
+                        bLOCK: item.bLOCK,
+                        uNBLOCK: item.uNBLOCK,
                     }
                 } else if (type === 4) {
                     return {
-                        "Item Name": item.itemName,
-                        "Item Code": item.item_Code,
-                        "Category":item.category,
-                        "Quantity": item.quantity,
-                        "Expiry Date": item.expiryDate,
-                        "Amount": item.cost,
+                        itemName: item.itemName,
+                        item_Code: item.item_Code,
+                        category:item.category,
+                        quantity: item.quantity,
+                        expiryDate: item.expiryDate,
+                        cost: item.cost,
                     }
                 } else if (type === 4) {
                     return {
-                        "Name": item.name,
-                        "Item Name": item.itemName,
-                        "Item Code": item.item_Code,
-                        "Quantity": item.quantity,
-                        "Updated On": item.created_on,
-                        "Amount": item.cost,
+                        name: item.name,
+                        itemName: item.itemName,
+                        item_Code: item.item_Code,
+                        quantity: item.quantity,
+                        created_on: item.created_on,
+                        cost: item.cost,
                     }
                 }
             }))
         }
     },[managementDashboardList])
 
-    useEffect(() => {
 
-    })
 
 
 
@@ -455,18 +453,35 @@ const ManagementDashboardComponent = ({authInfo,managementDashboardList,handleMa
             <br/>
             <Row>
                 <Col span={6}>
-                    <CSVLink
-                        data={dataM}
-                        filename={"ManagementDashboard.csv"}
-                        onClick={() => {
-                            console.log("clicked")
-                        }}
-                    >
-                        <Button>CSV</Button>
-                    </CSVLink>
-                    &nbsp;
+                {/*    <CSVLink*/}
+                {/*        data={dataM}*/}
+                {/*        filename={"ManagementDashboard.csv"}*/}
+                {/*        onClick={() => {*/}
+                {/*            console.log("clicked")*/}
+                {/*        }}*/}
+                {/*    >*/}
+                {/*        <Button>CSV</Button>*/}
+                {/*    </CSVLink>*/}
+                {/*    &nbsp;*/}
                     <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
+
+                {/*<Col span={6}>*/}
+                {/*    {*/}
+                {/*        (<><CSVLink*/}
+                {/*                data={dataM}*/}
+                {/*                filename={"managementDashboard.csv"}*/}
+                {/*                onClick={() => {*/}
+                {/*                    console.log("clicked")*/}
+                {/*                }}*/}
+                {/*            >*/}
+                {/*                <Button>CSV</Button>*/}
+                {/*            </CSVLink>&nbsp;*/}
+                {/*                <Button onClick={handleExcel}>EXCEL</Button></>*/}
+                {/*        )*/}
+                {/*    }*/}
+
+                {/*</Col>*/}
                 <Col span={12}></Col>
                 {/*<Col span={6}><Input.Search/></Col>*/}
             </Row>

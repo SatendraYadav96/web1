@@ -409,7 +409,8 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
                             }}
                         >
                             <Button>CSV</Button>
-                        </CSVLink>&nbsp;
+                        </CSVLink>
+                                &nbsp;
                         <Button onClick={handleExcel}>EXCEL</Button></>
                         )
                     }
