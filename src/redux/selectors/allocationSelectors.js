@@ -31,8 +31,11 @@ const virtualDifferentialAllocation = (state) => state.allocations.virtualDiffer
 const virtualDifferentialAllocationSave = (state) => state.allocations.virtualDifferentialAllocationSave
 const virtualDifferentialAllocationSaveSuccess = (state) => state.allocations.virtualDifferentialAllocationSaveSuccess
 const submitMonthlyAllocation = (state) => state.allocations.submitMonthlyAllocation
+const submitMonthlyAllocationSuccess = (state) => state.allocations.submitMonthlyAllocationSuccess
 const submitVirtualAllocation = (state) => state.allocations.submitVirtualAllocation
+const submitVirtualAllocationSuccess = (state) => state.allocations.submitVirtualAllocationSuccess
 const submitSpecialAllocation = (state) => state.allocations.submitSpecialAllocation
+const submitSpecialAllocationSuccess = (state) => state.allocations.submitSpecialAllocationSuccess
 const getAllocationStatusDropdown = (state) => state.allocations.getAllocationStatusDropdown
 const getMultipleAllocationDownload = (state) => state.allocations.getMultipleAllocationDownload
 const getMultipleAllocationExcelDownload = (state) => state.allocations.getMultipleAllocationExcelDownload
@@ -46,6 +49,7 @@ const specialDifferentialAllocationSave = (state) => state.allocations.specialDi
 const specialDifferentialAllocationSaveSuccess = (state) => state.allocations.specialDifferentialAllocationSaveSuccess
 const deleteSpecialAllocation = (state) => state.allocations.deleteSpecialAllocation
 const multipleAllocationUpload = (state) => state.allocations.multipleAllocationUpload
+const multipleAllocationUploadSuccess = (state) => state.allocations.multipleAllocationUploadSuccess
 
 export const selectItemsToAllocate = createSelector(items, (itemsSelect) => itemsSelect)
 export const selectAllocations = createSelector(allocations, (allocationsSelect) => allocationsSelect)
@@ -181,13 +185,28 @@ export const selectSubmitMonthlyAllocation = createSelector(
     dataSelect => dataSelect
 )
 
+export const selectSubmitMonthlyAllocationSuccess = createSelector(
+    submitMonthlyAllocationSuccess,
+    dataSelect => dataSelect
+)
+
 export const selectSubmitVirtualAllocation = createSelector(
     submitVirtualAllocation,
     dataSelect => dataSelect
 )
 
+export const selectSubmitVirtualAllocationSuccess = createSelector(
+    submitVirtualAllocationSuccess,
+    dataSelect => dataSelect
+)
+
 export const selectSubmitSpecialAllocation = createSelector(
     submitSpecialAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectSubmitSpecialAllocationSuccess = createSelector(
+    submitSpecialAllocationSuccess,
     dataSelect => dataSelect
 )
 
@@ -254,5 +273,10 @@ export const selectDeleteSpecialAllocation = createSelector(
 
 export const selectMultipleAllocationUpload = createSelector(
     multipleAllocationUpload,
+    dataSelect =>  dataSelect
+)
+
+export const selectMultipleAllocationUploadSuccess = createSelector(
+    multipleAllocationUploadSuccess,
     dataSelect =>  dataSelect
 )

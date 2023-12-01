@@ -32,9 +32,12 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     const currentYear = date.getFullYear()
     const currentMonth = date.getMonth()+1
 
+    const [complianceData, setComplianceData] = useState()
+    const [reason, setReason] = useState()
     const [businessUnit, setBusinessUnit] = useState()
     const [division, setDivision] = useState()
     const [startDate, setStartDate] = useState()
+    const [dataFlag, setDataFlag] = useState(true)
     const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [data, setData] = useState()
@@ -44,6 +47,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
     const [details, setDetails] = useState(false)
+    const [reasonModal, setReasonModal] = useState(false)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -57,6 +61,8 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
         clearFilters();
         setSearchText('');
     };
+
+
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div
@@ -141,14 +147,18 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             ),
     });
 
-    const setReason = (row, value) => {
-        complianceDetailsList.forEach(i => {
-            if(i.id == row.id){
-                i.reason = value
-            }
-        })
-        console.log(complianceDetailsList)
-    }
+    const forceUpdate = React.useReducer(() => ({}))[1];
+
+    // const setReason = (id, value) => {
+    //     console.log(complianceData)
+    //     complianceData.forEach(i => {
+    //         if(i.id == id){
+    //             i['reason'] = value
+    //         }
+    //     })
+    //     setComplianceData([...complianceData])
+    //     console.log(complianceData)
+    // }
 
     const detailColumn = [
         {
@@ -214,74 +224,67 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                 title:'FF Code',
                 key:'ffcode',
                 dataIndex:'ffcode',
-                width:'100px',
+                width:'150px',
                 ...getColumnSearchProps('ffcode'),
             },
             {
                 title:'Team',
                 key:'team_Name',
                 dataIndex:'team_Name',
-                width:'100px',
+                width:'150px',
                 ...getColumnSearchProps('team_Name'),
             },
             {
                 title: 'DR Name',
                 key: 'drname',
                 dataIndex: 'drname',
-                width: '100px',
+                width: '150px',
                 ...getColumnSearchProps('drname'),
             },
             {
                 title: 'BU',
                 key: 'bu',
                 dataIndex: 'bu',
-                width: '100px',
+                width: '150px',
                 ...getColumnSearchProps('bu'),
             },
             {
                 title: 'AM',
                 key: 'am',
                 dataIndex: 'am',
-                width: '100px',
+                width: '150px',
                 ...getColumnSearchProps('am'),
             },
             {
                 title: 'RBM',
                 key: 'rbm',
                 dataIndex: 'rbm',
-                width: '100px',
+                width: '150px',
                 ...getColumnSearchProps('rbm'),
             },
             {
                 title: 'Total Samples Given',
                 key: 'totalsamplegiven',
                 dataIndex: 'totalsamplegiven',
-                width: '100px',
+                width: '150px',
                 ...getColumnSearchProps('totalsamplegiven'),
             },
             {
                 title: 'Details',
                 key: '',
                 dataIndex: '',
-                width: '100px',
+                width: '150px',
                 render:(_,row) => {
                     return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
                 },
             },
             {
-                title: 'Reason',
-                key: 'reason',
-                dataIndex: 'reason',
+                title: '',
+                key: '',
+                dataIndex: '',
                 width: '250px',
                 render: (_,row) => {
-                    console.log(row.reason)
-                    return (<Select placeholder={"Select Reason"} value={row.reason} onSelect={(e) => setReason(row, e)} style={{width: "100%"}}>
-                        <Option value={"AC6813C2-EEAA-4E69-B70D-4B3A360481FD"}>Samples Given to doctor for Medical/Patient Camp</Option>
-                        <Option value={"A539E53D-FDEC-41E3-A73C-90C8561933ED"}>Samples Given for Doctor Conference/CME</Option>
-                        <Option value={"2BD908FA-C79A-4F85-9E3F-9E26CC985A39"}>Samples Given as starter packs to new Patients</Option>
-                        <Option value={"A2FED5CE-4A72-479B-89C5-EC8CBE641DB7"}>Samples Given for OPD Camp</Option>
-                        <Option value={"946ECBFE-07EB-4378-951C-D7E34F7A0DEE"}>Samples reporting error</Option>
-                    </Select>)
+                    return <Button type={"primary"} onClick={() => handleSaveReason(row)}>Save</Button>
                 }
             },
         ])
@@ -355,6 +358,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             month: month,
             year: year,
         })
+        // setDataFlag(true)
     }
 
     const handleDetails = (row) => {
@@ -368,20 +372,25 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
         setDetails(true)
     }
 
+    const handleSaveReason = (row) => {
+        setComplianceData(row)
+        setReasonModal(true)
+    }
+
     const saveOverSampling = () => {
         let data = []
-        complianceDetailsList.forEach(i=> {
             let d = {
-                "id" :i.id,
-                "reason" :i.reason,
-                "remark" :i.remarks
+                "id" :complianceData.id,
+                "reason" :reason,
+                "remark" :complianceData.remarks
             }
             data.push(d)
-        })
         handleSaveOverSampling({
             certificate: authInfo.token,
             data: data
         })
+        setReason('')
+        setReasonModal(false)
     }
 
     useEffect(()=>{
@@ -411,10 +420,10 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                     <Button type={"primary"} onClick={()=>getComplianceDetails()} style={{width: "100%"}}>Search</Button>
                 </Col>
                 <Col span={16}>
-                    <div align='right'>
-                        <br/>
-                        <Button type={"primary"} onClick={()=> saveOverSampling()}>Save</Button>
-                    </div>
+                    {/*<div align='right'>*/}
+                    {/*    <br/>*/}
+                    {/*    <Button type={"primary"} onClick={()=> saveOverSampling()}>Save</Button>*/}
+                    {/*</div>*/}
                 </Col>
             </Row>
             <br/>
@@ -451,6 +460,10 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             }}>
                 <Table columns={detailColumn} dataSource={overSamplingDetailData} />
             </Modal>
+            <Modal open={reasonModal} title="Save" width={"80vw"}  onCancel={() => {
+                setReasonModal(false)}} onOk={() => saveOverSampling()} okText={'Save'}>
+                <SelectReasonComponent placeholder={"Select Reason"}  value={reason} onChange={e => setReason(e)}></SelectReasonComponent>
+            </Modal>
         </>
     )
 }
@@ -470,6 +483,7 @@ const mapState = (state) => {
     const complianceDetailsList= selectComplianceDetailsListData(state)
     const saveOverSamplingSuccess = selectSaveOverSamplingSuccess(state)
     const overSamplingDetailData = selectOverSamplingDetailData(state)
+    console.log(complianceDetailsList)
     return {authInfo,complianceDetailsList, saveOverSamplingSuccess, overSamplingDetailData}
 }
 

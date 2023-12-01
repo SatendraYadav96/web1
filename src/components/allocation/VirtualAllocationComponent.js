@@ -20,8 +20,8 @@ import {
     selectDownloadAllocation,
     selectGetActiveUsers,
     selectItemsLoading,
-    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload,
-    selectPlan,
+    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
+    selectPlan, selectSubmitVirtualAllocationSuccess,
     selectVirtualAllocation,
     selectVirtualAllocationForPlan, selectVirtualAllocationLoading,
     selectVirtualItemLoading
@@ -62,7 +62,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                                         downloadAllocation, handleGetDownloadAllocation,
                                         handleActiveUserDownload, activeUsersDownload,
                                         handleSubmitVirtualAllocation,multipleAllocationDownload,  multipleAllocationExcel,
-                                        handleMultipleAllocation, handleMultipleAllocationUpload
+                                        handleMultipleAllocation, handleMultipleAllocationUpload, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
@@ -100,9 +100,6 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
 
 
     const createViewClicked = () => {
-        let data = {}
-        console.log(typeof Number(toMm(yearMonth)));
-        console.log(typeof Number(toYyyy(yearMonth)));
         handleCreateViewPlan({
             certificate: authInfo.token,
             month: Number(toMm(yearMonth)),
@@ -131,6 +128,16 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
         setCurrentStep(currentStep + 1)
     }
 
+    useEffect(() => {
+        if(multipleAllocationUploadSuccess){
+            handleCreateViewPlan({
+                certificate: authInfo.token,
+                month: Number(toMm(yearMonth)),
+                year: Number(toYyyy(yearMonth))
+            })
+        }
+    },[multipleAllocationUploadSuccess])
+
     const SubmitVirtualAllocation = () => {
         let data = {
             "month": Number(toMm(yearMonth)),
@@ -142,7 +149,22 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
         })
     }
 
+    useEffect(() => {
+        if(submitVirtualAllocationSuccess){
+            handleCreateViewPlan({
+                certificate: authInfo.token,
+                month: Number(toMm(yearMonth)),
+                year: Number(toYyyy(yearMonth))
+            })
+        }
+    }, [submitVirtualAllocationSuccess])
+
     const prev = () => {
+        handleCreateViewPlan({
+            certificate: authInfo.token,
+            month: Number(toMm(yearMonth)),
+            year: Number(toYyyy(yearMonth))
+        })
         setCurrentStep(currentStep - 1)
     }
 
@@ -431,7 +453,9 @@ VirtualAllocationComponent.propTypes = {
     multipleAllocationExcel: PropTypes.any,
     multipleAllocationDownload: PropTypes.any,
     handleMultipleAllocation: PropTypes.func,
-    handleMultipleAllocationUpload: PropTypes.func
+    handleMultipleAllocationUpload: PropTypes.func,
+    submitVirtualAllocationSuccess: PropTypes.any,
+    multipleAllocationUploadSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -449,8 +473,10 @@ const mapState = (state) => {
     console.log(allocations)
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
+    const submitVirtualAllocationSuccess = selectSubmitVirtualAllocationSuccess(state)
+    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess
     return { authInfo, profileInfo, virtualItemsLoading, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload, virtualAllocation,
-        multipleAllocationDownload,  multipleAllocationExcel}
+        multipleAllocationDownload,  multipleAllocationExcel, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess}
 }
 
 const actions = {

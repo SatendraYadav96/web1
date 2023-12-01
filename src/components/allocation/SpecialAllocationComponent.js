@@ -16,9 +16,9 @@ import {
     selectDownloadAllocation,
     selectGetActiveUsers,
     selectItemsLoading,
-    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload,
+    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
     selectPlan,
-    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading,
+    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading, selectSubmitSpecialAllocationSuccess,
     selectVirtualAllocation,
     selectVirtualItemLoading
 } from "../../redux/selectors/allocationSelectors";
@@ -60,7 +60,8 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                                         downloadAllocation, handleGetDownloadAllocation,
                                         handleActiveUserDownload, activeUsersDownload,
                                         multipleAllocationDownload,  multipleAllocationExcel,
-                                        handleMultipleAllocation, handleMultipleAllocationUpload}) => {
+                                        handleMultipleAllocation, handleMultipleAllocationUpload,
+                                        submitSpecialAllocationSuccess, multipleAllocationUploadSuccess}) => {
 
     const navigate = useNavigate()
     let param = useParams()
@@ -116,6 +117,36 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         })
     },[])
 
+    useEffect(() => {
+        if(multipleAllocationUploadSuccess){
+            let data ={
+                "month": param.month,
+                "year": param.year,
+                "name" : param.remark
+            }
+            handleCreateViewPlan({
+                certificate: authInfo.token,
+                // yearMonth: toYyyyMm(yearMonth)
+                alloc: data
+            })
+        }
+    },[multipleAllocationUploadSuccess])
+
+    useEffect(() => {
+        if(submitSpecialAllocationSuccess){
+            let data ={
+                "month": param.month,
+                "year": param.year,
+                "name" : param.remark
+            }
+            handleCreateViewPlan({
+                certificate: authInfo.token,
+                // yearMonth: toYyyyMm(yearMonth)
+                alloc: data
+            })
+        }
+    }, [submitSpecialAllocationSuccess])
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             setSelectedItems(selectedRows)
@@ -135,6 +166,16 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
     }
 
     const prev = () => {
+        let data ={
+            "month": param.month,
+            "year": param.year,
+            "name" : param.remark
+        }
+        handleCreateViewPlan({
+            certificate: authInfo.token,
+            // yearMonth: toYyyyMm(yearMonth)
+            alloc: data
+        })
         setCurrentStep(currentStep - 1)
     }
 
@@ -531,7 +572,9 @@ SpecialAllocationComponent.propTypes = {
     multipleAllocationExcel: PropTypes.any,
     multipleAllocationDownload: PropTypes.any,
     handleMultipleAllocation: PropTypes.func,
-    handleMultipleAllocationUpload: PropTypes.func
+    handleMultipleAllocationUpload: PropTypes.func,
+    submitSpecialAllocationSuccess: PropTypes.any,
+    multipleAllocationUploadSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -546,8 +589,10 @@ const mapState = (state) => {
     const specialItemsLoading = selectSpecialItemLoading(state)
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
+    const submitSpecialAllocationSuccess = selectSubmitSpecialAllocationSuccess(state)
+    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess
     return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone,
-        downloadAllocation,activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel}
+        downloadAllocation,activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel, submitSpecialAllocationSuccess, multipleAllocationUploadSuccess}
 }
 
 const actions = {

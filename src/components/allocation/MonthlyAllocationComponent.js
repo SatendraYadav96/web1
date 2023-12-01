@@ -22,8 +22,8 @@ import {
     selectItemsLoading,
     selectItemsToAllocate,
     selectMultipleAllocationDownload,
-    selectMultipleAllocationExcelDownload,
-    selectPlan
+    selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
+    selectPlan, selectSubmitMonthlyAllocationSuccess
 } from '../../redux/selectors/allocationSelectors'
 import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography, Upload} from 'antd'
 import moment from 'moment'
@@ -62,7 +62,8 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                                         handleGoToAllocations,
                                         downloadAllocation, handleGetDownloadAllocation,
                                         handleActiveUserDownload, activeUsersDownload, multipleAllocationExcel,
-                                        handleSubmitMonthlyAllocation, multipleAllocationDownload, handleMultipleAllocation, handleMultipleAllocationUpload
+                                        handleSubmitMonthlyAllocation, multipleAllocationDownload, handleMultipleAllocation,
+                                        handleMultipleAllocationUpload, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
@@ -107,7 +108,15 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         })
     }
 
-
+    useEffect(()=>{
+        if(submitMonthlyAllocationSuccess){
+            handleCreateViewPlan({
+                certificate: authInfo.token,
+                month: Number(toMm(yearMonth)),
+                year: Number(toYyyy(yearMonth))
+            })
+        }
+    }, [submitMonthlyAllocationSuccess])
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -127,7 +136,22 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         setCurrentStep(currentStep + 1)
     }
 
+    useEffect(() => {
+        if(multipleAllocationUploadSuccess){
+            handleCreateViewPlan({
+                certificate: authInfo.token,
+                month: Number(toMm(yearMonth)),
+                year: Number(toYyyy(yearMonth))
+            })
+        }
+    }, [multipleAllocationUploadSuccess])
+
     const prev = () => {
+        handleCreateViewPlan({
+            certificate: authInfo.token,
+            month: Number(toMm(yearMonth)),
+            year: Number(toYyyy(yearMonth))
+        })
         setCurrentStep(currentStep - 1)
     }
 
@@ -498,7 +522,9 @@ MonthlyAllocationComponent.propTypes = {
     multipleAllocationDownload: PropTypes.any,
     handleMultipleAllocation: PropTypes.func,
     multipleAllocationExcel: PropTypes.any,
-    handleMultipleAllocationUpload: PropTypes.func
+    handleMultipleAllocationUpload: PropTypes.func,
+    submitMonthlyAllocationSuccess: PropTypes.any,
+    multipleAllocationUploadSuccess: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -514,10 +540,12 @@ const mapState = (state) => {
     const activeUsersDownload = selectGetActiveUsers(state)
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
+    const submitMonthlyAllocationSuccess = selectSubmitMonthlyAllocationSuccess(state)
+    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
     console.log(allocations)
     console.log(multipleAllocationDownload, multipleAllocationExcel)
     return { authInfo, profileInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone,
-        downloadAllocation,activeUsersDownload, multipleAllocationDownload, multipleAllocationExcel }
+        downloadAllocation,activeUsersDownload, multipleAllocationDownload, multipleAllocationExcel, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess }
 }
 
 const actions = {

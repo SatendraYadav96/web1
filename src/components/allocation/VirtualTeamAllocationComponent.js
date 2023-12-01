@@ -339,8 +339,8 @@ const mapState = (state) => {
     console.log(virtualCommonTeam)
     console.log(teamKeys)
     const teamForDifferentialAllocation = selectVirtualDifferentialAllocation(state)
-    const virtualDifferentialAllocationSaveSuccess = selectVirtualDifferentialAllocationSaveSuccess
-    const virtualCommonAllocationSaveSuccess = selectVirtualCommonAllocationSaveSuccess
+    const virtualDifferentialAllocationSaveSuccess = selectVirtualDifferentialAllocationSaveSuccess(state)
+    const virtualCommonAllocationSaveSuccess = selectVirtualCommonAllocationSaveSuccess(state)
     return { authInfo, commonAllocationDone,virtualCommonTeam, profileInfo, teamKeys, teamForDifferentialAllocation, virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess }
 }
 

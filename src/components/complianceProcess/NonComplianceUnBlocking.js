@@ -64,73 +64,30 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
         // searchData()
     }
 
-    const setColumnData = (id, field, value) => {
-        // console.log(arr)
-        // if (field === "blockedFF") {
-        //     arr[id][field] = (value == true) ? 1 : 0
-        //     setArr(arr)
-        // }else if (field === "rejected") {
-        //     arr[id][field] = (value == true) ? 1 : 0
-        //     setArr(arr)
-        // }else{
-        //     console.log(arr[id][field])
-        //     arr[id][field] = value
-        //     setArr(arr)
-        // }
-        // console.log(arr)
 
-        displayData.forEach(i => {
-            if(i.idRlf == id){
-                if (field === "blockedFF") {
-                    i[field] = (value == true) ? 1 : 0
-                }else if (field === "rejected") {
-                    i[field] = (value == true) ? 1 : 0
-                }else{
-                    i[field] = value
+    const forceUpdate = React.useReducer(() => ({}))[1];
+
+    const changeGrnData = (id, field, value) => {
+        nonComplianceList.forEach(it => {
+                if(it.idRlf == id){
+                    if (field === "blockedFF") {
+                        it[field] = (value == true) ? 1 : 0
+                    }else if (field === "rejected") {
+                        it[field] = (value == true) ? 1 : 0
+                    }else{
+                        it[field] = value
+                    }
+                    console.log(it)
                 }
             }
-        })
-        console.log(displayData)
-        setDisplayData(displayData)
-        console.log(displayData)
+        )
+        forceUpdate()
+        // console.log(arr)
+        // console.log(id, field, value)
+        // arr[id][field] = value
+        // setArr(arr)
+        // console.log(arr)
     }
-
-    useEffect(() => {
-        if(nonComplianceList.length > 0) {
-            if (dataFlag){
-                // nonComplianceList.forEach((it) => {
-                //     ackData[it.idRlf] = it
-                // })
-                // setDataFlag(false)
-                // setFlag(true)
-                // setArr(ackData)
-                setDisplayData(nonComplianceList)
-            }
-            console.log(arr)
-            console.log(displayData)
-            setData(nonComplianceList?.map(item => {
-                    return {
-                        employeeCode: item.employeeCode,
-                        employeeName: item.employeeName,
-                        team: item.team,
-                        headquarter: item.headquarter,
-                        am: item.emailAM,
-                        rm: item.emailRM,
-                        month: item.month,
-                        year: item.year,
-                        reason:item.reason,
-                        blocked: item.isBockedFF,
-                        remark: item.remark,
-                        remarkByAdmin: item.remarkByAdmin,
-                        rejected:item.isRejected,
-
-                    }
-                }))
-            // searchData()
-        }
-        console.log(arr)
-        console.log(isArray(arr))
-    },[nonComplianceList])
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -284,13 +241,8 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             key: 'blockedFF',
             dataIndex: 'blockedFF',
             width: '100px',
-            render: (_, {idRlf, blockedFF}) => {
-                const row = arr[idRlf];
-                let blockedFFVal = false;
-                if (row !== undefined) {
-                    blockedFFVal = row.blockedFF;
-                }
-                return <Checkbox checked={blockedFF != null ? (blockedFF == 1 ? true : false) : blockedFFVal} onChange={(e) => setColumnData(idRlf, 'blockedFF', e.target.checked)}/>
+            render: (_, row) => {
+                return <Checkbox checked={row.blockedFF == 1 ? true : false} onChange={(e) => changeGrnData(row.idRlf, 'blockedFF', e.target.checked)}/>
             },
             // ...getColumnSearchProps('isBockedFF'),
         },
@@ -307,12 +259,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             dataIndex: 'remarkByAdmin',
             width: '200px',
             render: (_, row) => {
-                // const row = arr[idRlf];
-                // let adminRemark = '';
-                // if (row !== undefined) {
-                //     adminRemark = row.remarkByAdmin;
-                // }
-                return <Input placeholder={"Enter Admin Remark"} defaultValue={(row.remarkByAdmin!= undefined)? row.remarkByAdmin : ''} value={row.remarkByAdmin} onChange={(e) => setColumnData(row.idRlf, 'remarkByAdmin', e.target.value)}/>
+                return <Input placeholder={"Enter Admin Remark"} value={row.remarkByAdmin != null ? row.remarkByAdmin: ''} onChange={(e) => changeGrnData(row.idRlf, 'remarkByAdmin', e.target.value)}/>
             }
             // ...getColumnSearchProps('remarkByAdmin'),
         },
@@ -321,13 +268,8 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             key: 'isRejected',
             dataIndex: 'isRejected',
             width: '100px',
-            render: (_, {idRlf, rejected}) => {
-                const row = arr[idRlf];
-                let rejectedVal = false;
-                if (row !== undefined) {
-                    rejectedVal = row.rejected;
-                }
-                return <Checkbox checked={rejected != null ? (rejected == 1 ? true : false) : rejectedVal} onChange={(e) => setColumnData(idRlf, 'rejected', e.target.checked)}/>
+            render: (_, row) => {
+                return <Checkbox checked={row.rejected == 1 ? true : false} onChange={(e) => changeGrnData(row.idRlf, 'rejected', e.target.checked)}/>
             },
             // ...getColumnSearchProps('remarkByAdmin'),
         },
@@ -412,13 +354,8 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             key: 'remark',
             dataIndex: 'remark',
             width: '100px',
-            render: (_, {idRlf, remark}) => {
-                const row = arr[idRlf];
-                let remarkVal = '';
-                if (row !== undefined) {
-                    remarkVal = row.remark;
-                }
-                return <Input placeholder={"Enter Remark"} value={remarkVal} onChange={(e) => setColumnData(row.idRlf, "remark", e.target.value)}/>
+            render: (_, row) => {
+                return <Input placeholder={"Enter Remark"} value={row.remark} onChange={(e) => changeGrnData(row.idRlf, "remark", e.target.value)}/>
             }
             // ...getColumnSearchProps('remark'),
         },
@@ -449,23 +386,33 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
     const saveAdminRemark = () => {
         let nonComp = []
         if(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711"){
-            arr.forEach(i => {
-                let data = {
-                    "id":i.idRlf,
-                    "adminRemark":i.remarkByAdmin,
-                    "isBlocked":i.isBlocked,
-                    "isRejected":i.isRejected
+            nonComplianceList.forEach(i => {
+                if(i.remarkByAdmin !== null) {
+                    if(i.blockedFF == null){
+                        i.blockedFF = 0
+                    }
+                    if(i.rejected == null){
+                        i.rejected = 0
+                    }
+                    let data = {
+                        "id": i.idRlf,
+                        "adminRemark": i.remarkByAdmin,
+                        "isBlocked": i.blockedFF,
+                        "isRejected": i.rejected
+                    }
+                    nonComp.push(data)
                 }
-                nonComp.push(data)
             })
 
         }else if(profileInfo.userDesignation.id === "24720986-A3EE-4DCA-9538-36F52625EB70"){
-            arr.forEach(i => {
-                let data = {
-                    "id":i.idRlf,
-                    "adminRemark":i.remarkByAdmin,
+            nonComplianceList.forEach(i => {
+                if(i.remarkByAdmin !== null) {
+                    let data = {
+                        "id": i.idRlf,
+                        "adminRemark": i.remarkByAdmin,
+                    }
+                    nonComp.push(data)
                 }
-                nonComp.push(data)
             })
         }
 
@@ -567,7 +514,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                 </Col>
             </Row>
             <br/>
-                <Table columns={(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711") ? adminColumn : nsmColumn} scroll={{y: '100%'}} dataSource={displayData}/>
+                <Table columns={(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711") ? adminColumn : nsmColumn} scroll={{y: '100%'}} dataSource={nonComplianceList}/>
         </>
     )
 
@@ -575,7 +522,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
 
 NonComplianceUnBlockingComponent.propTypes = {
     authInfo: PropTypes.any,
-     profileInfo: PropTypes.any,
+    profileInfo: PropTypes.any,
     nonComplianceList: PropTypes.array,
     handleSaveNonComplianceAdminRemark: PropTypes.func,
     saveNonComplianceAdminRemarkSuccess: PropTypes.any
@@ -583,7 +530,7 @@ NonComplianceUnBlockingComponent.propTypes = {
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
-     const profileInfo = selectProfileInfo(state)
+    const profileInfo = selectProfileInfo(state)
     const nonComplianceList = selectNonComplianceListData(state)
     const saveNonComplianceAdminRemarkSuccess = selectSaveNonComplianceAdminRemarkSuccess(state)
     return {authInfo, profileInfo,nonComplianceList, saveNonComplianceAdminRemarkSuccess}
