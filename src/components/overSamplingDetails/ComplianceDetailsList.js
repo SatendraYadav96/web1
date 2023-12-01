@@ -25,7 +25,7 @@ import Highlighter from "react-highlight-words";
 
 
 const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleComplianceDetailsList, handleSaveOverSampling,
-                                            saveOverSamplingSuccess, handleOverSamplingDetailData, overSamplingDetailData}) => {
+                                            saveOverSamplingSuccess, handleOverSamplingDetailData, overSamplingDetailData,profileInfo}) => {
 
     const date = new Date()
 
@@ -217,80 +217,320 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
         },
     ]
 
-    const searchData = () => {
-        setFlag(true)
-        setColumn([
-            {
-                title:'FF Code',
-                key:'ffcode',
-                dataIndex:'ffcode',
-                width:'150px',
-                ...getColumnSearchProps('ffcode'),
-            },
-            {
-                title:'Team',
-                key:'team_Name',
-                dataIndex:'team_Name',
-                width:'150px',
-                ...getColumnSearchProps('team_Name'),
-            },
-            {
-                title: 'DR Name',
-                key: 'drname',
-                dataIndex: 'drname',
-                width: '150px',
-                ...getColumnSearchProps('drname'),
-            },
-            {
-                title: 'BU',
-                key: 'bu',
-                dataIndex: 'bu',
-                width: '150px',
-                ...getColumnSearchProps('bu'),
-            },
-            {
-                title: 'AM',
-                key: 'am',
-                dataIndex: 'am',
-                width: '150px',
-                ...getColumnSearchProps('am'),
-            },
-            {
-                title: 'RBM',
-                key: 'rbm',
-                dataIndex: 'rbm',
-                width: '150px',
-                ...getColumnSearchProps('rbm'),
-            },
-            {
-                title: 'Total Samples Given',
-                key: 'totalsamplegiven',
-                dataIndex: 'totalsamplegiven',
-                width: '150px',
-                ...getColumnSearchProps('totalsamplegiven'),
-            },
-            {
-                title: 'Details',
-                key: '',
-                dataIndex: '',
-                width: '150px',
-                render:(_,row) => {
-                    return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
-                },
-            },
-            {
-                title: '',
-                key: '',
-                dataIndex: '',
-                width: '250px',
-                render: (_,row) => {
-                    return <Button type={"primary"} onClick={() => handleSaveReason(row)}>Save</Button>
-                }
-            },
-        ])
+    // const searchData = () => {
+    //     if(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711"){
+    //         setFlag(true)
+    //         setColumn([
+    //             {
+    //                 title:'FF Code',
+    //                 key:'ffcode',
+    //                 dataIndex:'ffcode',
+    //                 width:'150px',
+    //                 ...getColumnSearchProps('ffcode'),
+    //             },
+    //             {
+    //                 title:'Team',
+    //                 key:'team_Name',
+    //                 dataIndex:'team_Name',
+    //                 width:'150px',
+    //                 ...getColumnSearchProps('team_Name'),
+    //             },
+    //             {
+    //                 title: 'DR Name',
+    //                 key: 'drname',
+    //                 dataIndex: 'drname',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('drname'),
+    //             },
+    //             {
+    //                 title: 'BU',
+    //                 key: 'bu',
+    //                 dataIndex: 'bu',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('bu'),
+    //             },
+    //             {
+    //                 title: 'LM-1',
+    //                 key: 'am',
+    //                 dataIndex: 'am',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('am'),
+    //             },
+    //             {
+    //                 title: 'LM-2',
+    //                 key: 'rbm',
+    //                 dataIndex: 'rbm',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('rbm'),
+    //             },
+    //             {
+    //                 title: 'Total Samples Given',
+    //                 key: 'totalsamplegiven',
+    //                 dataIndex: 'totalsamplegiven',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('totalsamplegiven'),
+    //             },
+    //             {
+    //                 title: 'reason',
+    //                 key: 'remarks',
+    //                 dataIndex: 'reason',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('remarks'),
+    //             },
+    //             {
+    //                 title: 'Details',
+    //                 key: '',
+    //                 dataIndex: '',
+    //                 width: '150px',
+    //                 render:(_,row) => {
+    //                     return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
+    //                 },
+    //             },
+    //             {
+    //                 title: '',
+    //                 key: '',
+    //                 dataIndex: '',
+    //                 width: '250px',
+    //                 render: (_,row) => {
+    //                     return <Button type={"primary"} onClick={() => handleSaveReason(row)}>Save</Button>
+    //                 }
+    //             },
+    //         ])
+    //
+    //         setDataSource([])
+    //     } if(profileInfo.userDesignation.id === "24720986-A3EE-4DCA-9538-36F52625EB70"){
+    //         setFlag(true)
+    //         setColumn([
+    //             {
+    //                 title:'FF Code',
+    //                 key:'ffcode',
+    //                 dataIndex:'ffcode',
+    //                 width:'150px',
+    //                 ...getColumnSearchProps('ffcode'),
+    //             },
+    //             {
+    //                 title:'Team',
+    //                 key:'team_Name',
+    //                 dataIndex:'team_Name',
+    //                 width:'150px',
+    //                 ...getColumnSearchProps('team_Name'),
+    //             },
+    //             {
+    //                 title: 'DR Name',
+    //                 key: 'drname',
+    //                 dataIndex: 'drname',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('drname'),
+    //             },
+    //             {
+    //                 title: 'BU',
+    //                 key: 'bu',
+    //                 dataIndex: 'bu',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('bu'),
+    //             },
+    //             {
+    //                 title: 'LM-1',
+    //                 key: 'am',
+    //                 dataIndex: 'am',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('am'),
+    //             },
+    //             {
+    //                 title: 'LM-2',
+    //                 key: 'rbm',
+    //                 dataIndex: 'rbm',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('rbm'),
+    //             },
+    //             {
+    //                 title: 'Total Samples Given',
+    //                 key: 'totalsamplegiven',
+    //                 dataIndex: 'totalsamplegiven',
+    //                 width: '150px',
+    //                 ...getColumnSearchProps('totalsamplegiven'),
+    //             },
+    //
+    //             {
+    //                 title: 'Details',
+    //                 key: '',
+    //                 dataIndex: '',
+    //                 width: '150px',
+    //                 render:(_,row) => {
+    //                     return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
+    //                 },
+    //             },
+    //             {
+    //                 title: '',
+    //                 key: '',
+    //                 dataIndex: '',
+    //                 width: '250px',
+    //                 render: (_,row) => {
+    //                     return <Button type={"primary"} onClick={() => handleSaveReason(row)}>Save</Button>
+    //                 }
+    //             },
+    //         ])
+    //
+    //         setDataSource([])
+    //     }
+    //
+    // }
 
-        setDataSource([])
-    }
+    const adminColumn = [
+        {
+            title:'FF Code',
+            key:'ffcode',
+            dataIndex:'ffcode',
+            width:'150px',
+            ...getColumnSearchProps('ffcode'),
+        },
+        {
+            title:'Team',
+            key:'team_Name',
+            dataIndex:'team_Name',
+            width:'150px',
+            ...getColumnSearchProps('team_Name'),
+        },
+        {
+            title: 'DR Name',
+            key: 'drname',
+            dataIndex: 'drname',
+            width: '150px',
+            ...getColumnSearchProps('drname'),
+        },
+        {
+            title: 'BU',
+            key: 'bu',
+            dataIndex: 'bu',
+            width: '150px',
+            ...getColumnSearchProps('bu'),
+        },
+        {
+            title: 'LM-1',
+            key: 'am',
+            dataIndex: 'am',
+            width: '150px',
+            ...getColumnSearchProps('am'),
+        },
+        {
+            title: 'LM-2',
+            key: 'rbm',
+            dataIndex: 'rbm',
+            width: '150px',
+            ...getColumnSearchProps('rbm'),
+        },
+        {
+            title: 'Total Samples Given',
+            key: 'totalsamplegiven',
+            dataIndex: 'totalsamplegiven',
+            width: '150px',
+            ...getColumnSearchProps('totalsamplegiven'),
+        },
+        {
+            title: 'reason',
+            key: 'remarks',
+            dataIndex: 'reason',
+            width: '150px',
+            ...getColumnSearchProps('remarks'),
+        },
+        {
+            title: 'Details',
+            key: '',
+            dataIndex: '',
+            width: '150px',
+            render:(_,row) => {
+                return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
+            },
+        },
+        // {
+        //     title: '',
+        //     key: '',
+        //     dataIndex: '',
+        //     width: '250px',
+        //     render: (_,row) => {
+        //         return <Button type={"primary"} onClick={() => handleSaveReason(row)}>Save</Button>
+        //     }
+        // },
+    ]
+
+    const nsmColumn = [
+        {
+            title:'FF Code',
+            key:'ffcode',
+            dataIndex:'ffcode',
+            width:'150px',
+            ...getColumnSearchProps('ffcode'),
+        },
+        {
+            title:'Team',
+            key:'team_Name',
+            dataIndex:'team_Name',
+            width:'150px',
+            ...getColumnSearchProps('team_Name'),
+        },
+        {
+            title: 'DR Name',
+            key: 'drname',
+            dataIndex: 'drname',
+            width: '150px',
+            ...getColumnSearchProps('drname'),
+        },
+        {
+            title: 'BU',
+            key: 'bu',
+            dataIndex: 'bu',
+            width: '150px',
+            ...getColumnSearchProps('bu'),
+        },
+        {
+            title: 'LM-1',
+            key: 'am',
+            dataIndex: 'am',
+            width: '150px',
+            ...getColumnSearchProps('am'),
+        },
+        {
+            title: 'LM-2',
+            key: 'rbm',
+            dataIndex: 'rbm',
+            width: '150px',
+            ...getColumnSearchProps('rbm'),
+        },
+        {
+            title: 'Total Samples Given',
+            key: 'totalsamplegiven',
+            dataIndex: 'totalsamplegiven',
+            width: '150px',
+            ...getColumnSearchProps('totalsamplegiven'),
+        },
+        {
+            title: 'Remark',
+            key: 'remarks',
+            dataIndex: 'remarks',
+            width: '150px',
+            ...getColumnSearchProps('remarks'),
+        },
+
+        {
+            title: 'Details',
+            key: '',
+            dataIndex: '',
+            width: '150px',
+            render:(_,row) => {
+                return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
+            },
+        },
+        {
+            title: '',
+            key: '',
+            dataIndex: '',
+            width: '250px',
+            render: (_,row) => {
+                return <Button type={"primary"} onClick={() => handleSaveReason(row)}>Save</Button>
+            }
+        },
+
+    ]
 
     const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
@@ -303,19 +543,39 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     }
 
     useEffect(() => {
-        setData(complianceDetailsList?.map(item => {
-            return {
-                'FF Code': item.ffcode,
-                'Team': item.team_Name,
-                'DR Name': item.drname,
-                'BU': item.bu,
-                'AM': item.am,
-                'RBM': item.rbm,
-                'Total Sample Given': item.totalsamplegiven,
-                'Reason': item.reason,
-            }
-        }))
-        console.log(complianceDetailsList)
+        if(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711"){
+            setData(complianceDetailsList?.map(item => {
+                return {
+                    'FF Code': item.ffcode,
+                    'Team': item.team_Name,
+                    'DR Name': item.drname,
+                    'BU': item.bu,
+                    'LM-1': item.am,
+                    'LM-2': item.rbm,
+                    'Total Sample Given': item.totalsamplegiven,
+                    'Reason': item.reason,
+
+                }
+            }))
+            console.log(complianceDetailsList)
+        } else{
+            setData(complianceDetailsList?.map(item => {
+                return {
+                    'FF Code': item.ffcode,
+                    'Team': item.team_Name,
+                    'DR Name': item.drname,
+                    'BU': item.bu,
+                    'LM-1': item.am,
+                    'LM-2': item.rbm,
+                    'Total Sample Given': item.totalsamplegiven,
+                    'Remark': item.remark,
+
+
+                }
+            }))
+            console.log(complianceDetailsList)
+        }
+
     },[complianceDetailsList])
 
 
@@ -327,6 +587,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     }
 
     useEffect(() => {
+
         setDataDetail(overSamplingDetailData?.map(item => {
             return {
                 'month': item.month,
@@ -352,7 +613,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     }
 
     const getComplianceDetails = () => {
-        searchData()
+
         handleComplianceDetailsList({
             certificate: authInfo.token,
             month: month,
@@ -394,7 +655,7 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
     }
 
     useEffect(()=>{
-        searchData()
+        //searchData()
         handleComplianceDetailsList({
             certificate: authInfo.token,
             month: month,
@@ -452,9 +713,9 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
                 </Col>
             </Row>
             <br/>
-            {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={complianceDetailsList}/>
-            }
+
+                <Table columns={(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711") ? adminColumn : nsmColumn} scroll={{y: '100%'}} dataSource={complianceDetailsList}/>
+
             <Modal open={details} title="Compliance Details" footer={null} width={"80vw"} onCancel={() => {
                 setDetails(false)
             }}>
@@ -483,8 +744,9 @@ const mapState = (state) => {
     const complianceDetailsList= selectComplianceDetailsListData(state)
     const saveOverSamplingSuccess = selectSaveOverSamplingSuccess(state)
     const overSamplingDetailData = selectOverSamplingDetailData(state)
+    const profileInfo = selectProfileInfo(state)
     console.log(complianceDetailsList)
-    return {authInfo,complianceDetailsList, saveOverSamplingSuccess, overSamplingDetailData}
+    return {authInfo,complianceDetailsList, saveOverSamplingSuccess,profileInfo, overSamplingDetailData}
 }
 
 const actions = {

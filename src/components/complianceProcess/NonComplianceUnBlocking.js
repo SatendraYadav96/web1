@@ -202,14 +202,14 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             ...getColumnSearchProps('headquarter'),
         },
         {
-            title: 'AM',
+            title: 'LM-1',
             key: 'am',
             dataIndex: 'emailAM',
             width: '100px',
             ...getColumnSearchProps('emailAM'),
         },
         {
-            title: 'RBM',
+            title: 'LM-2',
             key: 'rbm',
             dataIndex: 'emailRM',
             width: '100px',
@@ -305,14 +305,14 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             ...getColumnSearchProps('headquarter'),
         },
         {
-            title: 'AM',
+            title: 'LM-1',
             key: 'am',
             dataIndex: 'emailAM',
             width: '100px',
             ...getColumnSearchProps('emailAM'),
         },
         {
-            title: 'RBM',
+            title: 'LM-2',
             key: 'rbm',
             dataIndex: 'emailRM',
             width: '100px',
@@ -366,16 +366,16 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             width: '200px',
             ...getColumnSearchProps('remarkByAdmin'),
         },
-        {
-            title: 'Rejected',
-            key: '',
-            dataIndex: 'rejected',
-            width: '100px',
-            render: (_, row) => {
-                return <Checkbox defaultChecked={(row.rejected == 1) ? true : false} disabled={true}/>
-            }
-            // ...getColumnSearchProps('remarkByAdmin'),
-        },
+        // {
+        //     title: 'Rejected',
+        //     key: '',
+        //     dataIndex: 'rejected',
+        //     width: '100px',
+        //     render: (_, row) => {
+        //         return <Checkbox defaultChecked={(row.rejected == 1) ? true : false} disabled={true}/>
+        //     }
+        //     // ...getColumnSearchProps('remarkByAdmin'),
+        // },
     ]
 
 
@@ -426,33 +426,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
         handleNonComplianceData()
     },[saveNonComplianceAdminRemarkSuccess])
 
-    const getPurchaseReportList = () => {
-        // console.log(businessUnit);
-        // console.log(division);
-        // console.log(startDate);
-        // console.log(endDate);
-        // console.log(profileInfo.id);
-        // console.log(profileInfo.userDesignation.id);
-        //
-        // console.log(purchaseList);
 
-        // handlePurchaseReportList ({
-        //     businessUnit:businessUnit,
-        //     divison:division,
-        //     userId: profileInfo.id,
-        //     userDesgId: profileInfo.userDesignation.id,
-        //     startDate:formatedStartDateString,
-        //     endDate:formatedEndDateString,
-        //     // startDate:startDate,
-        //     // endDate:endDate,
-        //
-        //
-        //
-        //     certificate: authInfo.token
-        // });
-        searchData()
-
-    }
 
 
 
@@ -470,6 +444,52 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
         XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
         XLSX.writeFile(wb,"NonComplianceUnBlocking.xlsx")
     }
+
+    useEffect(() => {
+        if(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711"){
+            setData(nonComplianceList.map(item => {
+                return {
+
+                    employeeCode: item.employeeCode,
+                    employeeName: item.employeeName,
+                    team: item.team,
+                    headquarter : item.headquarter,
+                    "lm-1": item.emailAM,
+                    "lm-2": item.emailRM,
+                    month: item.month,
+                    year: item.year,
+
+                    reason: item.reason,
+                    blockedFF: item.blockedFF,
+                    remark: item.remark,
+                    remarkByAdmin: item.remarkByAdmin,
+                    rejected: item.rejected,
+
+                }
+            }))
+        } else{
+            setData(nonComplianceList.map(item => {
+                return {
+
+                    employeeCode: item.employeeCode,
+                    employeeName: item.employeeName,
+                    team: item.team,
+                    headquarter : item.headquarter,
+                    "lm-1": item.emailAM,
+                    "lm-2": item.emailRM,
+                    month: item.month,
+                    year: item.year,
+                    reason: item.reason,
+                    remark: item.remark,
+                    remarkByAdmin: item.remarkByAdmin,
+
+
+                }
+            }))
+        }
+
+    },[nonComplianceList])
+
 
     return(
         <>
