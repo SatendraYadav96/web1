@@ -503,13 +503,13 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             width: '150px',
             ...getColumnSearchProps('totalsamplegiven'),
         },
-        {
-            title: 'Remark',
-            key: 'remarks',
-            dataIndex: 'remarks',
-            width: '150px',
-            ...getColumnSearchProps('remarks'),
-        },
+        // {
+        //     title: 'Remark',
+        //     key: 'remarks',
+        //     dataIndex: 'remarks',
+        //     width: '150px',
+        //     ...getColumnSearchProps('remarks'),
+        // },
 
         {
             title: 'Details',

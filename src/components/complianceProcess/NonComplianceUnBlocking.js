@@ -254,7 +254,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
             ...getColumnSearchProps('remark'),
         },
         {
-            title: 'Admin Remark',
+            title: 'Approve/Reject Remark',
             key: 'remarkByAdmin',
             dataIndex: 'remarkByAdmin',
             width: '200px',

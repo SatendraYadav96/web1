@@ -378,7 +378,7 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
 
     return(
         <>
-            <TitleWidget title="Recipient Report" />
+            <TitleWidget title="Field Force Report" />
             <Row gutter={[8,8]}>
                 <Col span={3}>
                     Team<br/>

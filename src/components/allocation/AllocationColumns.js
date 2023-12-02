@@ -148,14 +148,14 @@ const MonthlyAllocationInventoryColumns = () => {
             //align: 'right',
            //...getColumnSearchProps('quantityAllocated'),
         },
-        {
-            title: 'Balance',
-            dataIndex: 'stock',
-            key: 'stock',
-           // align: 'right',
-           // ...getColumnSearchProps('stock'),
-
-        },
+        // {
+        //     title: 'Balance',
+        //     dataIndex: 'stock',
+        //     key: 'stock',
+        //    // align: 'right',
+        //    // ...getColumnSearchProps('stock'),
+        //
+        // },
 
 
 
