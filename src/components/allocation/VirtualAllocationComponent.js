@@ -21,10 +21,10 @@ import {
     selectGetActiveUsers,
     selectItemsLoading,
     selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
-    selectPlan, selectSubmitVirtualAllocationSuccess,
+    selectPlan, selectSubmitVirtualAllocation, selectSubmitVirtualAllocationSuccess,
     selectVirtualAllocation,
     selectVirtualAllocationForPlan, selectVirtualAllocationLoading,
-    selectVirtualItemLoading
+    selectVirtualItemLoading, selectVirtualPlanSubmitted
 } from '../../redux/selectors/allocationSelectors'
 import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography, Upload} from 'antd'
 import moment from 'moment'
@@ -59,8 +59,8 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                                         selectCommonAllocationDone,
                                         handleCreateViewPlan,
                                         handleGoToAllocations,
-                                        downloadAllocation, handleGetDownloadAllocation,
-                                        handleActiveUserDownload, activeUsersDownload,
+                                        downloadAllocation, handleGetDownloadAllocation, submitVirtualAllocation,
+                                        handleActiveUserDownload, activeUsersDownload, virtualPlanSubmitted,
                                         handleSubmitVirtualAllocation,multipleAllocationDownload,  multipleAllocationExcel,
                                         handleMultipleAllocation, handleMultipleAllocationUpload, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess
                                     })=> {
@@ -71,6 +71,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
     const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [file, setFile] = useState([])
+    const [submitFlag, setSubmitFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -138,6 +139,14 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
         }
     },[multipleAllocationUploadSuccess])
 
+    useEffect(() => {
+        if(virtualPlanSubmitted == "true"){
+            setSubmitFlag(true)
+        }else{
+            setSubmitFlag(false)
+        }
+    },[virtualPlanSubmitted])
+
     const SubmitVirtualAllocation = () => {
         let data = {
             "month": Number(toMm(yearMonth)),
@@ -151,6 +160,9 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
 
     useEffect(() => {
         if(submitVirtualAllocationSuccess){
+            if(submitVirtualAllocation!== undefined && Object.keys(submitVirtualAllocation).length !== 0 ){
+                message.success(submitVirtualAllocation.message)
+            }
             handleCreateViewPlan({
                 certificate: authInfo.token,
                 month: Number(toMm(yearMonth)),
@@ -351,8 +363,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                     <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>
                 </Col>
                 <Col span={2} offset={17}>
-                    <Button type={'primary'} onClick={() => SubmitVirtualAllocation}   //disabledDate={disabledSubmitButton}
-                    >Submit</Button>
+                    <Button type={'primary'} onClick={() => SubmitVirtualAllocation()} disabled={submitFlag}>Submit</Button>
                 </Col>
             </Row>
             <Steps current={currentStep} style={{marginBottom: 20}}>
@@ -474,7 +485,9 @@ VirtualAllocationComponent.propTypes = {
     handleMultipleAllocation: PropTypes.func,
     handleMultipleAllocationUpload: PropTypes.func,
     submitVirtualAllocationSuccess: PropTypes.any,
-    multipleAllocationUploadSuccess: PropTypes.any
+    multipleAllocationUploadSuccess: PropTypes.any,
+    virtualPlanSubmitted: PropTypes.any,
+    submitVirtualAllocation: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -493,9 +506,12 @@ const mapState = (state) => {
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
     const submitVirtualAllocationSuccess = selectSubmitVirtualAllocationSuccess(state)
-    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess
+    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
+    const virtualPlanSubmitted = selectVirtualPlanSubmitted(state)
+    const submitVirtualAllocation = selectSubmitVirtualAllocation(state)
+    console.log(virtualPlanSubmitted)
     return { authInfo, profileInfo, virtualItemsLoading, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload, virtualAllocation,
-        multipleAllocationDownload,  multipleAllocationExcel, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess}
+        multipleAllocationDownload,  multipleAllocationExcel, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess, virtualPlanSubmitted, submitVirtualAllocation}
 }
 
 const actions = {

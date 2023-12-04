@@ -147,7 +147,7 @@ export const monthlyPlanStartEpic = (action$) =>
         switchMap((action) =>
             monthlyPlanCreateViewRequest(action.payload).pipe(
                 map((planResponse) =>
-                    monthlyAllocationSuccessAction({ plan: planResponse.response.plan, items: planResponse.response.item })),
+                    monthlyAllocationSuccessAction({ plan: planResponse.response.plan, items: planResponse.response.item, planSubmitted: planResponse.response.planSubmitted })),
                 catchError((error) => of(monthlyAllocationFailAction({ error: error }))),
             ),
         ),
@@ -277,7 +277,7 @@ export const virtualPlanStartEpic = (action$) =>
         switchMap((action) =>
             virtualPlanCreateViewRequest(action.payload).pipe(
                 map((planResponse) =>
-                    virtualAllocationSuccessAction({ virtualAllocation: planResponse.response })),
+                    virtualAllocationSuccessAction({ virtualAllocation: planResponse.response.virtualAllocation, virtualPlanSubmitted: planResponse.response.planSubmitted })),
                 catchError((error) => of(virtualAllocationFailAction({ error: error }))),
             ),
         ),
@@ -416,7 +416,7 @@ export const specialPlanStartEpic = (action$) =>
         switchMap((action) =>
             specialAllocationCreateViewRequest(action.payload).pipe(
                 map((planResponse) =>
-                    specialAllocationSuccessAction({ specialAllocation: planResponse.response })),
+                    specialAllocationSuccessAction({ specialAllocation: planResponse.response.specialAllocation , specialPlanSubmitted: planResponse.response.planSubmitted})),
                 catchError((error) => of(specialAllocationFailAction({ error: error }))),
             ),
         ),

@@ -4,6 +4,7 @@ const items = state => state.allocations.items
 const allocations = state => state.allocations.allocations
 const plan = state => state.allocations.plan
 const itemsLoading = state => state.allocations.itemsLoading
+const planSubmitted = state => state.allocations.planSubmitted
 const allocationsLoading = state => state.allocations.allocationsLoading
 const commonAllocationDone = state => state.allocations.commonAllocationDone
 const monthlyCommonTeamList = (state) => state.allocations.monthlyCommonTeam;
@@ -20,6 +21,7 @@ const getDownloadAllocation = (state) => state.allocations.getDownloadAllocation
 const getBlockedRecipient = (state) => state.allocations.getRecipientBlocked
 const getActiveUsers = (state) => state.allocations.getActiveUsers
 const virtualAllocation = state => state.allocations.virtualAllocation
+const virtualPlanSubmitted = state => state.allocations.virtualPlanSubmitted
 const virtualItemLoading = (state) => state.allocations.virtualItemsLoading
 const searchSpecialPlan = (state) => state.allocations.searchSpecialPlan
 const virtualCommonTeamList = (state) => state.allocations.virtualCommonTeam;
@@ -41,6 +43,7 @@ const getMultipleAllocationDownload = (state) => state.allocations.getMultipleAl
 const getMultipleAllocationExcelDownload = (state) => state.allocations.getMultipleAllocationExcelDownload
 const editSpecialPlan = (state) => state.allocations.editSpecialPlan
 const specialAllocation = state => state.allocations.specialAllocation
+const specialPlanSubmitted = (state) => state.allocations.specialPlanSubmitted
 const specialItemLoading = (state) => state.allocations.specialItemsLoading
 const specialAllocationForPlan = state => state.allocations.specialAllocationForPlan
 const specialAllocationsLoading = state => state.allocations.specialAllocationsLoading
@@ -52,6 +55,7 @@ const multipleAllocationUpload = (state) => state.allocations.multipleAllocation
 const multipleAllocationUploadSuccess = (state) => state.allocations.multipleAllocationUploadSuccess
 
 export const selectItemsToAllocate = createSelector(items, (itemsSelect) => itemsSelect)
+export const selectPlanSubmitted = createSelector(planSubmitted, (dataSelect) => dataSelect)
 export const selectAllocations = createSelector(allocations, (allocationsSelect) => allocationsSelect)
 export const selectAllocationsLoading = createSelector(allocationsLoading, allocationsLoadingSelect => allocationsLoadingSelect)
 export const selectPlan = createSelector(plan, (planSelect) => planSelect)
@@ -126,6 +130,11 @@ export const selectGetActiveUsers = createSelector(
 
 export const selectVirtualAllocation = createSelector(
     virtualAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectVirtualPlanSubmitted = createSelector(
+    virtualPlanSubmitted,
     dataSelect => dataSelect
 )
 
@@ -233,6 +242,11 @@ export const selectSpecialPlan = createSelector(
 
 export const selectSpecialAllocation = createSelector(
     specialAllocation,
+    dataSelect => dataSelect
+)
+
+export const selectSpecialPlanSubmitted = createSelector(
+    specialPlanSubmitted,
     dataSelect => dataSelect
 )
 

@@ -18,7 +18,7 @@ import {
     selectItemsLoading,
     selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
     selectPlan,
-    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading, selectSubmitSpecialAllocationSuccess,
+    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading, selectSpecialPlanSubmitted, selectSubmitSpecialAllocation, selectSubmitSpecialAllocationSuccess,
     selectVirtualAllocation,
     selectVirtualItemLoading
 } from "../../redux/selectors/allocationSelectors";
@@ -55,12 +55,12 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                                         allocations,
                                         allocationsLoading,
                                         selectCommonAllocationDone,
-                                        handleCreateViewPlan,
+                                        handleCreateViewPlan, specialPlanSubmitted,
                                         handleGoToAllocations, handleSubmitSpecialAllocation,
                                         downloadAllocation, handleGetDownloadAllocation,
                                         handleActiveUserDownload, activeUsersDownload,
                                         multipleAllocationDownload,  multipleAllocationExcel,
-                                        handleMultipleAllocation, handleMultipleAllocationUpload,
+                                        handleMultipleAllocation, handleMultipleAllocationUpload, submitSpecialAllocation,
                                         submitSpecialAllocationSuccess, multipleAllocationUploadSuccess}) => {
 
     const navigate = useNavigate()
@@ -77,6 +77,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [count, setCount] = useState(1)
     const [file, setFile] = useState([])
+    const [submitFlag, setSubmitFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -134,6 +135,9 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
 
     useEffect(() => {
         if(submitSpecialAllocationSuccess){
+            if(submitSpecialAllocation!== undefined && Object.keys(submitSpecialAllocation).length !== 0 ){
+                message.success(submitSpecialAllocation.message)
+            }
             let data ={
                 "month": param.month,
                 "year": param.year,
@@ -146,6 +150,14 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             })
         }
     }, [submitSpecialAllocationSuccess])
+
+    useEffect(() => {
+        if(specialPlanSubmitted == "true"){
+            setSubmitFlag(true)
+        }else{
+            setSubmitFlag(false)
+        }
+    },[specialPlanSubmitted])
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -453,7 +465,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                     Purpose: {param.remark}
                 </Col>
                 <Col span={2} offset={13}>
-                    <Button type={'primary'} onClick={() => SubmitSpecialAllocation()}>Submit</Button>
+                    <Button type={'primary'} onClick={() => SubmitSpecialAllocation()} disabled={submitFlag}>Submit</Button>
                 </Col>
             </Row>
             <Row gutter={[16,16]} style={{marginBottom: 40}}>
@@ -574,7 +586,9 @@ SpecialAllocationComponent.propTypes = {
     handleMultipleAllocation: PropTypes.func,
     handleMultipleAllocationUpload: PropTypes.func,
     submitSpecialAllocationSuccess: PropTypes.any,
-    multipleAllocationUploadSuccess: PropTypes.any
+    multipleAllocationUploadSuccess: PropTypes.any,
+    specialPlanSubmitted: PropTypes.any,
+    submitSpecialAllocation: PropTypes.any
 }
 
 const mapState = (state) => {
@@ -590,9 +604,11 @@ const mapState = (state) => {
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
     const submitSpecialAllocationSuccess = selectSubmitSpecialAllocationSuccess(state)
-    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess
-    return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone,
-        downloadAllocation,activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel, submitSpecialAllocationSuccess, multipleAllocationUploadSuccess}
+    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
+    const specialPlanSubmitted = selectSpecialPlanSubmitted(state)
+    const submitSpecialAllocation = selectSubmitSpecialAllocation(state)
+    return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, submitSpecialAllocation,
+        downloadAllocation,activeUsersDownload, multipleAllocationDownload, specialPlanSubmitted, multipleAllocationExcel, submitSpecialAllocationSuccess, multipleAllocationUploadSuccess}
 }
 
 const actions = {

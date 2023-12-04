@@ -59,6 +59,7 @@ import {
     VIRTUAL_DIFFERENTIAL_TEAM_SUCCESS,
 } from "../actions/allocation/allocationActionConstants";
 const initialState = {
+    planSubmitted: false,
     items: [],
     allocations: [],
     itemsLoading: false,
@@ -82,6 +83,7 @@ const initialState = {
     getRecipientBlocked: [],
     getActiveUsers: [],
     virtualAllocation: [],
+    virtualPlanSubmitted: false,
     virtualItemLoading: false,
     searchSpecialPlan: [],
     virtualCommonTeam:{},
@@ -104,6 +106,7 @@ const initialState = {
     getMultipleAllocationExcelDownload: [],
     editSpecialPlan: [],
     specialAllocation: [],
+    specialPlanSubmitted: false,
     specialItemLoading: false,
     specialAllocationForPlan:[],
     specialAllocationLoading: false,
@@ -173,6 +176,7 @@ const monthlyAllocationStartReducer = (state = initialState, payload) => {
         items: [],
         plan: {},
         itemsLoading: true,
+        planSubmitted: false,
         error: null,
     }
 }
@@ -183,6 +187,7 @@ const monthlyAllocationSuccessReducer = (state = initialState, payload) => {
         plan: payload.plan,
         items: payload.items,
         itemsLoading: false,
+        planSubmitted: payload.planSubmitted,
         error: null,
     }
 }
@@ -191,6 +196,7 @@ const monthlyAllocationFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         error: payload.error,
+        planSubmitted: false,
         itemsLoading: false,
     }
 }
@@ -570,6 +576,7 @@ const virtualAllocationStartReducer = (state = initialState, payload) => {
         ...state,
         virtualAllocation: [],
         virtualItemsLoading: true,
+        virtualPlanSubmitted: false,
         error: null,
     }
 }
@@ -578,6 +585,7 @@ const virtualAllocationSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
         virtualAllocation: payload.virtualAllocation,
+        virtualPlanSubmitted: payload.virtualPlanSubmitted,
         virtualItemsLoading: false,
         error: null,
     }
@@ -587,6 +595,7 @@ const virtualAllocationFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         error: payload.error,
+        virtualPlanSubmitted: false,
         virtualItemsLoading: false,
     }
 }
@@ -755,6 +764,7 @@ const submitMonthlyAllocationStartReducer = (state = initialState, payload) => {
 }
 
 const submitMonthlyAllocationSuccessReducer = (state = initialState, payload) => {
+    console.log(payload.submitMonthlyAllocation)
     return {
         ...state,
         submitMonthlyAllocation:payload.submitMonthlyAllocation,
@@ -883,6 +893,7 @@ const specialAllocationStartReducer = (state = initialState, payload) => {
         ...state,
         specialAllocation: [],
         specialItemsLoading: true,
+        specialPlanSubmitted: false,
         error: null,
     }
 }
@@ -892,6 +903,7 @@ const specialAllocationSuccessReducer = (state = initialState, payload) => {
         ...state,
         specialAllocation: payload.specialAllocation,
         specialItemsLoading: false,
+        specialPlanSubmitted: payload.specialPlanSubmitted,
         error: null,
     }
 }
@@ -900,6 +912,7 @@ const specialAllocationFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         error: payload.error,
+        specialPlanSubmitted: false,
         specialItemsLoading: false,
     }
 }
