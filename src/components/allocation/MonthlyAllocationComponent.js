@@ -63,7 +63,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                                         downloadAllocation, handleGetDownloadAllocation, submitMonthlyAllocation,
                                         handleActiveUserDownload, activeUsersDownload, multipleAllocationExcel,
                                         handleSubmitMonthlyAllocation, multipleAllocationDownload, handleMultipleAllocation,
-                                        handleMultipleAllocationUpload, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess
+                                        handleMultipleAllocationUpload, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess,month
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
@@ -357,63 +357,22 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         return csvRows.join('\n');
     }
 
-    // Function to trigger CSV download
-    // const downloadCSV = (data) => {
-    //     const csvContent = this.convertToCSV(data);
-    //     const blob = new Blob([csvContent], { type: 'text/csv' });
-    //     const url = window.URL.createObjectURL(blob);
-    //
-    //     const link = document.createElement('a');
-    //     link.href = url;
-    //     link.setAttribute('download', 'data.csv');
-    //     document.body.appendChild(link);
-    //     link.click();
-    //
-    //     // Cleanup
-    //     document.body.removeChild(link);
-    //     window.URL.revokeObjectURL(url);
-    // }
 
-    // const downloadCsv = async () => {
-    //     try {
-    //         // Replace 'http://your-backend-url/api/csv/download' with your actual backend URL
-    //         const response = await axios.post('http://104.237.6.220:8080/v1/allocation/getMultipleAllocationAll', {
-    //             // responseType: 'arraybuffer',
-    //         },{
-    //             headers: {
-    //                 'Content-Type': 'text/csv',
-    //                 'Authorization': authInfo.token
-    //             }
-    //         });
-    //
-    //         const csvByteArray = new Uint8Array(response.data);
-    //         const csvString = new TextDecoder('utf-8').decode(csvByteArray);
-    //
-    //         // Trigger download
-    //         const blob = new Blob([csvString], { type: 'text/csv' });
-    //         const link = document.createElement('a');
-    //         link.href = window.URL.createObjectURL(blob);
-    //         link.download = 'data.csv';
-    //         document.body.appendChild(link);
-    //         link.click();
-    //         document.body.removeChild(link);
-    //     } catch (error) {
-    //         console.error('Error downloading CSV:', error);
-    //     }
-    // };
 
 
     const disabledDate = (current) => {
-        const currentMonth = moment().month();
-        const nextMonth = currentMonth + 1;
-        const currentYear = moment().year();
-        return current.month() < currentMonth && current.year() == currentYear || current.month() > nextMonth && current.year() == currentYear;
+        // const currentMonth = moment().month();
+        // const nextMonth = currentMonth + 1;
+        // const currentYear = moment().year();
+        // return current.month() < currentMonth && current.year() == currentYear || current.month() > nextMonth && current.year() == currentYear;
+
+        const currentMonthYear = moment().format("YYYY-MM");
+        const nextMonthYear = moment().add(1, "month").format("YYYY-MM");
+        return !current.isSame(currentMonthYear, "month") && !current.isSame(nextMonthYear, "month");
     };
 
-    // const disabledSubmitButton = (current) => {
-    //     const selectedMonth = setYearMonth(date)
-    //     return current.month() > selectedMonth
-    // }
+
+
 
 
 
@@ -423,7 +382,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             <TitleWidget title={'Monthly Plan'} subTitle={'Create'}/>
             <Row style={{marginBottom: 40}}>
                 <Col span={3}>
-                    <DatePicker onChange={(date) => setYearMonth(date)} picker='month'
+                    <DatePicker onChange={(date) => setYearMonth(date)} picker='month' defaultValue={moment(yearMonth)}
                     //             disabledDate={(current) => current.isBefore(moment().subtract(0,"month"))
 
                                 //disabledDate={(current) => current.isAfter(moment().add(1,"month"))}

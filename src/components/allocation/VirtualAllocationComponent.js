@@ -334,10 +334,14 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
     }
 
     const disabledDate = (current) => {
-        const currentMonth = moment().month();
-        const nextMonth = currentMonth + 1;
-        const currentYear = moment().year();
-        return current.month() < currentMonth && current.year() == currentYear || current.month() > nextMonth && current.year() == currentYear;
+        // const currentMonth = moment().month();
+        // const nextMonth = currentMonth + 1;
+        // const currentYear = moment().year();
+        // return current.month() < currentMonth && current.year() == currentYear || current.month() > nextMonth && current.year() == currentYear;
+
+        const currentMonthYear = moment().format("YYYY-MM");
+        const nextMonthYear = moment().add(1, "month").format("YYYY-MM");
+        return !current.isSame(currentMonthYear, "month") && !current.isSame(nextMonthYear, "month");
     };
 
 
@@ -353,7 +357,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
             <TitleWidget title={'Virtual Plan'} subTitle={'Create'}/>
             <Row style={{marginBottom: 40}}>
                 <Col span={3}>
-                    <DatePicker onChange={(date) => setYearMonth(date)} picker='month'
+                    <DatePicker onChange={(date) => setYearMonth(date)} picker='month' defaultValue={moment(yearMonth)}
                                // disabledDate={(current) => current.isBefore(moment().subtract(0,"month"))}
                     //disabledDate={(current) => current.isAfter(moment().add(1,"month"))}
                                 disabledDate={disabledDate}
@@ -381,7 +385,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                 </Col>
                 <Col span={4}></Col>
                 <Col span={3}>
-                    <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
+                    <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}  >Multiple Allocation</Button>
                 </Col>
                 <Col span={3}></Col>
                 <Col span={3}>
