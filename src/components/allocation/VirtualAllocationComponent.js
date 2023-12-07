@@ -552,7 +552,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                     </Upload>
                 </Col>
                 <Col span={2}>
-                    <Button type={'primary'} onClick={upload}>Upload</Button>
+                    <Button type={'primary'} onClick={upload} disabled={submitFlag}>Upload</Button>
                 </Col>
             </Row>
             <span>Total Rows: <b>{virtualAllocation?.length}</b></span>
@@ -598,7 +598,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
             }
             <div style={{marginTop: 20}}>
                 {currentStep < allocationSteps.length - 1 && (
-                    <Button type='primary' onClick={goToAllocation}>
+                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag}>
                         Start Allocation
                     </Button>
                 )}

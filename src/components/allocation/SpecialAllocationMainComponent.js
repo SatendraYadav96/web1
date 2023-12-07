@@ -37,19 +37,8 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
     const [data, setData] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
     const [deleteVal, setDelete] = useState(true);
-    const searchInput = useRef(null);
-    const handleSearch = (selectedKeys, confirm, dataIndex) => {
-        confirm();
-        setSearchText(selectedKeys[0]);
-        setSearchedColumn(dataIndex);
-    };
-    const handleReset = (clearFilters) => {
-        clearFilters();
-        setSearchText('');
-    };
+
 
     useEffect(() => {
         handleStatusDropdown({
@@ -71,40 +60,19 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         return navigate(`/home/allocations/special/create`)
     }
 
-    const column = [
-        {
-            title: 'Purpose',
-            dataIndex: 'remarks',
-            key: 'remarks',
-        },
-        {
-            title: 'Requested On',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            render: (_,row) => {
-                return toDdMmYYYY(row.createdAt)
-            }
-        },
-        {
-                title: '',
-                key: '',
-                dataIndex: '',
-                width: '100px',
-                render: (_,row) => {
-                    return <Button icon={<EditOutlined />}  onClick={ () => editPlan(row)}  ></Button>
-                }
-            },
-            {
-                title: '',
-                key: '',
-                dataIndex: '',
-                width: `100px`,
-                render: (_, row) => {
-                    return <Button icon={<DeleteOutlined />} onClick={ () => deletePlan(row)}></Button>
-                }
-            },
-    ]
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
 
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div
@@ -160,7 +128,8 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -186,6 +155,44 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 text
             ),
     });
+
+    const column = [
+        {
+            title: 'Purpose',
+            dataIndex: 'remarks',
+            key: 'remarks',
+            ...getColumnSearchProps('remarks'),
+        },
+        {
+            title: 'Requested On',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            ...getColumnSearchProps('createdAt'),
+            render: (_,row) => {
+                return toDdMmYYYY(row.createdAt)
+            }
+        },
+        {
+                title: '',
+                key: '',
+                dataIndex: '',
+                width: '100px',
+                render: (_,row) => {
+                    return <Button icon={<EditOutlined />}  onClick={ () => editPlan(row)}  ></Button>
+                }
+            },
+            {
+                title: '',
+                key: '',
+                dataIndex: '',
+                width: `100px`,
+                render: (_, row) => {
+                    return <Button icon={<DeleteOutlined />} onClick={ () => deletePlan(row)}></Button>
+                }
+            },
+    ]
+
+
 
     const createAllocation = () => {
         return navigate('/home/allocations/special/createNew')

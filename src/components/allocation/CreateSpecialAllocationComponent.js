@@ -34,6 +34,7 @@ import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {UploadOutlined} from "@ant-design/icons";
 import SpecialTeamAllocationComponent from "./SpecialTeamAllocationComponent";
+import {useNavigate} from "react-router-dom";
 const { Step } = Steps
 const { Panel } = Collapse
 const allocationSteps = [
@@ -384,6 +385,10 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         // console.log(base64)
         // console.log(file.name)
     }
+    const navigate = useNavigate()
+    const handleBack = () => {
+        return navigate("/home/allocations/special/create")
+    }
 
 
 
@@ -409,7 +414,14 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                 <Col span={2}>
                     <br/>
                     <Button type={"primary"} onClick={createViewClicked}>Create/View</Button>
+
+
                 </Col>
+
+                {/*<Col span={2}>*/}
+                {/*    <br/>*/}
+                {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}} style={{marginLeft:"20px"}}>Back</Button>*/}
+                {/*</Col>*/}
                 <Col span={2} offset={8}>
                     <Button type={'primary'} onClick={() => SubmitSpecialAllocation()}>Submit</Button>
                 </Col>
