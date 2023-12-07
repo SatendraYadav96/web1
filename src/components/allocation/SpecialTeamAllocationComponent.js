@@ -218,7 +218,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
             title: 'Allocated Quantity',
             dataIndex: 'allocatedQuantity',
             key: '',
-            ...getColumnSearchProps('allocatedQuantity'),
+           // ...getColumnSearchProps('allocatedQuantity'),
         },
         {
             title: 'Qty',

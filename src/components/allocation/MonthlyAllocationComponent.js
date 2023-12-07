@@ -514,7 +514,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                 dataIndex: 'quantityAllocated',
                 key: 'quantityAllocated',
                 //align: 'right',
-                ...getColumnSearchProps('quantityAllocated'),
+                //...getColumnSearchProps('quantityAllocated'),
             },
             // {
             //     title: 'Balance',
