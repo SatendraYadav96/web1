@@ -240,6 +240,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                 teamKeys.map(team  =>
                     // <TeamAllocationDetailsComponent inventoryId={inventoryId} planId={item.planId} teams={teams} total={total} monthlyCommonTeam={monthlyCommonTeam[item]}/>
                 <>
+                    <span>Total Rows: <b>{monthlyCommonTeam[team]?.length}</b></span>
                     <Table size={'small'} dataSource={monthlyCommonTeam[team]}
                            columns={columns}
                            rowKey={'id'} loading={teams.length === 0}

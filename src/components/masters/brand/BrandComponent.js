@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Input, Row, Select, Space, Table} from "antd";
 import {EditOutlined, PlusOutlined, SearchOutlined} from "@ant-design/icons";
@@ -14,7 +14,7 @@ import {CSVLink} from "react-csv";
 import XLSX from "xlsx";
 import Highlighter from "react-highlight-words";
 
-const BrandComponent = ({authInfo,brandList,handleBrandList}) => {
+const BrandComponent = ({authInfo,brandList,handleBrandList,profileInfo}) => {
 
     const navigate = useNavigate()
 
@@ -191,58 +191,111 @@ const BrandComponent = ({authInfo,brandList,handleBrandList}) => {
         console.log(brandList)
     },[brandList])
 
-    return(
-        <>
-            <TitleWidget title={"Master - Brand"}/>
-            <Row gutter={[8,8]}>
-                <Col span={3}>
-                    <SelectStatusComponent value={status} onChange={(value) => setStatus(value)}/>
-                </Col>
-                <Col span={2}>
-                    <Button type={"primary"} onClick={() => getBrandList()} style={{width: '100%'}}>Search</Button>
-                </Col>
-                <Col span={2}>
-                    <Button icon={<PlusOutlined />} onClick={()=> createBrand()}></Button>
-                </Col>
-            </Row>
-            <br/><br/>
-            <Row>
-                <Col span={6}>
-                    {data &&
-                        (<CSVLink
-                            data={data}
-                            filename={"brand.csv"}
-                            onClick={() => {
-                                console.log("clicked")
-                            }}
-                        >
-                            <Button>CSV</Button>
-                        </CSVLink>)}
-                    &nbsp;
-                    <Button onClick={handleExcel}>EXCEL</Button>
-                </Col>
-                <Col span={12}></Col>
-                {/*<Col span={6}><Input.Search/></Col>*/}
-            </Row>
-            <br/><br/>
-            <span>Total Rows: <b>{brandList?.length}</b></span>
-            {flag &&
-                <Table columns={column} scroll={{y: '100%'}} dataSource={brandList} />
-            }
-        </>
-    )
+    if(profileInfo.userDesignation.id === "2B264AFB-E2FD-483C-BD4C-C36A4E352FC5"){
+        return(
+
+            <>
+                <TitleWidget title={"Brand"}/>
+                <Row gutter={[8,8]}>
+                    <Col span={3}>
+                        <SelectStatusComponent value={status} onChange={(value) => setStatus(value)}/>
+                    </Col>
+                    <Col span={2}>
+                        <Button type={"primary"} onClick={() => getBrandList()} style={{width: '100%'}}>Search</Button>
+                    </Col>
+                    {/*<Col span={2}>*/}
+                    {/*    <Button icon={<PlusOutlined />} onClick={()=> createBrand()}></Button>*/}
+                    {/*</Col>*/}
+                </Row>
+                <br/><br/>
+                <Row>
+                    <Col span={6}>
+                        {data &&
+                            (<CSVLink
+                                data={data}
+                                filename={"brand.csv"}
+                                onClick={() => {
+                                    console.log("clicked")
+                                }}
+                            >
+                                <Button>CSV</Button>
+                            </CSVLink>)}
+                        &nbsp;
+                        <Button onClick={handleExcel}>EXCEL</Button>
+                    </Col>
+                    <Col span={12}></Col>
+                    {/*<Col span={6}><Input.Search/></Col>*/}
+                </Row>
+                <br/><br/>
+                <span>Total Rows: <b>{brandList?.length}</b></span>
+                {flag &&
+                    <Table columns={column} scroll={{y: '100%'}} dataSource={brandList} />
+                }
+            </>
+
+
+        )
+    }else {
+        return(
+
+            <>
+                <TitleWidget title={"Master - Brand"}/>
+                <Row gutter={[8,8]}>
+                    <Col span={3}>
+                        <SelectStatusComponent value={status} onChange={(value) => setStatus(value)}/>
+                    </Col>
+                    <Col span={2}>
+                        <Button type={"primary"} onClick={() => getBrandList()} style={{width: '100%'}}>Search</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button icon={<PlusOutlined />} onClick={()=> createBrand()}></Button>
+                    </Col>
+                </Row>
+                <br/><br/>
+                <Row>
+                    <Col span={6}>
+                        {data &&
+                            (<CSVLink
+                                data={data}
+                                filename={"brand.csv"}
+                                onClick={() => {
+                                    console.log("clicked")
+                                }}
+                            >
+                                <Button>CSV</Button>
+                            </CSVLink>)}
+                        &nbsp;
+                        <Button onClick={handleExcel}>EXCEL</Button>
+                    </Col>
+                    <Col span={12}></Col>
+                    {/*<Col span={6}><Input.Search/></Col>*/}
+                </Row>
+                <br/><br/>
+                <span>Total Rows: <b>{brandList?.length}</b></span>
+                {flag &&
+                    <Table columns={column} scroll={{y: '100%'}} dataSource={brandList} />
+                }
+            </>
+
+
+        )
+    }
+
+
 }
 
 BrandComponent.propTypes = {
     authInfo: PropTypes.any,
     brandList: PropTypes.array,
     handleBrandList: PropTypes.func,
+    profileInfo: PropTypes.func,
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const brandList = selectBrandListData(state)
-    return {authInfo,brandList}
+    const profileInfo = selectProfileInfo(state)
+    return {authInfo,brandList,profileInfo}
 }
 
 const actions = {

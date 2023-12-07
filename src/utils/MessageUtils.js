@@ -1456,4 +1456,14 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
                 payload: { message: { text: 'action failed', type: 'error' } },
             },
         ],
+
+        SPECIAL_DIFFERENTIAL_TEAM_START:[{ action: 'showspinner' }],
+        SPECIAL_DIFFERENTIAL_TEAM_SUCCESS: [{ action: 'hidespinner' }],
+        SPECIAL_DIFFERENTIAL_TEAM_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 }

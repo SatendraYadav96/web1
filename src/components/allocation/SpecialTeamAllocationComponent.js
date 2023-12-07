@@ -322,6 +322,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
                     <LabelComponent>Allocation Balance: {item.balance}</LabelComponent>
                 </Col>
             </Row>
+            <span>Total Rows: <b>{specialDifferentialTeam?.length}</b></span>
                         <Table size={'small'} dataSource={specialDifferentialTeam}
                                columns={columns}
                                rowKey={'id'} loading={teams.length === 0}

@@ -264,6 +264,7 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
                 teamKeys.map(team  =>
                     // <TeamAllocationDetailsComponent inventoryId={inventoryId} planId={item.planId} teams={teams} total={total} monthlyCommonTeam={monthlyCommonTeam[item]}/>
                     <>
+                        <span>Total Rows: <b>{virtualCommonTeam[team]?.length}</b></span>
                         <Table size={'small'} dataSource={virtualCommonTeam[team]}
                                columns={columns}
                                rowKey={'id'} loading={teams.length === 0}
