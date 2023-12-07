@@ -455,7 +455,7 @@ const monthlyDifferentialAllocationSuccessReducer = (state = initialState, paylo
     let data = new Map();
     let keysArr = [];
     payload.monthlyDifferentialQuantityAllocated.forEach(item => quantityAllocated[item.recipientId] = item.allocatedQuantity)
-    payload.monthlyDifferentialTeam.forEach(item => item["quantity"] = quantityAllocated[item.recipientID])
+    payload.monthlyDifferentialTeam.forEach(item => item["allocatedQuantity"] = quantityAllocated[item.recipientID])
     console.log(payload.monthlyDifferentialTeam)
     return {
         ...state,
@@ -711,7 +711,7 @@ const virtualDifferentialAllocationSuccessReducer = (state = initialState, paylo
     let data = new Map();
     let keysArr = [];
     payload.virtualDifferentialQuantityAllocated.forEach(item => quantityAllocated[item.recipientId] = item.allocatedQuantity)
-    payload.virtualDifferentialTeam.forEach(item => item["quantity"] = quantityAllocated[item.recipientID])
+    payload.virtualDifferentialTeam.forEach(item => item["allocatedQuantity"] = quantityAllocated[item.recipientID])
     console.log(payload.virtualDifferentialTeam)
     return {
         ...state,
@@ -969,7 +969,7 @@ const specialDifferentialAllocationSuccessReducer = (state = initialState, paylo
     let data = new Map();
     let keysArr = [];
     payload.specialDifferentialQuantityAllocated.forEach(item => quantityAllocated[item.recipientId] = item.allocatedQuantity)
-    payload.specialDifferentialTeam.forEach(item => item["quantity"] = quantityAllocated[item.id])
+    payload.specialDifferentialTeam.forEach(item => item["allocatedQuantity"] = quantityAllocated[item.id])
     console.log(payload.specialDifferentialTeam)
     return {
         ...state,

@@ -115,10 +115,11 @@ export const selectTseDropdownLoading = createSelector(tseDropdownLoading, (tseD
 
 const assignTse = (state) => state.dropDown.assignTse
 const assignTseLoading = (state) => state.dropDown.assignTseLoading
+const assignTseSuccess = (state) => state.dropDown.assignTseSuccess
 
 export const selectAssignTse = createSelector(assignTse, (assignTseSelect) => assignTseSelect)
 export const selectAssignTseLoading = createSelector(assignTseLoading, (assignTseLoadingSelect) => assignTseLoadingSelect)
-
+export const selectAssignTseSuccess = createSelector(assignTseSuccess, (dataSelect) => dataSelect)
 
 
 const tseList = (state) => state.dropDown.tseList
@@ -132,6 +133,8 @@ export const selectTseListLoading = createSelector(tseListLoading, (tseListLoadi
 
 const unassignTse = (state) => state.dropDown.unassignTse
 const unassignTseLoading = (state) => state.dropDown.unassignTseLoading
+const unassignTseSuccess = (state) => state.dropDown.unassignTseSuccess
 
 export const selectUnAssignTse = createSelector(unassignTse, (unassignTseSelect) => unassignTseSelect)
 export const selectUnAssignTseLoading = createSelector(unassignTseLoading, (unassignTseLoadingSelect) => unassignTseLoadingSelect)
+export const selectUnAssignTseSuccess = createSelector(unassignTseSuccess, (dataSelect) => dataSelect)

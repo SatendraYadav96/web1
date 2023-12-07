@@ -8,12 +8,12 @@ import TitleWidget from "../../widgets/TitleWidget";
 import SelectApproverComponent from "../widgets/SelectApproverComponent";
 import SelectTseComponent from "../widgets/SelectTseComponent";
 import {assignTseStartAction, getTseListStartAction, tseDropdownStartAction, unassignTseStartAction} from "../../redux/actions/dropDown/dropDownActions";
-import {selectAssignTse, selectAssignTseLoading, selectTseDropdown, selectTseDropdownLoading, selectTseList, selectTseListLoading, selectUnAssignTse, selectUnAssignTseLoading} from "../../redux/selectors/dropDownSelector";
+import {selectAssignTse, selectAssignTseLoading, selectAssignTseSuccess, selectTseDropdown, selectTseDropdownLoading, selectTseList, selectTseListLoading, selectUnAssignTse, selectUnAssignTseLoading, selectUnAssignTseSuccess} from "../../redux/selectors/dropDownSelector";
 import {EditOutlined,DeleteOutlined } from "@ant-design/icons";
 
 
 const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTseLoading,tseDropdown,handleTseDropDown,tseDropdownLoading,tseList ,tseListLoading,handleTseList,
-                            unassignTse,unassignTseLoading,handleUnAssignTse,row}) => {
+                            unassignTse,unassignTseLoading,handleUnAssignTse,row, tseUnassignSuccess, tseAssignSuccess}) => {
 
     const [value, setValue] = React.useState("");
     const [column, setColumn] = useState([])
@@ -100,6 +100,19 @@ const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTs
         searchData()
     }
 
+    useEffect(() => {
+        getAssignList()
+    },[])
+
+    useEffect(() => {
+        if(tseAssignSuccess){
+            getAssignList()
+        }
+        if(tseUnassignSuccess){
+            getAssignList()
+        }
+    },[tseAssignSuccess, tseUnassignSuccess])
+
         return ( <>
             <TitleWidget title={"Assign Tse"}/>
             <Row gutter={[16,16]}>
@@ -138,7 +151,9 @@ AdminComponent.propTypes = {
     handleTseList: PropTypes.func,
     unassignTse:PropTypes.array,
     unassignTseLoading:PropTypes.array,
-    handleUnAssignTse:PropTypes.func
+    handleUnAssignTse:PropTypes.func,
+    tseAssignSuccess: PropTypes.any,
+    tseUnassignSuccess: PropTypes.any
 
 }
 
@@ -154,8 +169,9 @@ const mapState = (state) => {
     const unassignTse = selectUnAssignTse(state)
     const unassignTseLoading = selectUnAssignTseLoading(state)
     console.log(tseList)
-
-    return {authInfo, profileInfo,assignTse,assignTseLoading,tseDropdown,tseDropdownLoading,tseList,tseListLoading,unassignTse,unassignTseLoading}
+    const tseAssignSuccess = selectAssignTseSuccess(state)
+    const tseUnassignSuccess = selectUnAssignTseSuccess(state)
+    return {authInfo, profileInfo,assignTse,assignTseLoading,tseDropdown,tseDropdownLoading,tseList,tseListLoading,unassignTse,unassignTseLoading, tseAssignSuccess, tseUnassignSuccess}
 
 }
 

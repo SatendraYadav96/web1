@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
-import {Alert, Button, Col, Input, InputNumber, Modal, Row, Table} from "antd";
+import {Alert, Button, Col, Input, InputNumber, Modal, Row, Space, Table} from "antd";
 import {
     allocateToAllTeamsAction, allocateToDifferentialAction,
     allocateToTeamAction,
@@ -28,6 +28,8 @@ import LabelComponent from "../../widgets/LabelComponent";
 import TeamAllocationDetailsComponent from "./TeamAllocationDetailsComponent";
 import ChangeAllocationComponent from "./ChangeAllocationComponent";
 import ChangeVirtualAllocationComponent from "./ChangeVirtualAllocationComponent";
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
 const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, handleChangeDifferentialQuantity, handleSpecialDifferentialAllocationSave, inventoryId, commonAllocationDone, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, specialDifferentialTeam,handleSpecialDifferentialTeam,authInfo, profileInfo, teamKeys, specialDifferentialAllocationSaveSuccess}) => {
     const [showDifferential, setShowDifferential] = useState(false)
@@ -38,6 +40,101 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
     const [keyList, setKeyList] = useState([])
     const [open, setOpen] = useState(false);
     console.log(item)
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : '#1677ff',
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+
 
     const onChangeQuantity = (team, quantity) => {
         let qty = quantity.currentTarget.value
@@ -84,32 +181,44 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
         {
             title: 'Zone',
             dataIndex: 'zone',
-            key: ''
+            key: '',
+            ...getColumnSearchProps('zone'),
         },
         {
             title: 'State',
             dataIndex: 'state',
-            key: ''
+            key: '',
+            ...getColumnSearchProps('state'),
         },
         {
             title: 'Designation',
             dataIndex: 'roleName',
-            key: ''
+            key: '',
+            ...getColumnSearchProps('roleName'),
         },
         {
             title: 'Person',
             dataIndex: 'name',
-            key: ''
+            key: '',
+            ...getColumnSearchProps('name'),
         },
         {
             title: 'Code',
             dataIndex: 'code',
-            key: ''
+            key: '',
+            ...getColumnSearchProps('code'),
         },
         {
             title: 'Headquarter',
             dataIndex: 'headQuarter',
-            key: ''
+            key: '',
+            ...getColumnSearchProps('headQuarter'),
+        },
+        {
+            title: 'Allocated Quantity',
+            dataIndex: 'allocatedQuantity',
+            key: '',
+            ...getColumnSearchProps('allocatedQuantity'),
         },
         {
             title: 'Qty',

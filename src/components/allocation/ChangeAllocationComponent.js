@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
 import TitleWidget from "../../widgets/TitleWidget";
-import {Alert, Button, Col, Input, Row, Table} from "antd";
+import {Alert, Button, Col, Input, Row, Space, Table} from "antd";
 import {allocateToDifferentialAction, monthlyDifferentialAllocationStartAction, monthlyDifferentialTeamStartAction} from "../../redux/actions/allocation/allocationActions";
 import {selectMonthlyDifferentialAllocation} from "../../redux/selectors/allocationSelectors";
 import {InputNumber} from "antd/es";
+import {SearchOutlined} from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
 
 const ChangeAllocationComponent = ({authInfo, profileInfo, item, planId, inventoryId, teamId, handleMonthlyDifferentialAllocationSave, handleChangeDifferentialQuantity, handleDifferentialAllocation, teamForDifferentialAllocation}) => {
 
@@ -222,6 +224,12 @@ const getColumnSearchProps = (dataIndex) => ({
             dataIndex: 'headQuarter',
             key: '',
             ...getColumnSearchProps('headQuarter'),
+        },
+        {
+            title: 'Allocated Quantity',
+            dataIndex: 'allocatedQuantity',
+            key: '',
+            ...getColumnSearchProps('allocatedQuantity'),
         },
         {
             title: 'Qty',
