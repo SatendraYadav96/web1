@@ -223,7 +223,7 @@ const ChangeVirtualAllocationComponent = ({authInfo, profileInfo, item, planId, 
         },
         {
             title: 'Allocated Quantity',
-            dataIndex: 'allocatedQuantity',
+            dataIndex: 'quantityDispatch',
             key: '',
             //...getColumnSearchProps('allocatedQuantity'),
         },
