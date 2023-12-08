@@ -76,7 +76,7 @@ export const monthlyQuantityAllocatedOfUserToItemRequest = payload => {
 }
 
 export const virtualQuantityAllocatedOfUserToItemRequest = payload => {
-    const api = {...VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/0/${payload.planId}`}
+    const api = {...VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/1/${payload.planId}`}
     return createRequest(api, payload.certificate, null)
 }
 
