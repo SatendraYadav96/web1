@@ -8,7 +8,9 @@ import {
     HUB_PENDING_REVALIDATION_START_ACTION, HUB_PENDING_REVALIDATION_SUCCESS_ACTION, ITEM_EXPIRED_DETAILS_FAIL_ACTION, ITEM_EXPIRED_DETAILS_START_ACTION, ITEM_EXPIRED_DETAILS_SUCCESS_ACTION, MANAGEMENT_DASHBOARD_FAIL_ACTION, MANAGEMENT_DASHBOARD_START_ACTION, MANAGEMENT_DASHBOARD_SUCCESS_ACTION,
     PENDING_DISPATCH_FAIL_ACTION,
     PENDING_DISPATCH_START_ACTION,
-    PENDING_DISPATCH_SUCCESS_ACTION
+    PENDING_DISPATCH_SUCCESS_ACTION,
+    DISPATCHES_MONTH_WISE_FAIL_ACTION,DISPATCHES_MONTH_WISE_START_ACTION,DISPATCHES_MONTH_WISE_SUCCESS_ACTION,
+    SPECIAL_COURIER_COST_MONTH_WISE_START_ACTION,SPECIAL_COURIER_COST_MONTH_WISE_FAIL_ACTION,SPECIAL_COURIER_COST_MONTH_WISE_SUCCESS_ACTION
 } from "./dashboardActionConstants";
 
 //PENDING_DISPATCH
@@ -144,6 +146,52 @@ export const managementDashboardSuccessAction = (payload) => (dispatch) => {
 export const managementDashboardFailAction = (payload) => (dispatch) => {
     dispatch({
         type: MANAGEMENT_DASHBOARD_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+
+export const dispatchesMonthWiseStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: DISPATCHES_MONTH_WISE_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const dispatchesMonthWiseSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: DISPATCHES_MONTH_WISE_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const dispatchesMonthWiseFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: DISPATCHES_MONTH_WISE_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+
+export const specialCourierCostMonthWiseStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_COURIER_COST_MONTH_WISE_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const specialCourierCostMonthWiseSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_COURIER_COST_MONTH_WISE_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const specialCourierCostMonthWiseFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SPECIAL_COURIER_COST_MONTH_WISE_FAIL_ACTION,
         payload: payload,
     })
 }

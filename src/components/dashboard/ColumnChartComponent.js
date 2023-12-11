@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import {Bar, Column} from '@ant-design/plots';
+import {selectAuthInfo} from "../../redux/selectors/authSelectors";
+import {selectBatchReconciliationListData, selectOverSamplingMailData} from "../../redux/selectors/batchReconciliationReportSelector";
+import {getBatchReconciliationStartAction, overSamplingMailStartAction} from "../../redux/actions/reports/batchReconciliationReportActions";
+import {dispatchesMonthWiseStartAction} from "../../redux/actions/dashboard/dashboardActions";
+import {selectDispatchesMonthWiseList} from "../../redux/selectors/dashboardSelector";
+import PropTypes from "prop-types";
 
-const ColumnChartComponent = () => {
+const ColumnChartComponent = ({dispatchesMonthWiseData} ) => {
+    console.log(dispatchesMonthWiseData);
+
+
     const data = [
+        {
+            month: "JAN",
+            type: "Monthly",
+            sale: 14500
+        },
         {
             month: "JAN",
             type: "Monthly",
@@ -90,7 +104,33 @@ const ColumnChartComponent = () => {
             radius: [20, 20, 0, 0],
         },
     };
+
+    // useEffect(() => {
+    //    // console.log(dispatchesMonthWiseList)
+    //     handleDispatchesMonthWiseList({
+    //         certificate: authInfo.token,
+    //     })
+    // },[dispatchesMonthWiseList])
+
+
     return <Column {...config} />;
 };
+
+// ColumnChartComponent.propTypes = {
+//     authInfo: PropTypes.any,
+//     dispatchesMonthWiseList:PropTypes.array,
+//     handleDispatchesMonthWiseList:PropTypes.func
+// }
+//
+// const mapState = (state) => {
+//     const authInfo = selectAuthInfo(state)
+//     const dispatchesMonthWiseList = selectDispatchesMonthWiseList(state)
+//
+//     return {authInfo,dispatchesMonthWiseList}
+// }
+//
+// const actions = {
+//     handleDispatchesMonthWiseList :dispatchesMonthWiseStartAction
+// }
 
 export default ColumnChartComponent

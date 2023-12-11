@@ -18,10 +18,10 @@ export const selectHubPendingRevalidation = createSelector(hubPendingRevalidatio
 export const selectHubPendingRevalidationLoading = createSelector(hubPendingRevalidationLoading, (hubPendingRevalidationLoadingSelect) => hubPendingRevalidationLoadingSelect)
 
 
-const hubGrnErrorLog = (state) => state.dashboard.hubGrnErrorLog
-const hubGrnErrorLogLoading = (state) => state.dashboard.hubGrnErrorLogLoading
-export const selectHubGrnErrorLog = createSelector(hubGrnErrorLog, (hubGrnErrorLogSelect) => hubGrnErrorLogSelect)
-export const selectHubGrnErrorLogLoading = createSelector(hubGrnErrorLogLoading, (hubGrnErrorLogLoadingSelect) => hubGrnErrorLogLoadingSelect)
+const hubGrnErrorLogList = (state) => state.dashboard.hubGrnErrorLogList
+const hubGrnErrorLogListLoading = (state) => state.dashboard.hubGrnErrorLogListLoading
+export const selectHubGrnErrorLog = createSelector(hubGrnErrorLogList, (hubGrnErrorLogSelect) => hubGrnErrorLogSelect)
+export const selectHubGrnErrorLogLoading = createSelector(hubGrnErrorLogListLoading, (hubGrnErrorLogLoadingSelect) => hubGrnErrorLogLoadingSelect)
 
 
 const itemExpiredDetails = (state) => state.dashboard.itemExpiredDetails
@@ -34,4 +34,10 @@ const managementDashboard = (state) => state.dashboard.managementDashboard
 const managementDashboardLoading = (state) => state.dashboard.managementDashboardLoading
 export const selectManagementDashboard = createSelector(managementDashboard, (managementDashboardSelect) => managementDashboardSelect)
 export const selectManagementDashboardLoading = createSelector(managementDashboardLoading, (managementDashboardLoadingSelect) => managementDashboardLoadingSelect)
+
+
+const dispatchesMonthWiseList = (state) => state.dashboard.dispatchesMonthWiseList
+const dispatchesMonthWiseListLoading = (state) => state.dashboard.dispatchesMonthWiseListLoading
+export const selectDispatchesMonthWiseList = createSelector(dispatchesMonthWiseList, (DispatchesMonthWiseListSelect) => DispatchesMonthWiseListSelect)
+export const selectDispatchesMonthWiseListLoading = createSelector(dispatchesMonthWiseListLoading, (DispatchesMonthWiseListLoadingSelect) => DispatchesMonthWiseListLoadingSelect)
 

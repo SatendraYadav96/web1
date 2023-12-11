@@ -9,7 +9,7 @@ import {
     ITEM_EXPIRED_DETAILS_FAIL_ACTION,
     ITEM_EXPIRED_DETAILS_SUCCESS_ACTION,
     PENDING_DISPATCH_SUCCESS_ACTION,
-    PENDING_DISPATCH_FAIL_ACTION, MANAGEMENT_DASHBOARD_SUCCESS_ACTION, MANAGEMENT_DASHBOARD_FAIL_ACTION
+    PENDING_DISPATCH_FAIL_ACTION, MANAGEMENT_DASHBOARD_SUCCESS_ACTION, MANAGEMENT_DASHBOARD_FAIL_ACTION, DISPATCHES_MONTH_WISE_SUCCESS_ACTION, DISPATCHES_MONTH_WISE_FAIL_ACTION, SPECIAL_COURIER_COST_MONTH_WISE_FAIL_ACTION, SPECIAL_COURIER_COST_MONTH_WISE_SUCCESS_ACTION
 } from "../actions/dashboard/dashboardActionConstants";
 
 const initialState = {
@@ -19,12 +19,16 @@ const initialState = {
     hubNearExpiryLoading: false,
     hubPendingRevalidation: [],
     hubPendingRevalidationLoading: false,
-    hubGrnErrorLog: [],
-    hubGrnErrorLogLoading: false,
+    hubGrnErrorLogList: [],
+    hubGrnErrorLogListLoading: false,
     itemExpiredDetails: [],
     itemExpiredDetailsLoading: false,
     managementDashboard: [],
     managementDashboardLoading: false,
+    dispatchesMonthWiseList:[],
+    dispatchesMonthWiseListLoading:false,
+    specialCourierCostMonthWiseList:[],
+    specialCourierCostMonthWiseListLoading:false,
     error: null,
 }
 
@@ -98,8 +102,8 @@ const hubPendingRevalidationFailReducer = (state = initialState, payload) => {
 const hubGrnErrorLogSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        hubGrnErrorLog: payload.hubGrnErrorLog,
-        hubGrnErrorLogLoading: false,
+        hubGrnErrorLogList: payload.hubGrnErrorLogList,
+        hubGrnErrorLogListLoading: false,
         error: null
 
     }
@@ -108,9 +112,9 @@ const hubGrnErrorLogSuccessReducer = (state = initialState, payload) => {
 const hubGrnErrorLogFailReducer = (state = initialState, payload) => {
     return {
         ...state,
-        hubGrnErrorLog:[],
+        hubGrnErrorLogList:[],
         error: payload.error,
-        hubGrnErrorLogLoading: false,
+        hubGrnErrorLogListLoading: false,
     }
 }
 
@@ -158,6 +162,46 @@ const managementDashboardFailReducer = (state = initialState, payload) => {
     }
 }
 
+const dispatchesMonthWiseSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        dispatchesMonthWiseList: payload.dispatchesMonthWiseList,
+        dispatchesMonthWiseListLoading: false,
+        error: null
+
+    }
+}
+
+const dispatchesMonthWiseFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        dispatchesMonthWiseList:[],
+        error: payload.error,
+        dispatchesMonthWiseListLoading: false,
+    }
+}
+
+
+const specialCourierCostMonthWiseSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        specialCourierCostMonthWiseList: payload.specialCourierCostMonthWiseList,
+        specialCourierCostMonthWiseListLoading: false,
+        error: null
+
+    }
+}
+
+const specialCourierCostMonthWiseFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        specialCourierCostMonthWiseList:[],
+        error: payload.error,
+        specialCourierCostMonthWiseListLoading: false,
+    }
+}
+
+
 export default createReducer(initialState, {
     [PENDING_DISPATCH_SUCCESS_ACTION]: pendingDispatchSuccessReducer,
     [PENDING_DISPATCH_FAIL_ACTION]: pendingDispatchFailReducer,
@@ -171,4 +215,8 @@ export default createReducer(initialState, {
     [ITEM_EXPIRED_DETAILS_FAIL_ACTION]: itemExpiredDetailsFailReducer,
     [MANAGEMENT_DASHBOARD_SUCCESS_ACTION]: managementDashboardSuccessReducer,
     [MANAGEMENT_DASHBOARD_FAIL_ACTION]: managementDashboardFailReducer,
+    [DISPATCHES_MONTH_WISE_SUCCESS_ACTION]: dispatchesMonthWiseSuccessReducer,
+    [DISPATCHES_MONTH_WISE_FAIL_ACTION]: dispatchesMonthWiseFailReducer,
+    [SPECIAL_COURIER_COST_MONTH_WISE_SUCCESS_ACTION]: specialCourierCostMonthWiseSuccessReducer,
+    [SPECIAL_COURIER_COST_MONTH_WISE_SUCCESS_ACTION]: specialCourierCostMonthWiseFailReducer,
 })

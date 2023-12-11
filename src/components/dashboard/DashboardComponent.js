@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 import {getVendorStartAction} from "../../redux/actions/master/masterActions";
 import {connect} from "react-redux";
 import {
+    selectDispatchesMonthWiseList,
     selectHubGrnErrorLog,
     selectHubGrnErrorLogLoading,
     selectHubNearExpiry,
@@ -25,49 +26,20 @@ import {
     selectPendingDispatch,
     selectPendingDispatchLoading
 } from "../../redux/selectors/dashboardSelector";
-import {hubGrnErrorLogStartAction, hubNearExpiryStartAction, hubPendingRevalidationStartAction, itemExpiredDetailsStartAction, pendingDispatchStartAction} from "../../redux/actions/dashboard/dashboardActions";
+import {dispatchesMonthWiseStartAction, hubGrnErrorLogStartAction, hubNearExpiryStartAction, hubPendingRevalidationStartAction, itemExpiredDetailsStartAction, pendingDispatchStartAction} from "../../redux/actions/dashboard/dashboardActions";
 import Highlighter from "react-highlight-words";
 import BarChartComponent from "./BarChartComponent";
 import ColumnChartComponent from "./ColumnChartComponent";
 import HorizontalBarComponent from "./HorizontalBarComponent";
 
-const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,hubNearExpiryList,hubNearExpiryLoading,handleHubNearExpiry,hubPendingRevalidationList,hubPendingRevalidationLoading,handleHubPendingRevalidation,hubGrnErrorLogList,hubGrnErrorLogLoading,handleHubGrnErrorLog,itemExpiredDetailsList,itemExpiredDetailsLoading,handleItemExpiredDetails}) => {
+const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,hubNearExpiryList,hubNearExpiryLoading,handleHubNearExpiry,hubPendingRevalidationList,hubPendingRevalidationLoading,
+                                handleHubPendingRevalidation,hubGrnErrorLogList,hubGrnErrorLogLoading,handleHubGrnErrorLog,itemExpiredDetailsList,itemExpiredDetailsLoading,handleItemExpiredDetails
+,dispatchesMonthWiseList,handleDispatchesMonthWiseList}) => {
 
     const [status, setStatus] = useState(1)
     const [columnPendingDispatch, setColumnPendingDispatch] = useState([])
     const [columnHubNearExpiry, setColumnHubNearExpiry] = useState([])
-    // const [colData, setColData] = useState([
-    //     {
-    //         "month": "JAN",
-    //         "type": "Monthly",
-    //         "sale": 14500
-    //     },
-    //     {
-    //         "month": "JAN",
-    //         "type": "Special",
-    //         "sale": 8500
-    //     },
-    //     {
-    //         "month": "JAN",
-    //         "type": "Virtual",
-    //         "sale": 10000
-    //     },
-    //     {
-    //         "month": "FEB",
-    //         "type": "Monthly",
-    //         "sale": 7000
-    //     },
-    //     {
-    //         "month": "FEB",
-    //         "type": "Special",
-    //         "sale": 9000
-    //     },
-    //     {
-    //         "month": "FEB",
-    //         "type": "Virtual",
-    //         "sale": 8500
-    //     },
-    // ])
+    const dispatchesMonthWiseData = dispatchesMonthWiseList
     const [columnHubPendingRevalidation, setColumnHubPendingRevalidation] = useState([])
     const [columnHubGrnErrorLog, setColumnHubGrnErrorLog] = useState([])
     const [columnItemExpiredDetails, setColumnItemExpiredDetails] = useState([])
@@ -141,7 +113,8 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -370,70 +343,81 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                 title: 'Team',
                 key: 'month',
                 dataIndex: 'team',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('team'),
             },
             {
                 title: 'Brand Manager',
                 key: 'month',
                 dataIndex: 'brandManager',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('brandManager')
+
             },
             {
                 title: 'Month',
                 key: 'month',
                 dataIndex: 'month',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('month')
             },
             {
                 title: 'Year',
                 key: 'year',
                 dataIndex: 'year',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('year')
             },
             {
                 title: 'Type',
                 key: 'type',
                 dataIndex: 'allocationType',
                 width: '100px',
-                ...getColumnSearchProps('allocationType'),
+                ...getColumnSearchProps('allocationType')
             },
             {
                 title: 'Submission Date',
                 key: 'submissionDate',
                 dataIndex: 'submissionDate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('submissionDate')
             },
             {
                 title: 'Status',
                 key: 'currentStatus',
                 dataIndex: 'currentStatus',
-                width: '100px'
-            },
+                width: '100px',
+                ...getColumnSearchProps('currentStatus')
+            }
         ]);
         setColumnHubNearExpiry([
             {
                 title: 'Item Name',
                 key: 'itemName',
                 dataIndex: 'itemName',
-                width: '200px'
+                width: '200px',
+                ...getColumnSearchProps('itemName'),
             },
             {
                 title: 'Category',
                 key: 'category',
                 dataIndex: 'category',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('category'),
             },
             {
                 title: 'Expiry Date',
                 key: 'expiryDate',
                 dataIndex: 'expiryDate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('expiryDate'),
             },
             {
                 title: 'Expires In',
                 key: 'expiresIn',
                 dataIndex: 'expiresIn',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('expiresIn'),
             },
 
         ]);
@@ -442,25 +426,29 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                 title: 'Item Name',
                 key: 'itemName',
                 dataIndex: 'itemName',
-                width: '200px'
+                width: '200px',
+                ...getColumnSearchProps('itemName'),
             },
             {
                 title: 'Category',
                 key: 'category',
                 dataIndex: 'category',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('category'),
             },
             {
                 title: 'Expiry Date',
                 key: 'expiryDate',
                 dataIndex: 'expiryDate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('expiryDate'),
             },
             {
                 title: 'Remaining Quantity',
                 key: 'remainingQuantity',
                 dataIndex: 'remainingQuantity',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('remainingQuantity'),
             },
 
         ]);
@@ -469,31 +457,36 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                 title: 'Start Time',
                 key: 'startTime',
                 dataIndex: 'startTime',
-                width: '200px'
+                width: '100px',
+                ...getColumnSearchProps('startTime'),
             },
             {
                 title: 'End Time',
                 key: 'endTime',
                 dataIndex: 'endTime',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('endTime'),
             },
             {
                 title: 'Total Records',
                 key: 'totalRecords',
                 dataIndex: 'totalRecords',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('totalRecords'),
             },
             {
                 title: 'Record Uploaded',
                 key: 'recordsUploaded',
                 dataIndex: 'recordsUploaded',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('recordsUploaded'),
             },
             {
                 title: 'Status',
                 key: 'status',
                 dataIndex: 'status',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('status'),
             },
 
         ]);
@@ -502,37 +495,43 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                 title: 'Item Name',
                 key: 'itemName',
                 dataIndex: 'itemName',
-                width: '200px'
+                width: '200px',
+                ...getColumnSearchProps('itemName'),
             },
             {
                 title: 'Category',
                 key: 'category',
                 dataIndex: 'category',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('category'),
             },
             {
                 title: 'Expiry Date',
                 key: 'expiryDate',
                 dataIndex: 'expiryDate',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('expiryDate'),
             },
             {
                 title: 'Quantity',
                 key: 'quantity',
                 dataIndex: 'quantity',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('quantity'),
             },
             {
                 title: 'Cost',
                 key: 'cost',
                 dataIndex: 'cost',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('cost'),
             },
             {
                 title: 'PoNo',
                 key: 'pono',
                 dataIndex: 'pono',
-                width: '100px'
+                width: '100px',
+                ...getColumnSearchProps('pono'),
             },
 
         ]);
@@ -551,6 +550,8 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
     }
 
     useEffect(() => {
+        console.log(hubGrnErrorLogList)
+        console.log(dispatchesMonthWiseList)
         handlePendingDispatch ({
             certificate: authInfo.token
         });
@@ -563,6 +564,10 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
         handleHubGrnErrorLog({
             certificate: authInfo.token
         })
+
+            handleDispatchesMonthWiseList({
+                certificate: authInfo.token,
+            })
         handleItemExpiredDetails({
             certificate: authInfo.token
         })
@@ -609,7 +614,7 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             <Row gutter={16}>
                 <Col span={12}>
                     <Card title="Dispatches Month wise" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
-                        <ColumnChartComponent />
+                        <ColumnChartComponent dispatchesMonthWiseData = {dispatchesMonthWiseData} />
                     </Card>
                 </Col>
                 <Col span={12}>
@@ -622,6 +627,7 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             <Row gutter={16}>
                 <Col span={12}>
                     <Card title="GRN Error Log In Last Upload" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px", overflow: "hidden"}}>
+                        <span>Total Rows: <b>{hubGrnErrorLogList?.length}</b></span>
                         {
                             flag && <Table columns={columnHubGrnErrorLog} scroll={{y: '100%'}} dataSource={hubGrnErrorLogList} style={{height: "400px"}}/>
                         }
@@ -629,6 +635,7 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                 </Col>
                 <Col span={12}>
                     <Card title="Items Expired" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
+                        <span>Total Rows: <b>{itemExpiredDetailsList?.length}</b></span>
                         {
                             flag && <Table columns={columnItemExpiredDetails} scroll={{y: '100%'}} dataSource={itemExpiredDetailsList} style={{height: "400px"}}/>
                         }
@@ -638,7 +645,9 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             <br/>
             <Row gutter={16}>
                 <Card title="Approved Plan Pending for Dispatch" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px"}}>
+                    <span>Total Rows: <b>{pendingDispatchList?.length}</b></span>
                     {
+
                         flag && <Table columns={columnPendingDispatch} scroll={{y: '100%'}} dataSource={pendingDispatchList} style={{height: "400px"}}/>
                     }
                 </Card>
@@ -664,6 +673,8 @@ DashboardComponent.propTypes = {
     itemExpiredDetailsList: PropTypes.array,
     itemExpiredDetailsLoading: PropTypes.any,
     handleItemExpiredDetails: PropTypes.func,
+    dispatchesMonthWiseList:PropTypes.array,
+    handleDispatchesMonthWiseList:PropTypes.func
 }
 
 const mapState = (state) => {
@@ -678,7 +689,9 @@ const mapState = (state) => {
     const hubGrnErrorLogLoading = selectHubGrnErrorLogLoading(state)
     const itemExpiredDetailsList = selectItemExpiredDetails(state)
     const itemExpiredDetailsLoading = selectItemExpiredDetailsLoading(state)
-    return {authInfo,pendingDispatchList,pendingDispatchLoading,hubNearExpiryList,hubNearExpiryLoading,hubPendingRevalidationList,hubPendingRevalidationLoading,hubGrnErrorLogList,hubGrnErrorLogLoading,itemExpiredDetailsList,itemExpiredDetailsLoading}
+    const dispatchesMonthWiseList = selectDispatchesMonthWiseList(state)
+    return {authInfo,pendingDispatchList,pendingDispatchLoading,hubNearExpiryList,hubNearExpiryLoading,hubPendingRevalidationList,hubPendingRevalidationLoading,
+        hubGrnErrorLogList,hubGrnErrorLogLoading,itemExpiredDetailsList,itemExpiredDetailsLoading,dispatchesMonthWiseList}
 }
 
 const actions = {
@@ -687,6 +700,7 @@ const actions = {
     handleHubPendingRevalidation: hubPendingRevalidationStartAction,
     handleHubGrnErrorLog: hubGrnErrorLogStartAction,
     handleItemExpiredDetails: itemExpiredDetailsStartAction,
+    handleDispatchesMonthWiseList :dispatchesMonthWiseStartAction,
 }
 
 export default connect(mapState, actions) (DashboardComponent)
