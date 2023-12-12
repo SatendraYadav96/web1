@@ -300,7 +300,7 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
         { action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'Action Completed', type: 'success' } },
+            payload: { message: { text: 'GRN loaded successfully', type: 'success' } },
         },
     ],
     UNACKNOWLEDGE_LIST_FAIL: [

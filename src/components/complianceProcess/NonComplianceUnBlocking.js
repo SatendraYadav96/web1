@@ -19,7 +19,7 @@ import {isArray} from "@craco/craco/lib/utils";
 
 
 const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceList,handleNonCompliance, handleSaveNonComplianceAdminRemark, saveNonComplianceAdminRemarkSuccess}) => {
-
+    console.log(profileInfo)
    const date = new Date()
 
    const currentYear = date.getFullYear()
@@ -549,6 +549,7 @@ NonComplianceUnBlockingComponent.propTypes = {
 }
 
 const mapState = (state) => {
+
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const nonComplianceList = selectNonComplianceListData(state)
