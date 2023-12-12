@@ -5,6 +5,8 @@ import UploadLogs from "../components/upload/NonComplianceUploadLogs";
 const Dashboard = React.lazy(() => import('../components/dashboard/DashboardComponent'))
 const BexDashboardComponent = React.lazy(() => import('../components/dashboard/BexDashboardComponent'))
 const BMDashboardComponent = React.lazy(() => import('../components/dashboard/BMDashboardComponent'))
+const BuHeadDashboardComponent = React.lazy(() => import('../components/dashboard/BuHeadDashboardComponent'))
+const RbmDashboardComponent = React.lazy(() => import('../components/dashboard/RbmDashboardComponent'))
 const GRNAcknowledgementComponent = React.lazy(() => import('../components/grn/GRNAcknowledgementComponent'))
 const GRNUploadComponent = React.lazy(() => import('../components/grn/GRNUploadComponent'))
 const MonthlyAllocationComponent = React.lazy(() => import('../components/allocation/MonthlyAllocationComponent'))
@@ -96,6 +98,8 @@ const routes = [
     { path: '/home/dashboard', name: 'Dashboard', element: Dashboard },
     { path: '/home/bexdashboard', name: 'BexDashboardComponent', element: BexDashboardComponent },
     { path: '/home/bmdashboard', name: 'BMDashboardComponent', element: BMDashboardComponent },
+    { path: '/home/buheaddashboard', name: 'BMDashboardComponent', element: BuHeadDashboardComponent },
+    { path: '/home/rbmdashboard', name: 'BMDashboardComponent', element: RbmDashboardComponent },
     { path: '/home/grn/acknowledge', name: 'GRNAcknowledgementComponent', element: GRNAcknowledgementComponent },
     { path: '/home/grn/logs', name: 'GRNUploadComponent', element: GRNUploadComponent },
     { path: '/home/allocations/monthly/create', name: 'MonthlyAllocationComponent', element: MonthlyAllocationComponent },
