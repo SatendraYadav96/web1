@@ -689,6 +689,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                     loading={specialItemsLoading}
                 />
             }
+
             {currentStep === 1 && allocations !== undefined &&
                 <Spin spinning={allocationsLoading}>
                     <Collapse
