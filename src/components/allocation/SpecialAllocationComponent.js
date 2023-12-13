@@ -659,6 +659,15 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                     <Button type={'primary'} onClick={upload} disabled={submitFlag}>Upload</Button>
                 </Col>
             </Row>
+
+            {/*<p>*/}
+            {/*    <b>Allocation Status</b> : Submit*/}
+            {/*    <br/>*/}
+            {/*    <b>Allocation Invoice Status</b>: Not initiated*/}
+            {/*</p>*/}
+
+
+
             <Steps current={currentStep} style={{marginBottom: 20}}>
                 {allocationSteps.map((item) =>
                     <Step key={item.title} title={item.title} />

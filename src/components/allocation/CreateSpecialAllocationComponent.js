@@ -433,11 +433,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                 {/*</Col>*/}
             </Row>
             <br/><br/>
-            <p>
-                <b>Allocation Status</b> : Draft
-                <br/>
-                <b>Allocation Invoice Status</b>: Not initiated
-            </p>
+
             <Row gutter={[16,16]} style={{marginBottom: 40}}>
 
                 <Col span={4} >
@@ -460,6 +456,11 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                     <Button type={'primary'} onClick={upload}>Upload</Button>
                 </Col>
             </Row>
+            <p>
+                <b>Allocation Status</b> : Draft
+                <br/>
+                <b>Allocation Invoice Status</b>: Not initiated
+            </p>
             <Steps current={currentStep} style={{marginBottom: 20}}>
                 {allocationSteps.map((item) =>
                     <Step key={item.title} title={item.title} />

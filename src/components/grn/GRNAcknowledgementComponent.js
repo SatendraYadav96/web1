@@ -132,6 +132,14 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     }
 
     useEffect(() => {
+        if(refresh){
+            handleLoadList({
+                certificate: authInfo.token
+            })
+        }
+    },[refresh])
+
+    useEffect(() => {
         if(data.grn !== undefined){
             if(flag) {
                 data.grn.forEach((it) => {
@@ -395,17 +403,17 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         const r = arr.find(a=> a.id == row.id)
         console.log(r)
         let grnData = {
-            "category":  r.category.id ,
-            "costCenterCode": r.costCenterCode,
-            "expiryDate": moment(r.expiryDate).format('yyyy-MM-DD').toString(),
+            "category":  a.category.id ,
+            "costCenterCode": a.costCenterCode,
+            "expiryDate": moment(a.expiryDate).format('yyyy-MM-DD').toString(),
             "itemCode": itemCode,
-            "medicalCode": (r.lineText !== null ? r. lineText: ""),
-            "basePack": r.basePack,
-            "numBoxes": r.numBoxes,
-            "hsnCode": (r.hsnCode !== null ? r.hsnCode: r.hsn),
-            "ratePer": (r.ratePerGRN !== null ? r.ratePerGRN : r.ratePer),
-            "units": r.units,
-            "grnId": r.id
+            "medicalCode": (a.lineText !== null ? a. lineText: ""),
+            "basePack": a.basePack,
+            "numBoxes": a.numBoxes,
+            "hsnCode": (a.hsnCode !== null ? a.hsnCode: a.hsn),
+            "ratePer": (a.ratePerGRN !== null ? a.ratePerGRN : a.ratePer),
+            "units": a.units,
+            "grnId": a.id
         }
         console.log(data);
         handleApproveAcknowledge({

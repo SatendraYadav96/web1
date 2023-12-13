@@ -7,7 +7,7 @@ import {
 } from '../actions/auth/authActionConstants'
 import {
     APPROVE_ACKNOWLEDGE_FAIL, APPROVE_ACKNOWLEDGE_SUCCESS, REJECT_ACKNOWLEDGE_FAIL, REJECT_ACKNOWLEDGE_SUCCESS, UNACKNOWLEDGE_LIST_FAIL, UNACKNOWLEDGE_LIST_RESET, UNACKNOWLEDGE_LIST_START, UNACKNOWLEDGE_LIST_SUCCESS,
-    GRN_UPLOAD_SUCCESS, GRN_UPLOAD_FAIL, GRN_SUCCESS, GRN_FAIL
+    GRN_UPLOAD_SUCCESS, GRN_UPLOAD_FAIL, GRN_SUCCESS, GRN_FAIL, REJECT_ACKNOWLEDGE_START, APPROVE_ACKNOWLEDGE_START
 } from "../actions/grn/grnActionConstants";
 const initialState = {
   unacknowledged: {},
@@ -42,6 +42,15 @@ const unacknowledgeListResetReducer = (state = initialState, payload) => {
     }
 }
 
+const rejectAcknowledgeStartReducer = (state = initialState, payload) =>{
+    return{
+        ...state,
+        rejectAcknowledge: {},
+        refreshAcknowledge: false,
+        error: null
+    }
+}
+
 const rejectAcknowledgeSuccessReducer = (state = initialState, payload) =>{
     return{
         ...state,
@@ -56,6 +65,15 @@ const rejectAcknowledgeFailReducer = (state = initialState, payload) => {
         ...state,
         error: payload.error,
         refreshAcknowledge: false
+    }
+}
+
+const approveAcknowledgeStartReducer = (state = initialState, payload) =>{
+    return{
+        ...state,
+        approveAcknowledge: {},
+        refreshAcknowledge: false,
+        error: null
     }
 }
 
@@ -100,7 +118,9 @@ export default createReducer(initialState, {
   [UNACKNOWLEDGE_LIST_FAIL]: unacknowledgeListFailReducer,
   [UNACKNOWLEDGE_LIST_RESET]: unacknowledgeListResetReducer,
   [REJECT_ACKNOWLEDGE_SUCCESS]: rejectAcknowledgeSuccessReducer,
+    [REJECT_ACKNOWLEDGE_START]: rejectAcknowledgeStartReducer,
   [REJECT_ACKNOWLEDGE_FAIL]: rejectAcknowledgeFailReducer,
+    [APPROVE_ACKNOWLEDGE_START]: approveAcknowledgeStartReducer,
   [APPROVE_ACKNOWLEDGE_SUCCESS]: approveAcknowledgeSuccessReducer,
   [APPROVE_ACKNOWLEDGE_FAIL]: approveAcknowledgeFailReducer,
   [GRN_SUCCESS]: grnUploadSuccessReducer,
