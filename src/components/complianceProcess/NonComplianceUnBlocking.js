@@ -554,6 +554,7 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     const nonComplianceList = selectNonComplianceListData(state)
     const saveNonComplianceAdminRemarkSuccess = selectSaveNonComplianceAdminRemarkSuccess(state)
+    console.log(profileInfo)
     return {authInfo, profileInfo,nonComplianceList, saveNonComplianceAdminRemarkSuccess}
 }
 

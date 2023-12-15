@@ -42,13 +42,15 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
+
     LOGIN_SUCCESS_ACTION: [
     {
       action: 'hidespinner'
     },
     {
       action: 'showsuccess',
-      payload: { message: { text: 'Login success', type: 'success' } },
+
+      payload: { message: { text: 'Login success', type: 'success' } }
     },
     ],
     LOGIN_FAIL_ACTION: [

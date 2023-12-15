@@ -7,7 +7,8 @@ import { loadUserProfileStartAction } from '../../redux/actions/auth/authActions
 import { selectPageTitle } from '../../redux/selectors/uiSelectors'
 import './HeaderComponent.less'
 import {LogoutOutlined} from '@ant-design/icons';
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
+
 
 const HeaderComponent = ({ authInfo, profileInfo, handleLoadProfileInfo, pageTitle }) => {
     const navigate = useNavigate()
@@ -20,7 +21,11 @@ const HeaderComponent = ({ authInfo, profileInfo, handleLoadProfileInfo, pageTit
     const {Title} = Typography
 
     const handleLogout = () => {
-        return navigate("/login")
+        console.log('satya')
+       //  (<Navigate push to="/login" />)
+
+         return navigate("/login")
+
     }
     return (
     <Row justify={'space-between'} style={{ height: '100%' }}>
@@ -28,7 +33,9 @@ const HeaderComponent = ({ authInfo, profileInfo, handleLoadProfileInfo, pageTit
             <Title>
                 <Menu mode={"horizontal"} >
                     <Menu.SubMenu title={profileInfo === null ? '' : profileInfo.name}>
-                        <Menu.Item icon={<LogoutOutlined />} onClick={() => handleLogout()}>LogOut</Menu.Item>
+                        <Menu.Item icon={<LogoutOutlined />}
+                                    onClick={() => handleLogout()}
+                        >LogOut</Menu.Item>
                     </Menu.SubMenu>
                 </Menu>
             </Title>

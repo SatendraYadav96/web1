@@ -1,21 +1,41 @@
-import React, {Suspense, useState} from 'react'
-import {Col, Divider, Layout, Row, Spin, Typography} from 'antd'
+import React, {Suspense, useEffect, useState} from 'react'
+import {Col, Divider, Layout, Menu, Row, Spin, Typography} from 'antd'
 import './DefaultLayout.less'
 import { Content, Header } from 'antd/es/layout/layout'
 import Sider from 'antd/es/layout/Sider'
 import SideMenuComponent from '../widgets/SideMenuComponent'
 import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../redux/selectors/authSelectors'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import {Navigate, Route, Routes, useNavigate} from 'react-router-dom'
 import routes from '../navigations/routes'
 import { connect } from 'react-redux'
 import HeaderComponent from '../components/header/HeaderComponent'
 import ReactRoundedImage from "react-rounded-image"
 import  titleImg  from '../assets/SNY.png'
+import {LogoutOutlined} from "@ant-design/icons";
+import Title from "antd/es/skeleton/Title";
+import {loadUserProfileStartAction} from "../redux/actions/auth/authActions";
+import {selectPageTitle} from "../redux/selectors/uiSelectors";
+//import './HeaderComponent.less'
 
 
-const DefaultLayout = ({ authInfo ,profileInfo}) => {
+const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitle}) => {
     const [collapse, setCollapse]=useState(true)
+
+    const navigate = useNavigate()
+    useEffect(() => {
+        handleLoadProfileInfo({
+            certificate: authInfo.token,
+            userId: authInfo.id,
+        })
+    }, [])
+    const {Title} = Typography
+
+    const handleLogout = () => {
+console.log('satya')
+        return navigate("/login")
+
+    }
 
     //if(profileInfo.userDesignation.id === "2B264AFB-E2FD-483C-BD4C-C36A4E352FC5"){
         return (
@@ -66,7 +86,23 @@ const DefaultLayout = ({ authInfo ,profileInfo}) => {
                     </Sider>
                     <Layout className="site-layout">
                         <Header>
-                            <HeaderComponent />
+                            {/*<HeaderComponent />*/}
+
+                            <Row justify={'space-between'} style={{ height: '100%' }}>
+                                <Col span={4} offset={20}>
+                                    <Title>
+                                        <Menu mode={"horizontal"} >
+                                            <Menu.SubMenu title={profileInfo === null ? '' : profileInfo.name}>
+                                                <Menu.Item icon={<LogoutOutlined />}
+                                                           onClick={() => handleLogout()}
+                                                >LogOut</Menu.Item>
+                                            </Menu.SubMenu>
+                                        </Menu>
+                                    </Title>
+                                </Col>
+                            </Row>
+                            )
+
                         </Header>
                         <Content className={'content-layout'}>
                             <Suspense fallback={<Spin />}>
@@ -110,14 +146,21 @@ const DefaultLayout = ({ authInfo ,profileInfo}) => {
 DefaultLayout.propTypes = {
   authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    pageTitle: PropTypes.any,
+    handleLoadProfileInfo: PropTypes.func,
 }
 
 const mapState = (state) => {
   const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
-  return { authInfo,profileInfo }
+    const pageTitle = selectPageTitle(state)
+    console.log(profileInfo)
+  return { authInfo,profileInfo,pageTitle }
 }
 
-const actions = {}
+const actions = {
+    handleLoadProfileInfo: loadUserProfileStartAction,
+}
+
 
 export default connect(mapState, actions)(DefaultLayout)

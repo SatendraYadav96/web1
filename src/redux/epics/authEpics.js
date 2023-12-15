@@ -12,6 +12,7 @@ import {
   loginSuccessAction,
 } from '../actions/auth/authActions'
 import { authRequest, userProfileRequest } from '../../api/authRequests'
+import {pendingDispatchFailAction, pendingDispatchSuccessAction} from "../actions/dashboard/dashboardActions";
 
 export const authStartEpic = (action$) =>
   action$.pipe(
@@ -37,10 +38,18 @@ export const userProfileStartEpic = (action$) =>
     debounceTime(4000),
     switchMap((action) =>
       userProfileRequest(action.payload).pipe(
-        map((profileResponse) =>
-          loadUserProfileSuccessAction({ profile: profileResponse.response }),
-        ),
-        catchError((error) => of(loadUserProfileFailAction({ error: error }))),
+        // map((profileResponse,profile) =>
+        //   loadUserProfileSuccessAction({ profile: profileResponse.response }),
+        //     console.log(profile)
+        // ),
+        // catchError((error) => of(loadUserProfileFailAction({ error: error }))),
+
+          map((listResponse) => {
+              console.log(listResponse.response)
+
+              return loadUserProfileSuccessAction({profileInfo: listResponse.response})}),
+          catchError((error) => of(loadUserProfileFailAction({error: error}))),
+          // console.log(listResponse.response)
     ),
     ),
   )

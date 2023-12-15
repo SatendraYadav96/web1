@@ -2,6 +2,7 @@ import React from 'react'
 import Login from "../components/auth/Login";
 import UploadLogs from "../components/upload/NonComplianceUploadLogs";
 
+const Logins = React.lazy(() => import('../components/auth/Login'))
 const Dashboard = React.lazy(() => import('../components/dashboard/DashboardComponent'))
 const BexDashboardComponent = React.lazy(() => import('../components/dashboard/BexDashboardComponent'))
 const BMDashboardComponent = React.lazy(() => import('../components/dashboard/BMDashboardComponent'))
@@ -108,6 +109,7 @@ const routes = [
     { path: '/home/allocations/special/create', name: 'SpecialAllocationMainComponent', element: SpecialAllocationMainComponent},
     { path: '/home/allocations/special/createNew', name: 'CreateSpecialAllocationComponent', element: CreateSpecialAllocationComponent},
     { path: '/login', name: 'Login', element: Login },
+    { path: '/login', name: 'Login', element: Logins },
     { path: '/home/dispatchInvoicing/pickingSlip', name: 'PickingSlip', element: PickingSlipComponent},
     { path: '/home/dispatchInvoicing/monthlyDispatch', name: 'MonthlyDispatch', element: MonthlyDispatchComponent },
     { path: '/home/dispatchInvoicing/monthlyDispatch/details', name: 'MonthlyDispatch', element: MonthlyDispatchDetailComponent},

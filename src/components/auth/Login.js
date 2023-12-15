@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {loadUserProfileStartAction, loginStartAction} from '../../redux/actions/auth/authActions'
-import {selectAuthInfo, selectLoggedIn, selectProfileInfo} from '../../redux/selectors/authSelectors'
+import {selectAuthInfo, selectLoggedIn, selectProfileInfo, selectProfileInfoLoading} from '../../redux/selectors/authSelectors'
 import { Button, Col, Form, Input, Layout, Row, Typography } from 'antd'
 import './Login.less'
 import { Navigate } from 'react-router-dom'
 
-const Login = ({ handleLogin, authInfo, loggedIn,profileInfo }) => {
+const Login = ({ handleLogin, authInfo, loggedIn,profileInfo,profileInfoLoading,handleLoadProfileInfo }) => {
 
   const [form] = Form.useForm()
   const { Title } = Typography
@@ -32,8 +32,17 @@ const Login = ({ handleLogin, authInfo, loggedIn,profileInfo }) => {
       .catch((errorInfo) => {})
   }
 
+  useEffect(() => {
+      if (loggedIn){
+          handleLoadProfileInfo({
+              certificate: authInfo.token,
+          })
+      }
 
-    return loggedIn ? (
+    }, [loggedIn ])
+
+
+      return profileInfo.userDesignation?  (
 
     profileInfo?.userDesignation?.id === "2B264AFB-E2FD-483C-BD4C-C36A4E352FC5" ? (
     <Navigate push to="/home/bmdashboard" />
@@ -42,7 +51,6 @@ const Login = ({ handleLogin, authInfo, loggedIn,profileInfo }) => {
     ) : (
     <Navigate push to="/home/dashboard" />
     )
-
 
 
     ):(
@@ -81,9 +89,7 @@ const Login = ({ handleLogin, authInfo, loggedIn,profileInfo }) => {
                   </Col>
               </Row>
           </Layout>
-      )
-
-
+       )
 
 
 }
@@ -92,6 +98,7 @@ Login.propTypes = {
 
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    profileInfoLoading: PropTypes.any,
     handleLogin: PropTypes.func,
     navigation: PropTypes.any,
     loggedIn: PropTypes.bool,
@@ -102,14 +109,15 @@ const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const loggedIn = selectLoggedIn(state)
     const profileInfo = selectProfileInfo(state)
-    console.log(authInfo)
-    console.log(loggedIn)
+    const profileInfoLoading = selectProfileInfoLoading(state)
     console.log(profileInfo)
-  return { authInfo, loggedIn,profileInfo }
+    console.log(profileInfoLoading)
+  return { authInfo, loggedIn,profileInfo,profileInfoLoading }
 }
 
 const actions = {
     handleLogin: loginStartAction,
+handleLoadProfileInfo : loadUserProfileStartAction,
 
 }
 
