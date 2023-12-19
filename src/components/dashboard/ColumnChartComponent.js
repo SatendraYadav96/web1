@@ -12,12 +12,14 @@ const ColumnChartComponent = ({dispatchesMonthWiseData} ) => {
     console.log(dispatchesMonthWiseData);
 
 
+
     const data = [
         {
             month: "JAN",
             type: "Monthly",
             sale: 14500
         },
+
         {
             month: "JAN",
             type: "Monthly",

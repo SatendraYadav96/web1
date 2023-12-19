@@ -28,6 +28,7 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
     const [zip, setZip] = useState()
     const [checked, setChecked] = useState(true);
     const [active, setActive] = useState();
+    const [error, setError] = React.useState('');
 
     const handleActiveChange = (e) => {
         setChecked(e.target.checked);
@@ -72,8 +73,20 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
        setState(e.target.value)
     }
 
-    const handleZipChange = (e) => {
-         setZip(e)
+    const pinCodeRegex = /^[0-9]{6}$/;
+
+    const handleZipChange = (event) => {
+
+        const newPinCode = event.target.value;
+        setZip(newPinCode);
+
+        if (!pinCodeRegex.test(newPinCode)) {
+            setError('Invalid pin code format. Pin code must be 6 digits long.' +
+                '' +
+                '');
+        } else {
+            setError('');
+        }
     }
 
     const handleInsertVendor = () => {
@@ -142,7 +155,8 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
                 </Col>
                 <Col span={2}></Col>
                 <Col span={8} offset={2}>
-                    Zip: <br/><InputNumber  placeholder={"Vendor Zip"} value={zip} onChange={handleZipChange} style={{width: '100%'}}/>
+                    Zip: <br/><Input  placeholder={"Vendor Zip"} value={zip} onChange={handleZipChange} style={{width: '100%'}}/>
+                    {error && <div style={{ color: 'red' }}>{error}</div>}
                 </Col>
             </Row>
             <br/>

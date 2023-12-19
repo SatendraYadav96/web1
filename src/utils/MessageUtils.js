@@ -51,8 +51,10 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
       action: 'showsuccess',
 
       payload: { message: { text: 'Login success', type: 'success' } }
+
     },
     ],
+
     LOGIN_FAIL_ACTION: [
     { action: 'hidespinner' },
     {

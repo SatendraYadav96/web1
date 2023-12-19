@@ -551,7 +551,6 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
 
     useEffect(() => {
         console.log(hubGrnErrorLogList)
-        console.log(dispatchesMonthWiseList)
         handlePendingDispatch ({
             certificate: authInfo.token
         });
@@ -565,9 +564,6 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             certificate: authInfo.token
         })
 
-            handleDispatchesMonthWiseList({
-                certificate: authInfo.token,
-            })
         handleItemExpiredDetails({
             certificate: authInfo.token
         })
@@ -606,6 +602,16 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             "sale": 8500
         },
     ]
+
+    useEffect(() => {
+
+            handleDispatchesMonthWiseList({
+                certificate: authInfo.token,
+            })
+
+        searchData()
+    }, [status])
+
 
     return (
         <div>
@@ -690,6 +696,7 @@ const mapState = (state) => {
     const itemExpiredDetailsList = selectItemExpiredDetails(state)
     const itemExpiredDetailsLoading = selectItemExpiredDetailsLoading(state)
     const dispatchesMonthWiseList = selectDispatchesMonthWiseList(state)
+    console.log(dispatchesMonthWiseList)
     return {authInfo,pendingDispatchList,pendingDispatchLoading,hubNearExpiryList,hubNearExpiryLoading,hubPendingRevalidationList,hubPendingRevalidationLoading,
         hubGrnErrorLogList,hubGrnErrorLogLoading,itemExpiredDetailsList,itemExpiredDetailsLoading,dispatchesMonthWiseList}
 }
