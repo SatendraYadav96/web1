@@ -246,7 +246,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
         setOpen(true)
     }
 
-    const SaveCommonAllocation = () => {
+    const   SaveCommonAllocation = () => {
         let data = []
         specialDifferentialTeam.forEach( t => {
             if(t.quantity == undefined){
@@ -286,6 +286,10 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
 
     useEffect(()=>{
         console.log(teams)
+        let d = []
+        teams.forEach(i =>
+            d.push(i.id)
+        )
         handleSpecialDifferentialTeam({
             certificate:authInfo.token,
             ccmId: costCenterId,
