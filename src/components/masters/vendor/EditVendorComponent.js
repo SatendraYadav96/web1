@@ -40,6 +40,7 @@ const EditVendorComponent = ({
     const [state, setState] = useState();
     const [zip, setZip] = useState();
     const [active, setActive] = useState();
+    const [error, setError] = React.useState('');
     // console.log(name);
     // console.log(addressLine1);
 
@@ -83,8 +84,18 @@ const EditVendorComponent = ({
     setState(e.target.value);
   };
 
-  const handleZipChange = (e) => {
-    setZip(e.target.value);
+    const pinCodeRegex = /^[0-9]{6}$/;
+  const handleZipChange = (event) => {
+      const newPinCode = event.target.value;
+      setZip(newPinCode);
+
+      if (!pinCodeRegex.test(newPinCode)) {
+          setError('Invalid pin code format. Pin code must be 6 digits long.' +
+              '' +
+              '');
+      } else {
+          setError('');
+      }
   };
 
   const handleActiveChange = (e) => {
@@ -191,6 +202,7 @@ const EditVendorComponent = ({
             value={zip}
             onChange={handleZipChange}
           />
+            {error && <div style={{ color: 'red' }}>{error}</div>}
         </Col>
         <Col span={8} offset={2}>
           IsActive: <Checkbox checked={active === 1} onChange={handleActiveChange} />

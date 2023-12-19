@@ -223,9 +223,9 @@ const ChangeVirtualAllocationComponent = ({authInfo, profileInfo, item, planId, 
         },
         {
             title: 'Allocated Quantity',
-            dataIndex: 'allocatedQuantity',
+            dataIndex: 'quantityDispatch',
             key: '',
-            ...getColumnSearchProps('allocatedQuantity'),
+            //...getColumnSearchProps('allocatedQuantity'),
         },
         {
             title: 'Qty',
@@ -246,6 +246,7 @@ const ChangeVirtualAllocationComponent = ({authInfo, profileInfo, item, planId, 
             {showErrorMessage &&
                 <Alert message={errorMessage} type="error" />
             }
+            <span>Total Rows: <b>{teamForDifferentialAllocation?.length}</b></span>
             <Table columns={columns} pagination={{pageSize: 6}} scroll={{y: 500}} dataSource={teamForDifferentialAllocation}></Table>
             {/*<Row gutter={[8,8]}>*/}
             {/*    <Col span={1} offset={23}><Button type={'primary'} onClick={() => SaveDifferentialAllocation()}>Save</Button></Col>*/}

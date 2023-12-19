@@ -250,29 +250,6 @@ const BatchReconciliationComponent = ({authInfo,handleBatchReconciliation,batchR
 
 
     const getPurchaseReportList = () => {
-        // console.log(businessUnit);
-        // console.log(division);
-        // console.log(startDate);
-        // console.log(endDate);
-        // console.log(profileInfo.id);
-        // console.log(profileInfo.userDesignation.id);
-        //
-        // console.log(purchaseList);
-
-        // handlePurchaseReportList ({
-        //     businessUnit:businessUnit,
-        //     divison:division,
-        //     userId: profileInfo.id,
-        //     userDesgId: profileInfo.userDesignation.id,
-        //     startDate:formatedStartDateString,
-        //     endDate:formatedEndDateString,
-        //     // startDate:startDate,
-        //     // endDate:endDate,
-        //
-        //
-        //
-        //     certificate: authInfo.token
-        // });
         searchData()
     }
 
@@ -308,29 +285,7 @@ const BatchReconciliationComponent = ({authInfo,handleBatchReconciliation,batchR
         XLSX.writeFile(wb,"BatchReconciliation.XLSX")
     }
 
-    // useEffect(() => {
-    //     setData(purchaseList.map(item => {
-    //         return {
-    //             team: item.businessUnit,
-    //             subTeam: item.divison,
-    //             grnDate: item.grnDate,
-    //             vendorName: item.vendorName,
-    //             vendorCode: item.vendorCode,
-    //             poNo: item.poNo,
-    //             inputName: item.productName,
-    //             inputCode: item.productCode,
-    //             costCenter: item.costCenter,
-    //             quantity: item.quantity,
-    //             rate: item.rate,
-    //             value: item.value,
-    //             batchNo: item.batchNo,
-    //             medicalCode: item.medicalCode,
-    //             noBoxes: item.noBoxes,
-    //
-    //         }
-    //     }))
-    //     console.log(purchaseList)
-    // },[purchaseList])
+
 
     const handleBusinessUnit = (value) =>  {
         setBusinessUnit(value)

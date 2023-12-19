@@ -1,10 +1,10 @@
 export const AUTH_CERTIFICATE = 'Authorization'
 //export const BASE_URL = 'http://promobee-uat:8080'
 
-   // export const BASE_URL = 'http://localhost:8080'
+    export const BASE_URL = 'http://localhost:8080'
 
 
- export const BASE_URL = 'http://104.237.6.220:8080'
+ //export const BASE_URL = 'http://104.237.6.220:8080'
 
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
@@ -193,6 +193,9 @@ export const GET_HUB_PENDING_REVALIDATION_API = {url: '/v1/dashboard/getHubPendi
 export const GET_HUB_GRN_ERROR_LOG_API = {url: '/v1/dashboard/getHubGrnErrorLog',method:'GET',auth:true}
 export const GET_ITEM_EXPIRED_DETAILS_API = {url: '/v1/dashboard/getItemExpiredDetails',method:'GET',auth:true}
 
+export const GET_DISPATCHES_MONTH_WISE_API = {url: '/v1/dashboard/dispatchesMonthWise',method:'GET',auth:true}
+
+export const GET_SPECIAL_COURIER_COST_MONTH_WISE_API = {url: '/v1/dashboard/specialCourierCostMonthWise',method:'GET',auth:true}
 //UPLOAD
 export const TRANSPORT_UPLOAD_API = {url: '/v1/upload/transporterUpload',method:'POST',auth:true}
 export const TRANSPORT_EXCEL_UPLOAD_API = {url: '/v1/upload/transportExcelData',method:'GET',auth:true}

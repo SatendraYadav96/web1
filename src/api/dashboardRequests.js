@@ -1,4 +1,4 @@
-import {GET_HUB_GRN_ERROR_LOG_API, GET_HUB_NEAR_EXPIRY_API, GET_HUB_PENDING_REVALIDATION_API, GET_ITEM_EXPIRED_DETAILS_API, GET_MANAGEMENT_DASHBOARD_API, GET_PENDING_DISPATCH_API} from "./apiConstants";
+import {GET_DISPATCHES_MONTH_WISE_API, GET_HUB_GRN_ERROR_LOG_API, GET_HUB_NEAR_EXPIRY_API, GET_HUB_PENDING_REVALIDATION_API, GET_ITEM_EXPIRED_DETAILS_API, GET_MANAGEMENT_DASHBOARD_API, GET_PENDING_DISPATCH_API, GET_SPECIAL_COURIER_COST_MONTH_WISE_API} from "./apiConstants";
 import {createRequest} from "./httpUtils";
 
 export const pendingDispatchRequest = payload => {
@@ -28,6 +28,16 @@ export const itemExpiredDetailsRequest = payload => {
 
 export const managementDashboardRequest = payload => {
     const api = {...GET_MANAGEMENT_DASHBOARD_API, url: `${GET_MANAGEMENT_DASHBOARD_API.url}/${payload.month}/${payload.year}/${payload.toMonth}/${payload.toYear}/${payload.type}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const dispatchesMonthWiseRequest = payload => {
+    const api = {...GET_DISPATCHES_MONTH_WISE_API, url: `${GET_DISPATCHES_MONTH_WISE_API.url}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const specialCourierCostMonthWiseRequest = payload => {
+    const api = {...GET_SPECIAL_COURIER_COST_MONTH_WISE_API, url: `${GET_SPECIAL_COURIER_COST_MONTH_WISE_API.url}`}
     return createRequest(api, payload.certificate, null)
 }
 

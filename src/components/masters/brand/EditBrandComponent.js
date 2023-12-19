@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import TitleWidget from "../../../widgets/TitleWidget";
 import PropTypes from "prop-types";
-import {selectAuthInfo} from "../../../redux/selectors/authSelectors";
+import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, message, Row, Select} from "antd";
 import {useNavigate, useParams} from "react-router-dom";
@@ -14,7 +14,7 @@ import SelectCostCenterComponent from "../../widgets/SelectCostCenterComponent";
 import SelectDivisionComponent from "../../widgets/SelectDivisionComponent";
 import SelectMultipleCostCenterComponent from "../../widgets/SelectMultipleCostCenterComponent";
 
-const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handleEditBrand, editBrandFailError}) => {
+const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handleEditBrand, editBrandFailError,profileInfo}) => {
 
     let { id } = useParams();
     const navigate = useNavigate()
@@ -145,51 +145,104 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
         }
     },[editBrandFailError])
 
-    return(
-        <>
-            <TitleWidget title={"Edit Brand"}/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Team:<br/><SelectDivisionComponent value={subTeam} onChange={handleSubTeam}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    Name:<br/><Input placeholder={"Brand Name "} value={name} onChange={(e) => setName(e.target.value)}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Code:<br/><Input placeholder={"Code"} value={code} disabled/>
-                </Col>
-                <Col span={8} offset={2}>
-                    User :<br/><SelectUserComponent value={user} onChange={handleUser}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Cost Center :<br/><SelectMultipleCostCenterComponent value={costCenter} onChange={handleCostCenter}/>
-                </Col>
-                <Col span={8} offset={2}>
-                    IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}/>
-                </Col>
-            </Row>
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={2}></Col>
-                {/*<Col span={3}>*/}
-                {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>*/}
-                {/*</Col>*/}
-                <Col span={11}></Col>
-                <Col span={2}>
-                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
-                </Col>
-                <Col span={2}>
-                    <Button type={"primary"} onClick={() => handleInsertBrand()} style={{width: "100%"}}>Submit</Button>
-                </Col>
-            </Row>
-        </>
-    )
+    if(profileInfo.userDesignation.id === "2B264AFB-E2FD-483C-BD4C-C36A4E352FC5"){
+        return(
+            <>
+                <TitleWidget title={"Map Brand Owners"}/>
+                <Row gutter={[16,16]}>
+                    {/*<Col span={8} offset={2}>*/}
+                    {/*    Team:<br/><SelectDivisionComponent value={subTeam} onChange={handleSubTeam}/>*/}
+                    {/*</Col>*/}
+                    <Col span={8} offset={2}>
+                        Name:<br/><Input placeholder={"Brand Name "} value={name} onChange={(e) => setName(e.target.value)}/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Code:<br/><Input placeholder={"Code"} value={code} disabled/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    {/*<Col span={8} offset={2}>*/}
+                    {/*    Code:<br/><Input placeholder={"Code"} value={code} disabled/>*/}
+                    {/*</Col>*/}
+                    <Col span={8} offset={2}>
+                        User :<br/><SelectUserComponent value={user} onChange={handleUser}/>
+                    </Col>
+                </Row>
+                <br/>
+                {/*<Row gutter={[16,16]}>*/}
+                {/*    <Col span={8} offset={2}>*/}
+                {/*        Cost Center :<br/><SelectMultipleCostCenterComponent value={costCenter} onChange={handleCostCenter}/>*/}
+                {/*    </Col>*/}
+                {/*    <Col span={8} offset={2}>*/}
+                {/*        IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}/>*/}
+                {/*    </Col>*/}
+                {/*</Row>*/}
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={2}></Col>
+                    {/*<Col span={3}>*/}
+                    {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>*/}
+                    {/*</Col>*/}
+                    <Col span={11}></Col>
+                    <Col span={2}>
+                        <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button type={"primary"} onClick={() => handleInsertBrand()} style={{width: "100%"}}>Submit</Button>
+                    </Col>
+                </Row>
+            </>
+        )
+    }else {
+        return(
+            <>
+                <TitleWidget title={"Edit Brand"}/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Team:<br/><SelectDivisionComponent value={subTeam} onChange={handleSubTeam}/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        Name:<br/><Input placeholder={"Brand Name "} value={name} onChange={(e) => setName(e.target.value)}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Code:<br/><Input placeholder={"Code"} value={code} disabled/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        User :<br/><SelectUserComponent value={user} onChange={handleUser}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={8} offset={2}>
+                        Cost Center :<br/><SelectMultipleCostCenterComponent value={costCenter} onChange={handleCostCenter}/>
+                    </Col>
+                    <Col span={8} offset={2}>
+                        IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}/>
+                    </Col>
+                </Row>
+                <br/>
+                <Row gutter={[16,16]}>
+                    <Col span={2}></Col>
+                    {/*<Col span={3}>*/}
+                    {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>*/}
+                    {/*</Col>*/}
+                    <Col span={11}></Col>
+                    <Col span={2}>
+                        <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button type={"primary"} onClick={() => handleInsertBrand()} style={{width: "100%"}}>Submit</Button>
+                    </Col>
+                </Row>
+            </>
+        )
+    }
+
+
 }
 
 EditBrandComponent.propTypes = {
@@ -198,7 +251,8 @@ EditBrandComponent.propTypes = {
     editBrand: PropTypes.array,
     handleBrandById: PropTypes.func,
     handleEditBrand: PropTypes.func,
-    editBrandFailError: PropTypes.any
+    editBrandFailError: PropTypes.any,
+    profileInfo: PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -206,7 +260,8 @@ const mapState = (state) => {
     const brandById = selectBrandByIdData(state)
     const editBrand = selectEditBrandData(state)
     const editBrandFailError = selectEditBrandFailError(state)
-    return {authInfo,brandById,editBrand, editBrandFailError}
+    const profileInfo = selectProfileInfo(state)
+    return {authInfo,brandById,editBrand, editBrandFailError,profileInfo}
 }
 
 const actions = {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
@@ -26,14 +26,15 @@ import {
     selectVirtualAllocationForPlan, selectVirtualAllocationLoading,
     selectVirtualItemLoading, selectVirtualPlanSubmitted
 } from '../../redux/selectors/allocationSelectors'
-import {Button, Col, Collapse, DatePicker, Divider, InputNumber, message, Modal, Row, Spin, Steps, Table, Typography, Upload} from 'antd'
+import {Button, Col, Collapse, DatePicker, Divider, Input, InputNumber, message, Modal, Row, Space, Spin, Steps, Table, Typography, Upload} from 'antd'
 import moment from 'moment'
 import {toMm, toYyyy, toYyyyMm} from '../../utils/DateUtils'
 import {MonthlyAllocationInventoryColumns} from './AllocationColumns'
 import TeamAllocationComponent from './TeamAllocationComponent'
 import VirtualTeamAllocationComponent from "./VirtualTeamAllocationComponent";
-import {UploadOutlined} from "@ant-design/icons";
+import {SearchOutlined, UploadOutlined} from "@ant-design/icons";
 import {Excel} from "antd-table-saveas-excel";
+import Highlighter from "react-highlight-words";
 const { Step } = Steps
 const { Panel } = Collapse
 const allocationSteps = [
@@ -345,11 +346,168 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
     };
 
 
-    // const disabledSubmitButton = (current) => {
-    //     const currentMonth = moment().month();
-    //     const nextMonth = currentMonth + 1;
-    //     return nextMonth > current.month()
-    // }
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+
+    const MonthlyAllocationInventoryColumn = () => {
+        const columns = [
+            {
+                title: 'Cost Center Name',
+                dataIndex: 'costCenterName',
+
+                key: 'itemName',
+                ...getColumnSearchProps('costCenterName'),
+            },
+            {
+                title: 'Item Name',
+                dataIndex: 'itemName',
+                key: 'itemName',
+                ...getColumnSearchProps('itemName'),
+            },
+            {
+                title: 'Available Stock',
+                dataIndex: 'stock',
+                key: 'itemName',
+                ...getColumnSearchProps('stock'),
+            },
+            {
+                title: 'PO NO',
+                dataIndex: 'poNo',
+                key: 'itemName',
+                ...getColumnSearchProps('poNo'),
+            },
+            {
+                title: 'Expiry Date',
+                dataIndex: 'expiryDate',
+                key: 'itemName',
+                ...getColumnSearchProps('expiryDate'),
+            },
+
+            {
+                title: 'Pack Size',
+                dataIndex: 'packSize',
+                key: 'packSize',
+                // align: 'right',
+                ...getColumnSearchProps('packSize'),
+            },
+            {
+                title: 'Allocated',
+                dataIndex: 'quantityAllocated',
+                key: 'quantityAllocated',
+                //align: 'right',
+               // ...getColumnSearchProps('quantityAllocated'),
+            },
+            // {
+            //     title: 'Balance',
+            //     dataIndex: 'stock',
+            //     key: 'stock',
+            //    // align: 'right',
+            //    // ...getColumnSearchProps('stock'),
+            //
+            // },
+
+
+
+
+
+        ]
+
+        return columns
+    }
+
 
 
     return(
@@ -394,9 +552,10 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                     </Upload>
                 </Col>
                 <Col span={2}>
-                    <Button type={'primary'} onClick={upload}>Upload</Button>
+                    <Button type={'primary'} onClick={upload} disabled={submitFlag}>Upload</Button>
                 </Col>
             </Row>
+            <span>Total Rows: <b>{virtualAllocation?.length}</b></span>
             {currentStep === 0 &&
                 <Table
                     rowSelection={{
@@ -406,7 +565,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                     scroll={{y: '100%'}}
                     rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'}
                     dataSource={virtualAllocation}
-                    columns={MonthlyAllocationInventoryColumns()}
+                    columns={MonthlyAllocationInventoryColumn()}
                     size={'small'}
                     rowKey={'itemID'}
                     loading={virtualItemsLoading}
@@ -439,7 +598,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
             }
             <div style={{marginTop: 20}}>
                 {currentStep < allocationSteps.length - 1 && (
-                    <Button type='primary' onClick={goToAllocation}>
+                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag}>
                         Start Allocation
                     </Button>
                 )}

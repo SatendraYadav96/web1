@@ -1,4 +1,4 @@
- import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import TitleWidget from '../../widgets/TitleWidget';
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
@@ -91,7 +91,8 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -131,6 +132,14 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     }
 
     useEffect(() => {
+        if(refresh){
+            handleLoadList({
+                certificate: authInfo.token
+            })
+        }
+    },[refresh])
+
+    useEffect(() => {
         if(data.grn !== undefined){
             if(flag) {
                 data.grn.forEach((it) => {
@@ -160,10 +169,10 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         if(arr === undefined){
             let icode = '';
             if (data.itemCategory["NON_MEDICAL"] == categoryId) {
-                icode = ("N" + (data.nonMedicalItemCount +1).toString().padStart(5, 0))
+                icode = ("N" + (data.nonMedicalItemCount ).toString().padStart(5, 0))
             }
             else if(data.itemCategory["MEDICAL"] == categoryId){
-                icode = ("M" + (data.medicalItemCount+1).toString().padStart(5, 0))
+                icode = ("M" + (data.medicalItemCount).toString().padStart(5, 0))
             }
             else{
                 icode = limid
@@ -246,10 +255,11 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             width:'150px',
             render: (_,{id, hsnCode}) => {
                 const row = arr[id];
+                console.log(row)
                 let hsn = '';
-                if (row !== undefined){
-                    hsn = row.hsn;
-                }
+                    if (row !== undefined){
+                        hsn = row.hsn;
+                    }
                 return ( <Input value={hsnCode != null ? hsnCode : hsn} onChange={e => changeGrnData(id,'hsn',e.target.value)} />)
             }
         },
@@ -284,8 +294,9 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             key:'batchNo',
             dataIndex: 'batchNo | lineText',
             width:'200px',
+
             render: (_, {batchNo, lineText})=> {
-                return lineText != null ? <Input value={lineText} /> : <Input value={ batchNo } disabled={true}/>
+                return lineText != null ? <Input value={lineText} disabled={true}/> : <Input value={ batchNo } disabled={true}/>
             }
         },
         {
@@ -332,10 +343,10 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             render: (_,{limid, category, id})=> {
                 let i = ''
                 if (data.itemCategory["NON_MEDICAL"] == category.id) {
-                    i = ("N" + (data.nonMedicalItemCount +1).toString().padStart(5, 0))
+                    i = ("N" + (data.nonMedicalItemCount).toString().padStart(5, 0))
                 }
                 else if(data.itemCategory["MEDICAL"] == category.id){
-                    i =("M" + (data.medicalItemCount+1).toString().padStart(5, 0))
+                    i =("M" + (data.medicalItemCount).toString().padStart(5, 0))
                 }
                 else {
                     i = limid
@@ -344,7 +355,16 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 console.log(itemCode)
                 console.log(data)
                 // setItemCode(i)
-                return (<Input defaultValue={i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
+                if (data.itemCategory["NON_MEDICAL"] == category.id) {
+                    return (<Input defaultValue={i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
+                }
+                else if(data.itemCategory["MEDICAL"] == category.id){
+                    return (<Input defaultValue={i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
+                }
+                else{
+                    return (<Input defaultValue={i} disabled={true} />)
+                }
+
             }
         },
         {
@@ -378,20 +398,22 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     const acknowledge = (row) => {
         console.log(row)
         console.log(arr[row.id])
+        const a = arr[row.id]
+        console.log(a)
         const r = arr.find(a=> a.id == row.id)
         console.log(r)
         let grnData = {
-            "category":  r.category.id ,
-            "costCenterCode": r.costCenterCode,
-            "expiryDate": moment(r.expiryDate).format('yyyy-MM-DD').toString(),
+            "category":  a.category.id ,
+            "costCenterCode": a.costCenterCode,
+            "expiryDate": moment(a.expiryDate).format('yyyy-MM-DD').toString(),
             "itemCode": itemCode,
-            "medicalCode": (r.lineText !== null ? r. lineText: ""),
-            "basePack": r.basePack,
-            "numBoxes": r.numBoxes,
-            "hsnCode": (r.hsnCode !== null ? r.hsnCode: r.hsn),
-            "ratePer": (r.ratePerGRN !== null ? r.ratePerGRN : r.ratePer),
-            "units": r.units,
-            "grnId": r.id
+            "medicalCode": (a.lineText !== null ? a. lineText: ""),
+            "basePack": a.basePack,
+            "numBoxes": a.numBoxes,
+            "hsnCode": (a.hsnCode !== null ? a.hsnCode: a.hsn),
+            "ratePer": (a.ratePerGRN !== null ? a.ratePerGRN : a.ratePer),
+            "units": a.units,
+            "grnId": a.id
         }
         console.log(data);
         handleApproveAcknowledge({

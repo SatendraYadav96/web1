@@ -42,15 +42,19 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
+
     LOGIN_SUCCESS_ACTION: [
     {
       action: 'hidespinner'
     },
     {
       action: 'showsuccess',
-      payload: { message: { text: 'Login success', type: 'success' } },
+
+      payload: { message: { text: 'Login success', type: 'success' } }
+
     },
     ],
+
     LOGIN_FAIL_ACTION: [
     { action: 'hidespinner' },
     {
@@ -300,7 +304,7 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
         { action: 'hidespinner' },
         {
             action: 'showsuccess',
-            payload: { message: { text: 'Action Completed', type: 'success' } },
+            payload: { message: { text: 'GRN loaded successfully', type: 'success' } },
         },
     ],
     UNACKNOWLEDGE_LIST_FAIL: [
@@ -1450,6 +1454,16 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
         OVER_SAMPLING_MAIL_START:[{ action: 'showspinner' }],
         OVER_SAMPLING_MAIL_SUCCESS: [{ action: 'hidespinner' }],
         OVER_SAMPLING_MAIL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        SPECIAL_DIFFERENTIAL_TEAM_START:[{ action: 'showspinner' }],
+        SPECIAL_DIFFERENTIAL_TEAM_SUCCESS: [{ action: 'hidespinner' }],
+        SPECIAL_DIFFERENTIAL_TEAM_FAIL: [
             { action: 'hidespinner' },
             {
                 action: 'showerror',

@@ -96,7 +96,8 @@ const RecipientReportComponent = ({authInfo,profileInfo,recipientList,recipientR
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
                 }}
             />
         ),

@@ -7,7 +7,8 @@ import {
 } from '../actions/auth/authActionConstants'
 const initialState = {
   authInfo: null,
-  userProfile: null,
+    profileInfo: {},
+    profileLoading:false,
   loggedIn: false,
   error: null,
 }
@@ -30,17 +31,22 @@ const loginFailReducer = (state = initialState, payload) => {
 }
 
 const loadUserProfileSuccessReducer = (state = initialState, payload) => {
+    console.log(payload.profileInfo)
+    console.log(state)
   return {
     ...state,
-    userProfile: payload.profile,
+      profileInfo: payload.profileInfo,
+      profileLoading:false,
     loggedIn: true,
     error: null,
+
   }
 }
 
 const loadUserProfileFailReducer = (state = initialState, payload) => {
   return {
     ...state,
+      profileLoading:false,
     error: payload.error,
   }
 }

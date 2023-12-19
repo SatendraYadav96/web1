@@ -229,7 +229,7 @@ const getColumnSearchProps = (dataIndex) => ({
             title: 'Allocated Quantity',
             dataIndex: 'allocatedQuantity',
             key: '',
-            ...getColumnSearchProps('allocatedQuantity'),
+            //...getColumnSearchProps('allocatedQuantity'),
         },
         {
             title: 'Qty',

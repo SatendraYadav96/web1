@@ -218,7 +218,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
             title: 'Allocated Quantity',
             dataIndex: 'allocatedQuantity',
             key: '',
-            ...getColumnSearchProps('allocatedQuantity'),
+           // ...getColumnSearchProps('allocatedQuantity'),
         },
         {
             title: 'Qty',
@@ -269,6 +269,10 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
 
     useEffect(() => {
         if(specialDifferentialAllocationSaveSuccess){
+            let d = []
+            teams.forEach(i =>
+                d.push(i.id)
+            )
             handleSpecialDifferentialTeam({
                 certificate:authInfo.token,
                 ccmId: costCenterId,
@@ -277,7 +281,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
                 year: year,
                 inventoryId: inventoryId,
                 planId: item.planId,
-                teamId: teams[0].id
+                teamId: d
             });
         }
     },[specialDifferentialAllocationSaveSuccess])
@@ -298,7 +302,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
             year: year,
             inventoryId: inventoryId,
             planId: item.planId,
-            teamId: teams[0].id
+            teamId: d
         });
 
     },[costCenterId])
@@ -326,6 +330,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
                     <LabelComponent>Allocation Balance: {item.balance}</LabelComponent>
                 </Col>
             </Row>
+            <span>Total Rows: <b>{specialDifferentialTeam?.length}</b></span>
                         <Table size={'small'} dataSource={specialDifferentialTeam}
                                columns={columns}
                                rowKey={'id'} loading={teams.length === 0}

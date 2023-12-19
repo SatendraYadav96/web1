@@ -351,11 +351,11 @@ const NearToExpiryReportComponent = ({authInfo,profileInfo,nearToExpiryInputList
                     &nbsp;
                     <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
-                <Col span={18}>
-                    <div align="right">
-                        <Input.Search style={{width: 300}}/>
-                    </div>
-                </Col>
+                {/*<Col span={18}>*/}
+                {/*    <div align="right">*/}
+                {/*        <Input.Search style={{width: 300}}/>*/}
+                {/*    </div>*/}
+                {/*</Col>*/}
             </Row>
             <br/>
             <span>Total Rows: <b>{nearToExpiryInputList?.length}</b></span>
