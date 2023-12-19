@@ -139,26 +139,35 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         }
     },[refresh])
 
+
     useEffect(() => {
-        if(data.grn !== undefined){
-            if(flag) {
-                data.grn.forEach((it) => {
-                    ackData[it.id] = it
-                })
-                setFlag(false)
-            }
-            setArr(ackData)
-        }
-        console.log(data)
-        console.log(arr)
-        console.log(isArray(arr))
+        // if(data.grn !== undefined){
+        //     if(flag) {
+        //         data.grn.forEach((it) => {
+        //             ackData[it.id] = it
+        //         })
+        //         setFlag(false)
+        //     }
+        //     setArr(ackData)
+        // }
+        // console.log(data)
+        // console.log(arr)
+        // console.log(isArray(arr))
     }, [data])
 
+    const forceUpdate = React.useReducer(() => ({}))[1];
+
     const changeGrnData = (id, field, value) => {
-        console.log(arr)
-        arr[id][field] = value
-        setArr(arr)
-        console.log(arr)
+        // console.log(arr)
+        // arr[id][field] = value
+        // setArr(arr)
+        // console.log(arr)
+        data.grn.forEach(it => {
+            if(it.id == id){
+                it[field] = value
+            }
+        })
+        forceUpdate()
     }
 
     useEffect(() => {
@@ -182,14 +191,20 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     }
 
     const SetItemCodeOfRow = (value, id) => {
-        console.log(data.grn)
-        data.grn.forEach(a => {
-            if(a.id == id){
-                a.itemCode = value;
+        // console.log(data.grn)
+        // data.grn.forEach(a => {
+        //     if(a.id == id){
+        //         a.itemCode = value;
+        //     }
+        // })
+        // // arr[id]['itemCode'] = value;
+        // setArr(data.grn)
+        data.grn.forEach(it => {
+            if(it.id == id){
+                it['itemCode'] = value
             }
         })
-        // arr[id]['itemCode'] = value;
-        setArr(data.grn)
+        forceUpdate()
     }
 
     useEffect(() => {
@@ -254,25 +269,26 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             dataIndex: 'hsnCode',
             width:'150px',
             render: (_,{id, hsnCode}) => {
-                const row = arr[id];
-                console.log(row)
-                let hsn = '';
-                    if (row !== undefined){
-                        hsn = row.hsn;
-                    }
-                return ( <Input value={hsnCode != null ? hsnCode : hsn} onChange={e => changeGrnData(id,'hsn',e.target.value)} />)
+                // const row = arr[id];
+                // console.log(row)
+                // let hsn = '';
+                //     if (row !== undefined){
+                //         hsn = row.hsn;
+                //     }
+                return ( <Input value={hsnCode != null ? hsnCode : ''} onChange={e => changeGrnData(id,'hsnCode',e.target.value)} />)
             }
         },
         {
             title:'Rate %',
             key:'ratePerGRN',
             dataIndex: 'ratePerGRN',
-            render: (_,{id, ratePerGRN}) =>{const row = arr[id];
-                let rate = '';
-                if(row !== undefined){
-                    rate = row.ratePer;
-                }
-                return (<Input value={ratePerGRN != null ? ratePerGRN : rate } onChange={e => changeGrnData(id,'ratePer',e.target.value)}/>)
+            render: (_,{id, ratePerGRN}) =>{
+                // const row = arr[id];
+                // let rate = '';
+                // if(row !== undefined){
+                //     rate = row.ratePer;
+                // }
+                return (<Input value={ratePerGRN != null ? ratePerGRN : '' } onChange={e => changeGrnData(id,'ratePerGRN',e.target.value)}/>)
             }
         },
         {
@@ -303,35 +319,38 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             title: 'Base Pack',
             dataIndex: '',
             editable: true,
-            render: (_, {id}) => {const row = arr[id];
-                let base = '';
-                if (row !== undefined) {
-                    base = row.basePack;
-                }
-                return (<Input value={base} onChange={e => changeGrnData(id, 'basePack', e.target.value)} />)
+            render: (_, {id, basePack}) => {
+                // const row = arr[id];
+                // let base = '';
+                // if (row !== undefined) {
+                //     base = row.basePack;
+                // }
+                return (<Input value={basePack!= null? basePack : ''} onChange={e => changeGrnData(id, 'basePack', e.target.value)} />)
             }
         },
         {title:'Pack Size Unit',
             dataIndex: '',
             editable: true,
-            render: (_, {id})=> {const row = arr[id];
-                let unit = '';
-                if(row !== undefined){
-                    unit = row.units;
-                }
-                return (<Input value={unit} onChange={e => changeGrnData(id,'units',e.target.value)}/>)
+            render: (_, {id, units})=> {
+            // const row = arr[id];
+            //     let unit = '';
+            //     if(row !== undefined){
+            //         unit = row.units;
+            //     }
+                return (<Input value={units!= null ? units : ''} onChange={e => changeGrnData(id,'units',e.target.value)}/>)
             }
         },
         {
             title:'No Of Boxes',
             dataIndex: '',
             editable: true,
-            render: (_, {id})=> {const row = arr[id];
-                let num = '';
-                if(row !== undefined){
-                    num = row.numBoxes;
-                }
-                return (<Input value={num} onChange={e => changeGrnData(id,'numBoxes',e.target.value)}/>)
+            render: (_, {id, numBoxes})=> {
+                // const row = arr[id];
+                // let num = '';
+                // if(row !== undefined){
+                //     num = row.numBoxes;
+                // }
+                return (<Input value={numBoxes!= null ? numBoxes : ''} onChange={e => changeGrnData(id,'numBoxes',e.target.value)}/>)
             }
         },
         {
@@ -396,24 +415,24 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     }
 
     const acknowledge = (row) => {
-        console.log(row)
-        console.log(arr[row.id])
-        const a = arr[row.id]
-        console.log(a)
-        const r = arr.find(a=> a.id == row.id)
-        console.log(r)
+        // console.log(row)
+        // console.log(arr[row.id])
+        // const a = arr[row.id]
+        // console.log(a)
+        // const r = arr.find(a=> a.id == row.id)
+        // console.log(r)
         let grnData = {
-            "category":  a.category.id ,
-            "costCenterCode": a.costCenterCode,
-            "expiryDate": moment(a.expiryDate).format('yyyy-MM-DD').toString(),
+            "category":  row.category.id ,
+            "costCenterCode": row.costCenterCode,
+            "expiryDate": moment(row.expiryDate).format('yyyy-MM-DD').toString(),
             "itemCode": itemCode,
-            "medicalCode": (a.lineText !== null ? a. lineText: ""),
-            "basePack": a.basePack,
-            "numBoxes": a.numBoxes,
-            "hsnCode": (a.hsnCode !== null ? a.hsnCode: a.hsn),
-            "ratePer": (a.ratePerGRN !== null ? a.ratePerGRN : a.ratePer),
-            "units": a.units,
-            "grnId": a.id
+            "medicalCode": row.lineText,
+            "basePack": row.basePack,
+            "numBoxes": row.numBoxes,
+            "hsnCode": row.hsnCode,
+            "ratePer": row.ratePerGRN ,
+            "units": row.units,
+            "grnId": row.id
         }
         console.log(data);
         handleApproveAcknowledge({
