@@ -19,7 +19,16 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
     const [column, setColumn] = useState([])
     const [keyList, setKeyList] = useState([])
     const [open, setOpen] = useState(false);
+    const [teamId, setTeamId] = useState([])
     console.log(item)
+
+    useEffect(() => {
+        let t = []
+        teams.forEach(i=> {
+            t.push(i.id)
+        })
+        setTeamId(t)
+    },[teams])
 
     const onChangeQuantity = (team, quantity) => {
         let qty = quantity.currentTarget.value
@@ -156,6 +165,10 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
     }
 
     useEffect(() => {
+        // const teamId = []
+        // teams.forEach(i=>
+        //     teamId.push(i.id)
+        // )
         if(monthlyDifferentialAllocationSaveSuccess){
             handleMonthlyCommonTeam({
                 certificate:authInfo.token,
@@ -163,6 +176,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                 userId: profileInfo.id,
                 month: month,
                 year: year,
+                teamId:teamId,
                 inventoryId: inventoryId
             });
         }
@@ -173,19 +187,26 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                 userId: profileInfo.id,
                 month: month,
                 year: year,
-                inventoryId: inventoryId
+                inventoryId: inventoryId,
+                teamId:teamId
             });
         }
     },[monthlyDifferentialAllocationSaveSuccess, monthlyCommonAllocationSaveSuccess])
 
     useEffect(()=>{
+        // const teamId = []
+        // teams.forEach(i=>
+        //     teamId.push(i.id)
+        // )
             handleMonthlyCommonTeam({
                 certificate:authInfo.token,
                 ccmId: costCenterId,
                 userId: profileInfo.id,
                 month: month,
                 year: year,
-                inventoryId: inventoryId
+                inventoryId: inventoryId,
+                teamId:teamId
+
             });
 
     },[costCenterId])

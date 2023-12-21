@@ -39,7 +39,16 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
     const [column, setColumn] = useState([])
     const [keyList, setKeyList] = useState([])
     const [open, setOpen] = useState(false);
+    const [teamId, setTeamId] = useState([])
     console.log(item)
+
+    useEffect(() => {
+        // let t = []
+        // teams.forEach(i=> {
+        //     t.push(i.id)
+        // })
+        // setTeamId(t)
+    },[teams])
 
     const onChangeQuantity = (team, quantity) => {
         let qty = quantity.currentTarget.value
@@ -176,6 +185,10 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
     }
 
     useEffect(() => {
+        // const teamId = []
+        // teams.forEach(i=>
+        //     teamId.push(i.id)
+        // )
         if(virtualDifferentialAllocationSaveSuccess){
             handleMonthlyCommonTeam({
                 certificate:authInfo.token,
@@ -184,7 +197,8 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
                 month: month,
                 year: year,
                 inventoryId: inventoryId,
-                planId: item.planId
+                planId: item.planId,
+                teamId:teamId
             });
         }
         if(virtualCommonAllocationSaveSuccess){
@@ -195,13 +209,21 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
                 month: month,
                 year: year,
                 inventoryId: inventoryId,
-                planId: item.planId
+                planId: item.planId,
+                teamId:teamId
             });
         }
     },[virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess])
 
 
     useEffect(()=>{
+        let t = []
+        teams.forEach(i=> {
+            t.push(i.id)
+        })
+        setTeamId(t)
+        console.log(teamId)
+        console.log(teamId)
         handleMonthlyCommonTeam({
             certificate:authInfo.token,
             ccmId: costCenterId,
@@ -209,7 +231,8 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
             month: month,
             year: year,
             inventoryId: inventoryId,
-            planId: item.planId
+            planId: item.planId,
+            teamId:teamId
         });
 
     },[costCenterId])
@@ -310,8 +333,8 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
             {/*</Modal>*/}
         </>
     )
-}
 
+}
 VirtualTeamAllocationComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
@@ -339,6 +362,7 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     console.log(virtualCommonTeam)
     console.log(teamKeys)
+
     const teamForDifferentialAllocation = selectVirtualDifferentialAllocation(state)
     const virtualDifferentialAllocationSaveSuccess = selectVirtualDifferentialAllocationSaveSuccess(state)
     const virtualCommonAllocationSaveSuccess = selectVirtualCommonAllocationSaveSuccess(state)

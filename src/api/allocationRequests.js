@@ -71,12 +71,12 @@ export const virtualDifferentialTeamRequest = payload => {
 }
 
 export const monthlyQuantityAllocatedOfUserToItemRequest = payload => {
-    const api = {...MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/0`}
+    const api = {...MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${MONTHLY_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/0/${payload.teamId}`}
     return createRequest(api, payload.certificate, null)
 }
 
 export const virtualQuantityAllocatedOfUserToItemRequest = payload => {
-    const api = {...VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/1/${payload.planId}`}
+    const api = {...VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API, url: `${VIRTUAL_QUANTITY_ALLOCATED_OF_USER_TO_ITEM_API.url}/${payload.userId}/${payload.inventoryId}/${payload.month}/${payload.year}/1/${payload.planId}/${payload.teamId}`}
     return createRequest(api, payload.certificate, null)
 }
 
