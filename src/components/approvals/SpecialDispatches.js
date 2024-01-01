@@ -492,7 +492,7 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
             plan: {
                 planId: planId,
                 apiId: planId,
-                approvalType: 0,
+                approvalType: 1,
                 comment: comment,
             },
         })

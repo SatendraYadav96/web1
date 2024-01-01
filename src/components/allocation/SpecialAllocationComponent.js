@@ -667,13 +667,14 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             {/*</p>*/}
 
 
-
             <Steps current={currentStep} style={{marginBottom: 20}}>
                 {allocationSteps.map((item) =>
                     <Step key={item.title} title={item.title} />
                 )}
             </Steps>
+
             <span>Total Rows: <b>{specialAllocation?.length}</b></span>
+
             {currentStep === 0 &&
                 <Table
                     rowSelection={{
