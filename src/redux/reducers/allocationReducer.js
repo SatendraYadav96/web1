@@ -143,6 +143,7 @@ const allocationForPlanSuccessReducer = (state = initialState, payload) => {
         itemList = itemList.concat(items)
     }
     const allocations = []
+    console.log(payload.allocations, state)
     state.items.forEach(item => item["balance"] =  (item.qtyReceived- item.qtyDispatched - item.quantityAllocated))
     state.items.forEach(item => {if(itemList.indexOf(item.itemID) > -1) {allocations.push({item: item, teams: payload.allocations.teams,costCenter: costCenterList[item.itemID], inventoryId:inventoryList[item.itemID] })}})
     console.log(allocations)
@@ -218,6 +219,7 @@ const recipientAllocationsFailReducer = (state = initialState, payload) => {
 
 
 const allocateToTeamReducer = (state = initialState, payload) => {
+    // let allocations = state.allocations
     const item = payload.item
     const team = payload.team
     const quantity = Number(payload.qty)
@@ -255,6 +257,7 @@ const allocateToTeamReducer = (state = initialState, payload) => {
     // })
     return {
         ...state,
+        // allocations: allocations,
         monthlyCommonTeam: monthlyCommonTeam,
         commonAllocationDone: new Date(),
         error: null

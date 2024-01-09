@@ -19,18 +19,26 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
     const [column, setColumn] = useState([])
     const [keyList, setKeyList] = useState([])
     const [open, setOpen] = useState(false);
-    const [teamId, setTeamId] = useState([])
+    const [teamId, setTeamId] = useState(teams)
     console.log(item)
 
-    useEffect(() => {
+    console.log(teams)
+
+    const setTeam = ()=> {
         let t = []
-        teams.forEach(i=> {
+        teams.forEach(i => {
             t.push(i.id)
         })
-        setTeamId(t)
+        return t
+    }
+
+
+    useEffect(() => {
+        setTeamId(teams)
     },[teams])
 
     const onChangeQuantity = (team, quantity) => {
+        console.log(team)
         let qty = quantity.currentTarget.value
         if (qty % item.packSize !== 0) {
             setShowErrorMessage(true)
@@ -41,6 +49,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
             setErrorMessage(null)
         }
         let total = 0
+        console.log(teams)
         teams.forEach(t => {
             if (t.id = team.id) {
                 total = total + qty * t.recipient
@@ -58,6 +67,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
             setShowErrorMessage(false)
             setErrorMessage(null)
         }
+        console.log(teams)
         handleChangeQuantity({
             item,
             team,
@@ -165,10 +175,10 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
     }
 
     useEffect(() => {
-        // const teamId = []
-        // teams.forEach(i=>
-        //     teamId.push(i.id)
-        // )
+        let t = []
+        teamId.forEach(i=> {
+            t.push(i.id)
+        })
         if(monthlyDifferentialAllocationSaveSuccess){
             handleMonthlyCommonTeam({
                 certificate:authInfo.token,
@@ -176,7 +186,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                 userId: profileInfo.id,
                 month: month,
                 year: year,
-                teamId:teamId,
+                teamId: t,
                 inventoryId: inventoryId
             });
         }
@@ -188,16 +198,16 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                 month: month,
                 year: year,
                 inventoryId: inventoryId,
-                teamId:teamId
+                teamId:t
             });
         }
     },[monthlyDifferentialAllocationSaveSuccess, monthlyCommonAllocationSaveSuccess])
 
     useEffect(()=>{
-        // const teamId = []
-        // teams.forEach(i=>
-        //     teamId.push(i.id)
-        // )
+        let t = []
+        teamId.forEach(i=>
+            t.push(i.id)
+        )
             handleMonthlyCommonTeam({
                 certificate:authInfo.token,
                 ccmId: costCenterId,
@@ -205,7 +215,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                 month: month,
                 year: year,
                 inventoryId: inventoryId,
-                teamId:teamId
+                teamId:t
 
             });
 

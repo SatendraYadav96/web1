@@ -615,7 +615,8 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             }
             {currentStep === 1 && allocations !== undefined &&
                 <Spin spinning={allocationsLoading}>
-                    <Collapse
+                    <Collapse accordion={true}
+                              destroyInactivePanel={true}
                         defaultActiveKey={['1']}
                         onChange={(f)=> console.log(f)}
                         expandIconPosition={'end'}
@@ -717,7 +718,7 @@ const mapState = (state) => {
     const submitMonthlyAllocationSuccess = selectSubmitMonthlyAllocationSuccess(state)
     const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
     const planSubmitted = selectPlanSubmitted(state)
-    console.log(planSubmitted)
+    console.log("allocations - ", allocations )
     console.log(multipleAllocationDownload, multipleAllocationExcel)
     return { authInfo, profileInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone, planSubmitted, submitMonthlyAllocation,
         downloadAllocation,activeUsersDownload, multipleAllocationDownload, multipleAllocationExcel, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess }
