@@ -154,6 +154,7 @@ const getColumnSearchProps = (dataIndex) => ({
         console.log(planId)
         console.log(inventoryId)
         console.log(teamId)
+        console.log(teamId[0].teamId)
             handleDifferentialAllocation({
                 certificate: authInfo.token,
                 planId: planId,

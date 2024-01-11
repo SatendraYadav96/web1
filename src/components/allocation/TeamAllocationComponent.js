@@ -34,6 +34,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
 
 
     useEffect(() => {
+        console.log(teams)
         setTeamId(teams)
     },[teams])
 
@@ -128,7 +129,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
         setOpen(true)
     }
 
-    const SaveCommonAllocation = (team) => {
+    const   SaveCommonAllocation = (team) => {
         let data = []
         monthlyCommonTeam[team].forEach( t => {
             if(t.quantity == undefined){
@@ -264,7 +265,7 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                     <LabelComponent>Allocated Quantity: {item.quantityAllocated}</LabelComponent>
                 </Col>
                 <Col span={4} offset={1}>
-                    <LabelComponent>Allocation Balance: {item.balance}</LabelComponent>
+                    <LabelComponent>Allocation Balance: {item.stock}</LabelComponent>
                 </Col>
             </Row>
             {
@@ -281,11 +282,11 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
                     <Col span={3} offset={18}>
                         <Button type={'primary'} onClick={() => SaveCommonAllocation(team)}>Allocate & Save</Button>
                     </Col>
-                    <Col span={3}>
-                        <Button type={'primary'}
-                        onClick={() => openChangeAllocation()}
-                        >Change</Button>
-                    </Col>
+                    {/*<Col span={3}>*/}
+                    {/*    <Button type={'primary'}*/}
+                    {/*    onClick={() => openChangeAllocation()}*/}
+                    {/*    >Change</Button>*/}
+                    {/*</Col>*/}
                     </Row>
                     <Modal
                         centered

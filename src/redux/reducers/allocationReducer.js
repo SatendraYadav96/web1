@@ -337,17 +337,19 @@ const virtualAllocateToDifferentialReducer = (state = initialState, payload) => 
 const specialAllocateToDifferentialReducer = (state = initialState, payload) => {
     const item = payload.recipientID
     const quantity = Number(payload.qty)
+
     console.log(state)
+
     let teamForDifferential = state.specialDifferentialTeam
     let totalAllocation = 0
     teamForDifferential.forEach( t => {
-            if (t.id === item) {
+            if (t.recipientId === item) {
                 totalAllocation = totalAllocation +  quantity
                 t.quantity = quantity
             }
         }
     )
-
+    console.log(teamForDifferential)
     return {
         ...state,
         specialDifferentialTeam: teamForDifferential,
@@ -972,7 +974,7 @@ const specialDifferentialAllocationSuccessReducer = (state = initialState, paylo
     let data = new Map();
     let keysArr = [];
     payload.specialDifferentialQuantityAllocated.forEach(item => quantityAllocated[item.recipientId] = item.allocatedQuantity)
-    payload.specialDifferentialTeam.forEach(item => item["allocatedQuantity"] = quantityAllocated[item.id])
+    payload.specialDifferentialTeam.forEach(item => item["allocatedQuantity"] = quantityAllocated[item.recipientId])
     console.log(payload.specialDifferentialTeam)
     return {
         ...state,

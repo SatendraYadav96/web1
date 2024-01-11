@@ -1470,4 +1470,14 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
                 payload: { message: { text: 'action failed', type: 'error' } },
             },
         ],
+
+        GET_ALLOCATION_STATUS_DROPDOWN_START:[{ action: 'showspinner' }],
+        GET_ALLOCATION_STATUS_DROPDOWN_SUCCESS: [{ action: 'hidespinner' }],
+        GET_ALLOCATION_STATUS_DROPDOWN_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
 }

@@ -694,6 +694,8 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             {currentStep === 1 && allocations !== undefined &&
                 <Spin spinning={allocationsLoading}>
                     <Collapse
+                        accordion={true}
+                        destroyInactivePanel={true}
                         defaultActiveKey={['1']}
                         onChange={(f)=> console.log(f)}
                         expandIconPosition={'end'}

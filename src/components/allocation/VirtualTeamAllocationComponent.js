@@ -280,7 +280,7 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
                     <LabelComponent>Allocated Quantity: {item.quantityAllocated}</LabelComponent>
                 </Col>
                 <Col span={4} offset={1}>
-                    <LabelComponent>Allocation Balance: {item.balance}</LabelComponent>
+                    <LabelComponent>Allocation Balance: {item.stock}</LabelComponent>
                 </Col>
             </Row>
             {
@@ -297,11 +297,11 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
                             <Col span={3} offset={18}>
                                 <Button type={'primary'} onClick={() => SaveCommonAllocation(team)}>Allocate & Save</Button>
                             </Col>
-                            <Col span={3}>
-                                <Button type={'primary'}
-                                        onClick={() => openChangeAllocation()}
-                                >Change</Button>
-                            </Col>
+                            {/*<Col span={3}>*/}
+                            {/*    <Button type={'primary'}*/}
+                            {/*            onClick={() => openChangeAllocation()}*/}
+                            {/*    >Change</Button>*/}
+                            {/*</Col>*/}
                         </Row>
                         <Modal
                             centered

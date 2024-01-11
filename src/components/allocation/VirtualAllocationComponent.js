@@ -35,6 +35,7 @@ import VirtualTeamAllocationComponent from "./VirtualTeamAllocationComponent";
 import {SearchOutlined, UploadOutlined} from "@ant-design/icons";
 import {Excel} from "antd-table-saveas-excel";
 import Highlighter from "react-highlight-words";
+import CSVDownload from "react-csv/src/components/Download";
 const { Step } = Steps
 const { Panel } = Collapse
 const allocationSteps = [
@@ -73,6 +74,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [file, setFile] = useState([])
     const [submitFlag, setSubmitFlag] = useState(false)
+    const [downloadData, setDownloadData] = useState([])
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -574,6 +576,8 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
             {currentStep === 1 && allocations !== undefined &&
                 <Spin spinning={allocationsLoading}>
                     <Collapse
+                        accordion={true}
+                        destroyInactivePanel={true}
                         defaultActiveKey={['1']}
                         onChange={(f)=> console.log(f)}
                         expandIconPosition={'end'}
@@ -613,6 +617,10 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                     </Button>
                 )}
             </div>
+            {downloadData.length > 0 && <CSVDownload
+                data={downloadData}/>
+                // target="_blank"></CSVDownload>
+            }
         </>
     )
 }

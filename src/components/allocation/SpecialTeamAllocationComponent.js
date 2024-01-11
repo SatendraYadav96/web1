@@ -30,6 +30,7 @@ import ChangeAllocationComponent from "./ChangeAllocationComponent";
 import ChangeVirtualAllocationComponent from "./ChangeVirtualAllocationComponent";
 import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import * as events from "events";
 
 const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, handleChangeDifferentialQuantity, handleSpecialDifferentialAllocationSave, inventoryId, commonAllocationDone, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, specialDifferentialTeam,handleSpecialDifferentialTeam,authInfo, profileInfo, teamKeys, specialDifferentialAllocationSaveSuccess}) => {
     const [showDifferential, setShowDifferential] = useState(false)
@@ -149,8 +150,9 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
         let total = 0
         let recipientID = null
         specialDifferentialTeam.forEach(t => {
-            if (t.id == team.id) {
-                recipientID = team.id
+            if (t.recipientId == team.recipientId) {
+                recipientID = team.recipientId
+                console.log(recipientID)
                 total = total + qty
                 // } else {
                 //     if (t.quantity !== undefined) {
@@ -158,14 +160,14 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
                 //     }
             }
         })
-        if (total > item.stock) {
-            setShowErrorMessage(true)
-            setErrorMessage('Quantity exceeds available quantity')
-            return
-        }else {
-            setShowErrorMessage(false)
-            setErrorMessage(null)
-        }
+        // if (total > item.stock) {
+        //     setShowErrorMessage(true)
+        //     setErrorMessage('Quantity exceeds available quantity')
+        //     return
+        // }else {
+        //     setShowErrorMessage(false)
+        //     setErrorMessage(null)
+        // }
 
         handleChangeDifferentialQuantity({
             recipientID,
@@ -178,6 +180,12 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
 
 
     const columns = [
+        {
+            title: 'Team',
+            dataIndex: 'team',
+            key: '',
+            ...getColumnSearchProps('team'),
+        },
         {
             title: 'Zone',
             dataIndex: 'zone',
@@ -192,27 +200,27 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
         },
         {
             title: 'Designation',
-            dataIndex: 'roleName',
+            dataIndex: 'designation',
             key: '',
-            ...getColumnSearchProps('roleName'),
+            ...getColumnSearchProps('designation'),
         },
         {
-            title: 'Person',
-            dataIndex: 'name',
+            title: 'FF Name',
+            dataIndex: 'employeeName',
             key: '',
-            ...getColumnSearchProps('name'),
+            ...getColumnSearchProps('employeeName'),
         },
         {
-            title: 'Code',
-            dataIndex: 'code',
+            title: 'FF Code',
+            dataIndex: 'employeeCode',
             key: '',
-            ...getColumnSearchProps('code'),
+            ...getColumnSearchProps('employeeCode'),
         },
         {
             title: 'Headquarter',
-            dataIndex: 'headQuarter',
+            dataIndex: 'hq',
             key: '',
-            ...getColumnSearchProps('headQuarter'),
+            ...getColumnSearchProps('hq'),
         },
         {
             title: 'Allocated Quantity',
@@ -247,6 +255,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
     }
 
     const   SaveCommonAllocation = () => {
+
         let data = []
         specialDifferentialTeam.forEach( t => {
             if(t.quantity == undefined){
@@ -254,7 +263,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
             }
             let allocationData = {}
             allocationData["dispatchPlanId"] = item.planId
-            allocationData["recipientId"] = t.id
+            allocationData["recipientId"] = t.recipientId
             allocationData["inventoryId"] = inventoryId
             allocationData["quantity"] = t.quantity
             data.push(allocationData)
@@ -268,6 +277,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
     }
 
     useEffect(() => {
+        console.log(teams)
         if(specialDifferentialAllocationSaveSuccess){
             let d = []
             teams.forEach(i =>
@@ -327,7 +337,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
                     <LabelComponent>Allocated Quantity: {item.quantityAllocated}</LabelComponent>
                 </Col>
                 <Col span={4} offset={1}>
-                    <LabelComponent>Allocation Balance: {item.balance}</LabelComponent>
+                    <LabelComponent>Allocation Balance: {item.stock}</LabelComponent>
                 </Col>
             </Row>
             <span>Total Rows: <b>{specialDifferentialTeam?.length}</b></span>
