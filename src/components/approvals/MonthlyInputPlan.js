@@ -136,7 +136,7 @@ const AllocationDetails = () => {
     )
 }
 
-const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleMonthlyApproval,monthlyApprovalDetailsList,handleMonthlyApprovalDetails,handleResetPlanList,handleUnlockPlanList,handleApprovePlanList,handleRejectPlanList,handleMonthlyToSpecialList}) => {
+const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleMonthlyApproval,monthlyApprovalDetailsList,handleMonthlyApprovalDetails,handleResetPlanList,handleUnlockPlanList,handleApprovePlanList,handleRejectPlanList,handleMonthlyToSpecialList,approvePlanList }) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -494,6 +494,19 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             },
         })
     }
+
+    // useEffect(() => {
+    //     handleApprovePlanList({
+    //         certificate: authInfo.token,
+    //         plan: {
+    //             planId: planId,
+    //             apiId: planId,
+    //             approvalType: 0,
+    //             comment: comment,
+    //         },
+    //     })
+    //   //  searchData()
+    // })
 
     const handleReview = () => {
         handleApprovePlanList({
