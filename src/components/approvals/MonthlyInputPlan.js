@@ -318,7 +318,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<CheckOutlined />} disabled={row.planStatus === 'REVIEWED' || row.planStatus === 'DRAFT'} onClick={() => {
+                    return <Button icon={<CheckOutlined />} disabled={row.planStatus === 'REVIEWED' || row.planStatus === 'DRAFT' || row.planStatus === 'REJECTED'} onClick={() => {
                         setOpen(true);
                         setPlanId(row.dispatchPlanID);
                     }}></Button>
@@ -330,7 +330,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<CloseOutlined />} disabled={row.planStatus === 'REVIEWED'} onClick={() => {
+                    return <Button icon={<CloseOutlined />} disabled={row.planStatus === 'REVIEWED' || row.planStatus === 'DRAFT' || row.planStatus === 'REJECTED'} onClick={() => {
                         setOpenReject(true);
                         setPlanId(row.dispatchPlanID);
                     }}></Button>
@@ -342,7 +342,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: '',
                 width:'50px',
                 render:(_,row) => {
-                    return <Button icon={<ArrowRightOutlined />} disabled={row.planStatus !== 'REVIEWED'} onClick={() => {
+                    return <Button icon={<ArrowRightOutlined />} disabled={row.planStatus === 'REVIEWED' || row.planStatus === 'DRAFT' || row.planStatus === 'REJECTED'} onClick={() => {
                         setOpenMonthlyToSpecial(true);
                         setPlanId(row.dispatchPlanID)
                     }}></Button>

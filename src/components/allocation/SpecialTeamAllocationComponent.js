@@ -231,7 +231,7 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
         {
             title: 'Qty',
             dataIndex: '',
-            key: '',
+            key: 'Qty',
             render: (_, row)=> {
                 return <Input style={{width: '100px'}}
                               value={row.quantity}

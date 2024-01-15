@@ -59,7 +59,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                                               handleGoToAllocations,handleSubmitSpecialAllocation,
                                               downloadAllocation, handleGetDownloadAllocation,
                                               handleActiveUserDownload, activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel,
-                                              handleMultipleAllocation, handleMultipleAllocationUpload}) => {
+                                              handleMultipleAllocation, handleMultipleAllocationUpload,items,planSubmitted}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -76,6 +76,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
     const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [file, setFile] = useState([])
+    const [submitFlag, setSubmitFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -102,6 +103,14 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
         // {'title': 'ProductName/ProductCode','dataIndex':'', 'key': ''},
     ]
+
+    useEffect(() => {
+        if(planSubmitted == "true"){
+            setSubmitFlag(true)
+        }else{
+            setSubmitFlag(false)
+        }
+    },[planSubmitted])
 
     const createViewClicked = () => {
         let data ={
@@ -224,7 +233,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                 if(multipleAllocationExcel.length > 0) {
                     multipleAllocationExcel.map(i => {
                             const list = {
-                                'title': (i.productName + "-" + i.productCode + "-" + i.basepack + "-" + i.poNo + "-" + i.batchNo) ,
+                                'title': (i.productName + "/" + i.productCode + "/" + i.basepack + "/" + i.poNo + "/" + i.batchNo) ,
                             }
                             multipleAllocationDownloadColumn.push(list)
                         }
@@ -423,7 +432,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                 {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}} style={{marginLeft:"20px"}}>Back</Button>*/}
                 {/*</Col>*/}
                 <Col span={2} offset={8}>
-                    <Button type={'primary'} onClick={() => SubmitSpecialAllocation()}>Submit</Button>
+                    <Button type={'primary'} onClick={() => SubmitSpecialAllocation()} disabled={submitFlag}>Submit</Button>
                 </Col>
                 {/*<Col span={2}>*/}
                 {/*    <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>*/}
@@ -453,11 +462,11 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                     </Upload>
                 </Col>
                 <Col span={2}>
-                    <Button type={'primary'} onClick={upload}>Upload</Button>
+                    <Button type={'primary'} onClick={upload} disabled={submitFlag} >Upload</Button>
                 </Col>
             </Row>
             <p>
-                <b>Allocation Status</b> : Draft
+                <b>Allocation Status</b> : draft
                 <br/>
                 <b>Allocation Invoice Status</b>: Not initiated
             </p>
@@ -466,6 +475,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                     <Step key={item.title} title={item.title} />
                 )}
             </Steps>
+            <span>Total Rows: <b>{specialAllocation?.length}</b></span>
             {currentStep === 0 &&
                 <Table
                     rowSelection={{
@@ -508,7 +518,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
             }
             <div style={{marginTop: 20}}>
                 {currentStep < allocationSteps.length - 1 && (
-                    <Button type='primary' onClick={goToAllocation}>
+                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag} >
                         Start Allocation
                     </Button>
                 )}

@@ -178,7 +178,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 dataIndex: '',
                 width: '100px',
                 render: (_,row) => {
-                    return <Button icon={<EditOutlined />}  onClick={ () => editPlan(row)}  ></Button>
+                    return <Button icon={<EditOutlined />} disabled={row.status === "SUBMIT"} onClick={ () => editPlan(row)}  ></Button>
                 }
             },
             {
@@ -187,7 +187,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
                 dataIndex: '',
                 width: `100px`,
                 render: (_, row) => {
-                    return <Button icon={<DeleteOutlined />} onClick={ () => deletePlan(row)}></Button>
+                    return <Button icon={<DeleteOutlined />} disabled={row.status === "SUBMIT"} onClick={ () => deletePlan(row)}></Button>
                 }
             },
     ]
