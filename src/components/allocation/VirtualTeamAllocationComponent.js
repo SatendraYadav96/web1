@@ -268,10 +268,10 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
             }
             <Row>
                 <Col span={4}>
-                    <LabelComponent>Qty Received: {item.qtyReceived}</LabelComponent>
+                    <LabelComponent>Qty Received: {item.stock}</LabelComponent>
                 </Col>
                 <Col span={4} offset={1}>
-                    <LabelComponent>Qty Dispatched: {item.qtyDispatched}</LabelComponent>
+                    <LabelComponent>Qty Dispatched: {item.quantityAllocated}</LabelComponent>
                 </Col>
                 <Col span={4} offset={1}>
                     <LabelComponent>Pack Size: {item.packSize}</LabelComponent>
