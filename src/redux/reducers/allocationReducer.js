@@ -1047,7 +1047,7 @@ const multipleAllocationUploadStartReducer = (state = initialState, payload) => 
 const multipleAllocationUploadSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-        multipleAllocationUpload: [],
+        multipleAllocationUpload: payload.multipleAllocationUpload,
         multipleAllocationUploadSuccess: true
     }
 }
@@ -1056,7 +1056,7 @@ const multipleAllocationUploadFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         multipleAllocationUploadSuccess: false,
-        error: payload.error,
+        error: payload.error.response.message,
     }
 }
 

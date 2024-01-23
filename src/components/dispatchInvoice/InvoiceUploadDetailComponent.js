@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import {Button, Col, message, Row, Table, Upload} from "antd";
 import {UploadOutlined} from "@ant-design/icons";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {selectInvoiceUploadListData} from "../../redux/selectors/invoiceUploadSelector";
+import {selectInvoiceUploadCsvListData, selectInvoiceUploadListData} from "../../redux/selectors/invoiceUploadSelector";
 import {invoiceUploadCsvStartAction, invoiceUploadStartAction} from "../../redux/actions/dispatchInvoice/invoiceUploadAction";
 import XLSX from "xlsx";
 import {grnExcelUploadStartAction, invoiceExcelUploadStartAction} from "../../redux/actions/upload/uploadActions";
@@ -14,7 +14,7 @@ import {selectGrnExcelUploadListData, selectInvoiceExcelUploadListData, selectIn
 import {CSVLink} from "react-csv";
 import CSVDownload from "react-csv/src/components/Download";
 
-const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload,handleInvoiceExcelUpload,invoiceExcelData, success}) => {
+const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUploadList,handleInvoiceUploadList,handleInvoiceUpload,handleInvoiceExcelUpload,invoiceExcelData, success,invoiceUploadCsvList}) => {
 
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
@@ -106,7 +106,7 @@ const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUp
                     "Boxes": item.boxes,
                     "Weight": item.weight,
                     "Dimension": item.dimension,
-                    "Transporter": item.transporterId,
+                    "Transporter": item.transporterName,
                     "LR Nov": item.lrNo,
                     "PlanId": item.planId,
                     "Plan": item.planName,
@@ -126,7 +126,7 @@ const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUp
                     "Boxes": item.boxes,
                     "Weight": item.weight,
                     "Dimension": item.dimension,
-                    "Transporter": item.transporterId,
+                    "Transporter": item.transporterName,
                     "LR Nov": item.lrNo,
                     "PlanId": item.planId,
                     "Plan": item.planName,
@@ -300,6 +300,14 @@ const InvoiceUploadDetailComponent = ({data, type,authInfo,profileInfo,invoiceUp
         }
     }
 
+    useEffect(() => {
+        console.log(invoiceUploadCsvList)
+        handleInvoiceUploadList({
+            certificate: authInfo.token
+        })
+        searchData()
+    },[invoiceUploadCsvList])
+
     return(
         <div>
             <TitleWidget title={'Upload Invoice Details'} />
@@ -344,7 +352,8 @@ InvoiceUploadDetailComponent.propTypes = {
     invoiceExcelData:PropTypes.array,
     handleInvoiceUpload:PropTypes.func,
     handleInvoiceExcelUpload:PropTypes.func,
-    success: PropTypes.any
+    success: PropTypes.any,
+    invoiceUploadCsvList:PropTypes.any
 }
 
 const mapState = (state) => {
@@ -353,7 +362,8 @@ const mapState = (state) => {
     const invoiceUploadList = selectInvoiceUploadListData(state)
     const invoiceExcelData = selectInvoiceExcelUploadListData(state)
     const success = selectInvoiceUploadSuccess(state)
-    return {authInfo,profileInfo,invoiceUploadList,invoiceExcelData, success}
+    const invoiceUploadCsvList = selectInvoiceUploadCsvListData(state)
+    return {authInfo,profileInfo,invoiceUploadList,invoiceExcelData, success,invoiceUploadCsvList}
 }
 
 const actions = {

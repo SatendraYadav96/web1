@@ -2,16 +2,24 @@ import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
-import {Alert, Button, Col, Input, InputNumber, Modal, Row, Table} from "antd";
+import {Alert, Button, Col, Input, InputNumber, message, Modal, Row, Table} from "antd";
 import {allocateToAllTeamsAction, allocateToTeamAction, monthlyCommonAllocationStartAction, monthlyCommonTeamStartAction, monthlyDifferentialAllocationStartAction} from "../../redux/actions/allocation/allocationActions";
-import {selectCommonAllocationDone, selectMonthlyCommonAllocationSaveSuccess, selectMonthlyCommonTeamListData, selectMonthlyCommonTeamListKeys, selectMonthlyDifferentialAllocation, selectMonthlyDifferentialAllocationSaveSuccess} from "../../redux/selectors/allocationSelectors";
+import {
+    selectCommonAllocationDone,
+    selectMonthlyCommonAllocationSave,
+    selectMonthlyCommonAllocationSaveSuccess,
+    selectMonthlyCommonTeamListData,
+    selectMonthlyCommonTeamListKeys,
+    selectMonthlyDifferentialAllocation,
+    selectMonthlyDifferentialAllocationSaveSuccess
+} from "../../redux/selectors/allocationSelectors";
 import DifferentialAllocationComponent from "./DifferentialAllocationComponent";
 import LabelComponent from "../../widgets/LabelComponent";
 import TeamAllocationDetailsComponent from "./TeamAllocationDetailsComponent";
 import ChangeAllocationComponent from "./ChangeAllocationComponent";
 
 const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, inventoryId, commonAllocationDone, teamForDifferentialAllocation, handleSaveCommonAllocation, handleChangeQuantity, handleMonthlyDifferentialAllocationSave, handleAllocationToAllTeams,
-                                     monthlyCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys, monthlyDifferentialAllocationSaveSuccess, monthlyCommonAllocationSaveSuccess}) => {
+                                     monthlyCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys, monthlyDifferentialAllocationSaveSuccess, monthlyCommonAllocationSaveSuccess,monthlyCommonAllocationSave}) => {
     const [showDifferential, setShowDifferential] = useState(false)
     const [teamForDifferential, setTeamForDifferential] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
@@ -192,6 +200,12 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
             });
         }
         if(monthlyCommonAllocationSaveSuccess){
+            console.log(Object.keys(monthlyCommonAllocationSave).length !== 0)
+            if(monthlyCommonAllocationSave!== undefined && Object.keys(monthlyCommonAllocationSave).length !== 0  && monthlyCommonAllocationSave.body.info == "error"){
+                message.error(monthlyCommonAllocationSave.body.message);
+            }else{
+                message.success(monthlyCommonAllocationSave.body.message);
+         }
             handleMonthlyCommonTeam({
                 certificate:authInfo.token,
                 ccmId: costCenterId,
@@ -336,7 +350,8 @@ TeamAllocationComponent.propTypes = {
     handleMonthlyDifferentialAllocationSave: PropTypes.func,
     teamForDifferentialAllocation: PropTypes.any,
     monthlyDifferentialAllocationSaveSuccess: PropTypes.any,
-    monthlyCommonAllocationSaveSuccess: PropTypes.any
+    monthlyCommonAllocationSaveSuccess: PropTypes.any,
+    monthlyCommonAllocationSave:PropTypes.any
 }
 
 const mapState = (state) => {
@@ -350,7 +365,8 @@ const mapState = (state) => {
     const teamForDifferentialAllocation = selectMonthlyDifferentialAllocation(state)
     const monthlyDifferentialAllocationSaveSuccess = selectMonthlyDifferentialAllocationSaveSuccess(state)
     const monthlyCommonAllocationSaveSuccess = selectMonthlyCommonAllocationSaveSuccess(state)
-    return { authInfo, commonAllocationDone,monthlyCommonTeam, profileInfo, teamKeys, teamForDifferentialAllocation, monthlyDifferentialAllocationSaveSuccess, monthlyCommonAllocationSaveSuccess }
+    const monthlyCommonAllocationSave = selectMonthlyCommonAllocationSave(state)
+    return { authInfo, commonAllocationDone,monthlyCommonTeam, profileInfo, teamKeys, teamForDifferentialAllocation, monthlyDifferentialAllocationSaveSuccess, monthlyCommonAllocationSaveSuccess,monthlyCommonAllocationSave }
 }
 
 const actions = {

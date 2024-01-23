@@ -22,7 +22,7 @@ import {
     selectItemsLoading,
     selectItemsToAllocate,
     selectMultipleAllocationDownload,
-    selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
+    selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess,
     selectPlan, selectPlanSubmitted, selectSubmitMonthlyAllocation, selectSubmitMonthlyAllocationSuccess
 } from '../../redux/selectors/allocationSelectors'
 import {Button, Col, Collapse, DatePicker, Divider, Input, InputNumber, message, Modal, Row, Space, Spin, Steps, Table, Typography, Upload} from 'antd'
@@ -64,7 +64,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                                         downloadAllocation, handleGetDownloadAllocation, submitMonthlyAllocation,
                                         handleActiveUserDownload, activeUsersDownload, multipleAllocationExcel,
                                         handleSubmitMonthlyAllocation, multipleAllocationDownload, handleMultipleAllocation,
-                                        handleMultipleAllocationUpload, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess,month
+                                        handleMultipleAllocationUpload, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess,month,multipleAllocationUpload
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
@@ -158,6 +158,14 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
 
     useEffect(() => {
         if(multipleAllocationUploadSuccess){
+
+            console.log(multipleAllocationUpload)
+           console.log(Object.keys(multipleAllocationUpload).length !== 0)
+            if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
+                message.error(multipleAllocationUpload.message);
+            }else{
+                message.success(multipleAllocationUpload.message);
+            }
             handleCreateViewPlan({
                 certificate: authInfo.token,
                 month: Number(toMm(yearMonth)),
@@ -698,7 +706,8 @@ MonthlyAllocationComponent.propTypes = {
     submitMonthlyAllocationSuccess: PropTypes.any,
     multipleAllocationUploadSuccess: PropTypes.any,
     planSubmitted: PropTypes.any,
-    submitMonthlyAllocation: PropTypes.any
+    submitMonthlyAllocation: PropTypes.any,
+    multipleAllocationUpload:PropTypes.any
 }
 
 const mapState = (state) => {
@@ -717,11 +726,12 @@ const mapState = (state) => {
     const submitMonthlyAllocation = selectSubmitMonthlyAllocation(state)
     const submitMonthlyAllocationSuccess = selectSubmitMonthlyAllocationSuccess(state)
     const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
+    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
     const planSubmitted = selectPlanSubmitted(state)
     console.log("allocations - ", allocations )
     console.log(multipleAllocationDownload, multipleAllocationExcel)
     return { authInfo, profileInfo, itemsLoading, items, plan, allocationsLoading, allocations, commonAllocationDone, planSubmitted, submitMonthlyAllocation,
-        downloadAllocation,activeUsersDownload, multipleAllocationDownload, multipleAllocationExcel, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess }
+        downloadAllocation,activeUsersDownload, multipleAllocationDownload, multipleAllocationExcel, submitMonthlyAllocationSuccess, multipleAllocationUploadSuccess,multipleAllocationUpload }
 }
 
 const actions = {

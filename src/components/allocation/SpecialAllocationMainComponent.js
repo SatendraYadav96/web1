@@ -13,12 +13,12 @@ import SelectYearComponent from "../widgets/SelectYearComponent";
 import SelectStatusComponent from "../widgets/SelectStatusComponent";
 import {useNavigate} from "react-router-dom";
 import {deleteSpecialAllocationStartAction, getAllocationStatusDropdownStartAction, searchSpecialPlanStartAction} from "../../redux/actions/allocation/allocationActions";
-import {selectGetAllocationStatusDropdown, selectSearchSpecialPlan} from "../../redux/selectors/allocationSelectors";
+import {selectDeleteSpecialAllocation, selectGetAllocationStatusDropdown, selectSearchSpecialPlan} from "../../redux/selectors/allocationSelectors";
 import {toDdMmYYYY} from "../../utils/DateUtils";
 
 const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,
                                      handleStatusDropdown, statusDropdown,handlePurchaseReportList,
-                                     handleSearchSpecialPlan, searchSpecialPlan, handleDeleteSpecialAllocation}) => {
+                                     handleSearchSpecialPlan, searchSpecialPlan, handleDeleteSpecialAllocation,deleteSpecialAllocation}) => {
 
     let now = new Date()
 
@@ -208,46 +208,21 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
             remark: remark
         })
         setFlag(true)
-        // setColumn([
-        //     {
-        //         title:'Purpose',
-        //         key:'purpose',
-        //         dataIndex:'purpose',
-        //         width:'100px'
-        //     },
-        //     {
-        //         title:'',
-        //         key:'requestedOn',
-        //         dataIndex:'requestedOn',
-        //         width:'100px'
-        //     },
-        //     {
-        //         title: '',
-        //         key: 'grnDate',
-        //         dataIndex: 'grnDate',
-        //         width: '100px',
-        //         render: (_,row) => {
-        //             return <Button onClick={() => navigate("/home/allocations/special")}>Edit</Button>
-        //         }
-        //     },
-        //     {
-        //         title: '',
-        //         key: 'grnDate',
-        //         dataIndex: 'grnDate',
-        //         width: `100px`,
-        //         render: (_, row) => {
-        //             return <Button disabled={deleteVal}>Delete</Button>
-        //         }
-        //     },
-        // ])
-        // setDataSource([
-        //     {
-        //         purpose: 'Aryaan',
-        //         requestedOn: 'Aryaan',
-        //     }
-        //
-        // ])
+
     }
+
+    useEffect(() => {
+        console.log(deleteSpecialAllocation)
+        handleSearchSpecialPlan({
+            certificate: authInfo.token,
+            month: month,
+            year: year,
+            status: statusDD,
+            remark: remark
+        })
+        setFlag(true)
+
+    },[deleteSpecialAllocation])
 
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
@@ -309,15 +284,17 @@ PurchaseReportComponent.propTypes = {
     handleStatusDropdown: PropTypes.func,
     searchSpecialPlan: PropTypes.any,
     handleSearchSpecialPlan: PropTypes.func,
-    handleDeleteSpecialAllocation: PropTypes.func
+    handleDeleteSpecialAllocation: PropTypes.func,
+    deleteSpecialAllocation : PropTypes.any
 }
 
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const statusDropdown = selectGetAllocationStatusDropdown(state)
     const searchSpecialPlan = selectSearchSpecialPlan(state)
+    const deleteSpecialAllocation =  selectDeleteSpecialAllocation(state)
     console.log(searchSpecialPlan)
-    return {authInfo, statusDropdown, searchSpecialPlan}
+    return {authInfo, statusDropdown, searchSpecialPlan,deleteSpecialAllocation}
 }
 
 const actions = {

@@ -3,7 +3,7 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, Modal, Row, Select, Space, Table} from "antd";
+import {Button, Checkbox, Col, Input, message, Modal, Row, Select, Space, Table} from "antd";
 import {ArrowRightOutlined, CheckOutlined, CloseOutlined, InfoCircleOutlined, SearchOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
@@ -30,6 +30,8 @@ import {
     unlockPlanStartAction
 } from "../../redux/actions/approval/monthlyApprovalActions";
 import Highlighter from "react-highlight-words";
+import {toMm, toYyyy} from "../../utils/DateUtils";
+import {APPROVE_PLAN_SUCCESS} from "../../redux/actions/approval/monthlyApprovalActionConstants";
 
 const AllocationDetails = () => {
     const [column, setColumn] = useState([
@@ -155,7 +157,7 @@ const AllocationDetails = () => {
     )
 }
 
-const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInfo,handleMonthlyApproval,monthlyApprovalDetailsList,handleSpecialPlan,handleMonthlyApprovalDetails,handleResetPlanList,handleUnlockPlanList,handleApprovePlanList,handleRejectPlanList,handleMonthlyToSpecialList,specialPlanApprovalDetailsList,handleSpecialPlanDetails}) => {
+const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInfo,handleMonthlyApproval,monthlyApprovalDetailsList,handleSpecialPlan,handleMonthlyApprovalDetails,handleResetPlanList,handleUnlockPlanList,handleApprovePlanList,handleRejectPlanList,handleMonthlyToSpecialList,specialPlanApprovalDetailsList,handleSpecialPlanDetails,approvePlanList,rejectPlanList}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -517,6 +519,37 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
         console.log(specialPlanApprovalList)
     },[specialPlanApprovalList])
 
+    useEffect(() => {
+        if(approvePlanList){
+
+            handleSpecialPlan({
+                certificate: authInfo.token,
+                month: month,
+                year: year,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+            })
+            searchData()
+        }
+
+    },[approvePlanList])
+
+
+    useEffect(() => {
+        if(rejectPlanList){
+
+            handleSpecialPlan({
+                certificate: authInfo.token,
+                month: month,
+                year: year,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+            })
+            searchData()
+        }
+
+    },[rejectPlanList])
+
     return(
         <>
             <TitleWidget title={'Special Allocation Review'} />
@@ -581,6 +614,7 @@ SpecialDispatchesComponent.propTypes = {
     handleApprovePlanList: PropTypes.func,
     handleSpecialPlanDetails: PropTypes.func,
     handleRejectPlanList: PropTypes.func,
+    approvePlanList : PropTypes.any
 }
 
 const mapState = (state) => {
