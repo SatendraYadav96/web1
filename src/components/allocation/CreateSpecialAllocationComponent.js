@@ -25,8 +25,8 @@ import {
     selectGetAllocationStatusDropdown,
     selectItemsLoading,
     selectItemsToAllocate,
-    selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload,
-    selectPlan, selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading
+    selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess,
+    selectPlan, selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialDifferentialAllocationSave, selectSpecialItemLoading
 } from "../../redux/selectors/allocationSelectors";
 import {MonthlyAllocationInventoryColumns} from "./AllocationColumns";
 import TeamAllocationComponent from "./TeamAllocationComponent";
@@ -59,7 +59,8 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                                               handleGoToAllocations,handleSubmitSpecialAllocation,
                                               downloadAllocation, handleGetDownloadAllocation,
                                               handleActiveUserDownload, activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel,
-                                              handleMultipleAllocation, handleMultipleAllocationUpload,items,planSubmitted}) => {
+                                              handleMultipleAllocation, handleMultipleAllocationUpload,items,planSubmitted},
+                                          multipleAllocationUploadSuccess,multipleAllocationUpload) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -124,6 +125,22 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
             alloc: data
         })
     }
+
+
+    // useEffect(() => {
+    //     if(multipleAllocationUploadSuccess){
+    //
+    //         console.log(multipleAllocationUpload)
+    //         console.log(Object.keys(multipleAllocationUpload).length !== 0)
+    //         if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
+    //             message.error(multipleAllocationUpload.message);
+    //         }else{
+    //             message.success(multipleAllocationUpload.message);
+    //         }
+    //     }
+    // }, [multipleAllocationUploadSuccess])
+
+
 
 
 
@@ -402,6 +419,8 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
 
 
 
+
+
     return(
         <>
             <TitleWidget title={"Create Special Dispatches"} />
@@ -565,7 +584,10 @@ CreateSpecialAllocationComponent.propTypes = {
     multipleAllocationExcel: PropTypes.any,
     multipleAllocationDownload: PropTypes.any,
     handleMultipleAllocation: PropTypes.func,
-    handleMultipleAllocationUpload: PropTypes.func
+    handleMultipleAllocationUpload: PropTypes.func,
+    multipleAllocationUpload:PropTypes.any,
+    multipleAllocationUploadSuccess: PropTypes.any,
+
 }
 
 const mapState = (state) => {
@@ -580,8 +602,11 @@ const mapState = (state) => {
     const specialItemsLoading = selectSpecialItemLoading(state)
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
+    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
+    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
+
     return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload,
-        multipleAllocationDownload,  multipleAllocationExcel}
+        multipleAllocationDownload,  multipleAllocationExcel,multipleAllocationUpload,multipleAllocationUploadSuccess}
 }
 
 const actions = {

@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
-import {Alert, Button, Col, Input, InputNumber, Modal, Row, Space, Table} from "antd";
+import {Alert, Button, Col, Input, InputNumber, message, Modal, Row, Space, Table} from "antd";
 import {
     allocateToAllTeamsAction, allocateToDifferentialAction,
     allocateToTeamAction,
@@ -18,7 +18,7 @@ import {
     selectMonthlyCommonTeamListData,
     selectMonthlyCommonTeamListKeys,
     selectMonthlyDifferentialAllocation,
-    selectSpecialDifferentialAllocation, selectSpecialDifferentialAllocationSaveSuccess,
+    selectSpecialDifferentialAllocation, selectSpecialDifferentialAllocationSave, selectSpecialDifferentialAllocationSaveSuccess,
     selectVirtualCommonTeamListData,
     selectVirtualCommonTeamListKeys,
     selectVirtualDifferentialAllocation
@@ -32,7 +32,8 @@ import {SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import * as events from "events";
 
-const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, handleChangeDifferentialQuantity, handleSpecialDifferentialAllocationSave, inventoryId, commonAllocationDone, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, specialDifferentialTeam,handleSpecialDifferentialTeam,authInfo, profileInfo, teamKeys, specialDifferentialAllocationSaveSuccess}) => {
+const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, handleChangeDifferentialQuantity, handleSpecialDifferentialAllocationSave, inventoryId, commonAllocationDone, handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, specialDifferentialTeam,
+                                            handleSpecialDifferentialTeam,authInfo, profileInfo, teamKeys, specialDifferentialAllocationSaveSuccess,specialDifferentialAllocationSave}) => {
     const [showDifferential, setShowDifferential] = useState(false)
     const [teamForDifferential, setTeamForDifferential] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
@@ -318,6 +319,21 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
     },[costCenterId])
 
 
+    useEffect(() => {
+        if(specialDifferentialAllocationSaveSuccess){
+            console.log(specialDifferentialAllocationSave)
+            console.log(Object.keys(specialDifferentialAllocationSave).length !== 0)
+            if(specialDifferentialAllocationSave!== undefined && Object.keys(specialDifferentialAllocationSave).length !== 0  && specialDifferentialAllocationSave.info == "error"){
+                message.error(specialDifferentialAllocationSave.body.message);
+            }else{
+                message.success(specialDifferentialAllocationSave.body.message);
+            }
+        }
+
+
+    },[specialDifferentialAllocationSaveSuccess])
+
+
     return (
         <>
             {showErrorMessage &&
@@ -389,7 +405,8 @@ SpecialTeamAllocationComponent.propTypes = {
     handleSaveCommonAllocation: PropTypes.any,
     handleSpecialDifferentialAllocationSave: PropTypes.func,
     handleChangeDifferentialQuantity: PropTypes.func,
-    specialDifferentialAllocationSaveSuccess: PropTypes.any
+    specialDifferentialAllocationSaveSuccess: PropTypes.any,
+    specialDifferentialAllocationSave:PropTypes.any
 }
 
 const mapState = (state) => {
@@ -400,8 +417,9 @@ const mapState = (state) => {
     const profileInfo = selectProfileInfo(state)
     console.log(specialDifferentialTeam)
     console.log(teamKeys)
+    const specialDifferentialAllocationSave = selectSpecialDifferentialAllocationSave(state)
     const specialDifferentialAllocationSaveSuccess = selectSpecialDifferentialAllocationSaveSuccess(state)
-    return { authInfo, commonAllocationDone,specialDifferentialTeam, profileInfo, teamKeys, specialDifferentialAllocationSaveSuccess }
+    return { authInfo, commonAllocationDone,specialDifferentialTeam, profileInfo, teamKeys, specialDifferentialAllocationSaveSuccess,specialDifferentialAllocationSave }
 }
 
 const actions = {

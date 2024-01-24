@@ -18,7 +18,7 @@ import {
     selectItemsLoading,
     selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
     selectPlan,
-    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading, selectSpecialPlanSubmitted, selectSubmitSpecialAllocation, selectSubmitSpecialAllocationSuccess,
+    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialDifferentialAllocationSave, selectSpecialItemLoading, selectSpecialPlanSubmitted, selectSubmitSpecialAllocation, selectSubmitSpecialAllocationSuccess,
     selectVirtualAllocation,
     selectVirtualItemLoading
 } from "../../redux/selectors/allocationSelectors";
@@ -614,6 +614,8 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
 
 
 
+
+
     return(
         <>
             <TitleWidget title={'Special Allocation'} subTitle={'Create'}/>
@@ -771,7 +773,8 @@ SpecialAllocationComponent.propTypes = {
     submitSpecialAllocationSuccess: PropTypes.any,
     multipleAllocationUploadSuccess: PropTypes.any,
     specialPlanSubmitted: PropTypes.any,
-    submitSpecialAllocation: PropTypes.any
+    submitSpecialAllocation: PropTypes.any,
+
 }
 
 const mapState = (state) => {
@@ -790,8 +793,10 @@ const mapState = (state) => {
     const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
     const specialPlanSubmitted = selectSpecialPlanSubmitted(state)
     const submitSpecialAllocation = selectSubmitSpecialAllocation(state)
+
     return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, submitSpecialAllocation,
-        downloadAllocation,activeUsersDownload, multipleAllocationDownload, specialPlanSubmitted, multipleAllocationExcel, submitSpecialAllocationSuccess, multipleAllocationUploadSuccess}
+        downloadAllocation,activeUsersDownload, multipleAllocationDownload, specialPlanSubmitted, multipleAllocationExcel, submitSpecialAllocationSuccess, multipleAllocationUploadSuccess,
+        }
 }
 
 const actions = {
