@@ -16,7 +16,7 @@ import {deleteSpecialAllocationStartAction, getAllocationStatusDropdownStartActi
 import {selectDeleteSpecialAllocation, selectGetAllocationStatusDropdown, selectSearchSpecialPlan} from "../../redux/selectors/allocationSelectors";
 import {toDdMmYYYY} from "../../utils/DateUtils";
 
-const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,
+const SpecialAllocationMainComponent = ({authInfo,profileInfo,purchaseList,purchaseReportLoading,
                                      handleStatusDropdown, statusDropdown,handlePurchaseReportList,
                                      handleSearchSpecialPlan, searchSpecialPlan, handleDeleteSpecialAllocation,deleteSpecialAllocation}) => {
 
@@ -278,7 +278,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
 
 }
 
-PurchaseReportComponent.propTypes = {
+SpecialAllocationMainComponent.propTypes = {
     authInfo: PropTypes.any,
     statusDropdown: PropTypes.any,
     handleStatusDropdown: PropTypes.func,
@@ -304,4 +304,4 @@ const actions = {
     handleDeleteSpecialAllocation: deleteSpecialAllocationStartAction
 }
 
-export default connect(mapState, actions)(PurchaseReportComponent)
+export default connect(mapState, actions)(SpecialAllocationMainComponent)

@@ -36,13 +36,14 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
     const [recipientInvoiceColumn, setRecipientInvoiceColumn] = useState([])
     const [status, setStatus] = useState([])
     const [recipientInvoice, setRecipientInvoice] = useState(false)
-    const [planId, setPlanId] = useState()
+    const [planIds, setPlanIds] = useState()
     const [transport, setTransport] = useState()
     const [printColumn, setPrintColumn] = useState([])
     const [genInv, setGenInv] = useState([])
     const [printInvoice, setPrintInvoice] = useState()
     const [lrNo, setLrNo] = useState()
     const [empId, setEmpId] = useState()
+    const [planId, setPlanId] = useState()
     const [box, setBox] = useState()
     const [dimension, setDimension] = useState()
     const [weight, setWeight] = useState()
@@ -311,6 +312,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                         return <Button icon={<SaveOutlined />} onClick={() => {
                             setDraftModal(true);
                             setEmpId(row.employeeId)
+                            setPlanIds(row.planId)
                         }}></Button>
                     }
                 },
@@ -957,7 +959,8 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             "lrNo": lrNo,
             "month": location.state.month,
             "year": location.state.year,
-            "isSpecial": 1
+            "isSpecial": 1,
+            "planId":planIds
         })
 
         handleGenInvoice({
@@ -971,7 +974,8 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                 dimension: dimension,
                 month: location.state.month,
                 year: location.state.year,
-                isSpecial: 1
+                isSpecial: 1,
+                planId :planIds
             }
         })
 

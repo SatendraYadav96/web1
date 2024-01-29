@@ -16,7 +16,7 @@ import {
     selectDownloadAllocation,
     selectGetActiveUsers,
     selectItemsLoading,
-    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
+    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess,
     selectPlan,
     selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialDifferentialAllocationSave, selectSpecialItemLoading, selectSpecialPlanSubmitted, selectSubmitSpecialAllocation, selectSubmitSpecialAllocationSuccess,
     selectVirtualAllocation,
@@ -62,7 +62,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                                         handleActiveUserDownload, activeUsersDownload,
                                         multipleAllocationDownload,  multipleAllocationExcel,
                                         handleMultipleAllocation, handleMultipleAllocationUpload, submitSpecialAllocation,
-                                        submitSpecialAllocationSuccess, multipleAllocationUploadSuccess}) => {
+                                        submitSpecialAllocationSuccess, multipleAllocationUploadSuccess, multipleAllocationUpload}) => {
 
     const navigate = useNavigate()
     let param = useParams()
@@ -609,6 +609,26 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         return columns
     }
 
+    useEffect(() => {
+        if(multipleAllocationUploadSuccess){
+
+            console.log(multipleAllocationUpload)
+            console.log(Object.keys(multipleAllocationUpload).length !== 0)
+            if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
+                message.error(multipleAllocationUpload.message);
+            }else{
+                message.success(multipleAllocationUpload.message);
+            }
+        }
+    }, [multipleAllocationUploadSuccess])
+
+
+    const handleBacks = () => {
+        return navigate("/home/allocations/special/create")
+    }
+
+
+
 
 
 
@@ -626,14 +646,18 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 {/*<Col span={2}>*/}
                 {/*    <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>*/}
                 {/*</Col>*/}
-                <Col span={3}>
+                <Col span={2}>
                     Month: {param.month}
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     Year: {param.year}
                 </Col>
                 <Col span={3}>
                     Purpose: {param.remark}
+                </Col>
+
+                <Col span={2}>
+                    <Button type={"primary"} onClick={handleBacks}>Back</Button>
                 </Col>
                 <Col span={2} offset={13}>
                     <Button type={'primary'} onClick={() => SubmitSpecialAllocation()} disabled={submitFlag}>Submit</Button>
@@ -774,6 +798,7 @@ SpecialAllocationComponent.propTypes = {
     multipleAllocationUploadSuccess: PropTypes.any,
     specialPlanSubmitted: PropTypes.any,
     submitSpecialAllocation: PropTypes.any,
+    multipleAllocationUpload:PropTypes.any,
 
 }
 
@@ -793,10 +818,11 @@ const mapState = (state) => {
     const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
     const specialPlanSubmitted = selectSpecialPlanSubmitted(state)
     const submitSpecialAllocation = selectSubmitSpecialAllocation(state)
+    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
 
     return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, submitSpecialAllocation,
         downloadAllocation,activeUsersDownload, multipleAllocationDownload, specialPlanSubmitted, multipleAllocationExcel, submitSpecialAllocationSuccess, multipleAllocationUploadSuccess,
-        }
+        multipleAllocationUpload}
 }
 
 const actions = {

@@ -126,7 +126,7 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
                 title:'Plan Purpose',
                 key: 'namePlan',
                 dataIndex: 'namePlan',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('namePlan'),
             },
             {
@@ -147,7 +147,7 @@ const SpecialDispatchComponent = ({authInfo,specialData,specialDispatchLoading,h
                 title: 'Invoice Status',
                 key: 'invoiceStatus',
                 dataIndex: 'invoiceStatus',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('invoiceStatus'),
             },
             {

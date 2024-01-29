@@ -7,6 +7,8 @@ import {Button, Col, Collapse, Input, message, Row, Select, Spin, Steps, Table, 
 import moment from "moment";
 import {toMm, toYyyy} from "../../utils/DateUtils";
 import {Excel} from "antd-table-saveas-excel";
+import {useNavigate} from "react-router-dom";
+
 import {
     getActiveUsersStartAction,
     getAllocationsForPlanStartAction,
@@ -34,7 +36,7 @@ import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {UploadOutlined} from "@ant-design/icons";
 import SpecialTeamAllocationComponent from "./SpecialTeamAllocationComponent";
-import {useNavigate} from "react-router-dom";
+
 const { Step } = Steps
 const { Panel } = Collapse
 const allocationSteps = [
@@ -60,7 +62,10 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                                               downloadAllocation, handleGetDownloadAllocation,
                                               handleActiveUserDownload, activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel,
                                               handleMultipleAllocation, handleMultipleAllocationUpload,items,planSubmitted},
-                                          multipleAllocationUploadSuccess,multipleAllocationUpload) => {
+                                          multipleAllocationUploadSuccess) => {
+
+
+    const navigates = useNavigate()
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -140,6 +145,10 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
     //     }
     // }, [multipleAllocationUploadSuccess])
 
+
+    const handleBacks = () => {
+        return navigates("/home/allocations/special/create")
+    }
 
 
 
@@ -446,6 +455,13 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
 
                 </Col>
 
+                <Col span={2}>
+                    <br/>
+                    <Button type={"primary"} onClick={handleBacks}>Back</Button>
+
+
+                </Col>
+
                 {/*<Col span={2}>*/}
                 {/*    <br/>*/}
                 {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}} style={{marginLeft:"20px"}}>Back</Button>*/}
@@ -585,7 +601,6 @@ CreateSpecialAllocationComponent.propTypes = {
     multipleAllocationDownload: PropTypes.any,
     handleMultipleAllocation: PropTypes.func,
     handleMultipleAllocationUpload: PropTypes.func,
-    multipleAllocationUpload:PropTypes.any,
     multipleAllocationUploadSuccess: PropTypes.any,
 
 }
@@ -602,11 +617,10 @@ const mapState = (state) => {
     const specialItemsLoading = selectSpecialItemLoading(state)
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
-    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
     const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
 
     return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload,
-        multipleAllocationDownload,  multipleAllocationExcel,multipleAllocationUpload,multipleAllocationUploadSuccess}
+        multipleAllocationDownload,  multipleAllocationExcel,multipleAllocationUploadSuccess}
 }
 
 const actions = {
