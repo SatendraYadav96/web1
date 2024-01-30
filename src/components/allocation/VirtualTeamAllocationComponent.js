@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
-import {Alert, Button, Col, Input, InputNumber, Modal, Row, Table} from "antd";
+import {Alert, Button, Col, Input, InputNumber, Modal, Row, Table,message} from "antd";
 import {
     allocateToAllTeamsAction,
-    allocateToTeamAction,
+    allocateToTeamAction, getMultipleAllocationDownloadStartAction,
     monthlyCommonAllocationStartAction,
     monthlyCommonTeamStartAction,
-    monthlyDifferentialAllocationStartAction,
+    monthlyDifferentialAllocationStartAction, multipleAllocationUploadStartAction,
     virtualAllocateToTeamAction,
     virtualCommonAllocationStartAction,
     virtualCommonTeamStartAction, virtualDifferentialAllocationStartAction
@@ -17,7 +17,7 @@ import {
     selectCommonAllocationDone,
     selectMonthlyCommonTeamListData,
     selectMonthlyCommonTeamListKeys,
-    selectMonthlyDifferentialAllocation, selectVirtualCommonAllocationSaveSuccess,
+    selectMonthlyDifferentialAllocation, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess, selectVirtualCommonAllocationSave, selectVirtualCommonAllocationSaveSuccess,
     selectVirtualCommonTeamListData,
     selectVirtualCommonTeamListKeys,
     selectVirtualDifferentialAllocation,
@@ -31,7 +31,8 @@ import ChangeVirtualAllocationComponent from "./ChangeVirtualAllocationComponent
 
 const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month, year, handleMonthlyDifferentialAllocationSave, inventoryId, commonAllocationDone, teamForDifferentialAllocation,
                                             handleSaveCommonAllocation, handleChangeQuantity, handleAllocationToAllTeams, virtualCommonTeam,handleMonthlyCommonTeam,authInfo, profileInfo, teamKeys,
-                                            virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess}) => {
+                                            virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess,virtualCommonAllocationSave,multipleAllocationUpload,
+                                            multipleAllocationUploadSuccess}) => {
     const [showDifferential, setShowDifferential] = useState(false)
     const [teamForDifferential, setTeamForDifferential] = useState('')
     const [showErrorMessage, setShowErrorMessage] = useState(false)
@@ -261,6 +262,38 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
         setOpen(false)
     }
 
+
+
+    useEffect(() => {
+        if(virtualCommonAllocationSaveSuccess){
+
+            console.log(virtualCommonAllocationSave)
+            console.log(Object.keys(virtualCommonAllocationSave).length !== 0)
+            if(virtualCommonAllocationSave!== undefined && Object.keys(virtualCommonAllocationSave).length !== 0  && virtualCommonAllocationSave.info == "error"){
+                message.error(virtualCommonAllocationSave.body.message);
+            }else{
+                message.success(virtualCommonAllocationSave.body.message);
+            }
+        }
+    }, [virtualCommonAllocationSaveSuccess])
+
+
+    useEffect(() => {
+        if(multipleAllocationUploadSuccess){
+
+            console.log(multipleAllocationUpload)
+            console.log(Object.keys(multipleAllocationUpload).length !== 0)
+            if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
+                message.error(multipleAllocationUpload.message);
+            }else{
+                message.success(multipleAllocationUpload.message);
+            }
+        }
+    }, [multipleAllocationUploadSuccess])
+
+
+
+
     return (
         <>
             {showErrorMessage &&
@@ -351,7 +384,10 @@ VirtualTeamAllocationComponent.propTypes = {
     handleMonthlyDifferentialAllocationSave: PropTypes.func,
     teamForDifferentialAllocation: PropTypes.any,
     virtualDifferentialAllocationSaveSuccess: PropTypes.any,
-    virtualCommonAllocationSaveSuccess: PropTypes.any
+    virtualCommonAllocationSaveSuccess: PropTypes.any,
+    virtualCommonAllocationSave:PropTypes.any,
+    multipleAllocationUpload:PropTypes.any,
+    multipleAllocationUploadSuccess: PropTypes.any,
 }
 
 const mapState = (state) => {
@@ -366,7 +402,11 @@ const mapState = (state) => {
     const teamForDifferentialAllocation = selectVirtualDifferentialAllocation(state)
     const virtualDifferentialAllocationSaveSuccess = selectVirtualDifferentialAllocationSaveSuccess(state)
     const virtualCommonAllocationSaveSuccess = selectVirtualCommonAllocationSaveSuccess(state)
-    return { authInfo, commonAllocationDone,virtualCommonTeam, profileInfo, teamKeys, teamForDifferentialAllocation, virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess }
+    const virtualCommonAllocationSave = selectVirtualCommonAllocationSave(state)
+    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
+    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
+    return { authInfo, commonAllocationDone,virtualCommonTeam, profileInfo, teamKeys, teamForDifferentialAllocation,
+        virtualDifferentialAllocationSaveSuccess, virtualCommonAllocationSaveSuccess ,virtualCommonAllocationSave,multipleAllocationUpload,multipleAllocationUploadSuccess}
 }
 
 const actions = {
@@ -374,7 +414,8 @@ const actions = {
     handleAllocationToAllTeams: allocateToAllTeamsAction,
     handleMonthlyCommonTeam:virtualCommonTeamStartAction,
     handleSaveCommonAllocation: virtualCommonAllocationStartAction,
-    handleMonthlyDifferentialAllocationSave: virtualDifferentialAllocationStartAction
+    handleMonthlyDifferentialAllocationSave: virtualDifferentialAllocationStartAction,
+    handleMultipleAllocationUpload: multipleAllocationUploadStartAction
 }
 
 export default connect(mapState, actions)(VirtualTeamAllocationComponent)

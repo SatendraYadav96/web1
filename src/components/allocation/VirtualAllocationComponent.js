@@ -20,7 +20,7 @@ import {
     selectDownloadAllocation,
     selectGetActiveUsers,
     selectItemsLoading,
-    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSuccess,
+    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess,
     selectPlan, selectSubmitVirtualAllocation, selectSubmitVirtualAllocationSuccess,
     selectVirtualAllocation,
     selectVirtualAllocationForPlan, selectVirtualAllocationLoading,
@@ -64,7 +64,8 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                                         downloadAllocation, handleGetDownloadAllocation, submitVirtualAllocation,
                                         handleActiveUserDownload, activeUsersDownload, virtualPlanSubmitted,
                                         handleSubmitVirtualAllocation,multipleAllocationDownload,  multipleAllocationExcel,
-                                        handleMultipleAllocation, handleMultipleAllocationUpload, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess
+                                        handleMultipleAllocation, handleMultipleAllocationUpload, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess,
+                                        multipleAllocationUpload
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
@@ -511,6 +512,20 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
     }
 
 
+    useEffect(() => {
+        if(multipleAllocationUploadSuccess){
+
+            console.log(multipleAllocationUpload)
+            console.log(Object.keys(multipleAllocationUpload).length !== 0)
+            if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
+                message.error(multipleAllocationUpload.message);
+            }else{
+                message.success(multipleAllocationUpload.message);
+            }
+        }
+    }, [multipleAllocationUploadSuccess])
+
+
 
     return(
         <>
@@ -658,7 +673,8 @@ VirtualAllocationComponent.propTypes = {
     submitVirtualAllocationSuccess: PropTypes.any,
     multipleAllocationUploadSuccess: PropTypes.any,
     virtualPlanSubmitted: PropTypes.any,
-    submitVirtualAllocation: PropTypes.any
+    submitVirtualAllocation: PropTypes.any,
+    multipleAllocationUpload:PropTypes.any
 }
 
 const mapState = (state) => {
@@ -680,9 +696,11 @@ const mapState = (state) => {
     const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
     const virtualPlanSubmitted = selectVirtualPlanSubmitted(state)
     const submitVirtualAllocation = selectSubmitVirtualAllocation(state)
+    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
     console.log(virtualPlanSubmitted)
     return { authInfo, profileInfo, virtualItemsLoading, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload, virtualAllocation,
-        multipleAllocationDownload,  multipleAllocationExcel, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess, virtualPlanSubmitted, submitVirtualAllocation}
+        multipleAllocationDownload,  multipleAllocationExcel, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess, virtualPlanSubmitted, submitVirtualAllocation,
+        multipleAllocationUpload}
 }
 
 const actions = {

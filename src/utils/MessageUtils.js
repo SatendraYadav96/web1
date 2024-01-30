@@ -290,6 +290,40 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+
+
+        GET_GENERATE_INVOICE_START: [{ action: 'showspinner' }],
+        GET_GENERATE_INVOICE_SUCCESS: [{ action: 'hidespinner' }],
+        GET_GENERATE_INVOICE_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        TRANSPORT_DROPDOWN_START_ACTION: [{ action: 'showspinner' }],
+        TRANSPORT_DROPDOWN_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+        TRANSPORT_DROPDOWN_FAIL_ACTION: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        GET_GENERATE_LABEL_START: [{ action: 'showspinner' }],
+        GET_GENERATE_LABEL_SUCCESS: [{ action: 'hidespinner' }],
+        GET_GENERATE_LABEL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
     GROUP_INVOICE_UPLOAD_START: [{ action: 'showspinner' }],
     GROUP_INVOICE_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
     GROUP_INVOICE_UPLOAD_FAIL: [

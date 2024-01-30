@@ -62,7 +62,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                                               downloadAllocation, handleGetDownloadAllocation,
                                               handleActiveUserDownload, activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel,
                                               handleMultipleAllocation, handleMultipleAllocationUpload,items,planSubmitted},
-                                          multipleAllocationUploadSuccess) => {
+                                          multipleAllocationUploadSuccess,multipleAllocationUpload) => {
 
 
     const navigates = useNavigate()
@@ -425,6 +425,19 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         return navigate("/home/allocations/special/create")
     }
 
+    // useEffect(() => {
+    //     if(multipleAllocationUploadSuccess){
+    //
+    //         console.log(multipleAllocationUpload)
+    //         console.log(Object.keys(multipleAllocationUpload).length !== 0)
+    //         if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
+    //             message.error(multipleAllocationUpload.message);
+    //         }else{
+    //             message.success(multipleAllocationUpload.message);
+    //         }
+    //     }
+    // }, [multipleAllocationUploadSuccess])
+
 
 
 
@@ -602,10 +615,13 @@ CreateSpecialAllocationComponent.propTypes = {
     handleMultipleAllocation: PropTypes.func,
     handleMultipleAllocationUpload: PropTypes.func,
     multipleAllocationUploadSuccess: PropTypes.any,
+    multipleAllocationUpload:PropTypes.any,
+
 
 }
 
 const mapState = (state) => {
+
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const allocationsLoading = selectSpecialAllocationLoading(state)
@@ -618,9 +634,11 @@ const mapState = (state) => {
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
     const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
+    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
+    console.log(multipleAllocationUpload)
 
     return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload,
-        multipleAllocationDownload,  multipleAllocationExcel,multipleAllocationUploadSuccess}
+        multipleAllocationDownload,  multipleAllocationExcel,multipleAllocationUploadSuccess,multipleAllocationUpload}
 }
 
 const actions = {

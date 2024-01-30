@@ -199,6 +199,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         // })
         // // arr[id]['itemCode'] = value;
         // setArr(data.grn)
+         console.log(data.grn)
         data.grn.forEach(it => {
             if(it.id == id){
                 it['itemCode'] = value
