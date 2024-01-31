@@ -627,7 +627,18 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         return navigate("/home/allocations/special/create")
     }
 
-
+    const createViewClicked = () => {
+        let data ={
+            "month": month,
+            "year": year,
+            "name": remark
+        }
+        handleCreateViewPlan({
+            certificate: authInfo.token,
+            // yearMonth: toYyyyMm(yearMonth)
+            alloc: data
+        })
+    }
 
 
 
@@ -646,14 +657,20 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 {/*<Col span={2}>*/}
                 {/*    <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>*/}
                 {/*</Col>*/}
-                <Col span={2}>
+                <Col span={1}>
                     Month: {param.month}
                 </Col>
-                <Col span={2}>
+                <Col span={1}>
                     Year: {param.year}
                 </Col>
                 <Col span={3}>
                     Purpose: {param.remark}
+                </Col>
+
+                <Col span={2}>
+                    <Button type={"primary"} onClick={createViewClicked}>Create/View</Button>
+
+
                 </Col>
 
                 <Col span={2}>
