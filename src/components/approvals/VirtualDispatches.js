@@ -7,6 +7,7 @@ import {Button, Checkbox, Col, Input, Modal, Row, Space, Table} from "antd";
 import {ArrowRightOutlined, CheckOutlined, CloseCircleOutlined, CloseOutlined, InfoCircleOutlined, SearchOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
+
 import {
     selectApprovePlanListData,
     selectRejectPlanListData,
@@ -54,6 +55,9 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
     const [selectedItems, setSelectedItems] = useState([])
     const [view, setView] = useState(false)
     const [downloadData, setDownloadData] = useState([])
+    const [selectionType, setSelectionType] = useState('checkbox');
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [checkedArr, setCheckedArr] = useState([])
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -160,9 +164,38 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
             ),
     });
 
+    const dataRow = []
+
+
+    const handleChecked = (event,row) => {
+        console.log(row)
+        let invoice = row
+        // event.target.checked ? setCheckedArr(current => [...current, row.invoiceNumber]) : checkedArr.filter(checked => checked.includes(row.invoiceNumber))
+        if (event.target.checked) {
+            setCheckedArr(current => [...current, row])
+
+        }
+
+        else if (event.target.checked === false) {
+            setCheckedArr((current) => current.filter(checked => checked !== row))
+            console.log("removed")
+        }
+    }
+
+
     const searchData = () => {
         setFlag(true)
         setColumn([
+            {
+                title: 'Tick',
+                key: '',
+                dataIndex: '',
+                width: '30px',
+                render:(_,row) => {
+                    return <Checkbox onChange={(event) => handleChecked(event,row)}/>
+                }
+            }
+            ,
             {
                 title:'Team',
                 key: 'teamName',
@@ -332,18 +365,39 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
         }
     },[rejectPlanSuccess])
 
-    const rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
-            setSelectedItems(selectedRows)
-        },
-        getCheckboxProps: (row) => ({
-            disabled: (row.stock) == 0
-        }),
-    }
+
+
+    // const rowSelection = {
+    //
+    //     onChange: (selectedRowKeys, selectedRows) => {
+    //
+    //         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    //
+    //             setSelectedItems([selectedRows])
+    //
+    //
+    //     },
+    //
+    //     getCheckboxProps: (row) => ({
+    //         disabled: (row.stock) == 0
+    //
+    //
+    //     }),
+    //
+    // }
+
+
+
+
+
+
+
+
+
 
     const handleDownload = () => {
         let data= [];
-        selectedItems.forEach(i => {
+        checkedArr.forEach(i => {
             console.log(i)
                 let d = {
                     'month':month,
@@ -429,6 +483,15 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
 
                 </Space>
 
+
+                {/*<Space wrap style={{marginBottom:"-25px"}}>*/}
+                {/*    <Col span={3}>*/}
+                {/*        <Button type={'primary'} style={{width: '100%'}} onClick={handleAllCsvDownload} >Csv All</Button>*/}
+                {/*    </Col>*/}
+
+
+                {/*</Space>*/}
+
                 <Space wrap style={{marginBottom:"-25px" , marginLeft:"50px"}}>
                     <Col span={3}>
                         <Button type={'primary'} onClick={handleExcel}>Excel</Button>
@@ -438,12 +501,29 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
 
 
             <br/><br/>
-            {flag &&
-                <Table columns={column} rowSelection={{
-                    type: 'checkbox',
-                    ...rowSelection,
-                }} dataSource={virtualPlanApprovalList}/>
-            }
+
+
+            {/*{flag &&*/}
+            {/*    <Table columns={column} rowSelection={{*/}
+            {/*        type: 'selectionType',*/}
+            {/*        ...rowSelection,*/}
+            {/*    }} dataSource={virtualPlanApprovalList}/>*/}
+            {/*}*/}
+
+
+            <div>
+
+
+
+
+                <Table
+
+                    columns={column}
+                    dataSource={virtualPlanApprovalList}
+                />
+            </div>
+
+
             <Modal open={details} title="Allocation For Approval" footer={null} width={"80vw"} onCancel={() => {
                 setDetails(false)
             }}>
