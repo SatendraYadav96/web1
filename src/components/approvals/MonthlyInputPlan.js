@@ -547,6 +547,26 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
         })
     }
 
+
+    useEffect(() => {
+        if(approvePlanList){
+
+            handleMonthlyApproval({
+                certificate: authInfo.token,
+                month: month,
+                year: year,
+                userId: profileInfo.id,
+                userDesgId: profileInfo.userDesignation.id,
+            })
+            searchData()
+        }
+
+    },[approvePlanList])
+
+
+
+
+
     return(
         <>
             <TitleWidget title={'Monthly Allocation Review'} />
