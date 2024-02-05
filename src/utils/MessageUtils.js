@@ -1346,6 +1346,36 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
             },
         ],
 
+        MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_START:[{ action: 'showspinner' }],
+        MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_SUCCESS: [{ action: 'hidespinner' }],
+        MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_START:[{ action: 'showspinner' }],
+        MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_SUCCESS: [{ action: 'hidespinner' }],
+        MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_START:[{ action: 'showspinner' }],
+        MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_SUCCESS: [{ action: 'hidespinner' }],
+        MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
 
         EXPORT_ALLOCATION_START:[{ action: 'showspinner' }],
         EXPORT_ALLOCATION_SUCCESS: [{ action: 'hidespinner' }],

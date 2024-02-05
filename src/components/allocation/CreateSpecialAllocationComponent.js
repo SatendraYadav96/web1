@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Collapse, Input, message, Row, Select, Spin, Steps, Table, Typography, Upload} from "antd";
-import moment from "moment";
+import {Button, Col, Collapse, Input, message, Row, Select, Space, Spin, Steps, Table, Typography, Upload} from "antd";
+import moment, {months} from "moment";
 import {toMm, toYyyy} from "../../utils/DateUtils";
 import {Excel} from "antd-table-saveas-excel";
 import {useNavigate} from "react-router-dom";
+
 
 import {
     getActiveUsersStartAction,
@@ -15,7 +16,7 @@ import {
     getAllocationStatusDropdownStartAction,
     getDownloadAllocationStartAction,
     getMultipleAllocationDownloadStartAction, getSpecialAllocationsForPlanStartAction,
-    monthlyAllocationStartAction, multipleAllocationUploadStartAction, specialAllocationStartAction,
+    monthlyAllocationStartAction, multipleAllocationUploadSpecialStartAction, multipleAllocationUploadStartAction, specialAllocationStartAction,
     submitMonthlyAllocationStartAction, submitSpecialAllocationStartAction
 } from "../../redux/actions/allocation/allocationActions";
 import {
@@ -27,15 +28,17 @@ import {
     selectGetAllocationStatusDropdown,
     selectItemsLoading,
     selectItemsToAllocate,
-    selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess,
+    selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSpecial, selectMultipleAllocationUploadSpecialSuccess, selectMultipleAllocationUploadSuccess,
     selectPlan, selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialDifferentialAllocationSave, selectSpecialItemLoading
 } from "../../redux/selectors/allocationSelectors";
 import {MonthlyAllocationInventoryColumns} from "./AllocationColumns";
 import TeamAllocationComponent from "./TeamAllocationComponent";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
-import {UploadOutlined} from "@ant-design/icons";
+import {SearchOutlined, UploadOutlined} from "@ant-design/icons";
 import SpecialTeamAllocationComponent from "./SpecialTeamAllocationComponent";
+import Highlighter from "react-highlight-words";
+
 
 const { Step } = Steps
 const { Panel } = Collapse
@@ -61,8 +64,8 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                                               handleGoToAllocations,handleSubmitSpecialAllocation,
                                               downloadAllocation, handleGetDownloadAllocation,
                                               handleActiveUserDownload, activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel,
-                                              handleMultipleAllocation, handleMultipleAllocationUpload,items,planSubmitted},
-                                          multipleAllocationUploadSuccess,multipleAllocationUpload) => {
+                                              handleMultipleAllocation, handleMultipleAllocationUploadSpecial,items,planSubmitted},
+                                          multipleAllocationUploadSpecialSuccess,multipleAllocationUploadSpecial) => {
 
 
     const navigates = useNavigate()
@@ -83,6 +86,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [file, setFile] = useState([])
     const [submitFlag, setSubmitFlag] = useState(false)
+
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -110,6 +114,75 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         // {'title': 'ProductName/ProductCode','dataIndex':'', 'key': ''},
     ]
 
+
+
+    const MonthlyAllocationInventoryColumns = () => {
+        const columns = [
+            {
+                title: 'Cost Center Name',
+                dataIndex: 'costCenterName',
+
+                key: 'itemName',
+                ...getColumnSearchProps('costCenterName'),
+            },
+            {
+                title: 'Item Name',
+                dataIndex: 'itemName',
+                key: 'itemName',
+                ...getColumnSearchProps('itemName'),
+            },
+            {
+                title: 'Available Stock',
+                dataIndex: 'stock',
+                key: 'itemName',
+                ...getColumnSearchProps('stock'),
+            },
+            {
+                title: 'PO NO',
+                dataIndex: 'poNo',
+                key: 'itemName',
+                ...getColumnSearchProps('poNo'),
+            },
+            {
+                title: 'Expiry Date',
+                dataIndex: 'expiryDate',
+                key: 'itemName',
+                ...getColumnSearchProps('expiryDate'),
+            },
+
+            {
+                title: 'Pack Size',
+                dataIndex: 'packSize',
+                key: 'packSize',
+                // align: 'right',
+                ...getColumnSearchProps('packSize'),
+            },
+            {
+                title: 'Allocated',
+                dataIndex: 'quantityAllocated',
+                key: 'quantityAllocated',
+                //align: 'right',
+                ...getColumnSearchProps('quantityAllocated'),
+            },
+            // {
+            //     title: 'Balance',
+            //     dataIndex: 'stock',
+            //     key: 'stock',
+            //    // align: 'right',
+            //    // ...getColumnSearchProps('stock'),
+            //
+            // },
+
+
+
+
+
+        ]
+
+        return columns
+    }
+
+
     useEffect(() => {
         if(planSubmitted == "true"){
             setSubmitFlag(true)
@@ -132,18 +205,128 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
     }
 
 
-    // useEffect(() => {
-    //     if(multipleAllocationUploadSuccess){
-    //
-    //         console.log(multipleAllocationUpload)
-    //         console.log(Object.keys(multipleAllocationUpload).length !== 0)
-    //         if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
-    //             message.error(multipleAllocationUpload.message);
-    //         }else{
-    //             message.success(multipleAllocationUpload.message);
-    //         }
-    //     }
-    // }, [multipleAllocationUploadSuccess])
+    useEffect(() => {
+        if(multipleAllocationUploadSpecialSuccess){
+
+            console.log(multipleAllocationUploadSpecial)
+
+
+            if (multipleAllocationUploadSpecial == undefined ) {
+                // Object is truthy and has properties, proceed
+                console.log("data is undefined")
+            } else {
+                // Object is empty or undefined, handle accordingly
+
+                console.log(multipleAllocationUploadSpecial)
+
+                console.log(Object.keys(multipleAllocationUploadSpecial).length !== 0)
+                if(multipleAllocationUploadSpecial!== undefined && Object.keys(multipleAllocationUploadSpecial).length !== 0  && multipleAllocationUploadSpecial.info == "error"){
+                    message.error(multipleAllocationUploadSpecial.message);
+                }else{
+                    message.success(multipleAllocationUploadSpecial.message);
+                }
+            }
+
+        }
+    }, [multipleAllocationUploadSpecialSuccess])
+
+
+
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    fontSize: '15px',
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
 
 
     const handleBacks = () => {
@@ -401,7 +584,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         const bytecode = base64.split(",")[1];
         console.log(newFile)
         console.log(bytecode)
-        handleMultipleAllocationUpload({
+        handleMultipleAllocationUploadSpecial({
             certificate: authInfo.token,
             dto: {
                 byteCode: bytecode,
@@ -443,22 +626,26 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
 
 
 
+
+
+
     return(
         <>
             <TitleWidget title={"Create Special Dispatches"} />
             <Row gutter={[8,8]}>
-                <Col span={3}>
+                <Col span={2}>
                     Month<br/>
-                    <SelectMonthComponent value = {month} onChange={(e) => setMonth(e)}/>
+                    <SelectMonthComponent value = {month} onChange={(e) => setMonth(e)}   />
+
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     Year<br/>
                     <SelectYearComponent value = {year} onChange={(e) => setYear(e)}/>
                 </Col>
                 {/*<Col span={4}>*/}
                 {/*    Status <br/><Select style={{ width: 140 }} onChange={(e) => setStatusDD(e)} placeholder={"Select Status"} options={statusDropdown} value={statusDD} />*/}
                 {/*</Col>*/}
-                <Col span={6}>
+                <Col span={5}>
                     Purpose <br/><Input value={remark} onChange={(e) => setRemark(e.target.value)}/>
                 </Col>
                 <Col span={2}>
@@ -470,7 +657,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
 
                 <Col span={2}>
                     <br/>
-                    <Button type={"primary"} onClick={handleBacks}>Back</Button>
+                    <Button type={"primary"} onClick={handleBacks} style={{marginLeft:"20px"}}>Back</Button>
 
 
                 </Col>
@@ -480,6 +667,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                 {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}} style={{marginLeft:"20px"}}>Back</Button>*/}
                 {/*</Col>*/}
                 <Col span={2} offset={8}>
+                    <br/>
                     <Button type={'primary'} onClick={() => SubmitSpecialAllocation()} disabled={submitFlag}>Submit</Button>
                 </Col>
                 {/*<Col span={2}>*/}
@@ -513,11 +701,11 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                     <Button type={'primary'} onClick={upload} disabled={submitFlag} >Upload</Button>
                 </Col>
             </Row>
-            <p>
-                <b>Allocation Status</b> : draft
-                <br/>
-                <b>Allocation Invoice Status</b>: Not initiated
-            </p>
+            {/*<p>*/}
+            {/*    <b>Allocation Status</b> : draft*/}
+            {/*    <br/>*/}
+            {/*    <b>Allocation Invoice Status</b>: Not initiated*/}
+            {/*</p>*/}
             <Steps current={currentStep} style={{marginBottom: 20}}>
                 {allocationSteps.map((item) =>
                     <Step key={item.title} title={item.title} />
@@ -613,9 +801,9 @@ CreateSpecialAllocationComponent.propTypes = {
     multipleAllocationExcel: PropTypes.any,
     multipleAllocationDownload: PropTypes.any,
     handleMultipleAllocation: PropTypes.func,
-    handleMultipleAllocationUpload: PropTypes.func,
-    multipleAllocationUploadSuccess: PropTypes.any,
-    multipleAllocationUpload:PropTypes.any,
+    handleMultipleAllocationUploadSpecial: PropTypes.func,
+    multipleAllocationUploadSpecialSuccess: PropTypes.any,
+    multipleAllocationUploadSpecial:PropTypes.any,
 
 
 }
@@ -633,12 +821,12 @@ const mapState = (state) => {
     const specialItemsLoading = selectSpecialItemLoading(state)
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
-    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
-    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
-    console.log(multipleAllocationUpload)
+    const multipleAllocationUploadSpecialSuccess = selectMultipleAllocationUploadSpecialSuccess(state)
+    const multipleAllocationUploadSpecial = selectMultipleAllocationUploadSpecial(state)
+    console.log(multipleAllocationUploadSpecial)
 
     return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload,
-        multipleAllocationDownload,  multipleAllocationExcel,multipleAllocationUploadSuccess,multipleAllocationUpload}
+        multipleAllocationDownload,  multipleAllocationExcel,multipleAllocationUploadSpecialSuccess,multipleAllocationUploadSpecial}
 }
 
 const actions = {
@@ -650,7 +838,7 @@ const actions = {
     handleSubmitMonthlyAllocation: submitMonthlyAllocationStartAction,
     handleMultipleAllocation: getMultipleAllocationDownloadStartAction,
     handleSubmitSpecialAllocation: submitSpecialAllocationStartAction,
-    handleMultipleAllocationUpload: multipleAllocationUploadStartAction
+    handleMultipleAllocationUploadSpecial: multipleAllocationUploadSpecialStartAction
 
 }
 

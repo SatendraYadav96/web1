@@ -473,6 +473,7 @@ VirtualReconciliationComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const virtualReconciliationList = selectVirtualReconciliationReport(state)
+    console.log(virtualReconciliationList)
     return {authInfo, virtualReconciliationList}
 }
 

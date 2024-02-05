@@ -9,7 +9,7 @@ import {
     MONTHLY_COMMON_ALLOCATION_SAVE_START,
     MONTHLY_COMMON_TEAM_START,
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
-    MONTHLY_DIFFERENTIAL_TEAM_START, MULTIPLE_ALLOCATION_UPLOAD_START,
+    MONTHLY_DIFFERENTIAL_TEAM_START, MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_START, MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_START, MULTIPLE_ALLOCATION_UPLOAD_START, MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_START,
     RECIPIENTS_TO_ALLOCATE_LIST_START, SEARCH_SPECIAL_PLAN_START, SPECIAL_ALLOCATION_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_TEAM_START, SUBMIT_MONTHLY_ALLOCATION_START, SUBMIT_SPECIAL_ALLOCATION_START, SUBMIT_VIRTUAL_ALLOCATION_START, VIRTUAL_ALLOCATION_START,
     VIRTUAL_COMMON_ALLOCATION_SAVE_START, VIRTUAL_COMMON_TEAM_START, VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_START, VIRTUAL_DIFFERENTIAL_TEAM_START
 } from '../actions/allocation/allocationActionConstants'
@@ -45,7 +45,8 @@ import {
     specialQuantityAllocatedDifferentialRecipientRequest,
     specialDifferentialAllocationSaveRequest,
     submitSpecialAllocationRequest,
-    getMultipleAllocationCostCenterDownloadRequest, getMultipleAllocationExcelDownloadRequest, deleteSpecialAllocationRequest, getMultipleAllocationAllDownloadRequest, multipleAllocationUploadRequest
+    getMultipleAllocationCostCenterDownloadRequest, getMultipleAllocationExcelDownloadRequest, deleteSpecialAllocationRequest, getMultipleAllocationAllDownloadRequest, multipleAllocationUploadRequest,
+    multipleAllocationUploadSpecialRequest, multipleAllocationUploadMonthlyRequest, multipleAllocationUploadVirtualRequest
 } from '../../api/allocationRequests'
 import {
     deleteSpecialAllocationFailAction,
@@ -81,18 +82,32 @@ import {
     monthlyDifferentialAllocationSuccessAction,
     monthlyDifferentialTeamFailAction,
     monthlyDifferentialTeamStartAction,
-    monthlyDifferentialTeamSuccessAction, multipleAllocationUploadFailAction, multipleAllocationUploadSuccessAction,
+    monthlyDifferentialTeamSuccessAction,
+    multipleAllocationUploadFailAction,
+    multipleAllocationUploadMonthlyFailAction,
+    multipleAllocationUploadMonthlySuccessAction,
+    multipleAllocationUploadSpecialFailAction,
+    multipleAllocationUploadSpecialSuccessAction,
+    multipleAllocationUploadSuccessAction, multipleAllocationUploadVirtualFailAction,
+    multipleAllocationUploadVirtualSuccessAction,
     recipientsToAllocateListFailAction,
     recipientsToAllocateListStartAction,
     recipientsToAllocateListSuccessAction,
     searchSpecialPlanFailAction,
     searchSpecialPlanSuccessAction,
     specialAllocationFailAction,
-    specialAllocationSuccessAction, specialDifferentialAllocationFailAction, specialDifferentialAllocationSaveFailAction, specialDifferentialAllocationSaveStartAction, specialDifferentialAllocationSaveSuccessAction, specialDifferentialAllocationSuccessAction,
+    specialAllocationSuccessAction,
+    specialDifferentialAllocationFailAction,
+    specialDifferentialAllocationSaveFailAction,
+    specialDifferentialAllocationSaveStartAction,
+    specialDifferentialAllocationSaveSuccessAction,
+    specialDifferentialAllocationSuccessAction,
     specialDifferentialTeamFailAction,
     specialDifferentialTeamSuccessAction,
     submitMonthlyAllocationFailAction,
-    submitMonthlyAllocationSuccessAction, submitSpecialAllocationFailAction, submitSpecialAllocationSuccessAction,
+    submitMonthlyAllocationSuccessAction,
+    submitSpecialAllocationFailAction,
+    submitSpecialAllocationSuccessAction,
     submitVirtualAllocationFailAction,
     submitVirtualAllocationSuccessAction,
     teamsToAllocateListFailAction,
@@ -483,6 +498,46 @@ export const multipleAllocationUploadStartEpic = (action$) =>
             multipleAllocationUploadRequest(action.payload).pipe(
                 map((response) => multipleAllocationUploadSuccessAction({multipleAllocationUpload: response.response})),
                 catchError((error) => of(multipleAllocationUploadFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+
+
+export const multipleAllocationUploadSpecialStartEpic = (action$) =>
+    action$.pipe(
+        ofType(MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            multipleAllocationUploadSpecialRequest(action.payload).pipe(
+                map((response) => multipleAllocationUploadSpecialSuccessAction({multipleAllocationUploadSpecial: response.response})),
+                catchError((error) => of(multipleAllocationUploadSpecialFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+export const multipleAllocationUploadMonthlyStartEpic = (action$) =>
+    action$.pipe(
+        ofType(MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            multipleAllocationUploadMonthlyRequest(action.payload).pipe(
+                map((response) => multipleAllocationUploadMonthlySuccessAction({multipleAllocationUploadMonthly: response.response})),
+                catchError((error) => of(multipleAllocationUploadMonthlyFailAction({ error: error }))),
+            ),
+        ),
+    )
+
+
+
+export const multipleAllocationUploadVirtualStartEpic = (action$) =>
+    action$.pipe(
+        ofType(MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_START),
+        debounceTime(4000),
+        switchMap((action) =>
+            multipleAllocationUploadVirtualRequest(action.payload).pipe(
+                map((response) => multipleAllocationUploadVirtualSuccessAction({multipleAllocationUploadVirtual: response.response})),
+                catchError((error) => of(multipleAllocationUploadVirtualFailAction({ error: error }))),
             ),
         ),
     )

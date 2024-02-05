@@ -54,6 +54,15 @@ const deleteSpecialAllocation = (state) => state.allocations.deleteSpecialAlloca
 const multipleAllocationUpload = (state) => state.allocations.multipleAllocationUpload
 const multipleAllocationUploadSuccess = (state) => state.allocations.multipleAllocationUploadSuccess
 
+const multipleAllocationUploadSpecial = (state) => state.allocations.multipleAllocationUploadSpecial
+const multipleAllocationUploadSpecialSuccess = (state) => state.allocations.multipleAllocationUploadSpecialSuccess
+
+const multipleAllocationUploadMonthly = (state) => state.allocations.multipleAllocationUploadMonthly
+const multipleAllocationUploadMonthlySuccess = (state) => state.allocations.multipleAllocationUploadMonthlySuccess
+
+const multipleAllocationUploadVirtual = (state) => state.allocations.multipleAllocationUploadVirtual
+const multipleAllocationUploadVirtualSuccess = (state) => state.allocations.multipleAllocationUploadVirtualSuccess
+
 export const selectItemsToAllocate = createSelector(items, (itemsSelect) => itemsSelect)
 export const selectPlanSubmitted = createSelector(planSubmitted, (dataSelect) => dataSelect)
 export const selectAllocations = createSelector(allocations, (allocationsSelect) => allocationsSelect)
@@ -292,5 +301,36 @@ export const selectMultipleAllocationUpload = createSelector(
 
 export const selectMultipleAllocationUploadSuccess = createSelector(
     multipleAllocationUploadSuccess,
+    dataSelect =>  dataSelect
+)
+
+export const selectMultipleAllocationUploadSpecial = createSelector(
+    multipleAllocationUploadSpecial,
+    dataSelect =>  dataSelect
+)
+
+export const selectMultipleAllocationUploadSpecialSuccess = createSelector(
+    multipleAllocationUploadSpecialSuccess,
+    dataSelect =>  dataSelect
+)
+
+export const selectMultipleAllocationUploadMonthly = createSelector(
+    multipleAllocationUploadMonthly,
+    dataSelect =>  dataSelect
+)
+
+export const selectMultipleAllocationUploadMonthlySuccess = createSelector(
+    multipleAllocationUploadMonthlySuccess,
+    dataSelect =>  dataSelect
+)
+
+
+export const selectMultipleAllocationUploadVirtual = createSelector(
+    multipleAllocationUploadVirtual,
+    dataSelect =>  dataSelect
+)
+
+export const selectMultipleAllocationUploadVirtualSuccess = createSelector(
+    multipleAllocationUploadVirtualSuccess,
     dataSelect =>  dataSelect
 )

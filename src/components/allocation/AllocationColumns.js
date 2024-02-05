@@ -11,31 +11,31 @@ const MonthlyAllocationInventoryColumns = () => {
             dataIndex: 'costCenterName',
 
             key: 'itemName',
-            //...getColumnSearchProps('costCenterName'),
+            ...getColumnSearchProps('costCenterName'),
         },
         {
             title: 'Item Name',
             dataIndex: 'itemName',
             key: 'itemName',
-           //...getColumnSearchProps('itemName'),
+           ...getColumnSearchProps('itemName'),
         },
         {
             title: 'Available Stock',
             dataIndex: 'stock',
             key: 'itemName',
-            //...getColumnSearchProps('stock'),
+            ...getColumnSearchProps('stock'),
         },
         {
             title: 'PO NO',
             dataIndex: 'poNo',
             key: 'itemName',
-            //...getColumnSearchProps('poNo'),
+            ...getColumnSearchProps('poNo'),
         },
         {
             title: 'Expiry Date',
             dataIndex: 'expiryDate',
             key: 'itemName',
-           //...getColumnSearchProps('expiryDate'),
+           ...getColumnSearchProps('expiryDate'),
         },
 
         {
@@ -43,14 +43,14 @@ const MonthlyAllocationInventoryColumns = () => {
             dataIndex: 'packSize',
             key: 'packSize',
             // align: 'right',
-            //...getColumnSearchProps('packSize'),
+            ...getColumnSearchProps('packSize'),
         },
         {
             title: 'Allocated',
             dataIndex: 'quantityAllocated',
             key: 'quantityAllocated',
             //align: 'right',
-           //...getColumnSearchProps('quantityAllocated'),
+           ...getColumnSearchProps('quantityAllocated'),
         },
         // {
         //     title: 'Balance',

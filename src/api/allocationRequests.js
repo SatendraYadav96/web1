@@ -185,3 +185,16 @@ export const deleteSpecialAllocationRequest = payload => {
 export const multipleAllocationUploadRequest = payload => {
     return createRequest(MULTIPLE_ALLOCATION_UPLOAD_API, payload.certificate, payload.dto)
 }
+
+export const multipleAllocationUploadSpecialRequest = payload => {
+    return createRequest(MULTIPLE_ALLOCATION_UPLOAD_API, payload.certificate, payload.dto)
+}
+
+
+export const multipleAllocationUploadMonthlyRequest = payload => {
+    return createRequest(MULTIPLE_ALLOCATION_UPLOAD_API, payload.certificate, payload.dto)
+}
+
+export const multipleAllocationUploadVirtualRequest = payload => {
+    return createRequest(MULTIPLE_ALLOCATION_UPLOAD_API, payload.certificate, payload.dto)
+}

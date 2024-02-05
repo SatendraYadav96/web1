@@ -609,17 +609,24 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         return columns
     }
 
-    useEffect(() => {
-        if(multipleAllocationUploadSuccess){
 
-            console.log(multipleAllocationUpload)
-            console.log(Object.keys(multipleAllocationUpload).length !== 0)
-            if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
-                message.error(multipleAllocationUpload.message);
-            }else{
-                message.success(multipleAllocationUpload.message);
+
+    useEffect(() => {
+
+            if(multipleAllocationUploadSuccess){
+
+                console.log(multipleAllocationUpload)
+                console.log(Object.keys(multipleAllocationUpload).length !== 0)
+                if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
+                    message.error(multipleAllocationUpload.message);
+                }else{
+                    message.success(multipleAllocationUpload.message);
+                }
             }
-        }
+
+
+
+
     }, [multipleAllocationUploadSuccess])
 
 
@@ -650,20 +657,20 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
     return(
         <>
             <TitleWidget title={'Special Allocation'} subTitle={'Create'}/>
-            <Row style={{marginBottom: 40}}>
+            <Row gutter={[8,8]} style={{marginBottom: 40}}>
                 {/*<Col span={3}>*/}
                 {/*    <DatePicker onChange={(date) => setYearMonth(date)} picker='month' />*/}
                 {/*</Col>*/}
                 {/*<Col span={2}>*/}
                 {/*    <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>*/}
                 {/*</Col>*/}
-                <Col span={1}>
+                <Col span={2}>
                     Month: {param.month}
                 </Col>
-                <Col span={1}>
+                <Col span={2}>
                     Year: {param.year}
                 </Col>
-                <Col span={3}>
+                <Col span={5}>
                     Purpose: {param.remark}
                 </Col>
 
@@ -674,9 +681,9 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 </Col>
 
                 <Col span={2}>
-                    <Button type={"primary"} onClick={handleBacks}>Back</Button>
+                    <Button type={"primary"} onClick={handleBacks} style={{marginLeft:"20px"}}>Back</Button>
                 </Col>
-                <Col span={2} offset={13}>
+                <Col span={2} offset={8}>
                     <Button type={'primary'} onClick={() => SubmitSpecialAllocation()} disabled={submitFlag}>Submit</Button>
                 </Col>
             </Row>

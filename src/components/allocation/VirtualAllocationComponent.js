@@ -9,7 +9,7 @@ import {
     getAllocationsForPlanStartAction,
     getDownloadAllocationStartAction, getMultipleAllocationDownloadStartAction,
     getVirtualAllocationsForPlanStartAction,
-    monthlyAllocationStartAction, multipleAllocationUploadStartAction,
+    monthlyAllocationStartAction, multipleAllocationUploadStartAction, multipleAllocationUploadVirtualStartAction,
     submitMonthlyAllocationStartAction, submitVirtualAllocationStartAction,
     virtualAllocationStartAction
 } from '../../redux/actions/allocation/allocationActions'
@@ -20,7 +20,7 @@ import {
     selectDownloadAllocation,
     selectGetActiveUsers,
     selectItemsLoading,
-    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess,
+    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess, selectMultipleAllocationUploadVirtual, selectMultipleAllocationUploadVirtualSuccess,
     selectPlan, selectSubmitVirtualAllocation, selectSubmitVirtualAllocationSuccess,
     selectVirtualAllocation,
     selectVirtualAllocationForPlan, selectVirtualAllocationLoading,
@@ -64,8 +64,8 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
                                         downloadAllocation, handleGetDownloadAllocation, submitVirtualAllocation,
                                         handleActiveUserDownload, activeUsersDownload, virtualPlanSubmitted,
                                         handleSubmitVirtualAllocation,multipleAllocationDownload,  multipleAllocationExcel,
-                                        handleMultipleAllocation, handleMultipleAllocationUpload, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess,
-                                        multipleAllocationUpload
+                                        handleMultipleAllocation, handleMultipleAllocationUploadVirtual, submitVirtualAllocationSuccess, multipleAllocationUploadVirtualSuccess,
+                                        multipleAllocationUploadVirtual
                                     })=> {
     const [yearMonth, setYearMonth] = useState(moment(Date()))
     const [currentStep, setCurrentStep] = useState(0)
@@ -134,14 +134,14 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
     }
 
     useEffect(() => {
-        if(multipleAllocationUploadSuccess){
+        if(multipleAllocationUploadVirtualSuccess){
             handleCreateViewPlan({
                 certificate: authInfo.token,
                 month: Number(toMm(yearMonth)),
                 year: Number(toYyyy(yearMonth))
             })
         }
-    },[multipleAllocationUploadSuccess])
+    },[multipleAllocationUploadVirtualSuccess])
 
     useEffect(() => {
         if(virtualPlanSubmitted == "true"){
@@ -317,7 +317,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
         const bytecode = base64.split(",")[1];
         console.log(newFile)
         console.log(bytecode)
-        handleMultipleAllocationUpload({
+        handleMultipleAllocationUploadVirtual({
             certificate: authInfo.token,
             dto: {
                 byteCode: bytecode,
@@ -513,17 +513,17 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
 
 
     useEffect(() => {
-        if(multipleAllocationUploadSuccess){
+        if(multipleAllocationUploadVirtualSuccess){
 
-            console.log(multipleAllocationUpload)
-            console.log(Object.keys(multipleAllocationUpload).length !== 0)
-            if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
-                message.error(multipleAllocationUpload.message);
+            console.log(multipleAllocationUploadVirtual)
+            console.log(Object.keys(multipleAllocationUploadVirtual).length !== 0)
+            if(multipleAllocationUploadVirtual!== undefined && Object.keys(multipleAllocationUploadVirtual).length !== 0  && multipleAllocationUploadVirtual.info == "error"){
+                message.error(multipleAllocationUploadVirtual.message);
             }else{
-                message.success(multipleAllocationUpload.message);
+                message.success(multipleAllocationUploadVirtual.message);
             }
         }
-    }, [multipleAllocationUploadSuccess])
+    }, [multipleAllocationUploadVirtualSuccess])
 
 
 
@@ -669,12 +669,12 @@ VirtualAllocationComponent.propTypes = {
     multipleAllocationExcel: PropTypes.any,
     multipleAllocationDownload: PropTypes.any,
     handleMultipleAllocation: PropTypes.func,
-    handleMultipleAllocationUpload: PropTypes.func,
+    handleMultipleAllocationUploadVirtual: PropTypes.func,
     submitVirtualAllocationSuccess: PropTypes.any,
-    multipleAllocationUploadSuccess: PropTypes.any,
+    multipleAllocationUploadVirtualSuccess: PropTypes.any,
     virtualPlanSubmitted: PropTypes.any,
     submitVirtualAllocation: PropTypes.any,
-    multipleAllocationUpload:PropTypes.any
+    multipleAllocationUploadVirtual:PropTypes.any
 }
 
 const mapState = (state) => {
@@ -693,14 +693,14 @@ const mapState = (state) => {
     const multipleAllocationDownload = selectMultipleAllocationDownload(state)
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
     const submitVirtualAllocationSuccess = selectSubmitVirtualAllocationSuccess(state)
-    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
+    const multipleAllocationUploadVirtualSuccess = selectMultipleAllocationUploadVirtualSuccess(state)
     const virtualPlanSubmitted = selectVirtualPlanSubmitted(state)
     const submitVirtualAllocation = selectSubmitVirtualAllocation(state)
-    const multipleAllocationUpload = selectMultipleAllocationUpload(state)
+    const multipleAllocationUploadVirtual = selectMultipleAllocationUploadVirtual(state)
     console.log(virtualPlanSubmitted)
     return { authInfo, profileInfo, virtualItemsLoading, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload, virtualAllocation,
-        multipleAllocationDownload,  multipleAllocationExcel, submitVirtualAllocationSuccess, multipleAllocationUploadSuccess, virtualPlanSubmitted, submitVirtualAllocation,
-        multipleAllocationUpload}
+        multipleAllocationDownload,  multipleAllocationExcel, submitVirtualAllocationSuccess, multipleAllocationUploadVirtualSuccess, virtualPlanSubmitted, submitVirtualAllocation,
+        multipleAllocationUploadVirtual}
 }
 
 const actions = {
@@ -710,7 +710,7 @@ const actions = {
     handleActiveUserDownload: getActiveUsersStartAction,
     handleSubmitVirtualAllocation: submitVirtualAllocationStartAction,
     handleMultipleAllocation: getMultipleAllocationDownloadStartAction,
-    handleMultipleAllocationUpload: multipleAllocationUploadStartAction
+    handleMultipleAllocationUploadVirtual: multipleAllocationUploadVirtualStartAction
 }
 
 export default connect(mapState, actions)(VirtualAllocationComponent)

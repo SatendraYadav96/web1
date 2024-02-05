@@ -3,7 +3,9 @@ import {
     ALLOCATE_TO_ALL_TEAMS,
     ALLOCATE_TO_DIFFERENTIAL,
     ALLOCATE_TO_TEAM,
-    ALLOCATION_PAGE_RESET, DELETE_SPECIAL_ALLOCATION_FAIL, DELETE_SPECIAL_ALLOCATION_SUCCESS,
+    ALLOCATION_PAGE_RESET,
+    DELETE_SPECIAL_ALLOCATION_FAIL,
+    DELETE_SPECIAL_ALLOCATION_SUCCESS,
     EDIT_SPECIAL_PLAN_FAIL,
     EDIT_SPECIAL_PLAN_SUCCESS,
     GET_ACTIVE_USERS_FAIL,
@@ -18,42 +20,67 @@ import {
     GET_DOWNLOAD_ALLOCATION_FAIL,
     GET_DOWNLOAD_ALLOCATION_SUCCESS,
     GET_MULTIPLE_ALLOCATION_DOWNLOAD_FAIL,
-    GET_MULTIPLE_ALLOCATION_DOWNLOAD_SUCCESS, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_FAIL, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_START, GET_SPECIAL_ALLOCATIONS_FOR_PLAN_SUCCESS,
+    GET_MULTIPLE_ALLOCATION_DOWNLOAD_SUCCESS,
+    GET_SPECIAL_ALLOCATIONS_FOR_PLAN_FAIL,
+    GET_SPECIAL_ALLOCATIONS_FOR_PLAN_START,
+    GET_SPECIAL_ALLOCATIONS_FOR_PLAN_SUCCESS,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_FAIL,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_START,
     GET_VIRTUAL_ALLOCATIONS_FOR_PLAN_SUCCESS,
     MONTHLY_ALLOCATION_FAIL,
     MONTHLY_ALLOCATION_START,
     MONTHLY_ALLOCATION_SUCCESS,
-    MONTHLY_COMMON_ALLOCATION_SAVE_FAIL, MONTHLY_COMMON_ALLOCATION_SAVE_START,
+    MONTHLY_COMMON_ALLOCATION_SAVE_FAIL,
+    MONTHLY_COMMON_ALLOCATION_SAVE_START,
     MONTHLY_COMMON_ALLOCATION_SAVE_SUCCESS,
     MONTHLY_COMMON_TEAM_FAIL,
     MONTHLY_COMMON_TEAM_SUCCESS,
-    MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
+    MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_FAIL,
+    MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_START,
     MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
     MONTHLY_DIFFERENTIAL_TEAM_FAIL,
-    MONTHLY_DIFFERENTIAL_TEAM_SUCCESS, MULTIPLE_ALLOCATION_UPLOAD_FAIL, MULTIPLE_ALLOCATION_UPLOAD_START, MULTIPLE_ALLOCATION_UPLOAD_SUCCESS,
+    MONTHLY_DIFFERENTIAL_TEAM_SUCCESS,
+    MULTIPLE_ALLOCATION_UPLOAD_FAIL, MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_FAIL,
+    MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_START, MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_SUCCESS,
+    MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_FAIL,
+    MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_START,
+    MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_SUCCESS,
+    MULTIPLE_ALLOCATION_UPLOAD_START,
+    MULTIPLE_ALLOCATION_UPLOAD_SUCCESS, MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_FAIL, MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_START, MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_SUCCESS,
     RECIPIENTS_TO_ALLOCATE_LIST_FAIL,
     RECIPIENTS_TO_ALLOCATE_LIST_START,
     SEARCH_SPECIAL_PLAN_FAIL,
-    SEARCH_SPECIAL_PLAN_SUCCESS, SPECIAL_ALLOCATE_TO_DIFFERENTIAL,
+    SEARCH_SPECIAL_PLAN_SUCCESS,
+    SPECIAL_ALLOCATE_TO_DIFFERENTIAL,
     SPECIAL_ALLOCATION_FAIL,
     SPECIAL_ALLOCATION_START,
-    SPECIAL_ALLOCATION_SUCCESS, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START, SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS, SPECIAL_DIFFERENTIAL_TEAM_FAIL, SPECIAL_DIFFERENTIAL_TEAM_SUCCESS,
-    SUBMIT_MONTHLY_ALLOCATION_FAIL, SUBMIT_MONTHLY_ALLOCATION_START,
-    SUBMIT_MONTHLY_ALLOCATION_SUCCESS, SUBMIT_SPECIAL_ALLOCATION_FAIL, SUBMIT_SPECIAL_ALLOCATION_START, SUBMIT_SPECIAL_ALLOCATION_SUCCESS,
-    SUBMIT_VIRTUAL_ALLOCATION_FAIL, SUBMIT_VIRTUAL_ALLOCATION_START,
+    SPECIAL_ALLOCATION_SUCCESS,
+    SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL,
+    SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_START,
+    SPECIAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
+    SPECIAL_DIFFERENTIAL_TEAM_FAIL,
+    SPECIAL_DIFFERENTIAL_TEAM_SUCCESS,
+    SUBMIT_MONTHLY_ALLOCATION_FAIL,
+    SUBMIT_MONTHLY_ALLOCATION_START,
+    SUBMIT_MONTHLY_ALLOCATION_SUCCESS,
+    SUBMIT_SPECIAL_ALLOCATION_FAIL,
+    SUBMIT_SPECIAL_ALLOCATION_START,
+    SUBMIT_SPECIAL_ALLOCATION_SUCCESS,
+    SUBMIT_VIRTUAL_ALLOCATION_FAIL,
+    SUBMIT_VIRTUAL_ALLOCATION_START,
     SUBMIT_VIRTUAL_ALLOCATION_SUCCESS,
     VIRTUAL_ALLOCATE_TO_DIFFERENTIAL,
     VIRTUAL_ALLOCATE_TO_TEAM,
     VIRTUAL_ALLOCATION_FAIL,
     VIRTUAL_ALLOCATION_START,
     VIRTUAL_ALLOCATION_SUCCESS,
-    VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL, VIRTUAL_COMMON_ALLOCATION_SAVE_START,
+    VIRTUAL_COMMON_ALLOCATION_SAVE_FAIL,
+    VIRTUAL_COMMON_ALLOCATION_SAVE_START,
     VIRTUAL_COMMON_ALLOCATION_SAVE_SUCCESS,
     VIRTUAL_COMMON_TEAM_FAIL,
     VIRTUAL_COMMON_TEAM_SUCCESS,
-    VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL, VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_START,
+    VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_FAIL,
+    VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_START,
     VIRTUAL_DIFFERENTIAL_ALLOCATION_SAVE_SUCCESS,
     VIRTUAL_DIFFERENTIAL_TEAM_FAIL,
     VIRTUAL_DIFFERENTIAL_TEAM_SUCCESS,
@@ -116,6 +143,16 @@ const initialState = {
     deleteSpecialAllocation:[],
     multipleAllocationUpload: [],
     multipleAllocationUploadSuccess: false,
+    multipleAllocationUploadLoading:false,
+    multipleAllocationUploadSpecial: [],
+    multipleAllocationUploadSpecialSuccess: false,
+    multipleAllocationUploadSpecialLoading:false,
+    multipleAllocationUploadMonthly: [],
+    multipleAllocationUploadMonthlySuccess: false,
+    multipleAllocationUploadMonthlyLoading:false,
+    multipleAllocationUploadVirtual: [],
+    multipleAllocationUploadVirtualSuccess: false,
+    multipleAllocationUploadVirtualLoading:false,
 }
 
 const allocationForPlanStartReducer = (state = initialState, payload) => {
@@ -1048,7 +1085,8 @@ const multipleAllocationUploadSuccessReducer = (state = initialState, payload) =
     return {
         ...state,
         multipleAllocationUpload: payload.multipleAllocationUpload,
-        multipleAllocationUploadSuccess: true
+        multipleAllocationUploadSuccess: true,
+        multipleAllocationUploadLoading:false,
     }
 }
 
@@ -1057,8 +1095,99 @@ const multipleAllocationUploadFailReducer = (state = initialState, payload) => {
         ...state,
         multipleAllocationUploadSuccess: false,
         error: payload.error.response.message,
+        multipleAllocationUploadLoading:false,
     }
 }
+
+
+
+const multipleAllocationUploadSpecialStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        multipleAllocationUploadSpecial: [],
+        multipleAllocationUploadSpecialSuccess: false,
+    }
+}
+
+
+const multipleAllocationUploadSpecialSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        multipleAllocationUploadSpecial: payload.multipleAllocationUploadSpecial,
+        multipleAllocationUploadSpecialSuccess: true,
+        multipleAllocationUploadSpecialLoading:false,
+    }
+}
+
+const multipleAllocationUploadSpecialFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        multipleAllocationUploadSpecialSuccess: false,
+        error: payload.error.response.message,
+        multipleAllocationUploadSpecialLoading:false,
+    }
+}
+
+
+const multipleAllocationUploadMonthlyStartReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        multipleAllocationUploadMonthly: [],
+        multipleAllocationUploadMonthlySuccess: false
+    }
+}
+
+
+const multipleAllocationUploadMonthlySuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        multipleAllocationUploadMonthly: payload.multipleAllocationUploadMonthly,
+        multipleAllocationUploadMonthlySuccess: true,
+        multipleAllocationUploadMonthlyLoading: false
+    }
+}
+
+const multipleAllocationUploadMonthlyFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        multipleAllocationUploadMonthlySuccess: false,
+        error: payload.error.response.message,
+        multipleAllocationUploadMonthlyLoading:false,
+    }
+}
+
+
+
+    const multipleAllocationUploadVirtualStartReducer = (state = initialState, payload) => {
+        return {
+            ...state,
+            multipleAllocationUploadVirtual: [],
+            multipleAllocationUploadVirtualSuccess: false
+        }
+    }
+
+
+        const multipleAllocationUploadVirtualSuccessReducer = (state = initialState, payload) => {
+            return {
+                ...state,
+                multipleAllocationUploadVirtual: payload.multipleAllocationUploadVirtual,
+                multipleAllocationUploadVirtualSuccess: true,
+                multipleAllocationUploadVirtualLoading: false
+            }
+        }
+
+            const multipleAllocationUploadVirtualFailReducer = (state = initialState, payload) => {
+                return {
+                    ...state,
+                    multipleAllocationUploadVirtualSuccess: false,
+                    error: payload.error.response.message,
+                    multipleAllocationUploadVirtualLoading:false,
+                }
+            }
+
+
+
+
 
 export default createReducer(initialState, {
     [GET_ALLOCATIONS_FOR_PLAN_START]: allocationForPlanStartReducer,
@@ -1139,5 +1268,15 @@ export default createReducer(initialState, {
     [DELETE_SPECIAL_ALLOCATION_FAIL]: deleteSpecialAllocationFailReducer,
     [MULTIPLE_ALLOCATION_UPLOAD_START]: multipleAllocationUploadStartReducer,
     [MULTIPLE_ALLOCATION_UPLOAD_SUCCESS]: multipleAllocationUploadSuccessReducer,
-    [MULTIPLE_ALLOCATION_UPLOAD_FAIL]: multipleAllocationUploadFailReducer
-})
+    [MULTIPLE_ALLOCATION_UPLOAD_FAIL]: multipleAllocationUploadFailReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_START]: multipleAllocationUploadSpecialStartReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_SUCCESS]: multipleAllocationUploadSpecialSuccessReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_SPECIAL_FAIL]: multipleAllocationUploadSpecialFailReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_START]: multipleAllocationUploadMonthlyStartReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_SUCCESS]: multipleAllocationUploadMonthlySuccessReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_MONTHLY_FAIL]: multipleAllocationUploadMonthlyFailReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_START]: multipleAllocationUploadVirtualStartReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_SUCCESS]: multipleAllocationUploadVirtualSuccessReducer,
+    [MULTIPLE_ALLOCATION_UPLOAD_VIRTUAL_FAIL]: multipleAllocationUploadVirtualFailReducer
+
+} )
