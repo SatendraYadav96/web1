@@ -592,12 +592,12 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
 
     const searchReversalHistoryData = () => {
         setReversalHistoryColumns([
-            {
-                title:'Inventory Id',
-                key:'invId',
-                dataIndex: 'invId',
-                width: '100px',
-            },
+            // {
+            //     title:'Inventory Id',
+            //     key:'invId',
+            //     dataIndex: 'invId',
+            //     width: '100px',
+            // },
             {
                 title:'Reversal Date',
                 key:'reversalDate',

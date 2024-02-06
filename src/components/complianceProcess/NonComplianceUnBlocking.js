@@ -533,6 +533,7 @@ const NonComplianceUnBlockingComponent = ({authInfo, profileInfo,nonComplianceLi
                     <Button onClick={handleExcel}>EXCEL</Button>
                 </Col>
             </Row>
+            <span>Total Rows: <b>{nonComplianceList?.length}</b></span>
             <br/>
                 <Table columns={(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711") ? adminColumn : nsmColumn} scroll={{y: '100%'}} dataSource={nonComplianceList}/>
         </>

@@ -714,6 +714,8 @@ const ComplianceDetailsListComponent = ({authInfo,complianceDetailsList,handleCo
             </Row>
             <br/>
 
+            <span>Total Rows: <b>{complianceDetailsList?.length}</b></span>
+
                 <Table columns={(profileInfo.userDesignation.id === "AD81065F-35E4-4488-B17B-EEA6A0E04711") ? adminColumn : nsmColumn} scroll={{y: '100%'}} dataSource={complianceDetailsList}/>
 
             <Modal open={details} title="Compliance Details" footer={null} width={"80vw"} onCancel={() => {

@@ -316,6 +316,7 @@ const RecipientBlockedListComponent = ({authInfo,handleMasterBlockedList,masterB
                 </Col>
             </Row>
             <br/><br/>
+            <span>Total Rows: <b>{masterBlockedList?.length}</b></span>
             {flag &&
                 <Table columns={column} scroll={{y: '100%'}} dataSource={masterBlockedList} />
             }

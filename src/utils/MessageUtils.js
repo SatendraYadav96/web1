@@ -1387,6 +1387,16 @@ import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActio
             },
         ],
 
+        FF_EXCEL_UPLOAD_START:[{ action: 'showspinner' }],
+        FF_EXCEL_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        FF_EXCEL_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
         TRANSPORT_UPLOAD_START:[{ action: 'showspinner' }],
         TRANSPORT_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
         TRANSPORT_UPLOAD_FAIL: [
