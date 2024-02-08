@@ -174,28 +174,28 @@ const PickingSlipComponent = ({authInfo,pickinglist,loading,handleLoadList,profi
                     title: 'Teams',
                     key: 'teams',
                     dataIndex: 'team',
-                    width: '200px',
+                    width: '100px',
                     ...getColumnSearchProps('team'),
                 },
                 {
                     title: 'Status',
                     key: 'status',
                     dataIndex: 'status',
-                    width: '500px',
+                    width: '100px',
 
                     render: (_,row) => {
                         return <Button type="link" onClick={() => statusByBrandManager(row)}>Status By Brand Manager</Button>
                     }
                 },
-                {
-                    title: 'Common',
-                    key: '',
-                    dataIndex: '',
-                    width: '100px',
-                    render: () => {
-                        return <DownloadOutlined/>
-                    }
-                },
+                // {
+                //     title: 'Common',
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '100px',
+                //     render: () => {
+                //         return <DownloadOutlined/>
+                //     }
+                // },
                 {
                     title: 'Differential',
                     key: '',

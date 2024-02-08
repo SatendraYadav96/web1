@@ -15,7 +15,7 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketRe
     let now = dayjs()
     const [fromDate, setFromDate] = useState()
     const [toDate, setToDate] = useState()
-   // const [data, setData] = useState()
+    const [data, setData] = useState()
 
     const formatedStartDateString = moment(fromDate).format('yyyy-MM-DD').toString();
     const formatedEndDateString = moment(toDate).format('yyyy-MM-DD').toString();
@@ -33,54 +33,54 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketRe
 
     }
 
-    // useEffect(()=> {
-    //     const wb = XLSX.utils.book_new(),
-    //         ws = XLSX.utils.json_to_sheet();
-    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-    //     XLSX.writeFile(wb,"ShiprocketReport.xlsx")
-    // },[handleShipRocketReport])
+    const handleExcel = () => {
+        const wb = XLSX.utils.book_new(),
+            ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
+        XLSX.writeFile(wb,"ShiprocketReport.xlsx")
+    }
 
 
-    // useEffect(() => {
-    //     (shipRocketReport.map(item => {
-    //         return {
-    //
-    //             invoiceNo: item.invoiceNo,
-    //             invoiceDate: item.invoiceDate,
-    //             recipientName: item.recipientName,
-    //             recipientCode: item.recipientCode,
-    //             designation : item.designation,
-    //             itemName: item.itemName,
-    //             itemCode: item.itemCode,
-    //             batchNo: item.batchNo,
-    //             expiry: item.expiry,
-    //             dispatchedQuantity: item.dispatchedQuantity,
-    //             brandName: item.brandName,
-    //             brandCode: item.brandCode,
-    //             itemCategory: item.itemCategory,
-    //             address1: item.address1,
-    //             city: item.city,
-    //             state: item.state,
-    //             postalCode: item.postalCode,
-    //             team:item.team,
-    //             billingAddress1:"Sanofi India Limited  S K Logistics",
-    //             billingAddress2:"City Link warehousing Complex Building",
-    //             billingAddress3:"No B3 Mumbai Nasik Highway  Vadape Bhiwandi",
-    //             billingAddressCity:"Thane",
-    //             billingAddressState:"Maharastra",
-    //             billingAddressPostalCode:"321302",
-    //            length:"90mm",
-    //             height: "140mm",
-    //             width: "140mm",
-    //             company:"SANOFI INDIA PVT LTD",
-    //             ffCodeLog: item.ffCodeLog,
-    //             territory: item.territory,
-    //             totalValue: item.totalValue,
-    //             tax: item.tax,
-    //
-    //         }
-    //     }))
-    // },[shipRocketReport])
+    useEffect(() => {
+       setData (shipRocketReport.map(item => {
+            return {
+
+                invoiceNo: item.invoiceNo,
+                invoiceDate: item.invoiceDate,
+                recipientName: item.recipientName,
+                recipientCode: item.recipientCode,
+                designation : item.designation,
+                itemName: item.itemName,
+                itemCode: item.itemCode,
+                batchNo: item.batchNo,
+                expiry: item.expiry,
+                dispatchedQuantity: item.dispatchedQuantity,
+                brandName: item.brandName,
+                brandCode: item.brandCode,
+                itemCategory: item.itemCategory,
+                address1: item.address1,
+                city: item.city,
+                state: item.state,
+                postalCode: item.postalCode,
+                team:item.team,
+                billingAddress1:"Sanofi India Limited  S K Logistics",
+                billingAddress2:"City Link warehousing Complex Building",
+                billingAddress3:"No B3 Mumbai Nasik Highway  Vadape Bhiwandi",
+                billingAddressCity:"Thane",
+                billingAddressState:"Maharastra",
+                billingAddressPostalCode:"321302",
+               length:"90mm",
+                height: "140mm",
+                width: "140mm",
+                company:"SANOFI INDIA PVT LTD",
+                ffCodeLog: item.ffCodeLog,
+                territory: item.territory,
+                totalValue: item.totalValue,
+                tax: item.tax,
+
+            }
+        }))
+    },[shipRocketReport])
 
 
     return(
@@ -95,10 +95,16 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketRe
                     To Date<br/>
                     <DatePicker value={toDate} onChange={(e) => setToDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <br/>
-                    <Button type={"primary"} onClick={getShipRocketReport}>Download Report</Button>
+                    <Button type={"primary"} onClick={getShipRocketReport}>Search</Button>
                 </Col>
+                <Col span={2} >
+                    <br/>
+                    <Button type={"primary"} onClick={handleExcel}>EXCEL</Button>
+                </Col>
+
+
             </Row>
         </>
     )

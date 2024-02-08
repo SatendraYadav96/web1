@@ -309,11 +309,11 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         {
             title:'Medical Code/ Batch No',
             key:'batchNo',
-            dataIndex: 'batchNo | lineText',
+            dataIndex: 'batchNo',
             width:'200px',
 
-            render: (_, {batchNo, lineText})=> {
-                return lineText != null ? <Input value={lineText} disabled={true}/> : <Input value={ batchNo } disabled={true}/>
+            render: (_, {batchNo})=> {
+                return  <Input value={batchNo} disabled={true}/>
             }
         },
         {
@@ -360,7 +360,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             dataIndex: 'itemCode',
             width:'150px',
             // ...getColumnSearchProps('itemCode'),
-            render: (_,{limid, category, id})=> {
+            render: (_,{limid, category, itemCode,id})=> {
                 let i = ''
                 if (data.itemCategory["NON_MEDICAL"] == category.id) {
                     i = ("N" + (data.nonMedicalItemCount).toString().padStart(5, 0))
@@ -376,10 +376,10 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 console.log(data)
                 // setItemCode(i)
                 if (data.itemCategory["NON_MEDICAL"] == category.id) {
-                    return (<Input defaultValue={i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
+                    return (<Input value={itemCode != null ? itemCode : i}  onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
                 }
                 else if(data.itemCategory["MEDICAL"] == category.id){
-                    return (<Input defaultValue={i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
+                    return (<Input value={itemCode != null ? itemCode : i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
                 }
                 else{
                     return (<Input defaultValue={i} disabled={true} />)
@@ -422,11 +422,13 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         // console.log(a)
         // const r = arr.find(a=> a.id == row.id)
         // console.log(r)
+        console.log(rowData)
+        console.log(row)
         let grnData = {
             "category":  row.category.id ,
             "costCenterCode": row.costCenterCode,
             "expiryDate": moment(row.expiryDate).format('yyyy-MM-DD').toString(),
-            "itemCode": itemCode,
+            "itemCode": row.itemCode,
             "medicalCode": row.lineText,
             "basePack": row.basePack,
             "numBoxes": row.numBoxes,
@@ -435,7 +437,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             "units": row.units,
             "grnId": row.id
         }
-        console.log(data);
+        console.log(grnData);
         handleApproveAcknowledge({
             data: grnData,
             certificate: authInfo.token
