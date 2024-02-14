@@ -124,9 +124,9 @@ const CreateSamplesComponent = ({
                 <Col span={8} offset={2}>
                     Base Pack:<br/><InputNumber placeholder={"Samples Packsize"} onChange={handlePackSizeChange} style={{width: '100%'}}/>
                 </Col>
-                <Col span={8} offset={2}>
-                    Cap Size:<br/><InputNumber placeholder={"Samples cap size"} onChange={handleCapSizeChange} style={{width: '100%'}}/>
-                </Col>
+                {/*<Col span={8} offset={2}>*/}
+                {/*    Cap Size:<br/><InputNumber placeholder={"Samples cap size"} onChange={handleCapSizeChange} style={{width: '100%'}}/>*/}
+                {/*</Col>*/}
             </Row>
             <br/>
             <Row gutter={[16,16]}>

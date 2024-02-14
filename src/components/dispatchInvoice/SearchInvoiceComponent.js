@@ -97,7 +97,8 @@ const SearchInvoiceComponent = ({authInfo,profileInfo,searchInvoiceList,searchIn
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ?   '#ff4d4f' :'#1677ff',
+                    fontSize: '15px',
                 }}
             />
         ),

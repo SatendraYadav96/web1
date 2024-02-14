@@ -144,10 +144,10 @@ const EditSamplesComponent = ({
           Base Pack:<br/><Input placeholder={"Samples Packsize"} value={packSize} onChange={handlePackSizeChange}/>
           {/*<Input placeholder={"Samples Packsize"}/>*/}
         </Col>
-        <Col span={8} offset={2}>
-          Cap Size:<br/><Input placeholder={"Samples cap size"} value={capSize} onChange={handleCapSizeChange}/>
-          {/*<Input placeholder={"Samples cap size"}/>*/}
-        </Col>
+        {/*<Col span={8} offset={2}>*/}
+        {/*  Cap Size:<br/><Input placeholder={"Samples cap size"} value={capSize} onChange={handleCapSizeChange}/>*/}
+        {/*  /!*<Input placeholder={"Samples cap size"}/>*!/*/}
+        {/*</Col>*/}
       </Row>
       <br/>
       <Row gutter={[16,16]}>

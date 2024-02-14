@@ -106,6 +106,19 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                         type="link"
                         size="small"
                         onClick={() => {
+                            confirm({
+                                closeDropdown: false,
+                            });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
+                        }}
+                    >
+                        Filter
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
                             close();
                         }}
                     >
@@ -117,7 +130,8 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ?   '#ff4d4f' :'#1677ff',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -132,7 +146,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
             searchedColumn === dataIndex ? (
                 <Highlighter
                     highlightStyle={{
-                        backgroundColor: '#ffc069',
+                        backgroundColor: '#ff4d4f',
                         padding: 0,
                     }}
                     searchWords={[searchText]}
@@ -143,6 +157,7 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                 text
             ),
     });
+
 
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -674,6 +689,13 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
         });
         searchData()
     }
+
+    useEffect(() => {
+        handleInventoryReportList ({
+            isExhausted: active,
+            certificate: authInfo.token
+        });
+    },[reverseInventory])
 
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);

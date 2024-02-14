@@ -19,6 +19,8 @@ import {
 } from "../../../redux/selectors/masterSelector";
 import {editCostCenterStartAction, editVendorStartAction, getCostCenterByIdStartAction, getVendorByIdStartAction} from "../../../redux/actions/master/masterActions";
 import SelectBrandComponent from "../../widgets/SelectBrandComponent";
+import {selectBrandDropdown, selectBrandDropdownLoading} from "../../../redux/selectors/dropDownSelector";
+import {brandDropdownStartAction} from "../../../redux/actions/dropDown/dropDownActions";
 
 
 const EditCostCenterComponent = ({
@@ -30,7 +32,8 @@ const EditCostCenterComponent = ({
      costCenterById,
      costCenterByIdLoading,
      handleCostCenterById,
-     editCostCenterFailError
+     editCostCenterFailError,
+
 }) => {
     const navigate = useNavigate()
 
@@ -44,7 +47,7 @@ const EditCostCenterComponent = ({
 
     const [name, setName] = useState();
     const [code, setCode] = useState();
-    const [active, setActive] = useState();
+    const [active, setActive] = useState(false);
     const [brandId, setBrandId] = useState();
     const [checked, setChecked] = useState(true);
 
@@ -54,20 +57,23 @@ const EditCostCenterComponent = ({
         console.log(costCenterById.active)
         console.log(costCenterById.brandId)
         console.log(costCenterById)
+
         if (costCenterById.brandId !== undefined) {
             let brandArray = []
             console.log(costCenterById);
             setName(costCenterById.name)
             setCode(costCenterById.code)
             setActive(costCenterById.active)
-            // setBrandId(costCenterById.brandId.id)
+            setBrandId(costCenterById.brandId)
             for (var i of costCenterById.brandId) {
                 brandArray.push(i.id);
             }
-            setBrandId(brandArray)
-            console.log(name);
+             setBrandId(brandArray)
+            // console.log(name);
         }
     },[costCenterById])
+
+
 
     const handleBack = () => {
         return navigate("/home/masters/costCenter")
@@ -82,7 +88,7 @@ const EditCostCenterComponent = ({
     };
 
     const handleActiveChange = (e) => {
-        setChecked(e.target.checked);
+        setActive(e.target.checked);
     };
 
     useEffect(() => {
@@ -110,22 +116,25 @@ const EditCostCenterComponent = ({
     }
 
     const handleInsertCostCenter = () => {
-        const data = {
-            id: id,
-            name: name,
-            code: code,
-            active: active,
-            brandId: brandId
-        };
 
-        console.log(data);
-        console.log(authInfo.token);
+            const data = {
+                id: id,
+                name: name,
+                code: code,
+                active: active ? 1 : 0,
+                brandId: brandId[0]
+            };
 
-        handleEditCostCenter({
-            certificate: authInfo.token,
-            ccm: data,
-            id: id,
-        });
+            console.log(data);
+            console.log(authInfo.token);
+
+            handleEditCostCenter({
+                certificate: authInfo.token,
+                ccm: data,
+                // id: id,
+            });
+
+
     }
 
     useEffect(()=>{
@@ -134,6 +143,8 @@ const EditCostCenterComponent = ({
             message.error(editCostCenterFailError.message);
         }
     },[editCostCenterFailError])
+
+
 
     return(
         <>
@@ -150,6 +161,10 @@ const EditCostCenterComponent = ({
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
                     Brand: <SelectBrandComponent value={brandId} onChange={handleBrandChange}/>
+                </Col>
+
+                <Col span={8} offset={2} style={{ marginTop: '20px' }}>
+                    IsActive: <Checkbox checked={active} onChange={handleActiveChange} />
                 </Col>
             </Row>
             <br/>
@@ -179,7 +194,8 @@ EditCostCenterComponent.propTypes = {
     costCenterByIdLoading: PropTypes.any,
     handleCostCenterById: PropTypes.func,
     costCenterById: PropTypes.array,
-    editCostCenterFailError: PropTypes.any
+    editCostCenterFailError: PropTypes.any,
+
 }
 
 const mapState = (state) => {
@@ -190,6 +206,7 @@ const mapState = (state) => {
     const costCenterById = selectCostCenterByIdData(state);
     const costCenterByIdLoading = selectLoadingCostCenterByIdData(state);
     const editCostCenterFailError = selectEditCostCenterFailError(state);
+
     return {
         authInfo,
         editCostCenter,
@@ -197,13 +214,15 @@ const mapState = (state) => {
         profileInfo,
         costCenterById,
         costCenterByIdLoading,
-        editCostCenterFailError
+        editCostCenterFailError,
+
     }
 }
 
 const actions = {
     handleEditCostCenter: editCostCenterStartAction,
     handleCostCenterById: getCostCenterByIdStartAction,
+
 };
 
 export default connect(mapState, actions) (EditCostCenterComponent)

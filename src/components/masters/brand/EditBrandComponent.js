@@ -13,6 +13,7 @@ import SelectUserComponent from "../../widgets/SelectUserComponent";
 import SelectCostCenterComponent from "../../widgets/SelectCostCenterComponent";
 import SelectDivisionComponent from "../../widgets/SelectDivisionComponent";
 import SelectMultipleCostCenterComponent from "../../widgets/SelectMultipleCostCenterComponent";
+import SelectTeamComponent from "../../widgets/SelectTeamComponent";
 
 const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handleEditBrand, editBrandFailError,profileInfo}) => {
 
@@ -22,7 +23,7 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
     const [checked, setChecked] = useState(true);
     const [checkedValue, setCheckedValue] = useState(1)
     const [name, setName] = useState()
-    const [active, setActive] = useState();
+    const [active, setActive] = useState(false);
     const [code, setCode] = useState()
     const [user, setUser] = useState()
     const [team, setTeam] = useState()
@@ -46,6 +47,10 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
 
     const handleSubTeam = (value) => {
         setSubTeam(value)
+    }
+
+    const handleTeam = (value) => {
+        setTeam(value)
     }
 
     const handleUser = (value) => {
@@ -125,7 +130,7 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
             active: active,
             division: {id: subTeam},
             team: team,
-            costCenter: costCenter,
+            costCenter: costCenter[0],
             user: user,
         };
 
@@ -214,14 +219,21 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
                     <Col span={8} offset={2}>
                         User :<br/><SelectUserComponent value={user} onChange={handleUser}/>
                     </Col>
+
+
                 </Row>
                 <br/>
                 <Row gutter={[16,16]}>
                     <Col span={8} offset={2}>
                         Cost Center :<br/><SelectMultipleCostCenterComponent value={costCenter} onChange={handleCostCenter}/>
                     </Col>
+
                     <Col span={8} offset={2}>
-                        IsActive: <Checkbox checked={checked} value={active} onChange={handleActiveChange}/>
+                        Sub Team :<br/><SelectTeamComponent value={team} onChange={handleTeam}/>
+                    </Col>
+
+                    <Col span={8} offset={2}>
+                        IsActive: <Checkbox checked={active}  onChange={handleActiveChange}/>
                     </Col>
                 </Row>
                 <br/>

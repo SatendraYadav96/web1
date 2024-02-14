@@ -11,6 +11,7 @@ import SelectMultipleCostCenterComponent from "../../widgets/SelectMultipleCostC
 import {selectEditBrandData, selectInsertBrandData, selectInsertBrandFailError} from "../../../redux/selectors/masterSelector";
 import {addBrandStartAction, editBrandStartAction} from "../../../redux/actions/master/masterActions";
 import {selectCostCenterDropdown, selectUserDropdown} from "../../../redux/selectors/dropDownSelector";
+import SelectTeamComponent from "../../widgets/SelectTeamComponent";
 
 const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown,userDropdown, insertBrandFailError}) => {
 
@@ -103,6 +104,7 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
             },
             costCenter: cc,
             user: user,
+            team: team,
         };
         console.log(data)
         handleAddBrand({
@@ -117,6 +119,12 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
             message.error(insertBrandFailError.message);
         }
     },[insertBrandFailError])
+
+    const handleTeam = (value) => {
+        setTeam(value)
+    }
+
+
 
     return(
         <>
@@ -143,6 +151,13 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
                 <Col span={8} offset={2}>
                     Cost Center :<br/><SelectMultipleCostCenterComponent value={costCenter} onChange={handleCostCenter}/>
                 </Col>
+
+
+                <Col span={8} offset={2}>
+                    Sub Team :<br/><SelectTeamComponent value={team} onChange={handleTeam}/>
+                </Col>
+
+
                 {/*<Col span={8} offset={2}>*/}
                 {/*    Owner :<br/><Select placeholder="Select Owner" style={{width: "100%"}}></Select>*/}
                 {/*</Col>*/}

@@ -110,7 +110,8 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : '#1677ff',
+                    color: filtered ?   '#ff4d4f' :'#1677ff',
+                    fontSize: '15px',
                 }}
             />
         ),

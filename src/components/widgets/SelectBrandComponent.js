@@ -30,6 +30,7 @@ const SelectBrandComponent = ({value,multiple, disabled, onChange,authInfo,profi
     return (
 
         <Select
+            showSearch
             mode={multiple}
             allowClear
             style={{

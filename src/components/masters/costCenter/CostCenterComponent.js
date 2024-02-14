@@ -89,7 +89,8 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ?   '#ff4d4f' :'#1677ff',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -193,6 +194,14 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
             }
         }))
     },[costCenterList])
+
+    // useEffect(() =>{
+    //     handleCostCenterList ({
+    //         certificate: authInfo.token,
+    //         status:status,
+    //         costCenter: costCenterList,
+    //     });
+    // },[editCostCenter])
 
     return(
         <>

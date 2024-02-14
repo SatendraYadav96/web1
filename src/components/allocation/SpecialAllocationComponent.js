@@ -515,7 +515,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#0099FFFF' : '#0099FFFF',
+                    color: filtered ?   '#ff4d4f' :'#1677ff',
                     fontSize: '15px',
                 }}
             />

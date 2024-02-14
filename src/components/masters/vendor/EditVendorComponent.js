@@ -39,7 +39,7 @@ const EditVendorComponent = ({
     const [city, setCity] = useState();
     const [state, setState] = useState();
     const [zip, setZip] = useState();
-    const [active, setActive] = useState();
+    const [active, setActive] = useState(false);
     const [error, setError] = React.useState('');
     // console.log(name);
     // console.log(addressLine1);
@@ -99,7 +99,7 @@ const EditVendorComponent = ({
   };
 
   const handleActiveChange = (e) => {
-    setActive(e.target.value);
+    setActive(e.target.checked);
   };
 
   const handleBack = () => {
@@ -116,7 +116,7 @@ const EditVendorComponent = ({
       city: city,
       state: state,
       zip: zip,
-      active: active,
+      active: active ? 1 : 0
     };
 
     console.log(data);
@@ -129,6 +129,8 @@ const EditVendorComponent = ({
     });
 
 
+
+
     // searchData();
   };
 
@@ -138,6 +140,10 @@ const EditVendorComponent = ({
             message.error(editVendorFailError.message);
         }
     },[editVendorFailError])
+
+
+
+
 
   return (
     <>
@@ -205,7 +211,7 @@ const EditVendorComponent = ({
             {error && <div style={{ color: 'red' }}>{error}</div>}
         </Col>
         <Col span={8} offset={2}>
-          IsActive: <Checkbox checked={active === 1} onChange={handleActiveChange} />
+          IsActive: <Checkbox checked={active} onChange={handleActiveChange} />
         </Col>
         <Col span={2}></Col>
         <Col span={22}></Col>

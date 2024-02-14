@@ -79,6 +79,19 @@ const BrandComponent = ({authInfo,brandList,handleBrandList,profileInfo}) => {
                         type="link"
                         size="small"
                         onClick={() => {
+                            confirm({
+                                closeDropdown: false,
+                            });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
+                        }}
+                    >
+                        Filter
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
                             close();
                         }}
                     >
@@ -90,7 +103,8 @@ const BrandComponent = ({authInfo,brandList,handleBrandList,profileInfo}) => {
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ?   '#ff4d4f' :'#1677ff',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -105,7 +119,7 @@ const BrandComponent = ({authInfo,brandList,handleBrandList,profileInfo}) => {
             searchedColumn === dataIndex ? (
                 <Highlighter
                     highlightStyle={{
-                        backgroundColor: '#ffc069',
+                        backgroundColor: '#ff4d4f',
                         padding: 0,
                     }}
                     searchWords={[searchText]}

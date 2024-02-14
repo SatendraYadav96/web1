@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import {Option} from "antd/es/mentions";
 const { TreeNode } = TreeSelect;
 
-const SelectCostCenterComponent = ({value, onChange,authInfo,costCenterDropdown,costCenterDropdownLoading,profileInfo,handleCostCenterDropDown}) => {
+const SelectCostCenterComponent = ({value,multiple, onChange,authInfo,costCenterDropdown,costCenterDropdownLoading,profileInfo,handleCostCenterDropDown}) => {
 
     const [costCenterId, setCostCenterId] = useState()
     const [costCenterName, setCostCenterName] = useState()
@@ -73,7 +73,7 @@ const SelectCostCenterComponent = ({value, onChange,authInfo,costCenterDropdown,
         //     })}
         // </TreeSelect>
         <Select
-            mode='multiple'
+            mode={multiple}
             allowClear
             style={{
                 width: '100%',

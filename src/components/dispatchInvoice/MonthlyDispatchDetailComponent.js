@@ -35,6 +35,7 @@ import {delay} from "rxjs";
 import {invoiceUploadStartAction} from "../../redux/actions/upload/uploadActions";
 import {Option} from "antd/es/mentions";
 import InvoiceUploadDetailComponent from "./InvoiceUploadDetailComponent";
+import SelectSubTeamComponent from "../widgets/SelectSubTeamComponent";
 
 
 const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetailsList, getInvoiceSuccess,printList,handlePrintInvoice,profileInfo,employeePopup,handleEmployeePopup,generateInvoiceList,handleGenerateInvoice,generateLabelList,handleGenerateLabel,exportAllocation,handleExport,handleGenInvoice,handleInvoiceUpload}) => {
@@ -183,7 +184,8 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
         filterIcon: (filtered) => (
             <SearchOutlined
                 style={{
-                    color: filtered ? '#1677ff' : undefined,
+                    color: filtered ?   '#ff4d4f' :'#1677ff',
+                    fontSize: '15px',
                 }}
             />
         ),
@@ -1025,7 +1027,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     <Input value={displayMonth} disabled/>
                 </Col>
                 <Col span={3}>
-                    <SelectTeamComponent value={location.state.team} disabled/>
+                    <SelectSubTeamComponent value={location.state.team} disabled/>
                 </Col>
                 <Col span={3}>
                    <SelectInvoiceTypeComponent onChange={(e) => setStatus(e)}/>

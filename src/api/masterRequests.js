@@ -167,7 +167,7 @@ export const costCenterRequest = payload => {
 }
 
 export const editCostCenterRequest=  payload => {
-  const api = {...EDIT_COST_CENTER_API, url: `${EDIT_COST_CENTER_API.url}/${payload.id}`}
+  const api = {...EDIT_COST_CENTER_API, url: `${EDIT_COST_CENTER_API.url}`}
   return createRequest(api, payload.certificate, payload.ccm)
 }
 
