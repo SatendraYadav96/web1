@@ -31,6 +31,13 @@ import Highlighter from "react-highlight-words";
 import BarChartComponent from "./BarChartComponent";
 import ColumnChartComponent from "./ColumnChartComponent";
 import HorizontalBarComponent from "./HorizontalBarComponent";
+import warehouse from "../../assets/warehouse.png";
+import user from "../../assets/user.png";
+import dispatchregister from "../../assets/dispatchregister.png";
+import monthlyallocation from "../../assets/monthlyallocation.png";
+import specialallocation from "../../assets/specialallocation.png";
+import virtualallocation from "../../assets/virtualallocation.png";
+import {useNavigate} from "react-router-dom";
 
 const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,hubNearExpiryList,hubNearExpiryLoading,handleHubNearExpiry,hubPendingRevalidationList,hubPendingRevalidationLoading,
                                 handleHubPendingRevalidation,hubGrnErrorLogList,hubGrnErrorLogLoading,handleHubGrnErrorLog,itemExpiredDetailsList,itemExpiredDetailsLoading,handleItemExpiredDetails
@@ -613,9 +620,237 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
     }, [status])
 
 
+
+
+
+
+    const [hoverInventory, setHoverInventory] = useState(false);
+    const [hoverUser, setHoverUser] = useState(false);
+    const [hoverDispatchRegister, setHoverDispatchRegister] = useState(false);
+    const [hoverMonthlyDispatch, setHoverMonthlyDispatch] = useState(false);
+    const [hoverSpecialDispatch, setHoverSpecialDispatch] = useState(false);
+    const [hoverVirtualDispatch, setHoverVirtualDispatch] = useState(false);
+
+
+    const navigate = useNavigate();
+
+
+    const onHoverInventory = (e) =>{
+        e.preventDefault()
+        setHoverInventory(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverInventory = (e) => {
+        e.preventDefault()
+        setHoverInventory(false)
+    }
+
+    const HoverDataInventory = "Inventory";
+
+
+
+    const onHoverUser = (e) =>{
+        e.preventDefault()
+        setHoverUser(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverUser = (e) => {
+        e.preventDefault()
+        setHoverUser(false)
+    }
+
+    const HoverDataUser = "FF Master";
+
+
+
+    const onHoverDispatchRegister = (e) =>{
+        e.preventDefault()
+        setHoverDispatchRegister(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverDispatchRegister = (e) => {
+        e.preventDefault()
+        setHoverDispatchRegister(false)
+    }
+
+    const HoverDataDispatchRegister = "Dispatch Register";
+
+
+
+    const onHoverMonthlyDispatch = (e) =>{
+        e.preventDefault()
+        setHoverMonthlyDispatch(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverMonthlyDispatch = (e) => {
+        e.preventDefault()
+        setHoverMonthlyDispatch(false)
+    }
+
+    const HoverDataMonthlyDispatch = "Monthly Dispatch";
+
+
+
+
+    const onHoverSpecialDispatch = (e) =>{
+        e.preventDefault()
+        setHoverSpecialDispatch(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverSpecialDispatch = (e) => {
+        e.preventDefault()
+        setHoverSpecialDispatch(false)
+    }
+
+    const HoverDataSpecialDispatch = "Special Dispatch";
+
+
+
+
+
+    const onHoverVirtualDispatch = (e) =>{
+        e.preventDefault()
+        setHoverVirtualDispatch(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverVirtualDispatch = (e) => {
+        e.preventDefault()
+        setHoverVirtualDispatch(false)
+    }
+
+    const HoverDataVirtualDispatch = "Virtual Dispatch";
+
+
+
+
     return (
         <div>
             <TitleWidget title={'Dashboards'}/>
+            <Row gutter={16}>
+                <Space wrap style={{marginLeft:"50px",marginBottom:"50px"}}>
+
+                    {/*<Button  type="primary" onClick={() => navigate("/home/masters/ffMaster")} style={{backgroundColor:"green"}} ><UsergroupAddOutlined /> FF Master</Button>*/}
+                    {/*<Button type="primary" onClick={() => navigate("/home/report/dispatchRegisterReport")} style={{backgroundColor:"navy"}} > <FileProtectOutlined /> Dispatch Register</Button>*/}
+                    {/*<Button type="primary" onClick={() => navigate("/home/approvals/monthlyInputPlan")} style={{backgroundColor:"purple"}} > <GiftOutlined /> Monthly Approval</Button>*/}
+                    {/*<Button type="primary" onClick={() => navigate("/home/approvals/specialDispatches")} style={{backgroundColor:"darkcyan"}}> <GiftOutlined /> Special Approval</Button>*/}
+                    {/*<Button type="danger" onClick={() => navigate("/home/approvals/virtualDispatches")} style={{backgroundColor:"darkorange"}}> <GiftOutlined />Virtual Approval</Button>*/}
+
+                    {/* if hover is true then only show the text */}
+                    {hoverInventory && <p className={hoverInventory}>{HoverDataInventory}</p>}
+
+
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={warehouse} alt="Warehouse"  width="100" height="80" onClick={() => navigate("/home/inventory/inventoryReport")}
+                            // onMouseEnter={(e)=>onHoverInventory(e)}
+                            // onMouseLeave={(e)=>onHoverOverInventory(e)}
+
+
+                        />
+
+                        <h3>Inventory</h3>
+                    </div>
+
+
+                    {hoverUser && <p className={hoverUser}>{HoverDataUser}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img
+                            src={user}
+                            alt="user"
+                            width="100"
+                            height="80"
+                            style={{ marginLeft: "50px" }}
+                            onClick={() => navigate("/home/report/recipientReport")}
+                            // onMouseEnter={(e) => onHoverUser(e)}
+                            // onMouseLeave={(e) => onHoverOverUser(e)}
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >FF Master</h3>
+                    </div>
+
+
+
+
+
+                    {hoverDispatchRegister && <p className={hoverDispatchRegister}  >{HoverDataDispatchRegister}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={dispatchregister} alt="dispatchregister"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/report/dispatchRegisterReport")}
+                            // onMouseEnter={(e)=>onHoverDispatchRegister(e)}
+                            // onMouseLeave={(e)=>onHoverOverDispatchRegister(e)}
+
+
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >Dispatch Register</h3>
+                    </div>
+
+
+
+                    {hoverMonthlyDispatch && <p className={hoverMonthlyDispatch}  >{HoverDataMonthlyDispatch}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={monthlyallocation} alt="monthlyallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/dispatchInvoicing/monthlyDispatch")}
+                            // onMouseEnter={(e)=>onHoverMonthlyAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverMonthlyAllocation(e)}
+
+
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >Monthly Dispatch</h3>
+                    </div>
+
+
+
+
+
+
+                    {hoverSpecialDispatch && <p className={hoverSpecialDispatch}  >{HoverDataSpecialDispatch}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+                        <img src={specialallocation} alt="specialallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/dispatchInvoicing/specialDispatch")}
+                            // onMouseEnter={(e)=>onHoverSpecialAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverSpecialAllocation(e)}
+
+
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >Special Dispatch</h3>
+                    </div>
+
+
+
+
+                    {hoverVirtualDispatch && <p className={hoverVirtualDispatch}  >{HoverDataVirtualDispatch}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={virtualallocation} alt="virtualallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/dispatchInvoicing/virtualDispatch")}
+                            // onMouseEnter={(e)=>onHoverVirtualAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverVirtualAllocation(e)}
+
+
+                        />
+
+                        <h3 style={{ marginLeft: "50px" }} >Virtual Dispatch</h3>
+                    </div>
+
+
+
+
+
+
+                </Space>
+            </Row>
 
             <Row gutter={16}>
                 <Col span={12}>

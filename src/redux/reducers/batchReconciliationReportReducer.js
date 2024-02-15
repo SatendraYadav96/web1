@@ -112,7 +112,7 @@ const overSamplingMailFailReducer = (state = initialState, payload) => {
 export default createReducer(initialState, {
     [GET_BATCH_RECONCILIATION_SUCCESS]: getBatchReconciliationSuccessReducer,
     [GET_BATCH_RECONCILIATION_FAIL]: getBatchReconciliationFailReducer,
-    [GET_VIRTUAL_RECONCILIATION_REPORT_SUCCESS]: getBatchReconciliationSuccessReducer,
+    [GET_VIRTUAL_RECONCILIATION_REPORT_SUCCESS]: getVirtualReconciliationSuccessReducer,
     [GET_VIRTUAL_RECONCILIATION_REPORT_FAIL]: getVirtualReconciliationFailReducer,
     [GET_SHIP_ROCKET_REPORT_SUCCESS]: getShipRocketSuccessReducer,
     [GET_SHIP_ROCKET_REPORT_FAIL]: getShipRocketReportFailReducer,

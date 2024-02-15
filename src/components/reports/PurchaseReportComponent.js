@@ -344,6 +344,7 @@ const PurchaseReportComponent = ({authInfo,profileInfo,purchaseList,purchaseRepo
         console.log(d)
     },[d])
 
+
     return(
         <>
             <TitleWidget title="Purchase Report" />

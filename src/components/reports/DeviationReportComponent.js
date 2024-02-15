@@ -139,6 +139,10 @@ const DeviationReportComponent = ({authInfo,profileInfo,deviationList,deviationR
                 dataIndex: 'quarter',
                 width: '100px',
                 ...getColumnSearchProps('quarter'),
+                render: (text) => {
+                    // Check if the quarter is '0001' and replace with 'First Quarter'
+                    return text === '0001' ? 'First Quarter' : text;
+                },
             },
             {
                 title: 'Brand Manager',

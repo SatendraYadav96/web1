@@ -191,14 +191,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
     }
 
     const SetItemCodeOfRow = (value, id) => {
-        // console.log(data.grn)
-        // data.grn.forEach(a => {
-        //     if(a.id == id){
-        //         a.itemCode = value;
-        //     }
-        // })
-        // // arr[id]['itemCode'] = value;
-        // setArr(data.grn)
+
          console.log(data.grn)
         data.grn.forEach(it => {
             if(it.id == id){
@@ -360,12 +353,12 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
             dataIndex: 'itemCode',
             width:'150px',
             // ...getColumnSearchProps('itemCode'),
-            render: (_,{limid, category, itemCode,id})=> {
+            render: (_,{limid, category, itemCode,id,row})=> {
                 let i = ''
-                if (data.itemCategory["NON_MEDICAL"] == category.id) {
+                if (data.itemCategory["NON_MEDICAL"] === category.id) {
                     i = ("N" + (data.nonMedicalItemCount).toString().padStart(5, 0))
                 }
-                else if(data.itemCategory["MEDICAL"] == category.id){
+                else if(data.itemCategory["MEDICAL"] === category.id){
                     i =("M" + (data.medicalItemCount).toString().padStart(5, 0))
                 }
                 else {
@@ -374,12 +367,17 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 console.log(i)
                 console.log(itemCode)
                 console.log(data)
+
+
                 // setItemCode(i)
-                if (data.itemCategory["NON_MEDICAL"] == category.id) {
-                    return (<Input value={itemCode != null ? itemCode : i}  onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
+
+                if (data.itemCategory["NON_MEDICAL"] === category.id) {
+                    return (<Input value={itemCode != null  ? itemCode :  i}  onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />
+
+                    )
                 }
-                else if(data.itemCategory["MEDICAL"] == category.id){
-                    return (<Input value={itemCode != null ? itemCode : i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
+                else if(data.itemCategory["MEDICAL"] === category.id){
+                    return (<Input value={itemCode != null  ?  itemCode : i} onChange={(e) => SetItemCodeOfRow(e.target.value, id)} />)
                 }
                 else{
                     return (<Input defaultValue={i} disabled={true} />)
@@ -415,15 +413,11 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         setReasonModal(false)
     }
 
-    const acknowledge = (row) => {
-        // console.log(row)
-        // console.log(arr[row.id])
-        // const a = arr[row.id]
-        // console.log(a)
-        // const r = arr.find(a=> a.id == row.id)
-        // console.log(r)
+    const acknowledge = (row,i) => {
+
         console.log(rowData)
         console.log(row)
+        console.log(i)
         let grnData = {
             "category":  row.category.id ,
             "costCenterCode": row.costCenterCode,

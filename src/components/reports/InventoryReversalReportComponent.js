@@ -14,12 +14,13 @@ import moment from 'moment'
 import dayjs from "dayjs";
 import {CSVLink} from "react-csv";
 import {selectBuDropdown, selectDivisionDropdown} from "../../redux/selectors/dropDownSelector";
-import {SearchOutlined} from "@ant-design/icons";
+import {DownloadOutlined, SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import XLSX from "xlsx";
+import {getGenerateInvoiceStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
 
 
-const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,destructionReportLoading,handleDestructionReportList,buDropdown,divisionDropdown}) => {
+const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,destructionReportLoading,handleDestructionReportList,buDropdown,divisionDropdown,handleGenerateInvoice}) => {
 
     let now = dayjs()
     const [businessUnit, setBusinessUnit] = useState()
@@ -121,6 +122,19 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
     });
 
 
+    const handleInvoice = (row) => {
+        handleGenerateInvoice({
+            inh: [
+                {
+                    inhId: row.invoiceHeaderID,
+                    invoiceNo: `${row.invoiceNo}`,
+                },
+            ],
+            certificate: authInfo.token
+        })
+    }
+
+
 
     const searchData = () => {
         setFlag(true)
@@ -145,6 +159,22 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 dataIndex:'costCenter',
                 width:'100px',
                 ...getColumnSearchProps('costCenter'),
+            },
+            {
+                title:'Invoice No',
+                key:'',
+                dataIndex:'invoiceNo',
+                width:'100px',
+                ...getColumnSearchProps('invoiceNo'),
+            },
+            {
+                title: 'Download Invoice',
+                key: '',
+                dataIndex: '',
+                width: '100px',
+                render:(_,row) => {
+                    return <Button icon={<DownloadOutlined />} onClick={() => handleInvoice(row)}></Button>
+                },
             },
             {
                 title:'Item Name',
@@ -248,6 +278,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 team: item.businessUnit,
                 SubTeam: item.division,
                 costCenter: item.costCenter,
+                invoiceNo: item.invoiceNo,
                 itemName: item.itemName,
                 itemCode: item.itemCode,
                 itemType: item.itemType,
@@ -257,6 +288,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 rate: item.rate,
                 value: item.value,
                 remarks: item.remarks,
+
             }
         }))
         console.log(destructionList)
@@ -319,6 +351,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
                 team: item.businessUnit,
                 SubTeam: item.division,
                 costCenter: item.costCenter,
+                invoiceNo: item.invoiceNo,
                 itemName: item.itemName,
                 itemCode: item.itemCode,
                 itemType: item.itemType,
@@ -409,7 +442,8 @@ const mapState = (state) => {
 }
 
 const actions = {
-    handleDestructionReportList : getDestructionReportStartAction
+    handleDestructionReportList : getDestructionReportStartAction,
+    handleGenerateInvoice: getGenerateInvoiceStartAction,
 }
 
 export default connect(mapState, actions)(InventoryReversalReportComponent)

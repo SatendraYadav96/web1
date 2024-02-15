@@ -15,20 +15,32 @@ import {getVirtualReconciliationReportStartAction} from "../../redux/actions/rep
 import {selectVirtualReconciliationReport} from "../../redux/selectors/batchReconciliationReportSelector";
 import XLSX from "xlsx";
 import {CSVLink} from "react-csv";
+import {businessUnitDropdownStartAction} from "../../redux/actions/dropDown/dropDownActions";
 
-const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, handleVirtualReconciliationReport}) => {
+const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, handleVirtualReconciliationReport,handleBusinessUnitDropDown,buDropdown}) => {
 
     const [column, setColumn] = useState([])
     const [businessUnit, setBusinessUnit] = useState()
+    const [bu, setBU] = useState()
     const [quarter, setQuarter] = useState()
     const [year, setYear] = useState()
     const [data, setData] = useState()
     const [division, setDivision] = useState()
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
 
-
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div
@@ -337,7 +349,7 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
             certificate: authInfo.token,
             quarter: quarter,
             year: year,
-            businessUnit: businessUnit
+            businessUnit: bu
         })
         searchData()
     }
@@ -390,6 +402,30 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
     },[virtualReconciliationList])
 
 
+    const handleBusinessUnit = (value) =>  {
+        setBusinessUnit(value)
+    }
+
+    useEffect(() => {
+        console.log(buDropdown)
+        let array = [buDropdown?.map(item => item.id)]
+        setBU(array[0])
+    },[buDropdown])
+
+    useEffect(() => {
+        setBU(businessUnit)
+    },[businessUnit])
+
+    const handleRefresh = () => {
+        handleBusinessUnitDropDown({
+            certificate: authInfo.token,
+        })
+
+    }
+
+
+
+
 
     return(
         <>
@@ -405,12 +441,8 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
                 </Col>
                 <Col span={3}>
                     Team <br/>
-                    <SelectBusinessUnitComponent value={businessUnit} style={{width: "100%"}} onChange={(e) => setBusinessUnit(e)} />
+                    <SelectBusinessUnitComponent value={businessUnit} onChange={handleBusinessUnit}  multiple={'multiple'}/>
                 </Col>
-                {/*<Col span={3}>*/}
-                {/*    Subteam<br/>*/}
-                {/*    <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={(e) => setDivision(e)} />*/}
-                {/*</Col>*/}
 
                 <Col span={3}>
                     <br/>
@@ -419,21 +451,6 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
             </Row>
             <br/><br/>
             <Row>
-                {/*<Col span={6}>*/}
-                {/*    <Button onClick={handleExcel}>Excel</Button> &nbsp;&nbsp;*/}
-                {/*/!*    {virtualReconciliationReport &&*!/*/}
-                {/*/!*    (<CSVLink*!/*/}
-                {/*/!*            data={virtualReconciliationReport}*!/*/}
-                {/*/!*            filename={"VirtualReconciliationReport.csv"}*!/*/}
-                {/*/!*            onClick={() => {*!/*/}
-                {/*/!*                console.log("clicked")*!/*/}
-                {/*/!*            }}*!/*/}
-                {/*/!*        >*!/*/}
-                {/*/!*            <Button>CSV</Button>*!/*/}
-                {/*/!*        </CSVLink>*!/*/}
-                {/*/!*    )*!/*/}
-                {/*/!*}*!/*/}
-                {/*</Col>*/}
 
                 <Col span={6}>
                     {data &&
@@ -473,12 +490,12 @@ VirtualReconciliationComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const virtualReconciliationList = selectVirtualReconciliationReport(state)
-    console.log(virtualReconciliationList)
     return {authInfo, virtualReconciliationList}
 }
 
 const actions = {
-    handleVirtualReconciliationReport : getVirtualReconciliationReportStartAction
+    handleVirtualReconciliationReport : getVirtualReconciliationReportStartAction,
+    handleBusinessUnitDropDown : businessUnitDropdownStartAction,
 }
 
 export default connect(mapState, actions)(VirtualReconciliationComponent)
