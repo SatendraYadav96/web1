@@ -174,6 +174,19 @@ const TeamComponent = ({authInfo,teamList,teamLoading,handleTeamList}) => {
     }
 
 
+    let i = 0;
+
+    useEffect(() => {
+        handleTeamList ({
+            certificate: authInfo.token,
+            status:status,
+        });
+        searchData()
+
+        i++;
+    }, [i]);
+
+
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);

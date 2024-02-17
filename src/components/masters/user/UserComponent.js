@@ -201,6 +201,20 @@ const UserComponent = ({authInfo,userList,handleUserList}) => {
     }
 
 
+
+    let i = 0;
+
+    useEffect(() => {
+        handleUserList ({
+            certificate: authInfo.token,
+            status:status,
+        });
+        searchData()
+
+        i++;
+    }, [i]);
+
+
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);

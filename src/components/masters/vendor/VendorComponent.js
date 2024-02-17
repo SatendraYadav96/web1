@@ -241,6 +241,18 @@ const VendorComponent = ({authInfo,profileInfo,vendorList,vendorLoading,handleVe
         console.log(data)
     },[data])
 
+    let i = 0;
+
+    useEffect(() => {
+        handleVendorList({
+            status: status,
+            vendor: vendorList,
+            certificate: authInfo.token
+        });
+        searchData();
+
+        i++;
+    }, [i]);
 
     return(
         <>

@@ -368,7 +368,7 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 console.log(itemCode)
                 console.log(data)
 
-
+                itemCode === i
                 // setItemCode(i)
 
                 if (data.itemCategory["NON_MEDICAL"] === category.id) {

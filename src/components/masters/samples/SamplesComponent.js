@@ -173,6 +173,20 @@ const SamplesComponent = ({authInfo,profileInfo,samplesList,samplesLoading,handl
     searchData()
     }
 
+
+    let i = 0;
+
+    useEffect(() => {
+        handleSamplesList ({
+            status:status,
+            samples: samplesList,
+            certificate: authInfo.token
+        });
+        searchData()
+
+        i++;
+    }, [i]);
+
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);

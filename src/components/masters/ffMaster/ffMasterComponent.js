@@ -410,6 +410,23 @@ const TeamComponent = ({authInfo,ffList,handleFFList,ffHistoryList,handleFFHisto
         searchData()
     }
 
+
+    let i = 0;
+
+    useEffect(() => {
+        handleFFList({
+            ff: {
+                status: status,
+                ffCode: recipientCode,
+                ffName: name,
+            },
+            certificate: authInfo.token,
+        })
+        searchData()
+
+        i++;
+    }, [i]);
+
     const handleHistory = (row) => {
         handleFFHistoryList({
             certificate: authInfo.token,

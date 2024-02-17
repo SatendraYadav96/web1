@@ -4,9 +4,10 @@ import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, message, Row} from "antd";
-import {editVendorStartAction, getVendorByIdStartAction,} from "../../../redux/actions/master/masterActions";
+import {editVendorStartAction, getVendorByIdStartAction, getVendorStartAction,} from "../../../redux/actions/master/masterActions";
 import {selectEditVendorData, selectEditVendorFailError, selectEditVendorLoadingData, selectLoadingVendorByIdData, selectVendorByIdData,} from "../../../redux/selectors/masterSelector";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams  } from "react-router-dom";
+
 
 const EditVendorComponent = ({
   authInfo,
@@ -16,9 +17,10 @@ const EditVendorComponent = ({
   handleEditVendor,
   vendorById,
   vendorByIdLoading,
-  handleVendorById, editVendorFailError
+  handleVendorById, editVendorFailError,handleVendorList
 }) => {
     const navigate = useNavigate();
+
 
     let { id } = useParams();
     // console.log({ id });
@@ -41,6 +43,7 @@ const EditVendorComponent = ({
     const [zip, setZip] = useState();
     const [active, setActive] = useState(false);
     const [error, setError] = React.useState('');
+    const [status, setStatus] = useState(1)
     // console.log(name);
     // console.log(addressLine1);
 
@@ -129,7 +132,18 @@ const EditVendorComponent = ({
     });
 
 
+          // setTimeout(() => {
+          //     // Perform the navigation
+          //     console.log('Navigating to vendor page...');
+          //     navigate('/home/masters/vendor');
+          // }, 6000);
 
+
+
+
+  // if(editVendor.message == "Vendor updated successfully !"){
+  //   navigate("/home/masters/vendor");
+  //  }
 
     // searchData();
   };
@@ -140,6 +154,12 @@ const EditVendorComponent = ({
             message.error(editVendorFailError.message);
         }
     },[editVendorFailError])
+
+
+    // useEffect(() => {
+    //     navigate("/home/masters/vendor");
+    //
+    // },[editVendor])
 
 
 
@@ -243,7 +263,8 @@ EditVendorComponent.propTypes = {
   vendorByIdLoading: PropTypes.any,
   handleVendorById: PropTypes.func,
   vendorById: PropTypes.array,
-    editVendorFailError: PropTypes.any
+    editVendorFailError: PropTypes.any,
+    handleVendorList: PropTypes.func,
 };
 
 const mapState = (state) => {
@@ -268,6 +289,7 @@ const mapState = (state) => {
 const actions = {
   handleEditVendor: editVendorStartAction,
   handleVendorById: getVendorByIdStartAction,
+    handleVendorList: getVendorStartAction,
 };
 
 export default connect(mapState, actions)(EditVendorComponent);

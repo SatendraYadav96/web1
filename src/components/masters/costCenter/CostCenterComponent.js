@@ -178,6 +178,20 @@ const CostCenterComponent = ({authInfo, profileInfo,costCenterList, costCenterLo
         searchData()
     }
 
+
+    let i = 0;
+
+    useEffect(() => {
+        handleCostCenterList({
+            certificate: authInfo.token,
+            status:status,
+            costCenter: costCenterList,
+        });
+        searchData();
+
+        i++;
+    }, [i]);
+
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);

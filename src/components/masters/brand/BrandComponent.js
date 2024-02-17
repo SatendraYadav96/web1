@@ -188,6 +188,19 @@ const BrandComponent = ({authInfo,brandList,handleBrandList,profileInfo}) => {
         searchData()
     }
 
+
+    let i = 0;
+
+    useEffect(() => {
+        handleBrandList({
+            certificate: authInfo.token,
+            status: status,
+        });
+        searchData();
+
+        i++;
+    }, [i]);
+
     const handleExcel = () => {
         const wb = XLSX.utils.book_new(),
             ws = XLSX.utils.json_to_sheet(data);
