@@ -786,6 +786,14 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
         setCount(0)
     }
 
+    const handleAllLabelPrint = () => {
+        handleGenerateLabel({
+            inh: specialInvoiceDetails.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
+            certificate: authInfo.token
+        })
+        setCountLabel(0)
+    }
+
     const handleLabelPrint = () => {
         handleGenerateLabel({
             inh: printInvoice?.map((item) => ({inhId: item.invoiceHeaderID, invoiceNo: item.invoiceNumber})),
@@ -1115,7 +1123,7 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
             }}>
                 <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print All</p>
                 <Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleAllInvoicePrint()}>Print Invoice</Button>
-                <Button type={"primary"}>Print Label</Button>
+                <Button type={"primary"} onClick={() => handleAllLabelPrint()} >Print Label</Button>
                 <br/>
                 <Table
                     columns={printColumn}
