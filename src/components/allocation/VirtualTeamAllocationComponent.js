@@ -264,18 +264,18 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
 
 
 
-    useEffect(() => {
-        if(virtualCommonAllocationSaveSuccess){
-
-            console.log(virtualCommonAllocationSave)
-            console.log(Object.keys(virtualCommonAllocationSave).length !== 0)
-            if(virtualCommonAllocationSave!== undefined && Object.keys(virtualCommonAllocationSave).length !== 0  && virtualCommonAllocationSave.info == "error"){
-                message.error(virtualCommonAllocationSave.body.message);
-            }else{
-                message.success(virtualCommonAllocationSave.body.message);
-            }
-        }
-    }, [virtualCommonAllocationSaveSuccess])
+    // useEffect(() => {
+    //     if(virtualCommonAllocationSaveSuccess){
+    //
+    //         console.log(virtualCommonAllocationSave)
+    //         console.log(Object.keys(virtualCommonAllocationSave).length !== 0)
+    //         if(virtualCommonAllocationSave!== undefined && Object.keys(virtualCommonAllocationSave).length !== 0  && virtualCommonAllocationSave.info == "error"){
+    //             message.error(virtualCommonAllocationSave.body.message);
+    //         }else{
+    //             message.success(virtualCommonAllocationSave.body.message);
+    //         }
+    //     }
+    // }, [virtualCommonAllocationSaveSuccess])
 
 
     useEffect(() => {

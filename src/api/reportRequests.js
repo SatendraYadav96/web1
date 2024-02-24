@@ -108,7 +108,7 @@ export const batchReconciliationReportRequest = payload => {
 }
 
 export const getVirtualReconciliationReportRequest = payload => {
-    const api = {...GET_VIRTUAL_RECONCILIATION_REPORT_API, url: `${GET_VIRTUAL_RECONCILIATION_REPORT_API.url}/${payload.quarter}/${payload.year}/${payload.businessUnit}`}
+    const api = {...GET_VIRTUAL_RECONCILIATION_REPORT_API, url: `${GET_VIRTUAL_RECONCILIATION_REPORT_API.url}/${payload.startDate}/${payload.endDate}/${payload.businessUnit}`}
     return createRequest(api, payload.certificate, null)
 }
 

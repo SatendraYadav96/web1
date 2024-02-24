@@ -319,7 +319,7 @@ const ItemConsumptionReportComponent = ({authInfo,profileInfo,consumptionList,co
                     <SelectDivisionComponent value={division} style={{width: "100%"}} onChange={handleDivision} multiple={'multiple'}/>
                 </Col>
                 <Col span={3}>
-                    Transaction From Date <br/>
+                    From Date <br/>
                     <DatePicker value={fromDate} onChange={(e) => setFromDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>

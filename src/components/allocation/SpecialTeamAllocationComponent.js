@@ -320,19 +320,19 @@ const SpecialTeamAllocationComponent = ({item, teams, costCenterId,month, year, 
     },[costCenterId])
 
 
-    useEffect(() => {
-        if(specialDifferentialAllocationSaveSuccess){
-            console.log(specialDifferentialAllocationSave)
-            console.log(Object.keys(specialDifferentialAllocationSave).length !== 0)
-            if(specialDifferentialAllocationSave!== undefined && Object.keys(specialDifferentialAllocationSave).length !== 0  && specialDifferentialAllocationSave.info == "error"){
-                message.error(specialDifferentialAllocationSave.body.message);
-            }else{
-                message.success(specialDifferentialAllocationSave.body.message);
-            }
-        }
-
-
-    },[specialDifferentialAllocationSaveSuccess])
+    // useEffect(() => {
+    //     if(specialDifferentialAllocationSaveSuccess){
+    //         console.log(specialDifferentialAllocationSave)
+    //         console.log(Object.keys(specialDifferentialAllocationSave).length !== 0)
+    //         if(specialDifferentialAllocationSave!== undefined && Object.keys(specialDifferentialAllocationSave).length !== 0  && specialDifferentialAllocationSave.info == "error"){
+    //             message.error(specialDifferentialAllocationSave.body.message);
+    //         }else{
+    //             message.success(specialDifferentialAllocationSave.body.message);
+    //         }
+    //     }
+    //
+    //
+    // },[specialDifferentialAllocationSaveSuccess])
 
 
     return (

@@ -3,12 +3,12 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Col, Input, Row, Space, Table} from "antd";
+import {Button, Col, DatePicker, Input, Row, Space, Table} from "antd";
 import {Select} from "antd/es";
 import SelectDivisionComponent from "../widgets/SelectDivisionComponent";
 import SelectBusinessUnitComponent from "../widgets/SelectBusinessUnitComponent";
 import SelectQuarterNameComponent from "../widgets/SelectQuarterNameComponent";
-import {SearchOutlined} from "@ant-design/icons";
+import {DownloadOutlined, SearchOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {getVirtualReconciliationReportStartAction} from "../../redux/actions/reports/batchReconciliationReportActions";
@@ -16,9 +16,12 @@ import {selectVirtualReconciliationReport} from "../../redux/selectors/batchReco
 import XLSX from "xlsx";
 import {CSVLink} from "react-csv";
 import {businessUnitDropdownStartAction} from "../../redux/actions/dropDown/dropDownActions";
+import {getGenerateInvoiceStartAction} from "../../redux/actions/dispatchInvoice/monthlyDispatchAction";
+import moment from "moment/moment";
 
-const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, handleVirtualReconciliationReport,handleBusinessUnitDropDown,buDropdown}) => {
-
+const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, handleVirtualReconciliationReport,handleBusinessUnitDropDown,buDropdown,handleGenerateInvoice}) => {
+    const [startDate, setStartDate] = useState()
+    const [endDate, setEndDate] = useState()
     const [column, setColumn] = useState([])
     const [businessUnit, setBusinessUnit] = useState()
     const [bu, setBU] = useState()
@@ -31,6 +34,10 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+
+
+    const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
+    const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -136,10 +143,19 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
                 ...getColumnSearchProps('invoiceNo'),
             },
             {
+                title: 'Download Invoice',
+                key: '',
+                dataIndex: '',
+                width: '100px',
+                render:(_,row) => {
+                    return <Button icon={<DownloadOutlined />} onClick={() => handleInvoice(row)}></Button>
+                },
+            },
+            {
                 title:'Doctor Name',
                 key:'',
                 dataIndex:'recipientName',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('recipientName'),
             },
             {
@@ -153,14 +169,14 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
                 title:'Item Name',
                 key:'',
                 dataIndex:'itemName',
-                width:'100px',
+                width:'300px',
                 ...getColumnSearchProps('itemName'),
             },
             {
                 title:'Upload Item Name',
                 key:'',
                 dataIndex:'uploadItemName',
-                width:'100px',
+                width:'300px',
                 ...getColumnSearchProps('uploadItemName'),
             },
             {
@@ -174,14 +190,14 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
                 title:'Batch No',
                 key:'',
                 dataIndex:'batchNo',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('batchNo'),
             },
             {
                 title:'Upload Batch',
                 key:'',
                 dataIndex:'uploadBatchNo',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('uploadBatchNo'),
             },
             {
@@ -224,42 +240,42 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
                 title:'Address',
                 key:'',
                 dataIndex:'address',
-                width:'100px',
+                width:'300px',
                 ...getColumnSearchProps('address'),
             },
             {
                 title:'Upload Address',
                 key:'',
                 dataIndex:'uploadAddress',
-                width:'100px',
+                width:'300px',
                 ...getColumnSearchProps('uploadAddress'),
             },
             {
                 title:'City',
                 key:'',
                 dataIndex:'city',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('city'),
             },
             {
                 title:'State',
                 key:'',
                 dataIndex:'state',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('state'),
             },
             {
                 title:'Postal Code',
                 key:'',
                 dataIndex:'postalCode',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('postalCode'),
             },
             {
                 title:'Mobile',
                 key:'',
                 dataIndex:'mobile',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('mobile'),
             },
             {
@@ -273,70 +289,70 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
                 title:'FF Name',
                 key:'',
                 dataIndex:'ffName',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('ffName'),
             },
             {
                 title:'FF Allocation Date',
                 key:'',
                 dataIndex:'ffAllocationDate',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('ffAllocationDate'),
             },
             {
                 title:'VRL Uploaded Date',
                 key:'',
                 dataIndex:'vrlUploadDate',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('vrlUploadDate'),
             },
             {
                 title:'Invoice Created On',
                 key:'',
                 dataIndex:'createdOn',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('createdOn'),
             },
             {
                 title:'Business Unit',
                 key:'',
                 dataIndex:'businessUnit',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('businessUnit'),
             },
             {
                 title:'Status',
                 key:'',
                 dataIndex:'status',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('status'),
             },
             {
                 title:'Dispatch Date',
                 key:'',
                 dataIndex:'dispatchDate',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('dispatchDate'),
             },
             {
                 title:'Delivery Date',
                 key:'',
                 dataIndex:'deliveryDate',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('deliveryDate'),
             },
             {
                 title:'LR No.',
                 key:'',
                 dataIndex:'lrNo',
-                width:'100px',
+                width:'200px',
                 ...getColumnSearchProps('lrNo'),
             },
             {
                 title: 'Courier',
                 key: '',
                 dataIndex: 'courierName',
-                width: '100px',
+                width: '200px',
                 ...getColumnSearchProps('courierName'),
             }
         ])
@@ -344,11 +360,24 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
         setDataSource([])
     }
 
+
+    const handleInvoice = (row) => {
+        handleGenerateInvoice({
+            inh: [
+                {
+                    inhId: row.invoiceHeaderID,
+                    invoiceNo: `${row.invoiceNo}`,
+                },
+            ],
+            certificate: authInfo.token
+        })
+    }
+
     const getVirtualRecon = () => {
         handleVirtualReconciliationReport({
             certificate: authInfo.token,
-            quarter: quarter,
-            year: year,
+            startDate:formatedStartDateString,
+            endDate:formatedEndDateString,
             businessUnit: bu
         })
         searchData()
@@ -431,13 +460,19 @@ const VirtualReconciliationComponent = ({authInfo, virtualReconciliationList, ha
         <>
             <TitleWidget title="Virtual Reconciliation" />
             <Row gutter={[8,8]}>
+                {/*<Col span={3}>*/}
+                {/*    Quarter<br/>*/}
+                {/*    <SelectQuarterNameComponent value={quarter} style={{width: "100%"}} onChange={(e) => setQuarter(e)} />*/}
+                {/*</Col>*/}
+                {/*<Col span={3}>*/}
+                {/*    Year <br/>*/}
+                {/*    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>*/}
+                {/*</Col>*/}
                 <Col span={3}>
-                    Quarter<br/>
-                    <SelectQuarterNameComponent value={quarter} style={{width: "100%"}} onChange={(e) => setQuarter(e)} />
+                    From Date <br/><DatePicker value={startDate} onChange={(e) => setStartDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().startOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
-                    Year <br/>
-                    <SelectYearComponent value={year} onChange={(e) => setYear(e)}/>
+                    To Date<br/><DatePicker value={endDate} onChange={(e) => setEndDate(e)} format={"DD/MM/YYYY"} defaultValue={moment().endOf('month')} style={{width: "100%"}}/>
                 </Col>
                 <Col span={3}>
                     Team <br/>
@@ -496,6 +531,7 @@ const mapState = (state) => {
 const actions = {
     handleVirtualReconciliationReport : getVirtualReconciliationReportStartAction,
     handleBusinessUnitDropDown : businessUnitDropdownStartAction,
+    handleGenerateInvoice: getGenerateInvoiceStartAction,
 }
 
 export default connect(mapState, actions)(VirtualReconciliationComponent)

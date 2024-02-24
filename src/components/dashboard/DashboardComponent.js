@@ -867,7 +867,7 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
             <br/>
             <Row gutter={16}>
                 <Col span={12}>
-                    <Card title="GRN Error Log In Last Upload" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px", overflow: "hidden"}}>
+                    <Card title="GRN Log" bordered={true} style={{boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", borderRadius: "20px", height: "500px", overflow: "hidden"}}>
                         <span>Total Rows: <b>{hubGrnErrorLogList?.length}</b></span>
                         {
                             flag && <Table columns={columnHubGrnErrorLog} scroll={{y: '100%'}} dataSource={hubGrnErrorLogList} style={{height: "400px"}}/>

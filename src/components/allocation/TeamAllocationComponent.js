@@ -200,12 +200,12 @@ const TeamAllocationComponent = ({item, teams, total, costCenterId,month, year, 
             });
         }
         if(monthlyCommonAllocationSaveSuccess){
-            console.log(Object.keys(monthlyCommonAllocationSave).length !== 0)
-            if(monthlyCommonAllocationSave!== undefined && Object.keys(monthlyCommonAllocationSave).length !== 0  && monthlyCommonAllocationSave.body.info == "error"){
-                message.error(monthlyCommonAllocationSave.body.message);
-            }else{
-                message.success(monthlyCommonAllocationSave.body.message);
-         }
+         //    console.log(Object.keys(monthlyCommonAllocationSave).length !== 0)
+         //    if(monthlyCommonAllocationSave!== undefined && Object.keys(monthlyCommonAllocationSave).length !== 0  && monthlyCommonAllocationSave.body.info == "error"){
+         //        message.error(monthlyCommonAllocationSave.body.message);
+         //    }else{
+         //        message.success(monthlyCommonAllocationSave.body.message);
+         // }
             handleMonthlyCommonTeam({
                 certificate:authInfo.token,
                 ccmId: costCenterId,
