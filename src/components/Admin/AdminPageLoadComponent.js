@@ -1,70 +1,68 @@
 import React, {useEffect, useState} from "react";
-import {Col, Input, Row, Button, Space, Table, Tag, Modal, InputNumber, Select} from "antd";
+import {Col, Input, Row, Button, Space, Table, Tag, Modal, InputNumber, Select, Form, message} from "antd";
 import {Option} from "antd/es/mentions";
 import {connect} from "react-redux";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import PropTypes from "prop-types";
+import TitleWidget from "../../widgets/TitleWidget";
+import SelectBmForTseComponent from "../widgets/SelectBmForTseComponent";
+import {bmForTseStartAction, loginAsBMStartAction} from "../../redux/actions/dropDown/dropDownActions";
+import {selectBmForTse, selectBmForTseLoading, selectLoginAsBM, selectLoginAsBMLoading} from "../../redux/selectors/dropDownSelector";
 
 
 
-const AdminPageLoadComponent = ({authInfo,profileInfo}) => {
+const AdminPageLoadComponent = ({authInfo,profileInfo,handleBmForTse,bmForTse,bmForTseLoading,handleLoginAsBm}) => {
+
+    const [form] = Form.useForm();
+    const [bmForTses, setBmForTses] = useState()
 
 
+    const formStyle = {
+     width:'500px',
 
-    const handleCancel = () => {
-console.log("you cancelled !")
+    };
+
+    const loginAsBmFunc = () => {
+       console.log(bmForTse)
+
+        handleLoginAsBm({
+            certificate: authInfo.token,
+            id:bmForTses
+        })
     }
 
 
-    useEffect((profileInfo) => {
-        if (profileInfo.userDesignation.id === "20B61A71-6102-4E3D-9871-711D205DD0E7"){
-            adminPageContent()
-        }
-    },[profileInfo])
 
-    const adminPageContent = ( ) => {
+
+
+
         return ( <>
+                <TitleWidget title={"Select Brand Manager"}/>
 
-                <Row gutter={[16,16]}>
+                <Form style={formStyle}
+                    form={form}
+                    layout="vertical"
 
+                    autoComplete="off"
+                >
+                    <Form.Item>
+                        <SelectBmForTseComponent value = {bmForTses} onChange={(value) => setBmForTses(value)}/>
 
-                    <Modal visible={reverse} title="Select Brand Manager" footer={null} onCancel={handleCancel}>
+                    </Form.Item>
+                    <Form.Item >
+                        <Space>
+                            <Button type="primary" htmlType="submit" onClick={()=>loginAsBmFunc()}>
+                                Submit
+                            </Button>
 
+                        </Space>
+                    </Form.Item>
+                </Form>
 
-                        <Row>
-                            <Col>
-                                Brand Manager <br/>
-                                <Select
-                                    style={{
-                                        width: 120,
-                                    }}
-
-                                    placeholder={"Select User"}
-                                    options={[
-                                        {
-                                            value: 'Pankaj Singh Kandari',
-                                            label: 'Pankaj Singh Kandari',
-                                        },
-
-                                    ]}
-
-                                />
-                            </Col>
-                        </Row>
-                        <br/>
-                        <Row>
-                            <Col><Button type={"primary"}>Ok</Button></Col>
-                        </Row>
-                    </Modal>
-
-
-
-
-                </Row>
 
             </>
         )
-    }
+
 
 
 
@@ -74,6 +72,11 @@ console.log("you cancelled !")
 AdminPageLoadComponent.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
+    handleBmForTse:PropTypes.func,
+    handleLoginAsBm:PropTypes.func
+
+
+
 
 
 }
@@ -81,13 +84,20 @@ AdminPageLoadComponent.propTypes = {
 const mapState = (state) => {
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
+    const bmForTse = selectBmForTse(state)
+    const bmForTseLoading = selectBmForTseLoading(state)
+    const loginAsBM = selectLoginAsBM(state)
+    const loginAsBMLoading = selectLoginAsBMLoading(state)
 
-    return {authInfo, profileInfo}
+    console.log(bmForTse)
+
+    return {authInfo, profileInfo,bmForTse,bmForTseLoading,loginAsBM,loginAsBMLoading}
 
 }
 
 const actions = {
-
+    handleBmForTse : bmForTseStartAction,
+    handleLoginAsBm : loginAsBMStartAction
 
 }
 

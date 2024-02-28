@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Col, Input, Row, Button, Space, Table, Tag, Modal, InputNumber, Select} from "antd";
+import {Col, Input, Row, Button, Space, Table, Tag} from "antd";
 import {Option} from "antd/es/mentions";
 import {connect} from "react-redux";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
@@ -113,51 +113,6 @@ const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTs
         }
     },[tseAssignSuccess, tseUnassignSuccess])
 
-
-    const handleCancel = () => {
-        setReverse(false)
-        setName(undefined)
-        setBalance(undefined)
-        setRemark(undefined)
-        setReverseQty(0)
-    }
-
-
-    useEffect((profileInfo) => {
-        if (profileInfo.userDesignation.id === "20B61A71-6102-4E3D-9871-711D205DD0E7"){
-
-            <Modal visible={reverse} title="Select Brand Manager" footer={null} onCancel={handleCancel}>
-
-
-                <Row>
-                    <Col>
-                        Brand Manager <br/>
-                        <Select
-                            style={{
-                                width: 120,
-                            }}
-
-                            placeholder={"Select User"}
-                            options={[
-                                {
-                                    value: 'Pankaj Singh Kandari',
-                                    label: 'Pankaj Singh Kandari',
-                                },
-
-                            ]}
-
-                        />
-                    </Col>
-                </Row>
-                <br/>
-                <Row>
-                    <Col><Button type={"primary"}>Ok</Button></Col>
-                </Row>
-            </Modal>
-        }
-
-    },[profileInfo])
-
         return ( <>
             <TitleWidget title={"Assign Tse"}/>
             <Row gutter={[16,16]}>
@@ -172,8 +127,6 @@ const AdminComponent = ({authInfo,profileInfo,handleAssignTse,assignTse,assignTs
                 <Col span={2}>
                     <Button type="primary" onClick={()=>getAssignList()}>Search</Button>
                 </Col>
-
-
 
             </Row>
 

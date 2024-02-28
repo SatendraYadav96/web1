@@ -11,7 +11,7 @@ import {
     GET_TEAM_DROPDOWN_API,
     GET_TRANSPORT_DROPDOWN_API,
     GET_USER_DESIGNATION_DROPDOWN_API, GET_USER_DROPDOWN_API,
-    GET_APPROVER_DROPDOWN_API, GET_TSE_DROPDOWN_API, ASSIGN_TSE_API, GET_TSE_LIST_API, UNASSIGN_TSE_API,
+    GET_APPROVER_DROPDOWN_API, GET_TSE_DROPDOWN_API, ASSIGN_TSE_API, GET_TSE_LIST_API, UNASSIGN_TSE_API,BM_FOR_TSE_API,LOGIN_AS_BM_API
 } from "./apiConstants";
 
 //DROPDOWN
@@ -99,5 +99,15 @@ export const getTseListRequest = payload => {
 
 export const unassignTseRequest=  payload => {
     const api = {...UNASSIGN_TSE_API, url: `${UNASSIGN_TSE_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const bmForTseRequest = payload => {
+    const api = {...BM_FOR_TSE_API, url: `${BM_FOR_TSE_API.url}/${payload.id}`}
+    return createRequest(api, payload.certificate, null)
+}
+
+export const loginAsBMRequest = payload => {
+    const api = {...LOGIN_AS_BM_API, url: `${LOGIN_AS_BM_API.url}/${payload.id}`}
     return createRequest(api, payload.certificate, null)
 }

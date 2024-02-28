@@ -187,7 +187,7 @@ const routes = [
     { path: '/home/pickingSlip/monthlyDispatch/details/invoiceUpload', name: 'Invoice Upload', element: InvoiceUploadDetailComponent},
     { path: '/home/changeAllocation', name: 'Change Allocation', element: ChangeAllocationComponent},
     { path: '/home/admin/assign', name: 'AdminComponent', element: AdminComponent},
-    { path: '/home/assign', name: 'AdminPageLoadComponent', element: AdminPageLoadComponent},
+    { path: '/home/admin', name: 'AdminPageLoadComponent', element: AdminPageLoadComponent},
     { path: '/home/masters/commonMaster', name: 'CommonMasterComponent', element: CommonMasterComponent},
     { path: '/home/masters/commonMaster/edit/:id', name: 'EditCommonMasterComponent', element: EditCommonMasterComponent},
     { path: '/home/masters/commonMaster/create', name: 'CreateCommonMasterComponent', element: CreateCommonMasterComponent},

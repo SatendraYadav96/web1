@@ -249,6 +249,9 @@ export const GET_TSE_LIST_API = {url: '/v1/allocation/getTseList',method:'GET',a
 
 export const UNASSIGN_TSE_API = {url: '/v1/allocation/unAssignTse',method:'POST',auth:true}
 
+export const BM_FOR_TSE_API = {url: '/v1/allocation/getBrandManagerForTse',method:'GET',auth:true}
+
+export const LOGIN_AS_BM_API = {url: '/v1/allocation/loginAsBM',method:'GET',auth:true}
 export const MONTHLY_COMMON_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveCommonAllocation', method: 'POST', auth: true}
 
 export const MONTHLY_DIFFERENTIAL_ALLOCATION_SAVE_API = { url:'/v1/allocation/saveDifferentialAllocation', method: 'POST', auth: true}

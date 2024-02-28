@@ -34,10 +34,13 @@ import {
     GET_TSE_LIST_FAIL_ACTION,
     UNASSIGN_TSE_SUCCESS_ACTION,
     UNASSIGN_TSE_FAIL_ACTION,
-    ASSIGN_TSE_START_ACTION, UNASSIGN_TSE_START_ACTION
+    ASSIGN_TSE_START_ACTION, UNASSIGN_TSE_START_ACTION,
+  BM_FOR_TSE_SUCCESS_ACTION,BM_FOR_TSE_FAIL_ACTION,
+    LOGIN_AS_BM_SUCCESS_ACTION,LOGIN_AS_BM_FAIL_ACTION
 
 
 } from '../actions/dropDown/dropDownActionConstants'
+import {loginAsBMStartEpic} from "../epics";
 
 
 const initialState = {
@@ -75,6 +78,10 @@ const initialState = {
     unassignTse:[],
     unassignTseLoading:false,
     unassignTseSuccess: false,
+    bmForTse:[],
+    bmForTseLoading:false,
+    loginAsBM:[],
+    loginAsBMLoading:false,
     error: null,
 }
 
@@ -455,6 +462,46 @@ const unassignTseFailReducer = (state = initialState, payload) => {
 
 
 
+const bmForTseSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        bmForTse: payload.bmForTse,
+        bmForTseLoading: false,
+        error: null
+    }
+}
+
+const bmForTseFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        bmForTse:[],
+        error: payload.error,
+        bmForTseLoading: false,
+    }
+}
+
+
+const loginAsBMSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        loginAsBM: payload.loginAsBM,
+        loginAsBMLoading: false,
+        error: null
+    }
+}
+
+const loginAsBMFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        loginAsBM:[],
+        error: payload.error,
+        loginAsBMLoading: false,
+    }
+}
+
+
+
+
 
 export default createReducer(initialState, {
     [BUSINESS_UNIT_DROPDOWN_SUCCESS_ACTION]: businessUnitDropdownSuccessReducer,
@@ -493,5 +540,9 @@ export default createReducer(initialState, {
     [UNASSIGN_TSE_SUCCESS_ACTION]:unassignTseSuccessReducer,
     [UNASSIGN_TSE_START_ACTION]:unassignTseStartReducer,
     [UNASSIGN_TSE_FAIL_ACTION]:unassignTseFailReducer,
+    [BM_FOR_TSE_SUCCESS_ACTION]:bmForTseSuccessReducer,
+    [BM_FOR_TSE_FAIL_ACTION]:bmForTseFailReducer,
+    [LOGIN_AS_BM_SUCCESS_ACTION]:loginAsBMSuccessReducer,
+    [LOGIN_AS_BM_FAIL_ACTION]:loginAsBMFailReducer,
 
 })

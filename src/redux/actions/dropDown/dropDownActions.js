@@ -45,7 +45,8 @@ import {
     ASSIGN_TSE_SUCCESS_ACTION,
     ASSIGN_TSE_FAIL_ACTION,
     GET_TSE_LIST_START_ACTION,
-    GET_TSE_LIST_SUCCESS_ACTION, GET_TSE_LIST_FAIL_ACTION, UNASSIGN_TSE_START_ACTION, UNASSIGN_TSE_SUCCESS_ACTION, UNASSIGN_TSE_FAIL_ACTION
+    GET_TSE_LIST_SUCCESS_ACTION, GET_TSE_LIST_FAIL_ACTION, UNASSIGN_TSE_START_ACTION, UNASSIGN_TSE_SUCCESS_ACTION, UNASSIGN_TSE_FAIL_ACTION, BM_FOR_TSE_START_ACTION, BM_FOR_TSE_SUCCESS_ACTION, BM_FOR_TSE_FAIL_ACTION,
+    LOGIN_AS_BM_START_ACTION,LOGIN_AS_BM_SUCCESS_ACTION,LOGIN_AS_BM_FAIL_ACTION,
 
 } from './dropDownActionConstants'
 
@@ -445,6 +446,53 @@ export const unassignTseSuccessAction = (payload) => (dispatch) => {
 export const unassignTseFailAction = (payload) => (dispatch) => {
     dispatch({
         type: UNASSIGN_TSE_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+
+
+export const bmForTseStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: BM_FOR_TSE_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const bmForTseSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: BM_FOR_TSE_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const bmForTseFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: BM_FOR_TSE_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+
+export const loginAsBMStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: LOGIN_AS_BM_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const loginAsBMSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: LOGIN_AS_BM_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const loginAsBMFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: LOGIN_AS_BM_FAIL_ACTION,
         payload: payload,
     })
 }

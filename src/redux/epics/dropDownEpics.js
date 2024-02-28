@@ -10,7 +10,7 @@ import {
     TRANSPORT_DROPDOWN_START_ACTION,
     USER_DESIGNATION_DROPDOWN_START_ACTION,
     USER_DROPDOWN_START_ACTION,
-    APPROVER_DROPDOWN_START_ACTION, TSE_DROPDOWN_START_ACTION, ASSIGN_TSE_START_ACTION, GET_TSE_LIST_START_ACTION, UNASSIGN_TSE_START_ACTION
+    APPROVER_DROPDOWN_START_ACTION, TSE_DROPDOWN_START_ACTION, ASSIGN_TSE_START_ACTION, GET_TSE_LIST_START_ACTION, UNASSIGN_TSE_START_ACTION,BM_FOR_TSE_START_ACTION
 } from '../actions/dropDown/dropDownActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -35,8 +35,24 @@ import {
     legalEntityDropdownSuccessAction,
     legalEntityDropdownFailAction,
     userDesignationDropdownSuccessAction,
-    userDesignationDropdownFailAction, userDropdownSuccessAction, userDropdownFailAction, recipientDesignationDropdownSuccessAction, recipientDesignationDropdownFailAction,
-    approverDropdownSuccessAction, approverDropdownFailAction, tseDropdownSuccessAction, tseDropdownFailAction, assignTseSuccessAction, assignTseFailAction, getTseListSuccessAction, getTseListFailAction, unassignTseSuccessAction, unassignTseFailAction
+    userDesignationDropdownFailAction,
+    userDropdownSuccessAction,
+    userDropdownFailAction,
+    recipientDesignationDropdownSuccessAction,
+    recipientDesignationDropdownFailAction,
+    approverDropdownSuccessAction,
+    approverDropdownFailAction,
+    tseDropdownSuccessAction,
+    tseDropdownFailAction,
+    assignTseSuccessAction,
+    assignTseFailAction,
+    getTseListSuccessAction,
+    getTseListFailAction,
+    unassignTseSuccessAction,
+    unassignTseFailAction,
+    bmForTseStartAction,
+    bmForTseSuccessAction,
+    bmForTseFailAction, loginAsBMSuccessAction, loginAsBMFailAction
 } from '../actions/dropDown/dropDownActions'
 import {
     brandDropDownRequest,
@@ -50,8 +66,9 @@ import {
     transportDropdownRequest,
     userDesignationDropdownRequest,
     userDropdownRequest,
-    approverDropDownRequest, tseDropDownRequest, assignTseRequest, getTseListRequest, unassignTseRequest
+    approverDropDownRequest, tseDropDownRequest, assignTseRequest, getTseListRequest, unassignTseRequest,bmForTseRequest,loginAsBMRequest
 } from '../../api/dropDownRequests'
+import {LOGIN_AS_BM_API} from "../../api/apiConstants";
 
 
 //BUSINESS_UNIT_DROPDOWN
@@ -286,6 +303,31 @@ export const unassignTseStartEpic = (action$) =>
             unassignTseRequest(action.payload).pipe(
                 map((listResponse) => unassignTseSuccessAction({unassignTse: listResponse.response})),
                 catchError((error) => of(unassignTseFailAction({error: error}))),
+            )
+        )
+    )
+
+
+export const bmForTseStartEpic = (action$) =>
+    action$.pipe(
+        ofType(BM_FOR_TSE_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            bmForTseRequest(action.payload).pipe(
+                map((listResponse) => bmForTseSuccessAction({bmForTse: listResponse.response})),
+                catchError((error) => of(bmForTseFailAction({error: error}))),
+            )
+        )
+    )
+
+export const loginAsBMStartEpic = (action$) =>
+    action$.pipe(
+        ofType(LOGIN_AS_BM_API),
+        debounceTime(4000),
+        switchMap((action) =>
+            loginAsBMRequest(action.payload).pipe(
+                map((listResponse) => loginAsBMSuccessAction({loginAsBM: listResponse.response})),
+                catchError((error) => of(loginAsBMFailAction({error: error}))),
             )
         )
     )

@@ -138,3 +138,17 @@ const unassignTseSuccess = (state) => state.dropDown.unassignTseSuccess
 export const selectUnAssignTse = createSelector(unassignTse, (unassignTseSelect) => unassignTseSelect)
 export const selectUnAssignTseLoading = createSelector(unassignTseLoading, (unassignTseLoadingSelect) => unassignTseLoadingSelect)
 export const selectUnAssignTseSuccess = createSelector(unassignTseSuccess, (dataSelect) => dataSelect)
+
+
+const bmForTse = (state) => state.dropDown.bmForTse
+const bmForTseLoading = (state) => state.dropDown.tseListLoading
+
+export const selectBmForTse = createSelector(bmForTse, (bmForTseSelect) => bmForTseSelect)
+export const selectBmForTseLoading = createSelector(bmForTseLoading, (bmForTseLoadingSelect) => bmForTseLoadingSelect)
+
+
+const loginAsBM = (state) => state.dropDown.loginAsBM
+const loginAsBMLoading = (state) => state.dropDown.loginAsBMLoading
+
+export const selectLoginAsBM = createSelector(loginAsBM, (loginAsBMSelect) => loginAsBMSelect)
+export const selectLoginAsBMLoading = createSelector(loginAsBMLoading, (loginAsBMLoadingSelect) => loginAsBMLoadingSelect)

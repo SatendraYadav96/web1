@@ -48,6 +48,8 @@ const Login = ({ handleLogin, authInfo, loggedIn,profileInfo,profileInfoLoading,
     <Navigate push to="/home/bmdashboard" />
     ) : profileInfo?.userDesignation?.id === "88F90CCF-FB95-42DB-AECF-B4C5E8C25BE6" ? (
     <Navigate push to="/home/bexdashboard" />
+    ) : profileInfo?.userDesignation?.id === "20B61A71-6102-4E3D-9871-711D205DD0E7" ? (
+            <Navigate push to="/home/admin" />
     ) : (
     <Navigate push to="/home/dashboard" />
     )

@@ -1,7 +1,7 @@
 import {GET_RECIPIENT_REPORT_API, GRN_UPLOAD_API} from "../api/apiConstants";
 import {ADD_BOX_WEIGHT_START_ACTION, ADD_HSN_FAIL_ACTION, ADD_HSN_START_ACTION, ADD_HSN_SUCCESS_ACTION} from "../redux/actions/hsnInvoice/hsnActionConstants";
 import {UNACKNOWLEDGE_LIST_START} from "../redux/actions/grn/grnActionConstants";
-import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION} from "../redux/actions/dropDown/dropDownActionConstants";
+import {BUSINESS_UNIT_DROPDOWN_START_ACTION, DIVISION_DROPDOWN_START_ACTION, LOGIN_AS_BM_FAIL_ACTION, LOGIN_AS_BM_START_ACTION, LOGIN_AS_BM_SUCCESS_ACTION} from "../redux/actions/dropDown/dropDownActionConstants";
 import {
     APPROVE_PLAN_FAIL,
     APPROVE_PLAN_START,
@@ -1592,6 +1592,30 @@ import {GET_INVOICE_UPLOAD_CSV_FAIL, GET_INVOICE_UPLOAD_CSV_START, GET_INVOICE_U
         GET_INVOICE_UPLOAD_CSV_START:[{ action: 'showspinner' }],
         GET_INVOICE_UPLOAD_CSV_SUCCESS: [{ action: 'hidespinner' }],
         GET_INVOICE_UPLOAD_CSV_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+        BM_FOR_TSE_START_ACTION:[{ action: 'showspinner' }],
+        BM_FOR_TSE_SUCCESS_ACTION: [{ action: 'hidespinner' }],
+        BM_FOR_TSE_FAIL_ACTION: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        LOGIN_AS_BM_START_ACTION:[{ action: 'showspinner' }],
+        LOGIN_AS_BM_SUCCESS_ACTION: [{ action: 'hidespinner' },  {
+            action: 'showsuccess',
+            payload: { message: { text: 'BM selected Successfully!', type: 'error' } },
+        },],
+        LOGIN_AS_BM_FAIL_ACTION: [
             { action: 'hidespinner' },
             {
                 action: 'showerror',
