@@ -10,7 +10,7 @@ import {
     TRANSPORT_DROPDOWN_START_ACTION,
     USER_DESIGNATION_DROPDOWN_START_ACTION,
     USER_DROPDOWN_START_ACTION,
-    APPROVER_DROPDOWN_START_ACTION, TSE_DROPDOWN_START_ACTION, ASSIGN_TSE_START_ACTION, GET_TSE_LIST_START_ACTION, UNASSIGN_TSE_START_ACTION,BM_FOR_TSE_START_ACTION
+    APPROVER_DROPDOWN_START_ACTION, TSE_DROPDOWN_START_ACTION, ASSIGN_TSE_START_ACTION, GET_TSE_LIST_START_ACTION, UNASSIGN_TSE_START_ACTION, BM_FOR_TSE_START_ACTION, LOGIN_AS_BM_START_ACTION
 } from '../actions/dropDown/dropDownActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
@@ -322,7 +322,7 @@ export const bmForTseStartEpic = (action$) =>
 
 export const loginAsBMStartEpic = (action$) =>
     action$.pipe(
-        ofType(LOGIN_AS_BM_API),
+        ofType(LOGIN_AS_BM_START_ACTION),
         debounceTime(4000),
         switchMap((action) =>
             loginAsBMRequest(action.payload).pipe(

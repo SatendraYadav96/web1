@@ -22,12 +22,19 @@ const AdminPageLoadComponent = ({authInfo,profileInfo,handleBmForTse,bmForTse,bm
 
     };
 
+
+
+
+    useEffect(() => {
+
+    },[authInfo.success ==  true])
+
     const loginAsBmFunc = () => {
        console.log(bmForTse)
 
         handleLoginAsBm({
             certificate: authInfo.token,
-            id:bmForTses
+            id:bmForTse[0].id_USR
         })
     }
 

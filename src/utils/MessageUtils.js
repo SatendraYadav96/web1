@@ -1613,7 +1613,7 @@ import {GET_INVOICE_UPLOAD_CSV_FAIL, GET_INVOICE_UPLOAD_CSV_START, GET_INVOICE_U
         LOGIN_AS_BM_START_ACTION:[{ action: 'showspinner' }],
         LOGIN_AS_BM_SUCCESS_ACTION: [{ action: 'hidespinner' },  {
             action: 'showsuccess',
-            payload: { message: { text: 'BM selected Successfully!', type: 'error' } },
+            payload: { message: { text: 'BM selected Successfully!', type: 'success' } },
         },],
         LOGIN_AS_BM_FAIL_ACTION: [
             { action: 'hidespinner' },
