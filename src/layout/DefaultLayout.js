@@ -16,10 +16,12 @@ import {LogoutOutlined} from "@ant-design/icons";
 import Title from "antd/es/skeleton/Title";
 import {loadUserProfileStartAction} from "../redux/actions/auth/authActions";
 import {selectPageTitle} from "../redux/selectors/uiSelectors";
+import {selectBmForTse, selectBmForTseLoading, selectLoginAsBM, selectLoginAsBMLoading} from "../redux/selectors/dropDownSelector";
+import {bmForTseStartAction, loginAsBMStartAction} from "../redux/actions/dropDown/dropDownActions";
 //import './HeaderComponent.less'
 
 
-const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitle}) => {
+const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitle,bmForTse,bmForTseLoading,handleBmForTse,handleLoginAsBm,loginAsBM,loginAsBMLoading}) => {
     const [collapse, setCollapse]=useState(true)
 
     const navigate = useNavigate()
@@ -37,7 +39,25 @@ console.log('satya')
 
     }
 
-    //if(profileInfo.userDesignation.id === "2B264AFB-E2FD-483C-BD4C-C36A4E352FC5"){
+    let titleHeader = profileInfo === null ? '' : profileInfo.name
+
+
+    if(profileInfo.userDesignation.id === "20B61A71-6102-4E3D-9871-711D205DD0E7"){
+        if(loginAsBM.name == undefined){
+            titleHeader = profileInfo === null ? '' : profileInfo.name
+        }else{
+            titleHeader = profileInfo === null ? '' : profileInfo.name+" "+ "on behalf of"+" "+ loginAsBM.name
+        }
+
+    }else{
+        titleHeader = profileInfo === null ? '' : profileInfo.name
+    }
+
+
+
+
+
+
         return (
 
 
@@ -92,7 +112,7 @@ console.log('satya')
                                 <Col span={4} offset={20}>
                                     <Title>
                                         <Menu mode={"horizontal"} >
-                                            <Menu.SubMenu title={profileInfo === null ? '' : profileInfo.name}>
+                                            <Menu.SubMenu title={titleHeader}>
                                                 <Menu.Item icon={<LogoutOutlined />}
                                                            onClick={() => handleLogout()}
                                                 >LogOut</Menu.Item>
@@ -148,18 +168,27 @@ DefaultLayout.propTypes = {
     profileInfo: PropTypes.any,
     pageTitle: PropTypes.any,
     handleLoadProfileInfo: PropTypes.func,
+    handleBmForTse:PropTypes.func,
+    handleLoginAsBm:PropTypes.func
+
 }
 
 const mapState = (state) => {
   const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const pageTitle = selectPageTitle(state)
+    const bmForTse = selectBmForTse(state)
+    const bmForTseLoading = selectBmForTseLoading(state)
+    const loginAsBM = selectLoginAsBM(state)
+    const loginAsBMLoading = selectLoginAsBMLoading(state)
     console.log(profileInfo)
-  return { authInfo,profileInfo,pageTitle }
+  return { authInfo,profileInfo,pageTitle,bmForTse,bmForTseLoading,loginAsBM,loginAsBMLoading }
 }
 
 const actions = {
     handleLoadProfileInfo: loadUserProfileStartAction,
+    handleBmForTse : bmForTseStartAction,
+    handleLoginAsBm : loginAsBMStartAction
 }
 
 

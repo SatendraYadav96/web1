@@ -128,90 +128,91 @@ const RecipientBlockedListComponent = ({authInfo,handleMasterBlockedList,masterB
 
     const searchData = () => {
         setFlag(true)
+
         setColumn([
             {
                 title: 'Employee Code',
                 key: 'employeeCode',
                 dataIndex: 'employeeCode',
                 width: '100px',
-                // ...getColumnSearchProps('employeeCode'),
+                 ...getColumnSearchProps('employeeCode'),
             },
             {
                 title: 'Employee Name',
                 key: 'employeeName',
                 dataIndex: 'employeeName',
                 width: '100px',
-                // ...getColumnSearchProps('employeeName'),
+                 ...getColumnSearchProps('employeeName'),
             },
             {
                 title: 'Team',
                 key: 'team',
                 dataIndex: 'team',
                 width: '100px',
-                // ...getColumnSearchProps('team'),
+                 ...getColumnSearchProps('team'),
             },
             {
                 title: 'Headquarter',
                 key: 'headquarter',
                 dataIndex: 'headquarter',
                 width: '100px',
-                // ...getColumnSearchProps('headquarter'),
+                 ...getColumnSearchProps('headquarter'),
             },
             {
                 title: 'AM',
                 key: 'am',
                 dataIndex: 'am',
                 width: '100px',
-                // ...getColumnSearchProps('am'),
+                ...getColumnSearchProps('am'),
             },
             {
                 title: 'RBM',
                 key: 'rbm',
                 dataIndex: 'rbm',
                 width: '100px',
-                // ...getColumnSearchProps('rbm'),
+                 ...getColumnSearchProps('rbm'),
             },
             {
                 title: 'Month',
                 key: 'month',
                 dataIndex: 'month',
                 width: '100px',
-                // ...getColumnSearchProps('month'),
+                 ...getColumnSearchProps('month'),
             },
             {
                 title: 'Year',
                 key: 'year',
                 dataIndex: 'year',
                 width: '100px',
-                // ...getColumnSearchProps('year'),
+                 ...getColumnSearchProps('year'),
             },
             {
                 title: 'Blocked On',
                 key: 'blocked_On',
                 dataIndex: 'blocked_On',
                 width: '100px',
-                // ...getColumnSearchProps('blocked_On'),
+                 ...getColumnSearchProps('blocked_On'),
             },
-            {
-                title: 'Is Blocked',
-                key: 'isBockedFF',
-                dataIndex: 'isBockedFF',
-                width: '100px',
-                // ...getColumnSearchProps('isBockedFF'),
-            },
+            // {
+            //     title: 'Is Blocked',
+            //     key: 'isBockedFF',
+            //     dataIndex: 'isBockedFF',
+            //     width: '100px',
+            //     // ...getColumnSearchProps('isBockedFF'),
+            // },
             {
                 title: 'Remark',
                 key: 'remark',
                 dataIndex: 'remark',
                 width: '100px',
-                // ...getColumnSearchProps('remark'),
+                 ...getColumnSearchProps('remark'),
             },
             {
                 title: 'Blocked_Type',
                 key: 'blocked_type',
                 dataIndex: 'blocked_type',
                 width: '100px',
-                // ...getColumnSearchProps('blocked_type'),
+                 ...getColumnSearchProps('blocked_type'),
             },
 
         ]);
@@ -268,7 +269,6 @@ const RecipientBlockedListComponent = ({authInfo,handleMasterBlockedList,masterB
                 'month': item.month,
                 'year': item.year,
                 'blocked_On': item.blocked_On,
-                'isBockedFF': item.isBockedFF,
                 'remark': item.remark,
                 'blocked_type': item.blocked_type,
 
@@ -288,16 +288,16 @@ const RecipientBlockedListComponent = ({authInfo,handleMasterBlockedList,masterB
     return(
         <>
             <TitleWidget title={"Master - Blocked FF"}/>
-            <Row gutter={[8,8]}>
+            <Row gutter={[8,8]} style={{width: "60%"}}>
                 <Col span={3}>
-                    <SelectYearComponent value={year} style={{width: "100%"}} onChange={(e) => setYear(e)}/>
+                    <SelectYearComponent value={year}  onChange={(e) => setYear(e)}/>
                 </Col>
                 <Col span={2}>
                     <Button type={"primary"} onClick={() => getMasterBlockedList()} style={{width: "100%"}}>Search</Button>
                 </Col>
-                <Col span={2}>
-                    <Button onClick={()=> createBusinessUnit()}>Save</Button>
-                </Col>
+                {/*<Col span={2}>*/}
+                {/*    <Button onClick={()=> createBusinessUnit()}>Save</Button>*/}
+                {/*</Col>*/}
             </Row>
             <br/><br/>
             <Row>
