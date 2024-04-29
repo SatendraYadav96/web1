@@ -32,7 +32,7 @@ const SelectUserComponent = ({value, onChange,authInfo,userDropdown,handleUserDr
             value={value}
             onChange={onChange}
             style={{width: "100%"}}>
-            <Option key="all" value="all">ALL</Option>
+            {/*<Option key="all" value="all">ALL</Option>*/}
             {userDropdown?.map( item => {
                 return(<Option key={item.userId} value={item.userId}>{item.userName}</Option>)
             })}

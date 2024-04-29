@@ -149,7 +149,7 @@ const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEdit
             <TitleWidget title={"Edit Team"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Team:<br/><SelectDivisionComponent value={subTeam}/>
+                    Team:<br/><SelectDivisionComponent onChange={(value) => setSubTeam(value)}/>
                 </Col>
                 <Col span={8} offset={2}>
                     Name:<br/><Input placeholder={"Team Name "} value={name} onChange={(e) => setName(e.target.value)}/>
@@ -179,9 +179,9 @@ const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEdit
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={2}></Col>
-                <Col span={3}>
-                    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>
-                </Col>
+                {/*<Col span={3}>*/}
+                {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Delete Mapping</Button>*/}
+                {/*</Col>*/}
                 <Col span={11}></Col>
                 <Col span={2}>
                     <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}}>Back</Button>

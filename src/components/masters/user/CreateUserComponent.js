@@ -73,7 +73,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
             username: loginName,
             employeeCode: employeeCode,
             email: email,
-            approver: email,
+            approver: app,
             userDesignation: {
                 id: designation
             },

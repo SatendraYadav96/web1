@@ -86,7 +86,7 @@ const CreateTeamComponent = ({authInfo,insertTeam,handleAddTeam, insertTeamFailE
             <TitleWidget title={"Create Team"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Division:<br/><SelectBusinessUnitComponent onChange={(value) => setSubTeam(value)}/>
+                    Team:<br/><SelectBusinessUnitComponent onChange={(value) => setSubTeam(value)}/>
                 </Col>
                 <Col span={8} offset={2}>
                     Name:<br/><Input placeholder={"Team Name "} onChange={(e) => setName(e.target.value)}/>

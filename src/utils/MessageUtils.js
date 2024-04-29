@@ -1385,6 +1385,16 @@ import {GET_INVOICE_UPLOAD_CSV_FAIL, GET_INVOICE_UPLOAD_CSV_START, GET_INVOICE_U
             },
         ],
 
+        FF_UPLOAD_START:[{ action: 'showspinner' }],
+        FF_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
+        FF_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
         TRANSPORT_UPLOAD_START:[{ action: 'showspinner' }],
         TRANSPORT_UPLOAD_SUCCESS: [{ action: 'hidespinner' }],
         TRANSPORT_UPLOAD_FAIL: [

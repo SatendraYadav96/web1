@@ -47,7 +47,7 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
     const [headquater, setHeadquater] = useState()
     const [status, setStatus] = useState()
     const [date, setDate] = useState()
-    const [remarks, setRemarks] = useState("")
+   // const [remarks, setRemarks] = useState("")
     const [form] = Form.useForm();
     //const [selectedGender, setSelectedGender] = React.useState('');
 
@@ -86,18 +86,18 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
             zone: zone,
             joiningDate: formatedDateString,
             team: {
-                id: team
+                id: subTeam[0]
             },
             recipientStatus: {
                 id: status
             },
             gender: gender,
-            remarks: remarks,
+            //remarks: remarks,
             workId: workId,
             emailAM: amEmail,
             emailRBM: rbmEmail,
             businessUnit: {
-                id: subTeam
+                id: team
             }
         }
         console.log(data)
@@ -369,9 +369,9 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
                         Status :<br/>
                         <SelectRecipientStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                     </Col>
-                    <Col span={8} offset={2}>
-                        Remarks :<br/><TextArea style={{width: "100%"}} placeholder="Remarks" onChange={(value) => setRemarks(value)}/>
-                    </Col>
+                    {/*<Col span={8} offset={2}>*/}
+                    {/*    Remarks :<br/><TextArea style={{width: "100%"}} placeholder="Remarks" onChange={(value) => setRemarks(value)}/>*/}
+                    {/*</Col>*/}
                 </Row>
                 <br/>
                 <Row gutter={[16,16]}>
