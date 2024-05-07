@@ -12,6 +12,7 @@ import {selectEditBrandData, selectInsertBrandData, selectInsertBrandFailError} 
 import {addBrandStartAction, editBrandStartAction} from "../../../redux/actions/master/masterActions";
 import {selectCostCenterDropdown, selectUserDropdown} from "../../../redux/selectors/dropDownSelector";
 import SelectTeamComponent from "../../widgets/SelectTeamComponent";
+import SelectMultipleTeamComponent from "../../widgets/SelectMultipleTeamComponent";
 
 const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown,userDropdown, insertBrandFailError}) => {
 
@@ -154,7 +155,7 @@ const BrandTeamComponent = ({authInfo,addBrand,handleAddBrand,costCenterDropdown
 
 
                 <Col span={8} offset={2}>
-                    Sub Team :<br/><SelectTeamComponent value={team} onChange={handleTeam}/>
+                    Sub Team :<br/><SelectMultipleTeamComponent value={team} onChange={handleTeam}/>
                 </Col>
 
 

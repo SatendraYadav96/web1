@@ -13,6 +13,7 @@ import SelectIsActiveComponent from "../../widgets/SelectIsActiveComponent";
 import {useNavigate} from "react-router-dom";
 import {showMessageAction} from "../../../redux/actions/global/GlobalActions";
 import {isEmpty} from "rxjs";
+import SelectStateWiseComponent from "../../widgets/SelectStateWsieComponent";
 
 
 const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLoading,handleAddVendor, insertVendorFailError}) => {
@@ -151,7 +152,7 @@ const CreateVendorComponent = ({authInfo,profileInfo,insertVendor,insertVendorLo
                     City: <Input placeholder={"Vendor City"} value={city} onChange={handleCityChange} />
                 </Col>
                 <Col span={8} offset={2}>
-                    State: <Input placeholder={"Vendor State"} value={state} onChange={handleStateChange} />
+                    State :<br/><SelectStateWiseComponent  value={state} onChange={(value) => setState(value)}/>
                 </Col>
                 <Col span={2}></Col>
                 <Col span={8} offset={2}>

@@ -7,6 +7,7 @@ import {Button, Checkbox, Col, Input, message, Row} from "antd";
 import {editVendorStartAction, getVendorByIdStartAction, getVendorStartAction,} from "../../../redux/actions/master/masterActions";
 import {selectEditVendorData, selectEditVendorFailError, selectEditVendorLoadingData, selectLoadingVendorByIdData, selectVendorByIdData,} from "../../../redux/selectors/masterSelector";
 import {useNavigate, useParams  } from "react-router-dom";
+import SelectStateWiseComponent from "../../widgets/SelectStateWsieComponent";
 
 
 const EditVendorComponent = ({
@@ -213,12 +214,7 @@ const EditVendorComponent = ({
           />
         </Col>
         <Col span={8} offset={2}>
-          State:
-          <Input
-            placeholder={"Vendor State"}
-            value={state}
-            onChange={handleStateChange}
-          />
+            State :<br/><SelectStateWiseComponent  value={state} onChange={(value) => setState(value)}/>
         </Col>
         <Col span={2}></Col>
         <Col span={8} offset={2}>

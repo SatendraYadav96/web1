@@ -385,6 +385,13 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
 
             }
         },
+
+        // {
+        //     title: 'Item Code',
+        //     key: 'itemCode',
+        //     dataIndex: 'itemCode',
+        // },
+
         {
             title:'',
             key:'',
