@@ -75,11 +75,25 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
         setDesignation(user.userDesignation.id)
         setStatus(user.userStatus.id)
         setApp(user.approver)
-        if(user.userDesignation.id === '2B264AFB-E2FD-483C-BD4C-C36A4E352FC5'){
-            setBU(user.appBu.id)
-            setFlag(true)
+        // if(user.userDesignation.id === '2B264AFB-E2FD-483C-BD4C-C36A4E352FC5'){
+        //     setBU(user.appBu.id)
+        //     setFlag(true)
+        // }
+
+        let legalEntityArray = []
+        for (var i of user.legalEntity) {
+            // setBrand(prev => {
+            //     return [
+            //         ...prev,
+            //         i.id
+            //     ]
+            // })
+            legalEntityArray.push(i.id);
         }
-        setLegalEntity(user.legalEntity)
+        setLegalEntity(legalEntityArray)
+
+
+        // setLegalEntity(user.legalEntity)
         let brandArray = []
         for (var i of user.brand) {
                 // setBrand(prev => {
@@ -160,6 +174,11 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
 
     const handleDesignation = (value) => {
         setDesignation(value)
+        if(value === '2B264AFB-E2FD-483C-BD4C-C36A4E352FC5'){
+            setFlag(true)
+        }else{
+            setFlag(false)
+        }
     }
 
     const handleBrand = (value) => {
@@ -170,9 +189,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
         const data = {
             id: userById.id,
             email: email,
-            legalEntity: {
-                id: legalEntity.id,
-            },
+            legalEntity: legalEntity,
             userDesignation: {
                 id: designation
             },
@@ -243,7 +260,7 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
                     Designation: <br/><SelectUserDesignationComponent value={designation} onChange={handleDesignation}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Legal Entity :<br/><SelectLegalEntityComponent onChange={handleLegalEntity} value={legalEntity.id}/>
+                    Legal Entity :<br/><SelectLegalEntityComponent onChange={handleLegalEntity} value={legalEntity} multiple='multiple'/>
                 </Col>
             </Row>
             <br/>
@@ -252,8 +269,12 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
                     <Col span={8} offset={2}>
                         Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple' />
                     </Col>
+                    {/*<Col span={8} offset={2}>*/}
+                    {/*    Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} />*/}
+                    {/*</Col>*/}
                     <Col span={8} offset={2}>
-                        Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} />
+                        {/*Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />*/}
+                        Approver: <br/> <SelectApproverComponent value={app} onChange={(value) => setApp(value)}/>
                     </Col>
                 </Row>
             }
@@ -262,11 +283,12 @@ const EditUserComponent = ({authInfo,userById,editUser,handleUserById,handleEdit
                 <Col span={8} offset={2}>
                     Status :<br/><SelectUserStatusComponent value={status} onChange={(value) => setStatus(value)}/>
                 </Col>
-                {flag &&
-                    <Col span={8} offset={2}>
-                        Approver: <br/> <SelectApproverComponent value={app} onChange={(value) => setApp(value)} />
-                    </Col>
-                }
+                {/*{flag &&*/}
+                {/*    <Col span={8} offset={2}>*/}
+                {/*        /!*Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />*!/*/}
+                {/*        Approver: <br/> <SelectApproverComponent value={app} onChange={(value) => setApp(value)}/>*/}
+                {/*    </Col>*/}
+                {/*}*/}
             </Row>
             <br/>
             <Row gutter={[16,16]}>

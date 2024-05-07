@@ -18,6 +18,8 @@ import SelectTeamComponent from "../../widgets/SelectTeamComponent";
 import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusComponent";
 import {selectInsertFFData, selectInsertFFFailError} from "../../../redux/selectors/masterSelector";
 import {addFFStartAction, getFFByIdStartAction} from "../../../redux/actions/master/masterActions";
+import SelectStateWiseComponent from "../../widgets/SelectStateWsieComponent";
+import SelectZoneWiseComponent from "../../widgets/SelectZoneWiseComponent";
 
 
 
@@ -86,7 +88,7 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
             zone: zone,
             joiningDate: formatedDateString,
             team: {
-                id: subTeam[0]
+                id: subTeam
             },
             recipientStatus: {
                 id: status
@@ -274,7 +276,7 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
                         {/*<Select style={{width: "100%"}} placeholder="Select Designation"></Select>*/}
                     </Col>
                     <Col span={8} offset={2}>
-                        State :<br/><Input placeholder={"State "} value={state} onChange={(e) => setState(e.target.value)}/>
+                        State :<br/><SelectStateWiseComponent  value={state} onChange={(value) => setState(value)}/>
                     </Col>
                 </Row>
                 <br/>
@@ -284,7 +286,8 @@ const CreateFFComponent = ({authInfo,insertFF,handleAddFF, insertFFFailError}) =
                         {error && <div style={{ color: 'red' }}>{error}</div>}
                     </Col>
                     <Col span={8} offset={2}>
-                        Zone :<br/><Input placeholder={"Zone "} value={zone} onChange={(e) => setZone(e.target.value)}/>
+                        {/*Zone :<br/><Input placeholder={"Zone "} value={zone} onChange={(e) => setZone(e.target.value)}/>*/}
+                        Zone :<br/><SelectZoneWiseComponent  value={zone} onChange={(value) => setZone(value)}/>
                     </Col>
                 </Row>
                 <br/>

@@ -13,6 +13,8 @@ import SelectRecipientStatusComponent from "../../widgets/SelectRecipientStatusC
 import SelectTeamComponent from "../../widgets/SelectTeamComponent";
 import moment from "moment";
 import SelectRecipientDesignationComponent from "../../widgets/SelectRecipientDesignationComponent";
+import SelectStateWiseComponent from "../../widgets/SelectStateWsieComponent";
+import SelectZoneWiseComponent from "../../widgets/SelectZoneWiseComponent";
 
 const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, editFFFailError}) => {
 
@@ -280,7 +282,8 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
                     {/*<Select style={{width: "100%"}} placeholder="Select Designation"></Select>*/}
                 </Col>
                 <Col span={8} offset={2}>
-                    State :<br/><Input placeholder={"State "} value={state} onChange={(e) => setState(e.target.value)}/>
+                    {/*State :<br/><Input placeholder={"State "} value={state} onChange={(e) => setState(e.target.value)}/>*/}
+                    State :<br/><SelectStateWiseComponent  value={state} onChange={(value) => setState(value)}/>
                 </Col>
             </Row>
             <br/>
@@ -292,7 +295,8 @@ const EditFFComponent = ({authInfo,ffById,editFF,handleFFByIdList,handleEditFF, 
                     {error && <div style={{ color: 'red' }}>{error}</div>}
                 </Col>
                 <Col span={8} offset={2}>
-                    Zone :<br/><Input placeholder={"zone "} value={zone} onChange={(e) => setZone(e.target.value)}/>
+                    {/*Zone :<br/><Input placeholder={"zone "} value={zone} onChange={(e) => setZone(e.target.value)}/>*/}
+                    Zone :<br/><SelectZoneWiseComponent  value={zone} onChange={(value) => setZone(value)}/>
 
                 </Col>
             </Row>

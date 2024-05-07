@@ -78,11 +78,10 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
                 id: designation
             },
             userStatus: {
-                id: status
+                id: "1D2F12F3-F84A-4200-9590-70680528779B"
             },
-            legalEntity: {
-                id: legalEntity[0],
-            },
+            legalEntity: legalEntity,
+
             appBu: {
                 id: bu
             },
@@ -149,7 +148,7 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
                     Designation: <br/><SelectUserDesignationComponent value={designation} onChange={handleDesignation}/>
                 </Col>
                 <Col span={8} offset={2}>
-                    Legal Entity :<br/><SelectLegalEntityComponent onChange={handleLegalEntity} value={legalEntity.id}/>
+                    Legal Entity :<br/><SelectLegalEntityComponent onChange={handleLegalEntity} value={legalEntity} multiple='multiple'/>
                 </Col>
             </Row>
             <br/>
@@ -158,23 +157,28 @@ const CreateUserComponent = ({authInfo,insertUser,handleAddUser, insertUserFailE
                     <Col span={8} offset={2}>
                         Brand :<br/><SelectBrandComponent onChange={handleBrand} value={brand} multiple='multiple'/>
                     </Col>
-                    <Col span={8} offset={2}>
-                        Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} />
-                    </Col>
-                </Row>
-            }
-            <br/>
-            <Row gutter={[16,16]}>
-                <Col span={8} offset={2}>
-                    Status :<br/><SelectUserStatusComponent value={status} onChange={(value) => setStatus(value)}/>
-                </Col>
-                {flag &&
+                    {/*<Col span={8} offset={2}>*/}
+                    {/*    Approving Team :<br/><SelectBusinessUnitComponent value={bu} onChange={(value) => setBU(value)} />*/}
+                    {/*</Col>*/}
+
                     <Col span={8} offset={2}>
                         {/*Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />*/}
                         Approver: <br/> <SelectApproverComponent value={app} onChange={(value) => setApp(value)}/>
                     </Col>
-                }
-            </Row>
+                </Row>
+            }
+            <br/>
+            {/*<Row gutter={[16,16]}>*/}
+            {/*    <Col span={8} offset={2}>*/}
+            {/*        Status :<br/><SelectUserStatusComponent value={status} onChange={(value) => setStatus(value)}/>*/}
+            {/*    </Col>*/}
+            {/*    {flag &&*/}
+            {/*        <Col span={8} offset={2}>*/}
+            {/*            /!*Approver: <br/><Input placeholder={"Approver Email"} value={email} onChange={(e) => setEmail(e.target.value)} />*!/*/}
+            {/*            Approver: <br/> <SelectApproverComponent value={app} onChange={(value) => setApp(value)}/>*/}
+            {/*        </Col>*/}
+            {/*    }*/}
+            {/*</Row>*/}
             <br/>
             <Row gutter={[16,16]}>
                 <Col span={16}></Col>

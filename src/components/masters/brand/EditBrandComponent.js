@@ -14,6 +14,7 @@ import SelectCostCenterComponent from "../../widgets/SelectCostCenterComponent";
 import SelectDivisionComponent from "../../widgets/SelectDivisionComponent";
 import SelectMultipleCostCenterComponent from "../../widgets/SelectMultipleCostCenterComponent";
 import SelectTeamComponent from "../../widgets/SelectTeamComponent";
+import SelectMultipleTeamComponent from "../../widgets/SelectMultipleTeamComponent";
 
 const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handleEditBrand, editBrandFailError,profileInfo}) => {
 
@@ -229,7 +230,7 @@ const EditBrandComponent = ({authInfo,brandById,editBrand,handleBrandById,handle
                     </Col>
 
                     <Col span={8} offset={2}>
-                        Sub Team :<br/><SelectTeamComponent value={team} onChange={handleTeam}/>
+                        Sub Team :<br/><SelectMultipleTeamComponent value={team} onChange={handleTeam}/>
                     </Col>
 
                     <Col span={8} offset={2}>
