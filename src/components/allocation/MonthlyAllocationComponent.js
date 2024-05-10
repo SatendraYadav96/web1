@@ -232,6 +232,20 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         }
     }
 
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Array of month names
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"
+        ];
+
+        // Get the current month and year
+        const currentMonth = monthNames[currentDate.getMonth()];
+        const currentYear = currentDate.getFullYear();
+
     useEffect(() => {
         if(downloadAllocationFlag){
             if(downloadAllocation.length > 0){
@@ -242,7 +256,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                     .addDataSource(downloadAllocation, {
                         str2Percent: true
                     })
-                    .saveAs( 'ALLOCATION.xlsx');
+                    .saveAs( `ALLOCATION-${currentMonth}-${currentYear}.xlsx`);
             }
             setDownloadAllocationFlag(false)
         }

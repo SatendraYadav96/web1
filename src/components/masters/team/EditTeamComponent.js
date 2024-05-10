@@ -149,7 +149,7 @@ const EditTeamComponent = ({authInfo,teamById,handleTeamById,editTeam,handleEdit
             <TitleWidget title={"Edit Team"}/>
             <Row gutter={[16,16]}>
                 <Col span={8} offset={2}>
-                    Team:<br/><SelectDivisionComponent onChange={(value) => setSubTeam(value)}/>
+                    Team:<br/><SelectDivisionComponent value={subTeam} onChange={(value) => setSubTeam(value)}/>
                 </Col>
                 <Col span={8} offset={2}>
                     Name:<br/><Input placeholder={"Team Name "} value={name} onChange={(e) => setName(e.target.value)}/>
