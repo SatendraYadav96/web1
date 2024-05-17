@@ -53,4 +53,5 @@ const actions = {
     handleBusinessUnitDropDown : businessUnitDropdownStartAction
 }
 
-export default connect(mapState, actions) (SelectBusinessUnitComponent)
+export default
+connect(mapState, actions) (SelectBusinessUnitComponent)

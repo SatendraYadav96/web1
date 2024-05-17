@@ -302,11 +302,11 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
         {
             title:'Medical Code/ Batch No',
             key:'batchNo',
-            dataIndex: 'batchNo',
+            dataIndex: ['batchNo','lineText'],
             width:'200px',
 
-            render: (_, {batchNo})=> {
-                return  <Input value={batchNo} disabled={true}/>
+            render: (_, {batchNo,lineText})=> {
+                return  <Input value={batchNo || lineText} disabled={true}/>
             }
         },
         {
