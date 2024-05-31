@@ -1,13 +1,14 @@
 export const AUTH_CERTIFICATE = 'Authorization'
-export const BASE_URL = 'http://promobee-uat:8080'
+//export const BASE_URL = 'http://promobee-uat:8080'
 
 //export const BASE_URL = 'http://localhost:8080'
 
 
- //export const BASE_URL = 'http://104.237.6.220:8080'
+ export const BASE_URL = 'https://promobee-chc.squer.co.in:8443'
 
 
 export const LOGIN_API = { url: '/v1/user/login', method: 'POST', auth: false }
+export const LOGOUT_API = { url: '/v1/user/logout', method: 'POST', auth: true }
 export const MENU_API = { url: '/v1/ui/menus', method: 'GET', auth: true }
 export const USER_PROFILE_API = { url: '/v1/user/profile', method: 'GET', auth: true }
 

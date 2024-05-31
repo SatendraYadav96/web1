@@ -14,14 +14,14 @@ import ReactRoundedImage from "react-rounded-image"
 import  titleImg  from '../assets/SNY.png'
 import {LogoutOutlined} from "@ant-design/icons";
 import Title from "antd/es/skeleton/Title";
-import {loadUserProfileStartAction} from "../redux/actions/auth/authActions";
+import {loadUserProfileStartAction, logoutStartAction} from "../redux/actions/auth/authActions";
 import {selectPageTitle} from "../redux/selectors/uiSelectors";
 import {selectBmForTse, selectBmForTseLoading, selectLoginAsBM, selectLoginAsBMLoading} from "../redux/selectors/dropDownSelector";
 import {bmForTseStartAction, loginAsBMStartAction} from "../redux/actions/dropDown/dropDownActions";
 //import './HeaderComponent.less'
 
 
-const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitle,bmForTse,bmForTseLoading,handleBmForTse,handleLoginAsBm,loginAsBM,loginAsBMLoading}) => {
+const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitle,bmForTse,bmForTseLoading,handleBmForTse,handleLoginAsBm,loginAsBM,loginAsBMLoading,handleLogoutUser}) => {
     const [collapse, setCollapse]=useState(true)
 
     const navigate = useNavigate()
@@ -34,7 +34,10 @@ const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitl
     const {Title} = Typography
 
     const handleLogout = () => {
-console.log('satya')
+        console.log('logging off')
+        // handleLogoutUser({
+        //     certificate: authInfo.token,
+        // })
         return navigate("/login")
 
     }
@@ -112,10 +115,8 @@ console.log('satya')
                                 <Col span={4} offset={20}>
                                     <Title>
                                         <Menu mode={"horizontal"} >
-                                            <Menu.SubMenu title={titleHeader}>
-                                                <Menu.Item icon={<LogoutOutlined />}
-                                                           onClick={() => handleLogout()}
-                                                >LogOut</Menu.Item>
+                                            <Menu.SubMenu title={titleHeader} onTitleClick={() => handleLogout()}>
+                                                <Menu.Item icon={<LogoutOutlined />}>LogOut</Menu.Item>
                                             </Menu.SubMenu>
                                         </Menu>
                                     </Title>
@@ -169,8 +170,8 @@ DefaultLayout.propTypes = {
     pageTitle: PropTypes.any,
     handleLoadProfileInfo: PropTypes.func,
     handleBmForTse:PropTypes.func,
-    handleLoginAsBm:PropTypes.func
-
+    handleLoginAsBm:PropTypes.func,
+    handleLogoutUser:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -188,7 +189,8 @@ const mapState = (state) => {
 const actions = {
     handleLoadProfileInfo: loadUserProfileStartAction,
     handleBmForTse : bmForTseStartAction,
-    handleLoginAsBm : loginAsBMStartAction
+    handleLoginAsBm : loginAsBMStartAction,
+    handleLogoutUser:logoutStartAction,
 }
 
 

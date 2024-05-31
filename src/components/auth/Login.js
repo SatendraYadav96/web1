@@ -42,7 +42,9 @@ const Login = ({ handleLogin, authInfo, loggedIn,profileInfo,profileInfoLoading,
     }, [loggedIn ])
 
 
-      return profileInfo.userDesignation?  (
+
+
+      return profileInfo?.userDesignation?  (
 
     profileInfo?.userDesignation?.id === "2B264AFB-E2FD-483C-BD4C-C36A4E352FC5" ? (
     <Navigate push to="/home/bmdashboard" />
@@ -50,8 +52,10 @@ const Login = ({ handleLogin, authInfo, loggedIn,profileInfo,profileInfoLoading,
     <Navigate push to="/home/bexdashboard" />
     ) : profileInfo?.userDesignation?.id === "20B61A71-6102-4E3D-9871-711D205DD0E7" ? (
             <Navigate push to="/home/admin" />
-    ) : (
-    <Navigate push to="/home/dashboard" />
+    ): profileInfo?.userDesignation?.id === "943E1237-984B-46FD-8465-8DD94A10AE26" ? (
+            <Navigate push to="/home/dashboard" />
+        ) : (
+    <Navigate push to="/login" />
     )
 
 

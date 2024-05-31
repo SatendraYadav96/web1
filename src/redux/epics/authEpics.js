@@ -1,17 +1,17 @@
 import {
-  LOAD_USER_PROFILE_START_ACTION,
-  LOGIN_START_ACTION,
+    LOAD_USER_PROFILE_START_ACTION,
+    LOGIN_START_ACTION, LOGOUT_START_ACTION,
 } from '../actions/auth/authActionConstants'
 import { ofType } from 'redux-observable'
 import { catchError, debounceTime, from, map, of, switchMap } from 'rxjs'
 import {
-  loadUserProfileFailAction,
-  loadUserProfileSuccessAction,
-  loginFailAction,
+    loadUserProfileFailAction,
+    loadUserProfileSuccessAction,
+    loginFailAction,
 
-  loginSuccessAction,
+    loginSuccessAction, logoutSuccessAction,
 } from '../actions/auth/authActions'
-import { authRequest, userProfileRequest } from '../../api/authRequests'
+import {authRequest, logoutRequest, userProfileRequest} from '../../api/authRequests'
 import {pendingDispatchFailAction, pendingDispatchSuccessAction} from "../actions/dashboard/dashboardActions";
 
 export const authStartEpic = (action$) =>
@@ -53,3 +53,18 @@ export const userProfileStartEpic = (action$) =>
     ),
     ),
   )
+
+
+export const logoutStartEpic = (action$) =>
+    action$.pipe(
+        ofType(LOGOUT_START_ACTION),
+        debounceTime(4000),
+        switchMap((action) =>
+            logoutRequest(action.payload).pipe(
+                map((authResponse) => {
+                    console.log(authResponse.response)
+                    return logoutSuccessAction({ auth: null })}),
+                catchError((error) => of(loginFailAction({ error: error }))),
+            ),
+        ),
+    )

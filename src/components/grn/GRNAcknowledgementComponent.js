@@ -322,18 +322,18 @@ const GRNAcknowledgementComponent = ({authInfo, handleLoadList, data, rejectAckn
                 return (<Input value={basePack!= null? basePack : ''} onChange={e => changeGrnData(id, 'basePack', e.target.value)} />)
             }
         },
-        {title:'Pack Size Unit',
-            dataIndex: '',
-            editable: true,
-            render: (_, {id, units})=> {
-            // const row = arr[id];
-            //     let unit = '';
-            //     if(row !== undefined){
-            //         unit = row.units;
-            //     }
-                return (<Input value={units!= null ? units : ''} onChange={e => changeGrnData(id,'units',e.target.value)}/>)
-            }
-        },
+        // {title:'Pack Size Unit',
+        //     dataIndex: '',
+        //     editable: true,
+        //     render: (_, {id, units})=> {
+        //     // const row = arr[id];
+        //     //     let unit = '';
+        //     //     if(row !== undefined){
+        //     //         unit = row.units;
+        //     //     }
+        //         return (<Input value={units!= null ? units : ''} onChange={e => changeGrnData(id,'units',e.target.value)}/>)
+        //     }
+        // },
         {
             title:'No Of Boxes',
             dataIndex: '',
