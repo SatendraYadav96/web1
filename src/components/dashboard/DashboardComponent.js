@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import TitleWidget from '../../widgets/TitleWidget'
-import {Button, Card, Col, Input, Row, Space, Table} from "antd";
+import {Button, Card, Col, Form, Input, Modal, Row, Space, Table} from "antd";
 import {Line,G2} from "@ant-design/plots/es/index"
 import { Column } from '@ant-design/plots';
 import LineChartComponent from "./LineChartComponent";
@@ -37,11 +37,13 @@ import dispatchregister from "../../assets/dispatchregister.png";
 import monthlyallocation from "../../assets/monthlyallocation.png";
 import specialallocation from "../../assets/specialallocation.png";
 import virtualallocation from "../../assets/virtualallocation.png";
+import passwordChange from "../../assets/passwordChange.png";
 import {useNavigate} from "react-router-dom";
+import {setPasswordStartAction} from "../../redux/actions/auth/authActions";
 
 const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,hubNearExpiryList,hubNearExpiryLoading,handleHubNearExpiry,hubPendingRevalidationList,hubPendingRevalidationLoading,
                                 handleHubPendingRevalidation,hubGrnErrorLogList,hubGrnErrorLogLoading,handleHubGrnErrorLog,itemExpiredDetailsList,itemExpiredDetailsLoading,handleItemExpiredDetails
-,dispatchesMonthWiseList,handleDispatchesMonthWiseList}) => {
+,dispatchesMonthWiseList,handleDispatchesMonthWiseList,handleSetPassword}) => {
 
     const [status, setStatus] = useState(1)
     const [columnPendingDispatch, setColumnPendingDispatch] = useState([])
@@ -630,6 +632,12 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
     const [hoverMonthlyDispatch, setHoverMonthlyDispatch] = useState(false);
     const [hoverSpecialDispatch, setHoverSpecialDispatch] = useState(false);
     const [hoverVirtualDispatch, setHoverVirtualDispatch] = useState(false);
+    const [hoverSetPassword, setHoverSetPassword] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [formData, setFormData] = useState({
+        username: '',
+        password: ''
+    });
 
 
     const navigate = useNavigate();
@@ -731,6 +739,55 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
     }
 
     const HoverDataVirtualDispatch = "Virtual Dispatch";
+
+
+    const onHoverSetPassword = (e) =>{
+        e.preventDefault()
+        setHoverSetPassword(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverSetPassword = (e) => {
+        e.preventDefault()
+        setHoverSetPassword(false)
+    }
+
+    const HoverDataSetPassword = "Change Password";
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        // Handle form submission here
+        const formFields = {
+            username:formData.username,
+            password:formData.password
+        }
+        console.log('Form submitted:',formData);
+        handleSetPassword(
+            {
+                certificate: authInfo.token,
+                data:formFields
+            }
+        )
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleFormChange = (changedValues, allValues) => {
+        setFormData(allValues);
+    };
+
+    const handleChangePassword = (username, password) => {
+        // Your logic to handle password change goes here
+        console.log('Change Password for:', username, password);
+    };
+
 
 
 
@@ -845,6 +902,22 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                     </div>
 
 
+                    {hoverSetPassword && <p className={hoverSetPassword}  >{HoverDataSetPassword}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={passwordChange} alt="password"  width="100" height="80" style={{marginLeft:"50px"}} onClick={showModal}
+                            // onMouseEnter={(e)=>onHoverVirtualAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverVirtualAllocation(e)}
+
+
+                        />
+
+                        <h3 style={{ marginLeft: "50px" }} >Change Password</h3>
+                    </div>
+
+
+
+
 
 
 
@@ -893,6 +966,39 @@ const DashboardComponent = ({authInfo,pendingDispatchList,handlePendingDispatch,
                     }
                 </Card>
             </Row>
+
+            <Modal
+                title="Change Password"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okText="Submit"
+                cancelText="Cancel"
+            >
+                <Form
+                    name="loginForm"
+                    initialValues={{ remember: true }}
+                    onValuesChange={handleFormChange}
+                    onFinish={handleOk}
+                >
+                    <Form.Item
+                        label="Username"
+                        name="username"
+                        rules={[{ required: true, message: 'Please input your username!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: 'Please input your new password!' }]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                </Form>
+            </Modal>
+
         </div>
     )
 }
@@ -915,7 +1021,8 @@ DashboardComponent.propTypes = {
     itemExpiredDetailsLoading: PropTypes.any,
     handleItemExpiredDetails: PropTypes.func,
     dispatchesMonthWiseList:PropTypes.array,
-    handleDispatchesMonthWiseList:PropTypes.func
+    handleDispatchesMonthWiseList:PropTypes.func,
+    handleSetPassword:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -943,6 +1050,7 @@ const actions = {
     handleHubGrnErrorLog: hubGrnErrorLogStartAction,
     handleItemExpiredDetails: itemExpiredDetailsStartAction,
     handleDispatchesMonthWiseList :dispatchesMonthWiseStartAction,
+    handleSetPassword:setPasswordStartAction,
 }
 
 export default connect(mapState, actions) (DashboardComponent)

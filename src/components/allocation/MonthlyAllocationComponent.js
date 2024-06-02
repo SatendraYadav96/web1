@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
 import TitleWidget from '../../widgets/TitleWidget'
-import Papa from 'papaparse';
 import {
     allocateToAllTeamsAction,
     getActiveUsersStartAction,

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Card, Col, Row, Select} from "antd";
+import {Card, Col, Form, Input, Modal, Row, Select} from "antd";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
@@ -18,17 +18,24 @@ import {hover} from "@testing-library/user-event/dist/hover";
 import monthlyallocation from "../../assets/monthlyallocation.png";
 import specialallocation from "../../assets/specialallocation.png";
 import virtualallocation from "../../assets/virtualallocation.png";
+import passwordChange from "../../assets/passwordChange.png";
+import {setPasswordStartAction} from "../../redux/actions/auth/authActions";
 
 
 
-const RbmDashboardComponents = ({authInfo,profileInfo}) => {
+const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
     const [hoverInventory, setHoverInventory] = useState(false);
     const [hoverUser, setHoverUser] = useState(false);
     const [hoverDispatchRegister, setHoverDispatchRegister] = useState(false);
     const [hoverMonthlyAllocation, setHoverMonthlyAllocation] = useState(false);
     const [hoverSpecialAllocation, setHoverSpecialAllocation] = useState(false);
     const [hoverVirtualAllocation, setHoverVirtualAllocation] = useState(false);
-
+    const [hoverSetPassword, setHoverSetPassword] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [formData, setFormData] = useState({
+        username: '',
+        password: ''
+    });
 
     const navigate = useNavigate();
 
@@ -130,6 +137,52 @@ const RbmDashboardComponents = ({authInfo,profileInfo}) => {
 
     const HoverDataVirtualAllocation = "Virtual Approval";
 
+    const onHoverSetPassword = (e) =>{
+        e.preventDefault()
+        setHoverSetPassword(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverSetPassword = (e) => {
+        e.preventDefault()
+        setHoverSetPassword(false)
+    }
+
+    const HoverDataSetPassword = "Change Password";
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        // Handle form submission here
+        const formFields = {
+            username:formData.username,
+            password:formData.password
+        }
+        console.log('Form submitted:',formData);
+        handleSetPassword(
+            {
+                certificate: authInfo.token,
+                data:formFields
+            }
+        )
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleFormChange = (changedValues, allValues) => {
+        setFormData(allValues);
+    };
+
+    const handleChangePassword = (username, password) => {
+        // Your logic to handle password change goes here
+        console.log('Change Password for:', username, password);
+    };
 
 
 
@@ -247,6 +300,20 @@ const RbmDashboardComponents = ({authInfo,profileInfo}) => {
                     </div>
 
 
+                    {hoverSetPassword && <p className={hoverSetPassword}  >{HoverDataSetPassword}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={passwordChange} alt="password"  width="100" height="80" style={{marginLeft:"50px"}} onClick={showModal}
+                            // onMouseEnter={(e)=>onHoverVirtualAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverVirtualAllocation(e)}
+
+
+                        />
+
+                        <h3 style={{ marginLeft: "50px" }} >Change Password</h3>
+                    </div>
+
+
 
 
 
@@ -267,6 +334,42 @@ const RbmDashboardComponents = ({authInfo,profileInfo}) => {
             </Row>
             <br/>
 
+            <Modal
+                title="Change Password"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okText="Submit"
+                cancelText="Cancel"
+            >
+                <Form
+                    name="loginForm"
+                    initialValues={{ remember: true }}
+                    onValuesChange={handleFormChange}
+                    onFinish={handleOk}
+                >
+                    <Form.Item
+                        label="Username"
+                        name="username"
+                        rules={[{ required: true, message: 'Please input your username!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[{ required: true, message: 'Please input your new password!' }]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                </Form>
+            </Modal>
+
+
+
+
+
         </div>
 
     )
@@ -276,7 +379,7 @@ const RbmDashboardComponents = ({authInfo,profileInfo}) => {
 RbmDashboardComponents.propTypes = {
     authInfo: PropTypes.any,
     profileInfo: PropTypes.any,
-
+    handleSetPassword:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -288,7 +391,7 @@ const mapState = (state) => {
 
 
 const actions = {
-
+    handleSetPassword:setPasswordStartAction,
 
 
 }

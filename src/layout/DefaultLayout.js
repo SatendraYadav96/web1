@@ -35,9 +35,9 @@ const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitl
 
     const handleLogout = () => {
         console.log('logging off')
-        // handleLogoutUser({
-        //     certificate: authInfo.token,
-        // })
+        handleLogoutUser({
+            certificate: authInfo.token,
+        })
         return navigate("/login")
 
     }

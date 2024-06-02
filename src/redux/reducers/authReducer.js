@@ -3,7 +3,7 @@ import {
     LOAD_USER_PROFILE_FAIL_ACTION,
     LOAD_USER_PROFILE_SUCCESS_ACTION,
     LOGIN_FAIL_ACTION,
-    LOGIN_SUCCESS_ACTION, LOGOUT_FAIL_ACTION, LOGOUT_SUCCESS_ACTION,
+    LOGIN_SUCCESS_ACTION, LOGOUT_FAIL_ACTION, LOGOUT_SUCCESS_ACTION, SET_PASSWORD_FAIL_ACTION, SET_PASSWORD_SUCCESS_ACTION,
 } from '../actions/auth/authActionConstants'
 const initialState = {
   authInfo: null,
@@ -71,6 +71,27 @@ const logoutFailReducer = (state = initialState, payload) => {
 }
 
 
+const setPasswordSuccessReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        authInfo: payload.auth,
+        loggedIn: true,
+        error: null,
+    }
+}
+
+const setPasswordFailReducer = (state = initialState, payload) => {
+    return {
+        ...state,
+        error: payload.error,
+        loggedIn: false,
+    }
+}
+
+
+
+
+
 export default createReducer(initialState, {
   [LOGIN_SUCCESS_ACTION]: loginSuccessReducer,
   [LOGIN_FAIL_ACTION]: loginFailReducer,
@@ -78,4 +99,6 @@ export default createReducer(initialState, {
   [LOAD_USER_PROFILE_FAIL_ACTION]: loadUserProfileFailReducer,
     [LOGOUT_SUCCESS_ACTION]:logoutSuccessReducer,
     [LOGOUT_FAIL_ACTION]:loginFailReducer,
+    [SET_PASSWORD_SUCCESS_ACTION]:setPasswordSuccessReducer,
+    [SET_PASSWORD_FAIL_ACTION]:setPasswordFailReducer,
 })

@@ -4,7 +4,7 @@ import {
     LOAD_USER_PROFILE_SUCCESS_ACTION,
     LOGIN_FAIL_ACTION,
     LOGIN_START_ACTION,
-    LOGIN_SUCCESS_ACTION, LOGOUT_FAIL_ACTION, LOGOUT_START_ACTION, LOGOUT_SUCCESS_ACTION,
+    LOGIN_SUCCESS_ACTION, LOGOUT_FAIL_ACTION, LOGOUT_START_ACTION, LOGOUT_SUCCESS_ACTION, SET_PASSWORD_FAIL_ACTION, SET_PASSWORD_START_ACTION, SET_PASSWORD_SUCCESS_ACTION,
 } from './authActionConstants'
 
 export const loginStartAction = (payload) => (dispatch) => {
@@ -67,6 +67,28 @@ export const logoutSuccessAction = (payload) => (dispatch) => {
 export const logoutFailAction = (payload) => (dispatch) => {
     dispatch({
         type: LOGOUT_FAIL_ACTION,
+        payload: payload,
+    })
+}
+
+
+export const setPasswordStartAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SET_PASSWORD_START_ACTION,
+        payload: payload,
+    })
+}
+
+export const setPasswordSuccessAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SET_PASSWORD_SUCCESS_ACTION,
+        payload: payload,
+    })
+}
+
+export const setPasswordFailAction = (payload) => (dispatch) => {
+    dispatch({
+        type: SET_PASSWORD_FAIL_ACTION,
         payload: payload,
     })
 }
