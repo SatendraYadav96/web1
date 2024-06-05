@@ -32,9 +32,12 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
     const [hoverVirtualAllocation, setHoverVirtualAllocation] = useState(false);
     const [hoverSetPassword, setHoverSetPassword] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    const [showValidationMessage, setShowValidationMessage] = useState(true);
     const [formData, setFormData] = useState({
-        username: '',
-        password: ''
+        oldPwd: '',
+        newPwd: '',
+        cnfPwd: ''
     });
 
     const navigate = useNavigate();
@@ -156,18 +159,24 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
     };
 
     const handleOk = () => {
-        // Handle form submission here
-        const formFields = {
-            username:formData.username,
-            password:formData.password
-        }
-        console.log('Form submitted:',formData);
-        handleSetPassword(
-            {
-                certificate: authInfo.token,
-                data:formFields
+        if(formData.newPwd != formData.cnfPwd){
+            setShowValidationMessage(true)
+            alert("New password and confirm password does not match!")
+        }else{
+            // Handle form submission here
+            const formFields = {
+                oldPassword:formData.oldPwd,
+                confirmPassword:formData.cnfPwd,
             }
-        )
+            console.log('Form submitted:',formData);
+            handleSetPassword(
+                {
+                    certificate: authInfo.token,
+                    data:formFields
+                }
+            )
+        }
+
         setIsModalVisible(false);
     };
 
@@ -349,22 +358,38 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
                     onFinish={handleOk}
                 >
                     <Form.Item
-                        label="Username"
-                        name="username"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        label="Old Passord"
+                        name="oldPwd"
+                        rules={[{ required: true, message: 'Please input old password!' }]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item
-                        label="Password"
-                        name="password"
+                        label="New Password"
+                        name="newPwd"
                         rules={[{ required: true, message: 'Please input your new password!' }]}
                     >
                         <Input.Password />
                     </Form.Item>
+
+                    <Form.Item
+                        label="Confirm Password"
+                        name="cnfPwd"
+                        dependencies={['password']}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please confirm your new password!',
+                            }
+
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
                 </Form>
-            </Modal>
+            </Modal>;
+
 
 
 
