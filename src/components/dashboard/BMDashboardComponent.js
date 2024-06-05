@@ -258,8 +258,6 @@ const BMDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
                         <img src={monthlyallocation} alt="monthlyallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/monthly/create")}
                             // onMouseEnter={(e)=>onHoverMonthlyAllocation(e)}
                             // onMouseLeave={(e)=>onHoverOverMonthlyAllocation(e)}
-
-
                         />
                         <h3 style={{ marginLeft: "50px" }} >Monthly Allocation</h3>
                     </div>

@@ -35,9 +35,10 @@ const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitl
 
     const handleLogout = () => {
         console.log('logging off')
-        handleLogoutUser({
-            certificate: authInfo.token,
-        })
+        // handleLogoutUser({
+        //     certificate: authInfo.token,
+        // })
+        window.location.reload();
         return navigate("/login")
 
     }
@@ -115,14 +116,14 @@ const DefaultLayout = ({ authInfo ,profileInfo , handleLoadProfileInfo, pageTitl
                                 <Col span={4} offset={20}>
                                     <Title>
                                         <Menu mode={"horizontal"} >
-                                            <Menu.SubMenu title={titleHeader} onTitleClick={() => handleLogout()}>
-                                                <Menu.Item icon={<LogoutOutlined />}>LogOut</Menu.Item>
+                                            <Menu.SubMenu title={titleHeader} >
+                                                <Menu.Item icon={<LogoutOutlined />} onClick={() => handleLogout()}>LogOut</Menu.Item>
                                             </Menu.SubMenu>
                                         </Menu>
                                     </Title>
                                 </Col>
                             </Row>
-                            )
+
 
                         </Header>
                         <Content className={'content-layout'}>

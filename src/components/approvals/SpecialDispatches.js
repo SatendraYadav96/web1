@@ -35,12 +35,12 @@ import {APPROVE_PLAN_SUCCESS} from "../../redux/actions/approval/monthlyApproval
 
 const AllocationDetails = () => {
     const [column, setColumn] = useState([
-        {
-            title:'Team',
-            key: 'team',
-            dataIndex: 'team',
-            width:'200px',
-        },
+        // {
+        //     title:'Team',
+        //     key: 'team',
+        //     dataIndex: 'team',
+        //     width:'200px',
+        // },
         {
             title:'Members',
             key: 'members',
@@ -284,13 +284,13 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
     const searchData = () => {
         setFlag(true)
         setColumn([
-            {
-                title:'Team',
-                key: 'teamName',
-                dataIndex: 'teamName',
-                width:'200px',
-                ...getColumnSearchProps('teamName'),
-            },
+            // {
+            //     title:'Team',
+            //     key: 'teamName',
+            //     dataIndex: 'teamName',
+            //     width:'200px',
+            //     ...getColumnSearchProps('teamName'),
+            // },
             {
                 title:'Plan Purpose',
                 key: 'planName',

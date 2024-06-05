@@ -14,12 +14,12 @@ import Highlighter from "react-highlight-words";
 
 const AllocationDetails = () => {
     const [column, setColumn] = useState([
-        {
-            title:'Team',
-            key: 'team',
-            dataIndex: 'team',
-            width:'200px',
-        },
+        // {
+        //     title:'Team',
+        //     key: 'team',
+        //     dataIndex: 'team',
+        //     width:'200px',
+        // },
         {
             title:'Members',
             key: 'members',
@@ -265,13 +265,13 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
     const searchData = () => {
         setFlag(true)
         setColumn([
-            {
-                title:'Team',
-                key: 'teamName',
-                dataIndex: 'teamName',
-                width:'200px',
-                ...getColumnSearchProps('teamName'),
-            },
+            // {
+            //     title:'Team',
+            //     key: 'teamName',
+            //     dataIndex: 'teamName',
+            //     width:'200px',
+            //     ...getColumnSearchProps('teamName'),
+            // },
             {
                 title:'Brand Manager',
                 key: 'userName',
