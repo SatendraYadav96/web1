@@ -383,6 +383,42 @@ import {SET_PASSWORD_FAIL_ACTION, SET_PASSWORD_START_ACTION, SET_PASSWORD_SUCCES
             payload: { message: { text: 'action failed', type: 'error' } },
         },
     ],
+
+        VIRTUAL_UPLOAD_START: [{ action: 'showspinner' }],
+        VIRTUAL_UPLOAD_SUCCESS: [
+            { action: 'hidespinner' },
+            {
+                action: 'showsuccess',
+                payload: { message: { text: 'Upload Successful', type: 'success' } },
+            },
+        ],
+        VIRTUAL_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+        VIRTUAL_SAMPLE_UPLOAD_START: [{ action: 'showspinner' }],
+        VIRTUAL_SAMPLE_UPLOAD_SUCCESS: [
+            { action: 'hidespinner' },
+            {
+                action: 'showsuccess',
+                payload: { message: { text: 'Upload Successful', type: 'success' } },
+            },
+        ],
+        VIRTUAL_SAMPLE_UPLOAD_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
+
+
     GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_START: [{ action: 'showspinner' }],
     GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_SUCCESS: [{ action: 'hidespinner' }],
     GET_SPECIAL_EMPLOYEE_INVOICE_DETAILS_FAIL: [

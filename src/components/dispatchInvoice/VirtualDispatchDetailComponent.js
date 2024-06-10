@@ -1065,7 +1065,7 @@ const VirtualDispatchDetails = ({authInfo,virtualInvoiceDetailsLoading,handleVir
             }}>
                 <p style={{fontSize: "1.2rem", fontWeight: "bold"}}>Print All</p>
                 <Button type={"primary"} style={{marginRight: "20px"}} onClick={() => handleAllInvoicePrint()}>Print Invoice</Button>
-                <Button type={"primary"}>Print Label</Button>
+                <Button type={"primary"} onClick={() => handleAllLabelPrint()} >Print Label</Button>
                 <br/>
                 <Table
                     columns={printColumn}

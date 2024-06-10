@@ -55,6 +55,10 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketRe
                 batchNo: item.batchNo,
                 expiry: item.expiry,
                 dispatchedQuantity: item.dispatchedQuantity,
+                ratePerUnit: item.ratePerUnit,
+                value: item.value,
+                totalValue: item.totalValue,
+                tax: item.tax,
                 brandName: item.brandName,
                 brandCode: item.brandCode,
                 itemCategory: item.itemCategory,
@@ -62,8 +66,9 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketRe
                 city: item.city,
                 state: item.state,
                 postalCode: item.postalCode,
+                mobile: item.mobile,
                 team:item.team,
-                billingAddress1:"Sanofi India Limited  S K Logistics",
+                billingAddress1:"Sanofi CHC India Limited  S K Logistics",
                 billingAddress2:"City Link warehousing Complex Building",
                 billingAddress3:"No B3 Mumbai Nasik Highway  Vadape Bhiwandi",
                 billingAddressCity:"Thane",
@@ -72,11 +77,10 @@ const ShipRocketReportComponent = ({authInfo,handleShipRocketReport,shipRocketRe
                length:"90mm",
                 height: "140mm",
                 width: "140mm",
-                company:"SANOFI INDIA PVT LTD",
+                company:"SANOFI CHC INDIA PVT LTD",
                 ffCodeLog: item.ffCodeLog,
                 territory: item.territory,
-                totalValue: item.totalValue,
-                tax: item.tax,
+
 
             }
         }))
