@@ -54,6 +54,10 @@ const Login = ({ handleLogin, authInfo, loggedIn,profileInfo,profileInfoLoading,
             <Navigate push to="/home/admin" />
     ): profileInfo?.userDesignation?.id === "943E1237-984B-46FD-8465-8DD94A10AE26" ? (
             <Navigate push to="/home/dashboard" />
+        ) : profileInfo?.userDesignation?.id === "6B1C8B6D-C38E-4B4D-8C73-25ADF30CE474" ? (
+            <Navigate push to="/home/buheaddashboard" />
+        ) : profileInfo?.userDesignation?.id === "C71C2C60-33DB-481B-8AFF-5BAFA9654691" ? (
+            <Navigate push to="/home/rbmdashboard" />
         ) : (
     <Navigate push to="/login" />
     )
