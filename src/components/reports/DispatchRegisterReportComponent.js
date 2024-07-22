@@ -421,7 +421,7 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchRegisterList,disp
                 itemValue: item.itemValue,
                 invoiceValue: item.value,
                 invoiceDate: item.invoiceDate,
-                lrNo: item.lrNo,
+                lrNo: item.lrno,
                 courierName: item.courierName,
                 nameofReceiver: item.nameofReceiver,
                 dateofDelivery: item.dateofDelivery,

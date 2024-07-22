@@ -24,11 +24,11 @@ import {setPasswordStartAction} from "../../redux/actions/auth/authActions";
 
 
 const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
-    const [hoverInventory, setHoverInventory] = useState(false);
-    const [hoverUser, setHoverUser] = useState(false);
-    const [hoverDispatchRegister, setHoverDispatchRegister] = useState(false);
-    const [hoverMonthlyAllocation, setHoverMonthlyAllocation] = useState(false);
-    const [hoverSpecialAllocation, setHoverSpecialAllocation] = useState(false);
+    // const [hoverInventory, setHoverInventory] = useState(false);
+    // const [hoverUser, setHoverUser] = useState(false);
+    // const [hoverDispatchRegister, setHoverDispatchRegister] = useState(false);
+    // const [hoverMonthlyAllocation, setHoverMonthlyAllocation] = useState(false);
+    // const [hoverSpecialAllocation, setHoverSpecialAllocation] = useState(false);
     const [hoverVirtualAllocation, setHoverVirtualAllocation] = useState(false);
     const [hoverSetPassword, setHoverSetPassword] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -43,84 +43,84 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
     const navigate = useNavigate();
 
 
-    const onHoverInventory = (e) =>{
-        e.preventDefault()
-        setHoverInventory(true)
-        console.log("hovered")
-
-    }
-
-    const onHoverOverInventory = (e) => {
-        e.preventDefault()
-        setHoverInventory(false)
-    }
-
-    const HoverDataInventory = "Inventory";
-
-
-
-    const onHoverUser = (e) =>{
-        e.preventDefault()
-        setHoverUser(true)
-        console.log("hovered")
-
-    }
-
-    const onHoverOverUser = (e) => {
-        e.preventDefault()
-        setHoverUser(false)
-    }
-
-    const HoverDataUser = "FF Master";
-
-
-
-    const onHoverDispatchRegister = (e) =>{
-        e.preventDefault()
-        setHoverDispatchRegister(true)
-        console.log("hovered")
-
-    }
-
-    const onHoverOverDispatchRegister = (e) => {
-        e.preventDefault()
-        setHoverDispatchRegister(false)
-    }
-
-    const HoverDataDispatchRegister = "Dispatch Register";
-
-
-
-    const onHoverMonthlyAllocation = (e) =>{
-        e.preventDefault()
-        setHoverMonthlyAllocation(true)
-        console.log("hovered")
-
-    }
-
-    const onHoverOverMonthlyAllocation = (e) => {
-        e.preventDefault()
-        setHoverMonthlyAllocation(false)
-    }
-
-    const HoverDataMonthlyAllocation = "Monthly Approval";
-
-
-
-
-    const onHoverSpecialAllocation = (e) =>{
-        e.preventDefault()
-        setHoverSpecialAllocation(true)
-        console.log("hovered")
-
-    }
-
-    const onHoverOverSpecialAllocation = (e) => {
-        e.preventDefault()
-        setHoverSpecialAllocation(false)
-    }
-
-    const HoverDataSpecialAllocation = "Special Approval";
+    // const onHoverInventory = (e) =>{
+    //     e.preventDefault()
+    //     setHoverInventory(true)
+    //     console.log("hovered")
+    //
+    // }
+    //
+    // const onHoverOverInventory = (e) => {
+    //     e.preventDefault()
+    //     setHoverInventory(false)
+    // }
+    //
+    // const HoverDataInventory = "Inventory";
+    //
+    //
+    //
+    // const onHoverUser = (e) =>{
+    //     e.preventDefault()
+    //     setHoverUser(true)
+    //     console.log("hovered")
+    //
+    // }
+    //
+    // const onHoverOverUser = (e) => {
+    //     e.preventDefault()
+    //     setHoverUser(false)
+    // }
+    //
+    // const HoverDataUser = "FF Master";
+    //
+    //
+    //
+    // const onHoverDispatchRegister = (e) =>{
+    //     e.preventDefault()
+    //     setHoverDispatchRegister(true)
+    //     console.log("hovered")
+    //
+    // }
+    //
+    // const onHoverOverDispatchRegister = (e) => {
+    //     e.preventDefault()
+    //     setHoverDispatchRegister(false)
+    // }
+    //
+    // const HoverDataDispatchRegister = "Dispatch Register";
+    //
+    //
+    //
+    // const onHoverMonthlyAllocation = (e) =>{
+    //     e.preventDefault()
+    //     setHoverMonthlyAllocation(true)
+    //     console.log("hovered")
+    //
+    // }
+    //
+    // const onHoverOverMonthlyAllocation = (e) => {
+    //     e.preventDefault()
+    //     setHoverMonthlyAllocation(false)
+    // }
+    //
+    // const HoverDataMonthlyAllocation = "Monthly Approval";
+    //
+    //
+    //
+    //
+    // const onHoverSpecialAllocation = (e) =>{
+    //     e.preventDefault()
+    //     setHoverSpecialAllocation(true)
+    //     console.log("hovered")
+    //
+    // }
+    //
+    // const onHoverOverSpecialAllocation = (e) => {
+    //     e.preventDefault()
+    //     setHoverSpecialAllocation(false)
+    // }
+    //
+    // const HoverDataSpecialAllocation = "Special Approval";
 
 
 
@@ -212,85 +212,85 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
                     {/*<Button type="danger" onClick={() => navigate("/home/approvals/virtualDispatches")} style={{backgroundColor:"darkorange"}}> <GiftOutlined />Virtual Approval</Button>*/}
 
                     {/* if hover is true then only show the text */}
-                    {hoverInventory && <p className={hoverInventory}>{HoverDataInventory}</p>}
+                    {/*{hoverInventory && <p className={hoverInventory}>{HoverDataInventory}</p>}*/}
 
 
 
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img src={warehouse} alt="Warehouse"  width="100" height="80" onClick={() => navigate("/home/inventory/inventoryReport")}
-                            // onMouseEnter={(e)=>onHoverInventory(e)}
-                            // onMouseLeave={(e)=>onHoverOverInventory(e)}
+                    {/*<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>*/}
+                    {/*    <img src={warehouse} alt="Warehouse"  width="100" height="80" onClick={() => navigate("/home/inventory/inventoryReport")}*/}
+                    {/*        // onMouseEnter={(e)=>onHoverInventory(e)}*/}
+                    {/*        // onMouseLeave={(e)=>onHoverOverInventory(e)}*/}
 
 
-                        />
+                    {/*    />*/}
 
-                        <h3>Inventory</h3>
-                    </div>
-
-
-                    {hoverUser && <p className={hoverUser}>{HoverDataUser}</p>}
-
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img
-                            src={user}
-                            alt="user"
-                            width="100"
-                            height="80"
-                            style={{ marginLeft: "50px" }}
-                            onClick={() => navigate("/home/report/recipientReport")}
-                            // onMouseEnter={(e) => onHoverUser(e)}
-                            // onMouseLeave={(e) => onHoverOverUser(e)}
-                        />
-                        <h3 style={{ marginLeft: "50px" }} >FF Report</h3>
-                    </div>
+                    {/*    <h3>Inventory</h3>*/}
+                    {/*</div>*/}
 
 
+                    {/*{hoverUser && <p className={hoverUser}>{HoverDataUser}</p>}*/}
 
-
-
-                    {hoverDispatchRegister && <p className={hoverDispatchRegister}  >{HoverDataDispatchRegister}</p>}
-
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img src={dispatchregister} alt="dispatchregister"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/report/dispatchRegisterReport")}
-                            // onMouseEnter={(e)=>onHoverDispatchRegister(e)}
-                            // onMouseLeave={(e)=>onHoverOverDispatchRegister(e)}
-
-
-                        />
-                        <h3 style={{ marginLeft: "50px" }} >Dispatch Register</h3>
-                    </div>
-
-
-
-                    {hoverMonthlyAllocation && <p className={hoverMonthlyAllocation}  >{HoverDataMonthlyAllocation}</p>}
-
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img src={monthlyallocation} alt="monthlyallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/monthly/create")}
-                            // onMouseEnter={(e)=>onHoverMonthlyAllocation(e)}
-                            // onMouseLeave={(e)=>onHoverOverMonthlyAllocation(e)}
-
-
-                        />
-                        <h3 style={{ marginLeft: "50px" }} >Monthly Allocation</h3>
-                    </div>
+                    {/*<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>*/}
+                    {/*    <img*/}
+                    {/*        src={user}*/}
+                    {/*        alt="user"*/}
+                    {/*        width="100"*/}
+                    {/*        height="80"*/}
+                    {/*        style={{ marginLeft: "50px" }}*/}
+                    {/*        onClick={() => navigate("/home/report/recipientReport")}*/}
+                    {/*        // onMouseEnter={(e) => onHoverUser(e)}*/}
+                    {/*        // onMouseLeave={(e) => onHoverOverUser(e)}*/}
+                    {/*    />*/}
+                    {/*    <h3 style={{ marginLeft: "50px" }} >FF Report</h3>*/}
+                    {/*</div>*/}
 
 
 
 
 
+                    {/*{hoverDispatchRegister && <p className={hoverDispatchRegister}  >{HoverDataDispatchRegister}</p>}*/}
 
-                    {hoverSpecialAllocation && <p className={hoverSpecialAllocation}  >{HoverDataSpecialAllocation}</p>}
-
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-
-                        <img src={specialallocation} alt="specialallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/special/create")}
-                            // onMouseEnter={(e)=>onHoverSpecialAllocation(e)}
-                            // onMouseLeave={(e)=>onHoverOverSpecialAllocation(e)}
+                    {/*<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>*/}
+                    {/*    <img src={dispatchregister} alt="dispatchregister"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/report/dispatchRegisterReport")}*/}
+                    {/*        // onMouseEnter={(e)=>onHoverDispatchRegister(e)}*/}
+                    {/*        // onMouseLeave={(e)=>onHoverOverDispatchRegister(e)}*/}
 
 
-                        />
-                        <h3 style={{ marginLeft: "50px" }} >Special Allocation</h3>
-                    </div>
+                    {/*    />*/}
+                    {/*    <h3 style={{ marginLeft: "50px" }} >Dispatch Register</h3>*/}
+                    {/*</div>*/}
+
+
+
+                    {/*{hoverMonthlyAllocation && <p className={hoverMonthlyAllocation}  >{HoverDataMonthlyAllocation}</p>}*/}
+
+                    {/*<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>*/}
+                    {/*    <img src={monthlyallocation} alt="monthlyallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/monthly/create")}*/}
+                    {/*        // onMouseEnter={(e)=>onHoverMonthlyAllocation(e)}*/}
+                    {/*        // onMouseLeave={(e)=>onHoverOverMonthlyAllocation(e)}*/}
+
+
+                    {/*    />*/}
+                    {/*    <h3 style={{ marginLeft: "50px" }} >Monthly Allocation</h3>*/}
+                    {/*</div>*/}
+
+
+
+
+
+
+                    {/*{hoverSpecialAllocation && <p className={hoverSpecialAllocation}  >{HoverDataSpecialAllocation}</p>}*/}
+
+                    {/*<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>*/}
+
+                    {/*    <img src={specialallocation} alt="specialallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/special/create")}*/}
+                    {/*        // onMouseEnter={(e)=>onHoverSpecialAllocation(e)}*/}
+                    {/*        // onMouseLeave={(e)=>onHoverOverSpecialAllocation(e)}*/}
+
+
+                    {/*    />*/}
+                    {/*    <h3 style={{ marginLeft: "50px" }} >Special Allocation</h3>*/}
+                    {/*</div>*/}
 
 
 

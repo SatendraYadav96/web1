@@ -300,19 +300,19 @@ const VirtualDispatchDetails = ({authInfo,virtualInvoiceDetailsLoading,handleVir
                 //         return <Input/>
                 //     }
                 // },
-                {
-                    title: '',
-                    key: '',
-                    dataIndex: '',
-                    width: '30px',
-                    render:(_,row) => {
-                        return <Button icon={<SaveOutlined />} onClick={() => {
-                            setDraftModal(true);
-                            setEmpId(row.employeeId)
-                            setPlanId(row.planId)
-                        }}></Button>
-                    }
-                },
+                // {
+                //     title: '',
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:(_,row) => {
+                //         return <Button icon={<SaveOutlined />} onClick={() => {
+                //             setDraftModal(true);
+                //             setEmpId(row.employeeId)
+                //             setPlanId(row.planId)
+                //         }}></Button>
+                //     }
+                // },
                 {
                     title: '',
                     key: '',

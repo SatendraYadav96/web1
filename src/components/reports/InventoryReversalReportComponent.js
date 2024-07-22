@@ -34,6 +34,7 @@ const InventoryReversalReportComponent = ({authInfo,profileInfo,destructionList,
     const [column, setColumn] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [flag, setFlag] = useState(false)
+    const [searchText, setSearchText] = useState('');
     const searchInput = useRef(null);
     const [searchedColumn, setSearchedColumn] = useState('');
 

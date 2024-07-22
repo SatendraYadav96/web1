@@ -304,19 +304,19 @@ const SpecialDispatchDetailComponent = ({authInfo,specialInvoiceDetails,specialI
                 //         }}/>
                 //     }
                 // },
-                {
-                    title: '',
-                    key: 'lrNumber',
-                    dataIndex: '',
-                    width: '30px',
-                    render:(_,row) => {
-                        return <Button icon={<SaveOutlined />} onClick={() => {
-                            setDraftModal(true);
-                            setEmpId(row.employeeId)
-                            setPlanIds(row.planId)
-                        }}></Button>
-                    }
-                },
+                // {
+                //     title: '',
+                //     key: 'lrNumber',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:(_,row) => {
+                //         return <Button icon={<SaveOutlined />} onClick={() => {
+                //             setDraftModal(true);
+                //             setEmpId(row.employeeId)
+                //             setPlanIds(row.planId)
+                //         }}></Button>
+                //     }
+                // },
                 {
                     title: '',
                     key: 'code',

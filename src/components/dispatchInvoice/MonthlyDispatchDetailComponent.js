@@ -376,18 +376,18 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                 //         return <Input value={row.lrNumber} onChange={(e) => setLrNo(e.target.value)}/>
                 //     }
                 // },
-                {
-                    title: '',
-                    key: '',
-                    dataIndex: '',
-                    width: '30px',
-                    render:(_,row) => {
-                        return <Button icon={<SaveOutlined />} onClick={() => {
-                            setDraftModal(true);
-                            setEmpId(row.employeeId)
-                        }}></Button>
-                    }
-                },
+                // {
+                //     title: '',
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:(_,row) => {
+                //         return <Button icon={<SaveOutlined />} onClick={() => {
+                //             setDraftModal(true);
+                //             setEmpId(row.employeeId)
+                //         }}></Button>
+                //     }
+                // },
                 {
                     title: '',
                     key: '',
@@ -514,15 +514,15 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                         return <Button icon={<ZoomInOutlined />} onClick={() => handleRecipientInvoice(row)}></Button>
                     }
                 },
-                {
-                    title: '',
-                    key: '',
-                    dataIndex: '',
-                    width: '30px',
-                    render:() => {
-                        return <Button icon={<SaveOutlined />}></Button>
-                    }
-                },
+                // {
+                //     title: '',
+                //     key: '',
+                //     dataIndex: '',
+                //     width: '30px',
+                //     render:() => {
+                //         return <Button icon={<SaveOutlined />}></Button>
+                //     }
+                // },
                 // {
                 //     title: '',
                 //     key: '',
@@ -922,7 +922,7 @@ const MonthlyDispatchDetailComponent = ({authInfo,invoiceList,handleInvoiceDetai
                     "Dimension": item.dimension,
                     "Transporter": item.transporterID,
                     "LR Nov": item.lrNumber,
-                    "PlanId": item.planId,
+                    "PlanId": '00000000-0000-0000-0000-000000000000',
                     "Plan": item.plan,
                 }
             }))

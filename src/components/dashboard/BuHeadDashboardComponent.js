@@ -26,10 +26,7 @@ import {setPasswordStartAction} from "../../redux/actions/auth/authActions";
 const BuHeadDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
     const [hoverInventory, setHoverInventory] = useState(false);
     const [hoverUser, setHoverUser] = useState(false);
-    const [hoverDispatchRegister, setHoverDispatchRegister] = useState(false);
-    const [hoverMonthlyAllocation, setHoverMonthlyAllocation] = useState(false);
     const [hoverSpecialAllocation, setHoverSpecialAllocation] = useState(false);
-    const [hoverVirtualAllocation, setHoverVirtualAllocation] = useState(false);
     const [hoverSetPassword, setHoverSetPassword] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
@@ -73,41 +70,6 @@ const BuHeadDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => 
 
     const HoverDataUser = "FF Master";
 
-
-
-    const onHoverDispatchRegister = (e) =>{
-        e.preventDefault()
-        setHoverDispatchRegister(true)
-        console.log("hovered")
-
-    }
-
-    const onHoverOverDispatchRegister = (e) => {
-        e.preventDefault()
-        setHoverDispatchRegister(false)
-    }
-
-    const HoverDataDispatchRegister = "Dispatch Register";
-
-
-
-    const onHoverMonthlyAllocation = (e) =>{
-        e.preventDefault()
-        setHoverMonthlyAllocation(true)
-        console.log("hovered")
-
-    }
-
-    const onHoverOverMonthlyAllocation = (e) => {
-        e.preventDefault()
-        setHoverMonthlyAllocation(false)
-    }
-
-    const HoverDataMonthlyAllocation = "Monthly Approval";
-
-
-
-
     const onHoverSpecialAllocation = (e) =>{
         e.preventDefault()
         setHoverSpecialAllocation(true)
@@ -121,24 +83,6 @@ const BuHeadDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => 
     }
 
     const HoverDataSpecialAllocation = "Special Approval";
-
-
-
-
-
-    const onHoverVirtualAllocation = (e) =>{
-        e.preventDefault()
-        setHoverVirtualAllocation(true)
-        console.log("hovered")
-
-    }
-
-    const onHoverOverVirtualAllocation = (e) => {
-        e.preventDefault()
-        setHoverVirtualAllocation(false)
-    }
-
-    const HoverDataVirtualAllocation = "Virtual Approval";
 
     const onHoverSetPassword = (e) =>{
         e.preventDefault()
@@ -244,69 +188,19 @@ const BuHeadDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => 
                         <h3 style={{ marginLeft: "50px" }} >FF Report</h3>
                     </div>
 
-
-
-
-
-                    {hoverDispatchRegister && <p className={hoverDispatchRegister}  >{HoverDataDispatchRegister}</p>}
-
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img src={dispatchregister} alt="dispatchregister"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/report/dispatchRegisterReport")}
-                            // onMouseEnter={(e)=>onHoverDispatchRegister(e)}
-                            // onMouseLeave={(e)=>onHoverOverDispatchRegister(e)}
-
-
-                        />
-                        <h3 style={{ marginLeft: "50px" }} >Dispatch Register</h3>
-                    </div>
-
-
-
-                    {hoverMonthlyAllocation && <p className={hoverMonthlyAllocation}  >{HoverDataMonthlyAllocation}</p>}
-
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img src={monthlyallocation} alt="monthlyallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/monthly/create")}
-                            // onMouseEnter={(e)=>onHoverMonthlyAllocation(e)}
-                            // onMouseLeave={(e)=>onHoverOverMonthlyAllocation(e)}
-
-
-                        />
-                        <h3 style={{ marginLeft: "50px" }} >Monthly Allocation</h3>
-                    </div>
-
-
-
-
-
-
                     {hoverSpecialAllocation && <p className={hoverSpecialAllocation}  >{HoverDataSpecialAllocation}</p>}
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-                        <img src={specialallocation} alt="specialallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/special/create")}
+                        <img src={specialallocation} alt="specialallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/approvals/specialDispatches")}
                             // onMouseEnter={(e)=>onHoverSpecialAllocation(e)}
                             // onMouseLeave={(e)=>onHoverOverSpecialAllocation(e)}
 
 
                         />
-                        <h3 style={{ marginLeft: "50px" }} >Special Allocation</h3>
+                        <h3 style={{ marginLeft: "50px" }} >Special Approval</h3>
                     </div>
 
-
-
-
-                    {hoverVirtualAllocation && <p className={hoverVirtualAllocation}  >{HoverDataVirtualAllocation}</p>}
-
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <img src={virtualallocation} alt="virtualallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/virtual/create")}
-                            // onMouseEnter={(e)=>onHoverVirtualAllocation(e)}
-                            // onMouseLeave={(e)=>onHoverOverVirtualAllocation(e)}
-
-
-                        />
-
-                        <h3 style={{ marginLeft: "50px" }} >Virtual Allocation</h3>
-                    </div>
 
                     {hoverSetPassword && <p className={hoverSetPassword}  >{HoverDataSetPassword}</p>}
 

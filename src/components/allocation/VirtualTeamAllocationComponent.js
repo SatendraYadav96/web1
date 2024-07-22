@@ -2,13 +2,10 @@ import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelectors'
 import {connect} from 'react-redux'
-import {Alert, Button, Col, Input, InputNumber, Modal, Row, Table,message} from "antd";
+import {Alert, Button, Col, Input,  Modal, Row, Table,message} from "antd";
 import {
     allocateToAllTeamsAction,
-    allocateToTeamAction, getMultipleAllocationDownloadStartAction,
-    monthlyCommonAllocationStartAction,
-    monthlyCommonTeamStartAction,
-    monthlyDifferentialAllocationStartAction, multipleAllocationUploadStartAction,
+    multipleAllocationUploadStartAction,
     virtualAllocateToTeamAction,
     virtualCommonAllocationStartAction,
     virtualCommonTeamStartAction, virtualDifferentialAllocationStartAction
@@ -23,10 +20,7 @@ import {
     selectVirtualDifferentialAllocation,
     selectVirtualDifferentialAllocationSaveSuccess
 } from "../../redux/selectors/allocationSelectors";
-import DifferentialAllocationComponent from "./DifferentialAllocationComponent";
 import LabelComponent from "../../widgets/LabelComponent";
-import TeamAllocationDetailsComponent from "./TeamAllocationDetailsComponent";
-import ChangeAllocationComponent from "./ChangeAllocationComponent";
 import ChangeVirtualAllocationComponent from "./ChangeVirtualAllocationComponent";
 
 const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month, year, handleMonthlyDifferentialAllocationSave, inventoryId, commonAllocationDone, teamForDifferentialAllocation,
@@ -186,10 +180,7 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
     }
 
     useEffect(() => {
-        // const teamId = []
-        // teams.forEach(i=>
-        //     teamId.push(i.id)
-        // )
+
         if(virtualDifferentialAllocationSaveSuccess){
             handleMonthlyCommonTeam({
                 certificate:authInfo.token,
@@ -264,19 +255,6 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
 
 
 
-    // useEffect(() => {
-    //     if(virtualCommonAllocationSaveSuccess){
-    //
-    //         console.log(virtualCommonAllocationSave)
-    //         console.log(Object.keys(virtualCommonAllocationSave).length !== 0)
-    //         if(virtualCommonAllocationSave!== undefined && Object.keys(virtualCommonAllocationSave).length !== 0  && virtualCommonAllocationSave.info == "error"){
-    //             message.error(virtualCommonAllocationSave.body.message);
-    //         }else{
-    //             message.success(virtualCommonAllocationSave.body.message);
-    //         }
-    //     }
-    // }, [virtualCommonAllocationSaveSuccess])
-
 
     useEffect(() => {
         if(multipleAllocationUploadSuccess){
@@ -318,7 +296,6 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
             </Row>
             {
                 teamKeys.map(team  =>
-                    // <TeamAllocationDetailsComponent inventoryId={inventoryId} planId={item.planId} teams={teams} total={total} monthlyCommonTeam={monthlyCommonTeam[item]}/>
                     <>
                         <span>Total Rows: <b>{virtualCommonTeam[team]?.length}</b></span>
                         <Table size={'small'} dataSource={virtualCommonTeam[team]}
@@ -330,11 +307,7 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
                             <Col span={3} offset={18}>
                                 <Button type={'primary'} onClick={() => SaveCommonAllocation(team)}>Allocate & Save</Button>
                             </Col>
-                            {/*<Col span={3}>*/}
-                            {/*    <Button type={'primary'}*/}
-                            {/*            onClick={() => openChangeAllocation()}*/}
-                            {/*    >Change</Button>*/}
-                            {/*</Col>*/}
+
                         </Row>
                         <Modal
                             centered
@@ -352,18 +325,6 @@ const VirtualTeamAllocationComponent = ({item, teams, total, costCenterId,month,
                 )
             }
 
-            {/*<Table size={'small'} dataSource={monthlyCommonTeam}*/}
-            {/*       columns={newColumns}*/}
-            {/*       footer={() => `Total Allocations: ${total || 0}`}*/}
-            {/*       rowKey={'id'} loading={teams.length === 0}*/}
-            {/*/>*/}
-            {/*<label>Total Allocations: {total || 0}</label>*/}
-
-            {/*<Modal title="Differential Allocation"*/}
-            {/*       width={'600'}*/}
-            {/*       visible={showDifferential} onOk={handleSave} onCancel={handleCancel}>*/}
-            {/*    <DifferentialAllocationComponent teamId={teamForDifferential}/>*/}
-            {/*</Modal>*/}
         </>
     )
 

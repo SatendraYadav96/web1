@@ -471,11 +471,11 @@ const SearchInventoryComponent = ({authInfo,inventoryList,handleInventoryReportL
                     return(
                         <>
                             <Row gutter={[16,16]} style={{marginBottom: '5px'}}>
-                                <Col span={14}>
-                                    <Button onClick={() => handleReverseInventoryClick(row)} disabled={(row.qtyBalanced === "0")? true : false }>
-                                        Reverse
-                                    </Button>
-                                </Col>
+                                {/*<Col span={14}>*/}
+                                {/*    <Button onClick={() => handleReverseInventoryClick(row)} disabled={(row.qtyBalanced === "0")? true : false }>*/}
+                                {/*        Reverse*/}
+                                {/*    </Button>*/}
+                                {/*</Col>*/}
                                 <Col span={4}>
                                     <Button onClick={() => getInventoryReversalHistoryList(row)}>
                                         Reversal History

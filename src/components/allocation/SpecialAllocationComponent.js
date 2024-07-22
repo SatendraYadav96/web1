@@ -74,7 +74,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
     const [currentStep, setCurrentStep] = useState(0)
     const [selectedItems, setSelectedItems] = useState([])
     const [downloadAllocationFlag, setDownloadAllocationFlag] = useState(false)
-    const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
+   // const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [count, setCount] = useState(1)
     const [file, setFile] = useState([])
@@ -92,11 +92,11 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Batch Number', 'dataIndex': 'batch_Number', 'key': 'batch_Number'}
     ]
 
-    const activeUserDownloadColumn = [
-        {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
-        {'title': 'Role Name', 'dataIndex': 'roleName', 'key': 'roleName'},
-        {'title': 'Total Employee', 'dataIndex': 'totalEmployee', 'key': 'totalEmployee'},
-    ]
+    // const activeUserDownloadColumn = [
+    //     {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
+    //     {'title': 'Role Name', 'dataIndex': 'roleName', 'key': 'roleName'},
+    //     {'title': 'Total Employee', 'dataIndex': 'totalEmployee', 'key': 'totalEmployee'},
+    // ]
 
     const multipleAllocationDownloadColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -202,13 +202,13 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         }
     }
 
-    const DownloadActiveUsers = () => {
-        handleActiveUserDownload({
-            certificate: authInfo.token,
-            userId: profileInfo.id
-        })
-        setActiveUserDownloadFlag(true)
-    }
+    // const DownloadActiveUsers = () => {
+    //     handleActiveUserDownload({
+    //         certificate: authInfo.token,
+    //         userId: profileInfo.id
+    //     })
+    //     setActiveUserDownloadFlag(true)
+    // }
 
     const downloadInvoice = () => {
         let ccmId = []
@@ -335,21 +335,21 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         }
     },[multipleAllocationDownload])
 
-    useEffect(() => {
-        if(activeUserDownloadFlag){
-            if(activeUsersDownload.length > 0){
-                const excel = new Excel();
-                excel
-                    .addSheet("Active User")
-                    .addColumns(activeUserDownloadColumn)
-                    .addDataSource(activeUsersDownload, {
-                        str2Percent: true
-                    })
-                    .saveAs( 'ACTIVE_USER.xlsx');
-            }
-            setDownloadAllocationFlag(false)
-        }
-    },[activeUsersDownload])
+    // useEffect(() => {
+    //     if(activeUserDownloadFlag){
+    //         if(activeUsersDownload.length > 0){
+    //             const excel = new Excel();
+    //             excel
+    //                 .addSheet("Active User")
+    //                 .addColumns(activeUserDownloadColumn)
+    //                 .addDataSource(activeUsersDownload, {
+    //                     str2Percent: true
+    //                 })
+    //                 .saveAs( 'ACTIVE_USER.xlsx');
+    //         }
+    //         setDownloadAllocationFlag(false)
+    //     }
+    // },[activeUsersDownload])
 
     const SubmitSpecialAllocation = () => {
         let data = {
@@ -707,9 +707,9 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 <Col span={4} >
                     <Button type={'primary'} onClick={() => DownloadAllocation()}>Download Allocation</Button>
                 </Col>
-                <Col span={3} >
-                    <Button type={'primary'} onClick={() => DownloadActiveUsers()}>Active Users</Button>
-                </Col>
+                {/*<Col span={3} >*/}
+                {/*    <Button type={'primary'} onClick={() => DownloadActiveUsers()}>Active Users</Button>*/}
+                {/*</Col>*/}
                 <Col span={4}></Col>
                 <Col span={3}>
                     <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
