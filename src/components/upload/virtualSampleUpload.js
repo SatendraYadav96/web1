@@ -283,6 +283,13 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
         }
     },[virtualSampleData])
 
+    const refresh = () => {
+        handleVirtualSampleLogUpload({
+            certificate: authInfo.token,
+        })
+        searchData()
+    }
+
     return(
         <div>
             <TitleWidget title={'Virtual Sample'} />
@@ -292,8 +299,10 @@ const VirtualSampleComponent = ({authInfo,handleVirtualUpload,handleVirtualSampl
                         <Button icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
                 </Col>
-                <Col span={3}>
+                <Col span={2}>
                     <Button type={'primary'} onClick={upload}>Upload</Button>
+                </Col>
+                <Col span={2}><Button type={"primary"} style={{width: "100%"}} onClick={refresh}>Refresh</Button>
                 </Col>
             </Row>
             <br/>

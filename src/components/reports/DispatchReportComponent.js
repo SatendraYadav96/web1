@@ -47,6 +47,141 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
         clearFilters();
         setSearchText('');
     };
+    const searchData = () => {
+        setFlag(true)
+        setColumn([
+            {
+                title:'Team',
+                key:'businessUnit',
+                dataIndex:'businessUnit',
+                width:'100px',
+                ...getColumnSearchProps('businessUnit'),
+            },
+            {
+                title: 'Sub Team',
+                key: '',
+                dataIndex: 'teamName',
+                width: '100px',
+                ...getColumnSearchProps('teamName'),
+            },
+            {
+                title: 'Recipient Name',
+                key: 'recipientName',
+                dataIndex: 'recipientName',
+                width: '100px',
+                ...getColumnSearchProps('recipientName'),
+            },
+            {
+                title: 'Recipient Code',
+                key: 'recipientCode',
+                dataIndex: 'recipientCode',
+                width: '100px',
+                ...getColumnSearchProps('recipientCode'),
+                sorter: (a, b) => a.recipientCode - b.recipientCode,
+                sortDirections: ['descend', 'ascend'],
+            },
+
+            {
+                title: 'Job Role',
+                key: '',
+                dataIndex: 'desigation',
+                width: '110px',
+                ...getColumnSearchProps('desigation'),
+            },
+            {
+                title: 'Product Code',
+                key: '',
+                dataIndex: 'productCode',
+                width: '100px',
+                ...getColumnSearchProps('productCode'),
+            },
+            {
+                title: 'Product Name',
+                key: '',
+                dataIndex: 'productName',
+                width: '100px',
+                ...getColumnSearchProps('productName'),
+            },
+            {
+                title: 'Cost Center',
+                key: 'costCenter',
+                dataIndex: 'costCenter',
+                width: '100px',
+                ...getColumnSearchProps('costCenter'),
+            },
+            {
+                title: 'Rate Per Unit',
+                key: 'ratePerUnit',
+                dataIndex: 'ratePerUnit',
+                width: '100px',
+                ...getColumnSearchProps('ratePerUnit'),
+            },
+            {
+                title: 'HSN code',
+                key: 'hsnCode',
+                dataIndex: 'hsnCode',
+                width: '100px',
+                ...getColumnSearchProps('hsnCode'),
+            },
+            {
+                title: 'Gst Rate',
+                key: 'gstRate',
+                dataIndex: 'gstRate',
+                width: '100px',
+                ...getColumnSearchProps('gstRate'),
+            },
+            {
+                title: 'Quantity',
+                key: '',
+                dataIndex: 'quantity',
+                width: '100px',
+                ...getColumnSearchProps('quantity'),
+            },
+            {
+                title: 'Amount',
+                key: '',
+                dataIndex: 'amount',
+                width: '100px',
+                ...getColumnSearchProps('amount'),
+            },
+            {
+                title: 'Invoice No.',
+                key: 'invoiceNo',
+                dataIndex: 'invoiceNo',
+                width: '100px',
+                ...getColumnSearchProps('invoiceNo'),
+            },
+            {
+                title: 'Invoice Date',
+                key: 'invoiceDate',
+                dataIndex: 'invoiceDate',
+                width: '100px',
+                ...getColumnSearchProps('invoiceDate'),
+            },
+            {
+                title: 'LR No',
+                key: 'lrno',
+                dataIndex: 'lrno',
+                width: '100px',
+                ...getColumnSearchProps('lrnolrno'),
+            },
+            {
+                title: 'Courier Name',
+                key: 'courierName',
+                dataIndex: 'courierName',
+                width: '100px',
+                ...getColumnSearchProps('courierName'),
+            },
+
+        ])
+
+        setDataSource([])
+    }
+
+    const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
+
+
+    const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div
@@ -130,119 +265,6 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
             ),
     });
 
-    const searchData = () => {
-        setFlag(true)
-        setColumn([
-            {
-                title:'Team',
-                key:'businessUnit',
-                dataIndex:'businessUnit',
-                width:'100px',
-                ...getColumnSearchProps('businessUnit'),
-            },
-            {
-                title: 'Sub Team',
-                key: '',
-                dataIndex: 'teamName',
-                width: '100px',
-                ...getColumnSearchProps('teamName'),
-            },
-            {
-                title: 'Recipient Name',
-                key: 'recipientName',
-                dataIndex: 'recipientName',
-                width: '100px',
-                ...getColumnSearchProps('recipientName'),
-            },
-            {
-                title: 'Recipient Code',
-                key: 'recipientCode',
-                dataIndex: 'recipientCode',
-                width: '100px',
-                ...getColumnSearchProps('recipientCode'),
-                sorter: (a, b) => a.recipientCode - b.recipientCode,
-                sortDirections: ['descend', 'ascend'],
-            },
-
-            {
-                title: 'Job Role',
-                key: '',
-                dataIndex: 'desigation',
-                width: '110px',
-                ...getColumnSearchProps('desigation'),
-            },
-            {
-                title: 'Product Code',
-                key: '',
-                dataIndex: 'productCode',
-                width: '100px',
-                ...getColumnSearchProps('productCode'),
-            },
-            {
-                title: 'Input Name',
-                key: '',
-                dataIndex: 'productName',
-                width: '100px',
-                ...getColumnSearchProps('productName'),
-            },
-            {
-                title: 'Quantity',
-                key: '',
-                dataIndex: 'quantity',
-                width: '100px',
-                ...getColumnSearchProps('quantity'),
-            },
-            {
-                title: 'Amount',
-                key: '',
-                dataIndex: 'amount',
-                width: '100px',
-                ...getColumnSearchProps('amount'),
-            },
-            {
-                title: 'Invoice No.',
-                key: 'invoiceNo',
-                dataIndex: 'invoiceNo',
-                width: '100px',
-                ...getColumnSearchProps('invoiceNo'),
-            },
-            {
-                title: 'Invoice Date',
-                key: 'invoiceDate',
-                dataIndex: 'invoiceDate',
-                width: '100px',
-                ...getColumnSearchProps('invoiceDate'),
-            },
-            {
-                title: 'LR No',
-                key: 'lrno',
-                dataIndex: 'lrno',
-                width: '100px',
-                ...getColumnSearchProps('lrnolrno'),
-            },
-            {
-                title: 'Courier Name',
-                key: 'courierName',
-                dataIndex: 'courierName',
-                width: '100px',
-                ...getColumnSearchProps('courierName'),
-            },
-            {
-                title: 'Docket Status',
-                key: 'docketStatus',
-                dataIndex: 'docketStatus',
-                width: '100px',
-                ...getColumnSearchProps('docketStatus'),
-            },
-        ])
-
-        setDataSource([])
-    }
-
-
-    const formatedStartDateString = moment(startDate).format('yyyy-MM-DD').toString();
-    const formatedEndDateString = moment(endDate).format('yyyy-MM-DD').toString();
-
     const getDispatchesReportList = () => {
          console.log(businessUnit);
          console.log(division);
@@ -288,13 +310,17 @@ const DispatchReportComponent = ({authInfo,profileInfo,dispatchesList,dispatches
                 designation: item.desigation,
                 productCode: item.productCode,
                 productName: item.productName,
+                costCenter: item.costCenter,
+                ratePerUnit: item.ratePerUnit,
+                hsnCode: item.hsnCode,
+                gstRate: item.gstRate,
                 quantity: item.quantity,
                 amount: item.amount,
                 invoiceNo: item.invoiceNo,
                 invoiceDate: item.invoiceDate,
                 lrNo: item.lrno,
                 courierName: item.courierName,
-                docketStatus: item.docketStatus,
+
             }
         }))
         console.log(dispatchesList)

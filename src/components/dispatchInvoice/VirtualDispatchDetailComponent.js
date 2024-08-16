@@ -376,6 +376,8 @@ const VirtualDispatchDetails = ({authInfo,virtualInvoiceDetailsLoading,handleVir
                     width: '150px',
                     fixed: 'left',
                     ...getColumnSearchProps('invoiceNumber'),
+                    sorter: (a, b) => a.invoiceNumber - b.invoiceNumber,
+                    sortDirections: ['descend', 'ascend'],
                 },
                 {
                     title: 'Group No',
