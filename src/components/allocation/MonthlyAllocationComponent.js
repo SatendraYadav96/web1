@@ -4,13 +4,11 @@ import {selectAuthInfo, selectProfileInfo} from '../../redux/selectors/authSelec
 import {connect} from 'react-redux'
 import TitleWidget from '../../widgets/TitleWidget'
 import {
-    allocateToAllTeamsAction,
     getActiveUsersStartAction,
     getAllocationsForPlanStartAction,
     getDownloadAllocationStartAction,
     getMultipleAllocationDownloadStartAction,
     monthlyAllocationStartAction, multipleAllocationUploadMonthlyStartAction,
-    multipleAllocationUploadStartAction,
     submitMonthlyAllocationStartAction
 } from '../../redux/actions/allocation/allocationActions'
 import {
@@ -22,13 +20,12 @@ import {
     selectItemsLoading,
     selectItemsToAllocate,
     selectMultipleAllocationDownload,
-    selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadMonthly, selectMultipleAllocationUploadMonthlySuccess, selectMultipleAllocationUploadSuccess,
+    selectMultipleAllocationExcelDownload,  selectMultipleAllocationUploadMonthly, selectMultipleAllocationUploadMonthlySuccess, selectMultipleAllocationUploadSuccess,
     selectPlan, selectPlanSubmitted, selectSubmitMonthlyAllocation, selectSubmitMonthlyAllocationSuccess
 } from '../../redux/selectors/allocationSelectors'
 import {Button, Col, Collapse, DatePicker, Divider, Input, InputNumber, message, Modal, Row, Space, Spin, Steps, Table, Typography, Upload} from 'antd'
 import moment from 'moment'
-import {toMm, toYyyy, toYyyyMm} from '../../utils/DateUtils'
-import {MonthlyAllocationInventoryColumns} from './AllocationColumns'
+import {toMm, toYyyy} from '../../utils/DateUtils'
 import TeamAllocationComponent from './TeamAllocationComponent'
 import {SearchOutlined, UploadOutlined} from "@ant-design/icons";
 const { Step } = Steps
@@ -70,18 +67,11 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     const [currentStep, setCurrentStep] = useState(0)
     const [selectedItems, setSelectedItems] = useState([])
     const [downloadAllocationFlag, setDownloadAllocationFlag] = useState(false)
-   // const [activeUserDownloadFlag, setActiveUserDownloadFlag] = useState(false)
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [downloadData, setDownloadData] = useState([])
     const [file, setFile] = useState([])
     const [submitFlag, setSubmitFlag] = useState(false)
-    // const [selectedMonth, setSelectedMonth] = useState(null);
-    // const currentMonth = new Date().getMonth();
-    // const currentYear = new Date().getFullYear();
-    //
-    // const [selectedMonth, setSelectedMonth] = useState(null);
-    // const currentDate = new Date();
-    // const currentMonth = currentDate.getMonth();
+    const [startAllocationFlag, setStartAllocationFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -95,18 +85,11 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Batch Number', 'dataIndex': 'batch_Number', 'key': 'batch_Number'}
     ]
 
-    // const activeUserDownloadColumn = [
-    //     {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
-    //     {'title': 'Role Name', 'dataIndex': 'roleName', 'key': 'roleName'},
-    //     {'title': 'Total Employee', 'dataIndex': 'totalEmployee', 'key': 'totalEmployee'},
-    // ]
-
     const multipleAllocationDownloadColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
         {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
         {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
         {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
-        // {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
     ]
 
     const createViewClicked = () => {
@@ -124,6 +107,14 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             setSubmitFlag(false)
         }
     },[planSubmitted])
+
+    useEffect(() => {
+        if(profileInfo.userDesignation.id === "C71C2C60-33DB-481B-8AFF-5BAFA9654691"){
+            setStartAllocationFlag(true)
+        }else{
+            setStartAllocationFlag(false)
+        }
+    },[profileInfo])
 
     useEffect(()=>{
         if(submitMonthlyAllocationSuccess){
@@ -204,13 +195,6 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         }
     }
 
-    // const DownloadActiveUsers = () => {
-    //     handleActiveUserDownload({
-    //         certificate: authInfo.token,
-    //         userId: profileInfo.id
-    //     })
-    //     setActiveUserDownloadFlag(true)
-    // }
 
     const DownloadMultipleAllocation = () => {
         let ccmId = []
@@ -289,27 +273,6 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
     },[multipleAllocationDownload])
 
 
-
-
-
-
-
-    // useEffect(() => {
-    //     if(activeUserDownloadFlag){
-    //         if(activeUsersDownload.length > 0){
-    //             const excel = new Excel();
-    //             excel
-    //                 .addSheet("Active User")
-    //                 .addColumns(activeUserDownloadColumn)
-    //                 .addDataSource(activeUsersDownload, {
-    //                     str2Percent: true
-    //                 })
-    //                 .saveAs( 'ACTIVE_USER.xlsx');
-    //         }
-    //         setDownloadAllocationFlag(false)
-    //     }
-    // },[activeUsersDownload])
-
     const dummyRequest = ({ file, onSuccess }) => {
         setTimeout(() => {
             onSuccess("ok");
@@ -360,10 +323,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
         setFile(info.fileList)
         console.log(info.file.name)
         console.log(info)
-        // const file = info.file.originFileObj
-        // const base64 = await convertBase64(file)
-        // console.log(base64)
-        // console.log(file.name)
+
     }
 
     const convertToCSV = (data) =>{
@@ -389,11 +349,6 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
 
 
     const disabledDate = (current) => {
-        // const currentMonth = moment().month();
-        // const nextMonth = currentMonth + 1;
-        // const currentYear = moment().year();
-        // return current.month() < currentMonth && current.year() == currentYear || current.month() > nextMonth && current.year() == currentYear;
-
         const currentMonthYear = moment().format("YYYY-MM");
         const nextMonthYear = moment().add(1, "month").format("YYYY-MM");
         return !current.isSame(currentMonthYear, "month") && !current.isSame(nextMonthYear, "month");
@@ -534,26 +489,13 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
                 title: 'Pack Size',
                 dataIndex: 'packSize',
                 key: 'packSize',
-                // align: 'right',
                 ...getColumnSearchProps('packSize'),
             },
             {
                 title: 'Allocated',
                 dataIndex: 'quantityAllocated',
                 key: 'quantityAllocated',
-                //align: 'right',
-                //...getColumnSearchProps('quantityAllocated'),
             },
-            // {
-            //     title: 'Balance',
-            //     dataIndex: 'stock',
-            //     key: 'stock',
-            //    // align: 'right',
-            //    // ...getColumnSearchProps('stock'),
-            //
-            // },
-
-
 
 
 
@@ -574,9 +516,6 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             <Row style={{marginBottom: 40}}>
                 <Col span={3}>
                     <DatePicker onChange={(date) => setYearMonth(date)} picker='month' defaultValue={moment(yearMonth)}
-                    //             disabledDate={(current) => current.isBefore(moment().subtract(0,"month"))
-
-                                //disabledDate={(current) => current.isAfter(moment().add(1,"month"))}
                                 disabledDate={disabledDate}
                     />
 
@@ -670,7 +609,7 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             }
             <div style={{marginTop: 20}}>
                 {currentStep < allocationSteps.length - 1 && (
-                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag}>
+                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag || startAllocationFlag}>
                         Start Allocation
                     </Button>
                 )}
@@ -687,7 +626,6 @@ const MonthlyAllocationComponent = ({authInfo, profileInfo,
             </div>
             {downloadData.length > 0 && <CSVDownload
                 data={downloadData}/>
-                // target="_blank"></CSVDownload>
             }
         </>
     )

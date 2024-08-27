@@ -178,7 +178,7 @@ const SpecialAllocationMainComponent = ({authInfo,profileInfo,purchaseList,purch
                 dataIndex: '',
                 width: '100px',
                 render: (_,row) => {
-                    return <Button icon={<EditOutlined />} disabled={row.status === "SUBMIT"} onClick={ () => editPlan(row)}  ></Button>
+                    return <Button icon={<EditOutlined />} disabled={row.status === "SUBMIT" || row.status === "APPROVED" || row.status === "REJECTED"} onClick={ () => editPlan(row)}  ></Button>
                 }
             },
             {
@@ -187,7 +187,7 @@ const SpecialAllocationMainComponent = ({authInfo,profileInfo,purchaseList,purch
                 dataIndex: '',
                 width: `100px`,
                 render: (_, row) => {
-                    return <Button icon={<DeleteOutlined />} disabled={row.status === "SUBMIT"} onClick={ () => deletePlan(row)}></Button>
+                    return <Button icon={<DeleteOutlined />} disabled={row.status === "SUBMIT" || row.status === "APPROVED" || row.status === "REJECTED"} onClick={ () => deletePlan(row)}></Button>
                 }
             },
     ]

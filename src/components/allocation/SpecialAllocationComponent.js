@@ -5,37 +5,27 @@ import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelec
 import {connect} from "react-redux";
 import {Button, Col, Collapse, DatePicker, Input, message, Row, Select, Space, Spin, Steps, Table, Typography, Upload} from "antd";
 import {useNavigate, useParams} from "react-router-dom";
-import {MonthlyAllocationInventoryColumns} from "./AllocationColumns";
-import TeamAllocationComponent from "./TeamAllocationComponent";
 import moment from "moment/moment";
 import {toMm, toYyyy, toYyyyMm} from "../../utils/DateUtils";
 import {
-    selectAllocations,
-    selectAllocationsLoading,
     selectCommonAllocationDone,
     selectDownloadAllocation,
     selectGetActiveUsers,
-    selectItemsLoading,
-    selectItemsToAllocate, selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess,
-    selectPlan,
-    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialDifferentialAllocationSave, selectSpecialItemLoading, selectSpecialPlanSubmitted, selectSubmitSpecialAllocation, selectSubmitSpecialAllocationSuccess,
-    selectVirtualAllocation,
-    selectVirtualItemLoading
+    selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSuccess,
+    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading,  selectSpecialItemLoading, selectSpecialPlanSubmitted, selectSubmitSpecialAllocation, selectSubmitSpecialAllocationSuccess,
 } from "../../redux/selectors/allocationSelectors";
 import {
     getActiveUsersStartAction,
-    getAllocationsForPlanStartAction,
     getDownloadAllocationStartAction, getMultipleAllocationDownloadStartAction,
     getSpecialAllocationsForPlanStartAction,
-    monthlyAllocationStartAction, multipleAllocationUploadStartAction,
+   multipleAllocationUploadStartAction,
     specialAllocationStartAction,
     submitSpecialAllocationStartAction,
-    submitVirtualAllocationStartAction
 } from "../../redux/actions/allocation/allocationActions";
 import {SearchOutlined, UploadOutlined} from "@ant-design/icons";
 import SpecialTeamAllocationComponent from "./SpecialTeamAllocationComponent";
 import {Excel} from "antd-table-saveas-excel";
-import {AUTH_CERTIFICATE, BASE_URL, GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API} from "../../api/apiConstants";
+import { BASE_URL, GET_MULTIPLE_ALLOCATION_ALL_DOWNLOAD_API} from "../../api/apiConstants";
 import Highlighter from "react-highlight-words";
 const { Step } = Steps
 const { Panel } = Collapse
@@ -79,6 +69,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
     const [count, setCount] = useState(1)
     const [file, setFile] = useState([])
     const [submitFlag, setSubmitFlag] = useState(false)
+    const [startAllocationFlag, setStartAllocationFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -92,18 +83,12 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Batch Number', 'dataIndex': 'batch_Number', 'key': 'batch_Number'}
     ]
 
-    // const activeUserDownloadColumn = [
-    //     {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
-    //     {'title': 'Role Name', 'dataIndex': 'roleName', 'key': 'roleName'},
-    //     {'title': 'Total Employee', 'dataIndex': 'totalEmployee', 'key': 'totalEmployee'},
-    // ]
 
     const multipleAllocationDownloadColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
         {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
         {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
         {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
-        // {'title': 'ProductName/ProductCode/Base Pack/Batch No','dataIndex':'', 'key': ''},
     ]
 
     useEffect(() => {
@@ -114,7 +99,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
        }
         handleCreateViewPlan({
             certificate: authInfo.token,
-            // yearMonth: toYyyyMm(yearMonth)
             alloc: data
         })
     },[])
@@ -128,7 +112,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             }
             handleCreateViewPlan({
                 certificate: authInfo.token,
-                // yearMonth: toYyyyMm(yearMonth)
                 alloc: data
             })
         }
@@ -146,19 +129,28 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             }
             handleCreateViewPlan({
                 certificate: authInfo.token,
-                // yearMonth: toYyyyMm(yearMonth)
                 alloc: data
             })
         }
     }, [submitSpecialAllocationSuccess])
 
     useEffect(() => {
-        if(specialPlanSubmitted == "true"){
+        if(specialPlanSubmitted == "true" ){
             setSubmitFlag(true)
+
         }else{
             setSubmitFlag(false)
+
         }
     },[specialPlanSubmitted])
+
+    useEffect(() => {
+        if(profileInfo.userDesignation.id === "C71C2C60-33DB-481B-8AFF-5BAFA9654691"){
+            setStartAllocationFlag(true)
+        }else{
+            setStartAllocationFlag(false)
+        }
+    },[profileInfo])
 
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -186,7 +178,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         }
         handleCreateViewPlan({
             certificate: authInfo.token,
-            // yearMonth: toYyyyMm(yearMonth)
             alloc: data
         })
         setCurrentStep(currentStep - 1)
@@ -201,14 +192,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             setDownloadAllocationFlag(true)
         }
     }
-
-    // const DownloadActiveUsers = () => {
-    //     handleActiveUserDownload({
-    //         certificate: authInfo.token,
-    //         userId: profileInfo.id
-    //     })
-    //     setActiveUserDownloadFlag(true)
-    // }
 
     const downloadInvoice = () => {
         let ccmId = []
@@ -235,14 +218,8 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         .then(response => {
                 console.log(response);
                 response.blob().then(blob => {
-                    // let url = window.URL.createObjectURL(blob);
-                    // let a = document.createElement('a');
-                    // a.href = url;
-                    // a.download = 'Multiple_Allocation.csv';
-                    // a.click();
                     console.log(blob)
                 });
-                //window.location.href = response.url;
             });
         }
     }
@@ -335,21 +312,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         }
     },[multipleAllocationDownload])
 
-    // useEffect(() => {
-    //     if(activeUserDownloadFlag){
-    //         if(activeUsersDownload.length > 0){
-    //             const excel = new Excel();
-    //             excel
-    //                 .addSheet("Active User")
-    //                 .addColumns(activeUserDownloadColumn)
-    //                 .addDataSource(activeUsersDownload, {
-    //                     str2Percent: true
-    //                 })
-    //                 .saveAs( 'ACTIVE_USER.xlsx');
-    //         }
-    //         setDownloadAllocationFlag(false)
-    //     }
-    // },[activeUsersDownload])
 
     const SubmitSpecialAllocation = () => {
         let data = {
@@ -363,42 +325,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         })
     }
 
-
-
-    // const searchData = () => {
-    //     setFlag(true)
-    //     setColumn([
-    //         {
-    //             title: 'Purpose',
-    //             key: 'purpose',
-    //             dataIndex: 'purpose',
-    //             width: '250px'
-    //         },
-    //         {
-    //             title: 'Requested On',
-    //             key: 'requestedOn',
-    //             dataIndex: 'requestedOn',
-    //             width: '250px'
-    //         },
-    //         {
-    //             title: '',
-    //             key: '',
-    //             dataIndex: '',
-    //             width: '50px',
-    //             render: () => {
-    //                 return <Button type={"link"}>Edit</Button>
-    //             }
-    //         }
-    //     ])
-    //
-    //     setDataSource([
-    //         {
-    //             key:'1',
-    //             purpose: '',
-    //             requestedOn: ''
-    //         }
-    //     ])
-    // }
 
     const newAllocation = () => {
         return navigate('/home/allocations/special/createNew')
@@ -454,10 +380,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         setFile(info.fileList)
         console.log(info.file.name)
         console.log(info)
-        // const file = info.file.originFileObj
-        // const base64 = await convertBase64(file)
-        // console.log(base64)
-        // console.log(file.name)
     }
 
 
@@ -596,24 +518,13 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 title: 'Pack Size',
                 dataIndex: 'packSize',
                 key: 'packSize',
-                // align: 'right',
                 ...getColumnSearchProps('packSize'),
             },
             {
                 title: 'Allocated',
                 dataIndex: 'quantityAllocated',
                 key: 'quantityAllocated',
-                //align: 'right',
-                //...getColumnSearchProps('quantityAllocated'),
             },
-            // {
-            //     title: 'Balance',
-            //     dataIndex: 'stock',
-            //     key: 'stock',
-            //    // align: 'right',
-            //    // ...getColumnSearchProps('stock'),
-            //
-            // },
 
 
 
@@ -651,13 +562,12 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
 
     const createViewClicked = () => {
         let data ={
-            "month": month,
-            "year": year,
-            "name": remark
+            "month": param.month,
+            "year":  param.year,
+            "name":  param.remark
         }
         handleCreateViewPlan({
             certificate: authInfo.token,
-            // yearMonth: toYyyyMm(yearMonth)
             alloc: data
         })
     }
@@ -673,12 +583,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
         <>
             <TitleWidget title={'Special Allocation'} subTitle={'Create'}/>
             <Row gutter={[8,8]} style={{marginBottom: 40}}>
-                {/*<Col span={3}>*/}
-                {/*    <DatePicker onChange={(date) => setYearMonth(date)} picker='month' />*/}
-                {/*</Col>*/}
-                {/*<Col span={2}>*/}
-                {/*    <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>*/}
-                {/*</Col>*/}
                 <Col span={2}>
                     Month: {param.month}
                 </Col>
@@ -707,9 +611,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                 <Col span={4} >
                     <Button type={'primary'} onClick={() => DownloadAllocation()}>Download Allocation</Button>
                 </Col>
-                {/*<Col span={3} >*/}
-                {/*    <Button type={'primary'} onClick={() => DownloadActiveUsers()}>Active Users</Button>*/}
-                {/*</Col>*/}
                 <Col span={4}></Col>
                 <Col span={3}>
                     <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
@@ -724,13 +625,6 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
                     <Button type={'primary'} onClick={upload} disabled={submitFlag}>Upload</Button>
                 </Col>
             </Row>
-
-            {/*<p>*/}
-            {/*    <b>Allocation Status</b> : Submit*/}
-            {/*    <br/>*/}
-            {/*    <b>Allocation Invoice Status</b>: Not initiated*/}
-            {/*</p>*/}
-
 
             <Steps current={currentStep} style={{marginBottom: 20}}>
                 {allocationSteps.map((item) =>
@@ -785,7 +679,7 @@ const SpecialAllocationComponent = ({authInfo, profileInfo,
             }
             <div style={{marginTop: 20}}>
                 {currentStep < allocationSteps.length - 1 && (
-                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag}>
+                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag || startAllocationFlag}>
                         Start Allocation
                     </Button>
                 )}

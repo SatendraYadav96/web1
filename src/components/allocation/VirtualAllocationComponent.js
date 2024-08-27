@@ -76,6 +76,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
     const [file, setFile] = useState([])
     const [submitFlag, setSubmitFlag] = useState(false)
     const [downloadData, setDownloadData] = useState([])
+    const [startAllocationFlag, setStartAllocationFlag] = useState(false)
 
     const downloadAllocationColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
@@ -150,6 +151,14 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
             setSubmitFlag(false)
         }
     },[virtualPlanSubmitted])
+
+    useEffect(() => {
+        if(profileInfo.userDesignation.id === "C71C2C60-33DB-481B-8AFF-5BAFA9654691"){
+            setStartAllocationFlag(true)
+        }else{
+            setStartAllocationFlag(false)
+        }
+    },[profileInfo])
 
     const SubmitVirtualAllocation = () => {
         let data = {
@@ -630,7 +639,7 @@ const VirtualAllocationComponent = ({authInfo, profileInfo,
             }
             <div style={{marginTop: 20}}>
                 {currentStep < allocationSteps.length - 1 && (
-                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag}>
+                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag || startAllocationFlag}>
                         Start Allocation
                     </Button>
                 )}

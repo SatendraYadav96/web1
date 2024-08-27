@@ -4,35 +4,28 @@ import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Col, Collapse, Input, message, Row, Select, Space, Spin, Steps, Table, Typography, Upload} from "antd";
-import moment, {months} from "moment";
+import moment from "moment";
 import {toMm, toYyyy} from "../../utils/DateUtils";
 import {Excel} from "antd-table-saveas-excel";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 
 import {
     getActiveUsersStartAction,
-    getAllocationsForPlanStartAction,
     getAllocationStatusDropdownStartAction,
     getDownloadAllocationStartAction,
     getMultipleAllocationDownloadStartAction, getSpecialAllocationsForPlanStartAction,
-    monthlyAllocationStartAction, multipleAllocationUploadSpecialStartAction, multipleAllocationUploadStartAction, specialAllocationStartAction,
+     multipleAllocationUploadSpecialStartAction, specialAllocationStartAction,
     submitMonthlyAllocationStartAction, submitSpecialAllocationStartAction
 } from "../../redux/actions/allocation/allocationActions";
 import {
-    selectAllocations,
-    selectAllocationsLoading,
     selectCommonAllocationDone,
     selectDownloadAllocation,
     selectGetActiveUsers,
-    selectGetAllocationStatusDropdown,
-    selectItemsLoading,
-    selectItemsToAllocate,
-    selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUpload, selectMultipleAllocationUploadSpecial, selectMultipleAllocationUploadSpecialSuccess, selectMultipleAllocationUploadSuccess,
-    selectPlan, selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialDifferentialAllocationSave, selectSpecialItemLoading
+    selectMultipleAllocationDownload, selectMultipleAllocationExcelDownload, selectMultipleAllocationUploadSpecial, selectMultipleAllocationUploadSpecialSuccess, selectMultipleAllocationUploadSuccess,
+    selectSpecialAllocation, selectSpecialAllocationForPlan, selectSpecialAllocationLoading, selectSpecialItemLoading, selectSpecialPlanSubmitted
 } from "../../redux/selectors/allocationSelectors";
-import {MonthlyAllocationInventoryColumns} from "./AllocationColumns";
-import TeamAllocationComponent from "./TeamAllocationComponent";
+
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {SearchOutlined, UploadOutlined} from "@ant-design/icons";
@@ -59,16 +52,19 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                                               specialItemsLoading, specialAllocation,
                                               allocations,
                                               allocationsLoading,
+                                              specialPlanSubmitted,
                                               selectCommonAllocationDone,
                                               handleCreateViewPlan,
                                               handleGoToAllocations,handleSubmitSpecialAllocation,
                                               downloadAllocation, handleGetDownloadAllocation,
                                               handleActiveUserDownload, activeUsersDownload, multipleAllocationDownload,  multipleAllocationExcel,
-                                              handleMultipleAllocation, handleMultipleAllocationUploadSpecial,items,planSubmitted},
-                                          multipleAllocationUploadSpecialSuccess,multipleAllocationUploadSpecial) => {
+                                              handleMultipleAllocation, handleMultipleAllocationUploadSpecial,items,planSubmitted,
+                                              multipleAllocationUploadSpecialSuccess,multipleAllocationUploadSpecial,multipleAllocationUploadSuccess,multipleAllocationUpload},
+                                          ) => {
 
 
     const navigates = useNavigate()
+    let param = useParams()
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -86,6 +82,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
     const [multipleAllocationDownloadFlag, setMultipleAllocationDownloadFlag] = useState(false)
     const [file, setFile] = useState([])
     const [submitFlag, setSubmitFlag] = useState(false)
+    const [startAllocationFlag, setStartAllocationFlag] = useState(false)
 
 
     const downloadAllocationColumn = [
@@ -100,18 +97,11 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         {'title': 'Batch Number', 'dataIndex': 'batch_Number', 'key': 'batch_Number'}
     ]
 
-    // const activeUserDownloadColumn = [
-    //     {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
-    //     {'title': 'Role Name', 'dataIndex': 'roleName', 'key': 'roleName'},
-    //     {'title': 'Total Employee', 'dataIndex': 'totalEmployee', 'key': 'totalEmployee'},
-    // ]
-
     const multipleAllocationDownloadColumn = [
         {'title': 'Team Name', 'dataIndex': 'teamName', 'key': 'teamName'},
         {'title': 'Recipient Name', 'dataIndex': 'recipientName', 'key': 'recipientName'},
         {'title': 'Recipient Code', 'dataIndex': 'recipientCode', 'key': 'recipientCode'},
         {'title': 'Designation', 'dataIndex': 'designationName', 'key': 'designationName'},
-        // {'title': 'ProductName/ProductCode','dataIndex':'', 'key': ''},
     ]
 
 
@@ -154,27 +144,14 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                 title: 'Pack Size',
                 dataIndex: 'packSize',
                 key: 'packSize',
-                // align: 'right',
                 ...getColumnSearchProps('packSize'),
             },
             {
                 title: 'Allocated',
                 dataIndex: 'quantityAllocated',
                 key: 'quantityAllocated',
-                //align: 'right',
                 ...getColumnSearchProps('quantityAllocated'),
             },
-            // {
-            //     title: 'Balance',
-            //     dataIndex: 'stock',
-            //     key: 'stock',
-            //    // align: 'right',
-            //    // ...getColumnSearchProps('stock'),
-            //
-            // },
-
-
-
 
 
         ]
@@ -191,6 +168,14 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         }
     },[planSubmitted])
 
+    useEffect(() => {
+        if(profileInfo.userDesignation.id === "C71C2C60-33DB-481B-8AFF-5BAFA9654691"){
+            setStartAllocationFlag(true)
+        }else{
+            setStartAllocationFlag(false)
+        }
+    },[profileInfo])
+
     const createViewClicked = () => {
         let data ={
             "month": month,
@@ -199,7 +184,6 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         }
         handleCreateViewPlan({
             certificate: authInfo.token,
-            // yearMonth: toYyyyMm(yearMonth)
             alloc: data
         })
     }
@@ -355,13 +339,23 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
     }
 
     const prev = () => {
+        let data ={
+            "month": month,
+            "year": year,
+            "name" : remark
+        }
+        handleCreateViewPlan({
+            certificate: authInfo.token,
+            // yearMonth: toYyyyMm(yearMonth)
+            alloc: data
+        })
         setCurrentStep(currentStep - 1)
     }
 
     const SubmitSpecialAllocation = () => {
         let data = {
-            "month": month,
-            "year": year,
+            "month": Number(month),
+            "year": Number(year),
             "name" : remark
         }
         handleSubmitSpecialAllocation({
@@ -390,14 +384,6 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
             setDownloadAllocationFlag(true)
         }
     }
-
-    // const DownloadActiveUsers = () => {
-    //     handleActiveUserDownload({
-    //         certificate: authInfo.token,
-    //         userId: profileInfo.id
-    //     })
-    //     setActiveUserDownloadFlag(true)
-    // }
 
     const DownloadMultipleAllocation = () => {
         let ccmId = []
@@ -461,92 +447,6 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         }
     },[multipleAllocationDownload])
 
-    // useEffect(() => {
-    //     if(activeUserDownloadFlag){
-    //         if(activeUsersDownload.length > 0){
-    //             const excel = new Excel();
-    //             excel
-    //                 .addSheet("Active User")
-    //                 .addColumns(activeUserDownloadColumn)
-    //                 .addDataSource(activeUsersDownload, {
-    //                     str2Percent: true
-    //                 })
-    //                 .saveAs( 'ACTIVE_USER.xlsx');
-    //         }
-    //         setDownloadAllocationFlag(false)
-    //     }
-    // },[activeUsersDownload])
-
-    //
-        // const column = [
-        //     {
-        //         title: 'Cost Center',
-        //         key: 'costCenter',
-        //         dataIndex: 'costCenter',
-        //         width: '150px'
-        //     },
-        //     {
-        //         title: 'Item',
-        //         key: 'item',
-        //         dataIndex: 'item',
-        //         width: '150px'
-        //     },
-        //     {
-        //         title: 'Stock',
-        //         key: 'stock',
-        //         dataIndex: 'stock',
-        //         width: '150px'
-        //     },
-        //     {
-        //         title: 'Expiry Date',
-        //         key: 'expiryDate',
-        //         dataIndex: 'expiryDate',
-        //         width: '150px'
-        //     },
-        //     {
-        //         title: 'PO No.',
-        //         key: 'PO No.',
-        //         dataIndex: 'PO No.',
-        //         width: '150px'
-        //     },
-        //     {
-        //         title: 'Base Pack',
-        //         key: 'basePack',
-        //         dataIndex: 'basePack',
-        //         width: '150px'
-        //     },
-        //     {
-        //         title: 'Quantity Allocated',
-        //         key: 'quantityAllocated',
-        //         dataIndex: 'quantityAllocated',
-        //         width: '150px'
-        //     },
-        //     {
-        //         title: '',
-        //         key: '',
-        //         dataIndex: '',
-        //         width: '50px',
-        //         render: () => {
-        //             return <Button type={"link"}>Allocate Item</Button>
-        //         }
-        //     },
-        //     {
-        //         title: '',
-        //         key: '',
-        //         dataIndex: '',
-        //         width: '150px',
-        //         render: () => {
-        //             return(<><Button>Download</Button>&nbsp;&nbsp;<Button>Upload CSV</Button></>)
-        //         }
-        //     }
-        // ]
-        //
-        // const dataSource =[
-        //     {
-        //         key:'1',
-        //
-        //     }
-        // ]
 
     const dummyRequest = ({ file, onSuccess }) => {
         setTimeout(() => {
@@ -598,35 +498,53 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
         setFile(info.fileList)
         console.log(info.file.name)
         console.log(info)
-        // const file = info.file.originFileObj
-        // const base64 = await convertBase64(file)
-        // console.log(base64)
-        // console.log(file.name)
     }
     const navigate = useNavigate()
     const handleBack = () => {
         return navigate("/home/allocations/special/create")
     }
 
-    // useEffect(() => {
-    //     if(multipleAllocationUploadSuccess){
-    //
-    //         console.log(multipleAllocationUpload)
-    //         console.log(Object.keys(multipleAllocationUpload).length !== 0)
-    //         if(multipleAllocationUpload!== undefined && Object.keys(multipleAllocationUpload).length !== 0  && multipleAllocationUpload.info == "error"){
-    //             message.error(multipleAllocationUpload.message);
-    //         }else{
-    //             message.success(multipleAllocationUpload.message);
-    //         }
-    //     }
-    // }, [multipleAllocationUploadSuccess])
+
+    useEffect(() => {
+        if(multipleAllocationUploadSpecialSuccess){
+            let data ={
+                "month": month,
+                "year": year,
+                "name" : remark
+            }
+            handleCreateViewPlan({
+                certificate: authInfo.token,
+                // yearMonth: toYyyyMm(yearMonth)
+                alloc: data
+            })
+        }
+    },[multipleAllocationUploadSpecialSuccess])
+
+    useEffect(() => {
+
+        if(multipleAllocationUploadSpecialSuccess){
+
+            console.log(multipleAllocationUploadSpecial)
+            console.log(Object.keys(multipleAllocationUploadSpecial).length !== 0)
+            if(multipleAllocationUploadSpecial!== undefined && Object.keys(multipleAllocationUploadSpecial).length !== 0  && multipleAllocationUploadSpecial.info == "error"){
+                message.error(multipleAllocationUploadSpecial.message);
+            }else{
+                message.success(multipleAllocationUploadSpecial.message);
+            }
+        }
 
 
 
 
+    }, [multipleAllocationUploadSpecialSuccess])
 
-
-
+    useEffect(() => {
+        if(specialPlanSubmitted == "true"){
+            setSubmitFlag(true)
+        }else{
+            setSubmitFlag(false)
+        }
+    },[specialPlanSubmitted])
 
 
     return(
@@ -642,9 +560,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                     Year<br/>
                     <SelectYearComponent value = {year} onChange={(e) => setYear(e)}/>
                 </Col>
-                {/*<Col span={4}>*/}
-                {/*    Status <br/><Select style={{ width: 140 }} onChange={(e) => setStatusDD(e)} placeholder={"Select Status"} options={statusDropdown} value={statusDD} />*/}
-                {/*</Col>*/}
+
                 <Col span={5}>
                     Purpose <br/><Input value={remark} onChange={(e) => setRemark(e.target.value)}/>
                 </Col>
@@ -662,20 +578,11 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
 
                 </Col>
 
-                {/*<Col span={2}>*/}
-                {/*    <br/>*/}
-                {/*    <Button type={"default"} onClick={()=>handleBack()} style={{width: "100%"}} style={{marginLeft:"20px"}}>Back</Button>*/}
-                {/*</Col>*/}
                 <Col span={2} offset={8}>
                     <br/>
                     <Button type={'primary'} onClick={() => SubmitSpecialAllocation()} disabled={submitFlag}>Submit</Button>
                 </Col>
-                {/*<Col span={2}>*/}
-                {/*    <Button type={'primary'} onClick={createViewClicked}>Create/View</Button>*/}
-                {/*</Col>*/}
-                {/*<Col span={2} offset={1}>*/}
-                {/*    <Button type={'primary'} onClick={() => SubmitMonthlyAllocation()}>Submit</Button>*/}
-                {/*</Col>*/}
+
             </Row>
             <br/><br/>
 
@@ -684,9 +591,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                 <Col span={4} >
                     <Button type={'primary'} onClick={() => DownloadAllocation()}>Download Allocation</Button>
                 </Col>
-                {/*<Col span={3} >*/}
-                {/*    <Button type={'primary'} onClick={() => DownloadActiveUsers()}>Active Users</Button>*/}
-                {/*</Col>*/}
+
                 <Col span={4}></Col>
                 <Col span={3}>
                     <Button type={'primary'} onClick={()=> DownloadMultipleAllocation()}>Multiple Allocation</Button>
@@ -701,11 +606,6 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
                     <Button type={'primary'} onClick={upload} disabled={submitFlag} >Upload</Button>
                 </Col>
             </Row>
-            {/*<p>*/}
-            {/*    <b>Allocation Status</b> : draft*/}
-            {/*    <br/>*/}
-            {/*    <b>Allocation Invoice Status</b>: Not initiated*/}
-            {/*</p>*/}
             <Steps current={currentStep} style={{marginBottom: 20}}>
                 {allocationSteps.map((item) =>
                     <Step key={item.title} title={item.title} />
@@ -754,7 +654,7 @@ const CreateSpecialAllocationComponent = ({authInfo, profileInfo,
             }
             <div style={{marginTop: 20}}>
                 {currentStep < allocationSteps.length - 1 && (
-                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag} >
+                    <Button type='primary' onClick={goToAllocation} disabled={submitFlag || startAllocationFlag} >
                         Start Allocation
                     </Button>
                 )}
@@ -804,7 +704,9 @@ CreateSpecialAllocationComponent.propTypes = {
     handleMultipleAllocationUploadSpecial: PropTypes.func,
     multipleAllocationUploadSpecialSuccess: PropTypes.any,
     multipleAllocationUploadSpecial:PropTypes.any,
-
+    multipleAllocationUploadSuccess: PropTypes.any,
+    multipleAllocationUpload:PropTypes.any,
+    specialPlanSubmitted:PropTypes.any,
 
 }
 
@@ -823,10 +725,12 @@ const mapState = (state) => {
     const multipleAllocationExcel = selectMultipleAllocationExcelDownload(state)
     const multipleAllocationUploadSpecialSuccess = selectMultipleAllocationUploadSpecialSuccess(state)
     const multipleAllocationUploadSpecial = selectMultipleAllocationUploadSpecial(state)
+    const multipleAllocationUploadSuccess = selectMultipleAllocationUploadSuccess(state)
+    const specialPlanSubmitted = selectSpecialPlanSubmitted(state)
     console.log(multipleAllocationUploadSpecial)
 
     return { authInfo, profileInfo, specialItemsLoading, specialAllocation, allocationsLoading, allocations, commonAllocationDone, downloadAllocation,activeUsersDownload,
-        multipleAllocationDownload,  multipleAllocationExcel,multipleAllocationUploadSpecialSuccess,multipleAllocationUploadSpecial}
+        multipleAllocationDownload,specialPlanSubmitted,  multipleAllocationExcel,multipleAllocationUploadSpecialSuccess,multipleAllocationUploadSpecial,multipleAllocationUploadSuccess}
 }
 
 const actions = {

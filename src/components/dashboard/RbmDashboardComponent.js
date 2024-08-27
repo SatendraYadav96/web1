@@ -27,8 +27,8 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
     // const [hoverInventory, setHoverInventory] = useState(false);
     // const [hoverUser, setHoverUser] = useState(false);
     // const [hoverDispatchRegister, setHoverDispatchRegister] = useState(false);
-    // const [hoverMonthlyAllocation, setHoverMonthlyAllocation] = useState(false);
-    // const [hoverSpecialAllocation, setHoverSpecialAllocation] = useState(false);
+    const [hoverMonthlyAllocation, setHoverMonthlyAllocation] = useState(false);
+    const [hoverSpecialAllocation, setHoverSpecialAllocation] = useState(false);
     const [hoverVirtualAllocation, setHoverVirtualAllocation] = useState(false);
     const [hoverSetPassword, setHoverSetPassword] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -91,36 +91,36 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
     //
     //
     //
-    // const onHoverMonthlyAllocation = (e) =>{
-    //     e.preventDefault()
-    //     setHoverMonthlyAllocation(true)
-    //     console.log("hovered")
-    //
-    // }
-    //
-    // const onHoverOverMonthlyAllocation = (e) => {
-    //     e.preventDefault()
-    //     setHoverMonthlyAllocation(false)
-    // }
-    //
-    // const HoverDataMonthlyAllocation = "Monthly Approval";
-    //
-    //
-    //
-    //
-    // const onHoverSpecialAllocation = (e) =>{
-    //     e.preventDefault()
-    //     setHoverSpecialAllocation(true)
-    //     console.log("hovered")
-    //
-    // }
-    //
-    // const onHoverOverSpecialAllocation = (e) => {
-    //     e.preventDefault()
-    //     setHoverSpecialAllocation(false)
-    // }
-    //
-    // const HoverDataSpecialAllocation = "Special Approval";
+    const onHoverMonthlyAllocation = (e) =>{
+        e.preventDefault()
+        setHoverMonthlyAllocation(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverMonthlyAllocation = (e) => {
+        e.preventDefault()
+        setHoverMonthlyAllocation(false)
+    }
+
+    const HoverDataMonthlyAllocation = "Monthly Approval";
+
+
+
+
+    const onHoverSpecialAllocation = (e) =>{
+        e.preventDefault()
+        setHoverSpecialAllocation(true)
+        console.log("hovered")
+
+    }
+
+    const onHoverOverSpecialAllocation = (e) => {
+        e.preventDefault()
+        setHoverSpecialAllocation(false)
+    }
+
+    const HoverDataSpecialAllocation = "Special Approval";
 
 
 
@@ -262,35 +262,35 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
 
 
 
-                    {/*{hoverMonthlyAllocation && <p className={hoverMonthlyAllocation}  >{HoverDataMonthlyAllocation}</p>}*/}
+                    {hoverMonthlyAllocation && <p className={hoverMonthlyAllocation}  >{HoverDataMonthlyAllocation}</p>}
 
-                    {/*<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>*/}
-                    {/*    <img src={monthlyallocation} alt="monthlyallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/monthly/create")}*/}
-                    {/*        // onMouseEnter={(e)=>onHoverMonthlyAllocation(e)}*/}
-                    {/*        // onMouseLeave={(e)=>onHoverOverMonthlyAllocation(e)}*/}
-
-
-                    {/*    />*/}
-                    {/*    <h3 style={{ marginLeft: "50px" }} >Monthly Allocation</h3>*/}
-                    {/*</div>*/}
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <img src={monthlyallocation} alt="monthlyallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/monthly/create")}
+                            // onMouseEnter={(e)=>onHoverMonthlyAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverMonthlyAllocation(e)}
 
 
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >Monthly Allocation</h3>
+                    </div>
 
 
 
 
-                    {/*{hoverSpecialAllocation && <p className={hoverSpecialAllocation}  >{HoverDataSpecialAllocation}</p>}*/}
-
-                    {/*<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>*/}
-
-                    {/*    <img src={specialallocation} alt="specialallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/special/create")}*/}
-                    {/*        // onMouseEnter={(e)=>onHoverSpecialAllocation(e)}*/}
-                    {/*        // onMouseLeave={(e)=>onHoverOverSpecialAllocation(e)}*/}
 
 
-                    {/*    />*/}
-                    {/*    <h3 style={{ marginLeft: "50px" }} >Special Allocation</h3>*/}
-                    {/*</div>*/}
+                    {hoverSpecialAllocation && <p className={hoverSpecialAllocation}  >{HoverDataSpecialAllocation}</p>}
+
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+                        <img src={specialallocation} alt="specialallocation"  width="100" height="80" style={{marginLeft:"50px"}} onClick={() => navigate("/home/allocations/special/create")}
+                            // onMouseEnter={(e)=>onHoverSpecialAllocation(e)}
+                            // onMouseLeave={(e)=>onHoverOverSpecialAllocation(e)}
+
+
+                        />
+                        <h3 style={{ marginLeft: "50px" }} >Special Allocation</h3>
+                    </div>
 
 
 
