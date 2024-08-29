@@ -356,6 +356,7 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
                     initialValues={{ remember: true }}
                     onValuesChange={handleFormChange}
                     onFinish={handleOk}
+
                 >
                     <Form.Item
                         label="Old Passord"
@@ -388,6 +389,7 @@ const RbmDashboardComponents = ({authInfo,profileInfo,handleSetPassword}) => {
                         <Input.Password />
                     </Form.Item>
                 </Form>
+
             </Modal>;
 
 

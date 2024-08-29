@@ -3,44 +3,32 @@ import TitleWidget from "../../widgets/TitleWidget";
 import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
-import {Button, Checkbox, Col, Input, message, Modal, Row, Select, Space, Table} from "antd";
-import {ArrowRightOutlined, CheckOutlined, CloseOutlined, InfoCircleOutlined, SearchOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
+import {Button, Checkbox, Col, Input,  Modal, Row, Select, Space, Table} from "antd";
+import { CheckOutlined, CloseOutlined, InfoCircleOutlined, SearchOutlined, } from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
-import SelectRecipientCodeComponent from "../widgets/SelectRecipientCodeComponent";
+
 import {
     selectApprovePlanListData,
-    selectMonthlyApprovalDetailsListData,
-    selectMonthlyApprovalListData,
-    selectMonthlyToSpecialListData,
-    selectRejectPlanListData,
-    selectResetPlanListData, selectSpecialPlanApprovalDetailsListData,
+    selectRejectPlanListData, selectSpecialPlanApprovalDetailsListData,
     selectSpecialPlanApprovalListData,
-    selectUnlockPlanListData
 } from "../../redux/selectors/monthlyApprovalSelector";
 import {
     approvePlanStartAction,
     getMonthlyApprovalDetailsStartAction,
     getMonthlyApprovalStartAction,
-    monthlyToSpecialStartAction,
     rejectPlanStartAction,
-    resetPlanStartAction,
     specialPlanApprovalDetailsStartAction,
     specialPlanApprovalStartAction,
-    unlockPlanStartAction
 } from "../../redux/actions/approval/monthlyApprovalActions";
 import Highlighter from "react-highlight-words";
-import {toMm, toYyyy} from "../../utils/DateUtils";
-import {APPROVE_PLAN_SUCCESS} from "../../redux/actions/approval/monthlyApprovalActionConstants";
+import {selectPhysicalSamplingListData} from "../../redux/selectors/physicalSamplingSelector";
+import {getPhysicalSamplingReportStartAction} from "../../redux/actions/reports/physicalSamplingReportActions";
+import CSVDownload from "react-csv/src/components/Download";
+
 
 const AllocationDetails = () => {
     const [column, setColumn] = useState([
-        // {
-        //     title:'Team',
-        //     key: 'team',
-        //     dataIndex: 'team',
-        //     width:'200px',
-        // },
         {
             title:'Members',
             key: 'members',
@@ -157,7 +145,10 @@ const AllocationDetails = () => {
     )
 }
 
-const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInfo,handleMonthlyApproval,monthlyApprovalDetailsList,handleSpecialPlan,handleMonthlyApprovalDetails,handleResetPlanList,handleUnlockPlanList,handleApprovePlanList,handleRejectPlanList,handleMonthlyToSpecialList,specialPlanApprovalDetailsList,handleSpecialPlanDetails,approvePlanList,rejectPlanList}) => {
+const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInfo,handleMonthlyApproval,monthlyApprovalDetailsList,handleSpecialPlan,
+                                        handleMonthlyApprovalDetails,handleResetPlanList,handleUnlockPlanList,handleApprovePlanList,handleRejectPlanList,handleMonthlyToSpecialList,
+                                        specialPlanApprovalDetailsList,handleSpecialPlanDetails,approvePlanList,rejectPlanList,
+                                        physicalSamplingList,handlePhysicalSamplingData}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -185,6 +176,9 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const [view, setView] = useState(false)
+    const [checkedArr, setCheckedArr] = useState([])
+    const [downloadData, setDownloadData] = useState([])
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -284,13 +278,16 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
     const searchData = () => {
         setFlag(true)
         setColumn([
-            // {
-            //     title:'Team',
-            //     key: 'teamName',
-            //     dataIndex: 'teamName',
-            //     width:'200px',
-            //     ...getColumnSearchProps('teamName'),
-            // },
+            {
+                title: 'Tick',
+                key: '',
+                dataIndex: '',
+                width: '30px',
+                render:(_,row) => {
+                    return <Checkbox onChange={(event) => handleChecked(event,row)}/>
+                }
+            },
+
             {
                 title:'Plan Purpose',
                 key: 'planName',
@@ -409,15 +406,7 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
                 dataIndex: 'quantity',
                 width:'200px',
             },
-            // {
-            //     title: '',
-            //     key: '',
-            //     dataIndex: '',
-            //     width: '100px',
-            //     render: (_,row) => {
-            //         return <Button onClick={() => setAllocationDetails(true)}>View Details</Button>
-            //     }
-            // }
+
         ]);
         setPlanColumn([
             {
@@ -465,6 +454,21 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
             }
         ])
     }
+    const handleChecked = (event,row) => {
+        console.log(row)
+        let invoice = row
+        // event.target.checked ? setCheckedArr(current => [...current, row.invoiceNumber]) : checkedArr.filter(checked => checked.includes(row.invoiceNumber))
+        if (event.target.checked) {
+            setCheckedArr(current => [...current, row])
+
+        }
+
+        else if (event.target.checked === false) {
+            setCheckedArr((current) => current.filter(checked => checked !== row))
+            console.log("removed")
+        }
+    }
+
 
     const handleInvoice = (row) => {
 
@@ -551,6 +555,53 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
 
     },[rejectPlanList])
 
+    const handlePhysicalSamplingList = () => {
+        console.log(checkedArr);
+        let data= [];
+        checkedArr.forEach(i => {
+            console.log(i)
+            let d = {
+                'planId':i.dispatchPlanID
+            }
+            console.log(d)
+            data.push(d)
+        })
+        console.log(data)
+        handlePhysicalSamplingData({
+            certificate: authInfo.token,
+            data: data
+        })
+    }
+
+    useEffect(() => {
+        console.log(physicalSamplingList)
+        if (physicalSamplingList) {
+            console.log("there is data")
+            setDownloadData(physicalSamplingList.map(item => {
+                return {
+                    "Client Shippment ID*": item.clientShippment,
+                    "Client Shippment date*": item.clientShippmentDate,
+                    "Product name (SKU)*": `(Physical)_${item.productName}`,
+                    "LOT Name*": `(Physical)_${item.lot}`,
+                    "Quantity Shipped*": item.quantity,
+                    "User name*": item.empName,
+                    "Employee ID*": item.empCode,
+                    "User Position Name*": item.userPosition,
+                    "User Email ID *": item.emailAddress,
+
+                }
+            }))
+        } else {
+            console.log('no data')
+        }
+        if (view) {
+            if (downloadData.length > 0) {
+                setView(false)
+            }
+        }
+
+    },[physicalSamplingList])
+
     return(
         <>
             <TitleWidget title={'Special Allocation Review'} />
@@ -564,6 +615,16 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
                 <Col span={3}>
                     <Button type={'primary'} onClick={() => searchInv()}>Submit</Button>
                 </Col>
+            </Row>
+            <br/>
+            <Row gutter={16}>
+                <Space wrap style={{marginBottom:"-25px"}}>
+                    <Button type="primary" onClick={()=>{handlePhysicalSamplingList()
+                        setView(true)}} >CSV</Button>
+
+
+                </Space>
+
             </Row>
             <br/><br/>
             {flag &&
@@ -599,6 +660,9 @@ const SpecialDispatchesComponent = ({authInfo,specialPlanApprovalList,profileInf
             <Modal title="Plan Reject!" open={commentRejectModal} onOk={handleReject} onCancel={() => setCommentRejectModal(false)}>
                 <Input value={comment} onChange={(e) => setComment(e.target.value)}/>
             </Modal>
+            {downloadData.length > 0 && <CSVDownload
+                data={downloadData}/>
+            }
         </>
     )
 }
@@ -615,7 +679,9 @@ SpecialDispatchesComponent.propTypes = {
     handleApprovePlanList: PropTypes.func,
     handleSpecialPlanDetails: PropTypes.func,
     handleRejectPlanList: PropTypes.func,
-    approvePlanList : PropTypes.any
+    approvePlanList : PropTypes.any,
+    physicalSamplingList:PropTypes.any,
+    handlePhysicalSamplingData:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -625,7 +691,9 @@ const mapState = (state) => {
     const rejectPlanList = selectRejectPlanListData(state)
     const specialPlanApprovalList = selectSpecialPlanApprovalListData(state)
     const specialPlanApprovalDetailsList = selectSpecialPlanApprovalDetailsListData(state)
-    return {authInfo,profileInfo,approvePlanList,rejectPlanList,specialPlanApprovalList,specialPlanApprovalDetailsList}
+    const physicalSamplingList = selectPhysicalSamplingListData(state)
+
+    return {authInfo,profileInfo,approvePlanList,rejectPlanList,specialPlanApprovalList,specialPlanApprovalDetailsList,physicalSamplingList}
 }
 
 const actions = {
@@ -635,6 +703,7 @@ const actions = {
     handleRejectPlanList: rejectPlanStartAction,
     handleSpecialPlan: specialPlanApprovalStartAction,
     handleSpecialPlanDetails: specialPlanApprovalDetailsStartAction,
+    handlePhysicalSamplingData:getPhysicalSamplingReportStartAction,
 }
 
 export default connect(mapState, actions)(SpecialDispatchesComponent)

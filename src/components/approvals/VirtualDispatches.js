@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Space, Table} from "antd";
-import {ArrowRightOutlined, CheckOutlined, CloseCircleOutlined, CloseOutlined, InfoCircleOutlined, SearchOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
+import { InfoCircleOutlined, SearchOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 
@@ -12,8 +12,6 @@ import {
     selectApprovePlanListData,
     selectRejectPlanListData,
     selectRejectPlanSuccess,
-    selectSpecialPlanApprovalDetailsListData,
-    selectSpecialPlanApprovalListData,
     selectVirtualApprovalDownload,
     selectVirtualPlanApprovalDetailsListData,
     selectVirtualPlanApprovalListData
@@ -23,14 +21,13 @@ import {
     getMonthlyApprovalDetailsStartAction,
     getMonthlyApprovalStartAction,
     rejectPlanStartAction,
-    specialPlanApprovalDetailsStartAction,
-    specialPlanApprovalStartAction, virtualApprovalDownloadStartAction,
+    virtualApprovalDownloadStartAction,
     virtualPlanApprovalDetailsStartAction,
     virtualPlanApprovalStartAction
 } from "../../redux/actions/approval/monthlyApprovalActions";
 import Highlighter from "react-highlight-words";
 import CSVDownload from "react-csv/src/components/Download";
-import XLSX from "xlsx";
+
 
 const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,rejectPlanList,virtualPlanApprovalList,virtualPlanApprovalDetailsList, handleRejectPlanList,
                                         rejectPlanSuccess,handleVirtualPlan, handleVirtualPlanDetails, virtualApprovalDownload, handleVirtualApprovalDownload}) => {
@@ -197,13 +194,6 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                 }
             }
             ,
-            // {
-            //     title:'Team',
-            //     key: 'teamName',
-            //     dataIndex: 'teamName',
-            //     width:'200px',
-            //     ...getColumnSearchProps('teamName'),
-            // },
             {
                 title:'Plan Purpose',
                 key: 'planName',
@@ -241,27 +231,6 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                     return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
                 },
             }
-            // ,{
-            //     title: 'Reject',
-            //     key: '',
-            //     dataIndex: '',
-            //     width:'50px',
-            //     render:(_,row) => {
-            //         return <Button icon={<CloseOutlined />} disabled={row.planStatus === 'REVIEWED'} onClick={() => {
-            //             setOpenReject(true);
-            //             setPlanId(row.dispatchPlanID);
-            //         }}></Button>
-            //     },
-            // },
-            // {
-            //     title: 'Download',
-            //     key: '',
-            //     dataIndex: '',
-            //     width:'25px',
-            //     render:(_,row) => {
-            //         return <Checkbox/>
-            //     },
-            // },
         ]);
         setDetailsColumn([
             {
@@ -282,12 +251,7 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                 dataIndex: 'recipientCode',
                 width:'200px',
             },
-            // {
-            //     title: 'Team',
-            //     key: 'team',
-            //     dataIndex: 'team',
-            //     width:'200px',
-            // },
+
             {
                 title: 'Cost Center',
                 key: 'costCenter',
@@ -312,15 +276,7 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
                 dataIndex: 'quantity',
                 width:'200px',
             },
-            // {
-            //     title: '',
-            //     key: '',
-            //     dataIndex: '',
-            //     width: '100px',
-            //     render: (_,row) => {
-            //         return <Button onClick={() => setAllocationDetails(true)}>View Details</Button>
-            //     }
-            // }
+
         ]);
         setDataSource([
             {
@@ -339,8 +295,6 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
         handleRejectPlanList({
             certificate: authInfo.token,
             plan: {
-                // planId: row.dispatchPlanID,
-                // apiId: row.dispatchPlanID,
                 planId: planId,
                 apiId: planId,
                 approvalType: 1,
@@ -361,41 +315,12 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
         searchData()
     }
 
+
     useEffect(() => {
         if(rejectPlanSuccess){
             searchInv()
         }
     },[rejectPlanSuccess])
-
-
-
-    // const rowSelection = {
-    //
-    //     onChange: (selectedRowKeys, selectedRows) => {
-    //
-    //         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    //
-    //             setSelectedItems([selectedRows])
-    //
-    //
-    //     },
-    //
-    //     getCheckboxProps: (row) => ({
-    //         disabled: (row.stock) == 0
-    //
-    //
-    //     }),
-    //
-    // }
-
-
-
-
-
-
-
-
-
 
     const handleDownload = () => {
         let data= [];
@@ -454,14 +379,6 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
 
     },[virtualApprovalDownload])
 
-
-    // const handleExcel = () => {
-    //     const wb = XLSX.utils.book_new(),
-    //         ws = XLSX.utils.json_to_sheet(downloadData);
-    //     XLSX.utils.book_append_sheet(wb,ws,"Sheet1")
-    //     XLSX.writeFile(wb,"VirtualAllocation.xlsx")
-    // }
-
     return(
         <>
             <TitleWidget title={'Virtual Allocation Review'} />
@@ -485,38 +402,12 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
 
                 </Space>
 
-
-                {/*<Space wrap style={{marginBottom:"-25px"}}>*/}
-                {/*    <Col span={3}>*/}
-                {/*        <Button type={'primary'} style={{width: '100%'}} onClick={handleAllCsvDownload} >Csv All</Button>*/}
-                {/*    </Col>*/}
-
-
-                {/*</Space>*/}
-
-                {/*<Space wrap style={{marginBottom:"-25px" , marginLeft:"50px"}}>*/}
-                {/*    <Col span={3}>*/}
-                {/*        <Button type={'primary'} onClick={handleExcel}>Excel</Button>*/}
-                {/*    </Col>*/}
-                {/*</Space>*/}
             </Row>
 
 
             <br/><br/>
 
-
-            {/*{flag &&*/}
-            {/*    <Table columns={column} rowSelection={{*/}
-            {/*        type: 'selectionType',*/}
-            {/*        ...rowSelection,*/}
-            {/*    }} dataSource={virtualPlanApprovalList}/>*/}
-            {/*}*/}
-
-
             <div>
-
-
-
 
                 <Table
 
@@ -547,7 +438,6 @@ const VirtualDispatchesComponent = ({authInfo,profileInfo,approvePlanList,reject
             </Modal>
             {downloadData.length > 0 && <CSVDownload
                 data={downloadData}/>
-                // target="_blank"></CSVDownload>
             }
         </>
     )

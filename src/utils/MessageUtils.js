@@ -41,6 +41,7 @@ import {SAVE_NON_COMPLIANCE_ADMIN_REMARK_START, SAVE_OVER_SAMPLING_START} from "
 import {GET_MASTER_BLOCKED_LIST_START} from "../redux/actions/master/masterActionConstants";
 import {GET_INVOICE_UPLOAD_CSV_FAIL, GET_INVOICE_UPLOAD_CSV_START, GET_INVOICE_UPLOAD_CSV_SUCCESS} from "../redux/actions/dispatchInvoice/invoiceUploadActionConstants";
 import {SET_PASSWORD_FAIL_ACTION, SET_PASSWORD_START_ACTION, SET_PASSWORD_SUCCESS_ACTION} from "../redux/actions/auth/authActionConstants";
+import {GET_PHYSICAL_SAMPLING_REPORT_FAIL, GET_PHYSICAL_SAMPLING_REPORT_START, GET_PHYSICAL_SAMPLING_REPORT_SUCCESS} from "../redux/actions/reports/physicalSamplingReportActionConstants";
 
     export const messages = {
     LOGIN_START_ACTION: [{ action: 'showspinner' }],
@@ -1698,5 +1699,16 @@ import {SET_PASSWORD_FAIL_ACTION, SET_PASSWORD_START_ACTION, SET_PASSWORD_SUCCES
                 payload: { message: { text: 'action failed', type: 'error' } },
             },
         ],
+
+        GET_PHYSICAL_SAMPLING_REPORT_START:[{ action: 'showspinner' }],
+        GET_PHYSICAL_SAMPLING_REPORT_SUCCESS: [{ action: 'hidespinner' }],
+        GET_PHYSICAL_SAMPLING_REPORT_FAIL: [
+            { action: 'hidespinner' },
+            {
+                action: 'showerror',
+                payload: { message: { text: 'action failed', type: 'error' } },
+            },
+        ],
+
 
 }

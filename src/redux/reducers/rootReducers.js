@@ -38,6 +38,7 @@ import complianceReducer from "./nonComplianceReducer";
 import uploadReducer from "./uploadReducer";
 import batchReconciliation from "../../components/batchReconciliation/BatchReconciliation";
 import batchReconciliationReportReducer from "./batchReconciliationReportReducer";
+import physicalSamplingReducer from "./physicalSamplingReducer";
 
 
 
@@ -81,6 +82,7 @@ const rootReducer = combineReducers({
     dropDown:dropDownReducer,
     dashboard: dashboardReducer,
     upload: uploadReducer,
+    physicalSampling:physicalSamplingReducer,
 })
 
 export default rootReducer

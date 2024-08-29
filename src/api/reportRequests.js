@@ -4,7 +4,7 @@ import {
     GET_BATCH_RECONCILIATION_REPORT_API,
     GET_ITEM_WISE_REPORT_API,
     GET_NEAR_TO_EXPIRY_INPUT_REPORT_API,
-    GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API,
+    GET_NEAR_TO_EXPIRY_SAMPLE_REPORT_API, GET_PHYSICAL_SAMPLING_REPORT_API,
     GET_RECIPIENT_REPORT_API, GET_SHIP_ROCKET_REPORT_API,
     GET_SIMPLE_INVENTORY_REPORT_API,
     GET_STOCK_LEDGER_REPORT_API,
@@ -120,4 +120,11 @@ export const getShipRocketReportRequest = payload => {
 
 export const overSamplingMailRequest = payload => {
     return createRequest(SEND_OVERSAMPLING_MAIL_API, payload.certificate, null)
+}
+
+export const getPhysicalSamplingReportRequest = payload => {
+    console.log("sample:", payload)
+    const api = {...GET_PHYSICAL_SAMPLING_REPORT_API, url: `${GET_PHYSICAL_SAMPLING_REPORT_API.url}`}
+    return createRequest(api, payload.certificate, payload.data)
+    // return createRequest(GET_PHYSICAL_SAMPLING_REPORT_API, payload.certificate, payload.psr)
 }

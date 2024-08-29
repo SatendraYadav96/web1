@@ -4,22 +4,19 @@ import PropTypes from "prop-types";
 import {selectAuthInfo, selectProfileInfo} from "../../redux/selectors/authSelectors";
 import {connect} from "react-redux";
 import {Button, Checkbox, Col, Input, Modal, Row, Select, Space, Table} from "antd";
-import {Option} from "antd/es/mentions";
-import {ArrowRightOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, EditOutlined, ExclamationCircleFilled, FileOutlined, InfoCircleOutlined, RedoOutlined, SearchOutlined, SyncOutlined, UnlockOutlined} from "@ant-design/icons";
+import {ArrowRightOutlined, CheckOutlined, CloseOutlined, InfoCircleOutlined,  SearchOutlined, UnlockOutlined} from "@ant-design/icons";
 import SelectMonthComponent from "../widgets/SelectMonthComponent";
 import SelectYearComponent from "../widgets/SelectYearComponent";
 import {selectApprovePlanListData, selectMonthlyApprovalDetailsListData, selectMonthlyApprovalListData, selectMonthlyToSpecialListData, selectRejectPlanListData, selectResetPlanListData, selectUnlockPlanListData} from "../../redux/selectors/monthlyApprovalSelector";
 import {approvePlanStartAction, getMonthlyApprovalDetailsStartAction, getMonthlyApprovalStartAction, monthlyToSpecialStartAction, rejectPlanStartAction, resetPlanStartAction, unlockPlanStartAction} from "../../redux/actions/approval/monthlyApprovalActions";
 import Highlighter from "react-highlight-words";
+import CSVDownload from "react-csv/src/components/Download";
+import {getPhysicalSamplingReportStartAction} from "../../redux/actions/reports/physicalSamplingReportActions";
+import {selectPhysicalSamplingListData} from "../../redux/selectors/physicalSamplingSelector";
 
 const AllocationDetails = () => {
     const [column, setColumn] = useState([
-        // {
-        //     title:'Team',
-        //     key: 'team',
-        //     dataIndex: 'team',
-        //     width:'200px',
-        // },
+
         {
             title:'Members',
             key: 'members',
@@ -136,7 +133,9 @@ const AllocationDetails = () => {
     )
 }
 
-const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleMonthlyApproval,monthlyApprovalDetailsList,handleMonthlyApprovalDetails,handleResetPlanList,handleUnlockPlanList,handleApprovePlanList,handleRejectPlanList,handleMonthlyToSpecialList,approvePlanList }) => {
+const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleMonthlyApproval,monthlyApprovalDetailsList,handleMonthlyApprovalDetails,
+                                   handleResetPlanList,handleUnlockPlanList,handleApprovePlanList,handleRejectPlanList,handleMonthlyToSpecialList,approvePlanList,
+                                   physicalSamplingList,handlePhysicalSamplingData}) => {
 
     const date = new Date();
     const currentYear = date.getFullYear();
@@ -165,6 +164,9 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const [view, setView] = useState(false)
+    const [checkedArr, setCheckedArr] = useState([])
+    const [downloadData, setDownloadData] = useState([])
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -265,13 +267,16 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
     const searchData = () => {
         setFlag(true)
         setColumn([
-            // {
-            //     title:'Team',
-            //     key: 'teamName',
-            //     dataIndex: 'teamName',
-            //     width:'200px',
-            //     ...getColumnSearchProps('teamName'),
-            // },
+            {
+                title: 'Tick',
+                key: '',
+                dataIndex: '',
+                width: '30px',
+                render:(_,row) => {
+                    return <Checkbox onChange={(event) => handleChecked(event,row)}/>
+                }
+            },
+
             {
                 title:'Brand Manager',
                 key: 'userName',
@@ -295,15 +300,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                     return <Button icon={<InfoCircleOutlined/>} onClick={() => handleDetails(row)}></Button>
                 },
             },
-            // {
-            //     title: 'Reset',
-            //     key: '',
-            //     dataIndex: '',
-            //     width:'50px',
-            //     render:(_,row) => {
-            //         return <Button icon={<SyncOutlined spin/>} disabled={row.planStatus !== 'REVIEWED'} onClick={() => handleReset(row)}></Button>
-            //     },
-            // },
+
             {
                 title: 'Unlock',
                 key: '',
@@ -393,35 +390,10 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 dataIndex: 'quantityAllocated',
                 width:'200px',
             },
-            // {
-            //     title: '',
-            //     key: '',
-            //     dataIndex: '',
-            //     width: '100px',
-            //     render: (_,row) => {
-            //         return <Button onClick={() => setAllocationDetails(true)}>View Details</Button>
-            //     }
-            // }
+
         ]);
         setPlanColumn([
-            // {
-            //     title: 'Month',
-            //     key: '',
-            //     dataIndex: 'month',
-            //     width:'100px',
-            //     render:(_,row) => {
-            //         return <SelectMonthComponent onChange={(e) => setPlanMonth(e)}/>
-            //     },
-            // },
-            // {
-            //     title: 'Year',
-            //     key: '',
-            //     dataIndex: 'year',
-            //     width:'100px',
-            //     render:(_,row) => {
-            //         return <SelectYearComponent onChange={(e) => setPlanYear(e)}/>
-            //     },
-            // },
+
             {
                 title: 'Plan Purpose',
                 key: '',
@@ -462,6 +434,21 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
         searchData()
     }
 
+    const handleChecked = (event,row) => {
+        console.log(row)
+        let invoice = row
+        // event.target.checked ? setCheckedArr(current => [...current, row.invoiceNumber]) : checkedArr.filter(checked => checked.includes(row.invoiceNumber))
+        if (event.target.checked) {
+            setCheckedArr(current => [...current, row])
+
+        }
+
+        else if (event.target.checked === false) {
+            setCheckedArr((current) => current.filter(checked => checked !== row))
+            console.log("removed")
+        }
+    }
+
     const handleChange = (e) => {
         console.log('checked = ', e.target.checked);
         setChecked(e.target.checked);
@@ -477,13 +464,6 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
         setDetails(true)
     }
 
-    // const handleReset = (row) => {
-    //     handleResetPlanList({
-    //         certificate: authInfo.token,
-    //         planId: row.dispatchPlanID,
-    //     })
-    // }
-
     const handleUnlock = (row) => {
         handleUnlockPlanList({
             certificate: authInfo.token,
@@ -495,19 +475,6 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
             },
         })
     }
-
-    // useEffect(() => {
-    //     handleApprovePlanList({
-    //         certificate: authInfo.token,
-    //         plan: {
-    //             planId: planId,
-    //             apiId: planId,
-    //             approvalType: 0,
-    //             comment: comment,
-    //         },
-    //     })
-    //   //  searchData()
-    // })
 
     const handleReview = () => {
         handleApprovePlanList({
@@ -564,6 +531,53 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
 
     },[approvePlanList])
 
+    const handlePhysicalSamplingList = () => {
+        console.log(checkedArr);
+        let data= [];
+        checkedArr.forEach(i => {
+            console.log(i)
+            let d = {
+                'planId':i.dispatchPlanID
+            }
+            console.log(d)
+            data.push(d)
+        })
+        console.log(data)
+        handlePhysicalSamplingData({
+            certificate: authInfo.token,
+            data: data
+        })
+    }
+
+    useEffect(() => {
+        console.log(physicalSamplingList)
+        if (physicalSamplingList) {
+            console.log("there is data")
+            setDownloadData(physicalSamplingList.map(item => {
+                return {
+                    "Client Shippment ID*": item.clientShippment,
+                    "Client Shippment date*": item.clientShippmentDate,
+                    "Product name (SKU)*": `(Physical)_${item.productName}`,
+                    "LOT Name*": `(Physical)_${item.lot}`,
+                    "Quantity Shipped*": item.quantity,
+                    "User name*": item.empName,
+                    "Employee ID*": item.empCode,
+                    "User Position Name*": item.userPosition,
+                    "User Email ID *": item.emailAddress,
+
+                }
+            }))
+        } else {
+            console.log('no data')
+        }
+        if (view) {
+            if (downloadData.length > 0) {
+                setView(false)
+            }
+        }
+
+    },[physicalSamplingList])
+
 
 
 
@@ -578,15 +592,19 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 <Col span={3}>
                     <SelectMonthComponent value={month} style={{width: "100%"}} onChange={(e) => setMonth(e)}/>
                 </Col>
-                {/*<Col span={6}>*/}
-                {/*    <SelectRecipientCodeComponent onChange={(value) => setRecipientCode(value)}/>*/}
-                {/*</Col>*/}
-                {/*<Col span={3}>*/}
-                {/*    <Input placeholder="Manager Name"/>*/}
-                {/*</Col>*/}
                 <Col span={3}>
                     <Button type={'primary'} onClick={() => searchInv()}>Submit</Button>
                 </Col>
+            </Row>
+            <br/>
+            <Row gutter={16}>
+                <Space wrap style={{marginBottom:"-25px"}}>
+                    <Button type="primary" onClick={()=>{handlePhysicalSamplingList()
+                        setView(true)}} >CSV</Button>
+
+
+                </Space>
+
             </Row>
             <br/><br/>
             {flag &&
@@ -637,12 +655,10 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
                 >
                 </Table>
             </Modal>
-            {/*<Modal title="Plan Change" open={commentRejectModal} onCancel={() => setCommentRejectModal(false)} footer={[*/}
-            {/*    <Button onClick={() => setCommentRejectModal(false)}>Close</Button>,*/}
-            {/*    <Button type='primary' onClick={handleReject}>Save</Button>*/}
-            {/*]}>*/}
-            {/*    <Input value={comment} onChange={(e) => setComment(e.target.value)}/>*/}
-            {/*</Modal>*/}
+            {downloadData.length > 0 && <CSVDownload
+                data={downloadData}/>
+            }
+
         </>
     )
 }
@@ -658,6 +674,8 @@ MonthlyInputComponent.propTypes = {
     handleResetPlanList: PropTypes.func,
     handleUnlockPlanList: PropTypes.func,
     handleApprovePlanList: PropTypes.func,
+    physicalSamplingList:PropTypes.any,
+    handlePhysicalSamplingData:PropTypes.func,
 }
 
 const mapState = (state) => {
@@ -670,7 +688,8 @@ const mapState = (state) => {
     const approvePlanList = selectApprovePlanListData(state)
     const rejectPlanList = selectRejectPlanListData(state)
     const monthlyToSpecialList = selectMonthlyToSpecialListData(state)
-    return {authInfo,profileInfo,monthlyApprovalList,monthlyApprovalDetailsList,resetPlanList,unlockPlanList,approvePlanList,rejectPlanList,monthlyToSpecialList}
+    const physicalSamplingList = selectPhysicalSamplingListData(state)
+    return {authInfo,profileInfo,monthlyApprovalList,monthlyApprovalDetailsList,resetPlanList,unlockPlanList,approvePlanList,rejectPlanList,monthlyToSpecialList,physicalSamplingList}
 }
 
 const actions = {
@@ -681,6 +700,7 @@ const actions = {
     handleApprovePlanList: approvePlanStartAction,
     handleRejectPlanList: rejectPlanStartAction,
     handleMonthlyToSpecialList: monthlyToSpecialStartAction,
+    handlePhysicalSamplingData:getPhysicalSamplingReportStartAction,
 }
 
 export default connect(mapState, actions)(MonthlyInputComponent)
