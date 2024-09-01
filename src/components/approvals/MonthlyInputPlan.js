@@ -550,7 +550,7 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
     }
 
     useEffect(() => {
-        console.log(physicalSamplingList)
+        console.log("physicalSamplingList:",physicalSamplingList)
         if (physicalSamplingList) {
             console.log("there is data")
             setDownloadData(physicalSamplingList.map(item => {
@@ -577,9 +577,6 @@ const MonthlyInputComponent = ({authInfo,monthlyApprovalList,profileInfo,handleM
         }
 
     },[physicalSamplingList])
-
-
-
 
 
     return(
@@ -679,6 +676,7 @@ MonthlyInputComponent.propTypes = {
 }
 
 const mapState = (state) => {
+
     const authInfo = selectAuthInfo(state)
     const profileInfo = selectProfileInfo(state)
     const monthlyApprovalList = selectMonthlyApprovalListData(state)
@@ -689,6 +687,7 @@ const mapState = (state) => {
     const rejectPlanList = selectRejectPlanListData(state)
     const monthlyToSpecialList = selectMonthlyToSpecialListData(state)
     const physicalSamplingList = selectPhysicalSamplingListData(state)
+    console.log("physicalSamplingList:",physicalSamplingList)
     return {authInfo,profileInfo,monthlyApprovalList,monthlyApprovalDetailsList,resetPlanList,unlockPlanList,approvePlanList,rejectPlanList,monthlyToSpecialList,physicalSamplingList}
 }
 

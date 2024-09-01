@@ -3,8 +3,8 @@ import { createSelector } from 'reselect'
 
 //PHYSICAL SAMPLING REPORT SELECTOR
 
-const physicalSamplingList = (state) => state.dispatchesReport.physicalSamplingList;
-const physicalSamplingListLoading = (state) => state.dispatchesReport.physicalSamplingListLoading
+const physicalSamplingList = (state) => state.physicalSampling.physicalSamplingList;
+const physicalSamplingListLoading = (state) => state.physicalSampling.physicalSamplingListLoading
 
 
 export const selectPhysicalSamplingListData = createSelector(

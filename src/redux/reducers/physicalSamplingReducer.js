@@ -8,16 +8,13 @@ import {GET_PHYSICAL_SAMPLING_REPORT_FAIL, GET_PHYSICAL_SAMPLING_REPORT_SUCCESS}
 
 const initialState = {
     physicalSamplingList: [],
-    physicalSamplingListLoading: false,
     error: {}
 }
 
 const getPhysicalSamplingSuccessReducer = (state = initialState, payload) => {
     return {
         ...state,
-
         physicalSamplingList:payload.physicalSamplingList,
-        physicalSamplingListLoading: false
 
     }
 }
@@ -28,7 +25,6 @@ const getPhysicalSamplingFailReducer = (state = initialState, payload) => {
     return {
         ...state,
         physicalSamplingList:[],
-        physicalSamplingListLoading: false,
         error: payload.error,
 
     }
